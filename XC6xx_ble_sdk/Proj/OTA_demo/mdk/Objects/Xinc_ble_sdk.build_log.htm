@@ -1,0 +1,106 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.30.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1 crabull@163.com, 2, LIC=ATTRA-1DCBX-2ZBW4-FXN23-EHBE5-T78TJ
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.30.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.30.0.0
+Dialog DLL:      DARMCM1.DLL V1.19.3.0
+Target DLL:      Segger\JL2CM3.dll V2.99.38.0
+Dialog DLL:      TARMCM1.DLL V1.14.2.0
+ 
+<h2>Project:</h2>
+D:\work\XC_SDK\XC6xx_ble_sdk\Proj\OTA_demo\mdk\Xinc_ble_sdk.uvprojx
+Project File Date:  11/29/2021
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'ble-sdk'
+assembling startup_xinc.s...
+compiling core_cm0.c...
+compiling patch.c...
+compiling system_init.c...
+compiling rf_driver.c...
+..\..\..\Bsp\rf_driver.c(590): warning:  #1-D: last line of file ends without a newline
+  }
+..\..\..\Bsp\rf_driver.c: 1 warning, 0 errors
+compiling bsp_systick.c...
+compiling bsp_uart.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\..\..\Bsp\bsp_uart.c: 1 warning, 0 errors
+compiling xinchip_ota.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\xinchip_ota.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\app\xinchip_ota.c: 2 warnings, 0 errors
+compiling main.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\app\xinchip_ota.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\app\main.c(105): warning:  #223-D: function "gatt_client_read_value_of_characteristics_by_uuid16" declared implicitly
+  				gatt_client_read_value_of_characteristics_by_uuid16(packet_handler,connection_handle,0x01,0xff,0x2A00);
+..\app\main.c(223): warning:  #223-D: function "gatt_client_init" declared implicitly
+  	gatt_client_init();
+..\app\main.c(10): warning:  #550-D: variable "user_data_client_configuration"  was set but never used
+  static uint16_t user_data_client_configuration;
+..\app\main.c: 5 warnings, 0 errors
+compiling bsp_gpio.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\..\..\Bsp\bsp_gpio.c(321): warning:  #186-D: pointless comparison of unsigned integer with zero
+  		if(num>=0 && num<=4)
+..\..\..\Bsp\bsp_gpio.c: 2 warnings, 0 errors
+compiling bsp_wdog.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\..\..\Bsp\bsp_wdog.c(50): warning:  #1-D: last line of file ends without a newline
+  }
+..\..\..\Bsp\bsp_wdog.c: 2 warnings, 0 errors
+compiling bsp_spi_master.c...
+..\..\..\Bsp\bsp_wdog.h(6): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\..\..\Bsp\bsp_spi_master.c(70): warning:  #223-D: function "memset" declared implicitly
+      memset(txbuff,0,PACKET_FULL_LEN+4);
+..\..\..\Bsp\bsp_spi_master.c: 2 warnings, 0 errors
+compiling gatt_client.c...
+linking...
+Program Size: Code=80924 RO-data=7576 RW-data=756 ZI-data=15112  
+After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
+After Build - User command #2: Xincboot_tool s.bin download.bin
+Xinc v3.1 build Mar 19 2019 23:08:55
+USAGE: [Xincboot_tool] <input FILE> <output FILE> 
+Input: s.bin download.bin 
+Input file "s.bin" raw size = 0x15a88 byte 
+ -): 
+".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 15 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.7.0.pack
+                ARM.CMSIS.5.7.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_ble-sdk
+  C:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>

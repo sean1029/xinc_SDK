@@ -1,0 +1,131 @@
+Dependencies for Project 'Xinc_ble_sdk', Target 'ble-sdk': (DO NOT MODIFY !)
+CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
+F (..\..\..\Bsp\startup\core_cm0.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\core_cm0.o --omf_browse .\objects\core_cm0.crf --depend .\objects\core_cm0.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+F (..\..\..\Bsp\startup\startup_xinc.s)(0x61A4927F)(--cpu Cortex-M0 --li -g --apcs=interwork -I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 530" --pd "ARMCM0 SETA 1" --pd "_RTE_ SETA 1"--list .\listings\startup_xinc.lst --xref -o .\objects\startup_xinc.o --depend .\objects\startup_xinc.d)
+F (..\..\..\Bsp\startup\system_xinc.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\system_xinc.o --omf_browse .\objects\system_xinc.crf --depend .\objects\system_xinc.d)
+F (..\app\main.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\Includes.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\Ble\profile.h)(0x61A4927F)
+I (..\..\..\Ble\ble.h)(0x61A4927F)
+I (..\..\..\Ble\bluetooth.h)(0x61A4927F)
+I (..\..\..\Include\platform.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_register_macro.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_com_spi.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_uart.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_pwm.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_spi_master.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_wdog.h)(0x61A4927F)
+I (..\..\..\Include\test_config.h)(0x61A4927F)
+I (..\app\uart.h)(0x61A4927F)
+F (..\app\at.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\at.o --omf_browse .\objects\at.crf --depend .\objects\at.d)
+I (..\..\..\Include\Platform.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_register_macro.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_com_spi.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_uart.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_pwm.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_spi_master.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\bsp_wdog.h)(0x61A4927F)
+I (..\..\..\Include\test_config.h)(0x61A4927F)
+F (..\app\uart.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\uart.o --omf_browse .\objects\uart.crf --depend .\objects\uart.d)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Include\platform.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_register_macro.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_com_spi.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_uart.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_pwm.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_spi_master.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\bsp_wdog.h)(0x61A4927F)
+I (..\..\..\Include\test_config.h)(0x61A4927F)
+F (..\..\..\Ble\patch.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\patch.o --omf_browse .\objects\patch.crf --depend .\objects\patch.d)
+F (..\..\..\Bsp\rf_driver.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\rf_driver.o --omf_browse .\objects\rf_driver.crf --depend .\objects\rf_driver.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x5E53505A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+F (..\..\..\LIB\Xinc_ble_sdk_nonlowpowerv1.3.lib)(0x61A4927F)()
+F (..\..\..\Bsp\bsp_gpio.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\bsp_gpio.o --omf_browse .\objects\bsp_gpio.crf --depend .\objects\bsp_gpio.d)
+I (..\..\..\Include\Platform.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_register_macro.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_com_spi.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_uart.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_pwm.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_spi_master.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\bsp_wdog.h)(0x61A4927F)
+I (..\..\..\Include\test_config.h)(0x61A4927F)
+F (..\..\..\Bsp\bsp_retarget.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\bsp_retarget.o --omf_browse .\objects\bsp_retarget.crf --depend .\objects\bsp_retarget.d)
+I (..\..\..\Bsp\Includes.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+F (..\..\..\Bsp\bsp_uart.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\bsp_uart.o --omf_browse .\objects\bsp_uart.crf --depend .\objects\bsp_uart.d)
+I (..\..\..\Include\Platform.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_register_macro.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_com_spi.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_uart.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_pwm.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
+I (..\..\..\Bsp\bsp_spi_master.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\bsp_wdog.h)(0x61A4927F)
+I (..\..\..\Include\test_config.h)(0x61A4927F)
+F (..\..\..\Bsp\bsp_systick.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\app\demo -I ..\..\..\Ble -I ..\..\..\Include -I ..\..\..\Bsp -I ..\..\..\Bsp\startup-I.\RTE\_ble-sdk-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_-o .\objects\bsp_systick.o --omf_browse .\objects\bsp_systick.crf --depend .\objects\bsp_systick.d)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+F (..\..\..\Include\Platform.h)(0x61A4927F)()

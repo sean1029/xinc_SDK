@@ -1,0 +1,8 @@
+*.o
+*.d
+*.crf
+*.map
+*.lst
+*.xml
+*.uvoptx
+*.admin

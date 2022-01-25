@@ -1,0 +1,13 @@
+
+   2021/09/17
+
+   1、在芯片FT测试过程中，将ADC工艺误差校正。
+
+   2、ADC 校准值(数据)存储于FLASH 第240K 位置，占用8Byte.(4+4Byte 校准数据和取反校验)
+  
+   3、校准中心值CALI_CENTER_VL=10000 ，ADC计算时，将ADC原始值乘以校准值再除以中心值(10000)
+      value_calibrated = value * calibration_param / CALI_CENTER_VL ;
+   
+   4、读取校准值接口：int gadc_calibration_get(uint32_t *value)
+      具体用法请参考adc-demo，调用接口返回值大于0表示正确获取到校准值。
+ 

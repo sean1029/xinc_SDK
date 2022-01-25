@@ -1,0 +1,21 @@
+;
+;
+
+LOAD	0x10000000	
+{
+	EXE	0x10000000
+	{
+        startup_xinc.o (RESET, +FIRST)
+		* (+RO)
+	
+	}
+	RW	+0X0000
+	{
+		* (+RW,+ZI)
+	}
+	
+		
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (128*1024 - 0X0000) ) 
+	
+}
+
