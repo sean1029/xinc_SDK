@@ -21,26 +21,164 @@ Target DLL:      UL2CM3.DLL V1.163.3.0
 Dialog DLL:      TARMCM1.DLL V1.14.2.0
  
 <h2>Project:</h2>
-D:\work\XC_SDK\XC6xx_ble_sdk\Proj\HID_Demo\mdk\Xinc_ble_sdk.uvprojx
-Project File Date:  01/24/2022
+D:\work\git_work\XC6xx\XC6xx_ble_sdk\Proj\HID_Demo\mdk\Xinc_ble_sdk.uvprojx
+Project File Date:  01/26/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ble-fullstack'
+compiling app_util_poatform.c...
+..\..\..\Bsp\fds\app_util_poatform.c(121): warning:  #177-D: variable "irq_type"  was declared but never referenced
+          int32_t irq_type = ((int32_t)isr_vector_num - EXTERNAL_INT_VECTOR_OFFSET);
+..\..\..\Bsp\fds\app_util_poatform.c: 1 warning, 0 errors
+compiling app_gpiote.c...
+compiling nrf_strerror.c...
+compiling nrf_atomic.c...
+compiling app_button.c...
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(401): error:  #20: identifier "NRF_GPIOTE" is undefined
+      *(__IO uint32_t *)((uint32_t)NRF_GPIOTE + task) = 0x1UL;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(406): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((uint32_t)NRF_GPIOTE + task);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(425): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((uint32_t)NRF_GPIOTE + event);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(430): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->INTENSET = mask;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(435): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->INTENCLR = mask;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(440): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (NRF_GPIOTE->INTENSET & mask);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(471): error:  #20: identifier "NRF_GPIOTE" is undefined
+     NRF_GPIOTE->CONFIG[idx] |= GPIOTE_CONFIG_MODE_Event;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(476): error:  #20: identifier "NRF_GPIOTE" is undefined
+     NRF_GPIOTE->CONFIG[idx] &= ~GPIOTE_CONFIG_MODE_Event;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(481): error:  #20: identifier "NRF_GPIOTE" is undefined
+    NRF_GPIOTE->CONFIG[idx] &= ~(GPIOTE_CONFIG_PORT_PIN_Msk | GPIOTE_CONFIG_POLARITY_Msk);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(488): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_PORT_PIN_Msk) >> GPIOTE_CONFIG_PSEL_Pos);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(493): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (nrf_gpiote_polarity_t)((NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_POLARITY_Msk) >> GPIOTE_CONFIG_POLARITY_Pos);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(498): error:  #20: identifier "NRF_GPIOTE" is undefined
+      uint32_t final_config = NRF_GPIOTE->CONFIG[idx] | GPIOTE_CONFIG_MODE_Task;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(514): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] &= ~GPIOTE_CONFIG_MODE_Task;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(521): error:  #20: identifier "NRF_GPIOTE" is undefined
+    NRF_GPIOTE->CONFIG[idx] &= ~(GPIOTE_CONFIG_PORT_PIN_Msk |
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(532): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] = (NRF_GPIOTE->CONFIG[idx] & ~GPIOTE_CONFIG_OUTINIT_Msk)
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(538): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] = 0;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(543): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_MODE_Msk) != GPIOTE_CONFIG_MODE_Disabled;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(548): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_OUT));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(555): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_SET));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(563): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_CLR));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(570): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->EVENTS_IN));
+..\..\..\components\libraries\button\app_button.c: 0 warnings, 21 errors
+compiling nrf_atfifo.c...
+..\..\..\Bsp\fds\nrf_atfifo.c(130): warning:  #111-D: statement is unreachable
+      NRF_LOG_INST_WARNING(p_fifo->p_log, "Allocation failed - no space.");
+..\..\..\Bsp\fds\nrf_atfifo.c(181): warning:  #111-D: statement is unreachable
+      NRF_LOG_INST_WARNING(p_fifo->p_log, "Get failed - no item in the FIFO.");
+..\..\..\Bsp\fds\nrf_atfifo.c: 2 warnings, 0 errors
 compiling cfc_flash.c...
 ..\..\..\Bsp\fds\cfc_flash.c(92): warning:  #177-D: variable "i"  was declared but never referenced
       uint32_t i;
 ..\..\..\Bsp\fds\cfc_flash.c: 1 warning, 0 errors
-linking...
-Program Size: Code=89112 RO-data=8392 RW-data=1004 ZI-data=32312  
-After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
-After Build - User command #2: Xincboot_tool s.bin download.bin
-Xinc v3.1 build Mar 19 2019 23:08:55
-USAGE: [Xincboot_tool] <input FILE> <output FILE> 
-Input: s.bin download.bin 
-Input file "s.bin" raw size = 0x17e20 byte 
- -): 
-".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 1 Warning(s).
+compiling nrfx_gpiote.c...
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(401): error:  #20: identifier "NRF_GPIOTE" is undefined
+      *(__IO uint32_t *)((uint32_t)NRF_GPIOTE + task) = 0x1UL;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(406): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((uint32_t)NRF_GPIOTE + task);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(425): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((uint32_t)NRF_GPIOTE + event);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(430): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->INTENSET = mask;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(435): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->INTENCLR = mask;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(440): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (NRF_GPIOTE->INTENSET & mask);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(471): error:  #20: identifier "NRF_GPIOTE" is undefined
+     NRF_GPIOTE->CONFIG[idx] |= GPIOTE_CONFIG_MODE_Event;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(476): error:  #20: identifier "NRF_GPIOTE" is undefined
+     NRF_GPIOTE->CONFIG[idx] &= ~GPIOTE_CONFIG_MODE_Event;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(481): error:  #20: identifier "NRF_GPIOTE" is undefined
+    NRF_GPIOTE->CONFIG[idx] &= ~(GPIOTE_CONFIG_PORT_PIN_Msk | GPIOTE_CONFIG_POLARITY_Msk);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(488): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return ((NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_PORT_PIN_Msk) >> GPIOTE_CONFIG_PSEL_Pos);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(493): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (nrf_gpiote_polarity_t)((NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_POLARITY_Msk) >> GPIOTE_CONFIG_POLARITY_Pos);
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(498): error:  #20: identifier "NRF_GPIOTE" is undefined
+      uint32_t final_config = NRF_GPIOTE->CONFIG[idx] | GPIOTE_CONFIG_MODE_Task;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(514): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] &= ~GPIOTE_CONFIG_MODE_Task;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(521): error:  #20: identifier "NRF_GPIOTE" is undefined
+    NRF_GPIOTE->CONFIG[idx] &= ~(GPIOTE_CONFIG_PORT_PIN_Msk |
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(532): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] = (NRF_GPIOTE->CONFIG[idx] & ~GPIOTE_CONFIG_OUTINIT_Msk)
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(538): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRF_GPIOTE->CONFIG[idx] = 0;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(543): error:  #20: identifier "NRF_GPIOTE" is undefined
+      return (NRF_GPIOTE->CONFIG[idx] & GPIOTE_CONFIG_MODE_Msk) != GPIOTE_CONFIG_MODE_Disabled;
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(548): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_OUT));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(555): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_SET));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(563): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->TASKS_CLR));
+..\..\..\modules\nrfx\hal/nrf_gpiote.h(570): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_ASSERT(index < NRFX_ARRAY_SIZE(NRF_GPIOTE->EVENTS_IN));
+..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c(283): error:  #20: identifier "NRF_GPIOTE" is undefined
+      NRFX_IRQ_ENABLE(nrfx_get_irq_number(NRF_GPIOTE));
+..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c: 0 warnings, 22 errors
+compiling xinc_fstorage_flash.c...
+compiling main.c...
+..\app\main.c(318): warning:  #177-D: variable "key_dump"  was declared but never referenced
+  	static uint8_t key_dump = 0;
+..\app\main.c(481): warning:  #177-D: variable "err_code"  was declared but never referenced
+      ret_code_t err_code;
+..\app\main.c(599): warning:  #223-D: function "flash_test" declared implicitly
+  flash_test();
+..\app\main.c(519): warning:  #177-D: variable "decoded"  was declared but never referenced
+  	size_t decoded;
+..\app\main.c(521): warning:  #550-D: variable "outp_len"  was set but never used
+  	ssize_t outp_len;
+..\app\main.c(522): warning:  #177-D: variable "framelen"  was declared but never referenced
+  	int framelen;
+..\app\main.c(564): warning:  #177-D: variable "ret"  was declared but never referenced
+  	ret_code_t ret;
+..\app\main.c(569): warning:  #550-D: variable "buf"  was set but never used
+  	uint8_t buf[80];
+..\app\main.c(589): warning:  #177-D: variable "p_buf"  was declared but never referenced
+  	uint32_t *p_buf = 0;
+..\app\main.c(590): warning:  #177-D: variable "value1"  was declared but never referenced
+  	uint32_t value1;
+..\app\main.c(696): warning:  #177-D: variable "j"  was declared but never referenced
+  	int i = 0, j = 0;
+..\app\main.c(51): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
+  static int app_get_connect_state(void)
+..\app\main.c(464): warning:  #177-D: function "fds_evt_handler"  was declared but never referenced
+  static void fds_evt_handler(fds_evt_t const * const p_fds_evt)
+..\app\main.c: 13 warnings, 0 errors
+compiling fds.c...
+..\..\..\Bsp\fds\fds.c(1686): warning:  #177-D: variable "flash_size"  was declared but never referenced
+      uint32_t flash_size  = (FDS_PHY_PAGES * FDS_PHY_PAGE_SIZE * sizeof(uint32_t));
+..\..\..\Bsp\fds\fds.c(1664): warning:  #177-D: function "flash_end_addr"  was declared but never referenced
+  static uint32_t flash_end_addr(void)
+..\..\..\Bsp\fds\fds.c: 2 warnings, 0 errors
+compiling app_error.c...
+compiling app_error_weak.c...
+compiling app_scheduler.c...
+compiling boards.c...
+compiling bsp.c...
+compiling app_timer.c...
+..\..\..\components\libraries\timer\app_timer.c(166): warning:  #177-D: function "rtc1_init"  was declared but never referenced
+  static void rtc1_init(uint32_t prescaler)
+..\..\..\components\libraries\timer\app_timer.c: 1 warning, 0 errors
+".\Objects\Xinc_ble_sdk.axf" - 43 Error(s), 20 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -54,7 +192,8 @@ Package Vendor: ARM
   C:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Target not created.
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

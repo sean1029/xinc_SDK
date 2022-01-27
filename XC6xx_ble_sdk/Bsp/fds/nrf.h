@@ -167,9 +167,9 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     #include "nrf51_to_nrf52.h"
 #elif defined (NRF52840_XXAA)
     #include "nrf52840.h"
-    #include "nrf52840_bitfields.h"
-    #include "nrf51_to_nrf52840.h"
-    #include "nrf52_to_nrf52840.h"
+    #include "nrf_52840_bitfields.h"
+//    #include "nrf51_to_nrf52840.h"
+//    #include "nrf52_to_nrf52840.h"
 
 #elif defined (NRF5340_XXAA)
     #if defined(NRF_APPLICATION)

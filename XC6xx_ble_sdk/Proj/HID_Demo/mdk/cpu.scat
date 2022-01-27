@@ -15,7 +15,7 @@ LOAD	0x10000000
 	}
 	
 		
-	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (128*1024 - 0X0000) ) 
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (128*1024 - 0X0000)) 
 	
 }
 

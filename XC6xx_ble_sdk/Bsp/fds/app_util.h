@@ -216,8 +216,10 @@ enum
 #define STATIC_ASSERT_SIMPLE(EXPR)      extern char (*_do_assert(void)) [sizeof(char[1 - 2*!(EXPR)])]
 #define STATIC_ASSERT_MSG(EXPR, MSG)    extern char (*_do_assert(void)) [sizeof(char[1 - 2*!(EXPR)])]
 #else
+#ifndef __CC_ARM
 #define STATIC_ASSERT_SIMPLE(EXPR)      _Static_assert(EXPR, "unspecified message")
 #define STATIC_ASSERT_MSG(EXPR, MSG)    _Static_assert(EXPR, MSG)
+#endif
 #endif
 #endif
 

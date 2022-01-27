@@ -41,7 +41,7 @@
 #ifndef NRF_NVMC_H__
 #define NRF_NVMC_H__
 
-//#include <nrfx.h>
+#include <nrfx.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -124,12 +124,12 @@ void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_w
 #define NRF_NVMC_PARTIAL_ERASE_PRESENT
 #endif
 
-/* Bits 1..0 : Program write enable. */
-#define NVMC_CONFIG_WEN_Pos (0UL) /*!< Position of WEN field. */
-#define NVMC_CONFIG_WEN_Msk (0x3UL << NVMC_CONFIG_WEN_Pos) /*!< Bit mask of WEN field. */
-#define NVMC_CONFIG_WEN_Ren (0x00UL) /*!< Read only access. */
-#define NVMC_CONFIG_WEN_Wen (0x01UL) /*!< Write enabled. */
-#define NVMC_CONFIG_WEN_Een (0x02UL) /*!< Erase enabled. */
+///* Bits 1..0 : Program write enable. */
+//#define NVMC_CONFIG_WEN_Pos (0UL) /*!< Position of WEN field. */
+//#define NVMC_CONFIG_WEN_Msk (0x3UL << NVMC_CONFIG_WEN_Pos) /*!< Bit mask of WEN field. */
+//#define NVMC_CONFIG_WEN_Ren (0x00UL) /*!< Read only access. */
+//#define NVMC_CONFIG_WEN_Wen (0x01UL) /*!< Write enabled. */
+//#define NVMC_CONFIG_WEN_Een (0x02UL) /*!< Erase enabled. */
 
 /** @brief NVMC modes. */
 typedef enum
@@ -380,7 +380,7 @@ __STATIC_INLINE void nrf_nvmc_page_erase_start(uint8_t * p_reg,
         p_reg->ERASEPCR1 = page_addr;
     }
 #elif defined(NRF52_SERIES)
-    p_reg->ERASEPAGE = page_addr;
+ //   p_reg->ERASEPAGE = page_addr;
 #elif defined(NRF9160_XXAA)
     *(volatile uint32_t *)page_addr = 0xFFFFFFFF;
     (void)p_reg;

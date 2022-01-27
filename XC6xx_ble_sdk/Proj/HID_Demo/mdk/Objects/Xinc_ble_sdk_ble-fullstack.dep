@@ -1,10 +1,10 @@
 Dependencies for Project 'Xinc_ble_sdk', Target 'ble-fullstack': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::.\ARMCC
-F (..\..\..\Bsp\startup\core_cm0.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\core_cm0.o --omf_browse .\objects\core_cm0.crf --depend .\objects\core_cm0.d)
+F (..\..\..\Bsp\startup\core_cm0.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\core_cm0.o --omf_browse .\objects\core_cm0.crf --depend .\objects\core_cm0.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 F (..\..\..\Bsp\startup\startup_xinc.s)(0x61A4927F)(--cpu Cortex-M0 --li -g --apcs=interwork -I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 530" --pd "ARMCM0 SETA 1" --pd "_RTE_ SETA 1"--list .\listings\startup_xinc.lst --xref -o .\objects\startup_xinc.o --depend .\objects\startup_xinc.d)
-F (..\..\..\Bsp\startup\system_xinc.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\system_xinc.o --omf_browse .\objects\system_xinc.crf --depend .\objects\system_xinc.d)
-F (..\app\battery_service_server.c)(0x61A49280)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\battery_service_server.o --omf_browse .\objects\battery_service_server.crf --depend .\objects\battery_service_server.d)
+F (..\..\..\Bsp\startup\system_xinc.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\system_xinc.o --omf_browse .\objects\system_xinc.crf --depend .\objects\system_xinc.d)
+F (..\app\battery_service_server.c)(0x61A49280)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\battery_service_server.o --omf_browse .\objects\battery_service_server.crf --depend .\objects\battery_service_server.d)
 I (..\Include\btstack_defines.h)(0x61E7C64E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\Include\btstack_linked_list.h)(0x61A49280)
@@ -16,7 +16,7 @@ I (..\Include\btstack_util.h)(0x61A49280)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\..\..\Ble\Hid_ble\bluetooth_gatt.h)(0x61A4927F)
 I (..\Include\battery_service_server.h)(0x61EA5412)
-F (..\app\device_information_service_server.c)(0x61A49280)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\device_information_service_server.o --omf_browse .\objects\device_information_service_server.crf --depend .\objects\device_information_service_server.d)
+F (..\app\device_information_service_server.c)(0x61A49280)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\device_information_service_server.o --omf_browse .\objects\device_information_service_server.crf --depend .\objects\device_information_service_server.d)
 I (..\Include\btstack_defines.h)(0x61E7C64E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\Include\btstack_linked_list.h)(0x61A49280)
@@ -87,7 +87,7 @@ I (..\Include\battery_service_server.h)(0x61A49280)
 I (..\Include\device_information_service_server.h)(0x61A49280)
 I (..\Include\hids_device.h)(0x61DFE988)
 I (..\app\xc_kbs_event.h)(0x61E144E5)
-F (..\app\main.c)(0x61EE8B8F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\app\main.c)(0x61F1148B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\Include\btstack_run_loop.h)(0x61A49280)
@@ -95,7 +95,7 @@ I (..\Include\btstack_config.h)(0x61A49280)
 I (..\Include\btstack_linked_list.h)(0x61A49280)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\Includes.h)(0x61A4927F)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
@@ -104,14 +104,14 @@ I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
 I (..\..\..\Ble\Hid_ble\profile.h)(0x61E639FA)
 I (..\..\..\Ble\Hid_ble\ble.h)(0x61A4927F)
 I (..\..\..\Ble\Hid_ble\bluetooth.h)(0x61A4927F)
-I (..\Include\hids_device.h)(0x61E5583D)
+I (..\Include\hids_device.h)(0x61F1FF57)
 I (..\Include\btstack_defines.h)(0x61E7C64E)
 I (..\Include\bluetooth.h)(0x61A49280)
 I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
 I (..\..\..\external\sbc\types.h)(0x61DD4BEB)
 I (..\app\voice_ringbuf.h)(0x61E7C18C)
-I (..\..\..\Bsp\bsp_timer.h)(0x61E8C3DD)
+I (..\..\..\Bsp\bsp_timer.h)(0x61F1FF57)
 I (..\..\..\Bsp\bsp_pwm.h)(0x61E8C5F8)
 I (..\..\..\Bsp\bsp_spi_flash.h)(0x61EF9E8F)
 I (..\app\xc_kbs_event.h)(0x61E7A7D4)
@@ -123,11 +123,26 @@ I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
 I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
-I (..\..\..\Bsp\fds\app_error.h)(0x61EA2947)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\components\libraries\button\app_button.h)(0x61F0C510)
+I (..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x61F2039F)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+I (..\..\..\components\libraries\timer\app_timer.h)(0x61F0E228)
 F (..\app\hids_device.c)(0x61E1206A)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\hids_device.o --omf_browse .\objects\hids_device.crf --depend .\objects\hids_device.d)
 I (..\Include\hids_device.h)(0x61DFE988)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
@@ -144,16 +159,16 @@ I (..\Include\btstack_debug.h)(0x61A49280)
 I (..\Include\hci_dump.h)(0x61A49280)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-F (..\..\..\Bsp\ble_idle.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\ble_idle.o --omf_browse .\objects\ble_idle.crf --depend .\objects\ble_idle.d)
+F (..\..\..\Bsp\ble_idle.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\ble_idle.o --omf_browse .\objects\ble_idle.crf --depend .\objects\ble_idle.d)
 I (..\..\..\Bsp\Includes.h)(0x61A4927F)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
-F (..\app\gatt_client.c)(0x61A49280)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\gatt_client.o --omf_browse .\objects\gatt_client.crf --depend .\objects\gatt_client.d)
+F (..\app\gatt_client.c)(0x61A49280)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\gatt_client.o --omf_browse .\objects\gatt_client.crf --depend .\objects\gatt_client.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\Include\btstack_config.h)(0x61A49280)
@@ -199,12 +214,12 @@ I (..\Include\btstack_ring_buffer.h)(0x61A49280)
 I (..\Include\avdtp_source.h)(0x61A49280)
 I (..\Include\avrcp.h)(0x61A49280)
 I (..\Include\sdp_util.h)(0x61A49280)
-F (..\app\voice_ringbuf.c)(0x61E7C18C)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\voice_ringbuf.o --omf_browse .\objects\voice_ringbuf.crf --depend .\objects\voice_ringbuf.d)
+F (..\app\voice_ringbuf.c)(0x61E7C18C)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\voice_ringbuf.o --omf_browse .\objects\voice_ringbuf.crf --depend .\objects\voice_ringbuf.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\Include\btstack_ring_buffer.h)(0x61A49280)
 I (..\app\voice_ringbuf.h)(0x61E7C18C)
-F (..\app\FF10_service_server.c)(0x61E7DC40)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\ff10_service_server.o --omf_browse .\objects\ff10_service_server.crf --depend .\objects\ff10_service_server.d)
+F (..\app\FF10_service_server.c)(0x61E7DC40)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\ff10_service_server.o --omf_browse .\objects\ff10_service_server.crf --depend .\objects\ff10_service_server.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\Include\btstack_defines.h)(0x61E7C64E)
@@ -217,11 +232,11 @@ I (..\Include\btstack_config.h)(0x61A49280)
 I (..\Include\btstack_util.h)(0x61A49280)
 I (..\..\..\Ble\Hid_ble\bluetooth_gatt.h)(0x61A4927F)
 I (..\Include\FF10_service_server.h)(0x61DFC7C1)
-F (..\app\xc_kbs_event.c)(0x61E7D274)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\xc_kbs_event.o --omf_browse .\objects\xc_kbs_event.crf --depend .\objects\xc_kbs_event.d)
+F (..\app\xc_kbs_event.c)(0x61E7D274)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\xc_kbs_event.o --omf_browse .\objects\xc_kbs_event.crf --depend .\objects\xc_kbs_event.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\..\..\Include\platform.h)(0x61EE83CC)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -257,7 +272,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (..\app\xc_kbs_event.h)(0x61E7A7D4)
 I (..\Include\hids_device_skyworth.h)(0x61E7C8CC)
 I (..\Include\btstack_ring_buffer.h)(0x61A49280)
-F (..\app\hids_device_skyworth.c)(0x61E7DA03)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\hids_device_skyworth.o --omf_browse .\objects\hids_device_skyworth.crf --depend .\objects\hids_device_skyworth.d)
+F (..\app\hids_device_skyworth.c)(0x61E7DA03)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\hids_device_skyworth.o --omf_browse .\objects\hids_device_skyworth.crf --depend .\objects\hids_device_skyworth.d)
 I (..\Include\hids_device_skyworth.h)(0x61E7C8CC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\Include\btstack_defines.h)(0x61E7C64E)
@@ -273,7 +288,7 @@ I (..\Include\btstack_debug.h)(0x61A49280)
 I (..\Include\hci_dump.h)(0x61A49280)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-F (..\app\skyworth_RC_demo.c)(0x61E7F7B3)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\skyworth_rc_demo.o --omf_browse .\objects\skyworth_rc_demo.crf --depend .\objects\skyworth_rc_demo.d)
+F (..\app\skyworth_RC_demo.c)(0x61E7F7B3)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\skyworth_rc_demo.o --omf_browse .\objects\skyworth_rc_demo.crf --depend .\objects\skyworth_rc_demo.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
@@ -335,19 +350,19 @@ I (..\app\xc_kbs_event.h)(0x61E7A7D4)
 I (..\app\voice_ringbuf.h)(0x61E7C18C)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
 I (..\..\..\external\sbc\types.h)(0x61DD4BEB)
-F (..\..\..\Bsp\rf_driver.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\ble\firmware\core\le\include -I ..\ble\firmware\hal\xinc\sys\include -I ..\ble\firmware\core\sys\include -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\rf_driver.o --omf_browse .\objects\rf_driver.crf --depend .\objects\rf_driver.d)
+F (..\..\..\Bsp\rf_driver.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\ble\firmware\core\le\include -I ..\ble\firmware\hal\xinc\sys\include -I ..\ble\firmware\core\sys\include -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\rf_driver.o --omf_browse .\objects\rf_driver.crf --depend .\objects\rf_driver.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x5E53505A)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
-F (..\..\..\Ble\patch.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\ble\firmware\core\le\include -I ..\ble\firmware\hal\xinc\sys\include -I ..\ble\firmware\core\sys\include -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\patch.o --omf_browse .\objects\patch.crf --depend .\objects\patch.d)
+F (..\..\..\Ble\patch.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\ble\firmware\core\le\include -I ..\ble\firmware\hal\xinc\sys\include -I ..\ble\firmware\core\sys\include -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\patch.o --omf_browse .\objects\patch.crf --depend .\objects\patch.d)
 F (..\..\..\LIB\Xinc_ble_sdk_lowpowerv1.3.lib)(0x61A4927F)()
 F (..\..\..\LIB\Xinc_ble_sdk_md.lib)(0x61E7F435)()
-F (..\..\..\Bsp\bsp_retarget.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_retarget.o --omf_browse .\objects\bsp_retarget.crf --depend .\objects\bsp_retarget.d)
+F (..\..\..\Bsp\bsp_retarget.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_retarget.o --omf_browse .\objects\bsp_retarget.crf --depend .\objects\bsp_retarget.d)
 I (..\..\..\Bsp\Includes.h)(0x61A4927F)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -355,17 +370,17 @@ I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-F (..\..\..\Bsp\bsp_systick.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_systick.o --omf_browse .\objects\bsp_systick.crf --depend .\objects\bsp_systick.d)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+F (..\..\..\Bsp\bsp_systick.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_systick.o --omf_browse .\objects\bsp_systick.crf --depend .\objects\bsp_systick.d)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
 I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
-F (..\..\..\Bsp\bsp_gpio.c)(0x61DCE594)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_gpio.o --omf_browse .\objects\bsp_gpio.crf --depend .\objects\bsp_gpio.d)
+F (..\..\..\Bsp\bsp_gpio.c)(0x61DCE594)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_gpio.o --omf_browse .\objects\bsp_gpio.crf --depend .\objects\bsp_gpio.d)
 I (..\..\..\Include\Platform.h)(0x61EE83CC)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -380,9 +395,9 @@ I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\bsp_wdog.h)(0x61EE6F3E)
 I (..\..\..\Include\test_config.h)(0x61A4927F)
-F (..\..\..\Bsp\bsp_pwm.c)(0x61A4927F)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_pwm.o --omf_browse .\objects\bsp_pwm.crf --depend .\objects\bsp_pwm.d)
+F (..\..\..\Bsp\bsp_pwm.c)(0x61A4927F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_pwm.o --omf_browse .\objects\bsp_pwm.crf --depend .\objects\bsp_pwm.d)
 I (..\..\..\Include\Platform.h)(0x61EE83CC)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -397,9 +412,9 @@ I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\bsp_wdog.h)(0x61EE6F3E)
 I (..\..\..\Include\test_config.h)(0x61A4927F)
-F (..\..\..\Bsp\bsp_timer.c)(0x61E8C400)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_timer.o --omf_browse .\objects\bsp_timer.crf --depend .\objects\bsp_timer.d)
+F (..\..\..\Bsp\bsp_timer.c)(0x61E8C400)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_timer.o --omf_browse .\objects\bsp_timer.crf --depend .\objects\bsp_timer.d)
 I (..\..\..\Include\Platform.h)(0x61EE83CC)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -414,11 +429,11 @@ I (..\..\..\Bsp\bsp_gpio.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\bsp_wdog.h)(0x61EE6F3E)
 I (..\..\..\Include\test_config.h)(0x61A4927F)
-I (..\..\..\Bsp\bsp_timer.h)(0x61E8C3DD)
-F (..\..\..\Bsp\bsp_spi_flash.c)(0x61EFB981)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\bsp_spi_flash.o --omf_browse .\objects\bsp_spi_flash.crf --depend .\objects\bsp_spi_flash.d)
+I (..\..\..\Bsp\bsp_timer.h)(0x61F1FF57)
+F (..\..\..\Bsp\bsp_spi_flash.c)(0x61EFB981)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp_spi_flash.o --omf_browse .\objects\bsp_spi_flash.crf --depend .\objects\bsp_spi_flash.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\..\..\Include\Platform.h)(0x61EE83CC)
-I (..\..\..\Bsp\startup\xinc_m0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
 I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
@@ -470,7 +485,7 @@ I (..\..\..\Bsp\bsp_spi_master.h)(0x61EE3B1D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\bsp_wdog.h)(0x61EE6F3E)
 I (..\..\..\Include\test_config.h)(0x61A4927F)
-F (..\..\..\external\sbc\sbc.c)(0x61DE8F89)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc.o --omf_browse .\objects\sbc.crf --depend .\objects\sbc.d)
+F (..\..\..\external\sbc\sbc.c)(0x61DE8F89)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc.o --omf_browse .\objects\sbc.crf --depend .\objects\sbc.d)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\external\sbc\types.h)(0x61DD4BEB)
@@ -484,7 +499,7 @@ I (..\..\..\external\sbc\sbc_math.h)(0x61DD4C2D)
 I (..\..\..\external\sbc\sbc_tables.h)(0x52E11595)
 I (..\..\..\external\sbc\sbc_private.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives.h)(0x517FEF0B)
-F (..\..\..\external\sbc\sbc_primitives.c)(0x61DE8F88)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc_primitives.o --omf_browse .\objects\sbc_primitives.crf --depend .\objects\sbc_primitives.d)
+F (..\..\..\external\sbc\sbc_primitives.c)(0x61DE8F88)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc_primitives.o --omf_browse .\objects\sbc_primitives.crf --depend .\objects\sbc_primitives.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x5E53505A)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
@@ -497,7 +512,7 @@ I (..\..\..\external\sbc\sbc_primitives_mmx.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives_iwmmxt.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives_neon.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives_armv6.h)(0x5016E05A)
-F (..\..\..\external\sbc\sbc_primitives_armv6.c)(0x517FEF0B)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc_primitives_armv6.o --omf_browse .\objects\sbc_primitives_armv6.crf --depend .\objects\sbc_primitives_armv6.d)
+F (..\..\..\external\sbc\sbc_primitives_armv6.c)(0x517FEF0B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc_primitives_armv6.o --omf_browse .\objects\sbc_primitives_armv6.crf --depend .\objects\sbc_primitives_armv6.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x5E53505A)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
@@ -506,7 +521,7 @@ I (..\..\..\external\sbc\sbc_math.h)(0x61DD4C2D)
 I (..\..\..\external\sbc\sbc_tables.h)(0x52E11595)
 I (..\..\..\external\sbc\sbc_primitives_armv6.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives.h)(0x517FEF0B)
-F (..\..\..\external\sbc\sbc_primitives_iwmmxt.c)(0x517FEF0B)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc_primitives_iwmmxt.o --omf_browse .\objects\sbc_primitives_iwmmxt.crf --depend .\objects\sbc_primitives_iwmmxt.d)
+F (..\..\..\external\sbc\sbc_primitives_iwmmxt.c)(0x517FEF0B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc_primitives_iwmmxt.o --omf_browse .\objects\sbc_primitives_iwmmxt.crf --depend .\objects\sbc_primitives_iwmmxt.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x5E53505A)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
@@ -515,7 +530,7 @@ I (..\..\..\external\sbc\sbc_math.h)(0x61DD4C2D)
 I (..\..\..\external\sbc\sbc_tables.h)(0x52E11595)
 I (..\..\..\external\sbc\sbc_primitives_iwmmxt.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives.h)(0x517FEF0B)
-F (..\..\..\external\sbc\sbc_primitives_mmx.c)(0x517FEF0B)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc_primitives_mmx.o --omf_browse .\objects\sbc_primitives_mmx.crf --depend .\objects\sbc_primitives_mmx.d)
+F (..\..\..\external\sbc\sbc_primitives_mmx.c)(0x517FEF0B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc_primitives_mmx.o --omf_browse .\objects\sbc_primitives_mmx.crf --depend .\objects\sbc_primitives_mmx.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x5E53505A)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
@@ -524,7 +539,7 @@ I (..\..\..\external\sbc\sbc_math.h)(0x61DD4C2D)
 I (..\..\..\external\sbc\sbc_tables.h)(0x52E11595)
 I (..\..\..\external\sbc\sbc_primitives_mmx.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives.h)(0x517FEF0B)
-F (..\..\..\external\sbc\sbc_primitives_neon.c)(0x517FEF0B)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\sbc_primitives_neon.o --omf_browse .\objects\sbc_primitives_neon.crf --depend .\objects\sbc_primitives_neon.d)
+F (..\..\..\external\sbc\sbc_primitives_neon.c)(0x517FEF0B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\sbc_primitives_neon.o --omf_browse .\objects\sbc_primitives_neon.crf --depend .\objects\sbc_primitives_neon.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x5E53505A)
 I (..\..\..\external\sbc\sbc.h)(0x61DE8FDC)
@@ -533,7 +548,7 @@ I (..\..\..\external\sbc\sbc_math.h)(0x61DD4C2D)
 I (..\..\..\external\sbc\sbc_tables.h)(0x52E11595)
 I (..\..\..\external\sbc\sbc_primitives_neon.h)(0x5016E05A)
 I (..\..\..\external\sbc\sbc_primitives.h)(0x517FEF0B)
-F (..\..\..\Bsp\fds\xinc_fstorage_flash.c)(0x61EE072C)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\xinc_fstorage_flash.o --omf_browse .\objects\xinc_fstorage_flash.crf --depend .\objects\xinc_fstorage_flash.d)
+F (..\..\..\Bsp\fds\xinc_fstorage_flash.c)(0x61EE072C)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\xinc_fstorage_flash.o --omf_browse .\objects\xinc_fstorage_flash.crf --depend .\objects\xinc_fstorage_flash.d)
 I (..\..\..\Bsp\fds\xinc_fstorage_flash.h)(0x61EA1DAE)
 I (..\..\..\Bsp\fds\xinc_fstorage.h)(0x61EA67C8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
@@ -545,17 +560,36 @@ I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\cfc_atomic.h)(0x61EA1D56)
 I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
 I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
-I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
-I (..\..\..\Bsp\fds\cfc_flash.h)(0x61EA27A1)
-F (..\..\..\Bsp\fds\xinc_fstorage.c)(0x61EE0A19)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\xinc_fstorage.o --omf_browse .\objects\xinc_fstorage.crf --depend .\objects\xinc_fstorage.d)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\cfc_flash.h)(0x61F0E64D)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+F (..\..\..\Bsp\fds\xinc_fstorage.c)(0x61EE0A19)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\xinc_fstorage.o --omf_browse .\objects\xinc_fstorage.crf --depend .\objects\xinc_fstorage.d)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\xinc_fstorage.h)(0x61EA67C8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
@@ -566,68 +600,117 @@ I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
-F (..\..\..\Bsp\fds\cfc_flash.c)(0x61EFBD30)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\cfc_flash.o --omf_browse .\objects\cfc_flash.crf --depend .\objects\cfc_flash.d)
+F (..\..\..\Bsp\fds\cfc_flash.c)(0x61F0C025)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\cfc_flash.o --omf_browse .\objects\cfc_flash.crf --depend .\objects\cfc_flash.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\cfc_flash.h)(0x61EA27A1)
+I (..\..\..\Bsp\fds\cfc_flash.h)(0x61F0E64D)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
 I (..\..\..\Bsp\bsp_spi_flash.h)(0x61EF9E8F)
-F (..\..\..\Bsp\fds\nrf_atomic.c)(0x61EA2813)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\nrf_atomic.o --omf_browse .\objects\nrf_atomic.crf --depend .\objects\nrf_atomic.d)
+F (..\..\..\Bsp\fds\nrf_atomic.c)(0x61EA2813)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\nrf_atomic.o --omf_browse .\objects\nrf_atomic.crf --depend .\objects\nrf_atomic.d)
 I (..\..\..\Bsp\fds\cfc_atomic.h)(0x61EA1D56)
 I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
 I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
 I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
-I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
 I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
-I (..\..\..\Bsp\fds\app_error.h)(0x61EA2947)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
-F (..\..\..\Bsp\fds\app_util_poatform.c)(0x61EA2BC7)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\app_util_poatform.o --omf_browse .\objects\app_util_poatform.crf --depend .\objects\app_util_poatform.d)
+F (..\..\..\Bsp\fds\app_util_poatform.c)(0x61EA2BC7)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_util_poatform.o --omf_browse .\objects\app_util_poatform.crf --depend .\objects\app_util_poatform.d)
 I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
-I (..\..\..\Bsp\fds\app_error.h)(0x61EA2947)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
-F (..\..\..\Bsp\fds\fds.c)(0x61EE0C56)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\fds.o --omf_browse .\objects\fds.crf --depend .\objects\fds.d)
+F (..\..\..\Bsp\fds\fds.c)(0x61EE0C56)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\fds.o --omf_browse .\objects\fds.crf --depend .\objects\fds.d)
 I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
 I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
 I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
-I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
 I (..\..\..\Bsp\fds\fds.h)(0x61EA393F)
 I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
-I (..\..\..\Bsp\fds\app_error.h)(0x61EA2947)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
 I (..\..\..\Bsp\fds\fds_internal_defs.h)(0x61EAA443)
@@ -638,17 +721,25 @@ I (..\..\..\Bsp\fds\xinc_section.h)(0x61EA1DE5)
 I (..\..\..\Bsp\fds\nrf_log_types.h)(0x61EA4AFF)
 I (..\..\..\Bsp\fds\xinc_fstorage.h)(0x61EA67C8)
 I (..\..\..\Bsp\fds\xinc_fstorage_flash.h)(0x61EA1DAE)
-F (..\..\..\Bsp\fds\nrf_atfifo.c)(0x61EA920A)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\nrf_atfifo.o --omf_browse .\objects\nrf_atfifo.crf --depend .\objects\nrf_atfifo.d)
+F (..\..\..\Bsp\fds\nrf_atfifo.c)(0x61EA920A)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\nrf_atfifo.o --omf_browse .\objects\nrf_atfifo.crf --depend .\objects\nrf_atfifo.d)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\nrf_atfifo.h)(0x61EA4A30)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
 I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
@@ -657,7 +748,7 @@ I (..\..\..\Bsp\fds\xinc_section.h)(0x61EA1DE5)
 I (..\..\..\Bsp\fds\nrf_log_types.h)(0x61EA4AFF)
 I (..\..\..\Bsp\fds\nrf_atfifo_internal.h)(0x61EA920C)
 I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
-I (..\..\..\Bsp\fds\app_error.h)(0x61EA2947)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
 I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
 I (..\..\..\Bsp\fds\nrf_log.h)(0x61EA5BA8)
@@ -666,19 +757,359 @@ I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_strerror.h)(0x61EA5B57)
 I (..\..\..\Bsp\fds\nrf_log_internal.h)(0x61EA4EC2)
-F (..\..\..\Bsp\fds\nrf_strerror.c)(0x61EA5B8B)(--c99 -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED-o .\objects\nrf_strerror.o --omf_browse .\objects\nrf_strerror.crf --depend .\objects\nrf_strerror.d)
+F (..\..\..\Bsp\fds\nrf_strerror.c)(0x61EA5B8B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\nrf_strerror.o --omf_browse .\objects\nrf_strerror.crf --depend .\objects\nrf_strerror.d)
 I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\sdk_config.h)(0x61EAA47A)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
 I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
 I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
 I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
 I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
 I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
-I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
-I (..\..\..\Bsp\fds\nrf.h)(0x61EA28D4)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
 I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
 I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+F (..\..\..\components\libraries\button\app_button.c)(0x61F1041B)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_button.o --omf_browse .\objects\app_button.crf --depend .\objects\app_button.d)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\components\libraries\button\app_button.h)(0x61F0C510)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x61F2039F)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+I (..\..\..\components\libraries\timer\app_timer.h)(0x61F0E228)
+I (..\..\..\integration\nrfx\legacy\nrf_drv_gpiote.h)(0x61210B97)
+I (..\..\..\modules\nrfx\drivers\include\nrfx_gpiote.h)(0x61F0ED08)
+I (..\..\..\modules\nrfx\hal/nrf_gpiote.h)(0x61F0DF01)
+I (..\..\..\Bsp\fds\nrf_log.h)(0x61EA5BA8)
+I (..\..\..\Bsp\fds\xinc_section.h)(0x61EA1DE5)
+I (..\..\..\Bsp\fds\nrf_strerror.h)(0x61EA5B57)
+I (..\..\..\Bsp\fds\nrf_log_internal.h)(0x61EA4EC2)
+I (..\..\..\Bsp\fds\nrf_log_instance.h)(0x61EA4ACB)
+I (..\..\..\Bsp\fds\nrf_log_types.h)(0x61EA4AFF)
+F (..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c)(0x61F10475)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\nrfx_gpiote.o --omf_browse .\objects\nrfx_gpiote.crf --depend .\objects\nrfx_gpiote.d)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+I (..\..\..\modules\nrfx\drivers\include\nrfx_gpiote.h)(0x61F0ED08)
+I (..\..\..\modules\nrfx\hal/nrf_gpiote.h)(0x61F0DF01)
+I (..\..\..\modules\nrfx\hal/nrf_gpio.h)(0x61F2039F)
+I (..\..\..\components\libraries\util\nrf_bitmask.h)(0x61210B93)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\integration\nrfx\nrfx_log.h)(0x61210B97)
+I (..\..\..\Bsp\fds\nrf_log.h)(0x61EA5BA8)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\xinc_section.h)(0x61EA1DE5)
+I (..\..\..\Bsp\fds\nrf_strerror.h)(0x61EA5B57)
+I (..\..\..\Bsp\fds\nrf_log_internal.h)(0x61EA4EC2)
+I (..\..\..\Bsp\fds\nrf_log_instance.h)(0x61EA4ACB)
+I (..\..\..\Bsp\fds\nrf_log_types.h)(0x61EA4AFF)
+F (..\..\..\components\libraries\gpiote\app_gpiote.c)(0x61F10490)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_gpiote.o --omf_browse .\objects\app_gpiote.crf --depend .\objects\app_gpiote.d)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+F (..\..\..\components\libraries\util\app_error.c)(0x61F102A7)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_error.o --omf_browse .\objects\app_error.crf --depend .\objects\app_error.d)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+F (..\..\..\components\libraries\util\app_error_weak.c)(0x61F1032E)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_error_weak.o --omf_browse .\objects\app_error_weak.crf --depend .\objects\app_error_weak.d)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\Bsp\fds\nrf_log.h)(0x61EA5BA8)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\xinc_section.h)(0x61EA1DE5)
+I (..\..\..\Bsp\fds\nrf_strerror.h)(0x61EA5B57)
+I (..\..\..\Bsp\fds\nrf_log_internal.h)(0x61EA4EC2)
+I (..\..\..\Bsp\fds\nrf_log_instance.h)(0x61EA4ACB)
+I (..\..\..\Bsp\fds\nrf_log_types.h)(0x61EA4AFF)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+F (..\..\..\components\libraries\bsp\bsp.c)(0x61F1245F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\bsp.o --omf_browse .\objects\bsp.crf --depend .\objects\bsp.d)
+I (..\..\..\components\libraries\bsp\bsp.h)(0x61210B93)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\components\boards\boards.h)(0x61F113AE)
+I (..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x61F2039F)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+I (..\..\..\components\boards\pca10040.h)(0x61210B93)
+I (..\..\..\components\libraries\button\app_button.h)(0x61F0C510)
+I (..\..\..\components\libraries\bsp\bsp_config.h)(0x61210B93)
+I (..\..\..\components\libraries\timer\app_timer.h)(0x61F0E228)
+F (..\..\..\components\boards\boards.c)(0x61210B93)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\boards.o --omf_browse .\objects\boards.crf --depend .\objects\boards.d)
+I (..\..\..\components\boards\boards.h)(0x61F113AE)
+I (..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x61F2039F)
+I (..\..\..\modules\nrfx\nrfx.h)(0x61F0F0BD)
+I (..\..\..\integration\nrfx\nrfx_config.h)(0x61210B97)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\modules\nrfx\drivers/nrfx_common.h)(0x61F0FCAB)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\integration\nrfx\nrfx_glue.h)(0x61F0F170)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x61210B97)
+I (..\..\..\components\boards\pca10040.h)(0x61210B93)
+F (..\..\..\components\libraries\timer\app_timer.c)(0x61F1263F)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_timer.o --omf_browse .\objects\app_timer.crf --depend .\objects\app_timer.d)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\components\libraries\timer\app_timer.h)(0x61F0E228)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
+I (..\..\..\modules\nrfx\mdk\nrf_peripherals.h)(0x6120D641)
+I (..\..\..\modules\nrfx\mdk\nrf52840_peripherals.h)(0x61F20355)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+I (..\..\..\components\libraries\scheduler\app_scheduler.h)(0x61210B93)
+F (..\..\..\components\libraries\scheduler\app_scheduler.c)(0x61F1F99C)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_scheduler.o --omf_browse .\objects\app_scheduler.crf --depend .\objects\app_scheduler.d)
+I (..\..\..\Bsp\fds\sdk_common.h)(0x61EA2EA7)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12794)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_os.h)(0x61EA1E91)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\app_util.h)(0x61F1FC0D)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F2157A)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F1FF57)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\sdk_macros.h)(0x61EA2D75)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\components\libraries\scheduler\app_scheduler.h)(0x61210B93)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)
+F (..\..\..\components\libraries\scheduler\app_scheduler_serconn.c)(0x61F126B3)(--c99 --gnu -c --cpu Cortex-M0 --li -g -O3 --apcs=interwork --split_sections -I ..\..\..\Ble\Hid_ble -I ..\..\..\Bsp -I ..\..\..\Bsp\sm -I ..\..\..\Bsp\startup -I ..\..\..\Include -I ..\Include -I ..\..\..\LIB -I ..\..\..\external\sbc -I ..\..\..\Bsp\fds -I ..\..\..\modules\nrfx\hal -I ..\..\..\modules\nrfx -I ..\..\..\modules\nrfx\mdk -I ..\..\..\modules\nrfx\drivers\include -I ..\..\..\components\libraries\timer -I ..\..\..\integration\nrfx\legacy -I ..\..\..\components\libraries\util -I ..\..\..\integration\nrfx -I ..\..\..\components\libraries\button -I ..\..\..\components\libraries\bsp -I ..\..\..\components\boards -I ..\..\..\components\libraries\scheduler-I.\RTE\_ble-fullstack-IC:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="530" -DARMCM0 -D_RTE_ -DSBC_ENC_INCLUDED -DNRF52840_XXAA -DBOARD_PCA10040-o .\objects\app_scheduler_serconn.o --omf_browse .\objects\app_scheduler_serconn.crf --depend .\objects\app_scheduler_serconn.d)
+I (..\..\..\components\libraries\scheduler\app_scheduler.h)(0x61210B93)
+I (..\..\..\Bsp\fds\sdk_config.h)(0x61F12625)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E53505C)
+I (..\..\..\components\libraries\util\app_error.h)(0x61F1026F)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf.h)(0x61F0E3B2)
+I (..\..\..\modules\nrfx\mdk\nrf52840.h)(0x61F0FDA6)
+I (..\..\..\Bsp\startup\xinc_m0.h)(0x61F0E811)
+I (..\..\..\Bsp\startup\core_cm0.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmInstr.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\core_cmFunc.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_reg.h)(0x61A4927F)
+I (..\..\..\Bsp\startup\xinc_map.h)(0x61A4927F)
+I (..\..\..\modules\nrfx\mdk\nrf_52840_bitfields.h)(0x61F0DE5A)
+I (..\..\..\Bsp\fds\compiler_abstraction.h)(0x61EA2735)
+I (..\..\..\Bsp\fds\sdk_errors.h)(0x61EA6738)
+I (..\..\..\Bsp\fds\nrf_error.h)(0x61EA2075)
+I (..\..\..\Bsp\fds\cfc_common.h)(0x61EA1680)
+I (..\..\..\Bsp\fds\app_error_weak.h)(0x61EA298A)
+I (..\..\..\Bsp\fds\app_util.h)(0x61EA620A)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5E53505C)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5E53505C)
+I (..\..\..\Bsp\fds\nrf_assert.h)(0x61EA216F)
+I (..\..\..\Bsp\fds\app_util_platform.h)(0x61EA67C8)

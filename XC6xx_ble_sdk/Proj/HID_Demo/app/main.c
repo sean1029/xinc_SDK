@@ -466,6 +466,51 @@ static void fds_evt_handler(fds_evt_t const * const p_fds_evt)
 	printf("fds_evt_handler id:%d\n",p_fds_evt->id);
 }
 
+#include "app_button.h"
+#include "app_error.h"
+#include "app_timer.h"
+#define BSP_BUTTON_0   0
+#define LEDBUTTON_BUTTON                BSP_BUTTON_0   
+#define BUTTON_PULL    NRF_GPIO_PIN_PULLUP
+
+
+#define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(50) 
+
+static void button_event_handler(uint8_t pin_no, uint8_t button_action)
+{
+    ret_code_t err_code;
+
+    switch (pin_no)
+    {
+        case LEDBUTTON_BUTTON:
+          
+            break;
+
+        default:
+        
+            break;
+    }
+}
+
+static void buttons_init(void)
+{
+    ret_code_t err_code;
+
+    //The array must be static because a pointer to it will be saved in the button handler module.
+    static app_button_cfg_t buttons[] =
+    {
+        {LEDBUTTON_BUTTON, false, BUTTON_PULL, button_event_handler}
+    };
+
+    err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
+                               BUTTON_DETECTION_DELAY);
+		
+    APP_ERROR_CHECK(err_code);
+		
+
+}
+
+
 int	main(void)
 {
 	int codesize = 0;
@@ -513,7 +558,7 @@ idx=  512 * 2 + 4;
 	__write_hw_reg32(RAM_BASE(idx),0xF11E01FE);__read_hw_reg32(RAM_BASE(idx),value);
 printf("value5 ret:%x\n",value);
 
-
+buttons_init();
 
 
 	ret_code_t ret;
@@ -552,6 +597,8 @@ printf("value5 ret:%x\n",value);
 //		printf("p_buf[%d]:0x%x,0x%x\n",i,*p_buf++,value1); 
 //	}
 flash_test();
+	
+
 uint8_t len1;uint16_t totalLen;
 	for(len1 = 0; len1 < 10; len1++)
 	{

@@ -35,7 +35,16 @@
 ".\objects\fds.o"
 ".\objects\nrf_atfifo.o"
 ".\objects\nrf_strerror.o"
+".\objects\app_button.o"
+".\objects\nrfx_gpiote.o"
+".\objects\app_gpiote.o"
+".\objects\app_error.o"
+".\objects\app_error_weak.o"
+".\objects\bsp.o"
+".\objects\boards.o"
+".\objects\app_timer.o"
+".\objects\app_scheduler.o"
 --strict --scatter ".\cpu.scat"
---no_autoat --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Xinc_ble_sdk.map" -o .\Objects\Xinc_ble_sdk.axf
