@@ -240,20 +240,25 @@ void	gpio_Register_Callback(IoHandler_callback callback)
 - 输入参数: 无
 - 创建日期: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
+#include "nrfx_gpiote.h"
 void	GPIO_Handler(void)
 {
 		uint32_t	val;
-		__read_hw_reg32(GPIO_INTR_STATUS_C00 , val);/*read interrupt flag*/
-		__write_hw_reg32(GPIO_INTR_CLR0 , val);     /*clean interrupt flag*/
-	 printf("GPIO_Handler:%#x\n",val);
-		if(IoHandler_Callback != (IoHandler_callback)0)
-			IoHandler_Callback(val);
+	
+//		__read_hw_reg32(GPIO_INTR_STATUS_C00 , val);/*read interrupt flag*/
+//		__write_hw_reg32(GPIO_INTR_CLR0 , val);     /*clean interrupt flag*/
+	// printf("GPIO_Handler:%#x\n",val);
+	//	if(IoHandler_Callback != (IoHandler_callback)0)
+	//		IoHandler_Callback(val);
       
        if(DETECT_INTER_NUM(GPIO_PIN_24,val))//判断是否为GPIO24中断
        {
-          printf("GPIO24 interrupt\n");
+         
        }
-       printf("interrupt:%#x\n",val);
+    //   printf("interrupt:%#x\n",val);
+//			 printf("GPIO_Handler\n"); 
+
+			 nrfx_gpiote_irq_handler();
 }
 
 /* ---------------------------------------------------------------------------------------------------

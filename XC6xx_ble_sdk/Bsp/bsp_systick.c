@@ -1,5 +1,5 @@
 #include    "xinc_m0.h"
-
+#include "bsp_gpio.h"
 #define u32 uint32_t
 
 
@@ -7,9 +7,17 @@ extern  void ble_tick_handler(void);
 volatile  unsigned int GulSystickCount=0;
 void	SysTick_Handler(void)
 {
-        ble_tick_handler();//mainloop超时计数函数
+    ble_tick_handler();//mainloop超时计数函数
 		GulSystickCount++;//计数一次10ms
+
 }
+
+
+uint32_t SysTick_get(void)
+{    
+		return GulSystickCount;//
+}
+ 
  
 
 

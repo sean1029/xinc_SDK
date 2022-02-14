@@ -153,6 +153,7 @@ static void usr_event(uint8_t pin, uint8_t type)
 /* State machine processing. */
 void evt_handle(uint8_t pin, uint8_t value)
 {
+//	printf("evt_handle pin:%d,value:%d,state:%d\r\n",pin,value,state_get(pin));
     switch(state_get(pin))
     {
     case BTN_IDLE:
@@ -163,15 +164,23 @@ void evt_handle(uint8_t pin, uint8_t value)
             CRITICAL_REGION_ENTER();
             m_pin_active |= 1ULL << pin;
             CRITICAL_REGION_EXIT();
+
         }
         else
         {
             /* stay in IDLE */
+					  state_set(pin, BTN_IDLE);
+        
+            CRITICAL_REGION_ENTER();
+            m_pin_active &= ~(1ULL << pin);
+            CRITICAL_REGION_EXIT();
+				//	printf("pin:%d,value:%d,sta:%d\r\n",pin,value,state_get(pin));
         }
         break;
     case BTN_PRESS_ARMED:
         state_set(pin, value ? BTN_PRESS_DETECTED : BTN_IDLE);
         NRF_LOG_DEBUG("Pin %d armed->%s", pin, value ? "detected" : "idle");
+			
         break;
     case BTN_PRESS_DETECTED:
         if (value)
@@ -216,6 +225,7 @@ void evt_handle(uint8_t pin, uint8_t value)
 
 static void timer_start(void)
 {
+//		printf("timer_start\r\n");
     uint32_t err_code = app_timer_start(m_detection_delay_timer_id, m_detection_delay/2, NULL);
     if (err_code != NRF_SUCCESS)
     {
@@ -225,11 +235,15 @@ static void timer_start(void)
 
 static void detection_delay_timeout_handler(void * p_context)
 {
+	//	printf("detection_delay_timeout_handler\r\n");
     for (int i = 0; i < m_button_count; i++)
     {
         app_button_cfg_t const * p_btn = &mp_buttons[i];
-        bool is_set = nrf_drv_gpiote_in_is_set(p_btn->pin_no);
-        bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
+        bool is_set = !nrf_drv_gpiote_in_is_set(p_btn->pin_no);
+        bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);//!((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
+			
+		//	printf("p_btn->pin_no:%d,is_set:%d,is_active:%d\r\n",p_btn->pin_no,is_set,is_active);
+		//		printf("evt_handle start \r\n");
         evt_handle(p_btn->pin_no, is_active);
     }
 
@@ -248,16 +262,18 @@ static void gpiote_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t
 {
     app_button_cfg_t const * p_btn = button_get(pin);
     bool is_set = nrf_drv_gpiote_in_is_set(p_btn->pin_no);
-    bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
-
+    bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_LOW) ^ is_set);
+//		printf("gpiote_event_handler pin : %d,is_set:%d,is_active:%d,m_pin_active:%d \r\n ",pin,is_set,is_active,m_pin_active);
     /* If event indicates that pin is active and no other pin is active start the timer. All
      * action happens in timeout event.
      */
     if (is_active && (m_pin_active == 0))
     {
         NRF_LOG_DEBUG("First active button, starting periodic timer");
+			//	printf("First active button, starting periodic timer\r\n");
         timer_start();
-    }
+			
+    }//detection_delay_timeout_handler(NULL);
 }
 
 uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
@@ -268,9 +284,9 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
 
     if (detection_delay < 2*APP_TIMER_MIN_TIMEOUT_TICKS)
     {
-        return NRF_ERROR_INVALID_PARAM;
+      //  return NRF_ERROR_INVALID_PARAM;
     }
-
+		printf("%s\r\n",__func__);
     if (!nrf_drv_gpiote_is_init())
     {
         err_code = nrf_drv_gpiote_init();
@@ -289,11 +305,8 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
     {
         app_button_cfg_t const * p_btn = &p_buttons[button_count];
 
-#if defined(BUTTON_HIGH_ACCURACY_ENABLED) && (BUTTON_HIGH_ACCURACY_ENABLED == 1)
-        nrf_drv_gpiote_in_config_t config = GPIOTE_CONFIG_IN_SENSE_TOGGLE(p_btn->hi_accuracy);
-#else
-        nrf_drv_gpiote_in_config_t config = GPIOTE_CONFIG_IN_SENSE_TOGGLE(false);
-#endif
+        nrf_drv_gpiote_in_config_t config;
+
         config.pull = p_btn->pull_cfg;
 
         err_code = nrf_drv_gpiote_in_init(p_btn->pin_no, &config, gpiote_event_handler);
@@ -313,7 +326,7 @@ uint32_t app_button_enable(void)
     uint32_t i;
     for (i = 0; i < m_button_count; i++)
     {
-        nrf_drv_gpiote_in_event_enable(mp_buttons[i].pin_no, true);
+      //  nrf_drv_gpiote_in_event_enable(mp_buttons[i].pin_no, true);
     }
 
     return NRF_SUCCESS;
@@ -327,14 +340,14 @@ uint32_t app_button_disable(void)
     uint32_t i;
     for (i = 0; i < m_button_count; i++)
     {
-       nrf_drv_gpiote_in_event_disable(mp_buttons[i].pin_no);
+     //  nrf_drv_gpiote_in_event_disable(mp_buttons[i].pin_no);
     }
     CRITICAL_REGION_ENTER();
     m_pin_active = 0;
     CRITICAL_REGION_EXIT();
 
     /* Make sure polling timer is not running. */
-    return 0;//app_timer_stop(m_detection_delay_timer_id);
+    return app_timer_stop(m_detection_delay_timer_id);
 }
 
 

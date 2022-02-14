@@ -65,19 +65,54 @@ APP_TIMER_DEF(m_bsp_alert_tmr);
 #ifndef BSP_SIMPLE
 static bsp_event_callback_t   m_registered_callback         = NULL;
 static bsp_button_event_cfg_t m_events_list[BUTTONS_NUMBER] = {{BSP_EVENT_NOTHING, BSP_EVENT_NOTHING}};
+
+		
+#ifdef BSP_BUTTON_0
 APP_TIMER_DEF(m_bsp_button_tmr);
+#endif // BUTTON_0
+
+#ifdef BSP_BUTTON_1
+APP_TIMER_DEF(m_bsp_button_tmr1);
+#endif // BUTTON_1
+
+#ifdef BSP_BUTTON_2
+APP_TIMER_DEF(m_bsp_button_tmr2);
+#endif // BUTTON_2
+
+#ifdef BSP_BUTTON_3
+APP_TIMER_DEF(m_bsp_button_tmr3);
+#endif // BUTTON_3
+
+#ifdef BSP_BUTTON_4
+APP_TIMER_DEF(m_bsp_button_tmr4);
+#endif // BUTTON_4
+
+#ifdef BSP_BUTTON_5
+APP_TIMER_DEF(m_bsp_button_tmr5);
+#endif // BUTTON_5
+
+#ifdef BSP_BUTTON_6
+APP_TIMER_DEF(m_bsp_button_tmr6);
+#endif // BUTTON_6
+
+#ifdef BSP_BUTTON_7
+APP_TIMER_DEF(m_bsp_button_tmr7);
+#endif // BUTTON_7
+
 static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action);
 #endif // BSP_SIMPLE
 
 #ifndef BSP_SIMPLE
 static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
 {
+	
+	//  {0, false, BUTTON_PULLDOWN, bsp_button_event_handler},
     #ifdef BSP_BUTTON_0
-    {BSP_BUTTON_0, false, BUTTON_PULL, bsp_button_event_handler},
+    {BSP_BUTTON_0, false, BUTTON_PULLDOWN, bsp_button_event_handler},
     #endif // BUTTON_0
 
     #ifdef BSP_BUTTON_1
-    {BSP_BUTTON_1, false, BUTTON_PULL, bsp_button_event_handler},
+    {BSP_BUTTON_1, false, BUTTON_PULLDOWN, bsp_button_event_handler},
     #endif // BUTTON_1
 
     #ifdef BSP_BUTTON_2
@@ -134,11 +169,11 @@ static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
     bsp_event_t        event  = BSP_EVENT_NOTHING;
     uint32_t           button = 0;
     uint32_t           err_code;
-    static uint8_t     current_long_push_pin_no;              /**< Pin number of a currently pushed button, that could become a long push if held long enough. */
+    static uint8_t     current_long_push_pin_no[BUTTONS_NUMBER];              /**< Pin number of a currently pushed button, that could become a long push if held long enough. */
     static bsp_event_t release_event_at_push[BUTTONS_NUMBER]; /**< Array of what the release event of each button was last time it was pushed, so that no release event is sent if the event was bound after the push of the button. */
 
     button = bsp_board_pin_to_button_idx(pin_no);
-
+	//	printf(" bsp_button :%d,button_action:%d\r\n",button,button_action);
     if (button < BUTTONS_NUMBER)
     {
         switch (button_action)
@@ -146,17 +181,140 @@ static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
             case APP_BUTTON_PUSH:
                 event = m_events_list[button].push_event;
                 if (m_events_list[button].long_push_event != BSP_EVENT_NOTHING)
-                {
-                    err_code = app_timer_start(m_bsp_button_tmr, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no);
+                {						
+										switch(button)
+										{
+											case 0:
+											{
+												#ifdef BSP_BUTTON_0
+												err_code = app_timer_start(m_bsp_button_tmr, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;
+											
+											case 1:
+											{
+												#ifdef BSP_BUTTON_1
+												err_code = app_timer_start(m_bsp_button_tmr1, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 2:
+											{
+												#ifdef BSP_BUTTON_2
+												err_code = app_timer_start(m_bsp_button_tmr2, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 3:
+											{
+												#ifdef BSP_BUTTON_3
+												err_code = app_timer_start(m_bsp_button_tmr3, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 4:
+											{
+												#ifdef BSP_BUTTON_4
+												err_code = app_timer_start(m_bsp_button_tmr4, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 5:
+											{
+												#ifdef BSP_BUTTON_5
+												err_code = app_timer_start(m_bsp_button_tmr5, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 6:
+											{
+												#ifdef BSP_BUTTON_6
+												err_code = app_timer_start(m_bsp_button_tmr6, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											case 7:
+											{
+												#ifdef BSP_BUTTON_7
+												err_code = app_timer_start(m_bsp_button_tmr7, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+												#endif
+											}break;	
+											
+											default:
+												break;
+										}
+                   
+									 
                     if (err_code == NRF_SUCCESS)
                     {
-                        current_long_push_pin_no = pin_no;
+                        current_long_push_pin_no[button] = pin_no;
                     }
                 }
                 release_event_at_push[button] = m_events_list[button].release_event;
                 break;
             case APP_BUTTON_RELEASE:
-                (void)app_timer_stop(m_bsp_button_tmr);
+                
+									switch(button)
+										{
+											case 0:
+											{		
+												  #ifdef BSP_BUTTON_0
+												 (void)app_timer_stop(m_bsp_button_tmr);
+													#endif
+											}break;
+											
+											case 1:
+											{
+												  #ifdef BSP_BUTTON_1
+												 (void)app_timer_stop(m_bsp_button_tmr1);
+													#endif
+											}break;	
+											
+											case 2:
+											{
+												  #ifdef BSP_BUTTON_2
+												 (void)app_timer_stop(m_bsp_button_tmr2);
+													#endif
+											}break;	
+											
+											case 3:
+											{
+												  #ifdef BSP_BUTTON_3
+												 (void)app_timer_stop(m_bsp_button_tmr3);
+													#endif
+											}break;	
+											
+											case 4:
+											{
+												  #ifdef BSP_BUTTON_4
+												 (void)app_timer_stop(m_bsp_button_tmr4);
+													#endif
+											}break;	
+											
+											case 5:
+											{
+												  #ifdef BSP_BUTTON_5
+												 (void)app_timer_stop(m_bsp_button_tmr5);
+													#endif
+											}break;	
+											
+											case 6:
+											{
+												  #ifdef BSP_BUTTON_6
+												 (void)app_timer_stop(m_bsp_button_tmr6);
+													#endif
+											}break;	
+											
+											case 7:
+											{
+												  #ifdef BSP_BUTTON_7
+												 (void)app_timer_stop(m_bsp_button_tmr7);
+													#endif
+											}break;	
+											
+											default:
+												break;
+										}
                 if (release_event_at_push[button] == m_events_list[button].release_event)
                 {
                     event = m_events_list[button].release_event;
@@ -496,14 +654,17 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 
         for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == NRF_SUCCESS)); num++)
         {
-            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_DEFAULT);
+            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_0 + num * 3);
+					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, BSP_EVENT_KEY_1+ num * 3);
+					  err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, BSP_EVENT_KEY_2 + num * 3);
+					  
         }
 
         if (err_code == NRF_SUCCESS)
         {
             err_code = app_button_init((app_button_cfg_t *)app_buttons,
                                        BUTTONS_NUMBER,
-                                       APP_TIMER_TICKS(50));
+                                       APP_TIMER_TICKS(10));
         }
 
         if (err_code == NRF_SUCCESS)
@@ -514,6 +675,12 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
         if (err_code == NRF_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        button_timer_handler);
+        }
+				 if (err_code == NRF_SUCCESS)
+        {
+            err_code = app_timer_create(&m_bsp_button_tmr1,
                                         APP_TIMER_MODE_SINGLE_SHOT,
                                         button_timer_handler);
         }
@@ -614,10 +781,10 @@ static uint32_t wakeup_button_cfg(uint32_t button_idx, bool enable)
 #if !defined(BSP_SIMPLE)
     if (button_idx <  BUTTONS_NUMBER)
     {
-        nrf_gpio_pin_sense_t sense = enable ?
-                         (BUTTONS_ACTIVE_STATE ? NRF_GPIO_PIN_SENSE_HIGH : NRF_GPIO_PIN_SENSE_LOW) :
-                         NRF_GPIO_PIN_NOSENSE;
-        nrf_gpio_cfg_sense_set(bsp_board_button_idx_to_pin(button_idx), sense);
+//        nrf_gpio_pin_sense_t sense = enable ?
+////                         (BUTTONS_ACTIVE_STATE ? NRF_GPIO_PIN_SENSE_HIGH : NRF_GPIO_PIN_SENSE_LOW) :
+//                         NRF_GPIO_PIN_NOSENSE;
+//        nrf_gpio_cfg_sense_set(bsp_board_button_idx_to_pin(button_idx), sense);
         return NRF_SUCCESS;
     }
 #else

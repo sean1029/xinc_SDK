@@ -42,7 +42,7 @@
 #define NRFX_GPIOTE_H__
 
 
-#define  GPIOTE_CH_NUM 8 //nrf52840_peripherals.h
+//#define  GPIOTE_CH_NUM 8 //nrf52840_peripherals.h
 #include <nrfx.h>
 #include <hal/nrf_gpiote.h>
 #include <hal/nrf_gpio.h>

@@ -27,7 +27,8 @@ extern "C" {
 #define     __OM     volatile            /*! Defines 'write only' structure member permissions */
 #define     __IOM    volatile            /*! Defines 'read / write' structure member permissions */
 
-
+#define setbit(x,y) ((x) |= (1<<(y)))
+#define clrbit(x,y) ((x) &= ~(1<<(y)))
 /* =========================================================================================================================== */
 /* ================                                Interrupt Number Definition                                ================ */
 /* =========================================================================================================================== */
@@ -139,7 +140,7 @@ typedef struct {                                /*!< (@ 0x4001E000) NVMC Structu
 /**
   * @brief GPIO Port 1 (P0)
   */
-
+#if 0
 typedef struct {                                /*!< (@ 0x50000000) P0 Structure                                               */
   __IM  uint32_t  RESERVED[321];
   __IOM uint32_t  OUT;                          /*!< (@ 0x00000504) Write GPIO port                                            */
@@ -159,7 +160,7 @@ typedef struct {                                /*!< (@ 0x50000000) P0 Structure
                                                                     pins                                                       */
 } NRF_GPIO_Type;    
 
-
+#else
 
 typedef struct {                                /*!< (@ 0x40001000) P0 Structure                                               */
 	__IOM uint32_t  DR[2];   										/*!< (@ 0x40001000) GPIO_PORT_DRx */
@@ -180,14 +181,16 @@ typedef struct {                                /*!< (@ 0x40001000) P0 Structure
 	__IM  uint32_t  RESERVED7[6];
   __IM uint32_t   INTR_STATUS_C0;                       /*!< (@ 0x40001220) DIR clear register                                         */
                                                     
-} XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
-
+} NRF_GPIO_Type;//XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
+#endif
 typedef struct { 
 	 __IM  uint32_t  RESERVED[13]; /*!< (@ 0x40002400) CPR AO Structure                                               */
 	__IOM uint32_t  PU_CTRL1;  /*!< (@ 0x40002434) CPR AO  GPIO PU Ctrl                                               */
   __IOM uint32_t  PE_CTRL2; 	/*!< (@ 0x40002438) CPR AO  GPIO PE Ctrl                                               */
 }XINC_CPRA_AO_Type;
 
+
+#if 0
 typedef struct {                                /*!< (@ 0x40006000) GPIOTE Structure                                           */
   __OM  uint32_t  TASKS_OUT[8];                 /*!< (@ 0x00000000) Description collection: Task for writing to pin
                                                                     specified in CONFIG[n].PSEL. Action on pin
@@ -213,7 +216,32 @@ typedef struct {                                /*!< (@ 0x40006000) GPIOTE Struc
   __IOM uint32_t  CONFIG[8];                    /*!< (@ 0x00000510) Description collection: Configuration for OUT[n],
                                                                     SET[n], and CLR[n] tasks and IN[n] event                   */
 } NRF_GPIOTE_Type;                              /*!< Size = 1328 (0x530)   */
+#else
+typedef struct {                                /*!< (@ 0x40006000) GPIOTE Structure                                           */
+  __OM  uint32_t  TASKS_OUT[8];                 /*!< (@ 0x00000000) Description collection: Task for writing to pin
+                                                                    specified in CONFIG[n].PSEL. Action on pin
+                                                                    is configured in CONFIG[n].POLARITY.                       */
 
+  __OM  uint32_t  TASKS_SET[8];                 /*!< (@ 0x00000030) Description collection: Task for writing to pin
+                                                                    specified in CONFIG[n].PSEL. Action on pin
+                                                                    is to set it high.                                         */
+
+  __OM  uint32_t  TASKS_CLR[8];                 /*!< (@ 0x00000060) Description collection: Task for writing to pin
+                                                                    specified in CONFIG[n].PSEL. Action on pin
+                                                                    is to set it low.                                          */
+
+  __IOM uint32_t  EVENTS_IN[8];                 /*!< (@ 0x00000100) Description collection: Event generated from
+                                                                    pin specified in CONFIG[n].PSEL                            */
+
+  __IOM uint32_t  EVENTS_PORT;                  /*!< (@ 0x0000017C) Event generated from multiple input GPIO pins
+                                                                    with SENSE mechanism enabled                               */
+
+  __IOM uint32_t  INTENSET;                     /*!< (@ 0x00000304) Enable interrupt                                           */
+  __IOM uint32_t  INTENCLR;                     /*!< (@ 0x00000308) Disable interrupt                                          */
+  __IOM uint32_t  CONFIG[8];                    /*!< (@ 0x00000510) Description collection: Configuration for OUT[n],
+                                                                    SET[n], and CLR[n] tasks and IN[n] event                   */
+} NRF_GPIOTE_Type;                             
+#endif
 /* =========================================================================================================================== */
 /* ================                          Device Specific Peripheral Address Map                           ================ */
 /* =========================================================================================================================== */
@@ -238,7 +266,7 @@ typedef struct {                                /*!< (@ 0x40006000) GPIOTE Struc
   */
 #define NRF_P0                      ((NRF_GPIO_Type*)          NRF_P0_BASE)
 #define NRF_CPR_AO               		((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
-//#define NRF_GPIOTE                  ((NRF_GPIOTE_Type*)        NRF_GPIOTE_BASE)
+#define NRF_GPIOTE                  ((NRF_GPIOTE_Type*)        NRF_GPIOTE_BASE)
 
 #ifdef __cplusplus
 }

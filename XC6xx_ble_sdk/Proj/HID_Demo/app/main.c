@@ -11,15 +11,10 @@
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
 #include    "bsp_spi_flash.h"
+#include "nrf_gpio.h"
 
 uint8_t flag_show_hci = 0;
 
-//#define EMPTY1  __attribute__((section("empty1")))
-//#define EMPTY2  __attribute__((section("empty2")))
-
-//uint32_t EMPTY1 dead_pixel_ram0 ;//__attribute__ ((at(0x10006d4c))) ;
-//uint32_t  dead_pixel_ram1 __attribute__ ((at(0x10017af0))) ;
-extern uint32_t  dead_pixel_ram1; //__attribute__ ((section(".ARM.__at_0x10017af0"))) ;
 
 void _HWradio_Go_To_Idle_State_Patch(void){
 }
@@ -39,10 +34,7 @@ extern  void ble_system_idle_init(void);
 extern  void    ble_system_idle(void);
 extern  int btstack_main(void);
 extern 	void send_media_report(int mediacode1,int mediacode2);
-#define KEYPIN 0
-#define KEYPIN1 1
-#define LED1 4
-#define LED2 5
+
 static uint32_t min(uint32_t a, uint32_t b){
     return a < b ? a : b;
 }
@@ -227,32 +219,8 @@ extern int key_value ;
 
 void key_init(void)
 {
-//	gpio_mux_ctl(KEYPIN,0);
-//	gpio_fun_sel(KEYPIN,0);
-//	gpio_fun_inter(KEYPIN,0);
-//	gpio_direction_input(KEYPIN,0);
-//	
-//		gpio_mux_ctl(KEYPIN1,0);
-//	gpio_fun_sel(KEYPIN1,0);
-//	gpio_fun_inter(KEYPIN1,0);
-//	gpio_direction_input(KEYPIN1,0);
-	
-//		
+	Init_gpio();
 
-//	
-	
-//	gpio_mux_ctl(LED2,0);
-//	gpio_fun_sel(LED2,0);
-//	gpio_fun_inter(LED2,0);
-//	gpio_direction_output(LED2);
-//	gpio_output_low(LED2);
-	
-		gpio_mux_ctl(LED1,0);
-	gpio_fun_sel(LED1,0);
-	gpio_fun_inter(LED1,0);
-	gpio_direction_output(LED1);
-	gpio_output_low(LED1);
-	
 }
 
 enum adv_type{
@@ -312,30 +280,39 @@ static btstack_timer_source_t sys_run_timer;
 
 #include "xc_kbs_event.h"
 #include "le_device_db.h"
+
+
 static void system_run_timer_handler(btstack_timer_source_t * ts){
 
 	static uint8_t on_off = 0;
 	static uint8_t key_dump = 0;
 	
 	static uint8_t ocpy_ratio = 10;
-	
+	uint8_t led_value = 0;
+	uint8_t led_value1 = 0;
 	ocpy_ratio++;
+//	g_sys_time++;
 	if(ocpy_ratio >= 99)
 	{
 		ocpy_ratio = 10;	
 	}
-	xc_set_pwm(2,ocpy_ratio, 159);
+	//xc_set_pwm(2,ocpy_ratio, 159);
 	if(on_off == 0)
 	{
 		
-		GPIO_OUTPUT_HIGH(LED1);
+	//	GPIO_OUTPUT_HIGH(LED1);
+	//	nrf_gpio_pin_set(LED1);
 		on_off = 1;
-	//	printf("LED1 OFF\n");
+	//	led_value = nrf_gpio_pin_read(LED1);
+		led_value = nrf_gpio_pin_read(0);
+		led_value1 = nrf_gpio_pin_read(1);
+	//	printf("led_value:%d,led_value1:%d\n",led_value,led_value1);
 	}else
 	{
 	
 		
-		GPIO_OUTPUT_LOW(LED1);
+	//	GPIO_OUTPUT_LOW(LED1);
+	//	nrf_gpio_pin_clear(LED1);
 		on_off = 0;
 	//	printf("LED1 ON\n");
 	}	
@@ -344,172 +321,59 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 
 }
 
-#include "fds.h"
-typedef enum
-{
-    ES_FLASH_ACCESS_READ,  //!< Read data.
-    ES_FLASH_ACCESS_WRITE, //!< Write data.
-    ES_FLASH_ACCESS_CLEAR  //!< Clear data.
-} es_flash_access_t;
-/**@brief Structure used for invoking flash access function. */
-typedef struct
-{
-    uint16_t          record_key;
-    uint16_t          file_id;
-    uint8_t *         p_data_buf;
-    uint8_t *         p_data;
-    uint16_t          size_bytes;
-    es_flash_access_t access_type;
-} flash_access_params_t;
-
-#define RETURN_IF_ERROR(PARAM)                                                                     \
-    if ((PARAM) != NRF_SUCCESS)                                                                    \
-    {                                                                                              \
-        return (PARAM);                                                                            \
-    }
-
-static volatile uint32_t m_num_pending_ops;  
-
-/**@brief Function performing flash access (read/write/clear).
- *
- * @param[in] p_params Flash access parameters.
- */
-static ret_code_t access_flash_data(const flash_access_params_t * p_params)
-{
-    ret_code_t         err_code;
-    fds_flash_record_t record = {0};
-    fds_record_desc_t  desc   = {0};
-    fds_find_token_t   ft     = {0};
-    fds_record_t       record_to_write =
-    {
-        .data.p_data = p_params->p_data_buf,
-        .file_id     = p_params->file_id
-    };
-
-    err_code = fds_record_find_by_key(p_params->record_key, &desc, &ft);
-
-    // If its a read or clear, we can not accept errors on lookup
-    if (p_params->access_type == ES_FLASH_ACCESS_READ)
-    {
-        RETURN_IF_ERROR(err_code);
-    }
-
-    if (p_params->access_type == ES_FLASH_ACCESS_CLEAR && err_code == FDS_ERR_NOT_FOUND)
-    {
-        return NRF_SUCCESS;
-    }
-
-    switch (p_params->access_type)
-    {
-        case ES_FLASH_ACCESS_READ:
-            err_code = fds_record_open(&desc, &record);
-            RETURN_IF_ERROR(err_code);
-
-            memcpy(p_params->p_data, record.p_data, p_params->size_bytes);
-
-            err_code = fds_record_close(&desc);
-            RETURN_IF_ERROR(err_code);
-
-            break;
-
-        case ES_FLASH_ACCESS_WRITE:
-            memcpy(p_params->p_data_buf, p_params->p_data, p_params->size_bytes);
-
-            record_to_write.data.length_words = (p_params->size_bytes +3) / 4;
-            record_to_write.key               = p_params->record_key;
-
-            if (err_code == FDS_ERR_NOT_FOUND)
-            {
-                err_code = fds_record_write(&desc, &record_to_write);
-            }
-
-            else
-            {
-                err_code = fds_record_update(&desc, &record_to_write);
-            }
-
-            RETURN_IF_ERROR(err_code);
-            m_num_pending_ops++;
-            break;
-
-        case ES_FLASH_ACCESS_CLEAR:
-            err_code = fds_record_delete(&desc);
-            RETURN_IF_ERROR(err_code);
-            m_num_pending_ops++;
-            break;
-
-        default:
-            break;
-    }
-    return NRF_SUCCESS;
-}
-#define ESCS_AES_KEY_SIZE               (16)
-#define SIZE_OF_LOCK_KEY ESCS_AES_KEY_SIZE  //!< Size of lock key.
-#define FILE_ID_ES_FLASH_LOCK_KEY 0x1338    //!< File ID used for lock code flash access.
-#define RECORD_KEY_LOCK_KEY 0x4             //!< File record for lock key.
-__ALIGN(4) static uint8_t lock_key_buf[SIZE_OF_LOCK_KEY];   //!< Buffer for lock key flash access.
-
-ret_code_t es_flash_access_lock_key(uint8_t * p_lock_key, es_flash_access_t access_type)
-{
-    flash_access_params_t params = {.record_key  = RECORD_KEY_LOCK_KEY,
-                                    .file_id     = FILE_ID_ES_FLASH_LOCK_KEY,
-                                    .p_data_buf  = lock_key_buf,
-                                    .p_data      = (uint8_t *)p_lock_key,
-                                    .size_bytes  = SIZE_OF_LOCK_KEY,
-                                    .access_type = access_type};
-
-    return access_flash_data(&params);
-}
-
-static void fds_evt_handler(fds_evt_t const * const p_fds_evt)
-{
-	printf("fds_evt_handler id:%d\n",p_fds_evt->id);
-}
 
 #include "app_button.h"
 #include "app_error.h"
 #include "app_timer.h"
-#define BSP_BUTTON_0   0
-#define LEDBUTTON_BUTTON                BSP_BUTTON_0   
-#define BUTTON_PULL    NRF_GPIO_PIN_PULLUP
+#include "bsp.h"
 
 
-#define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(50) 
 
-static void button_event_handler(uint8_t pin_no, uint8_t button_action)
+extern uint8_t list_handler_sched_flag;
+
+extern void extern_timer_list_handler(void);
+
+
+#include "bsp.h"
+static void bsp_evt_handler(bsp_event_t evt)
 {
-    ret_code_t err_code;
-
-    switch (pin_no)
+    switch (evt)
     {
-        case LEDBUTTON_BUTTON:
-          
+        case BSP_EVENT_KEY_0:
+						printf("button 0 push,evt: %d\n",BSP_EVENT_KEY_0);
+						bsp_board_led_on(0);
+            break;
+
+        case BSP_EVENT_KEY_1:
+					
+				printf("button 0 long push,evt: %d\n",BSP_EVENT_KEY_1);
+            break;
+
+        case BSP_EVENT_KEY_2:
+					printf("button 0 release ,evt: %d\n",BSP_EVENT_KEY_2);
+				bsp_board_led_off(0);
+            break;
+
+         case BSP_EVENT_KEY_3:
+						printf("button 1 push,evt: %d\n",BSP_EVENT_KEY_3);
+				 bsp_board_led_on(1);
+            break;
+
+        case BSP_EVENT_KEY_4:
+						printf("button 1 long push,evt: %d\n",BSP_EVENT_KEY_4);
+            break;
+
+        case BSP_EVENT_KEY_5:
+          printf("button 1 release ,evt: %d\n",BSP_EVENT_KEY_5);
+				 bsp_board_led_off(1);
             break;
 
         default:
-        
-            break;
+            break; //No implementation needed
     }
+
+   
 }
-
-static void buttons_init(void)
-{
-    ret_code_t err_code;
-
-    //The array must be static because a pointer to it will be saved in the button handler module.
-    static app_button_cfg_t buttons[] =
-    {
-        {LEDBUTTON_BUTTON, false, BUTTON_PULL, button_event_handler}
-    };
-
-    err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
-                               BUTTON_DETECTION_DELAY);
-		
-    APP_ERROR_CHECK(err_code);
-		
-
-}
-
 
 int	main(void)
 {
@@ -524,91 +388,15 @@ int	main(void)
   ble_init((void *)&blestack_init);
 
 	btstack_main();
+	app_timer_init();
 	key_init();
+	//buttons_init();
+	
+	bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
 		uint32_t idx = 0;
 	
 	uint32_t value ;
-//	uint8_t *p_buf = 0x10000000 + 1222 * 1024;
-#define RAM_BASE(idx)         ((volatile unsigned *)(0x10000000 + 122 * 1024 + idx))
 
-
-for(int j = 0 ; j < 6 * 1024; j+=4)
-{
-	__write_hw_reg32(RAM_BASE(j),0xffffffff);
-}
- idx = 0;
-	__write_hw_reg32(RAM_BASE(idx),0xDEADC0DE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value0 ret:%x\n",value);
-idx = 4;
-	__write_hw_reg32(RAM_BASE(idx),0xF11E01FE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value1 ret:%x\n",value);
-
-idx = 0 + 512;
-	__write_hw_reg32(RAM_BASE(idx),0xDEADC0DE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value2 ret:%x\n",value);
-idx = 0 + 512 + 4;
-	__write_hw_reg32(RAM_BASE(idx),0xF11E01FE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value3 ret:%x\n",value);
-
-
-idx = 512 * 2;
-	__write_hw_reg32(RAM_BASE(idx),0xDEADC0DE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value4 ret:%x\n",value);
-idx=  512 * 2 + 4;
-	__write_hw_reg32(RAM_BASE(idx),0xF11E01FE);__read_hw_reg32(RAM_BASE(idx),value);
-printf("value5 ret:%x\n",value);
-
-buttons_init();
-
-
-	ret_code_t ret;
-//	ret = fds_register(fds_evt_handler);
-//	printf("fds_register ret:%d\n",ret);
-//	ret = fds_init();
-//	printf("fds_init ret:%d\n",ret);
-	uint8_t buf[80];
-	
-	for(int i = 0;i < 30;i++)
-	{
-		buf[i] = i;
-	}
-	
-//	es_flash_access_lock_key(buf,ES_FLASH_ACCESS_WRITE);
-//	for(int i = 0;i < 30;i++)
-//	{
-//		buf[i] = 0;
-//	}
-//	
-//	es_flash_access_lock_key(buf,ES_FLASH_ACCESS_READ);
-//	
-//	for(int i = 0;i < 30;i++)
-//	{
-//		printf("buf[%d]:%d\n",i,buf[i]); 
-//	}
-//	
-	uint32_t *p_buf = 0;
-	uint32_t value1;
-	//buf = 0;
-	#define RAM_BASE1(idx)         ((volatile unsigned *)(0x00000000 + idx))
-
-//	for(uint32_t i = 0;i < 30;i+=4)
-//	{
-//		__read_hw_reg32(RAM_BASE1(i),value1);
-//		printf("p_buf[%d]:0x%x,0x%x\n",i,*p_buf++,value1); 
-//	}
-flash_test();
-	
-
-uint8_t len1;uint16_t totalLen;
-	for(len1 = 0; len1 < 10; len1++)
-	{
-		totalLen =   ((len1 + 3) & ~(0x4 -1)) + 4;
-		printf("len:%d,totalLen:%d\n",len1,totalLen); 
-	}
-
-//	xc620_kbs_init();
-	voice_ring_buffer_init();
-	
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -626,43 +414,7 @@ uint8_t len1;uint16_t totalLen;
 	sbc_init_msbc(&sbc, 0);
 	codesize = sbc_get_codesize(&sbc);
 #endif
-	inp = input;
-	outp = output;
-	outp_len = codesize;
-	memset(input,0,240);
-//	memset(output,0,BUF_SIZE);
-	for(int i = 0;i < BUF_SIZE;i++)
-	{
-		input[i] = 0x50  + i;
-	}
-//	xc_timer_init(TIMER_CH2,500000);
-//		xc_timer_init(TIMER_CH3,1000000);
-	GPIO_OUTPUT_HIGH(LED1);
-	GPIO_OUTPUT_LOW(LED1);
-#if SBC_ENCODER_EN
-	len = sbc_encode(&sbc, inp, 240,
-				outp, 240,
-				&encoded);
-#endif
-	GPIO_OUTPUT_HIGH(LED1);
-	GPIO_OUTPUT_LOW(LED1);
-	GPIO_OUTPUT_HIGH(LED1);
-	GPIO_OUTPUT_LOW(LED1);
-	
-	printf("encoded:%d,len:%d\n",encoded,len);
-	sbc_enc_params_print(output,encoded);
-	
 
-	printf("encoded:%d,len:%d\n",encoded,len);
-	
-	gpio_mux_ctl(0,2);
-	gpio_fun_sel(0,12);//pwm0
-	gpio_fun_inter(0,0);
-	gpio_direction_output(0);
-	
-	xc_pwm_init(2,10,159);
-	
-	
 #if SBC_DECODER_EN
 	framelen = sbc_decode(&sbc, output, 57, input, 240, &decoded);
 	printf("decoded:%d,framelen:%d\n",decoded,framelen);
@@ -674,9 +426,16 @@ uint8_t len1;uint16_t totalLen;
 	
 
 void ff11_test_loop(void);
+
+
+
     while(1) {
        ble_mainloop();
-			
+			if(list_handler_sched_flag > 0)
+			{
+				list_handler_sched_flag--;
+				extern_timer_list_handler();
+			}
 		//	ff11_test_loop();
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10ms÷¥––“ª¥Œ

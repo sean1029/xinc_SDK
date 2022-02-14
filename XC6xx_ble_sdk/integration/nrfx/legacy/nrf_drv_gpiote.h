@@ -116,7 +116,7 @@ typedef nrfx_gpiote_evt_handler_t nrf_drv_gpiote_evt_handler_t;
 /** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_gpiote_in_is_set          nrfx_gpiote_in_is_set
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_gpiote_in_event_addr_get  nrfx_gpiote_in_event_addr_get
+//#define nrf_drv_gpiote_in_event_addr_get  nrfx_gpiote_in_event_addr_get
 /** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_gpiote_set_task_addr_get  nrfx_gpiote_set_task_addr_get
 /** @brief Macro for forwarding the new implementation. */

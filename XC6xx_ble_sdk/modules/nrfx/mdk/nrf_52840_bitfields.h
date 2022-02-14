@@ -6785,7 +6785,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define GPIO_PIN_CNF_INPUT_Connect (0UL) /*!< Connect input buffer */
 #define GPIO_PIN_CNF_INPUT_Disconnect (1UL) /*!< Disconnect input buffer */
 
-/* Bit 0 : Pin direction. Same physical register as DIR register */
+/* Bit 0-15: Pin direction. Same physical register as DIR register */
 #define GPIO_PIN_CNF_DIR_Pos (0UL) /*!< Position of DIR field. */
 #define GPIO_PIN_CNF_DIR_Msk (0x1UL << GPIO_PIN_CNF_DIR_Pos) /*!< Bit mask of DIR field. */
 #define GPIO_PIN_CNF_DIR_Input (0UL) /*!< Configure pin as an input pin */

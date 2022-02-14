@@ -391,11 +391,13 @@ uint8_t inputdata[240];
 uint8_t buff0[20];
 uint8_t buff[20];
 static void sky_voice_can_send_now(void){
-			
+	
+	#if SBC_ENCODER_EN	
 			ssize_t encoded;
 			sbc_encode(&sbc, inputdata, 240,
 				buff, 240,
 				&encoded);
+	#endif
 			buff0[0]++;
 		//	if(read_encode_data(buff))
 			{

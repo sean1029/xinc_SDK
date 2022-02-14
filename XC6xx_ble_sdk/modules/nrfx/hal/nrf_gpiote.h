@@ -394,6 +394,8 @@ __STATIC_INLINE nrf_gpiote_tasks_t nrf_gpiote_clr_task_get(uint8_t index);
  */
 __STATIC_INLINE nrf_gpiote_events_t nrf_gpiote_in_event_get(uint8_t index);
 
+
+#if 1
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 __STATIC_INLINE void nrf_gpiote_task_set(nrf_gpiote_tasks_t task)
@@ -406,24 +408,25 @@ __STATIC_INLINE uint32_t nrf_gpiote_task_addr_get(nrf_gpiote_tasks_t task)
     return ((uint32_t)NRF_GPIOTE + task);
 }
 
-__STATIC_INLINE bool nrf_gpiote_event_is_set(nrf_gpiote_events_t event)
-{
-    return (*(uint32_t *)nrf_gpiote_event_addr_get(event) == 0x1UL) ? true : false;
-}
+//__STATIC_INLINE bool nrf_gpiote_event_is_set(nrf_gpiote_events_t event)
+//{
+//    return (*(uint32_t *)nrf_gpiote_event_addr_get(event) == 0x1UL) ? true : false;
+//}
 
 __STATIC_INLINE void nrf_gpiote_event_clear(nrf_gpiote_events_t event)
 {
-    *(uint32_t *)nrf_gpiote_event_addr_get(event) = 0;
+  //  *(uint32_t *)nrf_gpiote_event_addr_get(event) = 0;
 #if __CORTEX_M == 0x04
     volatile uint32_t dummy = *((volatile uint32_t *)nrf_gpiote_event_addr_get(event));
     (void)dummy;
 #endif
 }
 
-__STATIC_INLINE uint32_t nrf_gpiote_event_addr_get(nrf_gpiote_events_t event)
-{
-    return ((uint32_t)NRF_GPIOTE + event);
-}
+
+//__STATIC_INLINE uint32_t nrf_gpiote_event_addr_get(nrf_gpiote_events_t event)
+//{
+//    return ((uint32_t)NRF_GPIOTE + event);
+//}
 
 __STATIC_INLINE void nrf_gpiote_int_enable(uint32_t mask)
 {
@@ -573,6 +576,7 @@ __STATIC_INLINE nrf_gpiote_events_t nrf_gpiote_in_event_get(uint8_t index)
 
 #endif //SUPPRESS_INLINE_IMPLEMENTATION
 
+#endif
 /** @} */
 
 #ifdef __cplusplus

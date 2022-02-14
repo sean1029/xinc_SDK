@@ -6,3 +6,7 @@
 *.xml
 *.uvoptx
 *.admin
+*.axf
+*.dep
+*.bin
+*.htm

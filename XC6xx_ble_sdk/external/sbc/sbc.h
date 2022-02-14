@@ -35,7 +35,7 @@ extern "C" {
 #include <stdint.h>
 #include "types.h"
 
-#define SBC_ENABLE
+//#define SBC_ENABLE
 #define SBC_ENCODER
 //#define SBC_DECODER
 
