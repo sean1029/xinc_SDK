@@ -113,7 +113,7 @@ extern "C" {
 #define APP_TIMER_TICKS(MS)                                \
             ((uint32_t)ROUNDED_DIV(                        \
             (MS) * (uint64_t)APP_TIMER_CLOCK_FREQ,         \
-            1000 * (APP_TIMER_CONFIG_RTC_FREQUENCY + 1)))
+            1000 * (APP_TIMER_CONFIG_TIMER_FREQUENCY + 1)))
 #else
 #include "FreeRTOSConfig.h"
 #define APP_TIMER_TICKS(MS) (uint32_t)ROUNDED_DIV((MS)*configTICK_RATE_HZ,1000)

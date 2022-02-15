@@ -374,7 +374,15 @@ static void bsp_evt_handler(bsp_event_t evt)
 
    
 }
+#include "app_scheduler.h"
+// SCHEDULER CONFIGS
+#define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
+#define SCHED_QUEUE_SIZE                    10                                          //!< Size of the scheduler queue.
 
+static void scheduler_init(void)
+{
+    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
+}
 int	main(void)
 {
 	int codesize = 0;
@@ -388,6 +396,7 @@ int	main(void)
   ble_init((void *)&blestack_init);
 
 	btstack_main();
+	scheduler_init();
 	app_timer_init();
 	key_init();
 	//buttons_init();
@@ -436,6 +445,7 @@ void ff11_test_loop(void);
 				list_handler_sched_flag--;
 				extern_timer_list_handler();
 			}
+			app_sched_execute();
 		//	ff11_test_loop();
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msÖ´ÐÐÒ»´Î

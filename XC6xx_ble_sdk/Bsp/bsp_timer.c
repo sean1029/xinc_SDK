@@ -2,7 +2,7 @@
 #include  "bsp_register_macro.h"
 #include "bsp_timer.h"
  
-
+#if 0
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: xc_timer_init
 - 函数功能: 定时器初始化
@@ -61,7 +61,7 @@ uint32_t  xc_timer_cnt_get(timer_ch_t timer_ch)
 
 void xc_timer_stop(timer_ch_t timer_ch)
 {	
-	printf("xc_timer_stop \r\n");
+	//printf("xc_timer_stop \r\n");
    __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
 
 }
@@ -109,4 +109,4 @@ void TIMER3_Handler(void)
 	printf("TIMER3_Handler\n");
 	
 }
-
+#endif
