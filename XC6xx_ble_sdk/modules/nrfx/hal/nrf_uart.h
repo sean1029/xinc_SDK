@@ -60,22 +60,22 @@ extern "C" {
 /** @brief UART tasks. */
 typedef enum
 {
-    NRF_UART_TASK_STARTRX = offsetof(NRF_UART_Type, TASKS_STARTRX), /**< Task for starting reception. */
-    NRF_UART_TASK_STOPRX  = offsetof(NRF_UART_Type, TASKS_STOPRX),  /**< Task for stopping reception. */
-    NRF_UART_TASK_STARTTX = offsetof(NRF_UART_Type, TASKS_STARTTX), /**< Task for starting transmission. */
-    NRF_UART_TASK_STOPTX  = offsetof(NRF_UART_Type, TASKS_STOPTX),  /**< Task for stopping transmission. */
-    NRF_UART_TASK_SUSPEND = offsetof(NRF_UART_Type, TASKS_SUSPEND), /**< Task for suspending UART. */
+    NRF_UART_TASK_STARTRX = 0,//offsetof(NRF_UART_Type, TASKS_STARTRX), /**< Task for starting reception. */
+    NRF_UART_TASK_STOPRX  = 0,//offsetof(NRF_UART_Type, TASKS_STOPRX),  /**< Task for stopping reception. */
+    NRF_UART_TASK_STARTTX = 0,//offsetof(NRF_UART_Type, TASKS_STARTTX), /**< Task for starting transmission. */
+    NRF_UART_TASK_STOPTX  = 0,//offsetof(NRF_UART_Type, TASKS_STOPTX),  /**< Task for stopping transmission. */
+    NRF_UART_TASK_SUSPEND = 0,//offsetof(NRF_UART_Type, TASKS_SUSPEND), /**< Task for suspending UART. */
 } nrf_uart_task_t;
 
 /** @brief UART events. */
 typedef enum
 {
-    NRF_UART_EVENT_CTS    = offsetof(NRF_UART_Type, EVENTS_CTS),   /**< Event from CTS line activation. */
-    NRF_UART_EVENT_NCTS   = offsetof(NRF_UART_Type, EVENTS_NCTS),  /**< Event from CTS line deactivation. */
-    NRF_UART_EVENT_RXDRDY = offsetof(NRF_UART_Type, EVENTS_RXDRDY),/**< Event from data ready in RXD. */
-    NRF_UART_EVENT_TXDRDY = offsetof(NRF_UART_Type, EVENTS_TXDRDY),/**< Event from data sent from TXD. */
-    NRF_UART_EVENT_ERROR  = offsetof(NRF_UART_Type, EVENTS_ERROR), /**< Event from error detection. */
-    NRF_UART_EVENT_RXTO   = offsetof(NRF_UART_Type, EVENTS_RXTO)   /**< Event from receiver timeout. */
+    NRF_UART_EVENT_CTS    = 0,//offsetof(NRF_UART_Type, EVENTS_CTS),   /**< Event from CTS line activation. */
+    NRF_UART_EVENT_NCTS   = 1,//offsetof(NRF_UART_Type, EVENTS_NCTS),  /**< Event from CTS line deactivation. */
+    NRF_UART_EVENT_RXDRDY = 2,//offsetof(NRF_UART_Type, EVENTS_RXDRDY),/**< Event from data ready in RXD. */
+    NRF_UART_EVENT_TXDRDY = 3,//offsetof(NRF_UART_Type, EVENTS_TXDRDY),/**< Event from data sent from TXD. */
+    NRF_UART_EVENT_ERROR  = 4,//offsetof(NRF_UART_Type, EVENTS_ERROR), /**< Event from error detection. */
+    NRF_UART_EVENT_RXTO   = 5,//offsetof(NRF_UART_Type, EVENTS_RXTO)   /**< Event from receiver timeout. */
 } nrf_uart_event_t;
 
 /** @brief UART interrupts. */
@@ -92,21 +92,19 @@ typedef enum
 /** @brief Baudrates supported by UART. */
 typedef enum
 {
-    NRF_UART_BAUDRATE_1200    = UART_BAUDRATE_BAUDRATE_Baud1200,   /**< 1200 baud. */
     NRF_UART_BAUDRATE_2400    = UART_BAUDRATE_BAUDRATE_Baud2400,   /**< 2400 baud. */
     NRF_UART_BAUDRATE_4800    = UART_BAUDRATE_BAUDRATE_Baud4800,   /**< 4800 baud. */
     NRF_UART_BAUDRATE_9600    = UART_BAUDRATE_BAUDRATE_Baud9600,   /**< 9600 baud. */
     NRF_UART_BAUDRATE_14400   = UART_BAUDRATE_BAUDRATE_Baud14400,  /**< 14400 baud. */
     NRF_UART_BAUDRATE_19200   = UART_BAUDRATE_BAUDRATE_Baud19200,  /**< 19200 baud. */
-    NRF_UART_BAUDRATE_28800   = UART_BAUDRATE_BAUDRATE_Baud28800,  /**< 28800 baud. */
-    NRF_UART_BAUDRATE_31250   = UART_BAUDRATE_BAUDRATE_Baud31250,  /**< 31250 baud. */
+
     NRF_UART_BAUDRATE_38400   = UART_BAUDRATE_BAUDRATE_Baud38400,  /**< 38400 baud. */
-    NRF_UART_BAUDRATE_56000   = UART_BAUDRATE_BAUDRATE_Baud56000,  /**< 56000 baud. */
+
     NRF_UART_BAUDRATE_57600   = UART_BAUDRATE_BAUDRATE_Baud57600,  /**< 57600 baud. */
-    NRF_UART_BAUDRATE_76800   = UART_BAUDRATE_BAUDRATE_Baud76800,  /**< 76800 baud. */
+
     NRF_UART_BAUDRATE_115200  = UART_BAUDRATE_BAUDRATE_Baud115200, /**< 115200 baud. */
     NRF_UART_BAUDRATE_230400  = UART_BAUDRATE_BAUDRATE_Baud230400, /**< 230400 baud. */
-    NRF_UART_BAUDRATE_250000  = UART_BAUDRATE_BAUDRATE_Baud250000, /**< 250000 baud. */
+
     NRF_UART_BAUDRATE_460800  = UART_BAUDRATE_BAUDRATE_Baud460800, /**< 460800 baud. */
     NRF_UART_BAUDRATE_921600  = UART_BAUDRATE_BAUDRATE_Baud921600, /**< 921600 baud. */
     NRF_UART_BAUDRATE_1000000 = UART_BAUDRATE_BAUDRATE_Baud1M,     /**< 1000000 baud. */
@@ -154,16 +152,6 @@ __STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_
  */
 __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event);
 
-/**
- * @brief Function for returning the address of the specified UART event register.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Desired event.
- *
- * @return Address of the specified event register.
- */
-__STATIC_INLINE uint32_t nrf_uart_event_address_get(NRF_UART_Type  * p_reg,
-                                                    nrf_uart_event_t event);
 
 /**
  * @brief Function for enabling the specified interrupt.
@@ -310,15 +298,7 @@ __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd);
  */
 __STATIC_INLINE void nrf_uart_task_trigger(NRF_UART_Type * p_reg, nrf_uart_task_t task);
 
-/**
- * @brief Function for returning the address of the specified task register.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- * @param task  Task.
- *
- * @return Task address.
- */
-__STATIC_INLINE uint32_t nrf_uart_task_address_get(NRF_UART_Type * p_reg, nrf_uart_task_t task);
+
 
 /**
  * @brief Function for configuring UART.
@@ -344,7 +324,7 @@ __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type * p_reg, nrf_uart_baudr
 
 __STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_t event)
 {
-    *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
+   // *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
 #if __CORTEX_M == 0x04
     volatile uint32_t dummy = *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event));
     (void)dummy;
@@ -353,59 +333,74 @@ __STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_
 
 __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event)
 {
-    return (bool)*(volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
+		switch(event)
+		{
+			case NRF_UART_EVENT_RXDRDY:
+			{
+				return p_reg->TSR & 0X01;
+			}break;
+			
+			case NRF_UART_EVENT_ERROR:
+			{
+				return p_reg->IIR_FCR.IIR  & 0X06;
+			}break;
+			
+			case NRF_UART_EVENT_RXTO:
+			{
+				return p_reg->IIR_FCR.IIR  & 0X0C;
+			}break;
+			
+			default:break;
+		}
+    return 0;//(bool)*(volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
 }
 
-__STATIC_INLINE uint32_t nrf_uart_event_address_get(NRF_UART_Type  * p_reg,
-                                                    nrf_uart_event_t event)
-{
-    return (uint32_t)((uint8_t *)p_reg + (uint32_t)event);
-}
+
 
 __STATIC_INLINE void nrf_uart_int_enable(NRF_UART_Type * p_reg, uint32_t mask)
 {
-    p_reg->INTENSET = mask;
+   // p_reg->INTENSET = mask;
 }
 
 __STATIC_INLINE bool nrf_uart_int_enable_check(NRF_UART_Type * p_reg, uint32_t mask)
 {
-    return (bool)(p_reg->INTENSET & mask);
+    return (bool)0;//(p_reg->INTENSET & mask);
 }
 
 __STATIC_INLINE void nrf_uart_int_disable(NRF_UART_Type * p_reg, uint32_t mask)
 {
-    p_reg->INTENCLR = mask;
+  //  p_reg->INTENCLR = mask;
 }
 
 __STATIC_INLINE uint32_t nrf_uart_errorsrc_get_and_clear(NRF_UART_Type * p_reg)
 {
-    uint32_t errsrc_mask = p_reg->ERRORSRC;
-    p_reg->ERRORSRC = errsrc_mask;
+    uint32_t errsrc_mask = 0;//p_reg->ERRORSRC;
+  //  p_reg->ERRORSRC = errsrc_mask;
     return errsrc_mask;
 }
 
 __STATIC_INLINE void nrf_uart_enable(NRF_UART_Type * p_reg)
 {
-    p_reg->ENABLE = UART_ENABLE_ENABLE_Enabled;
+   // p_reg->ENABLE = UART_ENABLE_ENABLE_Enabled;
 }
 
 __STATIC_INLINE void nrf_uart_disable(NRF_UART_Type * p_reg)
 {
-    p_reg->ENABLE = UART_ENABLE_ENABLE_Disabled;
+   // p_reg->ENABLE = UART_ENABLE_ENABLE_Disabled;
 }
 
 __STATIC_INLINE void nrf_uart_txrx_pins_set(NRF_UART_Type * p_reg, uint32_t pseltxd, uint32_t pselrxd)
 {
-#if defined(UART_PSEL_RXD_CONNECT_Pos)
-    p_reg->PSEL.RXD = pselrxd;
-#else
-    p_reg->PSELRXD = pselrxd;
-#endif
-#if defined(UART_PSEL_TXD_CONNECT_Pos)
-    p_reg->PSEL.TXD = pseltxd;
-#else
-    p_reg->PSELTXD = pseltxd;
-#endif
+//#if defined(UART_PSEL_RXD_CONNECT_Pos)
+//    p_reg->PSEL.RXD = pselrxd;
+//#else
+//    p_reg->PSELRXD = pselrxd;
+//#endif
+//#if defined(UART_PSEL_TXD_CONNECT_Pos)
+//    p_reg->PSEL.TXD = pseltxd;
+//#else
+//    p_reg->PSELTXD = pseltxd;
+//#endif
 }
 
 __STATIC_INLINE void nrf_uart_txrx_pins_disconnect(NRF_UART_Type * p_reg)
@@ -415,53 +410,57 @@ __STATIC_INLINE void nrf_uart_txrx_pins_disconnect(NRF_UART_Type * p_reg)
 
 __STATIC_INLINE uint32_t nrf_uart_tx_pin_get(NRF_UART_Type * p_reg)
 {
-#if defined(UART_PSEL_TXD_CONNECT_Pos)
-    return p_reg->PSEL.TXD;
-#else
-    return p_reg->PSELTXD;
-#endif
+//#if defined(UART_PSEL_TXD_CONNECT_Pos)
+//    return p_reg->PSEL.TXD;
+//#else
+//    return p_reg->PSELTXD;
+//#endif
+	return 0;
 }
 
 __STATIC_INLINE uint32_t nrf_uart_rx_pin_get(NRF_UART_Type * p_reg)
 {
-#if defined(UART_PSEL_RXD_CONNECT_Pos)
-    return p_reg->PSEL.RXD;
-#else
-    return p_reg->PSELRXD;
-#endif
+//#if defined(UART_PSEL_RXD_CONNECT_Pos)
+//    return p_reg->PSEL.RXD;
+//#else
+//    return p_reg->PSELRXD;
+//#endif
+	return 1;
 }
 
 __STATIC_INLINE uint32_t nrf_uart_rts_pin_get(NRF_UART_Type * p_reg)
 {
-#if defined(UART_PSEL_RTS_CONNECT_Pos)
-    return p_reg->PSEL.RTS;
-#else
-    return p_reg->PSELRTS;
-#endif
+//#if defined(UART_PSEL_RTS_CONNECT_Pos)
+//    return p_reg->PSEL.RTS;
+//#else
+//    return p_reg->PSELRTS;
+//#endif
+	return 2;
 }
 
 __STATIC_INLINE uint32_t nrf_uart_cts_pin_get(NRF_UART_Type * p_reg)
 {
-#if defined(UART_PSEL_RTS_CONNECT_Pos)
-    return p_reg->PSEL.CTS;
-#else
-    return p_reg->PSELCTS;
-#endif
+//#if defined(UART_PSEL_RTS_CONNECT_Pos)
+//    return p_reg->PSEL.CTS;
+//#else
+//    return p_reg->PSELCTS;
+//#endif
+	return 3;
 }
 
 __STATIC_INLINE void nrf_uart_hwfc_pins_set(NRF_UART_Type * p_reg, uint32_t pselrts, uint32_t pselcts)
 {
-#if defined(UART_PSEL_RTS_CONNECT_Pos)
-    p_reg->PSEL.RTS = pselrts;
-#else
-    p_reg->PSELRTS = pselrts;
-#endif
+//#if defined(UART_PSEL_RTS_CONNECT_Pos)
+//    p_reg->PSEL.RTS = pselrts;
+//#else
+//    p_reg->PSELRTS = pselrts;
+//#endif
 
-#if defined(UART_PSEL_RTS_CONNECT_Pos)
-    p_reg->PSEL.CTS = pselcts;
-#else
-    p_reg->PSELCTS = pselcts;
-#endif
+//#if defined(UART_PSEL_RTS_CONNECT_Pos)
+//    p_reg->PSEL.CTS = pselcts;
+//#else
+//    p_reg->PSELCTS = pselcts;
+//#endif
 }
 
 __STATIC_INLINE void nrf_uart_hwfc_pins_disconnect(NRF_UART_Type * p_reg)
@@ -471,34 +470,45 @@ __STATIC_INLINE void nrf_uart_hwfc_pins_disconnect(NRF_UART_Type * p_reg)
 
 __STATIC_INLINE uint8_t nrf_uart_rxd_get(NRF_UART_Type * p_reg)
 {
-    return p_reg->RXD;
+		uint8_t c;
+		c = p_reg->RBR_THR_DLL.RBR;
+	
+	return c;
+  //  return p_reg->RBR_THR_DLL.RBR;
 }
 
 __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd)
 {
-    p_reg->TXD = txd;
+		p_reg->RBR_THR_DLL.THR = txd;
 }
 
 __STATIC_INLINE void nrf_uart_task_trigger(NRF_UART_Type * p_reg, nrf_uart_task_t task)
 {
-    *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)task)) = 0x1UL;
+   // *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)task)) = 0x1UL;
 }
 
-__STATIC_INLINE uint32_t nrf_uart_task_address_get(NRF_UART_Type * p_reg, nrf_uart_task_t task)
-{
-    return (uint32_t)p_reg + (uint32_t)task;
-}
-
+  void	Init_uart_config(uint32_t	ch , uint32_t	baud)  ;
+	  void	Init_uart_baud(uint32_t	ch , uint32_t	baud) ;
 __STATIC_INLINE void nrf_uart_configure(NRF_UART_Type   * p_reg,
                                             nrf_uart_parity_t parity,
                                             nrf_uart_hwfc_t   hwfc)
 {
-    p_reg->CONFIG = (uint32_t)parity | (uint32_t)hwfc;
-}
-
+  //  p_reg->CONFIG = (uint32_t)parity | (uint32_t)hwfc;
+	p_reg->TCR &= ~(0x01 << 3);
+	p_reg->MCR &= ~(0x01 << 5);
+	p_reg->TCR |= (0x03 << 0);
+	p_reg->IIR_FCR.FCR = 0XB7;
+	
+	
+//	Init_uart_config(1,0);
+} 
 __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type   * p_reg, nrf_uart_baudrate_t baudrate)
 {
-    p_reg->BAUDRATE = baudrate;
+   p_reg->TCR |= (0x01 << 7);
+	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f;
+	 p_reg->IER_DLH.DLH = 0;
+	 p_reg->TCR &= ~(0x01 << 7);
+	//Init_uart_baud(1,baudrate);
 }
 #endif //SUPPRESS_INLINE_IMPLEMENTATION
 

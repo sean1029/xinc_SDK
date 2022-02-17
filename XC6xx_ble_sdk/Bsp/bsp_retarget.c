@@ -8,6 +8,7 @@
 void 	retarget_init(void)
 {  
 #if	(__DEBUG_OUT_PORT == 1)
+		#define CPR_GPIO_FUN_SEL5        ((volatile unsigned *)(0x40000000 + 0x0d4))
         unsigned	int	val;
 		//- uart1 clk	
 		*((unsigned	int volatile*)0x40000070) = 0x200020;

@@ -247,13 +247,45 @@ typedef struct {                                /*!< (@ 0x40006000) GPIOTE Struc
 /* =========================================================================================================================== */
 
 
+
+typedef union
+{
+		__IM      uint32_t      RBR;
+		__OM      uint32_t      THR;
+	 __IOM      uint32_t      DLL;
+} REG0;
+   
+typedef union
+{
+	 __IOM      uint32_t      IER;
+	 __IOM      uint32_t      DLH;
+} REG1;
+
+typedef union
+{
+			 __IM      uint32_t      IIR;
+			 __OM      uint32_t      FCR;
+} REG2;
+
+typedef struct {                                /*!< (@ 0x40011000) UART1 Structure                                            */
+   REG0  RBR_THR_DLL;                                  
+   REG1  IER_DLH;                                                         
+   REG2  IIR_FCR;                
+  __IOM  uint32_t  TCR;                
+  __IOM  uint32_t  MCR;
+  __IM  uint32_t  TSR;               
+  __IM  uint32_t  MSR;
+  __IM  uint32_t  USR;
+
+} NRF_UART_Type;  
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
 #define NRF_P0_BASE                 0x40001000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
 #define NRF_GPIOTE_BASE             0x40006000UL
-
+#define NRF_UART0_BASE              0x40010000UL
+#define NRF_UART1_BASE              0x40011000UL
 
 
 /* =========================================================================================================================== */
@@ -267,7 +299,8 @@ typedef struct {                                /*!< (@ 0x40006000) GPIOTE Struc
 #define NRF_P0                      ((NRF_GPIO_Type*)          NRF_P0_BASE)
 #define NRF_CPR_AO               		((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
 #define NRF_GPIOTE                  ((NRF_GPIOTE_Type*)        NRF_GPIOTE_BASE)
-
+#define NRF_UART0                    ((NRF_UART_Type*)        NRF_UART0_BASE)
+#define NRF_UART1                    ((NRF_UART_Type*)        NRF_UART1_BASE)
 #ifdef __cplusplus
 }
 #endif

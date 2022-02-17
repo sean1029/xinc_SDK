@@ -22,8 +22,29 @@ gpio_config_t		gpio_mux_config	 = {
 		.mux2_ctl.pad2.gpio19 = 0,	.mux2_ctl.pad2.gpio18 = 0,	.mux2_ctl.pad2.gpio17 = 0,	.mux2_ctl.pad2.gpio16 = 0
 };
 
-
-
+/* ---------------------------------------------------------------------------------------------------
+- 		用户配置如下系统IO的输入/输出 (0:输入1:输出)
+----------------------------------------------------------------------------------------------------*/
+dir_config_t	dir_config	= {
+			.pad.gpio31 = 0,	.pad.gpio30 = 0,	.pad.gpio29 = 0,	.pad.gpio28 = 1,	.pad.gpio27 = 1,	.pad.gpio26 = 1,	.pad.gpio25 = 0,	.pad.gpio24 = 0,
+			.pad.gpio23 = 0,	.pad.gpio22 = 0,	.pad.gpio21 = 0,	.pad.gpio20= 0,		.pad.gpio19 = 0,	.pad.gpio18 = 0,	.pad.gpio17 = 0,	.pad.gpio16 = 0,	
+			.pad.gpio15 = 0,	.pad.gpio14 = 0,	.pad.gpio13 = 0,	.pad.gpio12 = 0,	.pad.gpio11 = 0,	.pad.gpio10 = 0,	.pad.gpio9 = 0,		.pad.gpio8 = 0,
+			.pad.gpio7 = 0,		.pad.gpio6 = 0,		.pad.gpio5 = 0,		.pad.gpio4 = 0,		.pad.gpio3 = 0,		.pad.gpio2 = 0,		.pad.gpio1 = 0,		.pad.gpio0 = 0
+};
+/* ---------------------------------------------------------------------------------------------------
+- 	用户配置IO上下拉
+----------------------------------------------------------------------------------------------------*/
+pupd_config_t		pupd_config = {
+			.CTL_PECTL1.pad.GPIO15 = 0, .CTL_PECTL1.pad.GPIO14 = 0,	.CTL_PECTL1.pad.GPIO13 = 0,	.CTL_PECTL1.pad.GPIO12 = 3,	
+			.CTL_PECTL1.pad.GPIO11 = 3,	.CTL_PECTL1.pad.GPIO10 = 3,	.CTL_PECTL1.pad.GPIO9 = 3,	.CTL_PECTL1.pad.GPIO8 = 3,
+			.CTL_PECTL1.pad.GPIO7 = 3,	.CTL_PECTL1.pad.GPIO6 = 3,	.CTL_PECTL1.pad.GPIO5 = 3,	.CTL_PECTL1.pad.GPIO4 = 0,	
+			.CTL_PECTL1.pad.GPIO3 = 0,	.CTL_PECTL1.pad.GPIO2 = 0,	.CTL_PECTL1.pad.GPIO1 = 0,	.CTL_PECTL1.pad.GPIO0 = 0,
+    
+			.CTL_PECTL2.pad.SWD = 3,	.CTL_PECTL2.pad.SWCK = 3,	.CTL_PECTL2.pad.BOOTCTL = 0,	.CTL_PECTL2.pad.GPIO28 = 0,	
+			.CTL_PECTL2.pad.GPIO27 = 0,	.CTL_PECTL2.pad.GPIO26 = 0,	.CTL_PECTL2.pad.GPIO25 = 0,	    .CTL_PECTL2.pad.GPIO24 = 1,
+			.CTL_PECTL2.pad.GPIO23 = 0,	.CTL_PECTL2.pad.GPIO22 = 3,	.CTL_PECTL2.pad.GPIO21 = 3,	    .CTL_PECTL2.pad.GPIO20 = 3,	
+			.CTL_PECTL2.pad.GPIO19 = 3,	.CTL_PECTL2.pad.GPIO18 = 3,	.CTL_PECTL2.pad.GPIO17 = 3,     .CTL_PECTL2.pad.GPIO16 = 0
+};
 
 /* ------------------------------------------------------------------------------------------------------------------
 - 用户配置如下IO复用控制 - 
@@ -34,7 +55,7 @@ gpio_config_t		gpio_mux_config	 = {
 gpio_fun_sel_config_t   gpio_fun_sel_config = {
         
 /*CPR_GPIO_FUN_SEL0*/.fun_sel0.bits.b0004= GPIO_Dx,/*GPIO 0*/.fun_sel0.bits.b0812= GPIO_Dx,/*GPIO 1*/.fun_sel0.bits.b1620= GPIO_Dx,/*GPIO 2*/.fun_sel0.bits.b2428= GPIO_Dx,/*GPIO 3*/
-/*CPR_GPIO_FUN_SEL1*/.fun_sel1.bits.b0004= GPIO_Dx,/*GPIO 4*/.fun_sel1.bits.b0812= GPIO_Dx,/*GPIO 5*/.fun_sel1.bits.b1620= GPIO_Dx,/*GPIO 6*/.fun_sel1.bits.b2428= GPIO_Dx,/*GPIO 7*/    
+/*CPR_GPIO_FUN_SEL1*/.fun_sel1.bits.b0004= GPIO_Dx,/*GPIO 4*/.fun_sel1.bits.b0812= GPIO_Dx,/*GPIO 5*/.fun_sel1.bits.b1620= UART1_TX,/*GPIO 6*/.fun_sel1.bits.b2428= UART1_RX,/*GPIO 7*/    
 /*CPR_GPIO_FUN_SEL2*/.fun_sel2.bits.b0004= GPIO_Dx,/*GPIO 8*/.fun_sel2.bits.b0812= GPIO_Dx,/*GPIO 9*/.fun_sel2.bits.b1620= GPIO_Dx,/*GPIO10*/.fun_sel2.bits.b2428= GPIO_Dx,/*GPIO11*/
 /*CPR_GPIO_FUN_SEL3*/.fun_sel3.bits.b0004= GPIO_Dx,/*GPIO12*/.fun_sel3.bits.b0812= GPIO_Dx,/*GPIO13*/.fun_sel3.bits.b1620= GPIO_Dx,/*GPIO14*/.fun_sel3.bits.b2428= GPIO_Dx,/*GPIO15*/
 /*CPR_GPIO_FUN_SEL4*/.fun_sel4.bits.b0004= GPIO_Dx,/*GPIO16*/.fun_sel4.bits.b0812= GPIO_Dx,/*GPIO17*/.fun_sel4.bits.b1620=UART0_TX,/*GPIO18*/.fun_sel4.bits.b2428=UART0_RX,/*GPIO19*/
@@ -78,6 +99,10 @@ void	Init_gpio(void)
 	__write_hw_reg32(CPR_GPIO_FUN_SEL7 , gpio_fun_sel_config.fun_sel7.config);	
 	__write_hw_reg32(CPR_CTL_MUXCTL1 , gpio_mux_config.mux1_ctl.muxctl1);
 	__write_hw_reg32(CPR_CTL_MUXCTL2 , gpio_mux_config.mux2_ctl.muxctl2);			
+	
+	  __write_hw_reg32(GPIO_PORT_DDR0 , (0xFFFF0000|((dir_config.dir)&0xFFFF)));
+    __write_hw_reg32(GPIO_PORT_DDR1 , (0xFFFF0000|((dir_config.dir)>>16)));
+	
 	__write_hw_reg32(GPIO_INTR_CTRL0 , (0xF0000|(interrupt_config.intr_ctl0.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL1 , (0xF0000|(interrupt_config.intr_ctl1.interrupt)));
 	__write_hw_reg32(GPIO_INTR_CTRL2 , (0xF0000|(interrupt_config.intr_ctl2.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL3 , (0xF0000|(interrupt_config.intr_ctl3.interrupt)));
 	__write_hw_reg32(GPIO_INTR_CTRL4 , (0xF0000|(interrupt_config.intr_ctl4.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL5 , (0xF0000|(interrupt_config.intr_ctl5.interrupt)));

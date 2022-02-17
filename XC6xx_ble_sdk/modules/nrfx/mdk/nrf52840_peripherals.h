@@ -240,7 +240,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /* Universal Asynchronous Receiver-Transmitter */
 #define UART_PRESENT
-#define UART_COUNT 1
+#define UART_COUNT 2
 
 /* Universal Asynchronous Receiver-Transmitter with DMA */
 #define UARTE_PRESENT

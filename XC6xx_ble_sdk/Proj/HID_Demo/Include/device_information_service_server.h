@@ -128,3 +128,4 @@ void device_information_service_server_set_pnp_id(uint8_t vendor_source_id, uint
 #endif
 
 #endif
+

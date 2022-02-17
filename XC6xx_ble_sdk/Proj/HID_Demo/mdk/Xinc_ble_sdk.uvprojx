@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED NRF52840_XXAA BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -564,6 +564,11 @@
               <FileName>skyworth_RC_demo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\skyworth_RC_demo.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_cli.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -825,6 +830,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>bsp_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1015,6 +1025,91 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>uart</GroupName>
+          <Files>
+            <File>
+              <FileName>app_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_uart_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\uart\app_uart_fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>cli</GroupName>
+          <Files>
+            <File>
+              <FileName>cli_utils_cmds.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\nrf_cli.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_cli_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\uart\nrf_cli_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_fprintf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\external\fprintf\nrf_fprintf.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_fprintf_format.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\external\fprintf\nrf_fprintf_format.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\queue\nrf_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_balloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\balloc\nrf_balloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_memobj.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\uart\nrf_drv_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_ringbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrfx_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrfx_uarte.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uarte.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1614,6 +1709,11 @@
               <FileType>1</FileType>
               <FilePath>..\app\skyworth_RC_demo.c</FilePath>
             </File>
+            <File>
+              <FileName>app_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_cli.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1752,6 +1852,11 @@
               <FileName>bsp_spi_master.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_spi_master.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1892,6 +1997,91 @@
               <FileName>app_scheduler_serconn.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\scheduler\app_scheduler_serconn.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>uart</GroupName>
+          <Files>
+            <File>
+              <FileName>app_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_uart_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\uart\app_uart_fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>cli</GroupName>
+          <Files>
+            <File>
+              <FileName>cli_utils_cmds.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_cli.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\nrf_cli.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_cli_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\uart\nrf_cli_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_fprintf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\external\fprintf\nrf_fprintf.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_fprintf_format.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\external\fprintf\nrf_fprintf_format.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\queue\nrf_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_balloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\balloc\nrf_balloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_memobj.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\cli\uart\nrf_drv_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_ringbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrfx_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrfx_uarte.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uarte.c</FilePath>
             </File>
           </Files>
         </Group>

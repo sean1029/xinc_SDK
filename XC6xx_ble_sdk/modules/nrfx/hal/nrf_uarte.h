@@ -59,27 +59,27 @@ extern "C" {
 /** @brief UARTE tasks. */
 typedef enum
 {
-    NRF_UARTE_TASK_STARTRX   = offsetof(NRF_UARTE_Type, TASKS_STARTRX), ///< Start UART receiver.
-    NRF_UARTE_TASK_STOPRX    = offsetof(NRF_UARTE_Type, TASKS_STOPRX),  ///< Stop UART receiver.
-    NRF_UARTE_TASK_STARTTX   = offsetof(NRF_UARTE_Type, TASKS_STARTTX), ///< Start UART transmitter.
-    NRF_UARTE_TASK_STOPTX    = offsetof(NRF_UARTE_Type, TASKS_STOPTX),  ///< Stop UART transmitter.
-    NRF_UARTE_TASK_FLUSHRX   = offsetof(NRF_UARTE_Type, TASKS_FLUSHRX)  ///< Flush RX FIFO in RX buffer.
+    NRF_UARTE_TASK_STARTRX   = 0,//offsetof(NRF_UARTE_Type, TASKS_STARTRX), ///< Start UART receiver.
+    NRF_UARTE_TASK_STOPRX    = 0,////offsetof(NRF_UARTE_Type, TASKS_STOPRX),  ///< Stop UART receiver.
+    NRF_UARTE_TASK_STARTTX   = 0,////offsetof(NRF_UARTE_Type, TASKS_STARTTX), ///< Start UART transmitter.
+    NRF_UARTE_TASK_STOPTX    = 0,////offsetof(NRF_UARTE_Type, TASKS_STOPTX),  ///< Stop UART transmitter.
+    NRF_UARTE_TASK_FLUSHRX   = 0,//,//offsetof(NRF_UARTE_Type, TASKS_FLUSHRX)  ///< Flush RX FIFO in RX buffer.
 } nrf_uarte_task_t;
 
 /** @brief UARTE events. */
 typedef enum
 {
-    NRF_UARTE_EVENT_CTS       = offsetof(NRF_UARTE_Type, EVENTS_CTS),       ///< CTS is activated.
-    NRF_UARTE_EVENT_NCTS      = offsetof(NRF_UARTE_Type, EVENTS_NCTS),      ///< CTS is deactivated.
-    NRF_UARTE_EVENT_RXDRDY    = offsetof(NRF_UARTE_Type, EVENTS_RXDRDY),    ///< Data received in RXD (but potentially not yet transferred to Data RAM).
-    NRF_UARTE_EVENT_ENDRX     = offsetof(NRF_UARTE_Type, EVENTS_ENDRX),     ///< Receive buffer is filled up.
-    NRF_UARTE_EVENT_TXDRDY    = offsetof(NRF_UARTE_Type, EVENTS_TXDRDY),    ///< Data sent from TXD.
-    NRF_UARTE_EVENT_ENDTX     = offsetof(NRF_UARTE_Type, EVENTS_ENDTX),     ///< Last TX byte transmitted.
-    NRF_UARTE_EVENT_ERROR     = offsetof(NRF_UARTE_Type, EVENTS_ERROR),     ///< Error detected.
-    NRF_UARTE_EVENT_RXTO      = offsetof(NRF_UARTE_Type, EVENTS_RXTO),      ///< Receiver timeout.
-    NRF_UARTE_EVENT_RXSTARTED = offsetof(NRF_UARTE_Type, EVENTS_RXSTARTED), ///< Receiver has started.
-    NRF_UARTE_EVENT_TXSTARTED = offsetof(NRF_UARTE_Type, EVENTS_TXSTARTED), ///< Transmitter has started.
-    NRF_UARTE_EVENT_TXSTOPPED = offsetof(NRF_UARTE_Type, EVENTS_TXSTOPPED)  ///< Transmitted stopped.
+    NRF_UARTE_EVENT_CTS       = 0,//offsetof(NRF_UARTE_Type, EVENTS_CTS),       ///< CTS is activated.
+    NRF_UARTE_EVENT_NCTS      = 0,//offsetof(NRF_UARTE_Type, EVENTS_NCTS),      ///< CTS is deactivated.
+    NRF_UARTE_EVENT_RXDRDY    = 0,//offsetof(NRF_UARTE_Type, EVENTS_RXDRDY),    ///< Data received in RXD (but potentially not yet transferred to Data RAM).
+    NRF_UARTE_EVENT_ENDRX     = 0,//offsetof(NRF_UARTE_Type, EVENTS_ENDRX),     ///< Receive buffer is filled up.
+    NRF_UARTE_EVENT_TXDRDY    = 0,//offsetof(NRF_UARTE_Type, EVENTS_TXDRDY),    ///< Data sent from TXD.
+    NRF_UARTE_EVENT_ENDTX     = 0,//offsetof(NRF_UARTE_Type, EVENTS_ENDTX),     ///< Last TX byte transmitted.
+    NRF_UARTE_EVENT_ERROR     = 0,//offsetof(NRF_UARTE_Type, EVENTS_ERROR),     ///< Error detected.
+    NRF_UARTE_EVENT_RXTO      = 0,//offsetof(NRF_UARTE_Type, EVENTS_RXTO),      ///< Receiver timeout.
+    NRF_UARTE_EVENT_RXSTARTED = 0,//offsetof(NRF_UARTE_Type, EVENTS_RXSTARTED), ///< Receiver has started.
+    NRF_UARTE_EVENT_TXSTARTED = 0,//offsetof(NRF_UARTE_Type, EVENTS_TXSTARTED), ///< Transmitter has started.
+    NRF_UARTE_EVENT_TXSTOPPED = 0,//offsetof(NRF_UARTE_Type, EVENTS_TXSTOPPED)  ///< Transmitted stopped.
 } nrf_uarte_event_t;
 
 /** @brief Types of UARTE shortcuts. */

@@ -39,5 +39,5 @@ typedef struct
 
 
 
-
+void	Init_uart_clk(uint32_t	ch , uint32_t	baud);
 #endif

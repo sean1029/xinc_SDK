@@ -45,6 +45,8 @@
 #include "sbc_private.h"
 #include "sbc_primitives.h"
 
+#ifdef SBC_ENABLE
+
 #define SBC_SYNCWORD	0x9C
 
 #define MSBC_SYNCWORD	0xAD
@@ -1538,4 +1540,8 @@ SBC_EXPORT ssize_t sbc_decode(sbc_t *sbc, const void *input, size_t input_len,
 
 	return framelen;
 }
+
+#endif
+
 #endif //SBC_DECODER_EN
+

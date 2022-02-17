@@ -89,7 +89,7 @@ void nrf_nvmc_write_bytes(uint32_t address, const uint8_t * src, uint32_t num_by
 void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_words)
 {
 		printf("%s\r\n",__func__);
-    uint32_t i;
+//    uint32_t i;
 
     // Enable write.
 //    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;

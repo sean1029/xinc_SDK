@@ -176,3 +176,4 @@ hids_device_t * hids_device_get_instance_for_con_handle(uint16_t con_handle);
 #endif
 
 #endif
+

@@ -12,7 +12,7 @@
 #include "bsp_pwm.h"
 #include    "bsp_spi_flash.h"
 #include "nrf_gpio.h"
-
+#include "bsp_uart.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -285,11 +285,10 @@ static btstack_timer_source_t sys_run_timer;
 static void system_run_timer_handler(btstack_timer_source_t * ts){
 
 	static uint8_t on_off = 0;
-	static uint8_t key_dump = 0;
-	
+
+
 	static uint8_t ocpy_ratio = 10;
-	uint8_t led_value = 0;
-	uint8_t led_value1 = 0;
+
 	ocpy_ratio++;
 //	g_sys_time++;
 	if(ocpy_ratio >= 99)
@@ -300,18 +299,17 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 	if(on_off == 0)
 	{
 		
-	//	GPIO_OUTPUT_HIGH(LED1);
+		GPIO_OUTPUT_HIGH(4);
 	//	nrf_gpio_pin_set(LED1);
 		on_off = 1;
 	//	led_value = nrf_gpio_pin_read(LED1);
-		led_value = nrf_gpio_pin_read(0);
-		led_value1 = nrf_gpio_pin_read(1);
+
 	//	printf("led_value:%d,led_value1:%d\n",led_value,led_value1);
 	}else
 	{
 	
 		
-	//	GPIO_OUTPUT_LOW(LED1);
+		GPIO_OUTPUT_LOW(4);
 	//	nrf_gpio_pin_clear(LED1);
 		on_off = 0;
 	//	printf("LED1 ON\n");
@@ -383,28 +381,129 @@ static void scheduler_init(void)
 {
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
+#include "nrf_cli_uart.h"
+#include "nrf_cli.h"
+#include "app_uart.h"
+
+NRF_CLI_UART_DEF(cli_uart, 1, 64, 64);
+NRF_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
+
+void cli_init(void)
+{
+
+    nrf_drv_uart_config_t uart_config;
+    uart_config.pseltxd = TX_PIN_NUMBER;
+    uart_config.pselrxd = RX_PIN_NUMBER;
+		uart_config.hwfc    = NRF_UART_HWFC_DISABLED;
+		uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
+	
+    ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, NRF_LOG_SEVERITY_NONE);
+    APP_ERROR_CHECK(err_code);
+}
+
+//void uart_event_handle(app_uart_evt_t * p_event)
+//{
+//    static uint8_t data_array[20];
+//    static uint16_t index = 0;
+//    uint32_t ret_val;
+//	uint32_t err_code;
+//	int i = 0;
+//	//  printf("uart_event_handle ,evt_type:%d\r\n",p_event->evt_type);
+//    switch (p_event->evt_type)
+//    {
+//        /**@snippet [Handling data from UART] */
+//        case APP_UART_DATA_READY:
+//            UNUSED_VARIABLE(app_uart_get(&data_array[0]));
+//            index++;
+//						app_uart_get(&data_array[0]);
+//					//	printf("Data:%c\r\n",data_array[0]);
+//					//	for( i = 0; i< 16;i++)
+//						{
+//								err_code = app_uart_put(data_array[0] + 0);
+//								if(err_code != 0)
+//								{
+//									break;
+//								}
+//						}
+//					//	printf("uart_put %d data\r\n",i);	
+//            index = 0;
+//            
+//            break;
+
+//        /**@snippet [Handling data from UART] */
+//        case APP_UART_COMMUNICATION_ERROR:
+//         
+//            break;
+
+//        case APP_UART_FIFO_ERROR:
+//         
+//            break;
+//				
+//				case APP_UART_DATA:
+//						app_uart_get(&data_array[0]);
+//				//	  printf("data:%c \r\n",data_array[0]);
+//				app_uart_put(data_array[0]);
+//            break;
+
+//        default:
+//            break;
+//    }
+//}
+
+
+//#define UART_TX_BUF_SIZE        64                                     /**< UART TX buffer size. */
+//#define UART_RX_BUF_SIZE        64                                     /**< UART RX buffer size. */
+//static void uart_init(void)
+//{
+//    ret_code_t err_code;
+
+//    app_uart_comm_params_t const comm_params =
+//    {
+//        .rx_pin_no    = RX_PIN_NUMBER,
+//        .tx_pin_no    = TX_PIN_NUMBER,
+//        .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
+//        .use_parity   = false,
+//        .baud_rate    = UART_BAUDRATE_BAUDRATE_Baud115200
+//    };
+
+//    APP_UART_FIFO_INIT(&comm_params,
+//                       UART_RX_BUF_SIZE,
+//                       UART_TX_BUF_SIZE,
+//                       uart_event_handle,
+//                       APP_IRQ_PRIORITY_LOWEST,
+//                       err_code);
+
+//    APP_ERROR_CHECK(err_code);
+//}
+
+
+void ff11_test_loop(void);
+#include "nrfx_gpiote.h"
 int	main(void)
 {
-	int codesize = 0;
-	unsigned char *inp, *outp;
-	ssize_t encoded;
-	size_t decoded;
-	ssize_t len;
-	ssize_t outp_len;
-	int framelen;
+
+
+	//ssize_t encoded;
+
+
+
+
 	set_bd_addr();
+
+
+	
+//	printf("%s\r\n",__func__);
+
   ble_init((void *)&blestack_init);
 
 	btstack_main();
 	scheduler_init();
 	app_timer_init();
-	key_init();
-	//buttons_init();
-	
-	bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
-		uint32_t idx = 0;
-	
-	uint32_t value ;
+		key_init();
+	//nrfx_gpiote_init();
+	nrf_gpio_cfg_output(5);
+	nrf_gpio_cfg_output(4);
+	//  bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
 
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
@@ -420,11 +519,14 @@ int	main(void)
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
 #ifdef SBC_ENABLE
+	int codesize = 0;
 	sbc_init_msbc(&sbc, 0);
 	codesize = sbc_get_codesize(&sbc);
 #endif
 
 #if SBC_DECODER_EN
+	int framelen;
+	size_t decoded;
 	framelen = sbc_decode(&sbc, output, 57, input, 240, &decoded);
 	printf("decoded:%d,framelen:%d\n",decoded,framelen);
 	sbc_enc_params_print(input,240);
@@ -433,12 +535,28 @@ int	main(void)
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
 	
+	
+	
 
-void ff11_test_loop(void);
 
 
+	gpio_mux_ctl(0,2);
+//	gpio_fun_sel(0,12);//pwm0
+	gpio_fun_inter(0,0);
+	gpio_direction_output(0);
+	
+	xc_pwm_init(2,10,159);
+//	Init_uart(1,BAUD_115200);
+//	uart_init();
+
+//	uart_init();
+	cli_init();
+	//	Uart_Send_String(1, "hello---1\n ");
+	printf("\r\n cli_init ok!!!\r\n");
+	nrf_cli_start(&m_cli_uart);
 
     while(1) {
+			nrf_cli_process(&m_cli_uart);
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{
@@ -451,6 +569,16 @@ void ff11_test_loop(void);
        if(LastTimeGulSystickCount!=GulSystickCount)//10ms÷¥––“ª¥Œ
 	   {		   
 		   LastTimeGulSystickCount=GulSystickCount;
+//			 if(LastTimeGulSystickCount % 100 == 0)
+//			 {
+//					GPIO_OUTPUT_HIGH(5);
+//			 }
+//			 
+//			 if(LastTimeGulSystickCount % 100 == 50)
+//			 {
+//					GPIO_OUTPUT_LOW(5);
+//			 }
+			
 		 //  key_press();
 			// xc620_kbs_scan();
 	   }		   
@@ -462,7 +590,7 @@ void ff11_test_loop(void);
 #if 1
 void sbc_enc_params_print(uint8_t *out_put,uint16_t len)
 {
-	int i = 0, j = 0;
+	int i = 0;
 	for(i = 0;i < len; i++ )
 	{
 		printf("0x%02x, ",out_put[i]);
