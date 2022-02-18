@@ -278,6 +278,71 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
   __IM  uint32_t  USR;
 
 } NRF_UART_Type;  
+
+
+/* =========================================================================================================================== */
+/* ================                                         SPIM0_NS                                          ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief Serial Peripheral Interface Master with EasyDMA 0 (SPIM0_NS)
+  */
+/**
+  * @brief SPIM_PSEL [PSEL] (Unspecified)
+  */
+typedef struct {
+  __IOM uint32_t  SCK;                          /*!< (@ 0x00000000) Pin select for SCK                                         */
+  __IOM uint32_t  MOSI;                         /*!< (@ 0x00000004) Pin select for MOSI signal                                 */
+  __IOM uint32_t  MISO;                         /*!< (@ 0x00000008) Pin select for MISO signal                                 */
+} SPIM_PSEL_Type;  
+/**
+  * @brief SPIM_RXD [RXD] (RXD EasyDMA channel)
+  */
+typedef struct {
+  __IOM uint32_t  PTR;                          /*!< (@ 0x00000000) Data pointer                                               */
+  __IOM uint32_t  MAXCNT;                       /*!< (@ 0x00000004) Maximum number of bytes in receive buffer                  */
+  __IM  uint32_t  AMOUNT;                       /*!< (@ 0x00000008) Number of bytes transferred in the last transaction        */
+  __IOM uint32_t  LIST;                         /*!< (@ 0x0000000C) EasyDMA list type                                          */
+} SPIM_RXD_Type;                                /*!< Size = 16 (0x10)                                                          */
+
+
+/**
+  * @brief SPIM_TXD [TXD] (TXD EasyDMA channel)
+  */
+typedef struct {
+  __IOM uint32_t  PTR;                          /*!< (@ 0x00000000) Data pointer                                               */
+  __IOM uint32_t  MAXCNT;                       /*!< (@ 0x00000004) Maximum number of bytes in transmit buffer                 */
+  __IM  uint32_t  AMOUNT;                       /*!< (@ 0x00000008) Number of bytes transferred in the last transaction        */
+  __IOM uint32_t  LIST;                         /*!< (@ 0x0000000C) EasyDMA list type                                          */
+} SPIM_TXD_Type;     
+
+typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Structure                                         */
+  __IOM  uint32_t  CTRL0;
+	__IOM  uint32_t  CTRL1;
+	__IOM  uint32_t  EN;
+	__IOM  uint32_t  SE;
+	__IOM  uint32_t  BAUD;
+	__IOM  uint32_t  TXFLT;
+	__IOM  uint32_t  RXFLT;
+	__IM  uint32_t  TXFL;
+	__IM  uint32_t  RXFL;
+	__IM  uint32_t  STS;
+	__IOM  uint32_t  IE;
+	__IM  uint32_t  IS;
+	__IM  uint32_t  RIS;
+	__IM  uint32_t  TXOIC;
+	__IM  uint32_t  RXOIC;
+	__IM  uint32_t  RXUIC;
+	__IM  uint32_t  RESERVED;
+	__IM  uint32_t  IC;
+	__IOM  uint32_t DMAS;
+	__IOM  uint32_t DMATDL;
+	__IOM  uint32_t DMARDL;
+	__IM  uint32_t  RESERVED1[2];
+	__IOM  uint32_t DATA;
+} NRF_SPIM_Type;                               
+
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
@@ -286,7 +351,7 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
 #define NRF_GPIOTE_BASE             0x40006000UL
 #define NRF_UART0_BASE              0x40010000UL
 #define NRF_UART1_BASE              0x40011000UL
-
+#define NRF_SPIM1_BASE              0x40014000UL
 
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
@@ -296,11 +361,12 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
 /** @addtogroup Device_Peripheral_declaration
   * @{
   */
-#define NRF_P0                      ((NRF_GPIO_Type*)          NRF_P0_BASE)
-#define NRF_CPR_AO               		((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
-#define NRF_GPIOTE                  ((NRF_GPIOTE_Type*)        NRF_GPIOTE_BASE)
-#define NRF_UART0                    ((NRF_UART_Type*)        NRF_UART0_BASE)
-#define NRF_UART1                    ((NRF_UART_Type*)        NRF_UART1_BASE)
+#define NRF_P0                       ((NRF_GPIO_Type*)            NRF_P0_BASE)
+#define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
+#define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          NRF_GPIOTE_BASE)
+#define NRF_UART0                    ((NRF_UART_Type*)            NRF_UART0_BASE)
+#define NRF_UART1                    ((NRF_UART_Type*)            NRF_UART1_BASE)
+#define NRF_SPIM1										 ((NRF_SPIM_Type*)            NRF_SPIM1_BASE)
 #ifdef __cplusplus
 }
 #endif

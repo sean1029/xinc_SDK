@@ -180,12 +180,12 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define TEMP_COUNT 1
 
 /* Serial Peripheral Interface Master */
-#define SPI_PRESENT
-#define SPI_COUNT 3
+//#define SPI_PRESENT
+//#define SPI_COUNT 3
 
 /* Serial Peripheral Interface Master with DMA */
 #define SPIM_PRESENT
-#define SPIM_COUNT 4
+#define SPIM_COUNT 2
 
 #define SPIM0_MAX_DATARATE  8
 #define SPIM1_MAX_DATARATE  8

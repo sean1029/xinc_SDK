@@ -1113,6 +1113,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>spi</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_spim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\nrfx\nrf_drv_spi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2082,6 +2097,21 @@
               <FileName>nrfx_uarte.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uarte.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>spi</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_spim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\nrfx\nrf_drv_spi.c</FilePath>
             </File>
           </Files>
         </Group>

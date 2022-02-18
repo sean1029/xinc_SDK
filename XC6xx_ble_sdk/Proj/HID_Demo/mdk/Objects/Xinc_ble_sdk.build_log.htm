@@ -22,130 +22,12 @@ Dialog DLL:      TARMCM1.DLL V1.14.2.0
  
 <h2>Project:</h2>
 D:\work\git_work\XC6xx\XC6xx_ble_sdk\Proj\HID_Demo\mdk\Xinc_ble_sdk.uvprojx
-Project File Date:  02/17/2022
+Project File Date:  02/18/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'ble-fullstack'
-compiling core_cm0.c...
-assembling startup_xinc.s...
-compiling battery_service_server.c...
-compiling system_xinc.c...
-compiling voice_ringbuf.c...
-compiling FF10_service_server.c...
-..\app\FF10_service_server.c(23): warning:  #177-D: variable "customer_value_A"  was declared but never referenced
-  static uint8_t 	customer_value_A[CUSTOMER_VALUE_LEN];
-..\app\FF10_service_server.c(47): warning:  #177-D: variable "packet_handler"  was declared but never referenced
-  static btstack_packet_handler_t packet_handler;
-..\app\FF10_service_server.c: 2 warnings, 0 errors
-compiling device_information_service_server.c...
-compiling ble_idle.c...
-..\..\..\Bsp\ble_idle.c(20): warning:  #223-D: function "Timer_disable" declared implicitly
-      Timer_disable(1);
-..\..\..\Bsp\ble_idle.c(38): warning:  #223-D: function "Timer_Register_Callback" declared implicitly
-  	  Timer_Register_Callback(system_wakeup, 1);
-..\..\..\Bsp\ble_idle.c(49): warning:  #223-D: function "ble_lowpower_remaining_clock" declared implicitly
-          VAL = ble_lowpower_remaining_clock(0);
-..\..\..\Bsp\ble_idle.c(66): warning:  #223-D: function "timer_current_count" declared implicitly
-  				VAL = timer_current_count(0);
-..\..\..\Bsp\ble_idle.c(87): warning:  #223-D: function "Init_Timer" declared implicitly
-          Init_Timer(1, VAL); 
-..\..\..\Bsp\ble_idle.c(89): warning:  #223-D: function "ble_enter_lowpower" declared implicitly
-          ble_enter_lowpower();
-..\..\..\Bsp\ble_idle.c(109): warning:  #223-D: function "ble_exit_lowpower" declared implicitly
-          ble_exit_lowpower(VAL);
-..\..\..\Bsp\ble_idle.c(47): warning:  #550-D: variable "VAL1"  was set but never used
-          uint32_t    VAL, VAL1;
-..\..\..\Bsp\ble_idle.c: 8 warnings, 0 errors
-compiling hids_device_skyworth.c...
-compiling patch.c...
-compiling xc_kbs_event.c...
-..\app\xc_kbs_event.c(149): warning:  #550-D: variable "emptyBuffer"  was set but never used
-  	int emptyBuffer;
-..\app\xc_kbs_event.c(208): warning:  #177-D: variable "reg_kbs_mtxkey_manual_rowout"  was declared but never referenced
-  	uint32_t    reg_kbs_mtxkey_manual_rowout=0;
-..\app\xc_kbs_event.c(375): warning:  #188-D: enumerated type mixed with another type
-  				key_evt.keyType = keyCode2Type(key_evt.keycode);
-..\app\xc_kbs_event.c(431): warning:  #188-D: enumerated type mixed with another type
-  			key_evt.keyType = keyCode2Type(key_evt.keycode);
-..\app\xc_kbs_event.c(455): warning:  #188-D: enumerated type mixed with another type
-  			key_evt.keyType = keyCode2Type(key_evt.keycode);
-..\app\xc_kbs_event.c(481): warning:  #940-D: missing return statement at end of non-void function "xc620_kbs_scan" 
-  }	
-..\app\xc_kbs_event.c(288): warning:  #550-D: variable "interrupt_bits"  was set but never used
-  	 uint8_t interrupt_bits = 0;
-..\app\xc_kbs_event.c: 7 warnings, 0 errors
-compiling rf_driver.c...
-compiling skyworth_RC_demo.c...
-..\app\skyworth_RC_demo.c(193): warning:  #223-D: function "le_device_db_init" declared implicitly
-      le_device_db_init();
-..\app\skyworth_RC_demo.c(239): warning:  #177-D: function "keycode_and_modifer_us_for_character"  was declared but never referenced
-  static int keycode_and_modifer_us_for_character(uint8_t character, uint8_t * keycode, uint8_t * modifier){
-..\app\skyworth_RC_demo.c(266): warning:  #177-D: variable "send_mediacode1"  was declared but never referenced
-  static int send_mediacode1;
-..\app\skyworth_RC_demo.c(267): warning:  #177-D: variable "send_mediacode2"  was declared but never referenced
-  static int send_mediacode2;
-..\app\skyworth_RC_demo.c: 4 warnings, 0 errors
-compiling bsp_retarget.c...
-compiling bsp_systick.c...
-compiling gatt_client.c...
-compiling bsp_timer.c...
-compiling sbc.c...
-compiling bsp_pwm.c...
-compiling sbc_primitives.c...
-compiling sbc_primitives_armv6.c...
-compiling sbc_primitives_iwmmxt.c...
-compiling bsp_uart.c...
-..\..\..\Bsp\bsp_uart.c(91): warning:  #177-D: variable "val"  was declared but never referenced
-  		uint32_t	val;
-..\..\..\Bsp\bsp_uart.c(102): warning:  #177-D: variable "val"  was declared but never referenced
-  		uint32_t	val;
-..\..\..\Bsp\bsp_uart.c(203): warning:  #177-D: variable "iWK"  was declared but never referenced
-  		uint32_t	iWK = 0 ;
-..\..\..\Bsp\bsp_uart.c(205): warning:  #177-D: variable "idx"  was declared but never referenced
-  		uint8_t idx = 0;
-..\..\..\Bsp\bsp_uart.c: 4 warnings, 0 errors
-compiling bsp_spi_flash.c...
-..\..\..\Bsp\bsp_spi_flash.c(810): warning:  #185-D: dynamic initialization in unreachable code
-      uint32_t PagePos=ReadAddR/FLASH_PAGE_SIZE;//Ò³µØÖ·
-..\..\..\Bsp\bsp_spi_flash.c(812): warning:  #177-D: variable "pageNum"  was declared but never referenced
-  	uint32_t pageNum = alignmentUp(ReadLength,256) / FLASH_PAGE_SIZE;
-..\..\..\Bsp\bsp_spi_flash.c(898): warning:  #185-D: dynamic initialization in unreachable code
-  	uint32_t PagePos=WriteAddR/FLASH_PAGE_SIZE;//Ò³µØÖ·
-..\..\..\Bsp\bsp_spi_flash.c: 3 warnings, 0 errors
-compiling sbc_primitives_mmx.c...
-compiling sbc_primitives_neon.c...
-compiling xinc_fstorage.c...
-compiling app_cli.c...
-..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\app\app_cli.c(43): warning:  #177-D: function "cmd_led"  was declared but never referenced
-  static void cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
-..\app\app_cli.c: 2 warnings, 0 errors
-compiling app_util_poatform.c...
-..\..\..\Bsp\fds\app_util_poatform.c(121): warning:  #177-D: variable "irq_type"  was declared but never referenced
-          int32_t irq_type = ((int32_t)isr_vector_num - EXTERNAL_INT_VECTOR_OFFSET);
-..\..\..\Bsp\fds\app_util_poatform.c: 1 warning, 0 errors
-compiling nrf_strerror.c...
-compiling nrf_atomic.c...
-compiling cfc_flash.c...
-compiling nrf_atfifo.c...
-..\..\..\Bsp\fds\nrf_atfifo.c(131): warning:  #111-D: statement is unreachable
-      return NULL;
-..\..\..\Bsp\fds\nrf_atfifo.c(182): warning:  #111-D: statement is unreachable
-      return NULL;
-..\..\..\Bsp\fds\nrf_atfifo.c: 2 warnings, 0 errors
-compiling xinc_fstorage_flash.c...
-compiling app_button.c...
-..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\components\libraries\button\app_button.c: 1 warning, 0 errors
-compiling bsp_gpio.c...
-..\..\..\modules\nrfx\hal/nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\Bsp\bsp_gpio.c(352): warning:  #186-D: pointless comparison of unsigned integer with zero
-  		if(num>=0 && num<=4)
-..\..\..\Bsp\bsp_gpio.c: 2 warnings, 0 errors
+Build target 'ble-fullstack'
+compiling nrf_drv_spi.c...
 compiling main.c...
 ..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
   			if(pin_number >= 0 && pin_number <= 4)
@@ -155,114 +37,27 @@ compiling main.c...
   			}break;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(351): warning:  #111-D: statement is unreachable
   			}break;
-..\app\main.c(398): warning:  #188-D: enumerated type mixed with another type
+..\app\main.c(405): warning:  #188-D: enumerated type mixed with another type
   		uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
-..\app\main.c(43): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
+..\app\main.c(494): warning:  #177-D: variable "tx_data"  was declared but never referenced
+  	const uint8_t *tx_data = p_event->data.done.p_tx_buffer;
+..\app\main.c(578): warning:  #550-D: variable "err_code"  was set but never used
+  		ret_code_t err_code;
+..\app\main.c(49): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
   static int app_get_connect_state(void)
-..\app\main.c(266): warning:  #177-D: variable "input"  was declared but never referenced
+..\app\main.c(272): warning:  #177-D: variable "input"  was declared but never referenced
   static unsigned char input[BUF_SIZE]; 
-..\app\main.c(336): warning:  #177-D: function "bsp_evt_handler"  was declared but never referenced
-  static void bsp_evt_handler(bsp_event_t evt)
-..\app\main.c: 8 warnings, 0 errors
-compiling fds.c...
-..\..\..\Bsp\fds\fds.c(1686): warning:  #177-D: variable "flash_size"  was declared but never referenced
-      uint32_t flash_size  = (FDS_PHY_PAGES * FDS_PHY_PAGE_SIZE * sizeof(uint32_t));
-..\..\..\Bsp\fds\fds.c(1664): warning:  #177-D: function "flash_end_addr"  was declared but never referenced
-  static uint32_t flash_end_addr(void)
-..\..\..\Bsp\fds\fds.c: 2 warnings, 0 errors
-compiling app_gpiote.c...
-compiling app_error.c...
-compiling app_uart.c...
-compiling app_scheduler.c...
-compiling app_error_weak.c...
-compiling app_fifo.c...
-compiling boards.c...
-..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\components\boards\boards.c(48): warning:  #1278-D: excess initializers are ignored
-  static const uint8_t m_board_led_list[LEDS_NUMBER] = LEDS_LIST;
-..\..\..\components\boards\boards.c(52): warning:  #1278-D: excess initializers are ignored
-  static const uint8_t m_board_btn_list[BUTTONS_NUMBER] = BUTTONS_LIST;
-..\..\..\components\boards\boards.c: 3 warnings, 0 errors
-compiling nrfx_gpiote.c...
-..\..\..\modules\nrfx\hal/nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c: 1 warning, 0 errors
-compiling bsp.c...
-..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\components\libraries\bsp\bsp.c(118): warning:  #1278-D: excess initializers are ignored
-      {BSP_BUTTON_2, false, BUTTON_PULL, bsp_button_event_handler},
-..\..\..\components\libraries\bsp\bsp.c(656): warning:  #188-D: enumerated type mixed with another type
-              err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_0 + num * 3);
-..\..\..\components\libraries\bsp\bsp.c(657): warning:  #188-D: enumerated type mixed with another type
-  					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, BSP_EVENT_KEY_1+ num * 3);
-..\..\..\components\libraries\bsp\bsp.c(658): warning:  #188-D: enumerated type mixed with another type
-  					  err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, BSP_EVENT_KEY_2 + num * 3);
-..\..\..\components\libraries\bsp\bsp.c: 5 warnings, 0 errors
-compiling app_uart_fifo.c...
-..\..\..\modules\nrfx\hal/nrf_uart.h(341): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(346): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(351): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\components\libraries\uart\app_uart_fifo.c: 3 warnings, 0 errors
-compiling app_timer.c...
-..\..\..\components\libraries\timer\app_timer.c(930): warning:  #550-D: variable "val"  was set but never used
-  	uint32_t val=0;
-..\..\..\components\libraries\timer\app_timer.c: 1 warning, 0 errors
-compiling nrf_fprintf_format.c...
-compiling nrf_fprintf.c...
-compiling nrf_memobj.c...
-compiling nrf_balloc.c...
-compiling nrf_drv_uart.c...
-..\..\..\modules\nrfx\hal/nrf_uart.h(341): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(346): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(351): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\components\libraries\cli\uart\nrf_drv_uart.c: 3 warnings, 0 errors
-compiling nrf_ringbuf.c...
-compiling cli_utils_cmds.c...
-compiling nrf_queue.c...
-compiling nrf_cli_uart.c...
-..\..\..\modules\nrfx\hal/nrf_uart.h(341): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(346): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(351): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\components\libraries\cli\uart\nrf_cli_uart.c: 3 warnings, 0 errors
-compiling nrfx_uart.c...
-..\..\..\modules\nrfx\hal/nrf_uart.h(341): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(346): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_uart.h(351): warning:  #111-D: statement is unreachable
-  			}break;
-..\..\..\modules\nrfx\hal/nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
-  			if(pin_number >= 0 && pin_number <= 4)
-..\..\..\modules\nrfx\drivers\src\nrfx_uart.c(135): warning:  #188-D: enumerated type mixed with another type
-  			NVIC_EnableIRQ((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
-..\..\..\modules\nrfx\drivers\src\nrfx_uart.c(558): warning:  #177-D: variable "TSR"  was declared but never referenced
-  		uint32_t IIR,IER,TSR;
-..\..\..\modules\nrfx\drivers\src\nrfx_uart.c(656): warning:  #177-D: function "uart1_irq_handler"  was declared but never referenced
-  static void uart1_irq_handler(NRF_UART_Type *        p_uart,
-..\..\..\modules\nrfx\drivers\src\nrfx_uart.c: 7 warnings, 0 errors
-compiling nrf_cli.c...
-compiling nrfx_uarte.c...
+..\app\main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=93580 RO-data=8320 RW-data=1056 ZI-data=18748  
+Program Size: Code=92972 RO-data=8440 RW-data=1116 ZI-data=19760  
 After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
 After Build - User command #2: Xincboot_tool s.bin download.bin
 Xinc v3.1 build Mar 19 2019 23:08:55
 USAGE: [Xincboot_tool] <input FILE> <output FILE> 
 Input: s.bin download.bin 
-Input file "s.bin" raw size = 0x18f34 byte 
+Input file "s.bin" raw size = 0x18d48 byte 
  -): 
-".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 72 Warning(s).
+".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -276,7 +71,7 @@ Package Vendor: ARM
   C:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:08
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

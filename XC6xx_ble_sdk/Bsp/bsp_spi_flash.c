@@ -25,8 +25,8 @@
 #define		CMD_RELEASE_PWRDWN	    0xAB
 #define		CMD_PWRDWN	            0xB9
 #define		CMD_ID                  0x4B 
-#define		PACKET_FULL_LEN			(FLASH_PAGE_SIZE )
-
+//#define		PACKET_FULL_LEN			(FLASH_PAGE_SIZE )
+#define		PACKET_FULL_LEN			(128 )
 /*-------------------------------------------------------------------
 NOTE: bsp_spi0_flash文件下的变量要放在SHRAM0区域.
 -------------------------------------------------------------------*/
@@ -1117,4 +1117,113 @@ void  flash_test(void)
 		printf("rxbuf1[%d]:%d\n",i,test_rx_buff[i]); 
 	}while(spi_flash_wait_till_ready());	
 
+}
+
+void	Init_spi1_master(uint32_t ch, uint32_t freq)
+{
+    uint32_t    val;
+    
+    __write_hw_reg32(CPR_SPIx_MCLK_CTL(ch), 0x110010);//1分频			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+    __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , (0x1000100<<ch)); 	//- 打开spi(x) pclk.
+    __read_hw_reg32(CPR_SSI_CTRL, val);
+    val |= (ch==0)? 0x01: 0x30;
+    __write_hw_reg32(CPR_SSI_CTRL, val);
+	
+    __write_hw_reg32(SSIx_EN(ch), 0x00);
+
+    __write_hw_reg32(SSIx_IE(ch), 0x01);
+    __write_hw_reg32(SSIx_CTRL0(ch) , 0x0f);					/* 16bit SPI data */
+
+    __write_hw_reg32(SSIx_SE(ch), 0x01);
+    __write_hw_reg32(SSIx_BAUD(ch), freq);						//- spix_mclk 分频.
+
+    __write_hw_reg32(SSIx_RXFTL(ch), 0x00);
+    __write_hw_reg32(SSIx_TXFTL(ch), 0x00);
+
+    //__write_hw_reg32(SSIx_EN(ch) , 0x01);
+		 NVIC_EnableIRQ(SPI1_IRQn);
+}
+
+
+
+uint8_t buff16[60];
+void DMAS1_Handler()
+{
+	uint32_t iWK;
+	__read_hw_reg32(DMAS_INT_RAW , iWK);
+	__write_hw_reg32(DMAS_INT_RAW , iWK);
+//	irq_handler(NRF_SPIM1, &m_cb[NRFX_SPIM1_INST_IDX]);
+	printf("DMAS_Handler iWK :%x\n",iWK); 
+}
+
+
+void spi1_test(void)
+{
+	
+	uint32_t iWK;
+	Init_spi1_master(1, SPIM_CLK_16MHZ);
+//	NVIC_EnableIRQ(DMAS_IRQn);
+	for(int i = 0; i < 38;i++)
+	{
+			buff16[i] = 0x1 + i;
+	}
+	
+	for(int i = 0; i < 38;i++)
+	{
+			if(i & 0x01)
+			{
+				txbuff[i] = buff16[i - 1];
+			}else
+			{
+				txbuff[i] = buff16[i + 1];
+			}
+			
+	}
+	
+
+	
+//	txbuff[0] = 0x0102;	
+//    
+//	txbuff[1] = 0x0403;	
+//	txbuff[2] = 0x0605;
+     __write_hw_reg32(SSI1_EN, 0x00);
+    __write_hw_reg32(SSI1_DMAS, 0x03);
+    __write_hw_reg32(SSI1_DMATDL, 0x2);          
+    __write_hw_reg32(SSI1_DMARDL, 0x2);              
+   
+
+    //- RX Channel
+    __write_hw_reg32(DMAS_CHx_SAR(11), 0x40014060);
+    __write_hw_reg32(DMAS_CHx_DAR(11), (uint32_t)rxbuff);
+    __write_hw_reg32(DMAS_CHx_CTL1(11),((2 << 8)|  1));
+    __write_hw_reg32(DMAS_CHx_CTL0(11),(32));
+    __write_hw_reg32(DMAS_EN, 11);
+
+    //- TX Channel
+    __write_hw_reg32(DMAS_CHx_SAR(3), (uint32_t)txbuff);
+    __write_hw_reg32(DMAS_CHx_DAR(3), 0x40014060);
+    __write_hw_reg32(DMAS_CHx_CTL1(3),((2 << 8)|  1));
+    __write_hw_reg32(DMAS_CHx_CTL0(3),(32));
+    __write_hw_reg32(DMAS_EN, 3);
+		
+		 __write_hw_reg32(SSI1_EN, 0x01);
+		
+		uint32_t cnt = 0;
+    do	{
+			cnt++;
+    	__read_hw_reg32(DMAS_INT_RAW, iWK);
+    }while((iWK&0x808) != 0x808 && (cnt < 5000));
+
+    __write_hw_reg32(DMAS_INT_RAW, 0x808);
+    __write_hw_reg32(DMAS_CLR, 11);
+    __write_hw_reg32(DMAS_CLR, 3);
+        
+    __write_hw_reg32(SSI1_EN, 0x00);
+	
+
+		printf("iWK:%x\n",iWK);
+	for(int i = 0;i < 32;i++)
+	{
+		printf("rxbuf1[%d]:%d\n",i,rxbuff[i]); 
+	}
 }

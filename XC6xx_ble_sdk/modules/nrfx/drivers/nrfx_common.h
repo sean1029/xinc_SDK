@@ -306,7 +306,8 @@ __STATIC_INLINE uint32_t nrfx_event_to_bitpos(uint32_t event);
 
 __STATIC_INLINE bool nrfx_is_in_ram(void const * p_object)
 {
-    return ((((uint32_t)p_object) & 0xE0000000u) == 0x20000000u);
+ //   return ((((uint32_t)p_object) & 0xE0000000u) == 0x20000000u);
+	return ((((uint32_t)p_object) > 0x10010000));
 }
 
 __STATIC_INLINE bool nrfx_is_word_aligned(void const * p_object)

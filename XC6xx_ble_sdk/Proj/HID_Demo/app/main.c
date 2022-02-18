@@ -13,6 +13,12 @@
 #include    "bsp_spi_flash.h"
 #include "nrf_gpio.h"
 #include "bsp_uart.h"
+
+#include "nrfx_gpiote.h"
+#include "nrf_drv_spi.h"
+
+static const nrf_drv_spi_t m_spi = NRF_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
+
 uint8_t flag_show_hci = 0;
 
 
@@ -300,7 +306,6 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 	{
 		
 		GPIO_OUTPUT_HIGH(4);
-	//	nrf_gpio_pin_set(LED1);
 		on_off = 1;
 	//	led_value = nrf_gpio_pin_read(LED1);
 
@@ -310,7 +315,6 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 	
 		
 		GPIO_OUTPUT_LOW(4);
-	//	nrf_gpio_pin_clear(LED1);
 		on_off = 0;
 	//	printf("LED1 ON\n");
 	}	
@@ -325,7 +329,9 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 #include "app_timer.h"
 #include "bsp.h"
 
-
+uint8_t buff1[320];
+uint8_t buff2[320];
+uint8_t buff3[320];
 
 extern uint8_t list_handler_sched_flag;
 
@@ -339,6 +345,7 @@ static void bsp_evt_handler(bsp_event_t evt)
     {
         case BSP_EVENT_KEY_0:
 						printf("button 0 push,evt: %d\n",BSP_EVENT_KEY_0);
+						nrf_drv_spi_transfer(&m_spi,buff2,280,buff3,280);
 						bsp_board_led_on(0);
             break;
 
@@ -478,7 +485,19 @@ void cli_init(void)
 
 
 void ff11_test_loop(void);
-#include "nrfx_gpiote.h"
+
+static void spi_handler(nrf_drv_spi_evt_t const * p_event,
+                        void *                    p_context)
+{
+	printf("%s,type:%d\r\n",__func__,p_event->type);
+	
+	const uint8_t *tx_data = p_event->data.done.p_tx_buffer;
+
+	printf("tx_length %d\r\n",p_event->data.done.tx_length);
+}
+
+
+	
 int	main(void)
 {
 
@@ -501,10 +520,11 @@ int	main(void)
 	app_timer_init();
 		key_init();
 	//nrfx_gpiote_init();
-	nrf_gpio_cfg_output(5);
-	nrf_gpio_cfg_output(4);
-	//  bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
-
+	  bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
+		
+		
+	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
+  // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -540,23 +560,57 @@ int	main(void)
 
 
 
-	gpio_mux_ctl(0,2);
-//	gpio_fun_sel(0,12);//pwm0
-	gpio_fun_inter(0,0);
-	gpio_direction_output(0);
-	
-	xc_pwm_init(2,10,159);
+//	gpio_mux_ctl(1,0);
+//	gpio_fun_sel(1,12);//pwm0
+//	gpio_fun_inter(1,0);
+//	gpio_direction_output(1);
+//	
+//	xc_pwm_init(0,10,159);
 //	Init_uart(1,BAUD_115200);
 //	uart_init();
 
 //	uart_init();
-	cli_init();
+	//cli_init();
 	//	Uart_Send_String(1, "hello---1\n ");
 	printf("\r\n cli_init ok!!!\r\n");
-	nrf_cli_start(&m_cli_uart);
+	//nrf_cli_start(&m_cli_uart);
+		void spi1_test(void);
+		ret_code_t err_code;
+		    const nrf_drv_spi_config_t spi_cfg = {
+                            .sck_pin      = 2,
+                            .mosi_pin     = 7,
+                            .miso_pin     = 6,
+                            .ss_pin       = 3,
+                            .irq_priority = 0,
+                            .orc          = 0xFF,
+                            .frequency    = (nrf_drv_spi_frequency_t) SPIM_CLK_16MHZ,
+                            .mode         = NRF_DRV_SPI_MODE_1,
+                            .bit_order    = NRF_DRV_SPI_BIT_ORDER_MSB_FIRST,
+                        };
+    err_code = nrf_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
+								
+												
+					for(int i = 0; i < 320;i++)
+					{
+					buff1[i] = 0x1 + i;
+					}
 
+					for(int i = 0; i < 320;i++)
+					{
+					if(i & 0x01)
+					{
+					buff2[i] = buff1[i - 1];
+					}else
+					{
+					buff2[i] = buff1[i + 1];
+					}
+
+					}					
+												
+				nrf_drv_spi_transfer(&m_spi,buff2,32,buff3,32);
+	//	spi1_test();
     while(1) {
-			nrf_cli_process(&m_cli_uart);
+	//		nrf_cli_process(&m_cli_uart);
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{

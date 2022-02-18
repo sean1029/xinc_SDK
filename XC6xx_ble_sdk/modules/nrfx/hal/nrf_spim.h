@@ -80,24 +80,6 @@ extern "C" {
      NRFX_CHECK(SPIM3_FEATURE_HARDWARE_CSN_PRESENT))
 
 
-/** @brief SPIM tasks. */
-typedef enum
-{
-    NRF_SPIM_TASK_START   = offsetof(NRF_SPIM_Type, TASKS_START),   ///< Start SPI transaction.
-    NRF_SPIM_TASK_STOP    = offsetof(NRF_SPIM_Type, TASKS_STOP),    ///< Stop SPI transaction.
-    NRF_SPIM_TASK_SUSPEND = offsetof(NRF_SPIM_Type, TASKS_SUSPEND), ///< Suspend SPI transaction.
-    NRF_SPIM_TASK_RESUME  = offsetof(NRF_SPIM_Type, TASKS_RESUME)   ///< Resume SPI transaction.
-} nrf_spim_task_t;
-
-/** @brief SPIM events. */
-typedef enum
-{
-    NRF_SPIM_EVENT_STOPPED = offsetof(NRF_SPIM_Type, EVENTS_STOPPED), ///< SPI transaction has stopped.
-    NRF_SPIM_EVENT_ENDRX   = offsetof(NRF_SPIM_Type, EVENTS_ENDRX),   ///< End of RXD buffer reached.
-    NRF_SPIM_EVENT_END     = offsetof(NRF_SPIM_Type, EVENTS_END),     ///< End of RXD buffer and TXD buffer reached.
-    NRF_SPIM_EVENT_ENDTX   = offsetof(NRF_SPIM_Type, EVENTS_ENDTX),   ///< End of TXD buffer reached.
-    NRF_SPIM_EVENT_STARTED = offsetof(NRF_SPIM_Type, EVENTS_STARTED)  ///< Transaction started.
-} nrf_spim_event_t;
 
 /**
  * @brief SPIM shortcuts.
@@ -169,83 +151,6 @@ typedef enum
 #endif // (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 
 
-/**
- * @brief Function for activating the specified SPIM task.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] task  Task to be activated.
- */
-__STATIC_INLINE void nrf_spim_task_trigger(NRF_SPIM_Type * p_reg,
-                                           nrf_spim_task_t task);
-
-/**
- * @brief Function for getting the address of the specified SPIM task register.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] task  The specified task.
- *
- * @return Address of the specified task register.
- */
-__STATIC_INLINE uint32_t nrf_spim_task_address_get(NRF_SPIM_Type * p_reg,
-                                                   nrf_spim_task_t task);
-
-/**
- * @brief Function for clearing the specified SPIM event.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Event to be cleared.
- */
-__STATIC_INLINE void nrf_spim_event_clear(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event);
-
-/**
- * @brief Function for retrieving the state of the SPIM event.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Event to be checked.
- *
- * @retval true  The event has been generated.
- * @retval false The event has not been generated.
- */
-__STATIC_INLINE bool nrf_spim_event_check(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event);
-
-/**
- * @brief Function for getting the address of the specified SPIM event register.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event The specified event.
- *
- * @return Address of the specified event register.
- */
-__STATIC_INLINE uint32_t nrf_spim_event_address_get(NRF_SPIM_Type  * p_reg,
-                                                    nrf_spim_event_t event);
-/**
- * @brief Function for enabling the specified shortcuts.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] mask  Shortcuts to be enabled.
- */
-__STATIC_INLINE void nrf_spim_shorts_enable(NRF_SPIM_Type * p_reg,
-                                            uint32_t        mask);
-
-/**
- * @brief Function for disabling the specified shortcuts.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] mask  Shortcuts to be disabled.
- */
-__STATIC_INLINE void nrf_spim_shorts_disable(NRF_SPIM_Type * p_reg,
-                                             uint32_t        mask);
-
-/**
- * @brief Function for getting the shortcut setting.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Current shortcut configuration.
- */
-__STATIC_INLINE uint32_t nrf_spim_shorts_get(NRF_SPIM_Type * p_reg);
 
 /**
  * @brief Function for enabling the specified interrupts.
@@ -277,52 +182,6 @@ __STATIC_INLINE void nrf_spim_int_disable(NRF_SPIM_Type * p_reg,
 __STATIC_INLINE bool nrf_spim_int_enable_check(NRF_SPIM_Type *     p_reg,
                                                nrf_spim_int_mask_t spim_int);
 
-#if defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for setting the subscribe configuration for a given
- *        SPIM task.
- *
- * @param[in] p_reg   Pointer to the structure of registers of the peripheral.
- * @param[in] task    Task for which to set the configuration.
- * @param[in] channel Channel through which to subscribe events.
- */
-__STATIC_INLINE void nrf_spim_subscribe_set(NRF_SPIM_Type * p_reg,
-                                            nrf_spim_task_t task,
-                                            uint8_t         channel);
-
-/**
- * @brief Function for clearing the subscribe configuration for a given
- *        SPIM task.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] task  Task for which to clear the configuration.
- */
-__STATIC_INLINE void nrf_spim_subscribe_clear(NRF_SPIM_Type * p_reg,
-                                              nrf_spim_task_t task);
-
-/**
- * @brief Function for setting the publish configuration for a given
- *        SPIM event.
- *
- * @param[in] p_reg   Pointer to the structure of registers of the peripheral.
- * @param[in] event   Event for which to set the configuration.
- * @param[in] channel Channel through which to publish the event.
- */
-__STATIC_INLINE void nrf_spim_publish_set(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event,
-                                          uint8_t          channel);
-
-/**
- * @brief Function for clearing the publish configuration for a given
- *        SPIM event.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Event for which to clear the configuration.
- */
-__STATIC_INLINE void nrf_spim_publish_clear(NRF_SPIM_Type *  p_reg,
-                                            nrf_spim_event_t event);
-#endif // defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
-
 /**
  * @brief Function for enabling the SPIM peripheral.
  *
@@ -351,7 +210,8 @@ __STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg);
 __STATIC_INLINE void nrf_spim_pins_set(NRF_SPIM_Type * p_reg,
                                        uint32_t        sck_pin,
                                        uint32_t        mosi_pin,
-                                       uint32_t        miso_pin);
+                                       uint32_t        miso_pin,
+																			 uint32_t        cs_pin);
 
 #if (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 /**
@@ -373,81 +233,7 @@ __STATIC_INLINE void nrf_spim_csn_configure(NRF_SPIM_Type *    p_reg,
                                             uint32_t           duration);
 #endif // (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 
-#if defined(SPIM_PSELDCX_CONNECT_Msk) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for configuring the SPIM DCX pin.
- *
- * If this signal is not needed, pass the @ref NRF_SPIM_PIN_NOT_CONNECTED
- * value instead of its pin number.
- *
- * @param[in] p_reg   Pointer to the structure of registers of the peripheral.
- * @param[in] dcx_pin DCX pin number.
- */
-__STATIC_INLINE void nrf_spim_dcx_pin_set(NRF_SPIM_Type * p_reg,
-                                          uint32_t        dcx_pin);
 
-/**
- * @brief Function for configuring the number of command bytes.
- *
- * Maximum value available for dividing the transmitted bytes into command
- * bytes and data bytes is @ref NRF_SPIM_DCX_CNT_ALL_CMD - 1.
- * The @ref NRF_SPIM_DCX_CNT_ALL_CMD value passed as the @c count parameter
- * causes all transmitted bytes to be marked as command bytes.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] count Number of command bytes preceding the data bytes.
- */
-__STATIC_INLINE void nrf_spim_dcx_cnt_set(NRF_SPIM_Type * p_reg,
-                                          uint32_t        count);
-#endif // defined(SPIM_PSELDCX_CONNECT_Msk) || defined(__NRFX_DOXYGEN__)
-
-#if defined(SPIM_IFTIMING_RXDELAY_RXDELAY_Msk) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for configuring the extended SPIM interface.
- *
- * @param p_reg   Pointer to the structure of registers of the peripheral.
- * @param rxdelay Sample delay for input serial data on MISO,
- *                specified in 64 MHz clock cycles (15.625 ns) from the sampling edge of SCK.
- */
-__STATIC_INLINE void nrf_spim_iftiming_set(NRF_SPIM_Type * p_reg,
-                                           uint32_t        rxdelay);
-#endif // defined(SPIM_IFTIMING_RXDELAY_RXDELAY_Msk) || defined(__NRFX_DOXYGEN__)
-
-#if defined(SPIM_STALLSTAT_RX_Msk) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for clearing stall status for RX EasyDMA RAM accesses.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_stallstat_rx_clear(NRF_SPIM_Type * p_reg);
-
-/**
- * @brief Function for getting stall status for RX EasyDMA RAM accesses.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Stall status of RX EasyDMA RAM accesses.
- */
-__STATIC_INLINE bool nrf_spim_stallstat_rx_get(NRF_SPIM_Type * p_reg);
-#endif // defined(SPIM_STALLSTAT_RX_Msk) || defined(__NRFX_DOXYGEN__)
-
-#if defined(SPIM_STALLSTAT_TX_Msk) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for clearing stall status for TX EasyDMA RAM accesses.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_stallstat_tx_clear(NRF_SPIM_Type * p_reg);
-
-/**
- * @brief Function for getting stall status for TX EasyDMA RAM accesses.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Stall status of TX EasyDMA RAM accesses.
- */
-__STATIC_INLINE bool nrf_spim_stallstat_tx_get(NRF_SPIM_Type * p_reg);
-#endif // defined(SPIM_STALLSTAT_TX_Msk) || defined(__NRFX_DOXYGEN__)
 
 /**
  * @brief Function for setting the SPI master data rate.
@@ -501,154 +287,50 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
 __STATIC_INLINE void nrf_spim_orc_set(NRF_SPIM_Type * p_reg,
                                       uint8_t         orc);
 
-/**
- * @brief Function for enabling the TX list feature.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_tx_list_enable(NRF_SPIM_Type * p_reg);
 
-/**
- * @brief Function for disabling the TX list feature.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_tx_list_disable(NRF_SPIM_Type * p_reg);
-
-/**
- * @brief Function for enabling the RX list feature.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_rx_list_enable(NRF_SPIM_Type * p_reg);
-
-/**
- * @brief Function for disabling the RX list feature.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_spim_rx_list_disable(NRF_SPIM_Type * p_reg);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
-__STATIC_INLINE void nrf_spim_task_trigger(NRF_SPIM_Type * p_reg,
-                                           nrf_spim_task_t task)
-{
-    *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)task)) = 0x1UL;
-}
 
-__STATIC_INLINE uint32_t nrf_spim_task_address_get(NRF_SPIM_Type * p_reg,
-                                                   nrf_spim_task_t task)
-{
-    return (uint32_t)((uint8_t *)p_reg + (uint32_t)task);
-}
-
-__STATIC_INLINE void nrf_spim_event_clear(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event)
-{
-    *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
-#if __CORTEX_M == 0x04
-    volatile uint32_t dummy = *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event));
-    (void)dummy;
-#endif
-}
-
-__STATIC_INLINE bool nrf_spim_event_check(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event)
-{
-    return (bool)*(volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
-}
-
-__STATIC_INLINE uint32_t nrf_spim_event_address_get(NRF_SPIM_Type *  p_reg,
-                                                    nrf_spim_event_t event)
-{
-    return (uint32_t)((uint8_t *)p_reg + (uint32_t)event);
-}
-
-__STATIC_INLINE void nrf_spim_shorts_enable(NRF_SPIM_Type * p_reg,
-                                            uint32_t        mask)
-{
-    p_reg->SHORTS |= mask;
-}
-
-__STATIC_INLINE void nrf_spim_shorts_disable(NRF_SPIM_Type * p_reg,
-                                             uint32_t        mask)
-{
-    p_reg->SHORTS &= ~(mask);
-}
-
-__STATIC_INLINE uint32_t nrf_spim_shorts_get(NRF_SPIM_Type * p_reg)
-{
-    return p_reg->SHORTS;
-}
 
 __STATIC_INLINE void nrf_spim_int_enable(NRF_SPIM_Type * p_reg,
                                          uint32_t        mask)
 {
-    p_reg->INTENSET = mask;
+   
 }
 
 __STATIC_INLINE void nrf_spim_int_disable(NRF_SPIM_Type * p_reg,
                                           uint32_t        mask)
 {
-    p_reg->INTENCLR = mask;
+    
 }
 
 __STATIC_INLINE bool nrf_spim_int_enable_check(NRF_SPIM_Type *     p_reg,
                                                nrf_spim_int_mask_t spim_int)
 {
-    return (bool)(p_reg->INTENSET & spim_int);
+    return (bool)0;//(p_reg-> & spim_int);
 }
 
-#if defined(DPPI_PRESENT)
-__STATIC_INLINE void nrf_spim_subscribe_set(NRF_SPIM_Type * p_reg,
-                                            nrf_spim_task_t task,
-                                            uint8_t         channel)
-{
-    *((volatile uint32_t *) ((uint8_t *) p_reg + (uint32_t) task + 0x80uL)) =
-            ((uint32_t)channel | SPIM_SUBSCRIBE_START_EN_Msk);
-}
 
-__STATIC_INLINE void nrf_spim_subscribe_clear(NRF_SPIM_Type * p_reg,
-                                              nrf_spim_task_t task)
-{
-    *((volatile uint32_t *) ((uint8_t *) p_reg + (uint32_t) task + 0x80uL)) = 0;
-}
-
-__STATIC_INLINE void nrf_spim_publish_set(NRF_SPIM_Type *  p_reg,
-                                          nrf_spim_event_t event,
-                                          uint8_t          channel)
-{
-    *((volatile uint32_t *) ((uint8_t *) p_reg + (uint32_t) event + 0x80uL)) =
-            ((uint32_t)channel | SPIM_PUBLISH_STARTED_EN_Msk);
-}
-
-__STATIC_INLINE void nrf_spim_publish_clear(NRF_SPIM_Type *  p_reg,
-                                            nrf_spim_event_t event)
-{
-    *((volatile uint32_t *) ((uint8_t *) p_reg + (uint32_t) event + 0x80uL)) = 0;
-}
-#endif // defined(DPPI_PRESENT)
 
 __STATIC_INLINE void nrf_spim_enable(NRF_SPIM_Type * p_reg)
 {
-    p_reg->ENABLE = (SPIM_ENABLE_ENABLE_Enabled << SPIM_ENABLE_ENABLE_Pos);
+    p_reg->IE = 0x01;
 }
 
 __STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg)
 {
-    p_reg->ENABLE = (SPIM_ENABLE_ENABLE_Disabled << SPIM_ENABLE_ENABLE_Pos);
+    
 }
 
 __STATIC_INLINE void nrf_spim_pins_set(NRF_SPIM_Type * p_reg,
                                        uint32_t        sck_pin,
                                        uint32_t        mosi_pin,
-                                       uint32_t        miso_pin)
+                                       uint32_t        miso_pin,
+																			 uint32_t        cs_pin)
 {
-    p_reg->PSEL.SCK  = sck_pin;
-    p_reg->PSEL.MOSI = mosi_pin;
-    p_reg->PSEL.MISO = miso_pin;
+
 }
 
 #if (NRF_SPIM_HW_CSN_PRESENT)
@@ -657,78 +339,36 @@ __STATIC_INLINE void nrf_spim_csn_configure(NRF_SPIM_Type *    p_reg,
                                             nrf_spim_csn_pol_t polarity,
                                             uint32_t           duration)
 {
-    p_reg->PSEL.CSN = pin;
-    p_reg->CSNPOL = polarity;
-    p_reg->IFTIMING.CSNDUR = duration;
+
 }
 #endif // defined(NRF_SPIM_HW_CSN_PRESENT)
 
-#if defined(SPIM_PSELDCX_CONNECT_Msk)
-__STATIC_INLINE void nrf_spim_dcx_pin_set(NRF_SPIM_Type * p_reg,
-                                          uint32_t        dcx_pin)
-{
-    p_reg->PSELDCX = dcx_pin;
-}
 
-__STATIC_INLINE void nrf_spim_dcx_cnt_set(NRF_SPIM_Type * p_reg,
-                                          uint32_t        dcx_cnt)
-{
-    p_reg->DCXCNT = dcx_cnt;
-}
-#endif // defined(SPIM_PSELDCX_CONNECT_Msk)
 
-#if defined(SPIM_IFTIMING_RXDELAY_RXDELAY_Msk)
-__STATIC_INLINE void nrf_spim_iftiming_set(NRF_SPIM_Type * p_reg,
-                                           uint32_t        rxdelay)
-{
-    p_reg->IFTIMING.RXDELAY = rxdelay;
-}
-#endif // defined(SPIM_IFTIMING_RXDELAY_RXDELAY_Msk)
 
-#if defined(SPIM_STALLSTAT_RX_Msk)
-__STATIC_INLINE void nrf_spim_stallstat_rx_clear(NRF_SPIM_Type * p_reg)
-{
-    p_reg->STALLSTAT &= ~(SPIM_STALLSTAT_RX_Msk);
-}
 
-__STATIC_INLINE bool nrf_spim_stallstat_rx_get(NRF_SPIM_Type * p_reg)
-{
-    return (p_reg->STALLSTAT & SPIM_STALLSTAT_RX_Msk) != 0;
-}
-#endif // defined(SPIM_STALLSTAT_RX_Msk)
 
-#if defined(SPIM_STALLSTAT_TX_Msk)
-__STATIC_INLINE void nrf_spim_stallstat_tx_clear(NRF_SPIM_Type * p_reg)
-{
-    p_reg->STALLSTAT &= ~(SPIM_STALLSTAT_TX_Msk);
-}
 
-__STATIC_INLINE bool nrf_spim_stallstat_tx_get(NRF_SPIM_Type * p_reg)
-{
-    return (p_reg->STALLSTAT & SPIM_STALLSTAT_TX_Msk) != 0;
-}
-#endif // defined(SPIM_STALLSTAT_TX_Msk)
+
 
 __STATIC_INLINE void nrf_spim_frequency_set(NRF_SPIM_Type *      p_reg,
                                             nrf_spim_frequency_t frequency)
 {
-    p_reg->FREQUENCY = (uint32_t)frequency;
+    
 }
 
 __STATIC_INLINE void nrf_spim_tx_buffer_set(NRF_SPIM_Type * p_reg,
                                             uint8_t const * p_buffer,
                                             size_t          length)
 {
-    p_reg->TXD.PTR    = (uint32_t)p_buffer;
-    p_reg->TXD.MAXCNT = length;
+
 }
 
 __STATIC_INLINE void nrf_spim_rx_buffer_set(NRF_SPIM_Type * p_reg,
                                             uint8_t * p_buffer,
                                             size_t    length)
 {
-    p_reg->RXD.PTR    = (uint32_t)p_buffer;
-    p_reg->RXD.MAXCNT = length;
+ 
 }
 
 __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
@@ -737,58 +377,43 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
 {
     uint32_t config = (spi_bit_order == NRF_SPIM_BIT_ORDER_MSB_FIRST ?
         SPIM_CONFIG_ORDER_MsbFirst : SPIM_CONFIG_ORDER_LsbFirst);
+	
+		config = 0;
     switch (spi_mode)
     {
     default:
     case NRF_SPIM_MODE_0:
-        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
-                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
+//        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
+//                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
+//		
+		    config |= (0 << 7) |(0    << 6); 
+                  
         break;
 
     case NRF_SPIM_MODE_1:
-        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
-                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
+//        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
+//                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
+		    config |= (0 << 7) |(1    << 6); 
         break;
 
     case NRF_SPIM_MODE_2:
-        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
-                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
+//        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
+//                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
+		   config |= (1 << 7) |(0    << 6); 
         break;
 
     case NRF_SPIM_MODE_3:
-        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
-                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
+//        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
+//                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
+		config |= (1 << 7) |(1    << 6); 
         break;
     }
-    p_reg->CONFIG = config;
-}
-
-__STATIC_INLINE void nrf_spim_orc_set(NRF_SPIM_Type * p_reg,
-                                      uint8_t         orc)
-{
-    p_reg->ORC = orc;
+    p_reg->CTRL0 &= ~(0x03 << 6);
+		p_reg->CTRL0 |= config;
 }
 
 
-__STATIC_INLINE void nrf_spim_tx_list_enable(NRF_SPIM_Type * p_reg)
-{
-    p_reg->TXD.LIST = 1;
-}
 
-__STATIC_INLINE void nrf_spim_tx_list_disable(NRF_SPIM_Type * p_reg)
-{
-    p_reg->TXD.LIST = 0;
-}
-
-__STATIC_INLINE void nrf_spim_rx_list_enable(NRF_SPIM_Type * p_reg)
-{
-    p_reg->RXD.LIST = 1;
-}
-
-__STATIC_INLINE void nrf_spim_rx_list_disable(NRF_SPIM_Type * p_reg)
-{
-    p_reg->RXD.LIST = 0;
-}
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
 
