@@ -68,44 +68,6 @@ uHandler_callback	uHandler_Callback[2] = {(uHandler_callback)0, (uHandler_callba
 - 创建日期: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
 
-void	Init_uart_clk(uint32_t	ch , uint32_t	baud)
-{
-			uint32_t	val;		
-			__write_hw_reg32(CPR_RSTCTL_SUBRST_SW , (1<<(16+ch)));	//复位uart模块
-			__write_hw_reg32(CPR_RSTCTL_SUBRST_SW , ((1<<(16+ch))|(1<<ch)));//解复位uart模块		
-	
-			__read_hw_reg32(CPR_LP_CTL , val);
-			val &= ~(1<<(1-ch));
-			__write_hw_reg32(CPR_LP_CTL , val);						//关闭uartx时钟保护
-			
-			val = (1<<(16+ch+4)) | (1<<(ch+4));
-			__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , val); 			//打开uartx pclk
-			__write_hw_reg32(CPR_UARTx_CLK_GRCTL(ch), 0x110018);
-			//__write_hw_reg32(CPR_UARTx_CLK_CTL(ch), 0x480271);
-			__write_hw_reg32(CPR_UARTx_CLK_CTL(ch), baud>>4);	
-
-}
-
-  void	Init_uart_config(uint32_t	ch , uint32_t	baud)  
-	{
-		uint32_t	val;
-		              		
-			__write_hw_reg32(UARTx_TCR(ch) , 0x03);                	//清零DLAB位,8个BIT位
-			__write_hw_reg32(UARTx_FCR(ch) , 0xb7);                	//接收FIFO半满报中断, 并使能FIFO中断
-			
-     //       __write_hw_reg32(UARTx_IER(ch) , 0x01);                	//打开接收中断
-		//	val = UART0_IRQn + ch;
-		//	NVIC_EnableIRQ((IRQn_Type)val);
-	}
-	  void	Init_uart_baud(uint32_t	ch , uint32_t	baud)  
-	{
-		uint32_t	val;
-			__write_hw_reg32(UARTx_TCR(ch) , 0x80);                	//使能DLAB位
-			//__write_hw_reg32(UARTx_DLL(ch) , baud);
-            __write_hw_reg32(UARTx_DLL(ch) , baud&0x0F);
-			__write_hw_reg32(UARTx_DLH(ch) , 0);                 		
-
-	}
 	
 void	Init_uart(uint32_t	ch , uint32_t	baud)
 {

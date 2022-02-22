@@ -55,7 +55,7 @@ pupd_config_t		pupd_config = {
 gpio_fun_sel_config_t   gpio_fun_sel_config = {
         
 /*CPR_GPIO_FUN_SEL0*/.fun_sel0.bits.b0004= GPIO_Dx,/*GPIO 0*/.fun_sel0.bits.b0812= GPIO_Dx,/*GPIO 1*/.fun_sel0.bits.b1620= SSI1_CLK,/*GPIO 2*/.fun_sel0.bits.b2428= SSI1_SSN,/*GPIO 3*/
-/*CPR_GPIO_FUN_SEL1*/.fun_sel1.bits.b0004= GPIO_Dx,/*GPIO 4*/.fun_sel1.bits.b0812= GPIO_Dx,/*GPIO 5*/.fun_sel1.bits.b1620= SSI1_RX,/*GPIO 6*/.fun_sel1.bits.b2428= SSI1_TX,/*GPIO 7*/    
+/*CPR_GPIO_FUN_SEL1*/.fun_sel1.bits.b0004= GPIO_Dx,/*GPIO 4*/.fun_sel1.bits.b0812= GPIO_Dx,/*GPIO 5*/.fun_sel1.bits.b1620= GPIO_Dx,/*SSI1_RX 6*/.fun_sel1.bits.b2428= SSI1_TX,/*GPIO 7*/    
 /*CPR_GPIO_FUN_SEL2*/.fun_sel2.bits.b0004= GPIO_Dx,/*GPIO 8*/.fun_sel2.bits.b0812= GPIO_Dx,/*GPIO 9*/.fun_sel2.bits.b1620= GPIO_Dx,/*GPIO10*/.fun_sel2.bits.b2428= GPIO_Dx,/*GPIO11*/
 /*CPR_GPIO_FUN_SEL3*/.fun_sel3.bits.b0004= GPIO_Dx,/*GPIO12*/.fun_sel3.bits.b0812= GPIO_Dx,/*GPIO13*/.fun_sel3.bits.b1620= GPIO_Dx,/*GPIO14*/.fun_sel3.bits.b2428= GPIO_Dx,/*GPIO15*/
 /*CPR_GPIO_FUN_SEL4*/.fun_sel4.bits.b0004= GPIO_Dx,/*GPIO16*/.fun_sel4.bits.b0812= GPIO_Dx,/*GPIO17*/.fun_sel4.bits.b1620=UART0_TX,/*GPIO18*/.fun_sel4.bits.b2428=UART0_RX,/*GPIO19*/

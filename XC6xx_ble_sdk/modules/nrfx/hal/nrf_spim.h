@@ -114,15 +114,10 @@ typedef enum
     NRF_SPIM_FREQ_1M   = SPIM_FREQUENCY_FREQUENCY_M1,      ///< 1 Mbps.
     NRF_SPIM_FREQ_2M   = SPIM_FREQUENCY_FREQUENCY_M2,      ///< 2 Mbps.
     NRF_SPIM_FREQ_4M   = SPIM_FREQUENCY_FREQUENCY_M4,      ///< 4 Mbps.
-    // [conversion to 'int' needed to prevent compilers from complaining
-    //  that the provided value (0x80000000UL) is out of range of "int"]
-    NRF_SPIM_FREQ_8M   = (int)SPIM_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
-#if defined(SPIM_FREQUENCY_FREQUENCY_M16) || defined(__NRFX_DOXYGEN__)
+    NRF_SPIM_FREQ_8M   = SPIM_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
     NRF_SPIM_FREQ_16M  = SPIM_FREQUENCY_FREQUENCY_M16,     ///< 16 Mbps.
-#endif
-#if defined(SPIM_FREQUENCY_FREQUENCY_M32) || defined(__NRFX_DOXYGEN__)
-    NRF_SPIM_FREQ_32M  = SPIM_FREQUENCY_FREQUENCY_M32      ///< 32 Mbps.
-#endif
+
+
 } nrf_spim_frequency_t;
 
 /** @brief SPI modes. */
@@ -196,42 +191,6 @@ __STATIC_INLINE void nrf_spim_enable(NRF_SPIM_Type * p_reg);
  */
 __STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg);
 
-/**
- * @brief Function for configuring SPIM pins.
- *
- * If a given signal is not needed, pass the @ref NRF_SPIM_PIN_NOT_CONNECTED
- * value instead of its pin number.
- *
- * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in] sck_pin  SCK pin number.
- * @param[in] mosi_pin MOSI pin number.
- * @param[in] miso_pin MISO pin number.
- */
-__STATIC_INLINE void nrf_spim_pins_set(NRF_SPIM_Type * p_reg,
-                                       uint32_t        sck_pin,
-                                       uint32_t        mosi_pin,
-                                       uint32_t        miso_pin,
-																			 uint32_t        cs_pin);
-
-#if (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Function for configuring the SPIM hardware CSN pin.
- *
- * If this signal is not needed, pass the @ref NRF_SPIM_PIN_NOT_CONNECTED
- * value instead of its pin number.
- *
- * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in] pin      CSN pin number.
- * @param[in] polarity CSN pin polarity.
- * @param[in] duration Minimum duration between the edge of CSN and the edge of SCK
- *                     and minimum duration of CSN must stay unselected between transactions.
- *                     The value is specified in number of 64 MHz clock cycles (15.625 ns).
- */
-__STATIC_INLINE void nrf_spim_csn_configure(NRF_SPIM_Type *    p_reg,
-                                            uint32_t           pin,
-                                            nrf_spim_csn_pol_t polarity,
-                                            uint32_t           duration);
-#endif // (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 
 
 
@@ -244,27 +203,7 @@ __STATIC_INLINE void nrf_spim_csn_configure(NRF_SPIM_Type *    p_reg,
 __STATIC_INLINE void nrf_spim_frequency_set(NRF_SPIM_Type *      p_reg,
                                             nrf_spim_frequency_t frequency);
 
-/**
- * @brief Function for setting the transmit buffer.
- *
- * @param[in]  p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in]  p_buffer Pointer to the buffer with data to send.
- * @param[in]  length   Maximum number of data bytes to transmit.
- */
-__STATIC_INLINE void nrf_spim_tx_buffer_set(NRF_SPIM_Type * p_reg,
-                                            uint8_t const * p_buffer,
-                                            size_t          length);
 
-/**
- * @brief Function for setting the receive buffer.
- *
- * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in] p_buffer Pointer to the buffer for received data.
- * @param[in] length   Maximum number of data bytes to receive.
- */
-__STATIC_INLINE void nrf_spim_rx_buffer_set(NRF_SPIM_Type * p_reg,
-                                            uint8_t *       p_buffer,
-                                            size_t          length);
 
 /**
  * @brief Function for setting the SPI configuration.
@@ -277,15 +216,7 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
                                         nrf_spim_mode_t      spi_mode,
                                         nrf_spim_bit_order_t spi_bit_order);
 
-/**
- * @brief Function for setting the over-read character.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] orc   Over-read character that is clocked out in case of
- *                  an over-read of the TXD buffer.
- */
-__STATIC_INLINE void nrf_spim_orc_set(NRF_SPIM_Type * p_reg,
-                                      uint8_t         orc);
+
 
 
 
@@ -294,82 +225,6 @@ __STATIC_INLINE void nrf_spim_orc_set(NRF_SPIM_Type * p_reg,
 
 
 
-__STATIC_INLINE void nrf_spim_int_enable(NRF_SPIM_Type * p_reg,
-                                         uint32_t        mask)
-{
-   
-}
-
-__STATIC_INLINE void nrf_spim_int_disable(NRF_SPIM_Type * p_reg,
-                                          uint32_t        mask)
-{
-    
-}
-
-__STATIC_INLINE bool nrf_spim_int_enable_check(NRF_SPIM_Type *     p_reg,
-                                               nrf_spim_int_mask_t spim_int)
-{
-    return (bool)0;//(p_reg-> & spim_int);
-}
-
-
-
-__STATIC_INLINE void nrf_spim_enable(NRF_SPIM_Type * p_reg)
-{
-    p_reg->IE = 0x01;
-}
-
-__STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg)
-{
-    
-}
-
-__STATIC_INLINE void nrf_spim_pins_set(NRF_SPIM_Type * p_reg,
-                                       uint32_t        sck_pin,
-                                       uint32_t        mosi_pin,
-                                       uint32_t        miso_pin,
-																			 uint32_t        cs_pin)
-{
-
-}
-
-#if (NRF_SPIM_HW_CSN_PRESENT)
-__STATIC_INLINE void nrf_spim_csn_configure(NRF_SPIM_Type *    p_reg,
-                                            uint32_t           pin,
-                                            nrf_spim_csn_pol_t polarity,
-                                            uint32_t           duration)
-{
-
-}
-#endif // defined(NRF_SPIM_HW_CSN_PRESENT)
-
-
-
-
-
-
-
-
-
-__STATIC_INLINE void nrf_spim_frequency_set(NRF_SPIM_Type *      p_reg,
-                                            nrf_spim_frequency_t frequency)
-{
-    
-}
-
-__STATIC_INLINE void nrf_spim_tx_buffer_set(NRF_SPIM_Type * p_reg,
-                                            uint8_t const * p_buffer,
-                                            size_t          length)
-{
-
-}
-
-__STATIC_INLINE void nrf_spim_rx_buffer_set(NRF_SPIM_Type * p_reg,
-                                            uint8_t * p_buffer,
-                                            size_t    length)
-{
- 
-}
 
 __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
                                         nrf_spim_mode_t      spi_mode,

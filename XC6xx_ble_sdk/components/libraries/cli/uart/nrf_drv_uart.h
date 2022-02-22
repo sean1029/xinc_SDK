@@ -131,7 +131,6 @@
     #define NRF_UART_PARITY_EXCLUDED    NRF_UARTE_PARITY_EXCLUDED
     #define NRF_UART_PARITY_INCLUDED    NRF_UARTE_PARITY_INCLUDED
     typedef nrf_uarte_parity_t          nrf_uart_parity_t;
-    typedef nrf_uarte_task_t            nrf_uart_task_t;
     typedef nrf_uarte_event_t           nrf_uart_event_t;
     #define NRF_UART_PSEL_DISCONNECTED  NRF_UARTE_PSEL_DISCONNECTED
     #define nrf_uart_event_clear(...)
@@ -587,7 +586,7 @@ uint32_t nrf_drv_uart_errorsrc_get(nrf_drv_uart_t const * p_instance)
     }
     else if (NRF_DRV_UART_USE_UART)
     {
-        nrf_uart_event_clear(p_instance->uart.p_reg, NRF_UART_EVENT_ERROR);
+//        nrf_uart_event_clear(p_instance->uart.p_reg, NRF_UART_EVENT_ERROR);
         result = nrfx_uart_errorsrc_get(&p_instance->uart);
     }
     return result;

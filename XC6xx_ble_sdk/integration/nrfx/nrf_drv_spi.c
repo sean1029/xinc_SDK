@@ -48,11 +48,11 @@ static nrf_drv_spi_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];
 
 #ifdef SPIM_PRESENT
-static void spim_evt_handler(nrfx_spim_evt_t const * p_event,
+static void spim_evt_handler(nrfx_spim_evt_t  * p_event,
                              void *                  p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;
-    nrf_drv_spi_evt_t const event =
+    nrf_drv_spi_evt_t event =
     {
         .type = (nrf_drv_spi_evt_type_t)p_event->type,
         .data =

@@ -146,7 +146,7 @@ typedef struct
 /** @brief Single transfer descriptor structure. */
 typedef struct
 {
-    uint8_t const * p_tx_buffer; ///< Pointer to TX buffer.
+    uint8_t  * p_tx_buffer; ///< Pointer to TX buffer.
     size_t          tx_length;   ///< TX buffer length.
     uint8_t       * p_rx_buffer; ///< Pointer to RX buffer.
     size_t          rx_length;   ///< RX buffer length.
@@ -159,7 +159,7 @@ typedef struct
  */
 #define NRFX_SPIM_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len) \
     {                                                     \
-    .p_tx_buffer = (uint8_t const *)(p_tx),               \
+    .p_tx_buffer = (uint8_t *)(p_tx),               \
     .tx_length = (tx_len),                                \
     .p_rx_buffer = (p_rx),                                \
     .rx_length = (rx_len),                                \
@@ -272,7 +272,7 @@ void       nrfx_spim_uninit(nrfx_spim_t const * const p_instance);
  *                                  RAM region.
  */
 nrfx_err_t nrfx_spim_xfer(nrfx_spim_t const * const     p_instance,
-                          nrfx_spim_xfer_desc_t const * p_xfer_desc,
+                          nrfx_spim_xfer_desc_t * p_xfer_desc,
                           uint32_t                      flags);
 
 #if NRFX_CHECK(NRFX_SPIM_EXTENDED_ENABLED) || defined(__NRFX_DOXYGEN__)
@@ -305,7 +305,7 @@ nrfx_err_t nrfx_spim_xfer(nrfx_spim_t const * const     p_instance,
  *                                  RAM region.
  */
 nrfx_err_t nrfx_spim_xfer_dcx(nrfx_spim_t const * const     p_instance,
-                              nrfx_spim_xfer_desc_t const * p_xfer_desc,
+                              nrfx_spim_xfer_desc_t  * p_xfer_desc,
                               uint32_t                      flags,
                               uint8_t                       cmd_length);
 #endif

@@ -835,6 +835,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_clk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1105,11 +1110,6 @@
               <FileName>nrfx_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrfx_uarte.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uarte.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1873,6 +1873,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_clk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2092,11 +2097,6 @@
               <FileName>nrfx_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrfx_uarte.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uarte.c</FilePath>
             </File>
           </Files>
         </Group>

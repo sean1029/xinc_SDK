@@ -57,15 +57,6 @@ extern "C" {
 /** @brief Pin disconnected value. */
 #define NRF_UART_PSEL_DISCONNECTED 0xFFFFFFFF
 
-/** @brief UART tasks. */
-typedef enum
-{
-    NRF_UART_TASK_STARTRX = 0,//offsetof(NRF_UART_Type, TASKS_STARTRX), /**< Task for starting reception. */
-    NRF_UART_TASK_STOPRX  = 0,//offsetof(NRF_UART_Type, TASKS_STOPRX),  /**< Task for stopping reception. */
-    NRF_UART_TASK_STARTTX = 0,//offsetof(NRF_UART_Type, TASKS_STARTTX), /**< Task for starting transmission. */
-    NRF_UART_TASK_STOPTX  = 0,//offsetof(NRF_UART_Type, TASKS_STOPTX),  /**< Task for stopping transmission. */
-    NRF_UART_TASK_SUSPEND = 0,//offsetof(NRF_UART_Type, TASKS_SUSPEND), /**< Task for suspending UART. */
-} nrf_uart_task_t;
 
 /** @brief UART events. */
 typedef enum
@@ -133,24 +124,7 @@ typedef enum
     NRF_UART_HWFC_ENABLED  = UART_CONFIG_HWFC_Enabled,  /**< Hardware flow control enabled. */
 } nrf_uart_hwfc_t;
 
-/**
- * @brief Function for clearing the specified UART event.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Event to clear.
- */
-__STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_t event);
 
-/**
- * @brief Function for retrieving the state of the UART event.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] event Event to be checked.
- *
- * @retval true  The event has been generated.
- * @retval false The event has not been generated.
- */
-__STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event);
 
 
 /**
@@ -203,75 +177,6 @@ __STATIC_INLINE void nrf_uart_enable(NRF_UART_Type * p_reg);
  */
 __STATIC_INLINE void nrf_uart_disable(NRF_UART_Type * p_reg);
 
-/**
- * @brief Function for configuring TX/RX pins.
- *
- * @param p_reg   Pointer to the structure of registers of the peripheral.
- * @param pseltxd TXD pin number.
- * @param pselrxd RXD pin number.
- */
-__STATIC_INLINE void nrf_uart_txrx_pins_set(NRF_UART_Type * p_reg, uint32_t pseltxd, uint32_t pselrxd);
-
-/**
- * @brief Function for disconnecting TX/RX pins.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_uart_txrx_pins_disconnect(NRF_UART_Type * p_reg);
-
-/**
- * @brief Function for getting TX pin.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return TX pin number.
- */
-__STATIC_INLINE uint32_t nrf_uart_tx_pin_get(NRF_UART_Type * p_reg);
-
-/**
- * @brief Function for getting RX pin.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return RX pin number.
- */
-__STATIC_INLINE uint32_t nrf_uart_rx_pin_get(NRF_UART_Type * p_reg);
-
-/**
- * @brief Function for getting RTS pin.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return RTS pin number.
- */
-__STATIC_INLINE uint32_t nrf_uart_rts_pin_get(NRF_UART_Type * p_reg);
-
-/**
- * @brief Function for getting CTS pin.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return CTS pin number.
- */
-__STATIC_INLINE uint32_t nrf_uart_cts_pin_get(NRF_UART_Type * p_reg);
-
-/**
- * @brief Function for configuring flow control pins.
- *
- * @param p_reg   Pointer to the structure of registers of the peripheral.
- * @param pselrts RTS pin number.
- * @param pselcts CTS pin number.
- */
-__STATIC_INLINE void nrf_uart_hwfc_pins_set(NRF_UART_Type * p_reg,
-                                            uint32_t        pselrts,
-                                            uint32_t        pselcts);
-
-/**
- * @brief Function for disconnecting flow control pins.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- */
-__STATIC_INLINE void nrf_uart_hwfc_pins_disconnect(NRF_UART_Type * p_reg);
 
 /**
  * @brief Function for reading RX data.
@@ -290,26 +195,8 @@ __STATIC_INLINE uint8_t nrf_uart_rxd_get(NRF_UART_Type * p_reg);
  */
 __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd);
 
-/**
- * @brief Function for starting an UART task.
- *
- * @param p_reg Pointer to the structure of registers of the peripheral.
- * @param task  Task.
- */
-__STATIC_INLINE void nrf_uart_task_trigger(NRF_UART_Type * p_reg, nrf_uart_task_t task);
 
 
-
-/**
- * @brief Function for configuring UART.
- *
- * @param p_reg  Pointer to the structure of registers of the peripheral.
- * @param hwfc   Hardware flow control. Enabled if true.
- * @param parity Parity. Included if true.
- */
-__STATIC_INLINE void nrf_uart_configure(NRF_UART_Type   * p_reg,
-                                        nrf_uart_parity_t parity,
-                                        nrf_uart_hwfc_t   hwfc);
 
 /**
  * @brief Function for setting UART baud rate.
@@ -324,11 +211,7 @@ __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type * p_reg, nrf_uart_baudr
 
 __STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_t event)
 {
-   // *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
-#if __CORTEX_M == 0x04
-    volatile uint32_t dummy = *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event));
-    (void)dummy;
-#endif
+
 }
 
 __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event)
@@ -359,34 +242,34 @@ __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_
 
 __STATIC_INLINE void nrf_uart_int_enable(NRF_UART_Type * p_reg, uint32_t mask)
 {
-   // p_reg->INTENSET = mask;
+   
 }
 
 __STATIC_INLINE bool nrf_uart_int_enable_check(NRF_UART_Type * p_reg, uint32_t mask)
 {
-    return (bool)0;//(p_reg->INTENSET & mask);
+    return (bool)0;
 }
 
 __STATIC_INLINE void nrf_uart_int_disable(NRF_UART_Type * p_reg, uint32_t mask)
 {
-  //  p_reg->INTENCLR = mask;
+
 }
 
 __STATIC_INLINE uint32_t nrf_uart_errorsrc_get_and_clear(NRF_UART_Type * p_reg)
 {
-    uint32_t errsrc_mask = 0;//p_reg->ERRORSRC;
-  //  p_reg->ERRORSRC = errsrc_mask;
+    uint32_t errsrc_mask = 0;
+
     return errsrc_mask;
 }
 
 __STATIC_INLINE void nrf_uart_enable(NRF_UART_Type * p_reg)
 {
-   // p_reg->ENABLE = UART_ENABLE_ENABLE_Enabled;
+
 }
 
 __STATIC_INLINE void nrf_uart_disable(NRF_UART_Type * p_reg)
 {
-   // p_reg->ENABLE = UART_ENABLE_ENABLE_Disabled;
+
 }
 
 __STATIC_INLINE void nrf_uart_txrx_pins_set(NRF_UART_Type * p_reg, uint32_t pseltxd, uint32_t pselrxd)
@@ -403,78 +286,10 @@ __STATIC_INLINE void nrf_uart_txrx_pins_set(NRF_UART_Type * p_reg, uint32_t psel
 //#endif
 }
 
-__STATIC_INLINE void nrf_uart_txrx_pins_disconnect(NRF_UART_Type * p_reg)
-{
-    nrf_uart_txrx_pins_set(p_reg, NRF_UART_PSEL_DISCONNECTED, NRF_UART_PSEL_DISCONNECTED);
-}
-
-__STATIC_INLINE uint32_t nrf_uart_tx_pin_get(NRF_UART_Type * p_reg)
-{
-//#if defined(UART_PSEL_TXD_CONNECT_Pos)
-//    return p_reg->PSEL.TXD;
-//#else
-//    return p_reg->PSELTXD;
-//#endif
-	return 0;
-}
-
-__STATIC_INLINE uint32_t nrf_uart_rx_pin_get(NRF_UART_Type * p_reg)
-{
-//#if defined(UART_PSEL_RXD_CONNECT_Pos)
-//    return p_reg->PSEL.RXD;
-//#else
-//    return p_reg->PSELRXD;
-//#endif
-	return 1;
-}
-
-__STATIC_INLINE uint32_t nrf_uart_rts_pin_get(NRF_UART_Type * p_reg)
-{
-//#if defined(UART_PSEL_RTS_CONNECT_Pos)
-//    return p_reg->PSEL.RTS;
-//#else
-//    return p_reg->PSELRTS;
-//#endif
-	return 2;
-}
-
-__STATIC_INLINE uint32_t nrf_uart_cts_pin_get(NRF_UART_Type * p_reg)
-{
-//#if defined(UART_PSEL_RTS_CONNECT_Pos)
-//    return p_reg->PSEL.CTS;
-//#else
-//    return p_reg->PSELCTS;
-//#endif
-	return 3;
-}
-
-__STATIC_INLINE void nrf_uart_hwfc_pins_set(NRF_UART_Type * p_reg, uint32_t pselrts, uint32_t pselcts)
-{
-//#if defined(UART_PSEL_RTS_CONNECT_Pos)
-//    p_reg->PSEL.RTS = pselrts;
-//#else
-//    p_reg->PSELRTS = pselrts;
-//#endif
-
-//#if defined(UART_PSEL_RTS_CONNECT_Pos)
-//    p_reg->PSEL.CTS = pselcts;
-//#else
-//    p_reg->PSELCTS = pselcts;
-//#endif
-}
-
-__STATIC_INLINE void nrf_uart_hwfc_pins_disconnect(NRF_UART_Type * p_reg)
-{
-    nrf_uart_hwfc_pins_set(p_reg, NRF_UART_PSEL_DISCONNECTED, NRF_UART_PSEL_DISCONNECTED);
-}
 
 __STATIC_INLINE uint8_t nrf_uart_rxd_get(NRF_UART_Type * p_reg)
 {
-		uint8_t c;
-		c = p_reg->RBR_THR_DLL.RBR;
-	
-	return c;
-  //  return p_reg->RBR_THR_DLL.RBR;
+    return p_reg->RBR_THR_DLL.RBR;
 }
 
 __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd)
@@ -482,33 +297,14 @@ __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd)
 		p_reg->RBR_THR_DLL.THR = txd;
 }
 
-__STATIC_INLINE void nrf_uart_task_trigger(NRF_UART_Type * p_reg, nrf_uart_task_t task)
-{
-   // *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)task)) = 0x1UL;
-}
 
-  void	Init_uart_config(uint32_t	ch , uint32_t	baud)  ;
-	  void	Init_uart_baud(uint32_t	ch , uint32_t	baud) ;
-__STATIC_INLINE void nrf_uart_configure(NRF_UART_Type   * p_reg,
-                                            nrf_uart_parity_t parity,
-                                            nrf_uart_hwfc_t   hwfc)
-{
-  //  p_reg->CONFIG = (uint32_t)parity | (uint32_t)hwfc;
-	p_reg->TCR &= ~(0x01 << 3);
-	p_reg->MCR &= ~(0x01 << 5);
-	p_reg->TCR |= (0x03 << 0);
-	p_reg->IIR_FCR.FCR = 0XB7;
-	
-	
-//	Init_uart_config(1,0);
-} 
+ 
 __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type   * p_reg, nrf_uart_baudrate_t baudrate)
 {
    p_reg->TCR |= (0x01 << 7);
 	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f;
 	 p_reg->IER_DLH.DLH = 0;
 	 p_reg->TCR &= ~(0x01 << 7);
-	//Init_uart_baud(1,baudrate);
 }
 #endif //SUPPRESS_INLINE_IMPLEMENTATION
 

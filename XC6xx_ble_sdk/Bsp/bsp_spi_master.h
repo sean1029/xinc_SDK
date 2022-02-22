@@ -16,6 +16,7 @@ extern void	spi_flash_page_erase(uint32_t	no);
 extern  void	Init_spi_master(uint32_t ch, uint32_t freq);
 extern  void	spi_flash_Read_Page(uint32_t	PageAddR, uint8_t *buff);
 extern  uint8_t	spi_flash_wait_till_ready (void);
+extern  uint8_t	spi1_flash_wait_till_ready (void);
 extern	void	spi_flash_chip_erase(void);
 extern	uint32_t	spi_flash_block_num(uint32_t	size);
 extern	void	spi_flash_block_erase(uint32_t	blknum);

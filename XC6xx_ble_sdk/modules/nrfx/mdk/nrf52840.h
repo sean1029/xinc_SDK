@@ -321,6 +321,7 @@ typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Str
   __IOM  uint32_t  CTRL0;
 	__IOM  uint32_t  CTRL1;
 	__IOM  uint32_t  EN;
+	__IM  uint32_t  RESERVED0;
 	__IOM  uint32_t  SE;
 	__IOM  uint32_t  BAUD;
 	__IOM  uint32_t  TXFLT;
@@ -334,12 +335,12 @@ typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Str
 	__IM  uint32_t  TXOIC;
 	__IM  uint32_t  RXOIC;
 	__IM  uint32_t  RXUIC;
-	__IM  uint32_t  RESERVED;
+	__IM  uint32_t  RESERVED1;
 	__IM  uint32_t  IC;
 	__IOM  uint32_t DMAS;
 	__IOM  uint32_t DMATDL;
 	__IOM  uint32_t DMARDL;
-	__IM  uint32_t  RESERVED1[2];
+	__IM  uint32_t  RESERVED2[2];
 	__IOM  uint32_t DATA;
 } NRF_SPIM_Type;                               
 

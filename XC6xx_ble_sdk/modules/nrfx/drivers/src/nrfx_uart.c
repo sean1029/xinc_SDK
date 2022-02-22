@@ -47,9 +47,9 @@
 #endif
 
 #include <nrfx_uart.h>
-//#include "prs/nrfx_prs.h"
 #include <hal/nrf_gpio.h>
 #include "bsp_register_macro.h"
+#include "bsp_clk.h"
 #include "bsp_uart.h"
 #define NRFX_LOG_MODULE UART
 #include <nrfx_log.h>
@@ -87,32 +87,44 @@ static void apply_config(nrfx_uart_t        const * p_instance,
 		printf("pseltxd:%d\r\n",p_config->pseltxd);
     if (p_config->pseltxd != NRF_UART_PSEL_DISCONNECTED)
     {     
-      //  nrf_gpio_cfg_output(p_config->pseltxd);
-			//  nrf_gpio_pin_set(p_config->pseltxd);
+      
     }
 		printf("pselrxd:%d\r\n",p_config->pselrxd);
     if (p_config->pselrxd != NRF_UART_PSEL_DISCONNECTED)
     {
-      //  nrf_gpio_cfg_input(p_config->pselrxd, NRF_GPIO_PIN_NOPULL);
+      
     }
 		printf("baudrate_set:%d\r\n",p_config->baudrate);
+		
     nrf_uart_baudrate_set(p_instance->p_reg, p_config->baudrate);
 		
-    nrf_uart_configure(p_instance->p_reg, p_config->parity, p_config->hwfc);
+		//  nrf_uart_configure
+		p_instance->p_reg->TCR &= ~(0x01 << 3);
+		p_instance->p_reg->MCR &= ~(0x01 << 5);
+		p_instance->p_reg->TCR |= (0x03 << 0);
+		p_instance->p_reg->IIR_FCR.FCR = 0XB7;
 		
     nrf_uart_txrx_pins_set(p_instance->p_reg, p_config->pseltxd, p_config->pselrxd);
+		
+		
+		gpio_fun_sel(p_config->pseltxd,UART1_TX);
+		gpio_fun_sel(p_config->pselrxd,UART1_RX);
+		
+		
+		
+		
+		
     if (p_config->hwfc == NRF_UART_HWFC_ENABLED)
     {
         if (p_config->pselcts != NRF_UART_PSEL_DISCONNECTED)
         {
-            nrf_gpio_cfg_input(p_config->pselcts, NRF_GPIO_PIN_NOPULL);
+          
         }
         if (p_config->pselrts != NRF_UART_PSEL_DISCONNECTED)
         {
-            nrf_gpio_pin_set(p_config->pselrts);
-            nrf_gpio_cfg_output(p_config->pselrts);
+         
         }
-        nrf_uart_hwfc_pins_set(p_instance->p_reg, p_config->pselrts, p_config->pselcts);
+     
     }
 }
 
@@ -120,62 +132,21 @@ static void interrupts_enable(nrfx_uart_t const * p_instance,
                               uint8_t             interrupt_priority)
 {
 	  printf("%s\r\n",__func__);
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_TXDRDY);
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_RXTO);
-    nrf_uart_int_enable(p_instance->p_reg, NRF_UART_INT_MASK_TXDRDY |
-                                           NRF_UART_INT_MASK_RXTO);
-//    NRFX_IRQ_PRIORITY_SET(nrfx_get_irq_number((void *)p_instance->p_reg),
-//                          interrupt_priority);
-//    NRFX_IRQ_ENABLE(nrfx_get_irq_number((void *)p_instance->p_reg));
-			p_instance->p_reg->IER_DLH.IER = 0X03;	//打开接收中断
+ 
+		p_instance->p_reg->IER_DLH.IER = 0X03;//open tx/rx interrupt
 	
 		printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
               
-		//	val = UART0_IRQn + p_instance->drv_inst_idx;
-			NVIC_EnableIRQ((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
+	
+		NVIC_EnableIRQ((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
 }
 
 static void interrupts_disable(nrfx_uart_t const * p_instance)
 {
-    nrf_uart_int_disable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
-                                            NRF_UART_INT_MASK_TXDRDY |
-                                            NRF_UART_INT_MASK_ERROR  |
-                                            NRF_UART_INT_MASK_RXTO);
-    NRFX_IRQ_DISABLE(nrfx_get_irq_number((void *)p_instance->p_reg));
+   p_instance->p_reg->IER_DLH.IER = 0X00;
+    NRFX_IRQ_DISABLE((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
 }
 
-static void pins_to_default(nrfx_uart_t const * p_instance)
-{
-    /* Reset pins to default states */
-    uint32_t txd;
-    uint32_t rxd;
-    uint32_t rts;
-    uint32_t cts;
-
-    txd = nrf_uart_tx_pin_get(p_instance->p_reg);
-    rxd = nrf_uart_rx_pin_get(p_instance->p_reg);
-    rts = nrf_uart_rts_pin_get(p_instance->p_reg);
-    cts = nrf_uart_cts_pin_get(p_instance->p_reg);
-    nrf_uart_txrx_pins_disconnect(p_instance->p_reg);
-    nrf_uart_hwfc_pins_disconnect(p_instance->p_reg);
-
-    if (txd != NRF_UART_PSEL_DISCONNECTED)
-    {
-        nrf_gpio_cfg_default(txd);
-    }
-    if (rxd != NRF_UART_PSEL_DISCONNECTED)
-    {
-        nrf_gpio_cfg_default(rxd);
-    }
-    if (cts != NRF_UART_PSEL_DISCONNECTED)
-    {
-        nrf_gpio_cfg_default(cts);
-    }
-    if (rts != NRF_UART_PSEL_DISCONNECTED)
-    {
-        nrf_gpio_cfg_default(rts);
-    }
-}
 
 nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
                           nrfx_uart_config_t const * p_config,
@@ -194,7 +165,9 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
                          NRFX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-		Init_uart_clk(p_instance->drv_inst_idx,p_config->baudrate);	
+	
+		xc_uart_clk_init(p_instance->drv_inst_idx,p_config->baudrate);
+		
 
     apply_config(p_instance, p_config);
 
@@ -229,11 +202,6 @@ void nrfx_uart_uninit(nrfx_uart_t const * p_instance)
         interrupts_disable(p_instance);
     }
 
-    pins_to_default(p_instance);
-
-#if NRFX_CHECK(NRFX_PRS_ENABLED)
-    nrfx_prs_release(p_instance->p_reg);
-#endif
 
     p_cb->state   = NRFX_DRV_STATE_UNINITIALIZED;
     p_cb->handler = NULL;
@@ -242,7 +210,7 @@ void nrfx_uart_uninit(nrfx_uart_t const * p_instance)
 
 static void tx_byte(NRF_UART_Type * p_uart, uart_control_block_t * p_cb)
 {
-    nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
+//    nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
     uint8_t txd = p_cb->p_tx_buffer[p_cb->tx_counter];
     p_cb->tx_counter++;
     nrf_uart_txd_set(p_uart, txd);
@@ -302,9 +270,8 @@ nrfx_err_t nrfx_uart_tx(nrfx_uart_t const * p_instance,
 
     err_code = NRFX_SUCCESS;
 
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_TXDRDY);
-    nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STARTTX);
-
+//    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_TXDRDY);
+   
     tx_byte(p_instance->p_reg, p_cb);
 
     if (p_cb->handler == NULL)
@@ -319,7 +286,7 @@ nrfx_err_t nrfx_uart_tx(nrfx_uart_t const * p_instance,
             // Wait until the last byte is completely transmitted.
 //            while (!nrf_uart_event_check(p_instance->p_reg, NRF_UART_EVENT_TXDRDY))
             {}
-            nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STOPTX);
+           
         }
         p_cb->tx_buffer_length = 0;
     }
@@ -333,23 +300,15 @@ bool nrfx_uart_tx_in_progress(nrfx_uart_t const * p_instance)
     return (m_cb[p_instance->drv_inst_idx].tx_buffer_length != 0);
 }
 
-static void rx_enable(nrfx_uart_t const * p_instance)
-{
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_ERROR);
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_RXDRDY);
-    nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STARTRX);
-}
 
 static void rx_byte(NRF_UART_Type * p_uart, uart_control_block_t * p_cb)
 {
     if (!p_cb->rx_buffer_length)
     {
-        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_RXDRDY);
         // Byte received when buffer is not set - data lost.
         (void) nrf_uart_rxd_get(p_uart);
         return;
     }
-    nrf_uart_event_clear(p_uart, NRF_UART_EVENT_RXDRDY);
     p_cb->p_rx_buffer[p_cb->rx_counter] = nrf_uart_rxd_get(p_uart);
     p_cb->rx_counter++;
 }
@@ -379,8 +338,8 @@ nrfx_err_t nrfx_uart_rx(nrfx_uart_t const * p_instance,
         {
             if (p_cb->handler)
             {
-                nrf_uart_int_enable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
-                                                       NRF_UART_INT_MASK_ERROR);
+//                nrf_uart_int_enable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
+//                                                       NRF_UART_INT_MASK_ERROR);
             }
             err_code = NRFX_ERROR_BUSY;
             NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -405,15 +364,11 @@ nrfx_err_t nrfx_uart_rx(nrfx_uart_t const * p_instance,
     }
 
     NRFX_LOG_INFO("Transfer rx_len: %d.", length);
-
-    if ((!p_cb->rx_enabled) && (!second_buffer))
-    {
-        rx_enable(p_instance);
-    }
+   
 
     if (p_cb->handler == NULL)
     {
-        nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_RXTO);
+//        nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_RXTO);
 
         bool rxrdy;
         bool rxto;
@@ -453,20 +408,11 @@ nrfx_err_t nrfx_uart_rx(nrfx_uart_t const * p_instance,
             return err_code;
         }
 
-        if (p_cb->rx_enabled)
-        {
-            nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STARTRX);
-        }
-        else
-        {
-            // Skip stopping RX if driver is forced to be enabled.
-            nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STOPRX);
-        }
     }
     else
     {
-        nrf_uart_int_enable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
-                                               NRF_UART_INT_MASK_ERROR);
+//        nrf_uart_int_enable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
+//                                               NRF_UART_INT_MASK_ERROR);
     }
     err_code = NRFX_SUCCESS;
     NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
@@ -482,20 +428,19 @@ void nrfx_uart_rx_enable(nrfx_uart_t const * p_instance)
 {
     if (!m_cb[p_instance->drv_inst_idx].rx_enabled)
     {
-        rx_enable(p_instance);
         m_cb[p_instance->drv_inst_idx].rx_enabled = true;
     }
 }
 
 void nrfx_uart_rx_disable(nrfx_uart_t const * p_instance)
 {
-    nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STOPRX);
+
     m_cb[p_instance->drv_inst_idx].rx_enabled = false;
 }
 
 uint32_t nrfx_uart_errorsrc_get(nrfx_uart_t const * p_instance)
 {
-    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_ERROR);
+//    nrf_uart_event_clear(p_instance->p_reg, NRF_UART_EVENT_ERROR);
     return nrf_uart_errorsrc_get_and_clear(p_instance->p_reg);
 }
 
@@ -531,7 +476,6 @@ void nrfx_uart_tx_abort(nrfx_uart_t const * p_instance)
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
     p_cb->tx_abort = true;
-    nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STOPTX);
     if (p_cb->handler)
     {
         tx_done_event(p_cb, p_cb->tx_counter);
@@ -544,7 +488,6 @@ void nrfx_uart_rx_abort(nrfx_uart_t const * p_instance)
 {
     nrf_uart_int_disable(p_instance->p_reg, NRF_UART_INT_MASK_RXDRDY |
                                             NRF_UART_INT_MASK_ERROR);
-    nrf_uart_task_trigger(p_instance->p_reg, NRF_UART_TASK_STOPRX);
 
     NRFX_LOG_INFO("RX transaction aborted.");
 	
@@ -559,29 +502,31 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
 		IER = p_uart->IER_DLH.IER;
 		IIR = p_uart->IIR_FCR.IIR;
 	//	printf("IER:%x,IIR:%x\r\n",IER,IIR);
-    if (nrf_uart_int_enable_check(p_uart, NRF_UART_INT_MASK_ERROR))
-    {
-        nrfx_uart_event_t event;
-        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_ERROR);
-        NRFX_LOG_DEBUG("Event: %s.", EVT_TO_STR(NRF_UART_EVENT_ERROR));
-        nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
-                                     NRF_UART_INT_MASK_ERROR);
-        if (!p_cb->rx_enabled)
-        {
-            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
-        }
-        event.type                   = NRFX_UART_EVT_ERROR;
-        event.data.error.error_mask  = nrf_uart_errorsrc_get_and_clear(p_uart);
-        event.data.error.rxtx.bytes  = p_cb->rx_buffer_length;
-        event.data.error.rxtx.p_data = p_cb->p_rx_buffer;
+//    if (nrf_uart_int_enable_check(p_uart, NRF_UART_INT_MASK_ERROR))
+//    {
+//        nrfx_uart_event_t event;
+////        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_ERROR);
+//        NRFX_LOG_DEBUG("Event: %s.", EVT_TO_STR(NRF_UART_EVENT_ERROR));
+//        nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
+//                                     NRF_UART_INT_MASK_ERROR);
+//        if (!p_cb->rx_enabled)
+//        {
+////            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
+//        }
+//        event.type                   = NRFX_UART_EVT_ERROR;
+//        event.data.error.error_mask  = nrf_uart_errorsrc_get_and_clear(p_uart);
+//        event.data.error.rxtx.bytes  = p_cb->rx_buffer_length;
+//        event.data.error.rxtx.p_data = p_cb->p_rx_buffer;
 
-        // Abort transfer.
-        p_cb->rx_buffer_length = 0;
-        p_cb->rx_secondary_buffer_length = 0;
+//        // Abort transfer.
+//        p_cb->rx_buffer_length = 0;
+//        p_cb->rx_secondary_buffer_length = 0;
 
-        p_cb->handler(&event,p_cb->p_context);
-    }
-    else if ((IER & 0X01) && ( ( (IIR & 0xf) == 0x04 )|| ( (IIR & 0xf) == 0x0c) ))
+//        p_cb->handler(&event,p_cb->p_context);
+//    }
+//    else 
+			
+		if ((IER & 0X01) && ( ( (IIR & 0xf) == 0x04 )|| ( (IIR & 0xf) == 0x0c) ))
     {
 				
 				rx_byte(p_uart, p_cb);
@@ -605,7 +550,7 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
             {
                 if (!p_cb->rx_enabled)
                 {
-                    nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
+//                    
                 }
                 nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
                                              NRF_UART_INT_MASK_ERROR);
@@ -619,7 +564,7 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
 						    // RXTO event may be triggered as a result of abort call. In th
 							if (p_cb->rx_enabled)
 							{
-									nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STARTRX);
+//									
 							}
 							if (p_cb->rx_buffer_length)
 							{
@@ -643,7 +588,7 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
         }
         else
         {
-            nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
+//            nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
             if (p_cb->tx_buffer_length)
             {
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
@@ -653,6 +598,7 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
 
 }
 
+#if 0
 static void uart1_irq_handler(NRF_UART_Type *        p_uart,
                              uart_control_block_t * p_cb)
 {
@@ -660,13 +606,13 @@ static void uart1_irq_handler(NRF_UART_Type *        p_uart,
         nrf_uart_event_check(p_uart, NRF_UART_EVENT_ERROR))
     {
         nrfx_uart_event_t event;
-        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_ERROR);
+//        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_ERROR);
         NRFX_LOG_DEBUG("Event: %s.", EVT_TO_STR(NRF_UART_EVENT_ERROR));
         nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
                                      NRF_UART_INT_MASK_ERROR);
         if (!p_cb->rx_enabled)
         {
-            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
+//            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
         }
         event.type                   = NRFX_UART_EVT_ERROR;
         event.data.error.error_mask  = nrf_uart_errorsrc_get_and_clear(p_uart);
@@ -701,7 +647,7 @@ static void uart1_irq_handler(NRF_UART_Type *        p_uart,
             {
                 if (!p_cb->rx_enabled)
                 {
-                    nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
+//                    
                 }
                 nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
                                              NRF_UART_INT_MASK_ERROR);
@@ -722,7 +668,7 @@ static void uart1_irq_handler(NRF_UART_Type *        p_uart,
         }
         else
         {
-            nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
+//            nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
             if (p_cb->tx_buffer_length)
             {
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
@@ -732,12 +678,12 @@ static void uart1_irq_handler(NRF_UART_Type *        p_uart,
 
     if (nrf_uart_event_check(p_uart, NRF_UART_EVENT_RXTO))
     {
-        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_RXTO);
+//        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_RXTO);
 
         // RXTO event may be triggered as a result of abort call. In th
         if (p_cb->rx_enabled)
         {
-            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STARTRX);
+//           
         }
         if (p_cb->rx_buffer_length)
         {
@@ -746,6 +692,7 @@ static void uart1_irq_handler(NRF_UART_Type *        p_uart,
         }
     }
 }
+#endif
 
 #if NRFX_CHECK(NRFX_UART0_ENABLED)
 void nrfx_uart_0_irq_handler(void)

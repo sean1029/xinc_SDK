@@ -53,6 +53,7 @@
     #define NRF_SPI_FREQ_2M             NRF_SPIM_FREQ_2M
     #define NRF_SPI_FREQ_4M             NRF_SPIM_FREQ_4M
     #define NRF_SPI_FREQ_8M             NRF_SPIM_FREQ_8M
+		#define NRF_SPI_FREQ_16M            NRF_SPIM_FREQ_16M
     #define NRF_SPI_MODE_0              NRF_SPIM_MODE_0
     #define NRF_SPI_MODE_1              NRF_SPIM_MODE_1
     #define NRF_SPI_MODE_2              NRF_SPIM_MODE_2
@@ -141,7 +142,8 @@ typedef enum
     NRF_DRV_SPI_FREQ_1M   = NRF_SPI_FREQ_1M,   ///< 1 Mbps.
     NRF_DRV_SPI_FREQ_2M   = NRF_SPI_FREQ_2M,   ///< 2 Mbps.
     NRF_DRV_SPI_FREQ_4M   = NRF_SPI_FREQ_4M,   ///< 4 Mbps.
-    NRF_DRV_SPI_FREQ_8M   = NRF_SPI_FREQ_8M    ///< 8 Mbps.
+    NRF_DRV_SPI_FREQ_8M   = NRF_SPI_FREQ_8M,    ///< 8 Mbps.
+		NRF_DRV_SPI_FREQ_16M  = NRF_SPI_FREQ_16M
 } nrf_drv_spi_frequency_t;
 
 /**
@@ -218,7 +220,7 @@ typedef struct
  */
 typedef struct
 {
-    uint8_t const * p_tx_buffer; ///< Pointer to TX buffer.
+    uint8_t  * p_tx_buffer; ///< Pointer to TX buffer.
     uint16_t         tx_length;   ///< TX buffer length.
     uint8_t       * p_rx_buffer; ///< Pointer to RX buffer.
     uint16_t         rx_length;   ///< RX buffer length.
@@ -231,7 +233,7 @@ typedef struct
  */
 #define NRF_DRV_SPI_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len)  \
     {                                                        \
-    .p_tx_buffer = (uint8_t const *)(p_tx),                  \
+    .p_tx_buffer = (uint8_t *)(p_tx),                  \
     .tx_length = (tx_len),                                   \
     .p_rx_buffer = (p_rx),                                   \
     .rx_length = (rx_len),                                   \
@@ -276,7 +278,7 @@ typedef struct
 /**
  * @brief SPI master driver event handler type.
  */
-typedef void (* nrf_drv_spi_evt_handler_t)(nrf_drv_spi_evt_t const * p_event,
+typedef void (* nrf_drv_spi_evt_handler_t)(nrf_drv_spi_evt_t  * p_event,
                                            void *                    p_context);
 
 
@@ -344,7 +346,7 @@ void nrf_drv_spi_uninit(nrf_drv_spi_t const * const p_instance);
  */
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
-                                uint8_t const * p_tx_buffer,
+                                uint8_t  * p_tx_buffer,
                                 uint16_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
                                 uint16_t         rx_buffer_length);
@@ -392,7 +394,7 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
  */
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_xfer(nrf_drv_spi_t     const * const p_instance,
-                            nrf_drv_spi_xfer_desc_t const * p_xfer_desc,
+                            nrf_drv_spi_xfer_desc_t  * p_xfer_desc,
                             uint32_t                        flags);
 
 /**
@@ -466,16 +468,17 @@ void nrf_drv_spi_uninit(nrf_drv_spi_t const * p_instance)
 
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
-                                uint8_t const * p_tx_buffer,
+                                uint8_t  * p_tx_buffer,
                                 uint16_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
                                 uint16_t         rx_buffer_length)
 {
     ret_code_t result = 0;
+	  uint16_t tx_length = 0;
     if (NRF_DRV_SPI_USE_SPIM)
     {
     #ifdef SPIM_PRESENT
-        nrfx_spim_xfer_desc_t const spim_xfer_desc =
+        nrfx_spim_xfer_desc_t  spim_xfer_desc =
         {
             .p_tx_buffer = p_tx_buffer,
             .tx_length   = tx_buffer_length,
@@ -503,14 +506,14 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
 
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_xfer(nrf_drv_spi_t     const * const p_instance,
-                            nrf_drv_spi_xfer_desc_t const * p_xfer_desc,
+                            nrf_drv_spi_xfer_desc_t  * p_xfer_desc,
                             uint32_t                        flags)
 {
     ret_code_t result = 0;
     if (NRF_DRV_SPI_USE_SPIM)
     {
     #ifdef SPIM_PRESENT
-        nrfx_spim_xfer_desc_t const spim_xfer_desc =
+        nrfx_spim_xfer_desc_t  spim_xfer_desc =
         {
             .p_tx_buffer = p_xfer_desc->p_tx_buffer,
             .tx_length   = p_xfer_desc->tx_length,
