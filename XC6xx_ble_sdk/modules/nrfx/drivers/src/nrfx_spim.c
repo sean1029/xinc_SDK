@@ -592,14 +592,14 @@ void nrfx_spim_1_irq_handler(void)
 }
 #endif
 
-void SPI1_Handler()
+void SPI0_Handler()
 {
 	uint32_t iWK;
 	uint32_t iWK1;
 	uint32_t STS;
-	__read_hw_reg32(SSIx_IS(1) , iWK);
-	__read_hw_reg32(SSIx_RIS(1) , iWK1);
-	__read_hw_reg32(SSIx_STS(1) , STS);
+	__read_hw_reg32(SSIx_IS(0) , iWK);
+	__read_hw_reg32(SSIx_RIS(0) , iWK1);
+	__read_hw_reg32(SSIx_STS(0) , STS);
 	
 	
 	//printf("SPI1_Handler iWK :%x,iWK1:%x,STS:%x\n",iWK,iWK1,STS); 
@@ -612,11 +612,37 @@ void SPI1_Handler()
 		__write_hw_reg32(DMAS_INT_RAW, 0x808);
     __write_hw_reg32(DMAS_CLR , 11);
     __write_hw_reg32(DMAS_CLR , 3);
-		__write_hw_reg32(SSI1_EN, 0x00);
+		__write_hw_reg32(SSI0_EN, 0x00);
 	  GPIO_OUTPUT_LOW(5);
 	 GPIO_OUTPUT_HIGH(5);
 	 GPIO_OUTPUT_LOW(5);
-			irq_handler(NRF_SPIM1, &m_cb[NRFX_SPIM1_INST_IDX]);
+	//		irq_handler(NRF_SPIM0, &m_cb[NRFX_SPIM0_INST_IDX]);
+	}
+	
+}
+
+void SPI1_Handler()
+{
+	uint32_t iWK;
+	uint32_t iWK1;
+	uint32_t STS;
+	__read_hw_reg32(SSIx_IS(1) , iWK);
+	__read_hw_reg32(SSIx_RIS(1) , iWK1);
+	__read_hw_reg32(SSIx_STS(1) , STS);
+	 
+	if(iWK && (STS & 0x4))
+	{
+			do	{
+    	__read_hw_reg32(DMAS_INT_RAW , iWK);
+    }while((iWK&0x808) != 0x808);		
+		__write_hw_reg32(DMAS_INT_RAW, 0x808);
+    __write_hw_reg32(DMAS_CLR , 11);
+    __write_hw_reg32(DMAS_CLR , 3);
+		__write_hw_reg32(SSI1_EN, 0x00);
+	  GPIO_OUTPUT_LOW(5);
+	  GPIO_OUTPUT_HIGH(5);
+	  GPIO_OUTPUT_LOW(5);
+		nrfx_spim_1_irq_handler();
 	}
 	
 }

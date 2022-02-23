@@ -6,7 +6,7 @@
 #include    "Platform.h"
 #include    "bsp_spi_flash.h"
 #include    "bsp_register_macro.h"
-
+#include 		"bsp.h"
 #define alignmentDown(a,size)		(a & (~ (size -1)))
 #define alignmentUp(a,size)		  ((a + size - 1) & (~ (size -1)))
 
@@ -684,47 +684,49 @@ void	spi_flash_write(uint32_t	WriteAddR, const uint8_t *buff,uint16_t WriteLengt
 	
 	uint32_t pre_address;
 	uint32_t pre_len;
-	uint32_t page0;
+	uint32_t aliup_address;
 	uint32_t buffIdx = 0;
 	
-	page0 = (WriteAddR + FLASH_PAGE_SIZE) &(~FLASH_PAGE_MASK);
+	aliup_address = alignmentUp(WriteAddR,FLASH_PAGE_SIZE);
+
 	
+	pre_address = WriteAddR;
+	pre_len = aliup_address - pre_address;
+	if(pre_len)
 	{
-		pre_address = WriteAddR;
-		pre_len = page0 - pre_address;
-		if(pre_len)
-		{
-			while(spi_flash_wait_till_ready());
-			spi_flash_write_enable();
-			while(spi_flash_wait_till_ready());
-			spi_flash_write_page(pre_address,&buff[buffIdx],pre_len);	
-			while(spi_flash_wait_till_ready());
-			buffIdx+= pre_len;	
-		}
-		pre_address+= pre_len;
-		while(buffIdx < WriteLength)
-		{
-				if((WriteLength - buffIdx) >= FLASH_PAGE_SIZE)
-				{
-					while(spi_flash_wait_till_ready());
-					spi_flash_write_enable();
-					while(spi_flash_wait_till_ready());
-					spi_flash_write_page(pre_address,&buff[buffIdx],FLASH_PAGE_SIZE);
-					buffIdx += FLASH_PAGE_SIZE;
-					pre_address += FLASH_PAGE_SIZE;
-				}else
-				{
-					while(spi_flash_wait_till_ready());
-					spi_flash_write_enable();
-					while(spi_flash_wait_till_ready());
-					spi_flash_write_page(pre_address,&buff[buffIdx],WriteLength - buffIdx);
-					while(spi_flash_wait_till_ready());
-					buffIdx += (WriteLength - buffIdx);
-					pre_address += (WriteLength - buffIdx);
-				}
-		}
-		
+		pre_len = (pre_len > WriteLength) ? WriteLength:pre_len;
+		while(spi_flash_wait_till_ready());
+		spi_flash_write_enable();
+		while(spi_flash_wait_till_ready());
+		spi_flash_write_page(pre_address,&buff[buffIdx],pre_len);	
+		while(spi_flash_wait_till_ready());
+		buffIdx+= pre_len;	
 	}
+	pre_address+= pre_len;
+	
+	while(buffIdx < WriteLength)
+	{
+			if((WriteLength - buffIdx) >= FLASH_PAGE_SIZE)
+			{
+				while(spi_flash_wait_till_ready());
+				spi_flash_write_enable();
+				while(spi_flash_wait_till_ready());
+				spi_flash_write_page(pre_address,&buff[buffIdx],FLASH_PAGE_SIZE);
+				buffIdx += FLASH_PAGE_SIZE;
+				pre_address += FLASH_PAGE_SIZE;
+			}else
+			{
+				while(spi_flash_wait_till_ready());
+				spi_flash_write_enable();
+				while(spi_flash_wait_till_ready());
+				spi_flash_write_page(pre_address,&buff[buffIdx],WriteLength - buffIdx);
+				while(spi_flash_wait_till_ready());
+				buffIdx += (WriteLength - buffIdx);
+				pre_address += (WriteLength - buffIdx);
+			}
+	}
+		
+	
 	return;
 
 }
@@ -851,6 +853,70 @@ static void spi_handler(nrf_drv_spi_evt_t * p_event,
 
 }
 
+#define		CMD_READ_DATA			0x03
+#define		CMD_READ_STATUS			0x05
+#define		CMD_CHIP_ERASE			0xc7
+#define		CMD_WRITE_ENABLE		0x06
+#define		CMD_PAGE_PROGRAM		0x02
+#define		CMD_BLOCK_ERASE			0xD8
+#define		CMD_SECTOR_ERASE		0x20
+#define		CMD_PAGE_ERASE		    0x81
+#define		CMD_RELEASE_PWRDWN	    0xAB
+#define		CMD_PWRDWN	            0xB9
+#define		CMD_ID                  0x4B 
+#define		CMD_MID                  0x9F 
+#define		PACKET_FULL_LEN			(FLASH_PAGE_SIZE )
+void spim_flash_Read_128bitsID(uint8_t *buff)
+{
+
+		memset(txbuff,0,21);
+		txbuff[0] = CMD_ID; 
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,21,rxbuff,21);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}
+		memcpy(buff,&rxbuff[5],16);
+}
+
+void spim_flash_Read_MID(uint8_t *buff)
+{
+
+		memset(txbuff,0,4);
+		txbuff[0] = CMD_MID; 
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}
+		memcpy(buff,&rxbuff[1],3);
+}
+
+void	spim_flash_Release_powerdown(void)
+{
+		txbuff[0] = CMD_RELEASE_PWRDWN; 
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}
+
+}
+
+void	spim_flash_Enter_powerdown(void)
+{
+		txbuff[0] = CMD_PWRDWN; 
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}
+
+}
 uint8_t spim_read_flash_status(void)
 {
 		txbuff[0] = 0x05;
@@ -885,7 +951,6 @@ void spim_flash_write_enable(void)
 
 void spim_flash_write_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
 {
-		printf("spim_flash_write_page addr:0x%x,len:%d\r\n",aligAddr,len);
     txbuff[0] = CMD_PAGE_PROGRAM;
 		txbuff[1] = (uint8_t)(aligAddr>>16);
 	  txbuff[2] = (uint8_t)(aligAddr>>8);		
@@ -917,16 +982,18 @@ void spim_flash_read_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
 		}	
 		memcpy(data,&rxbuff[4],len);
 }
-
-void spim_flash_sector_erase(uint32_t aligAddr)
+void	spim_flash_page_erase(uint32_t	eraseAddr)
 {
 		spim_flash_write_enable();
-		while(spim_read_flash_status() & 0x01);
+		while(spim_read_flash_status() & 0x01)
+		{
+			__nop();
+		}
 	
-    txbuff[0] = CMD_SECTOR_ERASE;
-		txbuff[1] = (uint8_t)(aligAddr>>16);
-	  txbuff[2] = (uint8_t)(aligAddr>>8);		
-    txbuff[3] = (uint8_t)(aligAddr);
+    txbuff[0] = CMD_PAGE_ERASE;
+		txbuff[1] = (uint8_t)(eraseAddr>>16);
+	  txbuff[2] = (uint8_t)(eraseAddr>>8);		
+    txbuff[3] = (uint8_t)(eraseAddr);
    
 		spi_xfer_done = false;									
 		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
@@ -934,6 +1001,64 @@ void spim_flash_sector_erase(uint32_t aligAddr)
 		{
 			__WFE();
 		}	
+
+}
+void spim_flash_sector_erase(uint32_t sectorAddr)
+{
+		spim_flash_write_enable();
+		while(spim_read_flash_status() & 0x01)
+		{
+			__nop();
+		}
+	
+    txbuff[0] = CMD_SECTOR_ERASE;
+		txbuff[1] = (uint8_t)(sectorAddr>>16);
+	  txbuff[2] = (uint8_t)(sectorAddr>>8);		
+    txbuff[3] = (uint8_t)(sectorAddr);
+   
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}	
+}
+void	spim_flash_block_erase(uint32_t	blkAddr)
+{
+		spim_flash_write_enable();
+		while(spim_read_flash_status() & 0x01)
+		{
+			__nop();
+		}
+	
+    txbuff[0] = CMD_BLOCK_ERASE;
+		txbuff[1] = (uint8_t)(blkAddr>>16);
+	  txbuff[2] = (uint8_t)(blkAddr>>8);		
+    txbuff[3] = (uint8_t)(blkAddr);
+   
+		spi_xfer_done = false;									
+		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		while (!spi_xfer_done)
+		{
+			__WFE();
+		}	
+}
+
+void	spim_flash_chip_erase(void)
+{
+	spim_flash_write_enable();
+	while(spim_read_flash_status() & 0x01)
+	{
+		__nop();
+	}
+	txbuff[0] = CMD_CHIP_ERASE;
+
+	spi_xfer_done = false;									
+	nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+	while (!spi_xfer_done)
+	{
+		__WFE();
+	}	
 }
 
 void spim_flash_read(uint32_t	ReadAddR, uint8_t *buff,uint16_t  ReadLength)
@@ -999,19 +1124,16 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 	uint32_t pre_address;
 	uint32_t pre_len;
 	uint32_t aliup_address;
-
 	uint32_t buffIdx = 0;
 	
 	aliup_address = alignmentUp(WriteAddR,FLASH_PAGE_SIZE);
-	printf("spim_flash_write addr:0x%x,aliup_address:0x%x,len:%d\r\n",WriteAddR,aliup_address,WriteLength);
-	//if(WriteAddR > alidown_address)
+
 		
 	pre_address = WriteAddR;
 	pre_len = (aliup_address - pre_address);
 	if(pre_len)
 	{
 		pre_len = (pre_len > WriteLength) ? WriteLength:pre_len;
-		printf("flash_write 1\r\n");
 		while(spim_read_flash_status() & 0x01);
 		spim_flash_write_enable();
 		spim_flash_write_page(pre_address,&buff[buffIdx],pre_len);	
@@ -1025,7 +1147,6 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 	{
 			if((WriteLength - buffIdx) >= FLASH_PAGE_SIZE)
 			{
-				printf("flash_write 2\r\n");
 				spim_flash_write_enable();
 				spim_flash_write_page(pre_address,&buff[buffIdx],FLASH_PAGE_SIZE);
 				while(spim_read_flash_status() & 0x01);
@@ -1033,7 +1154,6 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 				pre_address += FLASH_PAGE_SIZE;
 			}else
 			{
-				printf("flash_write 3\r\n");
 				spim_flash_write_enable();
 				spim_flash_write_page(pre_address,&buff[buffIdx],WriteLength - buffIdx);
 				while(spim_read_flash_status() & 0x01);
@@ -1052,7 +1172,7 @@ void spim_flash_test(void)
 	uint8_t w_buf[200];
 	uint8_t r_buf[200];
 	const nrf_drv_spi_config_t spi_cfg = {
-											.sck_pin      = 2,
+											.sck_pin      = SPIM1_SCK_PIN,
 											.mosi_pin     = 7,
 											.miso_pin     = 6,
 											.ss_pin       = 3,
@@ -1065,17 +1185,29 @@ void spim_flash_test(void)
 		err_code = nrf_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
 								
 		
-		txbuff[0] = 0x9f;
-	  txbuff[1] = 0;
-		txbuff[2] = 0x0;
-		txbuff[3] = 0x0;									
-		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
-		while (!spi_xfer_done)
+		spim_flash_Read_MID(r_buf);
+		printf("mid:");
+		for(int i = 0;i < 3;i++)
 		{
-			__WFE();
+			printf("%02x ",r_buf[i]);
+			if(i % 16 == 15)
+			{
+				printf("\r\n");
+			}
 		}
-		printf("mid:%02x:%02x:%02x\r\n",rxbuff[1],rxbuff[2],rxbuff[3]);
+		printf("\r\n");
+		
+		spim_flash_Read_128bitsID(r_buf);
+		printf("ID:");
+		for(int i = 0;i < 16;i++)
+		{
+			printf("%02x ",r_buf[i]);
+			if(i % 16 == 15)
+			{
+				printf("\r\n");
+			}
+		}
+		printf("\r\n");
 
 		for(int i = 0;i < 0x80;i++)
 		{
@@ -1088,9 +1220,33 @@ void spim_flash_test(void)
 		spim_flash_write(0x1110,&w_buf[0x20],0x20);
 		
 		
-		spim_flash_read(0x1100 - 0x10,r_buf,0x40);
+		spim_flash_read(0x1100 - 0x10,r_buf,0x20);
 		printf("read_data:\r\n");
-		for(int i = 0;i < 0x40;i++)
+		for(int i = 0;i < 0x20;i++)
+		{
+			printf("%02x ",r_buf[i]);
+			if(i % 16 == 15)
+			{
+				printf("\r\n");
+			}
+		}
+		printf("\r\n");
+		
+		spim_flash_read(0x1110 ,r_buf,0x20);
+		printf("read_data:\r\n");
+		for(int i = 0;i < 0x20;i++)
+		{
+			printf("%02x ",r_buf[i]);
+			if(i % 16 == 15)
+			{
+				printf("\r\n");
+			}
+		}
+		printf("\r\n");
+		
+		spim_flash_read(0x1100,r_buf,0x30);
+		printf("read_data:\r\n");
+		for(int i = 0;i < 0x30;i++)
 		{
 			printf("%02x ",r_buf[i]);
 			if(i % 16 == 15)
