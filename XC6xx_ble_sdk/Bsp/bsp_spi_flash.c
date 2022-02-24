@@ -10,7 +10,7 @@
 #define alignmentDown(a,size)		(a & (~ (size -1)))
 #define alignmentUp(a,size)		  ((a + size - 1) & (~ (size -1)))
 
-#define  TH25D_20UA   //×Ï¹âÇàÌÙµÄflash ÐÍºÅ
+#define  TH25D_20UA   //ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½Ùµï¿½flash ï¿½Íºï¿½
 /*----------------------------------------------------------------------------------------------------
     SPI 	COMMAND
 -----------------------------------------------------------------------------------------------------*/
@@ -28,7 +28,7 @@
 #define		PACKET_FULL_LEN			(FLASH_PAGE_SIZE )
 
 /*-------------------------------------------------------------------
-NOTE: bsp_spi0_flashÎÄ¼þÏÂµÄ±äÁ¿Òª·ÅÔÚSHRAM0ÇøÓò.
+NOTE: bsp_spi0_flashï¿½Ä¼ï¿½ï¿½ÂµÄ±ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½SHRAM0ï¿½ï¿½ï¿½ï¿½.
 -------------------------------------------------------------------*/
 //uint8_t		__attribute__((aligned(4)))	txbuff[(PACKET_FULL_LEN+4)];
 //uint8_t		__attribute__((aligned(4)))	rxbuff[(PACKET_FULL_LEN+4)];
@@ -36,16 +36,16 @@ uint8_t		__attribute__((at(127*1024+0x10000000)))	txbuff[(PACKET_FULL_LEN+4)];
 uint8_t		__attribute__((at(127*1024+512+0x10000000)))	rxbuff[(PACKET_FULL_LEN+4)];
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: Init_spi_master
-- º¯Êý¹¦ÄÜ: ³õÊ¼»¯spiÖ÷Ä£Ê½
-- ´´½¨ÈÕÆÚ: 2015-09-14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: Init_spi_master
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½Ê¼ï¿½ï¿½spiï¿½ï¿½Ä£Ê½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-14
 ----------------------------------------------------------------------------------------------------*/
 void	Init_spi_master(uint32_t ch, uint32_t freq)
 {
     uint32_t    val;
     
-    __write_hw_reg32(CPR_SPIx_MCLK_CTL(ch), 0x110010);//1·ÖÆµ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
-    __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , (0x1000100<<ch)); 	//- ´ò¿ªspi(x) pclk.
+    __write_hw_reg32(CPR_SPIx_MCLK_CTL(ch), 0x110010);//1ï¿½ï¿½Æµ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+    __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , (0x1000100<<ch)); 	//- ï¿½ï¿½spi(x) pclk.
     __read_hw_reg32(CPR_SSI_CTRL, val);
     val |= (ch==0)? 0x01: 0x30;
     __write_hw_reg32(CPR_SSI_CTRL, val);
@@ -56,7 +56,7 @@ void	Init_spi_master(uint32_t ch, uint32_t freq)
     __write_hw_reg32(SSIx_CTRL0(ch) , 0x0f);					/* 16bit SPI data */
 
     __write_hw_reg32(SSIx_SE(ch), 0x01);
-    __write_hw_reg32(SSIx_BAUD(ch), freq);						//- spix_mclk ·ÖÆµ.
+    __write_hw_reg32(SSIx_BAUD(ch), freq);						//- spix_mclk ï¿½ï¿½Æµ.
 
     __write_hw_reg32(SSIx_RXFTL(ch), 0x00);
     __write_hw_reg32(SSIx_TXFTL(ch), 0x00);
@@ -64,9 +64,9 @@ void	Init_spi_master(uint32_t ch, uint32_t freq)
     //__write_hw_reg32(SSIx_EN(ch) , 0x01);
 }
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_Read_128bitsID
-- º¯Êý¹¦ÄÜ: ¶ÁÈ¡flash  128bits ID ¶Á¶ÀÁ¢µÄIDÐòÁÐ ¸ÃÖ¸Áî¿ÉÒÔ¶ÁÈ¡Ò»¸öÐ¾Æ¬ÒÑ¾­¹Ì»¯µÄÖ»¶ÁµÄ128Î»ID
-- ´´½¨ÈÕÆÚ: 2015-09-14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_Read_128bitsID
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½È¡flash  128bits ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½È¡Ò»ï¿½ï¿½Ð¾Æ¬ï¿½Ñ¾ï¿½ï¿½Ì»ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½128Î»ID
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-14
 ----------------------------------------------------------------------------------------------------*/
 void spi_flash_Read_128bitsID(uint8_t *buff)
 {
@@ -96,7 +96,7 @@ void spi_flash_Read_128bitsID(uint8_t *buff)
 	__write_hw_reg32(DMAS_CHx_SAR(2) , (uint32_t)txbuff);
     __write_hw_reg32(DMAS_CHx_DAR(2) , 0x40013060);
     __write_hw_reg32(DMAS_CHx_CTL1(2) ,((2 << 8)|  1));
-    __write_hw_reg32(DMAS_CHx_CTL0(2) ,24);//½ÓÊÕ»º³åÇøÊ×µØÖ·±ØÐëÊÇ4µÄ±¶Êý¶øÇÒ´óÐ¡±ØÐëÊÇËÄµÄ±¶Êý
+    __write_hw_reg32(DMAS_CHx_CTL0(2) ,24);//ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄµÄ±ï¿½ï¿½ï¿½
     __write_hw_reg32(DMAS_EN , 2);
 
     do	{
@@ -147,7 +147,7 @@ void spi_flash_Read_MID(uint8_t *buff)
 	__write_hw_reg32(DMAS_CHx_SAR(2) , (uint32_t)txbuff);
     __write_hw_reg32(DMAS_CHx_DAR(2) , 0x40013060);
     __write_hw_reg32(DMAS_CHx_CTL1(2) ,((2 << 8)|  1));
-    __write_hw_reg32(DMAS_CHx_CTL0(2) ,4);//½ÓÊÕ»º³åÇøÊ×µØÖ·±ØÐëÊÇ4µÄ±¶Êý¶øÇÒ´óÐ¡±ØÐëÊÇËÄµÄ±¶Êý
+    __write_hw_reg32(DMAS_CHx_CTL0(2) ,4);//ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÄµÄ±ï¿½ï¿½ï¿½
     __write_hw_reg32(DMAS_EN , 2);
 
     do	{
@@ -172,9 +172,9 @@ void spi_flash_Read_MID(uint8_t *buff)
 
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_Read_Page
-- º¯Êý¹¦ÄÜ: ´ÓSPI FLASHÖÐ¶ÁÈ¡Ò»Ò³Êý¾Ýµ½Ö¸¶¨µØÖ·
-- ´´½¨ÈÕÆÚ: 2015-09-14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_Read_Page
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½SPI FLASHï¿½Ð¶ï¿½È¡Ò»Ò³ï¿½ï¿½ï¿½Ýµï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ö·
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-14
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_Read_Page(uint32_t	PageAddR, uint8_t *buff,uint16_t len)
 {
@@ -219,9 +219,9 @@ void	spi_flash_Read_Page(uint32_t	PageAddR, uint8_t *buff,uint16_t len)
 }
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_wait_till_ready
-- º¯Êý¹¦ÄÜ: ¼ì²éspi flash´¦ÓÚready×´Ì¬
-- ´´½¨ÈÕÆÚ: 2015-09-14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_wait_till_ready
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½spi flashï¿½ï¿½ï¿½ï¿½ready×´Ì¬
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-14
 ----------------------------------------------------------------------------------------------------*/
 uint8_t	spi_flash_wait_till_ready (void)
 {
@@ -251,9 +251,9 @@ uint8_t	spi_flash_wait_till_ready (void)
 
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_chip_erase
-- º¯Êý¹¦ÄÜ: ²Á³ýÕû¸öÐ¾Æ¬µÄÄÚÈÝ
-- ´´½¨ÈÕÆÚ: 2015-09-16
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_chip_erase
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¾Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-16
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_chip_erase(void)
 {
@@ -280,9 +280,9 @@ void	spi_flash_chip_erase(void)
 
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_erase_block_num
-- º¯Êý¹¦ÄÜ: ¼ÆËãÐè²Á³ýblockµÄÊýÄ¿
-- ´´½¨ÈÕÆÚ: 2015-09-16
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_erase_block_num
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½blockï¿½ï¿½ï¿½ï¿½Ä¿
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-16
 ----------------------------------------------------------------------------------------------------*/
 uint32_t	spi_flash_block_num(uint32_t	size)
 {
@@ -296,9 +296,9 @@ uint32_t	spi_flash_block_num(uint32_t	size)
 }
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_block_erase
-- º¯Êý¹¦ÄÜ: ²Á³ýÐ¾Æ¬Ö¸¶¨blockµÄÄÚÈÝ
-- ´´½¨ÈÕÆÚ: 2015-09-16
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_block_erase
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½Ð¾Æ¬Ö¸ï¿½ï¿½blockï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-16
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_block_erase(uint32_t	blknum)
 {
@@ -341,9 +341,9 @@ void	spi_flash_block_erase(uint32_t	blknum)
     
 }
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_write_enable
-- º¯Êý¹¦ÄÜ: Ê¹ÄÜ¶ÔÐ¾Æ¬µÄÐ´²Ù×÷
-- ´´½¨ÈÕÆÚ: 2015-09-16
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_write_enable
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: Ê¹ï¿½Ü¶ï¿½Ð¾Æ¬ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-16
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_write_enable(void)
 {
@@ -370,9 +370,9 @@ void	spi_flash_write_enable(void)
 }
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_write_page
-- º¯Êý¹¦ÄÜ: ÏòSPI FLASHÖ¸¶¨µØÖ·Ð´ÈëÒ»Ò³Êý¾Ý
-- ´´½¨ÈÕÆÚ: 2015-09-16
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_write_page
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½SPI FLASHÖ¸ï¿½ï¿½ï¿½ï¿½Ö·Ð´ï¿½ï¿½Ò»Ò³ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2015-09-16
 ----------------------------------------------------------------------------------------------------*/
 
 static void	spi_flash_write_page(uint32_t	PageAddR, const uint8_t *buff, uint16_t len)
@@ -461,11 +461,11 @@ static void	spi_flash_write_page(uint32_t	PageAddR, const uint8_t *buff, uint16_
 }
 
 
-#ifdef TH25D_20UA  //Ê¹ÓÃ×Ï¹âÇàÌÙflash
+#ifdef TH25D_20UA  //Ê¹ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½flash
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_page_erase   
-- º¯Êý¹¦ÄÜ: ²Á³ýÐ¾Æ¬Ö¸¶¨pageµÄÄÚÈÝ ---×Ï¹âÇàÌÙflashÓÐ´Ë¹¦ÄÜ£¬GDÕ×Ò× ºÍ MDÆÕÈí flashÃ»ÓÐ´Ë¹¦ÄÜ
-- ´´½¨ÈÕÆÚ: 2016-06-15
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_page_erase   
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½Ð¾Æ¬Ö¸ï¿½ï¿½pageï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ---ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½flashï¿½Ð´Ë¹ï¿½ï¿½Ü£ï¿½GDï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ MDï¿½ï¿½ï¿½ï¿½ flashÃ»ï¿½Ð´Ë¹ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2016-06-15
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_page_erase(uint32_t	eraseAddr)
 {
@@ -510,9 +510,9 @@ void	spi_flash_page_erase(uint32_t	eraseAddr)
 
 #else
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_sector_erase
-- º¯Êý¹¦ÄÜ: ²Á³ýÐ¾Æ¬Ö¸¶¨sectorµÄÄÚÈÝ
-- ´´½¨ÈÕÆÚ: 2016-06-15
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_sector_erase
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½Ð¾Æ¬Ö¸ï¿½ï¿½sectorï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2016-06-15
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_sector_erase(uint32_t	no)
 {
@@ -555,9 +555,9 @@ void	spi_flash_sector_erase(uint32_t	no)
 }
 #endif
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_Release_powerdown
-- º¯Êý¹¦ÄÜ: SPI_FLASH Exit Power-Down
-- ´´½¨ÈÕÆÚ: 2016-10-24
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_Release_powerdown
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: SPI_FLASH Exit Power-Down
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2016-10-24
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_Release_powerdown(void)
 {
@@ -582,9 +582,9 @@ void	spi_flash_Release_powerdown(void)
 }
 
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_powerdown
-- º¯Êý¹¦ÄÜ: SPI_FLASH Enter Power-Down
-- ´´½¨ÈÕÆÚ: 2016-11-07
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_powerdown
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: SPI_FLASH Enter Power-Down
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2016-11-07
 ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_Enter_powerdown(void)
 {
@@ -614,11 +614,11 @@ void	spi_flash_Enter_powerdown(void)
 
 
 
-/******2020.10.14ÐÂÔö ÒÔÏÂ½Ó¿ÚÄ¿Ç°ÊÊÓÃÓÚ×Ï¹âÇàÌÙflash ÒÔÏÂ½Ó¿ÚÄ¿µÄÊÇÎªÊ¡µô¶ÁÐ´ÉÈÇøËùÐèÒªµÄ´óµÄ»º³åÇø********/
+/******2020.10.14ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â½Ó¿ï¿½Ä¿Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½flash ï¿½ï¿½ï¿½Â½Ó¿ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ÎªÊ¡ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ä´ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½********/
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_Read
-- º¯Êý¹¦ÄÜ: ÔÚÖ¸¶¨µÄµØÖ·¿ªÊ¼¶ÁÈ¡Ö¸¶¨³¤¶ÈµÄÊý¾Ý
-- ´´½¨ÈÕÆÚ: 2020.10.14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_Read
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Äµï¿½Ö·ï¿½ï¿½Ê¼ï¿½ï¿½È¡Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: 2020.10.14
 ----------------------------------------------------------------------------------------------------*/
 void spi_flash_Read(uint32_t	ReadAddR, uint8_t *buff,uint16_t  ReadLength)
 {
@@ -675,9 +675,9 @@ void spi_flash_Read(uint32_t	ReadAddR, uint8_t *buff,uint16_t  ReadLength)
 
 }
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_write
-- º¯Êý¹¦ÄÜ: ÔÚÖ¸¶¨µÄµØÖ·¿ªÊ¼Ð´ÈëÖ¸¶¨³¤¶ÈµÄÊý¾Ý
-- ´´½¨ÈÕÆÚ:2020.10.14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_write
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Äµï¿½Ö·ï¿½ï¿½Ê¼Ð´ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:2020.10.14
  ----------------------------------------------------------------------------------------------------*/
 void	spi_flash_write(uint32_t	WriteAddR, const uint8_t *buff,uint16_t WriteLength)
 {
@@ -838,11 +838,11 @@ void  spi_flash_test(void)
 
 uint8_t buff16[60];
 
-#include "nrf_drv_spi.h"
+#include "xinc_drv_spi.h"
 
-static const nrf_drv_spi_t m_spi = NRF_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
+static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
-static void spi_handler(nrf_drv_spi_evt_t * p_event,
+static void spi_handler(xinc_drv_spi_evt_t * p_event,
                         void *                    p_context)
 {
 //	printf("%s,type:%d\r\n",__func__,p_event->type);
@@ -872,7 +872,7 @@ void spim_flash_Read_128bitsID(uint8_t *buff)
 		memset(txbuff,0,21);
 		txbuff[0] = CMD_ID; 
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,21,rxbuff,21);
+		xinc_drv_spi_transfer(&m_spi,txbuff,21,rxbuff,21);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -886,7 +886,7 @@ void spim_flash_Read_MID(uint8_t *buff)
 		memset(txbuff,0,4);
 		txbuff[0] = CMD_MID; 
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -898,7 +898,7 @@ void	spim_flash_Release_powerdown(void)
 {
 		txbuff[0] = CMD_RELEASE_PWRDWN; 
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+		xinc_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -910,7 +910,7 @@ void	spim_flash_Enter_powerdown(void)
 {
 		txbuff[0] = CMD_PWRDWN; 
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+		xinc_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -923,7 +923,7 @@ uint8_t spim_read_flash_status(void)
 	  txbuff[1] = 0;
 	
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,2,rxbuff,2);
+		xinc_drv_spi_transfer(&m_spi,txbuff,2,rxbuff,2);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -941,7 +941,7 @@ void spim_flash_write_enable(void)
 		txbuff[3] = 0x0;		
 		
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+		xinc_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -958,7 +958,7 @@ void spim_flash_write_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
    
 		memcpy(&txbuff[4],data,len);
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,len + 4,rxbuff,len + 4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,len + 4,rxbuff,len + 4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -975,7 +975,7 @@ void spim_flash_read_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
    
 		memset(&txbuff[4],0xff,len);
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,len + 4,rxbuff,len + 4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,len + 4,rxbuff,len + 4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -996,7 +996,7 @@ void	spim_flash_page_erase(uint32_t	eraseAddr)
     txbuff[3] = (uint8_t)(eraseAddr);
    
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -1017,7 +1017,7 @@ void spim_flash_sector_erase(uint32_t sectorAddr)
     txbuff[3] = (uint8_t)(sectorAddr);
    
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -1037,7 +1037,7 @@ void	spim_flash_block_erase(uint32_t	blkAddr)
     txbuff[3] = (uint8_t)(blkAddr);
    
 		spi_xfer_done = false;									
-		nrf_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+		xinc_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
 		while (!spi_xfer_done)
 		{
 			__WFE();
@@ -1054,7 +1054,7 @@ void	spim_flash_chip_erase(void)
 	txbuff[0] = CMD_CHIP_ERASE;
 
 	spi_xfer_done = false;									
-	nrf_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
+	xinc_drv_spi_transfer(&m_spi,txbuff,1,rxbuff,1);
 	while (!spi_xfer_done)
 	{
 		__WFE();
@@ -1114,9 +1114,9 @@ void spim_flash_read(uint32_t	ReadAddR, uint8_t *buff,uint16_t  ReadLength)
 
 }
 /* ---------------------------------------------------------------------------------------------------
-- º¯ÊýÃû³Æ: spi_flash_write
-- º¯Êý¹¦ÄÜ: ÔÚÖ¸¶¨µÄµØÖ·¿ªÊ¼Ð´ÈëÖ¸¶¨³¤¶ÈµÄÊý¾Ý
-- ´´½¨ÈÕÆÚ:2020.10.14
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: spi_flash_write
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Äµï¿½Ö·ï¿½ï¿½Ê¼Ð´ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½
+- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:2020.10.14
  ----------------------------------------------------------------------------------------------------*/
 void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 {
@@ -1171,18 +1171,18 @@ void spim_flash_test(void)
 	ret_code_t err_code;
 	uint8_t w_buf[200];
 	uint8_t r_buf[200];
-	const nrf_drv_spi_config_t spi_cfg = {
+	const xinc_drv_spi_config_t spi_cfg = {
 											.sck_pin      = SPIM1_SCK_PIN,
-											.mosi_pin     = 7,
-											.miso_pin     = 6,
-											.ss_pin       = 3,
+											.mosi_pin     = SPIM1_MOSI_PIN,
+											.miso_pin     = SPIM1_MISO_PIN,
+											.ss_pin       = SPIM1_SS_PIN,
 											.irq_priority = 0,
 											.orc          = 0xFF,
-											.frequency    = (nrf_drv_spi_frequency_t) SPIM_FREQUENCY_FREQUENCY_M1,
-											.mode         = NRF_DRV_SPI_MODE_0,
-											.bit_order    = NRF_DRV_SPI_BIT_ORDER_MSB_FIRST,
+											.frequency    = (xinc_drv_spi_frequency_t) SPIM_FREQUENCY_FREQUENCY_K125,
+											.mode         = XINC_DRV_SPI_MODE_0,
+											.bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,
 									};
-		err_code = nrf_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
+		err_code = xinc_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
 								
 		
 		spim_flash_Read_MID(r_buf);

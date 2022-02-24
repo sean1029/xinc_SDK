@@ -16,6 +16,7 @@
 ".\objects\rf_driver.o"
 ".\objects\patch.o"
 "..\..\..\LIB\Xinc_ble_sdk_md.lib"
+".\objects\at24c02.o"
 ".\objects\bsp_retarget.o"
 ".\objects\bsp_systick.o"
 ".\objects\bsp_gpio.o"
@@ -24,6 +25,7 @@
 ".\objects\bsp_spi_flash.o"
 ".\objects\bsp_uart.o"
 ".\objects\bsp_clk.o"
+".\objects\bsp_i2c_master.o"
 ".\objects\sbc.o"
 ".\objects\sbc_primitives.o"
 ".\objects\sbc_primitives_armv6.o"
@@ -62,7 +64,9 @@
 ".\objects\nrf_ringbuf.o"
 ".\objects\nrfx_uart.o"
 ".\objects\nrfx_spim.o"
-".\objects\nrf_drv_spi.o"
+".\objects\xinc_drv_spi.o"
+".\objects\xincx_i2c.o"
+".\objects\xinc_drv_i2c.o"
 --strict --scatter ".\cpu.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

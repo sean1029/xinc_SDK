@@ -51,8 +51,8 @@ typedef enum {
   POWER_CLOCK_IRQn          =   0,              /*!< 0  POWER_CLOCK                                                            */
   RADIO_IRQn                =   1,              /*!< 1  RADIO                                                                  */
   UARTE0_UART0_IRQn         =   2,              /*!< 2  UARTE0_UART0                                                           */
-  SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQn=   3,  /*!< 3  SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0                                      */
-  SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQn=   4,  /*!< 4  SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1                                      */
+  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0_IRQn=   3,  /*!< 3  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0                                      */
+  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1_IRQn=   4,  /*!< 4  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1                                      */
   NFCT_IRQn                 =   5,              /*!< 5  NFCT                                                                   */
   GPIOTE_IRQn               =   6,              /*!< 6  GPIOTE                                                                 */
   SAADC_IRQn                =   7,              /*!< 7  SAADC                                                                  */
@@ -342,7 +342,61 @@ typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Str
 	__IOM  uint32_t DMARDL;
 	__IM  uint32_t  RESERVED2[2];
 	__IOM  uint32_t DATA;
-} NRF_SPIM_Type;                               
+} XINC_SPIM_Type;          
+
+
+/* =========================================================================================================================== */
+/* ================                                           I2C                                            ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief I2C compatible Two-Wire Interface 0 (I2C0)
+  */
+                                                        
+typedef struct {                                /*!< (@ 0x40006000) I2C Structure                                             */
+	__IOM uint32_t i2c_CON;
+	__IOM uint32_t i2c_TAR;
+	__IOM uint32_t i2c_SAR;
+	__IM  uint32_t  RESERVED0;
+	
+	__IOM uint32_t i2c_DATA_CMD;
+	__IOM uint32_t i2c_SS_SCL_HCNT;
+	__IOM uint32_t i2c_SS_SCL_LCNT;
+	__IOM uint32_t i2c_FS_SCL_HCNT;
+	
+	__IOM uint32_t i2c_FS_SCL_LCNT;
+	__IM  uint32_t  RESERVED1[2];
+	__IOM uint32_t i2c_INTR_STAT;
+	
+	__IOM uint32_t i2c_INTR_EN;
+	__IOM uint32_t i2c_RAW_INTR_STAT;
+	__IOM uint32_t i2c_RX_TL;
+	__IOM uint32_t i2c_TX_TL;
+	
+	__IM uint32_t i2c_CLR_INTR;
+	__IM uint32_t i2c_CLR_RX_UNDER;
+	__IM uint32_t i2c_CLR_RX_OVER;
+	__IM uint32_t i2c_CLR_TX_OVER;
+	
+	__IM uint32_t i2c_CLR_RD_REQ;
+	__IM uint32_t i2c_CLR_TX_ABRT;
+	__IM uint32_t i2c_CLR_RX_DONE;
+	__IM uint32_t i2c_CLR_ACTIVITY;
+	
+	__IM uint32_t i2c_CLR_STOP_DET;
+	__IM uint32_t i2c_CLR_START_DET;
+	__IM uint32_t i2c_CLR_GEN_CALL;
+	__IOM uint32_t i2c_ENABLE;
+	
+	__IM uint32_t i2c_STATUS;
+	__IM uint32_t i2c_TXFLR;
+	__IM uint32_t i2c_RXFLR;
+	__IOM uint32_t i2c_SDA_HOLD;
+	
+	__IOM uint32_t i2c_TX_ABRT_SOURCE;
+	
+} XINC_I2C_Type; 
 
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
@@ -352,7 +406,9 @@ typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Str
 #define NRF_GPIOTE_BASE             0x40006000UL
 #define NRF_UART0_BASE              0x40010000UL
 #define NRF_UART1_BASE              0x40011000UL
-#define NRF_SPIM1_BASE              0x40014000UL
+#define XINC_SPIM0_BASE              0x40013000UL
+#define XINC_SPIM1_BASE              0x40014000UL
+#define XINC_I2C0_BASE               0x40006000UL
 
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
@@ -367,7 +423,9 @@ typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Str
 #define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          NRF_GPIOTE_BASE)
 #define NRF_UART0                    ((NRF_UART_Type*)            NRF_UART0_BASE)
 #define NRF_UART1                    ((NRF_UART_Type*)            NRF_UART1_BASE)
-#define NRF_SPIM1										 ((NRF_SPIM_Type*)            NRF_SPIM1_BASE)
+#define XINC_SPIM1										 ((XINC_SPIM_Type*)            XINC_SPIM1_BASE)
+
+#define XINC_I2C0										 ((XINC_I2C_Type*)            	XINC_I2C0_BASE)
 #ifdef __cplusplus
 }
 #endif

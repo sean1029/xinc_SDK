@@ -73,9 +73,9 @@ typedef enum {
     NRFX_ERROR_BUSY                 = (NRFX_ERROR_BASE_NUM + 11), ///< Busy.
     NRFX_ERROR_ALREADY_INITIALIZED  = (NRFX_ERROR_BASE_NUM + 12), ///< Module already initialized.
 
-    NRFX_ERROR_DRV_TWI_ERR_OVERRUN  = (NRFX_ERROR_DRIVERS_BASE_NUM + 0), ///< TWI error: Overrun.
-    NRFX_ERROR_DRV_TWI_ERR_ANACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 1), ///< TWI error: Address not acknowledged.
-    NRFX_ERROR_DRV_TWI_ERR_DNACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 2)  ///< TWI error: Data not acknowledged.
+    NRFX_ERROR_DRV_I2C_ERR_OVERRUN  = (NRFX_ERROR_DRIVERS_BASE_NUM + 0), ///< I2C error: Overrun.
+    NRFX_ERROR_DRV_I2C_ERR_ANACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 1), ///< I2C error: Address not acknowledged.
+    NRFX_ERROR_DRV_I2C_ERR_DNACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 2)  ///< I2C error: Data not acknowledged.
 } nrfx_err_t;
 
 /** @} */

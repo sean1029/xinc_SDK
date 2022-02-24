@@ -38,8 +38,8 @@
  *
  */
 
-#ifndef NRF_SPIM_H__
-#define NRF_SPIM_H__
+#ifndef XINC_SPIM_H__
+#define XINC_SPIM_H__
 
 #include <nrfx.h>
 
@@ -48,18 +48,18 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_spim_hal SPIM HAL
+ * @defgroup xinc_spim_hal SPIM HAL
  * @{
- * @ingroup nrf_spim
+ * @ingroup xinc_spim
  * @brief   Hardware access layer for managing the SPIM peripheral.
  */
 
 /**
- * @brief This value can be used as a parameter for the @ref nrf_spim_pins_set
+ * @brief This value can be used as a parameter for the @ref xinc_spim_pins_set
  *        function to specify that a given SPI signal (SCK, MOSI, or MISO)
  *        shall not be connected to a physical pin.
  */
-#define NRF_SPIM_PIN_NOT_CONNECTED  0xFFFFFFFF
+#define XINC_SPIM_PIN_NOT_CONNECTED  0xFFFFFFFF
 
 #if defined(SPIM_DCXCNT_DCXCNT_Msk) || defined(__NRFX_DOXYGEN__)
 /**
@@ -69,11 +69,11 @@ extern "C" {
  *        switched from low to high after this number of bytes is transmitted
  *        (all remaining bytes are marked as data bytes).
  */
-#define NRF_SPIM_DCX_CNT_ALL_CMD 0xF
+#define XINC_SPIM_DCX_CNT_ALL_CMD 0xF
 #endif
 
 /** @brief Macro for checking if the hardware chip select function is available. */
-#define NRF_SPIM_HW_CSN_PRESENT                        \
+#define XINC_SPIM_HW_CSN_PRESENT                        \
     (NRFX_CHECK(SPIM0_FEATURE_HARDWARE_CSN_PRESENT) || \
      NRFX_CHECK(SPIM1_FEATURE_HARDWARE_CSN_PRESENT) || \
      NRFX_CHECK(SPIM2_FEATURE_HARDWARE_CSN_PRESENT) || \
@@ -86,64 +86,64 @@ extern "C" {
  */
 typedef enum
 {
-    NRF_SPIM_SHORT_END_START_MASK = SPIM_SHORTS_END_START_Msk, ///< Shortcut between END event and START task.
-    NRF_SPIM_ALL_SHORTS_MASK      = SPIM_SHORTS_END_START_Msk  ///< All SPIM shortcuts.
-} nrf_spim_short_mask_t;
+    XINC_SPIM_SHORT_END_START_MASK = SPIM_SHORTS_END_START_Msk, ///< Shortcut between END event and START task.
+    XINC_SPIM_ALL_SHORTS_MASK      = SPIM_SHORTS_END_START_Msk  ///< All SPIM shortcuts.
+} xinc_spim_short_mask_t;
 
 /** @brief SPIM interrupts. */
 typedef enum
 {
-    NRF_SPIM_INT_STOPPED_MASK = SPIM_INTENSET_STOPPED_Msk,  ///< Interrupt on STOPPED event.
-    NRF_SPIM_INT_ENDRX_MASK   = SPIM_INTENSET_ENDRX_Msk,    ///< Interrupt on ENDRX event.
-    NRF_SPIM_INT_END_MASK     = SPIM_INTENSET_END_Msk,      ///< Interrupt on END event.
-    NRF_SPIM_INT_ENDTX_MASK   = SPIM_INTENSET_ENDTX_Msk,    ///< Interrupt on ENDTX event.
-    NRF_SPIM_INT_STARTED_MASK = SPIM_INTENSET_STARTED_Msk,  ///< Interrupt on STARTED event.
-    NRF_SPIM_ALL_INTS_MASK    = SPIM_INTENSET_STOPPED_Msk |
+    XINC_SPIM_INT_STOPPED_MASK = SPIM_INTENSET_STOPPED_Msk,  ///< Interrupt on STOPPED event.
+    XINC_SPIM_INT_ENDRX_MASK   = SPIM_INTENSET_ENDRX_Msk,    ///< Interrupt on ENDRX event.
+    XINC_SPIM_INT_END_MASK     = SPIM_INTENSET_END_Msk,      ///< Interrupt on END event.
+    XINC_SPIM_INT_ENDTX_MASK   = SPIM_INTENSET_ENDTX_Msk,    ///< Interrupt on ENDTX event.
+    XINC_SPIM_INT_STARTED_MASK = SPIM_INTENSET_STARTED_Msk,  ///< Interrupt on STARTED event.
+    XINC_SPIM_ALL_INTS_MASK    = SPIM_INTENSET_STOPPED_Msk |
                                 SPIM_INTENSET_ENDRX_Msk   |
                                 SPIM_INTENSET_END_Msk     |
                                 SPIM_INTENSET_ENDTX_Msk   |
                                 SPIM_INTENSET_STARTED_Msk   ///< All SPIM interrupts.
-} nrf_spim_int_mask_t;
+} xinc_spim_int_mask_t;
 
 /** @brief SPI master data rates. */
 typedef enum
 {
-    NRF_SPIM_FREQ_125K = SPIM_FREQUENCY_FREQUENCY_K125,    ///< 125 kbps.
-    NRF_SPIM_FREQ_250K = SPIM_FREQUENCY_FREQUENCY_K250,    ///< 250 kbps.
-    NRF_SPIM_FREQ_500K = SPIM_FREQUENCY_FREQUENCY_K500,    ///< 500 kbps.
-    NRF_SPIM_FREQ_1M   = SPIM_FREQUENCY_FREQUENCY_M1,      ///< 1 Mbps.
-    NRF_SPIM_FREQ_2M   = SPIM_FREQUENCY_FREQUENCY_M2,      ///< 2 Mbps.
-    NRF_SPIM_FREQ_4M   = SPIM_FREQUENCY_FREQUENCY_M4,      ///< 4 Mbps.
-    NRF_SPIM_FREQ_8M   = SPIM_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
-    NRF_SPIM_FREQ_16M  = SPIM_FREQUENCY_FREQUENCY_M16,     ///< 16 Mbps.
+    XINC_SPIM_FREQ_125K = SPIM_FREQUENCY_FREQUENCY_K125,    ///< 125 kbps.
+    XINC_SPIM_FREQ_250K = SPIM_FREQUENCY_FREQUENCY_K250,    ///< 250 kbps.
+    XINC_SPIM_FREQ_500K = SPIM_FREQUENCY_FREQUENCY_K500,    ///< 500 kbps.
+    XINC_SPIM_FREQ_1M   = SPIM_FREQUENCY_FREQUENCY_M1,      ///< 1 Mbps.
+    XINC_SPIM_FREQ_2M   = SPIM_FREQUENCY_FREQUENCY_M2,      ///< 2 Mbps.
+    XINC_SPIM_FREQ_4M   = SPIM_FREQUENCY_FREQUENCY_M4,      ///< 4 Mbps.
+    XINC_SPIM_FREQ_8M   = SPIM_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
+    XINC_SPIM_FREQ_16M  = SPIM_FREQUENCY_FREQUENCY_M16,     ///< 16 Mbps.
 
 
-} nrf_spim_frequency_t;
+} xinc_spim_frequency_t;
 
 /** @brief SPI modes. */
 typedef enum
 {
-    NRF_SPIM_MODE_0, ///< SCK active high, sample on leading edge of clock.
-    NRF_SPIM_MODE_1, ///< SCK active high, sample on trailing edge of clock.
-    NRF_SPIM_MODE_2, ///< SCK active low, sample on leading edge of clock.
-    NRF_SPIM_MODE_3  ///< SCK active low, sample on trailing edge of clock.
-} nrf_spim_mode_t;
+    XINC_SPIM_MODE_0, ///< SCK active high, sample on leading edge of clock.
+    XINC_SPIM_MODE_1, ///< SCK active high, sample on trailing edge of clock.
+    XINC_SPIM_MODE_2, ///< SCK active low, sample on leading edge of clock.
+    XINC_SPIM_MODE_3  ///< SCK active low, sample on trailing edge of clock.
+} xinc_spim_mode_t;
 
 /** @brief SPI bit orders. */
 typedef enum
 {
-    NRF_SPIM_BIT_ORDER_MSB_FIRST = SPIM_CONFIG_ORDER_MsbFirst, ///< Most significant bit shifted out first.
-    NRF_SPIM_BIT_ORDER_LSB_FIRST = SPIM_CONFIG_ORDER_LsbFirst  ///< Least significant bit shifted out first.
-} nrf_spim_bit_order_t;
+    XINC_SPIM_BIT_ORDER_MSB_FIRST = SPIM_CONFIG_ORDER_MsbFirst, ///< Most significant bit shifted out first.
+    XINC_SPIM_BIT_ORDER_LSB_FIRST = SPIM_CONFIG_ORDER_LsbFirst  ///< Least significant bit shifted out first.
+} xinc_spim_bit_order_t;
 
-#if (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
+#if (XINC_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 /** @brief SPI CSN pin polarity. */
 typedef enum
 {
-    NRF_SPIM_CSN_POL_LOW  = SPIM_CSNPOL_CSNPOL_LOW, ///< Active low (idle state high).
-    NRF_SPIM_CSN_POL_HIGH = SPIM_CSNPOL_CSNPOL_HIGH ///< Active high (idle state low).
-} nrf_spim_csn_pol_t;
-#endif // (NRF_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
+    XINC_SPIM_CSN_POL_LOW  = SPIM_CSNPOL_CSNPOL_LOW, ///< Active low (idle state high).
+    XINC_SPIM_CSN_POL_HIGH = SPIM_CSNPOL_CSNPOL_HIGH ///< Active high (idle state low).
+} xinc_spim_csn_pol_t;
+#endif // (XINC_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
 
 
 
@@ -153,7 +153,7 @@ typedef enum
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be enabled.
  */
-__STATIC_INLINE void nrf_spim_int_enable(NRF_SPIM_Type * p_reg,
+__STATIC_INLINE void xinc_spim_int_enable(XINC_SPIM_Type * p_reg,
                                          uint32_t        mask);
 
 /**
@@ -162,7 +162,7 @@ __STATIC_INLINE void nrf_spim_int_enable(NRF_SPIM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be disabled.
  */
-__STATIC_INLINE void nrf_spim_int_disable(NRF_SPIM_Type * p_reg,
+__STATIC_INLINE void xinc_spim_int_disable(XINC_SPIM_Type * p_reg,
                                           uint32_t        mask);
 
 /**
@@ -174,22 +174,22 @@ __STATIC_INLINE void nrf_spim_int_disable(NRF_SPIM_Type * p_reg,
  * @retval true  The interrupt is enabled.
  * @retval false The interrupt is not enabled.
  */
-__STATIC_INLINE bool nrf_spim_int_enable_check(NRF_SPIM_Type *     p_reg,
-                                               nrf_spim_int_mask_t spim_int);
+__STATIC_INLINE bool xinc_spim_int_enable_check(XINC_SPIM_Type *     p_reg,
+                                               xinc_spim_int_mask_t spim_int);
 
 /**
  * @brief Function for enabling the SPIM peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_spim_enable(NRF_SPIM_Type * p_reg);
+__STATIC_INLINE void xinc_spim_enable(XINC_SPIM_Type * p_reg);
 
 /**
  * @brief Function for disabling the SPIM peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg);
+__STATIC_INLINE void xinc_spim_disable(XINC_SPIM_Type * p_reg);
 
 
 
@@ -200,8 +200,8 @@ __STATIC_INLINE void nrf_spim_disable(NRF_SPIM_Type * p_reg);
  * @param[in] p_reg     Pointer to the structure of registers of the peripheral.
  * @param[in] frequency SPI frequency.
  */
-__STATIC_INLINE void nrf_spim_frequency_set(NRF_SPIM_Type *      p_reg,
-                                            nrf_spim_frequency_t frequency);
+__STATIC_INLINE void xinc_spim_frequency_set(XINC_SPIM_Type *      p_reg,
+                                            xinc_spim_frequency_t frequency);
 
 
 
@@ -212,9 +212,9 @@ __STATIC_INLINE void nrf_spim_frequency_set(NRF_SPIM_Type *      p_reg,
  * @param[in] spi_mode      SPI mode.
  * @param[in] spi_bit_order SPI bit order.
  */
-__STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
-                                        nrf_spim_mode_t      spi_mode,
-                                        nrf_spim_bit_order_t spi_bit_order);
+__STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
+                                        xinc_spim_mode_t      spi_mode,
+                                        xinc_spim_bit_order_t spi_bit_order);
 
 
 
@@ -226,18 +226,18 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
 
 
 
-__STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
-                                        nrf_spim_mode_t      spi_mode,
-                                        nrf_spim_bit_order_t spi_bit_order)
+__STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
+                                        xinc_spim_mode_t      spi_mode,
+                                        xinc_spim_bit_order_t spi_bit_order)
 {
-    uint32_t config = (spi_bit_order == NRF_SPIM_BIT_ORDER_MSB_FIRST ?
+    uint32_t config = (spi_bit_order == XINC_SPIM_BIT_ORDER_MSB_FIRST ?
         SPIM_CONFIG_ORDER_MsbFirst : SPIM_CONFIG_ORDER_LsbFirst);
 	
 		config = 0;
     switch (spi_mode)
     {
     default:
-    case NRF_SPIM_MODE_0:
+    case XINC_SPIM_MODE_0:
 //        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
 //                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
 //		
@@ -245,19 +245,19 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
                   
         break;
 
-    case NRF_SPIM_MODE_1:
+    case XINC_SPIM_MODE_1:
 //        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
 //                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
 		    config |= (0 << 7) |(1    << 6); 
         break;
 
-    case NRF_SPIM_MODE_2:
+    case XINC_SPIM_MODE_2:
 //        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
 //                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
 		   config |= (1 << 7) |(0    << 6); 
         break;
 
-    case NRF_SPIM_MODE_3:
+    case XINC_SPIM_MODE_3:
 //        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
 //                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
 		config |= (1 << 7) |(1    << 6); 
@@ -278,4 +278,4 @@ __STATIC_INLINE void nrf_spim_configure(NRF_SPIM_Type *      p_reg,
 }
 #endif
 
-#endif // NRF_SPIM_H__
+#endif // XINC_SPIM_H__

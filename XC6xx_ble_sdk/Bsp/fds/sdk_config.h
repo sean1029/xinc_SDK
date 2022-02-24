@@ -376,26 +376,124 @@
 
 // </h>
 
-// <e> NRFX_SPIM_ENABLED - nrfx_spim - SPIM peripheral driver
+
+
+// <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
-#ifndef NRFX_SPIM_ENABLED
-#define NRFX_SPIM_ENABLED 1
+#ifndef XINCX_I2C_ENABLED
+#define XINCX_I2C_ENABLED 1
 #endif
-// <q> NRFX_SPIM1_ENABLED  - Enable SPIM1 instance
+
+// <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
+#ifndef XINCX_I2C0_ENABLED
+#define XINCX_I2C0_ENABLED 1
+#endif
+
+// <o> XINCX_I2C_DEFAULT_CONFIG_FREQUENCY  - Frequency
+ 
+// <0x0063484FUL=> 100k 
+// <0x00650C13UL=> 400k 
+
+#ifndef XINCX_I2C_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_I2C_DEFAULT_CONFIG_FREQUENCY 6506575
+#endif
+
+// <q> XINCX_I2C_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
  
 
-#ifndef NRFX_SPIM1_ENABLED
-#define NRFX_SPIM1_ENABLED 1
+#ifndef XINCX_I2C_DEFAULT_CONFIG_HOLD_BUS_UNINIT
+#define XINCX_I2C_DEFAULT_CONFIG_HOLD_BUS_UNINIT 1
 #endif
 
-// <o> NRFX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
+// <o> XINCX_I2C_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_I2C_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_I2C_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#endif
+
+// <e> NRFX_I2C_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_I2C_CONFIG_LOG_ENABLED
+#define XINCX_I2C_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_I2C_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+
+#ifndef XINCX_I2C_CONFIG_LOG_LEVEL
+#define XINCX_I2C_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> XINCX_I2C_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_I2C_CONFIG_INFO_COLOR
+#define XINCX_I2C_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_I2C_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_I2C_CONFIG_DEBUG_COLOR
+#define XINCX_I2C_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
+
+// <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
+//==========================================================
+#ifndef XINCX_SPIM_ENABLED
+#define XINCX_SPIM_ENABLED 1
+#endif
+// <q> XINCX_SPIM1_ENABLED  - Enable SPIM1 instance
+ 
+
+#ifndef XINCX_SPIM1_ENABLED
+#define XINCX_SPIM1_ENABLED 1
+#endif
+
+// <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
  
 // <0=> NRF_GPIO_PIN_NOPULL 
 // <1=> NRF_GPIO_PIN_PULLDOWN 
 // <3=> NRF_GPIO_PIN_PULLUP 
 
-#ifndef NRFX_SPIM_MISO_PULL_CFG
-#define NRFX_SPIM_MISO_PULL_CFG 1
+#ifndef XINCX_SPIM_MISO_PULL_CFG
+#define XINCX_SPIM_MISO_PULL_CFG 1
 #endif
 
 // </e>

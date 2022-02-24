@@ -230,7 +230,7 @@ extern "C" {
         NRF_CLI_VT100_ASCII_ESC, '[', '8', 'm', '\0'                    \
     } /* Turn invisible text mode on */
 
-#define NRF_CLI_VT100_SETWIN(t, b)                                      \
+#define NRF_CLI_VT100_SEI2CN(t, b)                                      \
     {                                                                   \
         NRF_CLI_VT100_ASCII_ESC, '[', (t), ';', (b), 'r', '\0'          \
     } /* Set top and bottom line#s of a window */

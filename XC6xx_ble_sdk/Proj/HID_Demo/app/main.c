@@ -15,8 +15,8 @@
 #include "bsp_uart.h"
 
 #include "nrfx_gpiote.h"
-#include "nrf_drv_spi.h"
-
+#include "xinc_drv_spi.h"
+#include "AT24C02.h"
 
 
 uint8_t flag_show_hci = 0;
@@ -344,7 +344,7 @@ static void bsp_evt_handler(bsp_event_t evt)
     {
         case BSP_EVENT_KEY_0:
 						printf("button 0 push,evt: %d\n",BSP_EVENT_KEY_0);
-					//	nrf_drv_spi_transfer(&m_spi,buff1,280,buff3,280);
+					//	xinc_drv_spi_transfer(&m_spi,buff1,280,buff3,280);
 						bsp_board_led_on(0);
             break;
 
@@ -550,7 +550,9 @@ int	main(void)
 	printf("\r\n cli_init ok!!!\r\n");
 	nrf_cli_start(&m_cli_uart);
 		void  spim_flash_test(void);
-
+		void test_master_at24cxx_i2c(void);
+		//test_master_at24cxx_i2c();
+        i2c_at24c02_test();
 		spim_flash_test();
 		//flash_test();
     while(1) {
@@ -564,7 +566,7 @@ int	main(void)
 			app_sched_execute();
 		//	ff11_test_loop();
 	//   ble_system_idle();
-       if(LastTimeGulSystickCount!=GulSystickCount)//10msÖ´ÐÐÒ»´Î
+       if(LastTimeGulSystickCount!=GulSystickCount)//10msÖ´ï¿½ï¿½Ò»ï¿½ï¿½
 	   {		   
 		   LastTimeGulSystickCount=GulSystickCount;
 //			 if(LastTimeGulSystickCount % 100 == 0)

@@ -38,37 +38,37 @@
  *
  */
 
-#ifndef NRF_DRV_SPI_H__
-#define NRF_DRV_SPI_H__
+#ifndef XINC_DRV_SPI_H__
+#define XINC_DRV_SPI_H__
 
 #include <nrfx.h>
 #ifdef SPIM_PRESENT
-    #include <nrfx_spim.h>
+    #include <xincx_spim.h>
 		    // This part is for old modules that use directly SPI HAL definitions
     // (to make them compilable for chips that have only SPIM).
-    #define NRF_SPI_FREQ_125K           NRF_SPIM_FREQ_125K
-    #define NRF_SPI_FREQ_250K           NRF_SPIM_FREQ_250K
-    #define NRF_SPI_FREQ_500K           NRF_SPIM_FREQ_500K
-    #define NRF_SPI_FREQ_1M             NRF_SPIM_FREQ_1M
-    #define NRF_SPI_FREQ_2M             NRF_SPIM_FREQ_2M
-    #define NRF_SPI_FREQ_4M             NRF_SPIM_FREQ_4M
-    #define NRF_SPI_FREQ_8M             NRF_SPIM_FREQ_8M
-		#define NRF_SPI_FREQ_16M            NRF_SPIM_FREQ_16M
-    #define NRF_SPI_MODE_0              NRF_SPIM_MODE_0
-    #define NRF_SPI_MODE_1              NRF_SPIM_MODE_1
-    #define NRF_SPI_MODE_2              NRF_SPIM_MODE_2
-    #define NRF_SPI_MODE_3              NRF_SPIM_MODE_3
-    #define NRF_SPI_BIT_ORDER_MSB_FIRST NRF_SPIM_BIT_ORDER_MSB_FIRST
-    #define NRF_SPI_BIT_ORDER_LSB_FIRST NRF_SPIM_BIT_ORDER_LSB_FIRST
+    #define NRF_SPI_FREQ_125K           XINC_SPIM_FREQ_125K
+    #define NRF_SPI_FREQ_250K           XINC_SPIM_FREQ_250K
+    #define NRF_SPI_FREQ_500K           XINC_SPIM_FREQ_500K
+    #define NRF_SPI_FREQ_1M             XINC_SPIM_FREQ_1M
+    #define NRF_SPI_FREQ_2M             XINC_SPIM_FREQ_2M
+    #define NRF_SPI_FREQ_4M             XINC_SPIM_FREQ_4M
+    #define NRF_SPI_FREQ_8M             XINC_SPIM_FREQ_8M
+		#define NRF_SPI_FREQ_16M            XINC_SPIM_FREQ_16M
+    #define NRF_SPI_MODE_0              XINC_SPIM_MODE_0
+    #define NRF_SPI_MODE_1              XINC_SPIM_MODE_1
+    #define NRF_SPI_MODE_2              XINC_SPIM_MODE_2
+    #define NRF_SPI_MODE_3              XINC_SPIM_MODE_3
+    #define NRF_SPI_BIT_ORDER_MSB_FIRST XINC_SPIM_BIT_ORDER_MSB_FIRST
+    #define NRF_SPI_BIT_ORDER_LSB_FIRST XINC_SPIM_BIT_ORDER_LSB_FIRST
 #else
     // Compilers (at least the smart ones) will remove the SPIM related code
-    // (blocks starting with "if (NRF_DRV_SPI_USE_SPIM)") when it is not used,
+    // (blocks starting with "if (XINC_DRV_SPI_USE_SPIM)") when it is not used,
     // but to perform the compilation they need the following definitions.
-    #define nrfx_spim_init(...)             0
-    #define nrfx_spim_uninit(...)
-    #define nrfx_spim_start_task_get(...)   0
-    #define nrfx_spim_end_event_get(...)    0
-    #define nrfx_spim_abort(...)
+    #define xincx_spim_init(...)             0
+    #define xincx_spim_uninit(...)
+    #define xincx_spim_start_task_get(...)   0
+    #define xincx_spim_end_event_get(...)    0
+    #define xincx_spim_abort(...)
 #endif
 
 #ifdef __cplusplus
@@ -76,9 +76,9 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_drv_spi SPI master driver
+ * @defgroup xinc_drv_spi SPI master driver
  * @{
- * @ingroup  nrf_spi
+ * @ingroup  xinc_spi
  * @brief    Layer providing compatibility with the former API.
  */
 
@@ -91,36 +91,36 @@ typedef struct
     union
     {
 #ifdef SPIM_PRESENT
-        nrfx_spim_t spim;
+        xincx_spim_t spim;
 #endif
     } u;
     bool    use_easy_dma;
-} nrf_drv_spi_t;
+} xinc_drv_spi_t;
 
 /**
  * @brief Macro for creating an SPI master driver instance.
  */
-#define NRF_DRV_SPI_INSTANCE(id)    NRF_DRV_SPI_INSTANCE_(id)
-#define NRF_DRV_SPI_INSTANCE_(id)   NRF_DRV_SPI_INSTANCE_ ## id
-#if NRFX_CHECK(NRFX_SPIM0_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_0 \
-        { 0, { .spim = NRFX_SPIM_INSTANCE(0) }, true }
+#define XINC_DRV_SPI_INSTANCE(id)    XINC_DRV_SPI_INSTANCE_(id)
+#define XINC_DRV_SPI_INSTANCE_(id)   XINC_DRV_SPI_INSTANCE_ ## id
+#if NRFX_CHECK(XINCX_SPIM0_ENABLED)
+    #define XINC_DRV_SPI_INSTANCE_0 \
+        { 0, { .spim = XINCX_SPIM_INSTANCE(0) }, true }
 #elif NRFX_CHECK(NRFX_SPI0_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_0 \
+    #define XINC_DRV_SPI_INSTANCE_0 \
         { 0, { .spi = NRFX_SPI_INSTANCE(0) }, false }
 #endif
-#if NRFX_CHECK(NRFX_SPIM1_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_1 \
-        { 1, { .spim = NRFX_SPIM_INSTANCE(1) }, true }
+#if NRFX_CHECK(XINCX_SPIM1_ENABLED)
+    #define XINC_DRV_SPI_INSTANCE_1 \
+        { 1, { .spim = XINCX_SPIM_INSTANCE(1) }, true }
 #elif NRFX_CHECK(NRFX_SPI1_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_1 \
+    #define XINC_DRV_SPI_INSTANCE_1 \
         { 1, { .spi = NRFX_SPI_INSTANCE(1) }, false }
 #endif
-#if NRFX_CHECK(NRFX_SPIM2_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_2 \
-        { 2, { .spim = NRFX_SPIM_INSTANCE(2) }, true }
+#if NRFX_CHECK(XINCX_SPIM2_ENABLED)
+    #define XINC_DRV_SPI_INSTANCE_2 \
+        { 2, { .spim = XINCX_SPIM_INSTANCE(2) }, true }
 #elif NRFX_CHECK(NRFX_SPI2_ENABLED)
-    #define NRF_DRV_SPI_INSTANCE_2 \
+    #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spi = NRFX_SPI_INSTANCE(2) }, false }
 #endif
 
@@ -129,42 +129,42 @@ typedef struct
  *        MISO, and Slave Select to specify that the given signal is not used and
  *        therefore does not need to be connected to a pin.
  */
-#define NRF_DRV_SPI_PIN_NOT_USED  0xFF
+#define XINC_DRV_SPI_PIN_NOT_USED  0xFF
 
 /**
  * @brief SPI data rates.
  */
 typedef enum
 {
-    NRF_DRV_SPI_FREQ_125K = NRF_SPI_FREQ_125K, ///< 125 kbps.
-    NRF_DRV_SPI_FREQ_250K = NRF_SPI_FREQ_250K, ///< 250 kbps.
-    NRF_DRV_SPI_FREQ_500K = NRF_SPI_FREQ_500K, ///< 500 kbps.
-    NRF_DRV_SPI_FREQ_1M   = NRF_SPI_FREQ_1M,   ///< 1 Mbps.
-    NRF_DRV_SPI_FREQ_2M   = NRF_SPI_FREQ_2M,   ///< 2 Mbps.
-    NRF_DRV_SPI_FREQ_4M   = NRF_SPI_FREQ_4M,   ///< 4 Mbps.
-    NRF_DRV_SPI_FREQ_8M   = NRF_SPI_FREQ_8M,    ///< 8 Mbps.
-		NRF_DRV_SPI_FREQ_16M  = NRF_SPI_FREQ_16M
-} nrf_drv_spi_frequency_t;
+    XINC_DRV_SPI_FREQ_125K = NRF_SPI_FREQ_125K, ///< 125 kbps.
+    XINC_DRV_SPI_FREQ_250K = NRF_SPI_FREQ_250K, ///< 250 kbps.
+    XINC_DRV_SPI_FREQ_500K = NRF_SPI_FREQ_500K, ///< 500 kbps.
+    XINC_DRV_SPI_FREQ_1M   = NRF_SPI_FREQ_1M,   ///< 1 Mbps.
+    XINC_DRV_SPI_FREQ_2M   = NRF_SPI_FREQ_2M,   ///< 2 Mbps.
+    XINC_DRV_SPI_FREQ_4M   = NRF_SPI_FREQ_4M,   ///< 4 Mbps.
+    XINC_DRV_SPI_FREQ_8M   = NRF_SPI_FREQ_8M,    ///< 8 Mbps.
+		XINC_DRV_SPI_FREQ_16M  = NRF_SPI_FREQ_16M
+} xinc_drv_spi_frequency_t;
 
 /**
  * @brief SPI modes.
  */
 typedef enum
 {
-    NRF_DRV_SPI_MODE_0 = NRF_SPI_MODE_0, ///< SCK active high, sample on leading edge of clock.
-    NRF_DRV_SPI_MODE_1 = NRF_SPI_MODE_1, ///< SCK active high, sample on trailing edge of clock.
-    NRF_DRV_SPI_MODE_2 = NRF_SPI_MODE_2, ///< SCK active low, sample on leading edge of clock.
-    NRF_DRV_SPI_MODE_3 = NRF_SPI_MODE_3  ///< SCK active low, sample on trailing edge of clock.
-} nrf_drv_spi_mode_t;
+    XINC_DRV_SPI_MODE_0 = NRF_SPI_MODE_0, ///< SCK active high, sample on leading edge of clock.
+    XINC_DRV_SPI_MODE_1 = NRF_SPI_MODE_1, ///< SCK active high, sample on trailing edge of clock.
+    XINC_DRV_SPI_MODE_2 = NRF_SPI_MODE_2, ///< SCK active low, sample on leading edge of clock.
+    XINC_DRV_SPI_MODE_3 = NRF_SPI_MODE_3  ///< SCK active low, sample on trailing edge of clock.
+} xinc_drv_spi_mode_t;
 
 /**
  * @brief SPI bit orders.
  */
 typedef enum
 {
-    NRF_DRV_SPI_BIT_ORDER_MSB_FIRST = NRF_SPI_BIT_ORDER_MSB_FIRST, ///< Most significant bit shifted out first.
-    NRF_DRV_SPI_BIT_ORDER_LSB_FIRST = NRF_SPI_BIT_ORDER_LSB_FIRST  ///< Least significant bit shifted out first.
-} nrf_drv_spi_bit_order_t;
+    XINC_DRV_SPI_BIT_ORDER_MSB_FIRST = NRF_SPI_BIT_ORDER_MSB_FIRST, ///< Most significant bit shifted out first.
+    XINC_DRV_SPI_BIT_ORDER_LSB_FIRST = NRF_SPI_BIT_ORDER_LSB_FIRST  ///< Least significant bit shifted out first.
+} xinc_drv_spi_bit_order_t;
 
 /**
  * @brief SPI master driver instance configuration structure.
@@ -173,13 +173,13 @@ typedef struct
 {
     uint8_t sck_pin;      ///< SCK pin number.
     uint8_t mosi_pin;     ///< MOSI pin number (optional).
-                          /**< Set to @ref NRF_DRV_SPI_PIN_NOT_USED
+                          /**< Set to @ref XINC_DRV_SPI_PIN_NOT_USED
                            *   if this signal is not needed. */
     uint8_t miso_pin;     ///< MISO pin number (optional).
-                          /**< Set to @ref NRF_DRV_SPI_PIN_NOT_USED
+                          /**< Set to @ref XINC_DRV_SPI_PIN_NOT_USED
                            *   if this signal is not needed. */
     uint8_t ss_pin;       ///< Slave Select pin number (optional).
-                          /**< Set to @ref NRF_DRV_SPI_PIN_NOT_USED
+                          /**< Set to @ref XINC_DRV_SPI_PIN_NOT_USED
                            *   if this signal is not needed. The driver
                            *   supports only active low for this signal.
                            *   If the signal should be active high,
@@ -188,32 +188,32 @@ typedef struct
     uint8_t orc;          ///< Over-run character.
                           /**< This character is used when all bytes from the TX buffer are sent,
                                but the transfer continues due to RX. */
-    nrf_drv_spi_frequency_t frequency; ///< SPI frequency.
-    nrf_drv_spi_mode_t      mode;      ///< SPI mode.
-    nrf_drv_spi_bit_order_t bit_order; ///< SPI bit order.
-} nrf_drv_spi_config_t;
+    xinc_drv_spi_frequency_t frequency; ///< SPI frequency.
+    xinc_drv_spi_mode_t      mode;      ///< SPI mode.
+    xinc_drv_spi_bit_order_t bit_order; ///< SPI bit order.
+} xinc_drv_spi_config_t;
 
 /**
  * @brief SPI master instance default configuration.
  */
-#define NRF_DRV_SPI_DEFAULT_CONFIG                           \
+#define XINC_DRV_SPI_DEFAULT_CONFIG                           \
 {                                                            \
-    .sck_pin      = NRF_DRV_SPI_PIN_NOT_USED,                \
-    .mosi_pin     = NRF_DRV_SPI_PIN_NOT_USED,                \
-    .miso_pin     = NRF_DRV_SPI_PIN_NOT_USED,                \
-    .ss_pin       = NRF_DRV_SPI_PIN_NOT_USED,                \
+    .sck_pin      = XINC_DRV_SPI_PIN_NOT_USED,                \
+    .mosi_pin     = XINC_DRV_SPI_PIN_NOT_USED,                \
+    .miso_pin     = XINC_DRV_SPI_PIN_NOT_USED,                \
+    .ss_pin       = XINC_DRV_SPI_PIN_NOT_USED,                \
     .irq_priority = SPI_DEFAULT_CONFIG_IRQ_PRIORITY,         \
     .orc          = 0xFF,                                    \
-    .frequency    = NRF_DRV_SPI_FREQ_4M,                     \
-    .mode         = NRF_DRV_SPI_MODE_0,                      \
-    .bit_order    = NRF_DRV_SPI_BIT_ORDER_MSB_FIRST,         \
+    .frequency    = XINC_DRV_SPI_FREQ_4M,                     \
+    .mode         = XINC_DRV_SPI_MODE_0,                      \
+    .bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,         \
 }
 
-#define NRF_DRV_SPI_FLAG_TX_POSTINC          (1UL << 0) /**< TX buffer address incremented after transfer. */
-#define NRF_DRV_SPI_FLAG_RX_POSTINC          (1UL << 1) /**< RX buffer address incremented after transfer. */
-#define NRF_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER (1UL << 2) /**< Interrupt after each transfer is suppressed, and the event handler is not called. */
-#define NRF_DRV_SPI_FLAG_HOLD_XFER           (1UL << 3) /**< Set up the transfer but do not start it. */
-#define NRF_DRV_SPI_FLAG_REPEATED_XFER       (1UL << 4) /**< Flag indicating that the transfer will be executed multiple times. */
+#define XINC_DRV_SPI_FLAG_TX_POSTINC          (1UL << 0) /**< TX buffer address incremented after transfer. */
+#define XINC_DRV_SPI_FLAG_RX_POSTINC          (1UL << 1) /**< RX buffer address incremented after transfer. */
+#define XINC_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER (1UL << 2) /**< Interrupt after each transfer is suppressed, and the event handler is not called. */
+#define XINC_DRV_SPI_FLAG_HOLD_XFER           (1UL << 3) /**< Set up the transfer but do not start it. */
+#define XINC_DRV_SPI_FLAG_REPEATED_XFER       (1UL << 4) /**< Flag indicating that the transfer will be executed multiple times. */
 
 /**
  * @brief Single transfer descriptor structure.
@@ -224,14 +224,14 @@ typedef struct
     uint16_t         tx_length;   ///< TX buffer length.
     uint8_t       * p_rx_buffer; ///< Pointer to RX buffer.
     uint16_t         rx_length;   ///< RX buffer length.
-}nrf_drv_spi_xfer_desc_t;
+}xinc_drv_spi_xfer_desc_t;
 
 /**
  * @brief Macro for setting up single transfer descriptor.
  *
  * This macro is for internal use only.
  */
-#define NRF_DRV_SPI_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len)  \
+#define XINC_DRV_SPI_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len)  \
     {                                                        \
     .p_tx_buffer = (uint8_t *)(p_tx),                  \
     .tx_length = (tx_len),                                   \
@@ -242,20 +242,20 @@ typedef struct
 /**
  * @brief Macro for setting duplex TX RX transfer.
  */
-#define NRF_DRV_SPI_XFER_TRX(p_tx_buf, tx_length, p_rx_buf, rx_length)                    \
-        NRF_DRV_SPI_SINGLE_XFER(p_tx_buf, tx_length, p_rx_buf, rx_length)
+#define XINC_DRV_SPI_XFER_TRX(p_tx_buf, tx_length, p_rx_buf, rx_length)                    \
+        XINC_DRV_SPI_SINGLE_XFER(p_tx_buf, tx_length, p_rx_buf, rx_length)
 
 /**
  * @brief Macro for setting TX transfer.
  */
-#define NRF_DRV_SPI_XFER_TX(p_buf, length) \
-        NRF_DRV_SPI_SINGLE_XFER(p_buf, length, NULL, 0)
+#define XINC_DRV_SPI_XFER_TX(p_buf, length) \
+        XINC_DRV_SPI_SINGLE_XFER(p_buf, length, NULL, 0)
 
 /**
  * @brief Macro for setting RX transfer.
  */
-#define NRF_DRV_SPI_XFER_RX(p_buf, length) \
-        NRF_DRV_SPI_SINGLE_XFER(NULL, 0, p_buf, length)
+#define XINC_DRV_SPI_XFER_RX(p_buf, length) \
+        XINC_DRV_SPI_SINGLE_XFER(NULL, 0, p_buf, length)
 
 /**
  * @brief SPI master driver event types, passed to the handler routine provided
@@ -263,22 +263,22 @@ typedef struct
  */
 typedef enum
 {
-    NRF_DRV_SPI_EVENT_DONE, ///< Transfer done.
-} nrf_drv_spi_evt_type_t;
+    XINC_DRV_SPI_EVENT_DONE, ///< Transfer done.
+} xinc_drv_spi_evt_type_t;
 
 typedef struct
 {
-    nrf_drv_spi_evt_type_t  type;      ///< Event type.
+    xinc_drv_spi_evt_type_t  type;      ///< Event type.
     union
     {
-        nrf_drv_spi_xfer_desc_t done;  ///< Event data for DONE event.
+        xinc_drv_spi_xfer_desc_t done;  ///< Event data for DONE event.
     } data;
-} nrf_drv_spi_evt_t;
+} xinc_drv_spi_evt_t;
 
 /**
  * @brief SPI master driver event handler type.
  */
-typedef void (* nrf_drv_spi_evt_handler_t)(nrf_drv_spi_evt_t  * p_event,
+typedef void (* xinc_drv_spi_evt_handler_t)(xinc_drv_spi_evt_t  * p_event,
                                            void *                    p_context);
 
 
@@ -303,9 +303,9 @@ typedef void (* nrf_drv_spi_evt_handler_t)(nrf_drv_spi_evt_t  * p_event,
  *                                 possible only if PERIPHERAL_RESOURCE_SHARING_ENABLED
  *                                 is set to a value other than zero.
  */
-ret_code_t nrf_drv_spi_init(nrf_drv_spi_t const * const p_instance,
-                            nrf_drv_spi_config_t const * p_config,
-                            nrf_drv_spi_evt_handler_t    handler,
+ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
+                            xinc_drv_spi_config_t const * p_config,
+                            xinc_drv_spi_evt_handler_t    handler,
                             void *                       p_context);
 
 /**
@@ -316,12 +316,12 @@ ret_code_t nrf_drv_spi_init(nrf_drv_spi_t const * const p_instance,
  * @param[in] p_instance Pointer to the driver instance structure.
  */
 __STATIC_INLINE
-void nrf_drv_spi_uninit(nrf_drv_spi_t const * const p_instance);
+void xinc_drv_spi_uninit(xinc_drv_spi_t const * const p_instance);
 
 /**
  * @brief Function for starting the SPI data transfer.
  *
- * If an event handler was provided in the @ref nrf_drv_spi_init call, this function
+ * If an event handler was provided in the @ref xinc_drv_spi_init call, this function
  * returns immediately and the handler is called when the transfer is done.
  * Otherwise, the transfer is performed in blocking mode, which means that this function
  * returns when the transfer is finished.
@@ -345,7 +345,7 @@ void nrf_drv_spi_uninit(nrf_drv_spi_t const * const p_instance);
  *                                RAM region.
  */
 __STATIC_INLINE
-ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
+ret_code_t xinc_drv_spi_transfer(xinc_drv_spi_t const * const p_instance,
                                 uint8_t  * p_tx_buffer,
                                 uint16_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
@@ -358,26 +358,26 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
  *
  * Additional options are provided using the flags parameter:
  *
- * - @ref NRF_DRV_SPI_FLAG_TX_POSTINC and @ref NRF_DRV_SPI_FLAG_RX_POSTINC<span></span>:
+ * - @ref XINC_DRV_SPI_FLAG_TX_POSTINC and @ref XINC_DRV_SPI_FLAG_RX_POSTINC<span></span>:
  *   Post-incrementation of buffer addresses. Supported only by SPIM.
- * - @ref NRF_DRV_SPI_FLAG_HOLD_XFER<span></span>: Driver is not starting the transfer. Use this
+ * - @ref XINC_DRV_SPI_FLAG_HOLD_XFER<span></span>: Driver is not starting the transfer. Use this
  *   flag if the transfer is triggered externally by PPI. Supported only by SPIM. Use
- *   @ref nrf_drv_spi_start_task_get to get the address of the start task.
- * - @ref NRF_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER<span></span>: No user event handler after transfer
+ *   @ref xinc_drv_spi_start_task_get to get the address of the start task.
+ * - @ref XINC_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER<span></span>: No user event handler after transfer
  *   completion. This also means no interrupt at the end of the transfer. Supported only by SPIM.
- *   If @ref NRF_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER is used, the driver does not set the instance into
+ *   If @ref XINC_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER is used, the driver does not set the instance into
  *   busy state, so you must ensure that the next transfers are set up when SPIM is not active.
- *   @ref nrf_drv_spi_end_event_get function can be used to detect end of transfer. Option can be used
- *   together with @ref NRF_DRV_SPI_FLAG_REPEATED_XFER to prepare a sequence of SPI transfers
+ *   @ref xinc_drv_spi_end_event_get function can be used to detect end of transfer. Option can be used
+ *   together with @ref XINC_DRV_SPI_FLAG_REPEATED_XFER to prepare a sequence of SPI transfers
  *   without interruptions.
- * - @ref NRF_DRV_SPI_FLAG_REPEATED_XFER<span></span>: Prepare for repeated transfers. You can set
+ * - @ref XINC_DRV_SPI_FLAG_REPEATED_XFER<span></span>: Prepare for repeated transfers. You can set
  *   up a number of transfers that will be triggered externally (for example by PPI). An example is
- *   a TXRX transfer with the options @ref NRF_DRV_SPI_FLAG_RX_POSTINC,
- *   @ref NRF_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER, and @ref NRF_DRV_SPI_FLAG_REPEATED_XFER. After the
+ *   a TXRX transfer with the options @ref XINC_DRV_SPI_FLAG_RX_POSTINC,
+ *   @ref XINC_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER, and @ref XINC_DRV_SPI_FLAG_REPEATED_XFER. After the
  *   transfer is set up, a set of transfers can be triggered by PPI that will read, for example,
  *   the same register of an external component and put it into a RAM buffer without any interrupts.
- *   @ref nrf_drv_spi_end_event_get can be used to get the address of the END event, which can be
- *   used to count the number of transfers. If @ref NRF_DRV_SPI_FLAG_REPEATED_XFER is used,
+ *   @ref xinc_drv_spi_end_event_get can be used to get the address of the END event, which can be
+ *   used to count the number of transfers. If @ref XINC_DRV_SPI_FLAG_REPEATED_XFER is used,
  *   the driver does not set the instance into busy state, so you must ensure that the next
  *   transfers are set up when SPIM is not active. Supported only by SPIM.
  * @note Function is intended to be used only in non-blocking mode.
@@ -393,14 +393,14 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
  *                                 RAM region.
  */
 __STATIC_INLINE
-ret_code_t nrf_drv_spi_xfer(nrf_drv_spi_t     const * const p_instance,
-                            nrf_drv_spi_xfer_desc_t  * p_xfer_desc,
+ret_code_t xinc_drv_spi_xfer(xinc_drv_spi_t     const * const p_instance,
+                            xinc_drv_spi_xfer_desc_t  * p_xfer_desc,
                             uint32_t                        flags);
 
 /**
  * @brief Function for returning the address of a SPIM start task.
  *
- * This function should be used if @ref nrf_drv_spi_xfer was called with the flag @ref NRF_DRV_SPI_FLAG_HOLD_XFER.
+ * This function should be used if @ref xinc_drv_spi_xfer was called with the flag @ref XINC_DRV_SPI_FLAG_HOLD_XFER.
  * In that case, the transfer is not started by the driver, but it must be started externally by PPI.
  *
  * @param[in]  p_instance Pointer to the driver instance structure.
@@ -408,12 +408,12 @@ ret_code_t nrf_drv_spi_xfer(nrf_drv_spi_t     const * const p_instance,
  * @return     Start task address.
  */
 __STATIC_INLINE
-uint32_t nrf_drv_spi_start_task_get(nrf_drv_spi_t const * p_instance);
+uint32_t xinc_drv_spi_start_task_get(xinc_drv_spi_t const * p_instance);
 
 /**
  * @brief Function for returning the address of a END SPIM event.
  *
- * A END event can be used to detect the end of a transfer if the @ref NRF_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER
+ * A END event can be used to detect the end of a transfer if the @ref XINC_DRV_SPI_FLAG_NO_XFER_EVT_HANDLER
  * option is used.
  *
  * @param[in]  p_instance Pointer to the driver instance structure.
@@ -421,7 +421,7 @@ uint32_t nrf_drv_spi_start_task_get(nrf_drv_spi_t const * p_instance);
  * @return     END event address.
  */
 __STATIC_INLINE
-uint32_t nrf_drv_spi_end_event_get(nrf_drv_spi_t const * p_instance);
+uint32_t xinc_drv_spi_end_event_get(xinc_drv_spi_t const * p_instance);
 
 /**
  * @brief Function for aborting ongoing transfer.
@@ -429,45 +429,45 @@ uint32_t nrf_drv_spi_end_event_get(nrf_drv_spi_t const * p_instance);
  * @param[in]  p_instance Pointer to the driver instance structure.
  */
 __STATIC_INLINE
-void nrf_drv_spi_abort(nrf_drv_spi_t const * p_instance);
+void xinc_drv_spi_abort(xinc_drv_spi_t const * p_instance);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 #if defined(SPI_PRESENT) && !defined(SPIM_PRESENT)
-#define NRF_DRV_SPI_WITH_SPI
+#define XINC_DRV_SPI_WITH_SPI
 #elif !defined(SPI_PRESENT) && defined(SPIM_PRESENT)
-#define NRF_DRV_SPI_WITH_SPIM
+#define XINC_DRV_SPI_WITH_SPIM
 #else
 #if (NRFX_CHECK(SPI0_ENABLED) &&  NRFX_CHECK(SPI0_USE_EASY_DMA)) || \
     (NRFX_CHECK(SPI1_ENABLED) &&  NRFX_CHECK(SPI1_USE_EASY_DMA))
-    #define NRF_DRV_SPI_WITH_SPIM
+    #define XINC_DRV_SPI_WITH_SPIM
 #endif
 #if (NRFX_CHECK(SPI0_ENABLED) && !NRFX_CHECK(SPI0_USE_EASY_DMA)) || \
     (NRFX_CHECK(SPI1_ENABLED) && !NRFX_CHECK(SPI1_USE_EASY_DMA))
-    #define NRF_DRV_SPI_WITH_SPI
+    #define XINC_DRV_SPI_WITH_SPI
 #endif
 #endif
-#if defined(NRF_DRV_SPI_WITH_SPIM) && defined(NRF_DRV_SPI_WITH_SPI)
-    #define NRF_DRV_SPI_USE_SPIM  (p_instance->use_easy_dma)
-#elif defined(NRF_DRV_SPI_WITH_SPIM)
-    #define NRF_DRV_SPI_USE_SPIM  true
+#if defined(XINC_DRV_SPI_WITH_SPIM) && defined(XINC_DRV_SPI_WITH_SPI)
+    #define XINC_DRV_SPI_USE_SPIM  (p_instance->use_easy_dma)
+#elif defined(XINC_DRV_SPI_WITH_SPIM)
+    #define XINC_DRV_SPI_USE_SPIM  true
 #else
-    #define NRF_DRV_SPI_USE_SPIM  false
+    #define XINC_DRV_SPI_USE_SPIM  false
 #endif
-#define NRF_DRV_SPI_USE_SPI  (!NRF_DRV_SPI_USE_SPIM)
+#define XINC_DRV_SPI_USE_SPI  (!XINC_DRV_SPI_USE_SPIM)
 
 __STATIC_INLINE
-void nrf_drv_spi_uninit(nrf_drv_spi_t const * p_instance)
+void xinc_drv_spi_uninit(xinc_drv_spi_t const * p_instance)
 {
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
-        nrfx_spim_uninit(&p_instance->u.spim);
+        xincx_spim_uninit(&p_instance->u.spim);
     }
 }
 
 __STATIC_INLINE
-ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
+ret_code_t xinc_drv_spi_transfer(xinc_drv_spi_t const * const p_instance,
                                 uint8_t  * p_tx_buffer,
                                 uint16_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
@@ -475,20 +475,20 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
 {
     ret_code_t result = 0;
 	  uint16_t tx_length = 0;
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
     #ifdef SPIM_PRESENT
-        nrfx_spim_xfer_desc_t  spim_xfer_desc =
+        xincx_spim_xfer_desc_t  spim_xfer_desc =
         {
             .p_tx_buffer = p_tx_buffer,
             .tx_length   = tx_buffer_length,
             .p_rx_buffer = p_rx_buffer,
             .rx_length   = rx_buffer_length,
         };
-        result = nrfx_spim_xfer(&p_instance->u.spim, &spim_xfer_desc, 0);
+        result = xincx_spim_xfer(&p_instance->u.spim, &spim_xfer_desc, 0);
     #endif
     }
-    else if (NRF_DRV_SPI_USE_SPI)
+    else if (XINC_DRV_SPI_USE_SPI)
     {
     #ifdef SPI_PRESENT
         nrfx_spi_xfer_desc_t const spi_xfer_desc =
@@ -505,56 +505,56 @@ ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
 }
 
 __STATIC_INLINE
-ret_code_t nrf_drv_spi_xfer(nrf_drv_spi_t     const * const p_instance,
-                            nrf_drv_spi_xfer_desc_t  * p_xfer_desc,
+ret_code_t xinc_drv_spi_xfer(xinc_drv_spi_t     const * const p_instance,
+                            xinc_drv_spi_xfer_desc_t  * p_xfer_desc,
                             uint32_t                        flags)
 {
     ret_code_t result = 0;
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
     #ifdef SPIM_PRESENT
-        nrfx_spim_xfer_desc_t  spim_xfer_desc =
+        xincx_spim_xfer_desc_t  spim_xfer_desc =
         {
             .p_tx_buffer = p_xfer_desc->p_tx_buffer,
             .tx_length   = p_xfer_desc->tx_length,
             .p_rx_buffer = p_xfer_desc->p_rx_buffer,
             .rx_length   = p_xfer_desc->rx_length,
         };
-        result = nrfx_spim_xfer(&p_instance->u.spim, &spim_xfer_desc, flags);
+        result = xincx_spim_xfer(&p_instance->u.spim, &spim_xfer_desc, flags);
     #endif
     }
     return result;
 }
 
 __STATIC_INLINE
-uint32_t nrf_drv_spi_start_task_get(nrf_drv_spi_t const * p_instance)
+uint32_t xinc_drv_spi_start_task_get(xinc_drv_spi_t const * p_instance)
 {
     uint32_t result = 0;
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
-        result = nrfx_spim_start_task_get(&p_instance->u.spim);
+        result = xincx_spim_start_task_get(&p_instance->u.spim);
     }
     return result;
 }
 
 __STATIC_INLINE
-uint32_t nrf_drv_spi_end_event_get(nrf_drv_spi_t const * p_instance)
+uint32_t xinc_drv_spi_end_event_get(xinc_drv_spi_t const * p_instance)
 {
     uint32_t result = 0;
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
-        result = nrfx_spim_end_event_get(&p_instance->u.spim);
+        result = xincx_spim_end_event_get(&p_instance->u.spim);
     }
 
     return result;
 }
 
 __STATIC_INLINE
-void nrf_drv_spi_abort(nrf_drv_spi_t const * p_instance)
+void xinc_drv_spi_abort(xinc_drv_spi_t const * p_instance)
 {
-    if (NRF_DRV_SPI_USE_SPIM)
+    if (XINC_DRV_SPI_USE_SPIM)
     {
-//        nrfx_spim_abort(&p_instance->u.spim);
+//        xincx_spim_abort(&p_instance->u.spim);
     }
 }
 
@@ -566,4 +566,4 @@ void nrf_drv_spi_abort(nrf_drv_spi_t const * p_instance)
 }
 #endif
 
-#endif // NRF_DRV_SPI_H__
+#endif // XINC_DRV_SPI_H__

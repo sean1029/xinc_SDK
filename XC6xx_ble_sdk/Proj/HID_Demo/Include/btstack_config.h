@@ -1,5 +1,5 @@
 // 
-// btstack_config.h for SAMV71 + ATWILC3000
+// btstack_config.h for SAMV71 + AI2CLC3000
 //
 
 #ifndef __BTSTACK_CONFIG

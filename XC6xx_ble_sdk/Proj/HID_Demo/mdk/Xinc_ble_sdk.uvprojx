@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED NRF52840_XXAA BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -689,6 +689,11 @@
           <GroupName>bsp</GroupName>
           <Files>
             <File>
+              <FileName>AT24C02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\I2C\AT24C02.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_retarget.c</FilePath>
@@ -839,6 +844,11 @@
               <FileName>bsp_clk.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_i2c_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\I2C\bsp_i2c_master.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1122,9 +1132,24 @@
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_drv_spi.c</FileName>
+              <FileName>xinc_drv_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\integration\nrfx\nrf_drv_spi.c</FilePath>
+              <FilePath>..\..\..\integration\nrfx\xinc_drv_spi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>i2c</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1829,6 +1854,11 @@
           </GroupOption>
           <Files>
             <File>
+              <FileName>AT24C02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\I2C\AT24C02.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_retarget.c</FilePath>
@@ -1877,6 +1907,11 @@
               <FileName>bsp_clk.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_i2c_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\I2C\bsp_i2c_master.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2109,9 +2144,24 @@
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_drv_spi.c</FileName>
+              <FileName>xinc_drv_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\integration\nrfx\nrf_drv_spi.c</FilePath>
+              <FilePath>..\..\..\integration\nrfx\xinc_drv_spi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>i2c</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
             </File>
           </Files>
         </Group>

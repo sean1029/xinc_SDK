@@ -44,3 +44,14 @@ void xc_spi_clk_init(uint8_t ch)
     __write_hw_reg32(CPR_SSI_CTRL, val); 
 	
 }
+
+void xc_i2c_clk_init(void)
+{
+  __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x8000800);
+
+	__write_hw_reg32(CPR_RSTCTL_SUBRST_SW, 0x400000);
+	__write_hw_reg32(CPR_RSTCTL_SUBRST_SW, 0x400040);
+
+	__write_hw_reg32(CPR_I2C_CLK_CTL, 0x110011);                //-> i2c_mclk = 16mhz.
+	
+}

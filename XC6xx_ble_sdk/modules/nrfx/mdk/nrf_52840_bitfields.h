@@ -13706,1140 +13706,1139 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define TIMER_CC_CC_Msk (0xFFFFFFFFUL << TIMER_CC_CC_Pos) /*!< Bit mask of CC field. */
 
 
-/* Peripheral: TWI */
+/* Peripheral: I2C */
 /* Description: I2C compatible Two-Wire Interface 0 */
 
-/* Register: TWI_TASKS_STARTRX */
-/* Description: Start TWI receive sequence */
+/* Register: I2C_TASKS_STARTRX */
+/* Description: Start I2C receive sequence */
 
-/* Bit 0 : Start TWI receive sequence */
-#define TWI_TASKS_STARTRX_TASKS_STARTRX_Pos (0UL) /*!< Position of TASKS_STARTRX field. */
-#define TWI_TASKS_STARTRX_TASKS_STARTRX_Msk (0x1UL << TWI_TASKS_STARTRX_TASKS_STARTRX_Pos) /*!< Bit mask of TASKS_STARTRX field. */
-#define TWI_TASKS_STARTRX_TASKS_STARTRX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Start I2C receive sequence */
+#define I2C_TASKS_STARTRX_TASKS_STARTRX_Pos (0UL) /*!< Position of TASKS_STARTRX field. */
+#define I2C_TASKS_STARTRX_TASKS_STARTRX_Msk (0x1UL << I2C_TASKS_STARTRX_TASKS_STARTRX_Pos) /*!< Bit mask of TASKS_STARTRX field. */
+#define I2C_TASKS_STARTRX_TASKS_STARTRX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWI_TASKS_STARTTX */
-/* Description: Start TWI transmit sequence */
+/* Register: I2C_TASKS_STARTTX */
+/* Description: Start I2C transmit sequence */
 
-/* Bit 0 : Start TWI transmit sequence */
-#define TWI_TASKS_STARTTX_TASKS_STARTTX_Pos (0UL) /*!< Position of TASKS_STARTTX field. */
-#define TWI_TASKS_STARTTX_TASKS_STARTTX_Msk (0x1UL << TWI_TASKS_STARTTX_TASKS_STARTTX_Pos) /*!< Bit mask of TASKS_STARTTX field. */
-#define TWI_TASKS_STARTTX_TASKS_STARTTX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Start I2C transmit sequence */
+#define I2C_TASKS_STARTTX_TASKS_STARTTX_Pos (0UL) /*!< Position of TASKS_STARTTX field. */
+#define I2C_TASKS_STARTTX_TASKS_STARTTX_Msk (0x1UL << I2C_TASKS_STARTTX_TASKS_STARTTX_Pos) /*!< Bit mask of TASKS_STARTTX field. */
+#define I2C_TASKS_STARTTX_TASKS_STARTTX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWI_TASKS_STOP */
-/* Description: Stop TWI transaction */
+/* Register: I2C_TASKS_STOP */
+/* Description: Stop I2C transaction */
 
-/* Bit 0 : Stop TWI transaction */
-#define TWI_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
-#define TWI_TASKS_STOP_TASKS_STOP_Msk (0x1UL << TWI_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
-#define TWI_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Stop I2C transaction */
+#define I2C_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
+#define I2C_TASKS_STOP_TASKS_STOP_Msk (0x1UL << I2C_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
+#define I2C_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWI_TASKS_SUSPEND */
-/* Description: Suspend TWI transaction */
+/* Register: I2C_TASKS_SUSPEND */
+/* Description: Suspend I2C transaction */
 
-/* Bit 0 : Suspend TWI transaction */
-#define TWI_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
-#define TWI_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << TWI_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
-#define TWI_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Suspend I2C transaction */
+#define I2C_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
+#define I2C_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << I2C_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
+#define I2C_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWI_TASKS_RESUME */
-/* Description: Resume TWI transaction */
+/* Register: I2C_TASKS_RESUME */
+/* Description: Resume I2C transaction */
 
-/* Bit 0 : Resume TWI transaction */
-#define TWI_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
-#define TWI_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << TWI_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
-#define TWI_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Resume I2C transaction */
+#define I2C_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
+#define I2C_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << I2C_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
+#define I2C_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWI_EVENTS_STOPPED */
-/* Description: TWI stopped */
+/* Register: I2C_EVENTS_STOPPED */
+/* Description: I2C stopped */
 
-/* Bit 0 : TWI stopped */
-#define TWI_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
-#define TWI_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << TWI_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
-#define TWI_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C stopped */
+#define I2C_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
+#define I2C_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << I2C_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
+#define I2C_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_EVENTS_RXDREADY */
-/* Description: TWI RXD byte received */
+/* Register: I2C_EVENTS_RXDREADY */
+/* Description: I2C RXD byte received */
 
-/* Bit 0 : TWI RXD byte received */
-#define TWI_EVENTS_RXDREADY_EVENTS_RXDREADY_Pos (0UL) /*!< Position of EVENTS_RXDREADY field. */
-#define TWI_EVENTS_RXDREADY_EVENTS_RXDREADY_Msk (0x1UL << TWI_EVENTS_RXDREADY_EVENTS_RXDREADY_Pos) /*!< Bit mask of EVENTS_RXDREADY field. */
-#define TWI_EVENTS_RXDREADY_EVENTS_RXDREADY_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_RXDREADY_EVENTS_RXDREADY_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C RXD byte received */
+#define I2C_EVENTS_RXDREADY_EVENTS_RXDREADY_Pos (0UL) /*!< Position of EVENTS_RXDREADY field. */
+#define I2C_EVENTS_RXDREADY_EVENTS_RXDREADY_Msk (0x1UL << I2C_EVENTS_RXDREADY_EVENTS_RXDREADY_Pos) /*!< Bit mask of EVENTS_RXDREADY field. */
+#define I2C_EVENTS_RXDREADY_EVENTS_RXDREADY_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_RXDREADY_EVENTS_RXDREADY_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_EVENTS_TXDSENT */
-/* Description: TWI TXD byte sent */
+/* Register: I2C_EVENTS_TXDSENT */
+/* Description: I2C TXD byte sent */
 
-/* Bit 0 : TWI TXD byte sent */
-#define TWI_EVENTS_TXDSENT_EVENTS_TXDSENT_Pos (0UL) /*!< Position of EVENTS_TXDSENT field. */
-#define TWI_EVENTS_TXDSENT_EVENTS_TXDSENT_Msk (0x1UL << TWI_EVENTS_TXDSENT_EVENTS_TXDSENT_Pos) /*!< Bit mask of EVENTS_TXDSENT field. */
-#define TWI_EVENTS_TXDSENT_EVENTS_TXDSENT_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_TXDSENT_EVENTS_TXDSENT_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C TXD byte sent */
+#define I2C_EVENTS_TXDSENT_EVENTS_TXDSENT_Pos (0UL) /*!< Position of EVENTS_TXDSENT field. */
+#define I2C_EVENTS_TXDSENT_EVENTS_TXDSENT_Msk (0x1UL << I2C_EVENTS_TXDSENT_EVENTS_TXDSENT_Pos) /*!< Bit mask of EVENTS_TXDSENT field. */
+#define I2C_EVENTS_TXDSENT_EVENTS_TXDSENT_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_TXDSENT_EVENTS_TXDSENT_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_EVENTS_ERROR */
-/* Description: TWI error */
+/* Register: I2C_EVENTS_ERROR */
+/* Description: I2C error */
 
-/* Bit 0 : TWI error */
-#define TWI_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
-#define TWI_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << TWI_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
-#define TWI_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C error */
+#define I2C_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
+#define I2C_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << I2C_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
+#define I2C_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_EVENTS_BB */
-/* Description: TWI byte boundary, generated before each byte that is sent or received */
+/* Register: I2C_EVENTS_BB */
+/* Description: I2C byte boundary, generated before each byte that is sent or received */
 
-/* Bit 0 : TWI byte boundary, generated before each byte that is sent or received */
-#define TWI_EVENTS_BB_EVENTS_BB_Pos (0UL) /*!< Position of EVENTS_BB field. */
-#define TWI_EVENTS_BB_EVENTS_BB_Msk (0x1UL << TWI_EVENTS_BB_EVENTS_BB_Pos) /*!< Bit mask of EVENTS_BB field. */
-#define TWI_EVENTS_BB_EVENTS_BB_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_BB_EVENTS_BB_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C byte boundary, generated before each byte that is sent or received */
+#define I2C_EVENTS_BB_EVENTS_BB_Pos (0UL) /*!< Position of EVENTS_BB field. */
+#define I2C_EVENTS_BB_EVENTS_BB_Msk (0x1UL << I2C_EVENTS_BB_EVENTS_BB_Pos) /*!< Bit mask of EVENTS_BB field. */
+#define I2C_EVENTS_BB_EVENTS_BB_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_BB_EVENTS_BB_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_EVENTS_SUSPENDED */
-/* Description: TWI entered the suspended state */
+/* Register: I2C_EVENTS_SUSPENDED */
+/* Description: I2C entered the suspended state */
 
-/* Bit 0 : TWI entered the suspended state */
-#define TWI_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos (0UL) /*!< Position of EVENTS_SUSPENDED field. */
-#define TWI_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Msk (0x1UL << TWI_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos) /*!< Bit mask of EVENTS_SUSPENDED field. */
-#define TWI_EVENTS_SUSPENDED_EVENTS_SUSPENDED_NotGenerated (0UL) /*!< Event not generated */
-#define TWI_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C entered the suspended state */
+#define I2C_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos (0UL) /*!< Position of EVENTS_SUSPENDED field. */
+#define I2C_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Msk (0x1UL << I2C_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos) /*!< Bit mask of EVENTS_SUSPENDED field. */
+#define I2C_EVENTS_SUSPENDED_EVENTS_SUSPENDED_NotGenerated (0UL) /*!< Event not generated */
+#define I2C_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWI_SHORTS */
+/* Register: I2C_SHORTS */
 /* Description: Shortcuts between local events and tasks */
 
 /* Bit 1 : Shortcut between event BB and task STOP */
-#define TWI_SHORTS_BB_STOP_Pos (1UL) /*!< Position of BB_STOP field. */
-#define TWI_SHORTS_BB_STOP_Msk (0x1UL << TWI_SHORTS_BB_STOP_Pos) /*!< Bit mask of BB_STOP field. */
-#define TWI_SHORTS_BB_STOP_Disabled (0UL) /*!< Disable shortcut */
-#define TWI_SHORTS_BB_STOP_Enabled (1UL) /*!< Enable shortcut */
+#define I2C_SHORTS_BB_STOP_Pos (1UL) /*!< Position of BB_STOP field. */
+#define I2C_SHORTS_BB_STOP_Msk (0x1UL << I2C_SHORTS_BB_STOP_Pos) /*!< Bit mask of BB_STOP field. */
+#define I2C_SHORTS_BB_STOP_Disabled (0UL) /*!< Disable shortcut */
+#define I2C_SHORTS_BB_STOP_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 0 : Shortcut between event BB and task SUSPEND */
-#define TWI_SHORTS_BB_SUSPEND_Pos (0UL) /*!< Position of BB_SUSPEND field. */
-#define TWI_SHORTS_BB_SUSPEND_Msk (0x1UL << TWI_SHORTS_BB_SUSPEND_Pos) /*!< Bit mask of BB_SUSPEND field. */
-#define TWI_SHORTS_BB_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
-#define TWI_SHORTS_BB_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
+#define I2C_SHORTS_BB_SUSPEND_Pos (0UL) /*!< Position of BB_SUSPEND field. */
+#define I2C_SHORTS_BB_SUSPEND_Msk (0x1UL << I2C_SHORTS_BB_SUSPEND_Pos) /*!< Bit mask of BB_SUSPEND field. */
+#define I2C_SHORTS_BB_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
+#define I2C_SHORTS_BB_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
 
-/* Register: TWI_INTENSET */
+/* Register: I2C_INTENSET */
 /* Description: Enable interrupt */
 
 /* Bit 18 : Write '1' to enable interrupt for event SUSPENDED */
-#define TWI_INTENSET_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
-#define TWI_INTENSET_SUSPENDED_Msk (0x1UL << TWI_INTENSET_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
-#define TWI_INTENSET_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_SUSPENDED_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
+#define I2C_INTENSET_SUSPENDED_Msk (0x1UL << I2C_INTENSET_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
+#define I2C_INTENSET_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_SUSPENDED_Set (1UL) /*!< Enable */
 
 /* Bit 14 : Write '1' to enable interrupt for event BB */
-#define TWI_INTENSET_BB_Pos (14UL) /*!< Position of BB field. */
-#define TWI_INTENSET_BB_Msk (0x1UL << TWI_INTENSET_BB_Pos) /*!< Bit mask of BB field. */
-#define TWI_INTENSET_BB_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_BB_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_BB_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_BB_Pos (14UL) /*!< Position of BB field. */
+#define I2C_INTENSET_BB_Msk (0x1UL << I2C_INTENSET_BB_Pos) /*!< Bit mask of BB field. */
+#define I2C_INTENSET_BB_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_BB_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_BB_Set (1UL) /*!< Enable */
 
 /* Bit 9 : Write '1' to enable interrupt for event ERROR */
-#define TWI_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWI_INTENSET_ERROR_Msk (0x1UL << TWI_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWI_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_ERROR_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2C_INTENSET_ERROR_Msk (0x1UL << I2C_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2C_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_ERROR_Set (1UL) /*!< Enable */
 
 /* Bit 7 : Write '1' to enable interrupt for event TXDSENT */
-#define TWI_INTENSET_TXDSENT_Pos (7UL) /*!< Position of TXDSENT field. */
-#define TWI_INTENSET_TXDSENT_Msk (0x1UL << TWI_INTENSET_TXDSENT_Pos) /*!< Bit mask of TXDSENT field. */
-#define TWI_INTENSET_TXDSENT_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_TXDSENT_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_TXDSENT_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_TXDSENT_Pos (7UL) /*!< Position of TXDSENT field. */
+#define I2C_INTENSET_TXDSENT_Msk (0x1UL << I2C_INTENSET_TXDSENT_Pos) /*!< Bit mask of TXDSENT field. */
+#define I2C_INTENSET_TXDSENT_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_TXDSENT_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_TXDSENT_Set (1UL) /*!< Enable */
 
 /* Bit 2 : Write '1' to enable interrupt for event RXDREADY */
-#define TWI_INTENSET_RXDREADY_Pos (2UL) /*!< Position of RXDREADY field. */
-#define TWI_INTENSET_RXDREADY_Msk (0x1UL << TWI_INTENSET_RXDREADY_Pos) /*!< Bit mask of RXDREADY field. */
-#define TWI_INTENSET_RXDREADY_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_RXDREADY_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_RXDREADY_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_RXDREADY_Pos (2UL) /*!< Position of RXDREADY field. */
+#define I2C_INTENSET_RXDREADY_Msk (0x1UL << I2C_INTENSET_RXDREADY_Pos) /*!< Bit mask of RXDREADY field. */
+#define I2C_INTENSET_RXDREADY_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_RXDREADY_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_RXDREADY_Set (1UL) /*!< Enable */
 
 /* Bit 1 : Write '1' to enable interrupt for event STOPPED */
-#define TWI_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWI_INTENSET_STOPPED_Msk (0x1UL << TWI_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWI_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENSET_STOPPED_Set (1UL) /*!< Enable */
+#define I2C_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2C_INTENSET_STOPPED_Msk (0x1UL << I2C_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2C_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENSET_STOPPED_Set (1UL) /*!< Enable */
 
-/* Register: TWI_INTENCLR */
+/* Register: I2C_INTENCLR */
 /* Description: Disable interrupt */
 
 /* Bit 18 : Write '1' to disable interrupt for event SUSPENDED */
-#define TWI_INTENCLR_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
-#define TWI_INTENCLR_SUSPENDED_Msk (0x1UL << TWI_INTENCLR_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
-#define TWI_INTENCLR_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_SUSPENDED_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
+#define I2C_INTENCLR_SUSPENDED_Msk (0x1UL << I2C_INTENCLR_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
+#define I2C_INTENCLR_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_SUSPENDED_Clear (1UL) /*!< Disable */
 
 /* Bit 14 : Write '1' to disable interrupt for event BB */
-#define TWI_INTENCLR_BB_Pos (14UL) /*!< Position of BB field. */
-#define TWI_INTENCLR_BB_Msk (0x1UL << TWI_INTENCLR_BB_Pos) /*!< Bit mask of BB field. */
-#define TWI_INTENCLR_BB_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_BB_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_BB_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_BB_Pos (14UL) /*!< Position of BB field. */
+#define I2C_INTENCLR_BB_Msk (0x1UL << I2C_INTENCLR_BB_Pos) /*!< Bit mask of BB field. */
+#define I2C_INTENCLR_BB_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_BB_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_BB_Clear (1UL) /*!< Disable */
 
 /* Bit 9 : Write '1' to disable interrupt for event ERROR */
-#define TWI_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWI_INTENCLR_ERROR_Msk (0x1UL << TWI_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWI_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2C_INTENCLR_ERROR_Msk (0x1UL << I2C_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2C_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
 
 /* Bit 7 : Write '1' to disable interrupt for event TXDSENT */
-#define TWI_INTENCLR_TXDSENT_Pos (7UL) /*!< Position of TXDSENT field. */
-#define TWI_INTENCLR_TXDSENT_Msk (0x1UL << TWI_INTENCLR_TXDSENT_Pos) /*!< Bit mask of TXDSENT field. */
-#define TWI_INTENCLR_TXDSENT_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_TXDSENT_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_TXDSENT_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_TXDSENT_Pos (7UL) /*!< Position of TXDSENT field. */
+#define I2C_INTENCLR_TXDSENT_Msk (0x1UL << I2C_INTENCLR_TXDSENT_Pos) /*!< Bit mask of TXDSENT field. */
+#define I2C_INTENCLR_TXDSENT_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_TXDSENT_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_TXDSENT_Clear (1UL) /*!< Disable */
 
 /* Bit 2 : Write '1' to disable interrupt for event RXDREADY */
-#define TWI_INTENCLR_RXDREADY_Pos (2UL) /*!< Position of RXDREADY field. */
-#define TWI_INTENCLR_RXDREADY_Msk (0x1UL << TWI_INTENCLR_RXDREADY_Pos) /*!< Bit mask of RXDREADY field. */
-#define TWI_INTENCLR_RXDREADY_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_RXDREADY_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_RXDREADY_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_RXDREADY_Pos (2UL) /*!< Position of RXDREADY field. */
+#define I2C_INTENCLR_RXDREADY_Msk (0x1UL << I2C_INTENCLR_RXDREADY_Pos) /*!< Bit mask of RXDREADY field. */
+#define I2C_INTENCLR_RXDREADY_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_RXDREADY_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_RXDREADY_Clear (1UL) /*!< Disable */
 
 /* Bit 1 : Write '1' to disable interrupt for event STOPPED */
-#define TWI_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWI_INTENCLR_STOPPED_Msk (0x1UL << TWI_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWI_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWI_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWI_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
+#define I2C_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2C_INTENCLR_STOPPED_Msk (0x1UL << I2C_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2C_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2C_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2C_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
 
-/* Register: TWI_ERRORSRC */
+/* Register: I2C_ERRORSRC */
 /* Description: Error source */
 
 /* Bit 2 : NACK received after sending a data byte (write '1' to clear) */
-#define TWI_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
-#define TWI_ERRORSRC_DNACK_Msk (0x1UL << TWI_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
-#define TWI_ERRORSRC_DNACK_NotPresent (0UL) /*!< Read: error not present */
-#define TWI_ERRORSRC_DNACK_Present (1UL) /*!< Read: error present */
+#define I2C_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
+#define I2C_ERRORSRC_DNACK_Msk (0x1UL << I2C_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
+#define I2C_ERRORSRC_DNACK_NotPresent (0UL) /*!< Read: error not present */
+#define I2C_ERRORSRC_DNACK_Present (1UL) /*!< Read: error present */
 
 /* Bit 1 : NACK received after sending the address (write '1' to clear) */
-#define TWI_ERRORSRC_ANACK_Pos (1UL) /*!< Position of ANACK field. */
-#define TWI_ERRORSRC_ANACK_Msk (0x1UL << TWI_ERRORSRC_ANACK_Pos) /*!< Bit mask of ANACK field. */
-#define TWI_ERRORSRC_ANACK_NotPresent (0UL) /*!< Read: error not present */
-#define TWI_ERRORSRC_ANACK_Present (1UL) /*!< Read: error present */
+#define I2C_ERRORSRC_ANACK_Pos (1UL) /*!< Position of ANACK field. */
+#define I2C_ERRORSRC_ANACK_Msk (0x1UL << I2C_ERRORSRC_ANACK_Pos) /*!< Bit mask of ANACK field. */
+#define I2C_ERRORSRC_ANACK_NotPresent (0UL) /*!< Read: error not present */
+#define I2C_ERRORSRC_ANACK_Present (1UL) /*!< Read: error present */
 
 /* Bit 0 : Overrun error */
-#define TWI_ERRORSRC_OVERRUN_Pos (0UL) /*!< Position of OVERRUN field. */
-#define TWI_ERRORSRC_OVERRUN_Msk (0x1UL << TWI_ERRORSRC_OVERRUN_Pos) /*!< Bit mask of OVERRUN field. */
-#define TWI_ERRORSRC_OVERRUN_NotPresent (0UL) /*!< Read: no overrun occured */
-#define TWI_ERRORSRC_OVERRUN_Present (1UL) /*!< Read: overrun occured */
+#define I2C_ERRORSRC_OVERRUN_Pos (0UL) /*!< Position of OVERRUN field. */
+#define I2C_ERRORSRC_OVERRUN_Msk (0x1UL << I2C_ERRORSRC_OVERRUN_Pos) /*!< Bit mask of OVERRUN field. */
+#define I2C_ERRORSRC_OVERRUN_NotPresent (0UL) /*!< Read: no overrun occured */
+#define I2C_ERRORSRC_OVERRUN_Present (1UL) /*!< Read: overrun occured */
 
-/* Register: TWI_ENABLE */
-/* Description: Enable TWI */
+/* Register: I2C_ENABLE */
+/* Description: Enable I2C */
 
-/* Bits 3..0 : Enable or disable TWI */
-#define TWI_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
-#define TWI_ENABLE_ENABLE_Msk (0xFUL << TWI_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
-#define TWI_ENABLE_ENABLE_Disabled (0UL) /*!< Disable TWI */
-#define TWI_ENABLE_ENABLE_Enabled (5UL) /*!< Enable TWI */
+/* Bits 3..0 : Enable or disable I2C */
+#define I2C_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
+#define I2C_ENABLE_ENABLE_Msk (0xFUL << I2C_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
+#define I2C_ENABLE_ENABLE_Disabled (0UL) /*!< Disable I2C */
+#define I2C_ENABLE_ENABLE_Enabled (5UL) /*!< Enable I2C */
 
-/* Register: TWI_PSEL_SCL */
+/* Register: I2C_PSEL_SCL */
 /* Description: Pin select for SCL */
 
 /* Bit 31 : Connection */
-#define TWI_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWI_PSEL_SCL_CONNECT_Msk (0x1UL << TWI_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWI_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
-#define TWI_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2C_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2C_PSEL_SCL_CONNECT_Msk (0x1UL << I2C_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2C_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
+#define I2C_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWI_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWI_PSEL_SCL_PORT_Msk (0x1UL << TWI_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2C_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2C_PSEL_SCL_PORT_Msk (0x1UL << I2C_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWI_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWI_PSEL_SCL_PIN_Msk (0x1FUL << TWI_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2C_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2C_PSEL_SCL_PIN_Msk (0x1FUL << I2C_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWI_PSEL_SDA */
+/* Register: I2C_PSEL_SDA */
 /* Description: Pin select for SDA */
 
 /* Bit 31 : Connection */
-#define TWI_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWI_PSEL_SDA_CONNECT_Msk (0x1UL << TWI_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWI_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
-#define TWI_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2C_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2C_PSEL_SDA_CONNECT_Msk (0x1UL << I2C_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2C_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
+#define I2C_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWI_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWI_PSEL_SDA_PORT_Msk (0x1UL << TWI_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2C_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2C_PSEL_SDA_PORT_Msk (0x1UL << I2C_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWI_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWI_PSEL_SDA_PIN_Msk (0x1FUL << TWI_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2C_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2C_PSEL_SDA_PIN_Msk (0x1FUL << I2C_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWI_RXD */
+/* Register: I2C_RXD */
 /* Description: RXD register */
 
 /* Bits 7..0 : RXD register */
-#define TWI_RXD_RXD_Pos (0UL) /*!< Position of RXD field. */
-#define TWI_RXD_RXD_Msk (0xFFUL << TWI_RXD_RXD_Pos) /*!< Bit mask of RXD field. */
+#define I2C_RXD_RXD_Pos (0UL) /*!< Position of RXD field. */
+#define I2C_RXD_RXD_Msk (0xFFUL << I2C_RXD_RXD_Pos) /*!< Bit mask of RXD field. */
 
-/* Register: TWI_TXD */
+/* Register: I2C_TXD */
 /* Description: TXD register */
 
 /* Bits 7..0 : TXD register */
-#define TWI_TXD_TXD_Pos (0UL) /*!< Position of TXD field. */
-#define TWI_TXD_TXD_Msk (0xFFUL << TWI_TXD_TXD_Pos) /*!< Bit mask of TXD field. */
+#define I2C_TXD_TXD_Pos (0UL) /*!< Position of TXD field. */
+#define I2C_TXD_TXD_Msk (0xFFUL << I2C_TXD_TXD_Pos) /*!< Bit mask of TXD field. */
 
-/* Register: TWI_FREQUENCY */
-/* Description: TWI frequency. Accuracy depends on the HFCLK source selected. */
+/* Register: I2C_FREQUENCY */
+/* Description: I2C frequency. Accuracy depends on the HFCLK source selected. */
 
-/* Bits 31..0 : TWI master clock frequency */
-#define TWI_FREQUENCY_FREQUENCY_Pos (0UL) /*!< Position of FREQUENCY field. */
-#define TWI_FREQUENCY_FREQUENCY_Msk (0xFFFFFFFFUL << TWI_FREQUENCY_FREQUENCY_Pos) /*!< Bit mask of FREQUENCY field. */
-#define TWI_FREQUENCY_FREQUENCY_K100 (0x01980000UL) /*!< 100 kbps */
-#define TWI_FREQUENCY_FREQUENCY_K250 (0x04000000UL) /*!< 250 kbps */
-#define TWI_FREQUENCY_FREQUENCY_K400 (0x06680000UL) /*!< 400 kbps (actual rate 410.256 kbps) */
+/* Bits 31..0 : I2C master clock frequency */
+#define I2C_FREQUENCY_FREQUENCY_Pos (0UL) /*!< Position of FREQUENCY field. */
+#define I2C_FREQUENCY_FREQUENCY_Msk (0xFFFFFFFFUL << I2C_FREQUENCY_FREQUENCY_Pos) /*!< Bit mask of FREQUENCY field. */
+#define I2C_FREQUENCY_FREQUENCY_K100 (0x0063484FUL) /*!< 100 kbps */
+#define I2C_FREQUENCY_FREQUENCY_K400 (0x00650C13UL) /*!< 400 kbps */
 
-/* Register: TWI_ADDRESS */
-/* Description: Address used in the TWI transfer */
+/* Register: I2C_ADDRESS */
+/* Description: Address used in the I2C transfer */
 
-/* Bits 6..0 : Address used in the TWI transfer */
-#define TWI_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
-#define TWI_ADDRESS_ADDRESS_Msk (0x7FUL << TWI_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
+/* Bits 6..0 : Address used in the I2C transfer */
+#define I2C_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
+#define I2C_ADDRESS_ADDRESS_Msk (0x7FUL << I2C_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
 
 
-/* Peripheral: TWIM */
+/* Peripheral: I2CM */
 /* Description: I2C compatible Two-Wire Master Interface with EasyDMA 0 */
 
-/* Register: TWIM_TASKS_STARTRX */
-/* Description: Start TWI receive sequence */
+/* Register: I2CM_TASKS_STARTRX */
+/* Description: Start I2C receive sequence */
 
-/* Bit 0 : Start TWI receive sequence */
-#define TWIM_TASKS_STARTRX_TASKS_STARTRX_Pos (0UL) /*!< Position of TASKS_STARTRX field. */
-#define TWIM_TASKS_STARTRX_TASKS_STARTRX_Msk (0x1UL << TWIM_TASKS_STARTRX_TASKS_STARTRX_Pos) /*!< Bit mask of TASKS_STARTRX field. */
-#define TWIM_TASKS_STARTRX_TASKS_STARTRX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Start I2C receive sequence */
+#define I2CM_TASKS_STARTRX_TASKS_STARTRX_Pos (0UL) /*!< Position of TASKS_STARTRX field. */
+#define I2CM_TASKS_STARTRX_TASKS_STARTRX_Msk (0x1UL << I2CM_TASKS_STARTRX_TASKS_STARTRX_Pos) /*!< Bit mask of TASKS_STARTRX field. */
+#define I2CM_TASKS_STARTRX_TASKS_STARTRX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIM_TASKS_STARTTX */
-/* Description: Start TWI transmit sequence */
+/* Register: I2CM_TASKS_STARTTX */
+/* Description: Start I2C transmit sequence */
 
-/* Bit 0 : Start TWI transmit sequence */
-#define TWIM_TASKS_STARTTX_TASKS_STARTTX_Pos (0UL) /*!< Position of TASKS_STARTTX field. */
-#define TWIM_TASKS_STARTTX_TASKS_STARTTX_Msk (0x1UL << TWIM_TASKS_STARTTX_TASKS_STARTTX_Pos) /*!< Bit mask of TASKS_STARTTX field. */
-#define TWIM_TASKS_STARTTX_TASKS_STARTTX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Start I2C transmit sequence */
+#define I2CM_TASKS_STARTTX_TASKS_STARTTX_Pos (0UL) /*!< Position of TASKS_STARTTX field. */
+#define I2CM_TASKS_STARTTX_TASKS_STARTTX_Msk (0x1UL << I2CM_TASKS_STARTTX_TASKS_STARTTX_Pos) /*!< Bit mask of TASKS_STARTTX field. */
+#define I2CM_TASKS_STARTTX_TASKS_STARTTX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIM_TASKS_STOP */
-/* Description: Stop TWI transaction. Must be issued while the TWI master is not suspended. */
+/* Register: I2CM_TASKS_STOP */
+/* Description: Stop I2C transaction. Must be issued while the I2C master is not suspended. */
 
-/* Bit 0 : Stop TWI transaction. Must be issued while the TWI master is not suspended. */
-#define TWIM_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
-#define TWIM_TASKS_STOP_TASKS_STOP_Msk (0x1UL << TWIM_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
-#define TWIM_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Stop I2C transaction. Must be issued while the I2C master is not suspended. */
+#define I2CM_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
+#define I2CM_TASKS_STOP_TASKS_STOP_Msk (0x1UL << I2CM_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
+#define I2CM_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIM_TASKS_SUSPEND */
-/* Description: Suspend TWI transaction */
+/* Register: I2CM_TASKS_SUSPEND */
+/* Description: Suspend I2C transaction */
 
-/* Bit 0 : Suspend TWI transaction */
-#define TWIM_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
-#define TWIM_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << TWIM_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
-#define TWIM_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Suspend I2C transaction */
+#define I2CM_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
+#define I2CM_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << I2CM_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
+#define I2CM_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIM_TASKS_RESUME */
-/* Description: Resume TWI transaction */
+/* Register: I2CM_TASKS_RESUME */
+/* Description: Resume I2C transaction */
 
-/* Bit 0 : Resume TWI transaction */
-#define TWIM_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
-#define TWIM_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << TWIM_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
-#define TWIM_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Resume I2C transaction */
+#define I2CM_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
+#define I2CM_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << I2CM_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
+#define I2CM_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIM_EVENTS_STOPPED */
-/* Description: TWI stopped */
+/* Register: I2CM_EVENTS_STOPPED */
+/* Description: I2C stopped */
 
-/* Bit 0 : TWI stopped */
-#define TWIM_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
-#define TWIM_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << TWIM_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
-#define TWIM_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C stopped */
+#define I2CM_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
+#define I2CM_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << I2CM_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
+#define I2CM_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_ERROR */
-/* Description: TWI error */
+/* Register: I2CM_EVENTS_ERROR */
+/* Description: I2C error */
 
-/* Bit 0 : TWI error */
-#define TWIM_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
-#define TWIM_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << TWIM_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
-#define TWIM_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C error */
+#define I2CM_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
+#define I2CM_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << I2CM_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
+#define I2CM_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_SUSPENDED */
-/* Description: Last byte has been sent out after the SUSPEND task has been issued, TWI traffic is now suspended. */
+/* Register: I2CM_EVENTS_SUSPENDED */
+/* Description: Last byte has been sent out after the SUSPEND task has been issued, I2C traffic is now suspended. */
 
-/* Bit 0 : Last byte has been sent out after the SUSPEND task has been issued, TWI traffic is now suspended. */
-#define TWIM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos (0UL) /*!< Position of EVENTS_SUSPENDED field. */
-#define TWIM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Msk (0x1UL << TWIM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos) /*!< Bit mask of EVENTS_SUSPENDED field. */
-#define TWIM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Generated (1UL) /*!< Event generated */
+/* Bit 0 : Last byte has been sent out after the SUSPEND task has been issued, I2C traffic is now suspended. */
+#define I2CM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos (0UL) /*!< Position of EVENTS_SUSPENDED field. */
+#define I2CM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Msk (0x1UL << I2CM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Pos) /*!< Bit mask of EVENTS_SUSPENDED field. */
+#define I2CM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_SUSPENDED_EVENTS_SUSPENDED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_RXSTARTED */
+/* Register: I2CM_EVENTS_RXSTARTED */
 /* Description: Receive sequence started */
 
 /* Bit 0 : Receive sequence started */
-#define TWIM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos (0UL) /*!< Position of EVENTS_RXSTARTED field. */
-#define TWIM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Msk (0x1UL << TWIM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos) /*!< Bit mask of EVENTS_RXSTARTED field. */
-#define TWIM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Generated (1UL) /*!< Event generated */
+#define I2CM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos (0UL) /*!< Position of EVENTS_RXSTARTED field. */
+#define I2CM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Msk (0x1UL << I2CM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos) /*!< Bit mask of EVENTS_RXSTARTED field. */
+#define I2CM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_TXSTARTED */
+/* Register: I2CM_EVENTS_TXSTARTED */
 /* Description: Transmit sequence started */
 
 /* Bit 0 : Transmit sequence started */
-#define TWIM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos (0UL) /*!< Position of EVENTS_TXSTARTED field. */
-#define TWIM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Msk (0x1UL << TWIM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos) /*!< Bit mask of EVENTS_TXSTARTED field. */
-#define TWIM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Generated (1UL) /*!< Event generated */
+#define I2CM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos (0UL) /*!< Position of EVENTS_TXSTARTED field. */
+#define I2CM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Msk (0x1UL << I2CM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos) /*!< Bit mask of EVENTS_TXSTARTED field. */
+#define I2CM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_LASTRX */
+/* Register: I2CM_EVENTS_LASTRX */
 /* Description: Byte boundary, starting to receive the last byte */
 
 /* Bit 0 : Byte boundary, starting to receive the last byte */
-#define TWIM_EVENTS_LASTRX_EVENTS_LASTRX_Pos (0UL) /*!< Position of EVENTS_LASTRX field. */
-#define TWIM_EVENTS_LASTRX_EVENTS_LASTRX_Msk (0x1UL << TWIM_EVENTS_LASTRX_EVENTS_LASTRX_Pos) /*!< Bit mask of EVENTS_LASTRX field. */
-#define TWIM_EVENTS_LASTRX_EVENTS_LASTRX_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_LASTRX_EVENTS_LASTRX_Generated (1UL) /*!< Event generated */
+#define I2CM_EVENTS_LASTRX_EVENTS_LASTRX_Pos (0UL) /*!< Position of EVENTS_LASTRX field. */
+#define I2CM_EVENTS_LASTRX_EVENTS_LASTRX_Msk (0x1UL << I2CM_EVENTS_LASTRX_EVENTS_LASTRX_Pos) /*!< Bit mask of EVENTS_LASTRX field. */
+#define I2CM_EVENTS_LASTRX_EVENTS_LASTRX_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_LASTRX_EVENTS_LASTRX_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_EVENTS_LASTTX */
+/* Register: I2CM_EVENTS_LASTTX */
 /* Description: Byte boundary, starting to transmit the last byte */
 
 /* Bit 0 : Byte boundary, starting to transmit the last byte */
-#define TWIM_EVENTS_LASTTX_EVENTS_LASTTX_Pos (0UL) /*!< Position of EVENTS_LASTTX field. */
-#define TWIM_EVENTS_LASTTX_EVENTS_LASTTX_Msk (0x1UL << TWIM_EVENTS_LASTTX_EVENTS_LASTTX_Pos) /*!< Bit mask of EVENTS_LASTTX field. */
-#define TWIM_EVENTS_LASTTX_EVENTS_LASTTX_NotGenerated (0UL) /*!< Event not generated */
-#define TWIM_EVENTS_LASTTX_EVENTS_LASTTX_Generated (1UL) /*!< Event generated */
+#define I2CM_EVENTS_LASTTX_EVENTS_LASTTX_Pos (0UL) /*!< Position of EVENTS_LASTTX field. */
+#define I2CM_EVENTS_LASTTX_EVENTS_LASTTX_Msk (0x1UL << I2CM_EVENTS_LASTTX_EVENTS_LASTTX_Pos) /*!< Bit mask of EVENTS_LASTTX field. */
+#define I2CM_EVENTS_LASTTX_EVENTS_LASTTX_NotGenerated (0UL) /*!< Event not generated */
+#define I2CM_EVENTS_LASTTX_EVENTS_LASTTX_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIM_SHORTS */
+/* Register: I2CM_SHORTS */
 /* Description: Shortcuts between local events and tasks */
 
 /* Bit 12 : Shortcut between event LASTRX and task STOP */
-#define TWIM_SHORTS_LASTRX_STOP_Pos (12UL) /*!< Position of LASTRX_STOP field. */
-#define TWIM_SHORTS_LASTRX_STOP_Msk (0x1UL << TWIM_SHORTS_LASTRX_STOP_Pos) /*!< Bit mask of LASTRX_STOP field. */
-#define TWIM_SHORTS_LASTRX_STOP_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTRX_STOP_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTRX_STOP_Pos (12UL) /*!< Position of LASTRX_STOP field. */
+#define I2CM_SHORTS_LASTRX_STOP_Msk (0x1UL << I2CM_SHORTS_LASTRX_STOP_Pos) /*!< Bit mask of LASTRX_STOP field. */
+#define I2CM_SHORTS_LASTRX_STOP_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTRX_STOP_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 11 : Shortcut between event LASTRX and task SUSPEND */
-#define TWIM_SHORTS_LASTRX_SUSPEND_Pos (11UL) /*!< Position of LASTRX_SUSPEND field. */
-#define TWIM_SHORTS_LASTRX_SUSPEND_Msk (0x1UL << TWIM_SHORTS_LASTRX_SUSPEND_Pos) /*!< Bit mask of LASTRX_SUSPEND field. */
-#define TWIM_SHORTS_LASTRX_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTRX_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTRX_SUSPEND_Pos (11UL) /*!< Position of LASTRX_SUSPEND field. */
+#define I2CM_SHORTS_LASTRX_SUSPEND_Msk (0x1UL << I2CM_SHORTS_LASTRX_SUSPEND_Pos) /*!< Bit mask of LASTRX_SUSPEND field. */
+#define I2CM_SHORTS_LASTRX_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTRX_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 10 : Shortcut between event LASTRX and task STARTTX */
-#define TWIM_SHORTS_LASTRX_STARTTX_Pos (10UL) /*!< Position of LASTRX_STARTTX field. */
-#define TWIM_SHORTS_LASTRX_STARTTX_Msk (0x1UL << TWIM_SHORTS_LASTRX_STARTTX_Pos) /*!< Bit mask of LASTRX_STARTTX field. */
-#define TWIM_SHORTS_LASTRX_STARTTX_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTRX_STARTTX_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTRX_STARTTX_Pos (10UL) /*!< Position of LASTRX_STARTTX field. */
+#define I2CM_SHORTS_LASTRX_STARTTX_Msk (0x1UL << I2CM_SHORTS_LASTRX_STARTTX_Pos) /*!< Bit mask of LASTRX_STARTTX field. */
+#define I2CM_SHORTS_LASTRX_STARTTX_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTRX_STARTTX_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 9 : Shortcut between event LASTTX and task STOP */
-#define TWIM_SHORTS_LASTTX_STOP_Pos (9UL) /*!< Position of LASTTX_STOP field. */
-#define TWIM_SHORTS_LASTTX_STOP_Msk (0x1UL << TWIM_SHORTS_LASTTX_STOP_Pos) /*!< Bit mask of LASTTX_STOP field. */
-#define TWIM_SHORTS_LASTTX_STOP_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTTX_STOP_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTTX_STOP_Pos (9UL) /*!< Position of LASTTX_STOP field. */
+#define I2CM_SHORTS_LASTTX_STOP_Msk (0x1UL << I2CM_SHORTS_LASTTX_STOP_Pos) /*!< Bit mask of LASTTX_STOP field. */
+#define I2CM_SHORTS_LASTTX_STOP_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTTX_STOP_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 8 : Shortcut between event LASTTX and task SUSPEND */
-#define TWIM_SHORTS_LASTTX_SUSPEND_Pos (8UL) /*!< Position of LASTTX_SUSPEND field. */
-#define TWIM_SHORTS_LASTTX_SUSPEND_Msk (0x1UL << TWIM_SHORTS_LASTTX_SUSPEND_Pos) /*!< Bit mask of LASTTX_SUSPEND field. */
-#define TWIM_SHORTS_LASTTX_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTTX_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTTX_SUSPEND_Pos (8UL) /*!< Position of LASTTX_SUSPEND field. */
+#define I2CM_SHORTS_LASTTX_SUSPEND_Msk (0x1UL << I2CM_SHORTS_LASTTX_SUSPEND_Pos) /*!< Bit mask of LASTTX_SUSPEND field. */
+#define I2CM_SHORTS_LASTTX_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTTX_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 7 : Shortcut between event LASTTX and task STARTRX */
-#define TWIM_SHORTS_LASTTX_STARTRX_Pos (7UL) /*!< Position of LASTTX_STARTRX field. */
-#define TWIM_SHORTS_LASTTX_STARTRX_Msk (0x1UL << TWIM_SHORTS_LASTTX_STARTRX_Pos) /*!< Bit mask of LASTTX_STARTRX field. */
-#define TWIM_SHORTS_LASTTX_STARTRX_Disabled (0UL) /*!< Disable shortcut */
-#define TWIM_SHORTS_LASTTX_STARTRX_Enabled (1UL) /*!< Enable shortcut */
+#define I2CM_SHORTS_LASTTX_STARTRX_Pos (7UL) /*!< Position of LASTTX_STARTRX field. */
+#define I2CM_SHORTS_LASTTX_STARTRX_Msk (0x1UL << I2CM_SHORTS_LASTTX_STARTRX_Pos) /*!< Bit mask of LASTTX_STARTRX field. */
+#define I2CM_SHORTS_LASTTX_STARTRX_Disabled (0UL) /*!< Disable shortcut */
+#define I2CM_SHORTS_LASTTX_STARTRX_Enabled (1UL) /*!< Enable shortcut */
 
-/* Register: TWIM_INTEN */
+/* Register: I2CM_INTEN */
 /* Description: Enable or disable interrupt */
 
 /* Bit 24 : Enable or disable interrupt for event LASTTX */
-#define TWIM_INTEN_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
-#define TWIM_INTEN_LASTTX_Msk (0x1UL << TWIM_INTEN_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
-#define TWIM_INTEN_LASTTX_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_LASTTX_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
+#define I2CM_INTEN_LASTTX_Msk (0x1UL << I2CM_INTEN_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
+#define I2CM_INTEN_LASTTX_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_LASTTX_Enabled (1UL) /*!< Enable */
 
 /* Bit 23 : Enable or disable interrupt for event LASTRX */
-#define TWIM_INTEN_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
-#define TWIM_INTEN_LASTRX_Msk (0x1UL << TWIM_INTEN_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
-#define TWIM_INTEN_LASTRX_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_LASTRX_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
+#define I2CM_INTEN_LASTRX_Msk (0x1UL << I2CM_INTEN_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
+#define I2CM_INTEN_LASTRX_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_LASTRX_Enabled (1UL) /*!< Enable */
 
 /* Bit 20 : Enable or disable interrupt for event TXSTARTED */
-#define TWIM_INTEN_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIM_INTEN_TXSTARTED_Msk (0x1UL << TWIM_INTEN_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIM_INTEN_TXSTARTED_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_TXSTARTED_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CM_INTEN_TXSTARTED_Msk (0x1UL << I2CM_INTEN_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CM_INTEN_TXSTARTED_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_TXSTARTED_Enabled (1UL) /*!< Enable */
 
 /* Bit 19 : Enable or disable interrupt for event RXSTARTED */
-#define TWIM_INTEN_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIM_INTEN_RXSTARTED_Msk (0x1UL << TWIM_INTEN_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIM_INTEN_RXSTARTED_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_RXSTARTED_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CM_INTEN_RXSTARTED_Msk (0x1UL << I2CM_INTEN_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CM_INTEN_RXSTARTED_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_RXSTARTED_Enabled (1UL) /*!< Enable */
 
 /* Bit 18 : Enable or disable interrupt for event SUSPENDED */
-#define TWIM_INTEN_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
-#define TWIM_INTEN_SUSPENDED_Msk (0x1UL << TWIM_INTEN_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
-#define TWIM_INTEN_SUSPENDED_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_SUSPENDED_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
+#define I2CM_INTEN_SUSPENDED_Msk (0x1UL << I2CM_INTEN_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
+#define I2CM_INTEN_SUSPENDED_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_SUSPENDED_Enabled (1UL) /*!< Enable */
 
 /* Bit 9 : Enable or disable interrupt for event ERROR */
-#define TWIM_INTEN_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIM_INTEN_ERROR_Msk (0x1UL << TWIM_INTEN_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIM_INTEN_ERROR_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_ERROR_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CM_INTEN_ERROR_Msk (0x1UL << I2CM_INTEN_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CM_INTEN_ERROR_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_ERROR_Enabled (1UL) /*!< Enable */
 
 /* Bit 1 : Enable or disable interrupt for event STOPPED */
-#define TWIM_INTEN_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIM_INTEN_STOPPED_Msk (0x1UL << TWIM_INTEN_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIM_INTEN_STOPPED_Disabled (0UL) /*!< Disable */
-#define TWIM_INTEN_STOPPED_Enabled (1UL) /*!< Enable */
+#define I2CM_INTEN_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CM_INTEN_STOPPED_Msk (0x1UL << I2CM_INTEN_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CM_INTEN_STOPPED_Disabled (0UL) /*!< Disable */
+#define I2CM_INTEN_STOPPED_Enabled (1UL) /*!< Enable */
 
-/* Register: TWIM_INTENSET */
+/* Register: I2CM_INTENSET */
 /* Description: Enable interrupt */
 
 /* Bit 24 : Write '1' to enable interrupt for event LASTTX */
-#define TWIM_INTENSET_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
-#define TWIM_INTENSET_LASTTX_Msk (0x1UL << TWIM_INTENSET_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
-#define TWIM_INTENSET_LASTTX_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_LASTTX_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_LASTTX_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
+#define I2CM_INTENSET_LASTTX_Msk (0x1UL << I2CM_INTENSET_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
+#define I2CM_INTENSET_LASTTX_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_LASTTX_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_LASTTX_Set (1UL) /*!< Enable */
 
 /* Bit 23 : Write '1' to enable interrupt for event LASTRX */
-#define TWIM_INTENSET_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
-#define TWIM_INTENSET_LASTRX_Msk (0x1UL << TWIM_INTENSET_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
-#define TWIM_INTENSET_LASTRX_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_LASTRX_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_LASTRX_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
+#define I2CM_INTENSET_LASTRX_Msk (0x1UL << I2CM_INTENSET_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
+#define I2CM_INTENSET_LASTRX_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_LASTRX_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_LASTRX_Set (1UL) /*!< Enable */
 
 /* Bit 20 : Write '1' to enable interrupt for event TXSTARTED */
-#define TWIM_INTENSET_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIM_INTENSET_TXSTARTED_Msk (0x1UL << TWIM_INTENSET_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIM_INTENSET_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_TXSTARTED_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CM_INTENSET_TXSTARTED_Msk (0x1UL << I2CM_INTENSET_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CM_INTENSET_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_TXSTARTED_Set (1UL) /*!< Enable */
 
 /* Bit 19 : Write '1' to enable interrupt for event RXSTARTED */
-#define TWIM_INTENSET_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIM_INTENSET_RXSTARTED_Msk (0x1UL << TWIM_INTENSET_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIM_INTENSET_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_RXSTARTED_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CM_INTENSET_RXSTARTED_Msk (0x1UL << I2CM_INTENSET_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CM_INTENSET_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_RXSTARTED_Set (1UL) /*!< Enable */
 
 /* Bit 18 : Write '1' to enable interrupt for event SUSPENDED */
-#define TWIM_INTENSET_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
-#define TWIM_INTENSET_SUSPENDED_Msk (0x1UL << TWIM_INTENSET_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
-#define TWIM_INTENSET_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_SUSPENDED_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
+#define I2CM_INTENSET_SUSPENDED_Msk (0x1UL << I2CM_INTENSET_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
+#define I2CM_INTENSET_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_SUSPENDED_Set (1UL) /*!< Enable */
 
 /* Bit 9 : Write '1' to enable interrupt for event ERROR */
-#define TWIM_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIM_INTENSET_ERROR_Msk (0x1UL << TWIM_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIM_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_ERROR_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CM_INTENSET_ERROR_Msk (0x1UL << I2CM_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CM_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_ERROR_Set (1UL) /*!< Enable */
 
 /* Bit 1 : Write '1' to enable interrupt for event STOPPED */
-#define TWIM_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIM_INTENSET_STOPPED_Msk (0x1UL << TWIM_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIM_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENSET_STOPPED_Set (1UL) /*!< Enable */
+#define I2CM_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CM_INTENSET_STOPPED_Msk (0x1UL << I2CM_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CM_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENSET_STOPPED_Set (1UL) /*!< Enable */
 
-/* Register: TWIM_INTENCLR */
+/* Register: I2CM_INTENCLR */
 /* Description: Disable interrupt */
 
 /* Bit 24 : Write '1' to disable interrupt for event LASTTX */
-#define TWIM_INTENCLR_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
-#define TWIM_INTENCLR_LASTTX_Msk (0x1UL << TWIM_INTENCLR_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
-#define TWIM_INTENCLR_LASTTX_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_LASTTX_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_LASTTX_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_LASTTX_Pos (24UL) /*!< Position of LASTTX field. */
+#define I2CM_INTENCLR_LASTTX_Msk (0x1UL << I2CM_INTENCLR_LASTTX_Pos) /*!< Bit mask of LASTTX field. */
+#define I2CM_INTENCLR_LASTTX_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_LASTTX_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_LASTTX_Clear (1UL) /*!< Disable */
 
 /* Bit 23 : Write '1' to disable interrupt for event LASTRX */
-#define TWIM_INTENCLR_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
-#define TWIM_INTENCLR_LASTRX_Msk (0x1UL << TWIM_INTENCLR_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
-#define TWIM_INTENCLR_LASTRX_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_LASTRX_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_LASTRX_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_LASTRX_Pos (23UL) /*!< Position of LASTRX field. */
+#define I2CM_INTENCLR_LASTRX_Msk (0x1UL << I2CM_INTENCLR_LASTRX_Pos) /*!< Bit mask of LASTRX field. */
+#define I2CM_INTENCLR_LASTRX_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_LASTRX_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_LASTRX_Clear (1UL) /*!< Disable */
 
 /* Bit 20 : Write '1' to disable interrupt for event TXSTARTED */
-#define TWIM_INTENCLR_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIM_INTENCLR_TXSTARTED_Msk (0x1UL << TWIM_INTENCLR_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIM_INTENCLR_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_TXSTARTED_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CM_INTENCLR_TXSTARTED_Msk (0x1UL << I2CM_INTENCLR_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CM_INTENCLR_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_TXSTARTED_Clear (1UL) /*!< Disable */
 
 /* Bit 19 : Write '1' to disable interrupt for event RXSTARTED */
-#define TWIM_INTENCLR_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIM_INTENCLR_RXSTARTED_Msk (0x1UL << TWIM_INTENCLR_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIM_INTENCLR_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_RXSTARTED_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CM_INTENCLR_RXSTARTED_Msk (0x1UL << I2CM_INTENCLR_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CM_INTENCLR_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_RXSTARTED_Clear (1UL) /*!< Disable */
 
 /* Bit 18 : Write '1' to disable interrupt for event SUSPENDED */
-#define TWIM_INTENCLR_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
-#define TWIM_INTENCLR_SUSPENDED_Msk (0x1UL << TWIM_INTENCLR_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
-#define TWIM_INTENCLR_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_SUSPENDED_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_SUSPENDED_Pos (18UL) /*!< Position of SUSPENDED field. */
+#define I2CM_INTENCLR_SUSPENDED_Msk (0x1UL << I2CM_INTENCLR_SUSPENDED_Pos) /*!< Bit mask of SUSPENDED field. */
+#define I2CM_INTENCLR_SUSPENDED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_SUSPENDED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_SUSPENDED_Clear (1UL) /*!< Disable */
 
 /* Bit 9 : Write '1' to disable interrupt for event ERROR */
-#define TWIM_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIM_INTENCLR_ERROR_Msk (0x1UL << TWIM_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIM_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CM_INTENCLR_ERROR_Msk (0x1UL << I2CM_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CM_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
 
 /* Bit 1 : Write '1' to disable interrupt for event STOPPED */
-#define TWIM_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIM_INTENCLR_STOPPED_Msk (0x1UL << TWIM_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIM_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIM_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIM_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
+#define I2CM_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CM_INTENCLR_STOPPED_Msk (0x1UL << I2CM_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CM_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CM_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CM_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
 
-/* Register: TWIM_ERRORSRC */
+/* Register: I2CM_ERRORSRC */
 /* Description: Error source */
 
 /* Bit 2 : NACK received after sending a data byte (write '1' to clear) */
-#define TWIM_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
-#define TWIM_ERRORSRC_DNACK_Msk (0x1UL << TWIM_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
-#define TWIM_ERRORSRC_DNACK_NotReceived (0UL) /*!< Error did not occur */
-#define TWIM_ERRORSRC_DNACK_Received (1UL) /*!< Error occurred */
+#define I2CM_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
+#define I2CM_ERRORSRC_DNACK_Msk (0x1UL << I2CM_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
+#define I2CM_ERRORSRC_DNACK_NotReceived (0UL) /*!< Error did not occur */
+#define I2CM_ERRORSRC_DNACK_Received (1UL) /*!< Error occurred */
 
 /* Bit 1 : NACK received after sending the address (write '1' to clear) */
-#define TWIM_ERRORSRC_ANACK_Pos (1UL) /*!< Position of ANACK field. */
-#define TWIM_ERRORSRC_ANACK_Msk (0x1UL << TWIM_ERRORSRC_ANACK_Pos) /*!< Bit mask of ANACK field. */
-#define TWIM_ERRORSRC_ANACK_NotReceived (0UL) /*!< Error did not occur */
-#define TWIM_ERRORSRC_ANACK_Received (1UL) /*!< Error occurred */
+#define I2CM_ERRORSRC_ANACK_Pos (1UL) /*!< Position of ANACK field. */
+#define I2CM_ERRORSRC_ANACK_Msk (0x1UL << I2CM_ERRORSRC_ANACK_Pos) /*!< Bit mask of ANACK field. */
+#define I2CM_ERRORSRC_ANACK_NotReceived (0UL) /*!< Error did not occur */
+#define I2CM_ERRORSRC_ANACK_Received (1UL) /*!< Error occurred */
 
 /* Bit 0 : Overrun error */
-#define TWIM_ERRORSRC_OVERRUN_Pos (0UL) /*!< Position of OVERRUN field. */
-#define TWIM_ERRORSRC_OVERRUN_Msk (0x1UL << TWIM_ERRORSRC_OVERRUN_Pos) /*!< Bit mask of OVERRUN field. */
-#define TWIM_ERRORSRC_OVERRUN_NotReceived (0UL) /*!< Error did not occur */
-#define TWIM_ERRORSRC_OVERRUN_Received (1UL) /*!< Error occurred */
+#define I2CM_ERRORSRC_OVERRUN_Pos (0UL) /*!< Position of OVERRUN field. */
+#define I2CM_ERRORSRC_OVERRUN_Msk (0x1UL << I2CM_ERRORSRC_OVERRUN_Pos) /*!< Bit mask of OVERRUN field. */
+#define I2CM_ERRORSRC_OVERRUN_NotReceived (0UL) /*!< Error did not occur */
+#define I2CM_ERRORSRC_OVERRUN_Received (1UL) /*!< Error occurred */
 
-/* Register: TWIM_ENABLE */
-/* Description: Enable TWIM */
+/* Register: I2CM_ENABLE */
+/* Description: Enable I2CM */
 
-/* Bits 3..0 : Enable or disable TWIM */
-#define TWIM_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
-#define TWIM_ENABLE_ENABLE_Msk (0xFUL << TWIM_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
-#define TWIM_ENABLE_ENABLE_Disabled (0UL) /*!< Disable TWIM */
-#define TWIM_ENABLE_ENABLE_Enabled (6UL) /*!< Enable TWIM */
+/* Bits 3..0 : Enable or disable I2CM */
+#define I2CM_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
+#define I2CM_ENABLE_ENABLE_Msk (0xFUL << I2CM_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
+#define I2CM_ENABLE_ENABLE_Disabled (0UL) /*!< Disable I2CM */
+#define I2CM_ENABLE_ENABLE_Enabled (6UL) /*!< Enable I2CM */
 
-/* Register: TWIM_PSEL_SCL */
+/* Register: I2CM_PSEL_SCL */
 /* Description: Pin select for SCL signal */
 
 /* Bit 31 : Connection */
-#define TWIM_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWIM_PSEL_SCL_CONNECT_Msk (0x1UL << TWIM_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWIM_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
-#define TWIM_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2CM_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2CM_PSEL_SCL_CONNECT_Msk (0x1UL << I2CM_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2CM_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
+#define I2CM_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWIM_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWIM_PSEL_SCL_PORT_Msk (0x1UL << TWIM_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2CM_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2CM_PSEL_SCL_PORT_Msk (0x1UL << I2CM_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWIM_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWIM_PSEL_SCL_PIN_Msk (0x1FUL << TWIM_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2CM_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2CM_PSEL_SCL_PIN_Msk (0x1FUL << I2CM_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWIM_PSEL_SDA */
+/* Register: I2CM_PSEL_SDA */
 /* Description: Pin select for SDA signal */
 
 /* Bit 31 : Connection */
-#define TWIM_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWIM_PSEL_SDA_CONNECT_Msk (0x1UL << TWIM_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWIM_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
-#define TWIM_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2CM_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2CM_PSEL_SDA_CONNECT_Msk (0x1UL << I2CM_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2CM_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
+#define I2CM_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWIM_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWIM_PSEL_SDA_PORT_Msk (0x1UL << TWIM_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2CM_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2CM_PSEL_SDA_PORT_Msk (0x1UL << I2CM_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWIM_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWIM_PSEL_SDA_PIN_Msk (0x1FUL << TWIM_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2CM_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2CM_PSEL_SDA_PIN_Msk (0x1FUL << I2CM_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWIM_FREQUENCY */
-/* Description: TWI frequency. Accuracy depends on the HFCLK source selected. */
+/* Register: I2CM_FREQUENCY */
+/* Description: I2C frequency. Accuracy depends on the HFCLK source selected. */
 
-/* Bits 31..0 : TWI master clock frequency */
-#define TWIM_FREQUENCY_FREQUENCY_Pos (0UL) /*!< Position of FREQUENCY field. */
-#define TWIM_FREQUENCY_FREQUENCY_Msk (0xFFFFFFFFUL << TWIM_FREQUENCY_FREQUENCY_Pos) /*!< Bit mask of FREQUENCY field. */
-#define TWIM_FREQUENCY_FREQUENCY_K100 (0x01980000UL) /*!< 100 kbps */
-#define TWIM_FREQUENCY_FREQUENCY_K250 (0x04000000UL) /*!< 250 kbps */
-#define TWIM_FREQUENCY_FREQUENCY_K400 (0x06400000UL) /*!< 400 kbps */
+/* Bits 31..0 : I2C master clock frequency */
+#define I2CM_FREQUENCY_FREQUENCY_Pos (0UL) /*!< Position of FREQUENCY field. */
+#define I2CM_FREQUENCY_FREQUENCY_Msk (0xFFFFFFFFUL << I2CM_FREQUENCY_FREQUENCY_Pos) /*!< Bit mask of FREQUENCY field. */
+#define I2CM_FREQUENCY_FREQUENCY_K100 (0x01980000UL) /*!< 100 kbps */
+#define I2CM_FREQUENCY_FREQUENCY_K250 (0x04000000UL) /*!< 250 kbps */
+#define I2CM_FREQUENCY_FREQUENCY_K400 (0x06400000UL) /*!< 400 kbps */
 
-/* Register: TWIM_RXD_PTR */
+/* Register: I2CM_RXD_PTR */
 /* Description: Data pointer */
 
 /* Bits 31..0 : Data pointer */
-#define TWIM_RXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
-#define TWIM_RXD_PTR_PTR_Msk (0xFFFFFFFFUL << TWIM_RXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
+#define I2CM_RXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
+#define I2CM_RXD_PTR_PTR_Msk (0xFFFFFFFFUL << I2CM_RXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
 
-/* Register: TWIM_RXD_MAXCNT */
+/* Register: I2CM_RXD_MAXCNT */
 /* Description: Maximum number of bytes in receive buffer */
 
 /* Bits 15..0 : Maximum number of bytes in receive buffer */
-#define TWIM_RXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
-#define TWIM_RXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << TWIM_RXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
+#define I2CM_RXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
+#define I2CM_RXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << I2CM_RXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
 
-/* Register: TWIM_RXD_AMOUNT */
+/* Register: I2CM_RXD_AMOUNT */
 /* Description: Number of bytes transferred in the last transaction */
 
 /* Bits 15..0 : Number of bytes transferred in the last transaction. In case of NACK error, includes the NACK'ed byte. */
-#define TWIM_RXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
-#define TWIM_RXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << TWIM_RXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
+#define I2CM_RXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
+#define I2CM_RXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << I2CM_RXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
 
-/* Register: TWIM_RXD_LIST */
+/* Register: I2CM_RXD_LIST */
 /* Description: EasyDMA list type */
 
 /* Bits 2..0 : List type */
-#define TWIM_RXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
-#define TWIM_RXD_LIST_LIST_Msk (0x7UL << TWIM_RXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
-#define TWIM_RXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
-#define TWIM_RXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
+#define I2CM_RXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
+#define I2CM_RXD_LIST_LIST_Msk (0x7UL << I2CM_RXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
+#define I2CM_RXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
+#define I2CM_RXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
 
-/* Register: TWIM_TXD_PTR */
+/* Register: I2CM_TXD_PTR */
 /* Description: Data pointer */
 
 /* Bits 31..0 : Data pointer */
-#define TWIM_TXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
-#define TWIM_TXD_PTR_PTR_Msk (0xFFFFFFFFUL << TWIM_TXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
+#define I2CM_TXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
+#define I2CM_TXD_PTR_PTR_Msk (0xFFFFFFFFUL << I2CM_TXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
 
-/* Register: TWIM_TXD_MAXCNT */
+/* Register: I2CM_TXD_MAXCNT */
 /* Description: Maximum number of bytes in transmit buffer */
 
 /* Bits 15..0 : Maximum number of bytes in transmit buffer */
-#define TWIM_TXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
-#define TWIM_TXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << TWIM_TXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
+#define I2CM_TXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
+#define I2CM_TXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << I2CM_TXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
 
-/* Register: TWIM_TXD_AMOUNT */
+/* Register: I2CM_TXD_AMOUNT */
 /* Description: Number of bytes transferred in the last transaction */
 
 /* Bits 15..0 : Number of bytes transferred in the last transaction. In case of NACK error, includes the NACK'ed byte. */
-#define TWIM_TXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
-#define TWIM_TXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << TWIM_TXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
+#define I2CM_TXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
+#define I2CM_TXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << I2CM_TXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
 
-/* Register: TWIM_TXD_LIST */
+/* Register: I2CM_TXD_LIST */
 /* Description: EasyDMA list type */
 
 /* Bits 2..0 : List type */
-#define TWIM_TXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
-#define TWIM_TXD_LIST_LIST_Msk (0x7UL << TWIM_TXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
-#define TWIM_TXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
-#define TWIM_TXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
+#define I2CM_TXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
+#define I2CM_TXD_LIST_LIST_Msk (0x7UL << I2CM_TXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
+#define I2CM_TXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
+#define I2CM_TXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
 
-/* Register: TWIM_ADDRESS */
-/* Description: Address used in the TWI transfer */
+/* Register: I2CM_ADDRESS */
+/* Description: Address used in the I2C transfer */
 
-/* Bits 6..0 : Address used in the TWI transfer */
-#define TWIM_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
-#define TWIM_ADDRESS_ADDRESS_Msk (0x7FUL << TWIM_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
+/* Bits 6..0 : Address used in the I2C transfer */
+#define I2CM_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
+#define I2CM_ADDRESS_ADDRESS_Msk (0x7FUL << I2CM_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
 
 
-/* Peripheral: TWIS */
+/* Peripheral: I2CS */
 /* Description: I2C compatible Two-Wire Slave Interface with EasyDMA 0 */
 
-/* Register: TWIS_TASKS_STOP */
-/* Description: Stop TWI transaction */
+/* Register: I2CS_TASKS_STOP */
+/* Description: Stop I2C transaction */
 
-/* Bit 0 : Stop TWI transaction */
-#define TWIS_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
-#define TWIS_TASKS_STOP_TASKS_STOP_Msk (0x1UL << TWIS_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
-#define TWIS_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Stop I2C transaction */
+#define I2CS_TASKS_STOP_TASKS_STOP_Pos (0UL) /*!< Position of TASKS_STOP field. */
+#define I2CS_TASKS_STOP_TASKS_STOP_Msk (0x1UL << I2CS_TASKS_STOP_TASKS_STOP_Pos) /*!< Bit mask of TASKS_STOP field. */
+#define I2CS_TASKS_STOP_TASKS_STOP_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIS_TASKS_SUSPEND */
-/* Description: Suspend TWI transaction */
+/* Register: I2CS_TASKS_SUSPEND */
+/* Description: Suspend I2C transaction */
 
-/* Bit 0 : Suspend TWI transaction */
-#define TWIS_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
-#define TWIS_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << TWIS_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
-#define TWIS_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Suspend I2C transaction */
+#define I2CS_TASKS_SUSPEND_TASKS_SUSPEND_Pos (0UL) /*!< Position of TASKS_SUSPEND field. */
+#define I2CS_TASKS_SUSPEND_TASKS_SUSPEND_Msk (0x1UL << I2CS_TASKS_SUSPEND_TASKS_SUSPEND_Pos) /*!< Bit mask of TASKS_SUSPEND field. */
+#define I2CS_TASKS_SUSPEND_TASKS_SUSPEND_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIS_TASKS_RESUME */
-/* Description: Resume TWI transaction */
+/* Register: I2CS_TASKS_RESUME */
+/* Description: Resume I2C transaction */
 
-/* Bit 0 : Resume TWI transaction */
-#define TWIS_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
-#define TWIS_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << TWIS_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
-#define TWIS_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Resume I2C transaction */
+#define I2CS_TASKS_RESUME_TASKS_RESUME_Pos (0UL) /*!< Position of TASKS_RESUME field. */
+#define I2CS_TASKS_RESUME_TASKS_RESUME_Msk (0x1UL << I2CS_TASKS_RESUME_TASKS_RESUME_Pos) /*!< Bit mask of TASKS_RESUME field. */
+#define I2CS_TASKS_RESUME_TASKS_RESUME_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIS_TASKS_PREPARERX */
-/* Description: Prepare the TWI slave to respond to a write command */
+/* Register: I2CS_TASKS_PREPARERX */
+/* Description: Prepare the I2C slave to respond to a write command */
 
-/* Bit 0 : Prepare the TWI slave to respond to a write command */
-#define TWIS_TASKS_PREPARERX_TASKS_PREPARERX_Pos (0UL) /*!< Position of TASKS_PREPARERX field. */
-#define TWIS_TASKS_PREPARERX_TASKS_PREPARERX_Msk (0x1UL << TWIS_TASKS_PREPARERX_TASKS_PREPARERX_Pos) /*!< Bit mask of TASKS_PREPARERX field. */
-#define TWIS_TASKS_PREPARERX_TASKS_PREPARERX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Prepare the I2C slave to respond to a write command */
+#define I2CS_TASKS_PREPARERX_TASKS_PREPARERX_Pos (0UL) /*!< Position of TASKS_PREPARERX field. */
+#define I2CS_TASKS_PREPARERX_TASKS_PREPARERX_Msk (0x1UL << I2CS_TASKS_PREPARERX_TASKS_PREPARERX_Pos) /*!< Bit mask of TASKS_PREPARERX field. */
+#define I2CS_TASKS_PREPARERX_TASKS_PREPARERX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIS_TASKS_PREPARETX */
-/* Description: Prepare the TWI slave to respond to a read command */
+/* Register: I2CS_TASKS_PREPARETX */
+/* Description: Prepare the I2C slave to respond to a read command */
 
-/* Bit 0 : Prepare the TWI slave to respond to a read command */
-#define TWIS_TASKS_PREPARETX_TASKS_PREPARETX_Pos (0UL) /*!< Position of TASKS_PREPARETX field. */
-#define TWIS_TASKS_PREPARETX_TASKS_PREPARETX_Msk (0x1UL << TWIS_TASKS_PREPARETX_TASKS_PREPARETX_Pos) /*!< Bit mask of TASKS_PREPARETX field. */
-#define TWIS_TASKS_PREPARETX_TASKS_PREPARETX_Trigger (1UL) /*!< Trigger task */
+/* Bit 0 : Prepare the I2C slave to respond to a read command */
+#define I2CS_TASKS_PREPARETX_TASKS_PREPARETX_Pos (0UL) /*!< Position of TASKS_PREPARETX field. */
+#define I2CS_TASKS_PREPARETX_TASKS_PREPARETX_Msk (0x1UL << I2CS_TASKS_PREPARETX_TASKS_PREPARETX_Pos) /*!< Bit mask of TASKS_PREPARETX field. */
+#define I2CS_TASKS_PREPARETX_TASKS_PREPARETX_Trigger (1UL) /*!< Trigger task */
 
-/* Register: TWIS_EVENTS_STOPPED */
-/* Description: TWI stopped */
+/* Register: I2CS_EVENTS_STOPPED */
+/* Description: I2C stopped */
 
-/* Bit 0 : TWI stopped */
-#define TWIS_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
-#define TWIS_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << TWIS_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
-#define TWIS_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C stopped */
+#define I2CS_EVENTS_STOPPED_EVENTS_STOPPED_Pos (0UL) /*!< Position of EVENTS_STOPPED field. */
+#define I2CS_EVENTS_STOPPED_EVENTS_STOPPED_Msk (0x1UL << I2CS_EVENTS_STOPPED_EVENTS_STOPPED_Pos) /*!< Bit mask of EVENTS_STOPPED field. */
+#define I2CS_EVENTS_STOPPED_EVENTS_STOPPED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_STOPPED_EVENTS_STOPPED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_EVENTS_ERROR */
-/* Description: TWI error */
+/* Register: I2CS_EVENTS_ERROR */
+/* Description: I2C error */
 
-/* Bit 0 : TWI error */
-#define TWIS_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
-#define TWIS_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << TWIS_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
-#define TWIS_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
+/* Bit 0 : I2C error */
+#define I2CS_EVENTS_ERROR_EVENTS_ERROR_Pos (0UL) /*!< Position of EVENTS_ERROR field. */
+#define I2CS_EVENTS_ERROR_EVENTS_ERROR_Msk (0x1UL << I2CS_EVENTS_ERROR_EVENTS_ERROR_Pos) /*!< Bit mask of EVENTS_ERROR field. */
+#define I2CS_EVENTS_ERROR_EVENTS_ERROR_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_ERROR_EVENTS_ERROR_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_EVENTS_RXSTARTED */
+/* Register: I2CS_EVENTS_RXSTARTED */
 /* Description: Receive sequence started */
 
 /* Bit 0 : Receive sequence started */
-#define TWIS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos (0UL) /*!< Position of EVENTS_RXSTARTED field. */
-#define TWIS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Msk (0x1UL << TWIS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos) /*!< Bit mask of EVENTS_RXSTARTED field. */
-#define TWIS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Generated (1UL) /*!< Event generated */
+#define I2CS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos (0UL) /*!< Position of EVENTS_RXSTARTED field. */
+#define I2CS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Msk (0x1UL << I2CS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Pos) /*!< Bit mask of EVENTS_RXSTARTED field. */
+#define I2CS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_RXSTARTED_EVENTS_RXSTARTED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_EVENTS_TXSTARTED */
+/* Register: I2CS_EVENTS_TXSTARTED */
 /* Description: Transmit sequence started */
 
 /* Bit 0 : Transmit sequence started */
-#define TWIS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos (0UL) /*!< Position of EVENTS_TXSTARTED field. */
-#define TWIS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Msk (0x1UL << TWIS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos) /*!< Bit mask of EVENTS_TXSTARTED field. */
-#define TWIS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Generated (1UL) /*!< Event generated */
+#define I2CS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos (0UL) /*!< Position of EVENTS_TXSTARTED field. */
+#define I2CS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Msk (0x1UL << I2CS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Pos) /*!< Bit mask of EVENTS_TXSTARTED field. */
+#define I2CS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_TXSTARTED_EVENTS_TXSTARTED_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_EVENTS_WRITE */
+/* Register: I2CS_EVENTS_WRITE */
 /* Description: Write command received */
 
 /* Bit 0 : Write command received */
-#define TWIS_EVENTS_WRITE_EVENTS_WRITE_Pos (0UL) /*!< Position of EVENTS_WRITE field. */
-#define TWIS_EVENTS_WRITE_EVENTS_WRITE_Msk (0x1UL << TWIS_EVENTS_WRITE_EVENTS_WRITE_Pos) /*!< Bit mask of EVENTS_WRITE field. */
-#define TWIS_EVENTS_WRITE_EVENTS_WRITE_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_WRITE_EVENTS_WRITE_Generated (1UL) /*!< Event generated */
+#define I2CS_EVENTS_WRITE_EVENTS_WRITE_Pos (0UL) /*!< Position of EVENTS_WRITE field. */
+#define I2CS_EVENTS_WRITE_EVENTS_WRITE_Msk (0x1UL << I2CS_EVENTS_WRITE_EVENTS_WRITE_Pos) /*!< Bit mask of EVENTS_WRITE field. */
+#define I2CS_EVENTS_WRITE_EVENTS_WRITE_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_WRITE_EVENTS_WRITE_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_EVENTS_READ */
+/* Register: I2CS_EVENTS_READ */
 /* Description: Read command received */
 
 /* Bit 0 : Read command received */
-#define TWIS_EVENTS_READ_EVENTS_READ_Pos (0UL) /*!< Position of EVENTS_READ field. */
-#define TWIS_EVENTS_READ_EVENTS_READ_Msk (0x1UL << TWIS_EVENTS_READ_EVENTS_READ_Pos) /*!< Bit mask of EVENTS_READ field. */
-#define TWIS_EVENTS_READ_EVENTS_READ_NotGenerated (0UL) /*!< Event not generated */
-#define TWIS_EVENTS_READ_EVENTS_READ_Generated (1UL) /*!< Event generated */
+#define I2CS_EVENTS_READ_EVENTS_READ_Pos (0UL) /*!< Position of EVENTS_READ field. */
+#define I2CS_EVENTS_READ_EVENTS_READ_Msk (0x1UL << I2CS_EVENTS_READ_EVENTS_READ_Pos) /*!< Bit mask of EVENTS_READ field. */
+#define I2CS_EVENTS_READ_EVENTS_READ_NotGenerated (0UL) /*!< Event not generated */
+#define I2CS_EVENTS_READ_EVENTS_READ_Generated (1UL) /*!< Event generated */
 
-/* Register: TWIS_SHORTS */
+/* Register: I2CS_SHORTS */
 /* Description: Shortcuts between local events and tasks */
 
 /* Bit 14 : Shortcut between event READ and task SUSPEND */
-#define TWIS_SHORTS_READ_SUSPEND_Pos (14UL) /*!< Position of READ_SUSPEND field. */
-#define TWIS_SHORTS_READ_SUSPEND_Msk (0x1UL << TWIS_SHORTS_READ_SUSPEND_Pos) /*!< Bit mask of READ_SUSPEND field. */
-#define TWIS_SHORTS_READ_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
-#define TWIS_SHORTS_READ_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
+#define I2CS_SHORTS_READ_SUSPEND_Pos (14UL) /*!< Position of READ_SUSPEND field. */
+#define I2CS_SHORTS_READ_SUSPEND_Msk (0x1UL << I2CS_SHORTS_READ_SUSPEND_Pos) /*!< Bit mask of READ_SUSPEND field. */
+#define I2CS_SHORTS_READ_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
+#define I2CS_SHORTS_READ_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
 
 /* Bit 13 : Shortcut between event WRITE and task SUSPEND */
-#define TWIS_SHORTS_WRITE_SUSPEND_Pos (13UL) /*!< Position of WRITE_SUSPEND field. */
-#define TWIS_SHORTS_WRITE_SUSPEND_Msk (0x1UL << TWIS_SHORTS_WRITE_SUSPEND_Pos) /*!< Bit mask of WRITE_SUSPEND field. */
-#define TWIS_SHORTS_WRITE_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
-#define TWIS_SHORTS_WRITE_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
+#define I2CS_SHORTS_WRITE_SUSPEND_Pos (13UL) /*!< Position of WRITE_SUSPEND field. */
+#define I2CS_SHORTS_WRITE_SUSPEND_Msk (0x1UL << I2CS_SHORTS_WRITE_SUSPEND_Pos) /*!< Bit mask of WRITE_SUSPEND field. */
+#define I2CS_SHORTS_WRITE_SUSPEND_Disabled (0UL) /*!< Disable shortcut */
+#define I2CS_SHORTS_WRITE_SUSPEND_Enabled (1UL) /*!< Enable shortcut */
 
-/* Register: TWIS_INTEN */
+/* Register: I2CS_INTEN */
 /* Description: Enable or disable interrupt */
 
 /* Bit 26 : Enable or disable interrupt for event READ */
-#define TWIS_INTEN_READ_Pos (26UL) /*!< Position of READ field. */
-#define TWIS_INTEN_READ_Msk (0x1UL << TWIS_INTEN_READ_Pos) /*!< Bit mask of READ field. */
-#define TWIS_INTEN_READ_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_READ_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_READ_Pos (26UL) /*!< Position of READ field. */
+#define I2CS_INTEN_READ_Msk (0x1UL << I2CS_INTEN_READ_Pos) /*!< Bit mask of READ field. */
+#define I2CS_INTEN_READ_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_READ_Enabled (1UL) /*!< Enable */
 
 /* Bit 25 : Enable or disable interrupt for event WRITE */
-#define TWIS_INTEN_WRITE_Pos (25UL) /*!< Position of WRITE field. */
-#define TWIS_INTEN_WRITE_Msk (0x1UL << TWIS_INTEN_WRITE_Pos) /*!< Bit mask of WRITE field. */
-#define TWIS_INTEN_WRITE_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_WRITE_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_WRITE_Pos (25UL) /*!< Position of WRITE field. */
+#define I2CS_INTEN_WRITE_Msk (0x1UL << I2CS_INTEN_WRITE_Pos) /*!< Bit mask of WRITE field. */
+#define I2CS_INTEN_WRITE_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_WRITE_Enabled (1UL) /*!< Enable */
 
 /* Bit 20 : Enable or disable interrupt for event TXSTARTED */
-#define TWIS_INTEN_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIS_INTEN_TXSTARTED_Msk (0x1UL << TWIS_INTEN_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIS_INTEN_TXSTARTED_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_TXSTARTED_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CS_INTEN_TXSTARTED_Msk (0x1UL << I2CS_INTEN_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CS_INTEN_TXSTARTED_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_TXSTARTED_Enabled (1UL) /*!< Enable */
 
 /* Bit 19 : Enable or disable interrupt for event RXSTARTED */
-#define TWIS_INTEN_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIS_INTEN_RXSTARTED_Msk (0x1UL << TWIS_INTEN_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIS_INTEN_RXSTARTED_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_RXSTARTED_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CS_INTEN_RXSTARTED_Msk (0x1UL << I2CS_INTEN_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CS_INTEN_RXSTARTED_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_RXSTARTED_Enabled (1UL) /*!< Enable */
 
 /* Bit 9 : Enable or disable interrupt for event ERROR */
-#define TWIS_INTEN_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIS_INTEN_ERROR_Msk (0x1UL << TWIS_INTEN_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIS_INTEN_ERROR_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_ERROR_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CS_INTEN_ERROR_Msk (0x1UL << I2CS_INTEN_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CS_INTEN_ERROR_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_ERROR_Enabled (1UL) /*!< Enable */
 
 /* Bit 1 : Enable or disable interrupt for event STOPPED */
-#define TWIS_INTEN_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIS_INTEN_STOPPED_Msk (0x1UL << TWIS_INTEN_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIS_INTEN_STOPPED_Disabled (0UL) /*!< Disable */
-#define TWIS_INTEN_STOPPED_Enabled (1UL) /*!< Enable */
+#define I2CS_INTEN_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CS_INTEN_STOPPED_Msk (0x1UL << I2CS_INTEN_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CS_INTEN_STOPPED_Disabled (0UL) /*!< Disable */
+#define I2CS_INTEN_STOPPED_Enabled (1UL) /*!< Enable */
 
-/* Register: TWIS_INTENSET */
+/* Register: I2CS_INTENSET */
 /* Description: Enable interrupt */
 
 /* Bit 26 : Write '1' to enable interrupt for event READ */
-#define TWIS_INTENSET_READ_Pos (26UL) /*!< Position of READ field. */
-#define TWIS_INTENSET_READ_Msk (0x1UL << TWIS_INTENSET_READ_Pos) /*!< Bit mask of READ field. */
-#define TWIS_INTENSET_READ_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_READ_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_READ_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_READ_Pos (26UL) /*!< Position of READ field. */
+#define I2CS_INTENSET_READ_Msk (0x1UL << I2CS_INTENSET_READ_Pos) /*!< Bit mask of READ field. */
+#define I2CS_INTENSET_READ_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_READ_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_READ_Set (1UL) /*!< Enable */
 
 /* Bit 25 : Write '1' to enable interrupt for event WRITE */
-#define TWIS_INTENSET_WRITE_Pos (25UL) /*!< Position of WRITE field. */
-#define TWIS_INTENSET_WRITE_Msk (0x1UL << TWIS_INTENSET_WRITE_Pos) /*!< Bit mask of WRITE field. */
-#define TWIS_INTENSET_WRITE_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_WRITE_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_WRITE_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_WRITE_Pos (25UL) /*!< Position of WRITE field. */
+#define I2CS_INTENSET_WRITE_Msk (0x1UL << I2CS_INTENSET_WRITE_Pos) /*!< Bit mask of WRITE field. */
+#define I2CS_INTENSET_WRITE_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_WRITE_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_WRITE_Set (1UL) /*!< Enable */
 
 /* Bit 20 : Write '1' to enable interrupt for event TXSTARTED */
-#define TWIS_INTENSET_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIS_INTENSET_TXSTARTED_Msk (0x1UL << TWIS_INTENSET_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIS_INTENSET_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_TXSTARTED_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CS_INTENSET_TXSTARTED_Msk (0x1UL << I2CS_INTENSET_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CS_INTENSET_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_TXSTARTED_Set (1UL) /*!< Enable */
 
 /* Bit 19 : Write '1' to enable interrupt for event RXSTARTED */
-#define TWIS_INTENSET_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIS_INTENSET_RXSTARTED_Msk (0x1UL << TWIS_INTENSET_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIS_INTENSET_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_RXSTARTED_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CS_INTENSET_RXSTARTED_Msk (0x1UL << I2CS_INTENSET_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CS_INTENSET_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_RXSTARTED_Set (1UL) /*!< Enable */
 
 /* Bit 9 : Write '1' to enable interrupt for event ERROR */
-#define TWIS_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIS_INTENSET_ERROR_Msk (0x1UL << TWIS_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIS_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_ERROR_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CS_INTENSET_ERROR_Msk (0x1UL << I2CS_INTENSET_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CS_INTENSET_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_ERROR_Set (1UL) /*!< Enable */
 
 /* Bit 1 : Write '1' to enable interrupt for event STOPPED */
-#define TWIS_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIS_INTENSET_STOPPED_Msk (0x1UL << TWIS_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIS_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENSET_STOPPED_Set (1UL) /*!< Enable */
+#define I2CS_INTENSET_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CS_INTENSET_STOPPED_Msk (0x1UL << I2CS_INTENSET_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CS_INTENSET_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENSET_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENSET_STOPPED_Set (1UL) /*!< Enable */
 
-/* Register: TWIS_INTENCLR */
+/* Register: I2CS_INTENCLR */
 /* Description: Disable interrupt */
 
 /* Bit 26 : Write '1' to disable interrupt for event READ */
-#define TWIS_INTENCLR_READ_Pos (26UL) /*!< Position of READ field. */
-#define TWIS_INTENCLR_READ_Msk (0x1UL << TWIS_INTENCLR_READ_Pos) /*!< Bit mask of READ field. */
-#define TWIS_INTENCLR_READ_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_READ_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_READ_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_READ_Pos (26UL) /*!< Position of READ field. */
+#define I2CS_INTENCLR_READ_Msk (0x1UL << I2CS_INTENCLR_READ_Pos) /*!< Bit mask of READ field. */
+#define I2CS_INTENCLR_READ_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_READ_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_READ_Clear (1UL) /*!< Disable */
 
 /* Bit 25 : Write '1' to disable interrupt for event WRITE */
-#define TWIS_INTENCLR_WRITE_Pos (25UL) /*!< Position of WRITE field. */
-#define TWIS_INTENCLR_WRITE_Msk (0x1UL << TWIS_INTENCLR_WRITE_Pos) /*!< Bit mask of WRITE field. */
-#define TWIS_INTENCLR_WRITE_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_WRITE_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_WRITE_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_WRITE_Pos (25UL) /*!< Position of WRITE field. */
+#define I2CS_INTENCLR_WRITE_Msk (0x1UL << I2CS_INTENCLR_WRITE_Pos) /*!< Bit mask of WRITE field. */
+#define I2CS_INTENCLR_WRITE_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_WRITE_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_WRITE_Clear (1UL) /*!< Disable */
 
 /* Bit 20 : Write '1' to disable interrupt for event TXSTARTED */
-#define TWIS_INTENCLR_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
-#define TWIS_INTENCLR_TXSTARTED_Msk (0x1UL << TWIS_INTENCLR_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
-#define TWIS_INTENCLR_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_TXSTARTED_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_TXSTARTED_Pos (20UL) /*!< Position of TXSTARTED field. */
+#define I2CS_INTENCLR_TXSTARTED_Msk (0x1UL << I2CS_INTENCLR_TXSTARTED_Pos) /*!< Bit mask of TXSTARTED field. */
+#define I2CS_INTENCLR_TXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_TXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_TXSTARTED_Clear (1UL) /*!< Disable */
 
 /* Bit 19 : Write '1' to disable interrupt for event RXSTARTED */
-#define TWIS_INTENCLR_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
-#define TWIS_INTENCLR_RXSTARTED_Msk (0x1UL << TWIS_INTENCLR_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
-#define TWIS_INTENCLR_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_RXSTARTED_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_RXSTARTED_Pos (19UL) /*!< Position of RXSTARTED field. */
+#define I2CS_INTENCLR_RXSTARTED_Msk (0x1UL << I2CS_INTENCLR_RXSTARTED_Pos) /*!< Bit mask of RXSTARTED field. */
+#define I2CS_INTENCLR_RXSTARTED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_RXSTARTED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_RXSTARTED_Clear (1UL) /*!< Disable */
 
 /* Bit 9 : Write '1' to disable interrupt for event ERROR */
-#define TWIS_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
-#define TWIS_INTENCLR_ERROR_Msk (0x1UL << TWIS_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
-#define TWIS_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_ERROR_Pos (9UL) /*!< Position of ERROR field. */
+#define I2CS_INTENCLR_ERROR_Msk (0x1UL << I2CS_INTENCLR_ERROR_Pos) /*!< Bit mask of ERROR field. */
+#define I2CS_INTENCLR_ERROR_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_ERROR_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_ERROR_Clear (1UL) /*!< Disable */
 
 /* Bit 1 : Write '1' to disable interrupt for event STOPPED */
-#define TWIS_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
-#define TWIS_INTENCLR_STOPPED_Msk (0x1UL << TWIS_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
-#define TWIS_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
-#define TWIS_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
-#define TWIS_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
+#define I2CS_INTENCLR_STOPPED_Pos (1UL) /*!< Position of STOPPED field. */
+#define I2CS_INTENCLR_STOPPED_Msk (0x1UL << I2CS_INTENCLR_STOPPED_Pos) /*!< Bit mask of STOPPED field. */
+#define I2CS_INTENCLR_STOPPED_Disabled (0UL) /*!< Read: Disabled */
+#define I2CS_INTENCLR_STOPPED_Enabled (1UL) /*!< Read: Enabled */
+#define I2CS_INTENCLR_STOPPED_Clear (1UL) /*!< Disable */
 
-/* Register: TWIS_ERRORSRC */
+/* Register: I2CS_ERRORSRC */
 /* Description: Error source */
 
 /* Bit 3 : TX buffer over-read detected, and prevented */
-#define TWIS_ERRORSRC_OVERREAD_Pos (3UL) /*!< Position of OVERREAD field. */
-#define TWIS_ERRORSRC_OVERREAD_Msk (0x1UL << TWIS_ERRORSRC_OVERREAD_Pos) /*!< Bit mask of OVERREAD field. */
-#define TWIS_ERRORSRC_OVERREAD_NotDetected (0UL) /*!< Error did not occur */
-#define TWIS_ERRORSRC_OVERREAD_Detected (1UL) /*!< Error occurred */
+#define I2CS_ERRORSRC_OVERREAD_Pos (3UL) /*!< Position of OVERREAD field. */
+#define I2CS_ERRORSRC_OVERREAD_Msk (0x1UL << I2CS_ERRORSRC_OVERREAD_Pos) /*!< Bit mask of OVERREAD field. */
+#define I2CS_ERRORSRC_OVERREAD_NotDetected (0UL) /*!< Error did not occur */
+#define I2CS_ERRORSRC_OVERREAD_Detected (1UL) /*!< Error occurred */
 
 /* Bit 2 : NACK sent after receiving a data byte */
-#define TWIS_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
-#define TWIS_ERRORSRC_DNACK_Msk (0x1UL << TWIS_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
-#define TWIS_ERRORSRC_DNACK_NotReceived (0UL) /*!< Error did not occur */
-#define TWIS_ERRORSRC_DNACK_Received (1UL) /*!< Error occurred */
+#define I2CS_ERRORSRC_DNACK_Pos (2UL) /*!< Position of DNACK field. */
+#define I2CS_ERRORSRC_DNACK_Msk (0x1UL << I2CS_ERRORSRC_DNACK_Pos) /*!< Bit mask of DNACK field. */
+#define I2CS_ERRORSRC_DNACK_NotReceived (0UL) /*!< Error did not occur */
+#define I2CS_ERRORSRC_DNACK_Received (1UL) /*!< Error occurred */
 
 /* Bit 0 : RX buffer overflow detected, and prevented */
-#define TWIS_ERRORSRC_OVERFLOW_Pos (0UL) /*!< Position of OVERFLOW field. */
-#define TWIS_ERRORSRC_OVERFLOW_Msk (0x1UL << TWIS_ERRORSRC_OVERFLOW_Pos) /*!< Bit mask of OVERFLOW field. */
-#define TWIS_ERRORSRC_OVERFLOW_NotDetected (0UL) /*!< Error did not occur */
-#define TWIS_ERRORSRC_OVERFLOW_Detected (1UL) /*!< Error occurred */
+#define I2CS_ERRORSRC_OVERFLOW_Pos (0UL) /*!< Position of OVERFLOW field. */
+#define I2CS_ERRORSRC_OVERFLOW_Msk (0x1UL << I2CS_ERRORSRC_OVERFLOW_Pos) /*!< Bit mask of OVERFLOW field. */
+#define I2CS_ERRORSRC_OVERFLOW_NotDetected (0UL) /*!< Error did not occur */
+#define I2CS_ERRORSRC_OVERFLOW_Detected (1UL) /*!< Error occurred */
 
-/* Register: TWIS_MATCH */
+/* Register: I2CS_MATCH */
 /* Description: Status register indicating which address had a match */
 
 /* Bit 0 : Which of the addresses in {ADDRESS} matched the incoming address */
-#define TWIS_MATCH_MATCH_Pos (0UL) /*!< Position of MATCH field. */
-#define TWIS_MATCH_MATCH_Msk (0x1UL << TWIS_MATCH_MATCH_Pos) /*!< Bit mask of MATCH field. */
+#define I2CS_MATCH_MATCH_Pos (0UL) /*!< Position of MATCH field. */
+#define I2CS_MATCH_MATCH_Msk (0x1UL << I2CS_MATCH_MATCH_Pos) /*!< Bit mask of MATCH field. */
 
-/* Register: TWIS_ENABLE */
-/* Description: Enable TWIS */
+/* Register: I2CS_ENABLE */
+/* Description: Enable I2CS */
 
-/* Bits 3..0 : Enable or disable TWIS */
-#define TWIS_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
-#define TWIS_ENABLE_ENABLE_Msk (0xFUL << TWIS_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
-#define TWIS_ENABLE_ENABLE_Disabled (0UL) /*!< Disable TWIS */
-#define TWIS_ENABLE_ENABLE_Enabled (9UL) /*!< Enable TWIS */
+/* Bits 3..0 : Enable or disable I2CS */
+#define I2CS_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
+#define I2CS_ENABLE_ENABLE_Msk (0xFUL << I2CS_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
+#define I2CS_ENABLE_ENABLE_Disabled (0UL) /*!< Disable I2CS */
+#define I2CS_ENABLE_ENABLE_Enabled (9UL) /*!< Enable I2CS */
 
-/* Register: TWIS_PSEL_SCL */
+/* Register: I2CS_PSEL_SCL */
 /* Description: Pin select for SCL signal */
 
 /* Bit 31 : Connection */
-#define TWIS_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWIS_PSEL_SCL_CONNECT_Msk (0x1UL << TWIS_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWIS_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
-#define TWIS_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2CS_PSEL_SCL_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2CS_PSEL_SCL_CONNECT_Msk (0x1UL << I2CS_PSEL_SCL_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2CS_PSEL_SCL_CONNECT_Connected (0UL) /*!< Connect */
+#define I2CS_PSEL_SCL_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWIS_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWIS_PSEL_SCL_PORT_Msk (0x1UL << TWIS_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2CS_PSEL_SCL_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2CS_PSEL_SCL_PORT_Msk (0x1UL << I2CS_PSEL_SCL_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWIS_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWIS_PSEL_SCL_PIN_Msk (0x1FUL << TWIS_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2CS_PSEL_SCL_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2CS_PSEL_SCL_PIN_Msk (0x1FUL << I2CS_PSEL_SCL_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWIS_PSEL_SDA */
+/* Register: I2CS_PSEL_SDA */
 /* Description: Pin select for SDA signal */
 
 /* Bit 31 : Connection */
-#define TWIS_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
-#define TWIS_PSEL_SDA_CONNECT_Msk (0x1UL << TWIS_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
-#define TWIS_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
-#define TWIS_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
+#define I2CS_PSEL_SDA_CONNECT_Pos (31UL) /*!< Position of CONNECT field. */
+#define I2CS_PSEL_SDA_CONNECT_Msk (0x1UL << I2CS_PSEL_SDA_CONNECT_Pos) /*!< Bit mask of CONNECT field. */
+#define I2CS_PSEL_SDA_CONNECT_Connected (0UL) /*!< Connect */
+#define I2CS_PSEL_SDA_CONNECT_Disconnected (1UL) /*!< Disconnect */
 
 /* Bit 5 : Port number */
-#define TWIS_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
-#define TWIS_PSEL_SDA_PORT_Msk (0x1UL << TWIS_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
+#define I2CS_PSEL_SDA_PORT_Pos (5UL) /*!< Position of PORT field. */
+#define I2CS_PSEL_SDA_PORT_Msk (0x1UL << I2CS_PSEL_SDA_PORT_Pos) /*!< Bit mask of PORT field. */
 
 /* Bits 4..0 : Pin number */
-#define TWIS_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
-#define TWIS_PSEL_SDA_PIN_Msk (0x1FUL << TWIS_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
+#define I2CS_PSEL_SDA_PIN_Pos (0UL) /*!< Position of PIN field. */
+#define I2CS_PSEL_SDA_PIN_Msk (0x1FUL << I2CS_PSEL_SDA_PIN_Pos) /*!< Bit mask of PIN field. */
 
-/* Register: TWIS_RXD_PTR */
+/* Register: I2CS_RXD_PTR */
 /* Description: RXD Data pointer */
 
 /* Bits 31..0 : RXD Data pointer */
-#define TWIS_RXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
-#define TWIS_RXD_PTR_PTR_Msk (0xFFFFFFFFUL << TWIS_RXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
+#define I2CS_RXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
+#define I2CS_RXD_PTR_PTR_Msk (0xFFFFFFFFUL << I2CS_RXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
 
-/* Register: TWIS_RXD_MAXCNT */
+/* Register: I2CS_RXD_MAXCNT */
 /* Description: Maximum number of bytes in RXD buffer */
 
 /* Bits 15..0 : Maximum number of bytes in RXD buffer */
-#define TWIS_RXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
-#define TWIS_RXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << TWIS_RXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
+#define I2CS_RXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
+#define I2CS_RXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << I2CS_RXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
 
-/* Register: TWIS_RXD_AMOUNT */
+/* Register: I2CS_RXD_AMOUNT */
 /* Description: Number of bytes transferred in the last RXD transaction */
 
 /* Bits 15..0 : Number of bytes transferred in the last RXD transaction */
-#define TWIS_RXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
-#define TWIS_RXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << TWIS_RXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
+#define I2CS_RXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
+#define I2CS_RXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << I2CS_RXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
 
-/* Register: TWIS_RXD_LIST */
+/* Register: I2CS_RXD_LIST */
 /* Description: EasyDMA list type */
 
 /* Bits 1..0 : List type */
-#define TWIS_RXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
-#define TWIS_RXD_LIST_LIST_Msk (0x3UL << TWIS_RXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
-#define TWIS_RXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
-#define TWIS_RXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
+#define I2CS_RXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
+#define I2CS_RXD_LIST_LIST_Msk (0x3UL << I2CS_RXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
+#define I2CS_RXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
+#define I2CS_RXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
 
-/* Register: TWIS_TXD_PTR */
+/* Register: I2CS_TXD_PTR */
 /* Description: TXD Data pointer */
 
 /* Bits 31..0 : TXD Data pointer */
-#define TWIS_TXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
-#define TWIS_TXD_PTR_PTR_Msk (0xFFFFFFFFUL << TWIS_TXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
+#define I2CS_TXD_PTR_PTR_Pos (0UL) /*!< Position of PTR field. */
+#define I2CS_TXD_PTR_PTR_Msk (0xFFFFFFFFUL << I2CS_TXD_PTR_PTR_Pos) /*!< Bit mask of PTR field. */
 
-/* Register: TWIS_TXD_MAXCNT */
+/* Register: I2CS_TXD_MAXCNT */
 /* Description: Maximum number of bytes in TXD buffer */
 
 /* Bits 15..0 : Maximum number of bytes in TXD buffer */
-#define TWIS_TXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
-#define TWIS_TXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << TWIS_TXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
+#define I2CS_TXD_MAXCNT_MAXCNT_Pos (0UL) /*!< Position of MAXCNT field. */
+#define I2CS_TXD_MAXCNT_MAXCNT_Msk (0xFFFFUL << I2CS_TXD_MAXCNT_MAXCNT_Pos) /*!< Bit mask of MAXCNT field. */
 
-/* Register: TWIS_TXD_AMOUNT */
+/* Register: I2CS_TXD_AMOUNT */
 /* Description: Number of bytes transferred in the last TXD transaction */
 
 /* Bits 15..0 : Number of bytes transferred in the last TXD transaction */
-#define TWIS_TXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
-#define TWIS_TXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << TWIS_TXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
+#define I2CS_TXD_AMOUNT_AMOUNT_Pos (0UL) /*!< Position of AMOUNT field. */
+#define I2CS_TXD_AMOUNT_AMOUNT_Msk (0xFFFFUL << I2CS_TXD_AMOUNT_AMOUNT_Pos) /*!< Bit mask of AMOUNT field. */
 
-/* Register: TWIS_TXD_LIST */
+/* Register: I2CS_TXD_LIST */
 /* Description: EasyDMA list type */
 
 /* Bits 1..0 : List type */
-#define TWIS_TXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
-#define TWIS_TXD_LIST_LIST_Msk (0x3UL << TWIS_TXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
-#define TWIS_TXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
-#define TWIS_TXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
+#define I2CS_TXD_LIST_LIST_Pos (0UL) /*!< Position of LIST field. */
+#define I2CS_TXD_LIST_LIST_Msk (0x3UL << I2CS_TXD_LIST_LIST_Pos) /*!< Bit mask of LIST field. */
+#define I2CS_TXD_LIST_LIST_Disabled (0UL) /*!< Disable EasyDMA list */
+#define I2CS_TXD_LIST_LIST_ArrayList (1UL) /*!< Use array list */
 
-/* Register: TWIS_ADDRESS */
-/* Description: Description collection: TWI slave address n */
+/* Register: I2CS_ADDRESS */
+/* Description: Description collection: I2C slave address n */
 
-/* Bits 6..0 : TWI slave address */
-#define TWIS_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
-#define TWIS_ADDRESS_ADDRESS_Msk (0x7FUL << TWIS_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
+/* Bits 6..0 : I2C slave address */
+#define I2CS_ADDRESS_ADDRESS_Pos (0UL) /*!< Position of ADDRESS field. */
+#define I2CS_ADDRESS_ADDRESS_Msk (0x7FUL << I2CS_ADDRESS_ADDRESS_Pos) /*!< Bit mask of ADDRESS field. */
 
-/* Register: TWIS_CONFIG */
+/* Register: I2CS_CONFIG */
 /* Description: Configuration register for the address match mechanism */
 
 /* Bit 1 : Enable or disable address matching on ADDRESS[1] */
-#define TWIS_CONFIG_ADDRESS1_Pos (1UL) /*!< Position of ADDRESS1 field. */
-#define TWIS_CONFIG_ADDRESS1_Msk (0x1UL << TWIS_CONFIG_ADDRESS1_Pos) /*!< Bit mask of ADDRESS1 field. */
-#define TWIS_CONFIG_ADDRESS1_Disabled (0UL) /*!< Disabled */
-#define TWIS_CONFIG_ADDRESS1_Enabled (1UL) /*!< Enabled */
+#define I2CS_CONFIG_ADDRESS1_Pos (1UL) /*!< Position of ADDRESS1 field. */
+#define I2CS_CONFIG_ADDRESS1_Msk (0x1UL << I2CS_CONFIG_ADDRESS1_Pos) /*!< Bit mask of ADDRESS1 field. */
+#define I2CS_CONFIG_ADDRESS1_Disabled (0UL) /*!< Disabled */
+#define I2CS_CONFIG_ADDRESS1_Enabled (1UL) /*!< Enabled */
 
 /* Bit 0 : Enable or disable address matching on ADDRESS[0] */
-#define TWIS_CONFIG_ADDRESS0_Pos (0UL) /*!< Position of ADDRESS0 field. */
-#define TWIS_CONFIG_ADDRESS0_Msk (0x1UL << TWIS_CONFIG_ADDRESS0_Pos) /*!< Bit mask of ADDRESS0 field. */
-#define TWIS_CONFIG_ADDRESS0_Disabled (0UL) /*!< Disabled */
-#define TWIS_CONFIG_ADDRESS0_Enabled (1UL) /*!< Enabled */
+#define I2CS_CONFIG_ADDRESS0_Pos (0UL) /*!< Position of ADDRESS0 field. */
+#define I2CS_CONFIG_ADDRESS0_Msk (0x1UL << I2CS_CONFIG_ADDRESS0_Pos) /*!< Bit mask of ADDRESS0 field. */
+#define I2CS_CONFIG_ADDRESS0_Disabled (0UL) /*!< Disabled */
+#define I2CS_CONFIG_ADDRESS0_Enabled (1UL) /*!< Enabled */
 
-/* Register: TWIS_ORC */
+/* Register: I2CS_ORC */
 /* Description: Over-read character. Character sent out in case of an over-read of the transmit buffer. */
 
 /* Bits 7..0 : Over-read character. Character sent out in case of an over-read of the transmit buffer. */
-#define TWIS_ORC_ORC_Pos (0UL) /*!< Position of ORC field. */
-#define TWIS_ORC_ORC_Msk (0xFFUL << TWIS_ORC_ORC_Pos) /*!< Bit mask of ORC field. */
+#define I2CS_ORC_ORC_Pos (0UL) /*!< Position of ORC field. */
+#define I2CS_ORC_ORC_Msk (0xFFUL << I2CS_ORC_ORC_Pos) /*!< Bit mask of ORC field. */
 
 
 /* Peripheral: UART */

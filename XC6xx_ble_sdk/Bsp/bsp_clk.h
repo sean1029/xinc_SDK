@@ -5,5 +5,6 @@ void xc_uart_clk_init(uint8_t ch,uint32_t baud);
 void xc_gpio_clk_init(void);
 
 void xc_spi_clk_init(uint8_t ch);
+void xc_i2c_clk_init(void);
 #endif
 

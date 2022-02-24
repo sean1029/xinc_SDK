@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "nrf_gpio.h": "c"
+        "nrf_gpio.h": "c",
+        "nrf_drv_twi.h": "c",
+        "at24c02.h": "c"
     }
 }

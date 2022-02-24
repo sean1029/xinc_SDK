@@ -95,7 +95,7 @@ __STATIC_INLINE void nrf_bitmask_bit_clear(uint32_t bit, void * p_mask)
 }
 
 /**
- * Function for performing bitwise OR operation on two multi-byte bit masks.
+ * Function for performing bii2cse OR operation on two multi-byte bit masks.
  *
  * @param p_mask1    A pointer to the first bit mask.
  * @param p_mask2    A pointer to the second bit mask.
@@ -118,7 +118,7 @@ __STATIC_INLINE void nrf_bitmask_masks_or(void const *   p_mask1,
 }
 
 /**
- * Function for performing bitwise AND operation on two multi-byte bit masks.
+ * Function for performing bii2cse AND operation on two multi-byte bit masks.
  *
  * @param p_mask1    A pointer to the first bit mask.
  * @param p_mask2    A pointer to the second bit mask.

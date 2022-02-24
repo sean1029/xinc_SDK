@@ -221,22 +221,16 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define SPIS2_EASYDMA_MAXCNT_SIZE 16
 
 /* Two Wire Interface Master */
-#define TWI_PRESENT
-#define TWI_COUNT 2
+#define I2C_PRESENT
+#define I2C_COUNT 1
 
-/* Two Wire Interface Master with DMA */
-#define TWIM_PRESENT
-#define TWIM_COUNT 2
-
-#define TWIM0_EASYDMA_MAXCNT_SIZE 16
-#define TWIM1_EASYDMA_MAXCNT_SIZE 16
 
 /* Two Wire Interface Slave with DMA */
-#define TWIS_PRESENT
-#define TWIS_COUNT 2
+#define I2CS_PRESENT
+#define I2CS_COUNT 2
 
-#define TWIS0_EASYDMA_MAXCNT_SIZE 16
-#define TWIS1_EASYDMA_MAXCNT_SIZE 16
+#define I2CS0_EASYDMA_MAXCNT_SIZE 16
+#define I2CS1_EASYDMA_MAXCNT_SIZE 16
 
 /* Universal Asynchronous Receiver-Transmitter */
 #define UART_PRESENT
