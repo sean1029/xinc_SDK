@@ -553,7 +553,7 @@ int	main(void)
 		void test_master_at24cxx_i2c(void);
 		//test_master_at24cxx_i2c();
         i2c_at24c02_test();
-		spim_flash_test();
+//		spim_flash_test();
 		//flash_test();
     while(1) {
 		//	nrf_cli_process(&m_cli_uart);

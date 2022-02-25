@@ -3,7 +3,7 @@
 #include "AT24C02.h"
 #include "xinc_drv_i2c.h"
 #include "xinc_i2c.h"
-
+#include <string.h>
 
 #define I2C_INSTACE_ID	0
 
@@ -54,7 +54,7 @@ static volatile bool m_xfer_done = false;
 
 //I2C 事件处理函数
 
-void i2c_handler(xinc_drv_i2c_evt_t const *p_event,void *p_context)
+void i2c_event_handler(xinc_drv_i2c_evt_t const *p_event,void *p_context)
 {
 	switch (p_event->type)
 	{
@@ -81,7 +81,7 @@ void i2c_at24c02_init(void)
 		.clear_bus_init = false //初始化期间不发送9个scl 时钟
 	};
 
-	err_code = xinc_drv_i2c_init(&m_i2c,&i2c_24c02_config,NULL,NULL);
+	err_code = xinc_drv_i2c_init(&m_i2c,&i2c_24c02_config,i2c_event_handler,NULL);
 
 	APP_ERROR_CHECK(err_code);
 
@@ -145,6 +145,7 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 	uint8_t tx_buf[AT24Cxx_ADDRESS_LEN + AT24Cxx_PAGESIZE];
 	
 	uint8_t PAGE;
+	uint32_t sizeI;
 
 	//检查写入数据的地址是否合法,写入的长度不能超过页面的大小
 	if (size > AT24Cxx_PAGESIZE)
@@ -161,6 +162,7 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 	//准备写入的数据
 	tx_buf[0] = ((page - 1) * AT24Cxx_PAGESIZE)% 256;
 	PAGE = ((page - 1) * AT24Cxx_PAGESIZE)/ 256;
+	
 	memcpy(tx_buf + AT24Cxx_ADDRESS_LEN,pdata,size);
 
 	//I2C 标志设置位false
@@ -223,7 +225,7 @@ ret_code_t AT24Cxx_write_buf(uint16_t WriteAddr,uint8_t  *p_buf,uint16_t size)
 
 				APP_ERROR_CHECK(err_code);
 				//等待I2C 传输完成
-			//	while (false == m_xfer_done)
+				while (false == m_xfer_done)
 				{
 					__nop();
 				}
@@ -258,7 +260,7 @@ ret_code_t AT24Cxx_write_buf(uint16_t WriteAddr,uint8_t  *p_buf,uint16_t size)
 
 				APP_ERROR_CHECK(err_code);
 				//等待I2C 传输完成
-	//			while (false == m_xfer_done)
+				while (false == m_xfer_done)
 				{
 					__nop();
 				}
@@ -308,7 +310,7 @@ ret_code_t AT24Cxx_read_buf(uint16_t ReadAddr,uint8_t  *p_buf,uint16_t size)
 	
 	APP_ERROR_CHECK(err_code);
 	//等待I2C 传输完成
-//	while (false == m_xfer_done)
+	while (false == m_xfer_done)
 	{
 		__nop();
 	}
@@ -321,7 +323,7 @@ ret_code_t AT24Cxx_read_buf(uint16_t ReadAddr,uint8_t  *p_buf,uint16_t size)
 	
 	APP_ERROR_CHECK(err_code);
 	//等待I2C 传输完成
-//	while (false == m_xfer_done)
+	while (false == m_xfer_done)
 	{
 		__nop();
 	}
@@ -402,11 +404,13 @@ void  i2c_at24c02_test(void)
 
 
 	AT24Cxx_write_buf(addr,i2c_tx_buf,80);
-//	printf("write 20 bytes to AT24Cxx at address:%d\r\n",addr);
+  printf("write 20 bytes to AT24Cxx at address:%d\r\n",addr);
 
 	delay_ms(200);
-
+//return;
 	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
+	
+	
 	printf("read data from address 0x%X \r\n",addr);
 	for(int i = 0; i < 80;i++)
 	{
@@ -416,6 +420,19 @@ void  i2c_at24c02_test(void)
 			printf("\r\n");
 		}
 	}printf("\r\n");
+	
+//	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
+//	
+//	
+//	printf("read data from address 0x%X \r\n",addr);
+//	for(int i = 0; i < 80;i++)
+//	{
+//		printf("%02d ",i2c_rx_buf[i]);
+//		if(i % 16 == 15)
+//		{
+//			printf("\r\n");
+//		}
+//	}printf("\r\n");
 
 
 }

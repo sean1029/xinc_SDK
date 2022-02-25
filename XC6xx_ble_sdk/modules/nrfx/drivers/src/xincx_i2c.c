@@ -82,7 +82,7 @@
 #define I2C_FLAG_SUSPEND(flags)             (flags & XINCX_I2C_FLAG_SUSPEND)
 #define I2C_FLAG_NO_HANDLER_IN_USE(flags)   (flags & XINCX_I2C_FLAG_NO_XFER_EVT_HANDLER)
 
-#define HW_TIMEOUT      1000000
+#define HW_TIMEOUT      100000
 
 /* I2C master driver suspend types. */
 typedef enum
@@ -231,6 +231,8 @@ nrfx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     {
       //  p_i2c->i2c_INTR_EN = 0x01 << 2;
        // NRFX_IRQ_ENABLE(I2C_IRQn);
+			
+		//	p_config->   XINCX_I2C_FLAG_NO_XFER_EVT_HANDLER
     }
 
     p_cb->state = NRFX_DRV_STATE_INITIALIZED;
@@ -296,12 +298,17 @@ static bool i2c_send_byte(XINC_I2C_Type          * p_i2c,
                           i2c_control_block_t   * p_cb)
 {
 		
-//		printf("%s,bytes_transferred:%d,curr_length:%d\r\n",__func__,p_cb->bytes_transferred,p_cb->curr_length);
+	//	printf("%s,bytes_transferred:%d,curr_length:%d\r\n",__func__,p_cb->bytes_transferred,p_cb->curr_length);
 //		printf("i2c_STATUS:0x%x\r\n",p_i2c->i2c_STATUS);
-		while((p_i2c->i2c_STATUS & 0x02) != 0x02)
+		
+		
+		if (p_cb->bytes_transferred  == p_cb->curr_length)
 		{
-			__nop();
-			
+				return false;
+		}
+		if((p_i2c->i2c_STATUS & 0x02) != 0x02)
+		{
+				return true;	
 		}
 		
 		uint16_t data_cmd =  I2C_FLAG_HAS_START(p_cb->flags )? (0x01 << 10) : 0x0;
@@ -552,6 +559,10 @@ static nrfx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
 //                         NRF_I2C_INT_RXDREADY_MASK;
 
 //        xinc_i2c_int_enable(p_i2c, p_cb->int_mask);
+			p_i2c->i2c_INTR_EN = (0x01 << 4);
+			NRFX_IRQ_ENABLE(I2C_IRQn);
+			p_i2c->i2c_ENABLE = 1;
+			
     }
     else
     {
@@ -606,6 +617,7 @@ static nrfx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
     p_cb->bytes_transferred = 0;
 		p_cb->bytes_transForRx = 0;
     p_cb->error             = false;
+		p_i2c->i2c_ENABLE = 0;
 
     if ((p_cb->curr_length == 1) && (!I2C_FLAG_SUSPEND(p_cb->flags)))
     {
@@ -616,19 +628,23 @@ static nrfx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
       //  xinc_i2c_shorts_set(p_i2c, NRF_I2C_SHORT_BB_SUSPEND_MASK);
     }
     // In case I2C is suspended resume its operation.
-    xinc_i2c_task_trigger(p_i2c, XINC_I2C_TASK_RESUME);
+  //  xinc_i2c_task_trigger(p_i2c, XINC_I2C_TASK_RESUME);
 
     if (p_cb->prev_suspend != I2C_SUSPEND_RX)
     {
-        xinc_i2c_task_trigger(p_i2c, XINC_I2C_TASK_STARTRX);
+      //  xinc_i2c_task_trigger(p_i2c, XINC_I2C_TASK_STARTRX);
     }
+	
     if (p_cb->handler)
     {
 //        p_cb->int_mask = NRF_I2C_INT_STOPPED_MASK   |
 //                        NRF_I2C_INT_ERROR_MASK     |
 //                        NRF_I2C_INT_TXDSENT_MASK   |
 //                        NRF_I2C_INT_RXDREADY_MASK;
-//        xinc_i2c_int_enable(p_i2c, p_cb->int_mask);
+    //    xinc_i2c_int_enable(p_i2c, p_cb->int_mask);
+			p_i2c->i2c_INTR_EN = (0x01 << 2) | (0x01 << 4);
+			NRFX_IRQ_ENABLE(I2C_IRQn);
+			p_i2c->i2c_ENABLE = 1;
     }
     else
     {
@@ -652,8 +668,10 @@ static nrfx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
         }
         if (hw_timeout <= 0)
         {
-            xinc_i2c_disable(p_i2c);
-            xinc_i2c_enable(p_i2c);
+           // xinc_i2c_disable(p_i2c);
+						p_i2c->i2c_ENABLE = 0;
+          //  xinc_i2c_enable(p_i2c);
+						p_i2c->i2c_ENABLE = 1;
             ret_code = NRFX_ERROR_INTERNAL;
         }
     }
@@ -681,6 +699,9 @@ __STATIC_INLINE nrfx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
 
     /* Block I2C interrupts to ensure that function is not interrupted by I2C interrupt. */
   //  xinc_i2c_int_disable(p_i2c, NRF_I2C_ALL_INTS_MASK);
+		uint32_t reg;
+		p_i2c->i2c_INTR_EN = 0;
+		reg = p_i2c->i2c_CLR_INTR;
 
     if (p_cb->busy)
     {
@@ -693,7 +714,7 @@ __STATIC_INLINE nrfx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
     }
     else
     {
-        p_cb->busy = (I2C_FLAG_NO_HANDLER_IN_USE(flags)) ? false : true;
+			  p_cb->busy = (I2C_FLAG_NO_HANDLER_IN_USE(flags)) ? false : true;
     }
 
     p_cb->flags       = flags;
@@ -732,7 +753,6 @@ nrfx_err_t xincx_i2c_xfer(xincx_i2c_t           const * p_instance,
 
     nrfx_err_t err_code = NRFX_SUCCESS;
     i2c_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-
     // TXRX and TXTX transfers are supported only in non-blocking mode.
     NRFX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXRX)));
     NRFX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXTX)));
@@ -784,11 +804,19 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 {
     NRFX_ASSERT(p_cb->handler);
 
+		uint8_t val;
     if (i2c_transfer(p_i2c, p_cb))
     {
         return;
     }
-
+		if(p_i2c->i2c_TXFLR)
+		{
+			return;
+		}
+		p_i2c->i2c_ENABLE = 0;
+		val = p_i2c->i2c_CLR_INTR;
+		p_i2c->i2c_INTR_EN = 0;
+		NRFX_IRQ_DISABLE(I2C_IRQn);
     if (!p_cb->error &&
         ((p_cb->xfer_desc.type == XINCX_I2C_XFER_TXRX) ||
          (p_cb->xfer_desc.type == XINCX_I2C_XFER_TXTX)) &&
@@ -815,7 +843,8 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 
         if (p_cb->error)
         {
-            uint32_t errorsrc = xinc_i2c_errorsrc_get_and_clear(p_i2c);
+          //  uint32_t errorsrc = xinc_i2c_errorsrc_get_and_clear(p_i2c);
+						uint32_t errorsrc = (p_i2c->i2c_INTR_STAT);
             
         }
         else
@@ -829,12 +858,20 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
         if (!(I2C_FLAG_NO_HANDLER_IN_USE(p_cb->flags)) || p_cb->error)
         {
             p_cb->handler(&event, p_cb->p_context);
+					
         }
     }
 
 }
 
+
 #if NRFX_CHECK(XINCX_I2C0_ENABLED)
+void 	I2C_Handler()
+{
+//	printf("I2C_Handler\r\n");
+	xincx_i2c_0_irq_handler();
+
+}
 void xincx_i2c_0_irq_handler(void)
 {
     i2c_irq_handler(XINC_I2C0, &m_cb[XINCX_I2C0_INST_IDX]);
