@@ -586,7 +586,7 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
 }
 
 #endif
-
+#include <stdio.h>
 void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
                     char const *               p_fmt,
                     va_list *                  p_args)
@@ -596,7 +596,7 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
     ASSERT(p_ctx->fwrite != NULL);
     ASSERT(p_ctx->p_io_buffer != NULL);
     ASSERT(p_ctx->io_buffer_size > 0);
-
+		
     if (p_fmt == NULL)
     {
         return;
@@ -607,12 +607,13 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
     uint32_t NumDigits;
     uint32_t FormatFlags;
     uint32_t FieldWidth;
-
+		uint32_t cnt = 0;
+		
     do
-    {
+    {		
         c = *p_fmt;
         p_fmt++;
-
+			
         if (c == 0u)
         {
             break;
@@ -653,7 +654,7 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
             //
             FieldWidth = 0u;
             do
-            {
+            {		
                 if (c == '*')
                 {
                     /*lint -save -e64 -e56*/
@@ -680,7 +681,7 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
             {
                 p_fmt++;
                 do
-                {
+                {			
                     c = *p_fmt;
                     if ((c < '0') || (c > '9'))
                     {

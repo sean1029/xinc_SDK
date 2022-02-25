@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2016 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,50 +37,50 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
 
-#include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
+/**@file
+ *
+ * @defgroup nrf_log_str_formatter String formatter for the logger messages
+ * @{
+ * @ingroup nrf_log
+ */
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
+#ifndef NRF_LOG_STR_FORMATTER_H
+#define NRF_LOG_STR_FORMATTER_H
+
+#include <stdint.h>
+#include "nrf_fprintf.h"
+#include "nrf_log_ctrl.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct
 {
-    ASSERT(p_ctx != NULL);
+    uint32_t            timestamp;
+    uint16_t            module_id;
+    uint16_t            dropped;
+    nrf_log_severity_t  severity;
+    uint8_t             use_colors;
+} nrf_log_str_formatter_entry_params_t;
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
 
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
+void nrf_log_std_entry_process(char const * p_str,
+                               uint32_t const * p_args,
+                               uint32_t nargs,
+                               nrf_log_str_formatter_entry_params_t * p_params,
+                               nrf_fprintf_ctx_t * p_ctx);
+
+void nrf_log_hexdump_entry_process(uint8_t * p_data,
+                                   uint32_t data_len,
+                                   nrf_log_str_formatter_entry_params_t * p_params,
+                                   nrf_fprintf_ctx_t * p_ctx);
+
+void nrf_log_str_formatter_timestamp_freq_set(uint32_t freq);
+#ifdef __cplusplus
 }
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
+#endif
 
-    if (p_fmt == NULL)
-    {
-        return;
-    }
-
-    va_list args = {0};
-
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
-
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+#endif //NRF_LOG_STR_FORMATTER_H
+/** @} */

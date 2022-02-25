@@ -30,10 +30,10 @@
 /*-------------------------------------------------------------------
 NOTE: bsp_spi0_flash�ļ��µı���Ҫ����SHRAM0����.
 -------------------------------------------------------------------*/
-//uint8_t		__attribute__((aligned(4)))	txbuff[(PACKET_FULL_LEN+4)];
-//uint8_t		__attribute__((aligned(4)))	rxbuff[(PACKET_FULL_LEN+4)];
-uint8_t		__attribute__((at(127*1024+0x10000000)))	txbuff[(PACKET_FULL_LEN+4)];
-uint8_t		__attribute__((at(127*1024+512+0x10000000)))	rxbuff[(PACKET_FULL_LEN+4)];
+uint8_t		__attribute__((aligned(4)))	txbuff[(PACKET_FULL_LEN+4)];
+uint8_t		__attribute__((aligned(4)))	rxbuff[(PACKET_FULL_LEN+4)];
+//uint8_t		__attribute__((at(127*1024+0x10000000)))	txbuff[(PACKET_FULL_LEN+4)];
+//uint8_t		__attribute__((at(127*1024+512+0x10000000)))	rxbuff[(PACKET_FULL_LEN+4)];
 
 /* ---------------------------------------------------------------------------------------------------
 - ��������: Init_spi_master

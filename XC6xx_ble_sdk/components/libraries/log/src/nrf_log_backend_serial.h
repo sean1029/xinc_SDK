@@ -37,50 +37,41 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
+#ifndef NRF_LOG_BACKEND_SERIAL_H
+#define NRF_LOG_BACKEND_SERIAL_H
+/**@file
+ * @addtogroup nrf_log Logger module
+ * @ingroup    app_common
+ *
+ * @defgroup nrf_log_backend_serial Common part of serial backends
+ * @{
+ * @ingroup  nrf_log
+ * @brief    The nrf_log serial backend common put function.
+ */
 
-#include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
-{
-    ASSERT(p_ctx != NULL);
+#include "nrf_log_backend_interface.h"
+#include "nrf_fprintf.h"
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
+/**
+ * @brief A function for processing logger entry with simple serial interface as output.
+ *
+ *
+ */
+void nrf_log_backend_serial_put(nrf_log_backend_t const * p_backend,
+                               nrf_log_entry_t * p_msg,
+                               uint8_t * p_buffer,
+                               uint32_t  length,
+                               nrf_fprintf_fwrite tx_func);
+
+#endif //NRF_LOG_BACKEND_SERIAL_H
+
+#ifdef __cplusplus
 }
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
+#endif
 
-    if (p_fmt == NULL)
-    {
-        return;
-    }
-
-    va_list args = {0};
-
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
-
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+/** @} */

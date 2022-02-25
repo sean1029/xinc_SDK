@@ -39,7 +39,6 @@
 ".\objects\app_util_poatform.o"
 ".\objects\fds.o"
 ".\objects\nrf_atfifo.o"
-".\objects\nrf_strerror.o"
 ".\objects\app_button.o"
 ".\objects\nrfx_gpiote.o"
 ".\objects\app_gpiote.o"
@@ -66,7 +65,13 @@
 ".\objects\nrfx_spim.o"
 ".\objects\xinc_drv_spi.o"
 ".\objects\xincx_i2c.o"
+".\objects\nrf_strerror.o"
 ".\objects\xinc_drv_i2c.o"
+".\objects\nrf_log_backend_uart.o"
+".\objects\nrf_log_default_backends.o"
+".\objects\nrf_log_frontend.o"
+".\objects\nrf_log_str_formatter.o"
+".\objects\nrf_log_backend_serial.o"
 --strict --scatter ".\cpu.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

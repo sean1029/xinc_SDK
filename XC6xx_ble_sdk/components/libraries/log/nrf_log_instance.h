@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 - 2020, Nordic Semiconductor ASA
+ * Copyright (c) 2018 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -41,7 +41,7 @@
 #define NRF_LOG_INSTANCE_H
 
 #include "sdk_config.h"
-#include "xinc_section.h"
+#include "nrf_section.h"
 #include "nrf_log_types.h"
 #include <stdint.h>
 
@@ -77,6 +77,17 @@ NRF_SECTION_DEF(log_dynamic_data, nrf_log_module_dynamic_data_t);
 NRF_SECTION_DEF(log_filter_data, nrf_log_module_filter_data_t);
 NRF_SECTION_DEF(log_const_data, nrf_log_module_const_data_t);
 /*lint -restore*/
+
+//#define NRF_LOG_INTERNAL_CONST_ITEM_REGISTER(                                             \
+//            _name, _str_name, _info_color, _debug_color, _initial_lvl, _compiled_lvl)     \
+//            NRF_SECTION_ITEM_REGISTER(NRF_LOG_CONST_SECTION_NAME(_name),                  \
+//            _CONST nrf_log_module_const_data_t NRF_LOG_ITEM_DATA_CONST(_name)) = {        \
+//                .p_module_name   = _str_name,                                             \
+//                .info_color_id   = (_info_color),                                         \
+//                .debug_color_id  = (_debug_color),                                        \
+//                .compiled_lvl    = (nrf_log_severity_t)(_compiled_lvl),                   \
+//                .initial_lvl     = (nrf_log_severity_t)(_initial_lvl),                    \
+//            }
 
 #define NRF_LOG_INTERNAL_CONST_ITEM_REGISTER(                                             \
             _name, _str_name, _info_color, _debug_color, _initial_lvl, _compiled_lvl)     \

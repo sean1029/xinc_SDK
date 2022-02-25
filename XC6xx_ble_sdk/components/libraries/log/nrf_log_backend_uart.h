@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2016 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,50 +37,39 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
 
-#include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
+ /**@file
+ *
+ * @defgroup nrf_log_backend_uart Log UART backend
+ * @{
+ * @ingroup  nrf_log
+ * @brief Log UART backend.
+ */
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
-{
-    ASSERT(p_ctx != NULL);
+#ifndef NRF_LOG_BACKEND_UART_H
+#define NRF_LOG_BACKEND_UART_H
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
+#include "nrf_log_backend_interface.h"
 
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern const nrf_log_backend_api_t nrf_log_backend_uart_api;
+
+typedef struct {
+    nrf_log_backend_t               backend;
+} nrf_log_backend_uart_t;
+
+#define NRF_LOG_BACKEND_UART_DEF(_name)                         \
+    NRF_LOG_BACKEND_DEF(_name, nrf_log_backend_uart_api, NULL)
+
+void nrf_log_backend_uart_init(void);
+
+#ifdef __cplusplus
 }
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
+#endif
 
-    if (p_fmt == NULL)
-    {
-        return;
-    }
+#endif //NRF_LOG_BACKEND_UART_H
 
-    va_list args = {0};
-
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
-
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+/** @} */

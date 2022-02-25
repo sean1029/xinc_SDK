@@ -37,50 +37,40 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
-
+#if NRF_MODULE_ENABLED(NRF_LOG)
+#include "nrf_log_default_backends.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_internal.h"
 #include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
+#if defined(NRF_LOG_BACKEND_RTT_ENABLED) && NRF_LOG_BACKEND_RTT_ENABLED
+#include "nrf_log_backend_rtt.h"
+NRF_LOG_BACKEND_RTT_DEF(rtt_log_backend);
+#endif
+
+#if defined(NRF_LOG_BACKEND_UART_ENABLED) && NRF_LOG_BACKEND_UART_ENABLED
+#include "nrf_log_backend_uart.h"
+NRF_LOG_BACKEND_UART_DEF(uart_log_backend);
+#endif
+
+void nrf_log_default_backends_init(void)
 {
-    ASSERT(p_ctx != NULL);
+    int32_t backend_id = -1;
+    (void)backend_id;
+#if defined(NRF_LOG_BACKEND_RTT_ENABLED) && NRF_LOG_BACKEND_RTT_ENABLED
+    nrf_log_backend_rtt_init();
+    backend_id = nrf_log_backend_add(&rtt_log_backend, NRF_LOG_SEVERITY_DEBUG);
+    ASSERT(backend_id >= 0);
+    nrf_log_backend_enable(&rtt_log_backend);
+#endif
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
-
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
+#if defined(NRF_LOG_BACKEND_UART_ENABLED) && NRF_LOG_BACKEND_UART_ENABLED
+    nrf_log_backend_uart_init();
+    backend_id = nrf_log_backend_add(&uart_log_backend, NRF_LOG_SEVERITY_DEBUG);
+    ASSERT(backend_id >= 0);
+    nrf_log_backend_enable(&uart_log_backend);
+#endif
 }
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
-
-    if (p_fmt == NULL)
-    {
-        return;
-    }
-
-    va_list args = {0};
-
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
-
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+#endif

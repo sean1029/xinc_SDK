@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED NRF52840_XXAA BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -925,11 +925,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\fds\nrf_atfifo.c</FilePath>
             </File>
-            <File>
-              <FileName>nrf_strerror.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_strerror.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1147,9 +1142,44 @@
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_i2c.c</FilePath>
             </File>
             <File>
+              <FileName>nrf_strerror.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\strerror\nrf_strerror.c</FilePath>
+            </File>
+            <File>
               <FileName>xinc_drv_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>log</GroupName>
+          <Files>
+            <File>
+              <FileName>nrf_log_backend_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_default_backends.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_default_backends.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_frontend.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_frontend.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_str_formatter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_str_formatter.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_backend_serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1988,11 +2018,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\fds\nrf_atfifo.c</FilePath>
             </File>
-            <File>
-              <FileName>nrf_strerror.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_strerror.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2159,9 +2184,44 @@
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_i2c.c</FilePath>
             </File>
             <File>
+              <FileName>nrf_strerror.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\strerror\nrf_strerror.c</FilePath>
+            </File>
+            <File>
               <FileName>xinc_drv_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>log</GroupName>
+          <Files>
+            <File>
+              <FileName>nrf_log_backend_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_default_backends.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_default_backends.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_frontend.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_frontend.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_str_formatter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_str_formatter.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_log_backend_serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
             </File>
           </Files>
         </Group>

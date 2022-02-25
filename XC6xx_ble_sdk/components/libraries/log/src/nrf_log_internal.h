@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 - 2020, Nordic Semiconductor ASA
+ * Copyright (c) 2016 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -229,7 +229,7 @@
             LOG_HEXDUMP(LOG_SEVERITY_MOD_ID(level_id),                             \
                                      (p_data), (len));                             \
         }                                                                          \
-    }
+    }																																							\
 
 #define NRF_LOG_INTERNAL_INST_ERROR(p_inst, ...) \
                 NRF_LOG_INTERNAL_INST(NRF_LOG_SEVERITY_ERROR, NRF_LOG_SEVERITY_ERROR, p_inst, __VA_ARGS__)
@@ -359,7 +359,7 @@ extern _CONST nrf_log_module_const_data_t NRF_LOG_ITEM_DATA_CONST(NRF_LOG_MODULE
 #define HEADER_TYPE_STD     1U
 #define HEADER_TYPE_HEXDUMP 2U
 #define HEADER_TYPE_INVALID 3U
-
+#if 0
 typedef struct
 {
     uint32_t type       : 2;
@@ -385,7 +385,34 @@ typedef struct
     uint32_t reserved   : 6;
     uint32_t len        : 10;
 } nrf_log_hexdump_header_t;
+#else
+typedef struct
+{
+    uint32_t type       ;
+    uint32_t in_progress;
+    uint32_t data       ;
+} nrf_log_generic_header_t;
 
+typedef struct
+{
+    uint32_t type       ;
+    uint32_t in_progress;
+    uint32_t severity   ;
+    uint32_t nargs      ;
+    uint32_t addr       ;
+} nrf_log_std_header_t;
+
+typedef struct
+{
+    uint32_t type       ;
+    uint32_t in_progress;
+    uint32_t severity   ;
+    uint32_t offset     ;
+    uint32_t reserved   ;
+    uint32_t len        ;
+} nrf_log_hexdump_header_t;
+
+#endif
 typedef union
 {
     nrf_log_generic_header_t generic;

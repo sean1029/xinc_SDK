@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016 - 2020, Nordic Semiconductor ASA
+ * Copyright (c) 2016 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -50,7 +50,7 @@
 #define NRF_LOG_H_
 
 #include "sdk_common.h"
-#include "xinc_section.h"
+#include "nrf_section.h"
 #if NRF_MODULE_ENABLED(NRF_LOG)
 #include "nrf_strerror.h"
 #define NRF_LOG_ERROR_STRING_GET(code) nrf_strerror_get(code)

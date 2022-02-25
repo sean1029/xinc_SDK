@@ -1,6 +1,6 @@
 
 
-Stack_Size      EQU     0x00001000
+Stack_Size      EQU     0x00001200
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size

@@ -486,7 +486,19 @@ void cli_init(void)
 void ff11_test_loop(void);
 
 
-
+/**
+ *@brief Function for initializing logging.
+ */
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
+static void log_init(void)
+{
+    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    APP_ERROR_CHECK(err_code);
+	printf("%s err_code:%d\r\n",__func__,err_code);
+    NRF_LOG_DEFAULT_BACKENDS_INIT();
+}
 	
 int	main(void)
 {
@@ -528,6 +540,8 @@ int	main(void)
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
+	
+	log_init();
 #ifdef SBC_ENABLE
 	int codesize = 0;
 	sbc_init_msbc(&sbc, 0);
@@ -545,10 +559,10 @@ int	main(void)
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
 
-	cli_init();
+//	cli_init();
 	//	Uart_Send_String(1, "hello---1\n ");
 	printf("\r\n cli_init ok!!!\r\n");
-	nrf_cli_start(&m_cli_uart);
+//	nrf_cli_start(&m_cli_uart);
 		void  spim_flash_test(void);
 		void test_master_at24cxx_i2c(void);
 		//test_master_at24cxx_i2c();
@@ -557,6 +571,7 @@ int	main(void)
 		//flash_test();
     while(1) {
 		//	nrf_cli_process(&m_cli_uart);
+		//	NRF_LOG_FLUSH();
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{
@@ -568,6 +583,7 @@ int	main(void)
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
+			 NRF_LOG_FLUSH();
 		   LastTimeGulSystickCount=GulSystickCount;
 //			 if(LastTimeGulSystickCount % 100 == 0)
 //			 {

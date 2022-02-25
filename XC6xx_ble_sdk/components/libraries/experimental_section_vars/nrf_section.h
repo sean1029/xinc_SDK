@@ -68,7 +68,7 @@ extern "C" {
  */
 #if defined(__CC_ARM)
 #define NRF_SECTION_START_ADDR(section_name)       &CONCAT_2(section_name, $$Base)
-
+//define NRF_SECTION_START_ADDR(section_name)       &(section_name)
 #elif defined(__GNUC__)
 #define NRF_SECTION_START_ADDR(section_name)       &CONCAT_2(__start_, section_name)
 
@@ -141,6 +141,8 @@ extern "C" {
  * @hideinitializer
  */
 #if defined(__CC_ARM)
+//#define NRF_SECTION_ITEM_REGISTER(section_name, section_var) \
+//    section_var __attribute__ ((section(STRINGIFY(section_name)))) __attribute__((used))
 #define NRF_SECTION_ITEM_REGISTER(section_name, section_var) \
     section_var __attribute__ ((section(STRINGIFY(section_name)))) __attribute__((used))
 

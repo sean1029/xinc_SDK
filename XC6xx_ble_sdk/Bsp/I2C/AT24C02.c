@@ -403,12 +403,11 @@ void  i2c_at24c02_test(void)
 	}
 
 
-	AT24Cxx_write_buf(addr,i2c_tx_buf,80);
+	AT24Cxx_write_buf(addr,i2c_tx_buf,8);
   printf("write 20 bytes to AT24Cxx at address:%d\r\n",addr);
 
-	delay_ms(200);
-//return;
-	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
+	delay_ms(200);;
+//	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
 	
 	
 	printf("read data from address 0x%X \r\n",addr);

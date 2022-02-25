@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2016 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,50 +37,55 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#ifndef NRF_LOG_CTRL_INTERNAL_H
+#define NRF_LOG_CTRL_INTERNAL_H
+/**
+ * @cond (NODOX)
+ * @defgroup nrf_log_ctrl_internal Auxiliary internal types declarations
+ * @{
+ * @internal
+ */
+
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
+#if NRF_MODULE_ENABLED(NRF_LOG)
 
-#include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
+#define NRF_LOG_LFCLK_FREQ 32768
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
-{
-    ASSERT(p_ctx != NULL);
+#ifdef APP_TIMER_CONFIG_RTC_FREQUENCY
+#define LOG_TIMESTAMP_DEFAULT_FREQUENCY ((NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY == 0) ?              \
+                                       (NRF_LOG_LFCLK_FREQ/(APP_TIMER_CONFIG_RTC_FREQUENCY + 1)) : \
+                                        NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY)
+#else
+#define LOG_TIMESTAMP_DEFAULT_FREQUENCY NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY
+#endif
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
+#define NRF_LOG_INTERNAL_INIT(...)               \
+        nrf_log_init(GET_VA_ARG_1(__VA_ARGS__),  \
+                     GET_VA_ARG_1(GET_ARGS_AFTER_1(__VA_ARGS__, LOG_TIMESTAMP_DEFAULT_FREQUENCY)))
 
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
-}
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
+#define NRF_LOG_INTERNAL_PROCESS() nrf_log_frontend_dequeue()
+#define NRF_LOG_INTERNAL_FLUSH()            \
+    do {                                    \
+        while (NRF_LOG_INTERNAL_PROCESS()); \
+    } while (0)
 
-    if (p_fmt == NULL)
-    {
-        return;
-    }
+#define NRF_LOG_INTERNAL_FINAL_FLUSH()      \
+    do {                                    \
+        nrf_log_panic();                    \
+        NRF_LOG_INTERNAL_FLUSH();           \
+    } while (0)
 
-    va_list args = {0};
 
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
+#else // NRF_MODULE_ENABLED(NRF_LOG)
+#define NRF_LOG_INTERNAL_PROCESS()            false
+#define NRF_LOG_INTERNAL_FLUSH()
+#define NRF_LOG_INTERNAL_INIT(...) NRF_SUCCESS
+#define NRF_LOG_INTERNAL_HANDLERS_SET(default_handler, bytes_handler) \
+    UNUSED_PARAMETER(default_handler); UNUSED_PARAMETER(bytes_handler)
+#define NRF_LOG_INTERNAL_FINAL_FLUSH()
+#endif // NRF_MODULE_ENABLED(NRF_LOG)
 
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+/** @}
+ * @endcond
+ */
+#endif // NRF_LOG_CTRL_INTERNAL_H

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018 - 2020, Nordic Semiconductor ASA
+ * Copyright (c) 2017 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,57 +37,53 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef NRF_LOG_TYPES_H
-#define NRF_LOG_TYPES_H
-
-#include <stdint.h>
 
 /**
- * @brief Logger severity levels.
- */
-typedef enum
-{
-    NRF_LOG_SEVERITY_NONE,
-    NRF_LOG_SEVERITY_ERROR,
-    NRF_LOG_SEVERITY_WARNING,
-    NRF_LOG_SEVERITY_INFO,
-    NRF_LOG_SEVERITY_DEBUG,
-    NRF_LOG_SEVERITY_INFO_RAW, /* Artificial level to pass information about skipping string postprocessing.*/
-} nrf_log_severity_t;
-
-/**
- * @brief Structure holding dynamic data associated with a module.
+ * @defgroup nrf_strerror Error code to string converter
+ * @ingroup app_common
  *
- * See @ref NRF_LOG_MODULE_REGISTER and @ref NRF_LOG_INSTANCE_REGISTER.
+ * @brief Module for converting error code into a printable string.
+ * @{
  */
-typedef struct
-{
-    uint16_t     order_idx;     ///< Ordered index of the module (used for auto-completion).
-    uint16_t     filter;        ///< Current highest severity level accepted (redundant to @ref nrf_log_module_filter_data_t::filter_lvls, used for optimization)
-} nrf_log_module_dynamic_data_t;
+#ifndef NRF_STRERROR_H__
+#define NRF_STRERROR_H__
+
+#include "sdk_errors.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
- * @brief Structure holding dynamic filters associated with a module or instance if filtering is enabled (@ref NRF_LOG_FILTERS_ENABLED).
+ * @brief Function for getting a printable error string.
  *
- * @note Backend filters logically are part of @ref nrf_log_module_dynamic_data_t but they are kept separated to enable storing them in non-volatile memory.
+ * @param code Error code to convert.
+ *
+ * @note This function cannot fail.
+ *       For the function that may fail with error translation, see @ref nrf_strerror_find.
+ *
+ * @return Pointer to the printable string.
+ *         If the string is not found,
+ *         it returns a simple string that says that the error is unknown.
  */
-typedef struct
-{
-    uint32_t     filter_lvls;   ///< Current severity levels for each backend (3 bits per backend).
-} nrf_log_module_filter_data_t;
+char const * nrf_strerror_get(ret_code_t code);
 
 /**
- * @brief Structure holding constant data associated with a module or instance.
+ * @brief Function for finding a printable error string.
  *
- * See @ref NRF_LOG_MODULE_REGISTER and @ref NRF_LOG_INSTANCE_REGISTER.
+ * This function gets the error string in the same way as @ref nrf_strerror_get,
+ * but if the string is not found, it returns NULL.
+ *
+ * @param code  Error code to convert.
+ * @return      Pointer to the printable string.
+ *              If the string is not found, NULL is returned.
  */
-typedef struct
-{
-    const char *       p_module_name;    ///< Module or instance name.
-    uint8_t            info_color_id;    ///< Color code of info messages.
-    uint8_t            debug_color_id;   ///< Color code of debug messages.
-    nrf_log_severity_t compiled_lvl;     ///< Compiled highest severity level.
-    nrf_log_severity_t initial_lvl;      ///< Severity level for given module or instance set on backend initialization.
-} nrf_log_module_const_data_t;
+char const * nrf_strerror_find(ret_code_t code);
 
-#endif //NRF_LOG_TYPES_H
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* NRF_STRERROR_H__ */

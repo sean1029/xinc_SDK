@@ -37,50 +37,45 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
-#include <stdarg.h>
+#ifndef NRF_LOG_DEFAULT_BACKENDS_H__
+#define NRF_LOG_DEFAULT_BACKENDS_H__
 
-#include "nrf_assert.h"
-#include "nrf_fprintf_format.h"
+/**@file
+ * @addtogroup nrf_log Logger module
+ * @ingroup    app_common
+ *
+ * @defgroup nrf_log_default_backends Functions for initializing and adding default backends
+ * @{
+ * @ingroup  nrf_log
+ * @brief    The nrf_log default backends.
+ */
 
-void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx)
-{
-    ASSERT(p_ctx != NULL);
+#include "sdk_config.h"
+#include "sdk_errors.h"
+#include <stdbool.h>
 
-    if (p_ctx->io_buffer_cnt == 0)
-    {
-        return;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    p_ctx->fwrite(p_ctx->p_user_ctx,
-                  p_ctx->p_io_buffer,
-                  p_ctx->io_buffer_cnt);
-    p_ctx->io_buffer_cnt = 0;
+/**
+ * @def NRF_LOG_DEFAULT_BACKENDS_INIT
+ * @brief Macro for initializing default backends.
+ *
+ * Each backend enabled in configuration is initialized and added as a backend to the logger.
+ */
+#if NRF_LOG_ENABLED
+#define NRF_LOG_DEFAULT_BACKENDS_INIT() nrf_log_default_backends_init()
+#else
+#define NRF_LOG_DEFAULT_BACKENDS_INIT()
+#endif
+
+void nrf_log_default_backends_init(void);
+
+#ifdef __cplusplus
 }
-#include <stdio.h>
-void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
-                 char const *              p_fmt,
-                                           ...)
-{
-    ASSERT(p_ctx != NULL);
-    ASSERT(p_ctx->fwrite != NULL);
-    ASSERT(p_ctx->p_io_buffer != NULL);
-    ASSERT(p_ctx->io_buffer_size > 0);
+#endif
 
-    if (p_fmt == NULL)
-    {
-        return;
-    }
+/** @} */
 
-    va_list args = {0};
-
-    va_start(args, p_fmt);
-			
-    nrf_fprintf_fmt(p_ctx, p_fmt, &args);
-
-    va_end(args);
-}
-
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
-
+#endif // NRF_LOG_DEFAULT_BACKENDS_H__

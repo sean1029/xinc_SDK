@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 - 2020, Nordic Semiconductor ASA
+ * Copyright (c) 2011 - 2021, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -112,10 +112,10 @@ static nrf_strerror_desc_t const nrf_strerror_array[] =
     NRF_STRERROR_ENTITY(NRF_ERROR_FEATURE_NOT_ENABLED),
     NRF_STRERROR_ENTITY(NRF_ERROR_IO_PENDING),
 
-    /* I2C error codes */
-    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_I2C_ERR_OVERRUN),
-    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_I2C_ERR_ANACK),
-    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_I2C_ERR_DNACK),
+    /* TWI error codes */
+//    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_TWI_ERR_OVERRUN),
+//    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_TWI_ERR_ANACK),
+//    NRF_STRERROR_ENTITY(NRF_ERROR_DRV_TWI_ERR_DNACK),
 
     /* IPSP error codes */
     NRF_STRERROR_ENTITY(NRF_ERROR_BLE_IPSP_RX_PKT_TRUNCATED),
