@@ -108,8 +108,6 @@ static void timestamp_print(nrf_fprintf_ctx_t * p_ctx, uint32_t timestamp)
 static void prefix_process(nrf_log_str_formatter_entry_params_t * p_params,
                            nrf_fprintf_ctx_t * p_ctx)
 {
-	printf("prefix_process dropped:%d,severity:%d,use_colors:%d\r\n",p_params->dropped,p_params->severity,p_params->use_colors);
-	//	return;
     if (p_params->dropped)
     {
         nrf_fprintf(p_ctx,
@@ -127,12 +125,9 @@ static void prefix_process(nrf_log_str_formatter_entry_params_t * p_params,
                           m_colors[nrf_log_color_id_get( p_params->module_id, p_params->severity)]);
         }
         timestamp_print(p_ctx, p_params->timestamp);
-				printf("<%s> %s: ",
-           severity_names[p_params->severity], nrf_log_module_name_get(p_params->module_id, false));
-	//	return;
-//        nrf_fprintf(p_ctx, "<%s> %s: ",
-//           severity_names[p_params->severity], nrf_log_module_name_get(p_params->module_id, false));
-				 nrf_fprintf(p_ctx, "1234567");
+		//		printf("<%s> %s: ",severity_names[p_params->severity], nrf_log_module_name_get(p_params->module_id, false));
+
+        nrf_fprintf(p_ctx, "<%s> ",severity_names[p_params->severity]);
     }
 }
 

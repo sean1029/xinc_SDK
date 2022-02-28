@@ -136,6 +136,8 @@ static void interrupts_enable(nrfx_uart_t const * p_instance,
 		p_instance->p_reg->IER_DLH.IER = 0X03;//open tx/rx interrupt
 	
 		printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
+	
+	//	printf("p_instance->p_reg.IER:%p\r\n",&p_instance->p_reg->IER_DLH.IER);
               
 	
 		NVIC_EnableIRQ((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
@@ -155,8 +157,8 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
     NRFX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     nrfx_err_t err_code = NRFX_SUCCESS;
-	printf("%s,ch:%d\r\n",__func__,p_instance->drv_inst_idx);
-	printf("NRF_UART_Type size :%d\r\n",sizeof(NRF_UART_Type));
+	 printf("%s,ch:%d\r\n",__func__,p_instance->drv_inst_idx);
+	 printf("NRF_UART_Type size :%d\r\n",sizeof(NRF_UART_Type));
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
         err_code = NRFX_ERROR_INVALID_STATE;

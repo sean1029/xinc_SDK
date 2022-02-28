@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include "sdk_errors.h"
 #include "sdk_macros.h"
-#include "xinc_section.h"
+#include "nrf_section.h"
 #include <stdio.h>
 
 

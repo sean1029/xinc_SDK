@@ -61,6 +61,7 @@ extern "C" {
 #define LEDS_INV_MASK  LEDS_MASK
 
 #define LEDS_LIST { LED_1, LED_2, LED_3, LED_4 }
+//#define LEDS_LIST { LED_1, LED_2 }
 
 #define BSP_LED_0      LED_1
 #define BSP_LED_1      LED_2
@@ -81,7 +82,7 @@ extern "C" {
 #define BUTTONS_ACTIVE_STATE 0
 
 #define BUTTONS_LIST { BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4 }
-
+//#define BUTTONS_LIST { BUTTON_1, BUTTON_2 }
 #define BSP_BUTTON_0   BUTTON_1
 #define BSP_BUTTON_1   BUTTON_2
 #define BSP_BUTTON_2   BUTTON_3

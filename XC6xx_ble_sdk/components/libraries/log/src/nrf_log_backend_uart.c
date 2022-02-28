@@ -82,11 +82,6 @@ static void serial_tx(void const * p_context, char const * p_buffer, size_t len)
 {
     uint8_t len8 = (uint8_t)(len & 0x000000FF);
     m_xfer_done = false;
-		printf("serial_tx len:%d\r\n",len);
-		for(int i = 0;i < len;i ++)
-		{
-			printf("%c",p_buffer[i]);
-		}
 		
     ret_code_t err_code = nrf_drv_uart_tx(&m_uart, (uint8_t *)p_buffer, len8);
 		

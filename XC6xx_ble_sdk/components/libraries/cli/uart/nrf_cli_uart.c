@@ -90,9 +90,9 @@ static void uart_event_handler(nrf_drv_uart_event_t * p_event, void * p_context)
     switch (p_event->type)
     {
         case NRF_DRV_UART_EVT_ERROR:
-          //  NRF_LOG_WARNING("id:%d, evt: ERROR:%d",
-         //                   p_internal->p_uart->inst_idx,
-         //                   p_event->data.error.error_mask);
+            NRF_LOG_WARNING("id:%d, evt: ERROR:%d",
+                            p_internal->p_uart->inst_idx,
+                            p_event->data.error.error_mask);
             err_code = nrf_ringbuf_put(p_internal->p_rx_ringbuf, p_event->data.error.rxtx.bytes);
             ASSERT((err_code == NRF_SUCCESS) || (err_code == NRF_ERROR_NO_MEM));
             err_code = rx_try(p_internal);
@@ -157,6 +157,7 @@ static ret_code_t cli_uart_init(nrf_cli_transport_t const * p_transport,
 {
 	
 		printf("%s\r\n",__func__);
+		NRF_LOG_INFO("cli_uart_init");
     nrf_cli_uart_internal_t * p_internal =
                                        CONTAINER_OF(p_transport,
                                                     nrf_cli_uart_internal_t,

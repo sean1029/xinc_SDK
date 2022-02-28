@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "sdk_errors.h"
-#include "xinc_section.h"
+#include "nrf_section.h"
 
 #ifdef __cplusplus
 extern "C" {

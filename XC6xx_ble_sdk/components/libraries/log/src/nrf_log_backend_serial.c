@@ -77,7 +77,6 @@ void nrf_log_backend_serial_put(nrf_log_backend_t const * p_backend,
     if (header.base.generic.type == HEADER_TYPE_STD)
     {
         char const * p_log_str = (char const *)((uint32_t)header.base.std.addr );
-			  printf("base.std.addr:%x,str:%s\r\n",((uint32_t)header.base.std.addr),p_log_str);
         params.severity  = (nrf_log_severity_t)header.base.std.severity;
         uint32_t nargs = header.base.std.nargs;
         uint32_t args[NRF_LOG_MAX_NUM_OF_ARGS];

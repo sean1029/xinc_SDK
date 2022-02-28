@@ -115,6 +115,9 @@ NRF_LOG_MODULE_REGISTER();
 #define NRF_LOG_CONST_SECTION_VARS_GET(i)          NRF_SECTION_ITEM_GET(log_const_data, nrf_log_module_const_data_t, (i))
 #define NRF_LOG_CONST_SECTION_VARS_COUNT           NRF_SECTION_ITEM_COUNT(log_const_data, nrf_log_module_const_data_t)
 
+//  _name, _str_name, _info_color, _debug_color, _initial_lvl, _compiled_lvl) 
+//NRF_LOG_INTERNAL_ITEM_REGISTER(NRF_LOG_CONST_SECTION_NAME(_module_name),STRINGIFY(NRF_LOG_CONST_SECTION_NAME(_module_name)),0,0,3,4);
+
 ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timestamp_freq)
 {
     (void)NRF_LOG_ITEM_DATA_CONST(app);
@@ -146,6 +149,9 @@ ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timest
 
     uint32_t modules_cnt = NRF_LOG_CONST_SECTION_VARS_COUNT;
     uint32_t i;
+		printf("modules_cnt :%d\r\n",NRF_LOG_CONST_SECTION_VARS_COUNT);
+	//	printf("NRF_LOG_CONST:%s\r\n",STRINGIFY(NRF_LOG_CONST_SECTION_NAME(_module_name)));
+		
     if (NRF_LOG_FILTERS_ENABLED)
     {
         uint32_t j;
@@ -160,6 +166,7 @@ ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timest
                 {
                     char const * p_name0 = NRF_LOG_CONST_SECTION_VARS_GET(i)->p_module_name;
                     char const * p_name1 = NRF_LOG_CONST_SECTION_VARS_GET(j)->p_module_name;
+									  printf("p_name0 :%s,p_name1:%s\r\n",p_name0,p_name1);
                     if (strncmp(p_name0, p_name1, 20) > 0)
                     {
                         idx++;
@@ -574,7 +581,6 @@ static inline void std_n(uint32_t           severity_mid,
 {
     uint32_t mask   = m_buffer_mask;
     uint32_t wr_idx;
-		printf("std_n nargs:%d,%s\r\n",nargs,p_str);
     if (buf_prealloc(nargs, &wr_idx, true))
     {
         // Proceed only if buffer was successfully preallocated.
@@ -585,10 +591,8 @@ static inline void std_n(uint32_t           severity_mid,
         {
             m_log_data.buffer[data_idx++ & mask] =args[i];
         }
-				printf("wr_idx:%d\r\n",wr_idx);
         std_header_set(severity_mid, p_str, nargs, wr_idx, mask);
-				
-				printf("std_n autoflush:%d\r\n",m_log_data.autoflush);
+
     }
 
     if (m_log_data.autoflush)
@@ -612,7 +616,6 @@ static inline void std_n(uint32_t           severity_mid,
 
 void nrf_log_frontend_std_0(uint32_t severity_mid, char const * const p_str)
 {
-		printf("frontend_std_0 severity_mid:0x%x,str:%s\r\n",severity_mid,p_str);
     std_n(severity_mid, p_str, NULL, 0);
 }
 
@@ -842,7 +845,6 @@ bool nrf_log_frontend_dequeue(void)
         severity = header.base.std.severity;
 
         p_msg_buf = nrf_memobj_alloc(&log_mempool, msg_buf_size32*sizeof(uint32_t));
-				printf("p_msg_buf size:%d,%p\r\n",msg_buf_size32*sizeof(uint32_t),p_msg_buf);
         if (p_msg_buf)
         {
             nrf_memobj_get(p_msg_buf);
@@ -904,7 +906,6 @@ bool nrf_log_frontend_dequeue(void)
                 }
                 if (entry_accepted)
                 {
-										printf("nrf_log_backend_put\r\n");
                     nrf_log_backend_put(p_backend, p_msg_buf);
                 }
                 p_backend = p_backend->p_cb->p_next;

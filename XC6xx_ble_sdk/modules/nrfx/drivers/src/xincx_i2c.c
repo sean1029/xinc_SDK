@@ -49,13 +49,13 @@
 #include <hal/nrf_gpio.h>
 #include "bsp_clk.h"
 #define XINCX_LOG_MODULE I2C
-#include <nrfx_log.h>
-#define NRF_LOG_MODULE_NAME 	XINCX_LOG_MODULE
-#define NRF_LOG_LEVEL       (XINCX_I2C_CONFIG_LOG_ENABLED ? XINCX_I2C_CONFIG_LOG_LEVEL : 0)
-#define NRF_LOG_INFO_COLOR   XINCX_I2C_CONFIG_INFO_COLOR
-#define NRF_LOG_DEBUG_COLOR  XINCX_I2C_CONFIG_DEBUG_COLOR
 
-NRF_LOG_MODULE_REGISTER();
+//#define NRF_LOG_MODULE_NAME 	XINCX_LOG_MODULE
+//#define NRF_LOG_LEVEL       (XINCX_I2C_CONFIG_LOG_ENABLED ? XINCX_I2C_CONFIG_LOG_LEVEL : 0)
+//#define NRF_LOG_INFO_COLOR   XINCX_I2C_CONFIG_INFO_COLOR
+//#define NRF_LOG_DEBUG_COLOR  XINCX_I2C_CONFIG_DEBUG_COLOR
+#include <nrfx_log.h>
+//NRF_LOG_MODULE_REGISTER();
 
 #define EVT_TO_STR(event)                                      \
     (event == XINCX_I2C_EVT_DONE         ? "EVT_DONE"         : \
@@ -779,7 +779,6 @@ nrfx_err_t xincx_i2c_xfer(xincx_i2c_t           const * p_instance,
     NRFX_LOG_WARNING("Function: %s, error code: %s.",
                      __func__,
                      NRFX_LOG_ERROR_STRING_GET(err_code));
-		//NRFX_LOG_WARNING("Function: xincx_i2c_xfer, error code: \r\n" );
     return err_code;
 }
 

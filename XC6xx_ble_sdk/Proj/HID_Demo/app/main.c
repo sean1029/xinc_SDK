@@ -338,6 +338,8 @@ extern void extern_timer_list_handler(void);
 
 
 #include "bsp.h"
+
+
 static void bsp_evt_handler(bsp_event_t evt)
 {
     switch (evt)
@@ -378,6 +380,19 @@ static void bsp_evt_handler(bsp_event_t evt)
 
    
 }
+
+static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
+{
+	
+    #ifdef BSP_BUTTON_0
+    {BSP_BUTTON_0, false, BUTTON_PULLDOWN, bsp_evt_handler},
+    #endif // BUTTON_0
+
+    #ifdef BSP_BUTTON_1
+    {BSP_BUTTON_1, false, BUTTON_PULLDOWN, bsp_evt_handler},
+    #endif // BUTTON_1
+		
+	};
 #include "app_scheduler.h"
 // SCHEDULER CONFIGS
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
@@ -520,11 +535,12 @@ int	main(void)
 	btstack_main();
 	scheduler_init();
 	app_timer_init();
-		key_init();
+	key_init();
+	
 	//nrfx_gpiote_init();
 	  bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
-		
-		
+		log_init();
+	//app_button_init(app_buttons,2,50);
 	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
   // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
     // setup advertisements
@@ -541,7 +557,7 @@ int	main(void)
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
 	
-	log_init();
+	
 #ifdef SBC_ENABLE
 	int codesize = 0;
 	sbc_init_msbc(&sbc, 0);
@@ -558,10 +574,10 @@ int	main(void)
 	sys_run_timer.process = &system_run_timer_handler;
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
-
-//	cli_init();
+	
+	//cli_init();
 	//	Uart_Send_String(1, "hello---1\n ");
-	printf("\r\n cli_init ok!!!\r\n");
+//	printf("\r\n cli_init ok!!!\r\n");
 //	nrf_cli_start(&m_cli_uart);
 		void  spim_flash_test(void);
 		void test_master_at24cxx_i2c(void);
@@ -569,9 +585,10 @@ int	main(void)
         i2c_at24c02_test();
 //		spim_flash_test();
 		//flash_test();
+		printf("\r\n i2c_at24c02_test ok!!!\r\n");
     while(1) {
 		//	nrf_cli_process(&m_cli_uart);
-		//	NRF_LOG_FLUSH();
+		  //	NRF_LOG_FLUSH();
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{

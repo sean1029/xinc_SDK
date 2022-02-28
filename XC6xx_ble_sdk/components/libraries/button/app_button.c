@@ -281,6 +281,7 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
                          uint32_t                       detection_delay)
 {
     uint32_t err_code;
+	
 
     if (detection_delay < 2*APP_TIMER_MIN_TIMEOUT_TICKS)
     {
