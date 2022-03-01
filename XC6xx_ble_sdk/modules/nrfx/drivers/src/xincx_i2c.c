@@ -709,7 +709,6 @@ __STATIC_INLINE nrfx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
 		uint32_t reg;
 		p_i2c->i2c_INTR_EN = 0;
 		reg = p_i2c->i2c_CLR_INTR;
-
     if (p_cb->busy)
     {
         xinc_i2c_int_enable(p_i2c, p_cb->int_mask);
@@ -811,7 +810,7 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 {
     NRFX_ASSERT(p_cb->handler);
 
-		uint8_t val;
+		uint32_t reg;
     if (i2c_transfer(p_i2c, p_cb))
     {
         return;
@@ -821,7 +820,7 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 			return;
 		}
 		p_i2c->i2c_ENABLE = 0;
-		val = p_i2c->i2c_CLR_INTR;
+		reg = p_i2c->i2c_CLR_INTR;
 		p_i2c->i2c_INTR_EN = 0;
 		NRFX_IRQ_DISABLE(I2C_IRQn);
     if (!p_cb->error &&

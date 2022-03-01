@@ -55,3 +55,12 @@ void xc_i2c_clk_init(void)
 	__write_hw_reg32(CPR_I2C_CLK_CTL, 0x110011);                //-> i2c_mclk = 16mhz.
 	
 }
+
+void xc_saadc_clk_init(void)
+{
+  	__write_hw_reg32(CPR_RSTCTL_CTLAPB_SW , 0x10000000); /*先 使GPADC_RSTN=0，再使 GPADC_RSTN=1，软复位 GPADC 模块*/
+	__write_hw_reg32(CPR_RSTCTL_CTLAPB_SW , 0x10001000); /*先 使GPADC_RSTN=0，再使 GPADC_RSTN=1，软复位 GPADC 模块*/
+  __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x20002000);//使能GPADC_PCLK_EN 的GPADC_PCLK时钟
+	
+	
+}

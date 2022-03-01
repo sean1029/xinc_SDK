@@ -17,8 +17,8 @@
 #include "nrfx_gpiote.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
-
-
+#include "xinc_drv_saadc.h"
+#include "bsp_clk.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -515,6 +515,58 @@ static void log_init(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 	
+
+
+
+#define SAMPLES_IN_BUFFER 32
+static uint32_t              m_adc_evt_counter;
+static xinc_saadc_value_t     m_buffer_pool[2][SAMPLES_IN_BUFFER];
+
+void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
+{
+	printf("%s\n",__func__);
+	uint32_t val;
+    if (p_event->type == XINC_DRV_SAADC_EVT_DONE)
+    {
+	
+			val = p_event->data.done.adc_value;
+			printf("1.0v,channel=%d,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
+				p_event->data.done.channel, val,((val)*2.47)/(1.0*1024),   ((val)*2.47)/(1.0*1024));		
+    }
+}
+
+
+void saadc_init(void)
+{
+    ret_code_t err_code;
+		
+
+    xinc_saadc_channel_config_t channel_config =  XINC_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE;
+	
+    err_code = xinc_drv_saadc_init(NULL, saadc_callback);
+		
+    APP_ERROR_CHECK(err_code);
+	
+    err_code = xinc_drv_saadc_channel_init(4, &channel_config);
+		err_code = xinc_drv_saadc_channel_init(5, &channel_config);
+	
+    APP_ERROR_CHECK(err_code);
+	
+		err_code = xinc_drv_saadc_buffer_convert(m_buffer_pool[0], SAMPLES_IN_BUFFER);
+
+    APP_ERROR_CHECK(err_code);
+		printf("%s,%x\n",__func__,err_code);
+
+
+}
+ uint32_t min_val = 0xffff;
+ uint32_t max_val = 0;
+static void adc_config(void)
+{
+  
+		saadc_init();
+}
+
 int	main(void)
 {
 
@@ -526,9 +578,9 @@ int	main(void)
 
 	set_bd_addr();
 
-
+	//adc_config();
 	
-//	printf("%s\r\n",__func__);
+	printf("%s\r\n",__func__);
 
   ble_init((void *)&blestack_init);
 
@@ -536,10 +588,11 @@ int	main(void)
 	scheduler_init();
 	app_timer_init();
 	key_init();
-	
+//		adc_config();
 	//nrfx_gpiote_init();
-	  bsp_init(BSP_INIT_BUTTONS | BSP_INIT_LEDS,bsp_evt_handler);
-		log_init();
+	 // bsp_init(BSP_INIT_LEDS,bsp_evt_handler);//BSP_INIT_BUTTONS
+		gpio_direction_output(4);gpio_direction_output(5);
+	//	log_init();
 	//app_button_init(app_buttons,2,50);
 	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
   // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
@@ -582,7 +635,9 @@ int	main(void)
 		void  spim_flash_test(void);
 		void test_master_at24cxx_i2c(void);
 		//test_master_at24cxx_i2c();
-        i2c_at24c02_test();
+    //    i2c_at24c02_test();
+				
+		adc_config();
 //		spim_flash_test();
 		//flash_test();
 		printf("\r\n i2c_at24c02_test ok!!!\r\n");
@@ -602,10 +657,25 @@ int	main(void)
 	   {		   
 			 NRF_LOG_FLUSH();
 		   LastTimeGulSystickCount=GulSystickCount;
-//			 if(LastTimeGulSystickCount % 100 == 0)
-//			 {
-//					GPIO_OUTPUT_HIGH(5);
-//			 }
+			 
+			 if(LastTimeGulSystickCount == 100)
+			 {
+			//	adc_config();
+			 }
+			 int16_t gadc_val;
+			 if(LastTimeGulSystickCount % 600 == 0)
+			 {
+				 xinc_drv_saadc_sample(4);
+				// xinc_saadc_sample_convert(8,&gadc_val);
+				// printf("gadc_val:%d\r\n",gadc_val);
+			 }
+			 
+			 if(LastTimeGulSystickCount % 600 == 300)
+			 {
+				 xinc_drv_saadc_sample(5);
+				// xinc_saadc_sample_convert(8,&gadc_val);
+				// printf("gadc_val:%d\r\n",gadc_val);
+			 }
 //			 
 //			 if(LastTimeGulSystickCount % 100 == 50)
 //			 {

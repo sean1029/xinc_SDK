@@ -1183,6 +1183,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>adc</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_saadc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_saadc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2222,6 +2232,16 @@
               <FileName>nrf_log_backend_serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>adc</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_saadc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_saadc.c</FilePath>
             </File>
           </Files>
         </Group>

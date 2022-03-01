@@ -6,5 +6,6 @@ void xc_gpio_clk_init(void);
 
 void xc_spi_clk_init(uint8_t ch);
 void xc_i2c_clk_init(void);
+void xc_saadc_clk_init(void);
 #endif
 

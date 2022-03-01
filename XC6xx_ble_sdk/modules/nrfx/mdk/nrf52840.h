@@ -398,18 +398,43 @@ typedef struct {                                /*!< (@ 0x40006000) I2C Structur
 	
 } XINC_I2C_Type; 
 
+
+/* =========================================================================================================================== */
+/* ================                                           SAADC                                           ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief Successive approximation register (SAR) analog-to-digital converter (SAADC)
+  */
+
+typedef struct {                          /*!< (@ 0x40018000) SAADC Structure                                            */
+  __OM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000) Starts the SAADC and prepares the result buffer                                         */
+  __OM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004) Takes one SAADC sample                                     */
+  __OM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008) Stops the SAADC and terminates all on-going conversions    */
+  __OM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C) Starts offset auto-calibration                             */
+  __IM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010) Starts offset auto-calibration                             */
+  __IOM uint32_t  INT ;                      /*!< (@ 0x00000014) The SAADC has started                                      */
+  __IOM uint32_t  INT_RAW;                   /*!< (@ 0x00000018) The SAADC has filled up the result buffer                  */
+  __IOM uint32_t  INT_EN;                    /*!< (@ 0x0000001C) A conversion task has been completed. Depending            */
+  __IOM uint32_t  FIFO;                      /*!< (@ 0x00000020) Result ready for transfer to RAM                                   */
+  __IOM uint32_t  RF_CTL;                    /*!< (@ 0x00000054) Calibration is complete                                    */
+
+} XINC_SAADC_Type;  
+
+
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
 #define NRF_P0_BASE                 0x40001000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
-#define NRF_GPIOTE_BASE             0x40006000UL
-#define NRF_UART0_BASE              0x40010000UL
-#define NRF_UART1_BASE              0x40011000UL
+#define XINC_GPIOTE_BASE             0x40006000UL
+#define XINC_UART0_BASE              0x40010000UL
+#define XINC_UART1_BASE              0x40011000UL
 #define XINC_SPIM0_BASE              0x40013000UL
 #define XINC_SPIM1_BASE              0x40014000UL
 #define XINC_I2C0_BASE               0x40006000UL
-
+#define XINC_SAADC_BASE              0x40018000UL
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
 /* =========================================================================================================================== */
@@ -420,12 +445,13 @@ typedef struct {                                /*!< (@ 0x40006000) I2C Structur
   */
 #define NRF_P0                       ((NRF_GPIO_Type*)            NRF_P0_BASE)
 #define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
-#define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          NRF_GPIOTE_BASE)
-#define NRF_UART0                    ((NRF_UART_Type*)            NRF_UART0_BASE)
-#define NRF_UART1                    ((NRF_UART_Type*)            NRF_UART1_BASE)
-#define XINC_SPIM1										 ((XINC_SPIM_Type*)            XINC_SPIM1_BASE)
+#define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          XINC_GPIOTE_BASE)
+#define NRF_UART0                    ((NRF_UART_Type*)            XINC_UART0_BASE)
+#define NRF_UART1                    ((NRF_UART_Type*)            XINC_UART1_BASE)
+#define XINC_SPIM1										 ((XINC_SPIM_Type*)         XINC_SPIM1_BASE)
 
-#define XINC_I2C0										 ((XINC_I2C_Type*)            	XINC_I2C0_BASE)
+#define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
+#define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
 #ifdef __cplusplus
 }
 #endif

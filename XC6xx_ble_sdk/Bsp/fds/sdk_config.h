@@ -1035,6 +1035,201 @@
 
 // </e>
 
+// <e> NRFX_ADC_ENABLED - nrfx_adc - ADC peripheral driver
+//==========================================================
+#ifndef NRFX_ADC_ENABLED
+#define NRFX_ADC_ENABLED 0
+#endif
+// <o> NRFX_ADC_CONFIG_IRQ_PRIORITY  - Interrupt priority
+
+// <0=> 0 (highest)
+// <1=> 1
+// <2=> 2
+// <3=> 3
+
+#ifndef NRFX_ADC_CONFIG_IRQ_PRIORITY
+#define NRFX_ADC_CONFIG_IRQ_PRIORITY 3
+#endif
+
+// <e> NRFX_ADC_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef NRFX_ADC_CONFIG_LOG_ENABLED
+#define NRFX_ADC_CONFIG_LOG_ENABLED 0
+#endif
+// <o> NRFX_ADC_CONFIG_LOG_LEVEL  - Default Severity level
+
+// <0=> Off
+// <1=> Error
+// <2=> Warning
+// <3=> Info
+// <4=> Debug
+
+#ifndef NRFX_ADC_CONFIG_LOG_LEVEL
+#define NRFX_ADC_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> NRFX_ADC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+
+// <0=> Default
+// <1=> Black
+// <2=> Red
+// <3=> Green
+// <4=> Yellow
+// <5=> Blue
+// <6=> Magenta
+// <7=> Cyan
+// <8=> White
+
+#ifndef NRFX_ADC_CONFIG_INFO_COLOR
+#define NRFX_ADC_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> NRFX_ADC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+
+// <0=> Default
+// <1=> Black
+// <2=> Red
+// <3=> Green
+// <4=> Yellow
+// <5=> Blue
+// <6=> Magenta
+// <7=> Cyan
+// <8=> White
+
+#ifndef NRFX_ADC_CONFIG_DEBUG_COLOR
+#define NRFX_ADC_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
+// <e> XINCX_SAADC_ENABLED - xinc_saadc - SAADC peripheral driver
+//==========================================================
+#ifndef XINCX_SAADC_ENABLED
+#define XINCX_SAADC_ENABLED 1
+#endif
+// <o> XINCX_SAADC_CONFIG_RESOLUTION  - Resolution
+ 
+// <0=> 8 bit 
+// <1=> 10 bit 
+// <2=> 12 bit 
+// <3=> 14 bit 
+
+#ifndef XINCX_SAADC_CONFIG_RESOLUTION
+#define XINCX_SAADC_CONFIG_RESOLUTION 1
+#endif
+
+// <o> XINCX_SAADC_CONFIG_OVERSAMPLE  - Sample period
+ 
+// <0=> Disabled 
+// <1=> 2x 
+// <2=> 4x 
+// <3=> 8x 
+// <4=> 16x 
+// <5=> 32x 
+// <6=> 64x 
+// <7=> 128x 
+// <8=> 256x 
+
+#ifndef XINCX_SAADC_CONFIG_OVERSAMPLE
+#define XINCX_SAADC_CONFIG_OVERSAMPLE 0
+#endif
+
+// <o> XINCX_SAADC_CONFIG_FIFO_LEN  - Fifo len
+ 
+// <1=> 1 
+// <2=> 2 
+// <4=> 3 
+// <6=> 4 
+// <8=> 8 
+// <10=> 10 
+// <12=> 12 
+// <14=> 14 
+
+#ifndef XINCX_SAADC_CONFIG_FIFO_LEN
+#define XINCX_SAADC_CONFIG_FIFO_LEN 8
+#endif
+
+// <q> XINCX_SAADC_CONFIG_LP_MODE  - Enabling low power mode
+ 
+
+#ifndef XINCX_SAADC_CONFIG_LP_MODE
+#define XINCX_SAADC_CONFIG_LP_MODE 0
+#endif
+
+// <o> XINCX_SAADC_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_SAADC_CONFIG_IRQ_PRIORITY
+#define XINCX_SAADC_CONFIG_IRQ_PRIORITY 6
+#endif
+
+
+// <e> XINCX_SAADC_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_SAADC_CONFIG_LOG_ENABLED
+#define XINCX_SAADC_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_SAADC_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+#ifndef XINCX_SAADC_CONFIG_LOG_LEVEL
+#define XINCX_SAADC_CONFIG_LOG_LEVEL 3
+#endif
+
+
+// <o> XINCX_SAADC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_SAADC_CONFIG_INFO_COLOR
+#define XINCX_SAADC_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_SAADC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_SAADC_CONFIG_DEBUG_COLOR
+#define XINCX_SAADC_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
+
+
+
 // <e> UART_ENABLED - nrf_drv_uart - UART/UARTE peripheral driver - legacy layer
 //==========================================================
 #ifndef UART_ENABLED
