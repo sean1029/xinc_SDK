@@ -145,7 +145,6 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 	uint8_t tx_buf[AT24Cxx_ADDRESS_LEN + AT24Cxx_PAGESIZE];
 	
 	uint8_t PAGE;
-	uint32_t sizeI;
 
 	//检查写入数据的地址是否合法,写入的长度不能超过页面的大小
 	if (size > AT24Cxx_PAGESIZE)
@@ -407,18 +406,18 @@ void  i2c_at24c02_test(void)
   printf("write 20 bytes to AT24Cxx at address:%d\r\n",addr);
 
 	delay_ms(20);;
-	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
-	
-	
-	printf("read data from address 0x%X \r\n",addr);
-	for(int i = 0; i < 80;i++)
-	{
-		printf("%02d ",i2c_rx_buf[i]);
-		if(i % 16 == 15)
-		{
-			printf("\r\n");
-		}
-	}printf("\r\n");
+//	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
+//	
+//	
+//	printf("read data from address 0x%X \r\n",addr);
+//	for(int i = 0; i < 80;i++)
+//	{
+//		printf("%02d ",i2c_rx_buf[i]);
+//		if(i % 16 == 15)
+//		{
+//			printf("\r\n");
+//		}
+//	}printf("\r\n");
 	
 //	AT24Cxx_read_buf(addr,i2c_rx_buf,80);
 //	

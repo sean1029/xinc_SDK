@@ -409,20 +409,51 @@ typedef struct {                                /*!< (@ 0x40006000) I2C Structur
   */
 
 typedef struct {                          /*!< (@ 0x40018000) SAADC Structure                                            */
-  __OM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000) Starts the SAADC and prepares the result buffer                                         */
-  __OM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004) Takes one SAADC sample                                     */
-  __OM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008) Stops the SAADC and terminates all on-going conversions    */
-  __OM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C) Starts offset auto-calibration                             */
-  __IM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010) Starts offset auto-calibration                             */
-  __IOM uint32_t  INT ;                      /*!< (@ 0x00000014) The SAADC has started                                      */
-  __IOM uint32_t  INT_RAW;                   /*!< (@ 0x00000018) The SAADC has filled up the result buffer                  */
-  __IOM uint32_t  INT_EN;                    /*!< (@ 0x0000001C) A conversion task has been completed. Depending            */
-  __IOM uint32_t  FIFO;                      /*!< (@ 0x00000020) Result ready for transfer to RAM                                   */
-  __IOM uint32_t  RF_CTL;                    /*!< (@ 0x00000054) Calibration is complete                                    */
+  __IOM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000) Starts the SAADC and prepares the result buffer                                         */
+  __IOM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004) Takes one SAADC sample                                     */
+  __IOM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008) Stops the SAADC and terminates all on-going conversions    */
+  __IOM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C) Starts offset auto-calibration                             */
+  __IOM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010) Starts offset auto-calibration                             */
+  __IOM  uint32_t  INT ;                      /*!< (@ 0x00000014) The SAADC has started                                      */
+  __IM   uint32_t  INT_RAW;                   /*!< (@ 0x00000018) The SAADC has filled up the result buffer                  */
+  __IOM  uint32_t  INT_EN;                    /*!< (@ 0x0000001C) A conversion task has been completed. Depending            */
+  __IM   uint32_t  FIFO;                      /*!< (@ 0x00000020) Result ready for transfer to RAM                                   */
+  __IOM  uint32_t  RF_CTL;                    /*!< (@ 0x00000054) Calibration is complete                                    */
 
 } XINC_SAADC_Type;  
 
 
+/* =========================================================================================================================== */
+/* ================                                           RTC0                                            ================ */
+/* =========================================================================================================================== */
+/**
+  * @brief Real time counter 0 (RTC0)
+  */
+
+typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                                                                                  */
+  __IM   uint32_t  CCVR;                     /*!< (@ 0x00000000) current count value register                                                     */
+  __IOM  uint32_t  CLR;                      /*!< (@ 0x00000004) Counter initial value setting register                                           */
+  __IOM  uint32_t  CMR_ONE;                  /*!< (@ 0x00000008) Timing Match Register 1                                                          */
+  __IOM  uint32_t  CMR_TWO;                  /*!< (@ 0x0000000C) Timing Match Register 2                                                          */
+  __IOM  uint32_t  CMR_THREE;				 /*!< (@ 0x00000010) Timing Match Register 3                                                          */
+  __IOM  uint32_t  ICR;                      /*!< (@ 0x00000014) Interrupt Control Register                                                       */
+  __IOM  uint32_t  ISR_EOI;                  /*!< (@ 0x00000018) The interrupt status register and the interrupt clear register share one         */
+  __IM   uint32_t  WVR	;                    /*!< (@ 0x0000001C) Current Week Counter Value Register                                              */
+  __IOM  uint32_t  WLR;                      /*!< (@ 0x00000020) Week counter initial value setting register                                      */
+  __IOM  uint32_t  RAW_LIMIT;                /*!< (@ 0x00000024) Counting frequency setting register                                              */
+  __IOM  uint32_t  SECOND_LIMIT;             /*!< (@ 0x00000028) Second count upper limit control register                                        */
+  __IOM  uint32_t  MINUTE_LIMIT;             /*!< (@ 0x0000002C) Minute count upper limit control register                                        */
+  __IOM  uint32_t  HOUR_LIMIT;               /*!< (@ 0x00000030) hour count upper limit control register                                          */
+  __IM   uint32_t  ISR_RAW;                  /*!< (@ 0x00000034) interrupt raw status register                                                    */
+  __IM   uint32_t  RVR;                      /*!< (@ 0x00000038) Current second count value register                                              */
+	__IOM  uint32_t  RESERVED0;
+  __IOM  uint32_t  AO_TIMER_CTL;             /*!< (@ 0x00000040) 16-bit Counter Control Register                                                  */
+  __IOM  uint32_t  AO_GPIO_MODE_;             /*!< (@ 0x00000044) GPIO Mode Configuration Register                                                 */
+  __IOM  uint32_t  AO_GPIO_CTL;              /*!< (@ 0x00000048) GPIO Control Register                                                            */
+  __IOM  uint32_t  ALL_INTR_AO; 			 /*!< (@ 0x0000004C) AO Interrupt Register                                                            			*/													
+  __IM   uint32_t  FREQ_32K_TIMER_VAL;       /*!< (@ 0x00000050) FREQ_TIMER value register                                                        */			
+  
+} NRF_RTC_Type;   
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
@@ -435,6 +466,7 @@ typedef struct {                          /*!< (@ 0x40018000) SAADC Structure   
 #define XINC_SPIM1_BASE              0x40014000UL
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
+#define NRF_RTC0_BASE               0x40002000UL
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
 /* =========================================================================================================================== */
@@ -452,6 +484,7 @@ typedef struct {                          /*!< (@ 0x40018000) SAADC Structure   
 
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
 #define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
+#define NRF_RTC0                    ((NRF_RTC_Type*)           NRF_RTC0_BASE)
 #ifdef __cplusplus
 }
 #endif

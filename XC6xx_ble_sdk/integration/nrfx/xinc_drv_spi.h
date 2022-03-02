@@ -278,7 +278,7 @@ typedef struct
 /**
  * @brief SPI master driver event handler type.
  */
-typedef void (* xinc_drv_spi_evt_handler_t)(xinc_drv_spi_evt_t  * p_event,
+typedef void (* xinc_drv_spi_evt_handler_t)(xinc_drv_spi_evt_t   const * p_event,
                                            void *                    p_context);
 
 

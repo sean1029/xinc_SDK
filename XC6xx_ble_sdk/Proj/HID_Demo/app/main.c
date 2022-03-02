@@ -18,6 +18,7 @@
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
 #include "xinc_drv_saadc.h"
+#include "nrf_drv_rtc.h"
 #include "bsp_clk.h"
 uint8_t flag_show_hci = 0;
 
@@ -340,42 +341,16 @@ extern void extern_timer_list_handler(void);
 #include "bsp.h"
 
 
-static void bsp_evt_handler(bsp_event_t evt)
+static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
-    switch (evt)
+		switch (pin_no)
     {
-        case BSP_EVENT_KEY_0:
-						printf("button 0 push,evt: %d\n",BSP_EVENT_KEY_0);
-					//	xinc_drv_spi_transfer(&m_spi,buff1,280,buff3,280);
-						bsp_board_led_on(0);
-            break;
-
-        case BSP_EVENT_KEY_1:
-					
-				printf("button 0 long push,evt: %d\n",BSP_EVENT_KEY_1);
-            break;
-
-        case BSP_EVENT_KEY_2:
-					printf("button 0 release ,evt: %d\n",BSP_EVENT_KEY_2);
-				bsp_board_led_off(0);
-            break;
-
-         case BSP_EVENT_KEY_3:
-						printf("button 1 push,evt: %d\n",BSP_EVENT_KEY_3);
-				 bsp_board_led_on(1);
-            break;
-
-        case BSP_EVENT_KEY_4:
-						printf("button 1 long push,evt: %d\n",BSP_EVENT_KEY_4);
-            break;
-
-        case BSP_EVENT_KEY_5:
-          printf("button 1 release ,evt: %d\n",BSP_EVENT_KEY_5);
-				 bsp_board_led_off(1);
+			case 0:
             break;
 
         default:
-            break; //No implementation needed
+            APP_ERROR_HANDLER(pin_no);
+            break;
     }
 
    
@@ -385,11 +360,11 @@ static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
 {
 	
     #ifdef BSP_BUTTON_0
-    {BSP_BUTTON_0, false, BUTTON_PULLDOWN, bsp_evt_handler},
+    {BSP_BUTTON_0, false, BUTTON_PULLDOWN, bsp_button_event_handler},
     #endif // BUTTON_0
 
     #ifdef BSP_BUTTON_1
-    {BSP_BUTTON_1, false, BUTTON_PULLDOWN, bsp_evt_handler},
+    {BSP_BUTTON_1, false, BUTTON_PULLDOWN, bsp_button_event_handler},
     #endif // BUTTON_1
 		
 	};
@@ -567,6 +542,50 @@ static void adc_config(void)
 		saadc_init();
 }
 
+const nrfx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+
+static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
+{
+		nrf_rtc_time_t rtc_time_val;
+    if (int_type == NRFX_RTC_INT_SEC)
+    {
+       nrf_rtc_val_get(rtc.p_reg,&rtc_time_val);
+			
+			 printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+    }
+    else if (int_type == NRFX_RTC_INT_TIME1)
+    {
+       nrf_rtc_val_get(rtc.p_reg,&rtc_time_val);
+			
+			 printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+    }
+}
+
+static void rtc_config(void)
+{
+    uint32_t err_code;
+   
+    //Initialize RTC instance
+    nrfx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+		config.freq = 29790;
+    err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
+   
+		nrfx_rtc_match_config_t time;
+		memset(&time,0,sizeof(time));
+		time.times.sec = 10;
+		time.times.min = 0;
+		time.times.week = NRFX_RTC_WEEK_MATCH_SUNDAY | NRFX_RTC_WEEK_MATCH_MONDAY;
+		nrf_drv_rtc_time_set(&rtc,0,time,true);
+    //Power on RTC instance
+    nrfx_rtc_enable(&rtc);
+		nrf_drv_rtc_sec_int_enable(&rtc,true);
+//	while(1)
+	{
+		//for(int i=0;i<0x455000;i++);
+	//	nrf_rtc_val_get(rtc.p_reg,val);
+	};
+}
+
 int	main(void)
 {
 
@@ -578,8 +597,6 @@ int	main(void)
 
 	set_bd_addr();
 
-	//adc_config();
-	
 	printf("%s\r\n",__func__);
 
   ble_init((void *)&blestack_init);
@@ -588,11 +605,11 @@ int	main(void)
 	scheduler_init();
 	app_timer_init();
 	key_init();
-//		adc_config();
+	rtc_config();
 	//nrfx_gpiote_init();
 	 // bsp_init(BSP_INIT_LEDS,bsp_evt_handler);//BSP_INIT_BUTTONS
 		gpio_direction_output(4);gpio_direction_output(5);
-	//	log_init();
+		log_init();
 	//app_button_init(app_buttons,2,50);
 	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
   // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
@@ -635,15 +652,15 @@ int	main(void)
 		void  spim_flash_test(void);
 		void test_master_at24cxx_i2c(void);
 		//test_master_at24cxx_i2c();
-    //    i2c_at24c02_test();
+  //  i2c_at24c02_test();
 				
-		adc_config();
+	//	adc_config();
 //		spim_flash_test();
 		//flash_test();
 		printf("\r\n i2c_at24c02_test ok!!!\r\n");
     while(1) {
 		//	nrf_cli_process(&m_cli_uart);
-		  //	NRF_LOG_FLUSH();
+		  	NRF_LOG_FLUSH();
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{
@@ -665,14 +682,14 @@ int	main(void)
 			 int16_t gadc_val;
 			 if(LastTimeGulSystickCount % 600 == 0)
 			 {
-				 xinc_drv_saadc_sample(4);
+			//	 xinc_drv_saadc_sample(8);
 				// xinc_saadc_sample_convert(8,&gadc_val);
 				// printf("gadc_val:%d\r\n",gadc_val);
 			 }
 			 
 			 if(LastTimeGulSystickCount % 600 == 300)
 			 {
-				 xinc_drv_saadc_sample(5);
+			//	 xinc_drv_saadc_sample(5);
 				// xinc_saadc_sample_convert(8,&gadc_val);
 				// printf("gadc_val:%d\r\n",gadc_val);
 			 }

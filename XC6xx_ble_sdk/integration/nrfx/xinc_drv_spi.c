@@ -48,7 +48,7 @@ static xinc_drv_spi_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];
 
 #ifdef SPIM_PRESENT
-static void spim_evt_handler(xincx_spim_evt_t  * p_event,
+static void spim_evt_handler(xincx_spim_evt_t   const * p_event,
                              void *                  p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;
@@ -96,8 +96,9 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
         config_spim.bit_order      = (xinc_spim_bit_order_t)p_config->bit_order;
         result = xincx_spim_init(&p_instance->u.spim,
                                 &config_spim,
-                                handler ? spim_evt_handler : NULL,
+                                handler ? spim_evt_handler : NULL,//spim_evt_handler
                                 (void *)inst_idx);
+			// xincx_spim_evt_handler_t
 #endif
     }
     return result;

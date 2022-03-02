@@ -842,11 +842,11 @@ uint8_t buff16[60];
 
 static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
-static void spi_handler(xinc_drv_spi_evt_t * p_event,
+static void spi_handler(xinc_drv_spi_evt_t const* p_event,
                         void *                    p_context)
 {
 //	printf("%s,type:%d\r\n",__func__,p_event->type);
-	
+//	
 	uint8_t *tx_data = p_event->data.done.p_tx_buffer;
 	uint8_t *rx_data = p_event->data.done.p_rx_buffer;
 	spi_xfer_done = true;
@@ -1184,7 +1184,7 @@ void spim_flash_test(void)
 									};
 		err_code = xinc_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
 								
-		
+									printf("xinc_drv_spi_init:err_code:0x%x",err_code);
 		spim_flash_Read_MID(r_buf);
 		printf("mid:");
 		for(int i = 0;i < 3;i++)

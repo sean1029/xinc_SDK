@@ -178,7 +178,7 @@ static void timer2_init(uint32_t prescaler)
 }
 
 
-/**@brief Function for starting the RTC1 timer.
+/**@brief Function for starting the timer.
  */
 static void timer2_start(void)
 {
@@ -188,7 +188,7 @@ static void timer2_start(void)
 }
 
 
-/**@brief Function for stopping the RTC1 timer.
+/**@brief Function for stopping the timer.
  */
 static void timer2_stop(void)
 {

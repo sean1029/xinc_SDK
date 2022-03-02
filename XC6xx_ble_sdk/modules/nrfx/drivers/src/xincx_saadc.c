@@ -5,7 +5,7 @@
 #include <xincx_saadc.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
-#define NRFX_LOG_MODULE SAADC
+//#define NRFX_LOG_MODULE SAADC
 #include <nrfx_log.h>
 
 #if !defined(XINCX_SAADC_API_V2)
@@ -194,7 +194,7 @@ void xincx_saadc_uninit(void)
 nrfx_err_t xincx_saadc_channel_init(uint8_t                                  channel,
                                    xinc_saadc_channel_config_t const * const p_config)
 {
-	nrfx_err_t err_code;
+	nrfx_err_t err_code = NRFX_SUCCESS;
 	    // A channel can only be initialized if the driver is in the idle state.
 	if (m_cb.adc_state != NRF_SAADC_STATE_IDLE)
 	{
@@ -220,6 +220,12 @@ nrfx_err_t xincx_saadc_channel_init(uint8_t                                  cha
 	m_cb.active_channels = channel;
 
 	xinc_saadc_channel_init(channel, p_config);
+	NRFX_LOG_INFO("Function: %s, error code: %s.",
+											 __func__,
+											 NRFX_LOG_ERROR_STRING_GET(err_code));
+	printf("Function: %s, error code: %s.\r\n",
+											 __func__,
+											 NRFX_LOG_ERROR_STRING_GET(err_code));
 	return NRFX_SUCCESS;
 }
 
@@ -256,7 +262,7 @@ nrfx_err_t xincx_saadc_sample_convert(uint8_t channel, xinc_saadc_value_t * p_va
 		err_code = NRFX_ERROR_TIMEOUT;
 		NRFX_LOG_ERROR("Function: %s, error code: %s.",
 											 __func__,
-											 NRFX_LOG_ERROR_STRING_GET(err_code));
+											 NRFX_LOG_ERROR_STRING_GET(err_code)); 
 		return err_code;
 	}
 
@@ -345,8 +351,8 @@ nrfx_err_t xincx_saadc_buffer_convert(xinc_saadc_value_t * p_buffer, uint16_t si
 nrfx_err_t xincx_saadc_sample(uint8_t channel)
 {
 	nrfx_err_t err_code = NRFX_SUCCESS;
-	static uint32_t INT_reg;
-	INT_reg = XINC_SAADC->INT;
+	static uint32_t reg;
+	reg = XINC_SAADC->INT;
 	if (m_cb.adc_state != NRF_SAADC_STATE_BUSY)
 	{
 			err_code = NRFX_ERROR_INVALID_STATE;
@@ -356,17 +362,11 @@ nrfx_err_t xincx_saadc_sample(uint8_t channel)
 	XINC_SAADC->CHAN_CTL = channel;
 	m_cb.active_channels = channel;
 	xinc_saadc_fifo_clear();
-//	NRF_SAADC->FIFO_CTL = 0x8;
-	INT_reg = XINC_SAADC->INT;
-	
+	reg = XINC_SAADC->INT;
 	
 	XINC_SAADC->INT_EN = 0x03;
-	XINC_SAADC->INT = INT_reg;
+	XINC_SAADC->INT = reg;
 	
-//	printf("xinc_saadc_sample ch:%d,INT_reg:0x%x,INT_EN:0x%x,MAIN_CTL:0x%x\r\n", m_cb.active_channels,INT_reg,NRF_SAADC->INT_EN,NRF_SAADC->MAIN_CTL);
-	GPIO_OUTPUT_LOW(5);
-	GPIO_OUTPUT_HIGH(5);
-	GPIO_OUTPUT_LOW(5);
 	NRFX_IRQ_ENABLE(GADC_IRQn);
 	XINC_SAADC->MAIN_CTL = 0x9;
 
