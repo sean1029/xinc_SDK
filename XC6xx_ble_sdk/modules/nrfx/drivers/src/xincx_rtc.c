@@ -46,7 +46,7 @@
 #error "No enabled RTC instances. Check <nrfx_config.h>."
 #endif
 
-#include <nrfx_rtc.h>
+#include <xincx_rtc.h>
 #include "bsp_clk.h"
 
 #define NRFX_LOG_MODULE RTC
@@ -58,17 +58,17 @@ typedef struct
     nrfx_drv_state_t state;        /**< Instance state. */
     bool             reliable;     /**< Reliable mode flag. */
     uint8_t          tick_latency; /**< Maximum length of interrupt handler in ticks (max 7.7 ms). */
-} nrfx_rtc_cb_t;
+} xincx_rtc_cb_t;
 
 // User callbacks local storage.
-static nrfx_rtc_handler_t m_handlers[NRFX_RTC_ENABLED_COUNT];
-static nrfx_rtc_handler_t m_AoTimehandlers[NRFX_RTC_ENABLED_COUNT];
-static nrfx_rtc_cb_t      m_cb[NRFX_RTC_ENABLED_COUNT];
+static xincx_rtc_handler_t m_handlers[NRFX_RTC_ENABLED_COUNT];
+static xincx_rtc_handler_t m_AoTimehandlers[NRFX_RTC_ENABLED_COUNT];
+static xincx_rtc_cb_t      m_cb[NRFX_RTC_ENABLED_COUNT];
 static volatile uint8_t 						calibration_flag;
 
-nrfx_err_t nrfx_rtc_init(nrfx_rtc_t const * const  p_instance,
-                         nrfx_rtc_config_t const * p_config,
-                         nrfx_rtc_handler_t        handler)
+nrfx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
+                         xincx_rtc_config_t const * p_config,
+                         xincx_rtc_handler_t        handler)
 {
 
    
@@ -157,26 +157,26 @@ nrfx_err_t nrfx_rtc_init(nrfx_rtc_t const * const  p_instance,
 }
 
 
-void nrfx_rtc_uninit(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_uninit(xincx_rtc_t const * const p_instance)
 {
 	m_cb[p_instance->instance_id].state        = NRFX_DRV_STATE_UNINITIALIZED;
 }
 
 
-void nrfx_rtc_enable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_enable(xincx_rtc_t const * const p_instance)
 {
 	NRFX_ASSERT(m_cb[p_instance->instance_id].state == NRFX_DRV_STATE_INITIALIZED);
 
 	p_instance->p_reg->ICR |= 0x100;
 }
 
-void nrfx_rtc_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_disable(xincx_rtc_t const * const p_instance)
 {
-	p_instance->p_reg->ICR = 0x00;
+	p_instance->p_reg->ICR &= ~0x100;
 }
 
 
-void nrfx_rtc_sec_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_sec_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_SEC_MASK;
@@ -186,13 +186,13 @@ void nrfx_rtc_sec_int_enable(nrfx_rtc_t const * const p_instance, bool enable_ir
     }
 }
 
-void nrfx_rtc_sec_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_sec_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_SEC_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_min_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_min_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_MIN_MASK;
@@ -202,13 +202,13 @@ void nrfx_rtc_min_int_enable(nrfx_rtc_t const * const p_instance, bool enable_ir
     }
 }
 
-void nrfx_rtc_min_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_min_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_MIN_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_hour_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_hour_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_HOUR_MASK;
@@ -218,13 +218,13 @@ void nrfx_rtc_hour_int_enable(nrfx_rtc_t const * const p_instance, bool enable_i
     }
 }
 
-void nrfx_rtc_hour_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_hour_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_HOUR_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_day_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_day_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_DAY_MASK;
@@ -234,13 +234,13 @@ void nrfx_rtc_day_int_enable(nrfx_rtc_t const * const p_instance, bool enable_ir
     }
 }
 
-void nrfx_rtc_day_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_day_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_DAY_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_time1_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_time1_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_TIME1_MASK;
@@ -250,13 +250,13 @@ void nrfx_rtc_time1_int_enable(nrfx_rtc_t const * const p_instance, bool enable_
     }
 }
 
-void nrfx_rtc_time1_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_time1_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_TIME1_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_time2_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_time2_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_TIME2_MASK;
@@ -266,13 +266,13 @@ void nrfx_rtc_time2_int_enable(nrfx_rtc_t const * const p_instance, bool enable_
     }
 }
 
-void nrfx_rtc_time2_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_time2_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_TIME2_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_time3_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_time3_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_TIME3_MASK;
@@ -282,13 +282,13 @@ void nrfx_rtc_time3_int_enable(nrfx_rtc_t const * const p_instance, bool enable_
     }
 }
 
-void nrfx_rtc_time3_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_time3_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_TIME3_MASK;
     nrf_rtc_int_disable(p_instance->p_reg, mask);
 }
 
-void nrfx_rtc_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
+void xincx_rtc_int_enable(xincx_rtc_t const * const p_instance, bool enable_irq)
 {
    
     uint32_t mask = NRF_RTC_INT_ALL_MASK;
@@ -298,17 +298,18 @@ void nrfx_rtc_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq)
     }
 }
 
-void nrfx_rtc_int_disable(nrfx_rtc_t const * const p_instance)
+void xincx_rtc_int_disable(xincx_rtc_t const * const p_instance)
 {
     uint32_t mask = NRF_RTC_INT_ALL_MASK;
     nrf_rtc_int_enable(p_instance->p_reg, mask);
 }
 
-nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
-                           nrfx_rtc_match_timer_ch_t                 channel,
-                           nrfx_rtc_match_config_t  config ,
+nrfx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
+                           xincx_rtc_match_timer_ch_t                 channel,
+                           xincx_rtc_match_config_t  config ,
                            bool                     enable_irq)
 {
+		nrfx_err_t err_code = NRFX_SUCCESS;
 		__IOM uint32_t *reg = NULL;
 		uint8_t irq_idx;
 		switch(channel)
@@ -331,7 +332,9 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
 				irq_idx = 6;
 			}break;
 			
-			default:break;
+			default:
+					err_code = NRFX_ERROR_INVALID_PARAM;
+			break;
 		}
 		
 		if(reg != NULL)
@@ -345,12 +348,13 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
 			 printf("ICR:0x%x\r\n",p_instance->p_reg->ICR);
 		}
 		
-
+	return err_code ;
 }
 
-nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, nrfx_rtc_match_timer_ch_t channel)
+nrfx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel)
 {
 	uint8_t irq_idx;
+	nrfx_err_t err_code = NRFX_SUCCESS;
 	switch(channel)
 		{
 			case NRFX_RTC_MATCH_TIME_1:
@@ -369,30 +373,32 @@ nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, nrfx_rtc_m
 				irq_idx = 6;
 			}break;
 			
-			default:break;
+			default:
+				err_code = NRFX_ERROR_INVALID_PARAM;
+			break;
 		}
 		nrf_rtc_int_disable(p_instance->p_reg, 0x01 << irq_idx);
+		
+		return err_code ;
 }
 
-
-nrfx_err_t nrfx_rtc_AOtime_set(nrfx_rtc_t const * const p_instance,                         
+void xincx_rtc_AOtime_set(xincx_rtc_t const * const p_instance,                         
                            uint32_t  tick)
 {
-	//	printf("AOtime_set:%d\r\n",tick);
+
 		p_instance->p_reg->AO_TIMER_CTL = 0;
 		p_instance->p_reg->AO_TIMER_CTL = tick;
 		p_instance->p_reg->AO_TIMER_CTL |= (0x01 << 17);
-
 }
 
-nrfx_err_t nrfx_rtc_date_set(nrfx_rtc_t const * const p_instance,                         
+void xincx_rtc_date_set(xincx_rtc_t const * const p_instance,                         
                            nrf_rtc_time_t  date)
 {
 		nrf_rtc_date_set(p_instance->p_reg,date);
 
 }
 
-nrfx_err_t nrfx_rtc_date_get(nrfx_rtc_t const * const p_instance,                         
+void xincx_rtc_date_get(xincx_rtc_t const * const p_instance,                         
                            nrf_rtc_time_t  *date)
 {
 		nrf_rtc_date_get(p_instance->p_reg,date);
@@ -410,14 +416,20 @@ static void irq_handler(NRF_RTC_Type * p_reg,
 		reg = p_reg->AO_TIMER_CTL;
 		reg |= 0x01 << 16;
 		p_reg->AO_TIMER_CTL = reg;
-		if(m_cb[instance_id].state == NRFX_DRV_STATE_UNINITIALIZED)
+		calibration_flag = 1;
+//		if(m_cb[instance_id].state == NRFX_DRV_STATE_UNINITIALIZED)
+//		{
+//			NRFX_LOG_INFO("RTC 32K  calibration ok.\r\n");
+//			calibration_flag = 1;
+//			printf("RTC 32K calibration ok.\r\n");
+//		}
+		//else
 		{
-			NRFX_LOG_INFO("RTC 32K  calibration ok.\r\n");
-			calibration_flag = 1;
-			printf("RTC 32K calibration ok.\r\n");
-		}else
-		{
-			m_AoTimehandlers[instance_id](NRFX_RTC_INT_AOTIME);
+			if(m_AoTimehandlers[instance_id])
+			{
+				m_AoTimehandlers[instance_id](NRFX_RTC_INT_AOTIME);
+			}
+			
 		}
 	}
 	
@@ -446,7 +458,7 @@ static void irq_handler(NRF_RTC_Type * p_reg,
 }
 
 #if NRFX_CHECK(NRFX_RTC0_ENABLED)
-void nrfx_rtc_0_irq_handler(void)
+void xincx_rtc_0_irq_handler(void)
 {
     irq_handler(NRF_RTC0, NRFX_RTC0_INST_IDX);
 }
@@ -456,7 +468,7 @@ void nrfx_rtc_0_irq_handler(void)
 void RTC_Handler(void)
 {
 			
-		nrfx_rtc_0_irq_handler();
+		xincx_rtc_0_irq_handler();
 }
 
 #endif

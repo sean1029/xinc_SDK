@@ -36,7 +36,7 @@
 // <e> FDS_ENABLED - fds - Flash data storage module
 //==========================================================
 #ifndef FDS_ENABLED
-#define FDS_ENABLED 1
+#define FDS_ENABLED 0
 #endif
 
 
@@ -206,7 +206,7 @@
 // <e> NRF_LOG_ENABLED - nrf_log - Logger
 //==========================================================
 #ifndef NRF_LOG_ENABLED
-#define NRF_LOG_ENABLED 1
+#define NRF_LOG_ENABLED 0
 #endif
 
 // </e>
@@ -430,7 +430,7 @@
 // <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
 #ifndef XINCX_I2C_ENABLED
-#define XINCX_I2C_ENABLED 1
+#define XINCX_I2C_ENABLED 0
 #endif
 
 // <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
@@ -526,7 +526,7 @@
 // <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef XINCX_SPIM_ENABLED
-#define XINCX_SPIM_ENABLED 1
+#define XINCX_SPIM_ENABLED 0
 #endif
 // <q> XINCX_SPIM1_ENABLED  - Enable SPIM1 instance
  
@@ -558,7 +558,7 @@
 #endif
 // </e>
 
-// <e> NRFX_RTC_ENABLED - nrfx_rtc - RTC peripheral driver
+// <e> NRFX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
 #ifndef NRFX_RTC_ENABLED
 #define NRFX_RTC_ENABLED 1

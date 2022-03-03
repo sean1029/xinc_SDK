@@ -101,7 +101,7 @@ ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
     NRF_FSTORAGE_PARAM_CHECK(addr_is_aligned32(dest),                NRF_ERROR_INVALID_ADDR);
     NRF_FSTORAGE_PARAM_CHECK(addr_is_aligned32((uint32_t)p_src),     NRF_ERROR_INVALID_ADDR);
     NRF_FSTORAGE_PARAM_CHECK(addr_is_within_bounds(p_fs, dest, len), NRF_ERROR_INVALID_ADDR);
-		printf("%s\r\n",__func__);
+	//	printf("%s\r\n",__func__);
     return (p_fs->p_api)->write(p_fs, dest, p_src, len, p_context);
 }
 

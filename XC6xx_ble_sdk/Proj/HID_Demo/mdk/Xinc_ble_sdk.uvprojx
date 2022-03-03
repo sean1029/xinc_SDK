@@ -1146,9 +1146,9 @@
           <GroupName>rtc</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_rtc.c</FileName>
+              <FileName>xincx_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_rtc.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_rtc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2208,9 +2208,9 @@
           <GroupName>rtc</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_rtc.c</FileName>
+              <FileName>xincx_rtc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_rtc.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_rtc.c</FilePath>
             </File>
           </Files>
         </Group>

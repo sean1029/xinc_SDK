@@ -39,6 +39,8 @@
  */
 
 #include "xinc_drv_i2c.h"
+
+#if NRFX_CHECK(XINCX_I2C_ENABLED)
 //#include <nrf_delay.h>
 #include <hal/nrf_gpio.h>
 
@@ -190,3 +192,5 @@ ret_code_t xinc_drv_i2c_init(xinc_drv_i2c_t const *        p_instance,
     }
     return result;
 }
+#endif //
+

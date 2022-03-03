@@ -22,29 +22,59 @@ Dialog DLL:      TARMCM1.DLL V1.14.2.0
  
 <h2>Project:</h2>
 D:\work\git_work\XC6xx\XC6xx_ble_sdk\Proj\HID_Demo\mdk\Xinc_ble_sdk.uvprojx
-Project File Date:  03/01/2022
+Project File Date:  03/03/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ble-fullstack'
-compiling app_timer.c...
-..\..\..\components\libraries\timer\app_timer.c(164): warning:  #177-D: variable "rtc_time_val"  was declared but never referenced
-  		nrf_rtc_time_t rtc_time_val;
-..\..\..\components\libraries\timer\app_timer.c(179): warning:  #550-D: variable "err_code"  was set but never used
+compiling main.c...
+..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
+  			if(pin_number >= 0 && pin_number <= 4)
+..\..\..\integration\nrfx\xinc_drv_spi.h(477): warning:  #177-D: variable "tx_length"  was declared but never referenced
+  	  uint16_t tx_length = 0;
+..\..\..\modules\nrfx\hal/nrf_uart.h(224): warning:  #111-D: statement is unreachable
+  			}break;
+..\..\..\modules\nrfx\hal/nrf_uart.h(229): warning:  #111-D: statement is unreachable
+  			}break;
+..\..\..\modules\nrfx\hal/nrf_uart.h(234): warning:  #111-D: statement is unreachable
+  			}break;
+..\app\main.c(394): warning:  #188-D: enumerated type mixed with another type
+  		uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
+..\app\main.c(590): warning:  #188-D: enumerated type mixed with another type
+  		nrf_drv_rtc_time_set(&rtc,0,time,true);
+..\app\main.c(576): warning:  #550-D: variable "err_code"  was set but never used
       uint32_t err_code;
-..\..\..\components\libraries\timer\app_timer.c: 2 warnings, 0 errors
+..\app\main.c(639): warning:  #550-D: variable "err_code"  was set but never used
+  	uint32_t err_code;
+..\app\main.c(745): warning:  #177-D: variable "gadc_val"  was declared but never referenced
+  			 int16_t gadc_val;
+..\app\main.c(50): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
+  static int app_get_connect_state(void)
+..\app\main.c(273): warning:  #177-D: variable "input"  was declared but never referenced
+  static unsigned char input[BUF_SIZE]; 
+..\app\main.c(359): warning:  #177-D: variable "app_buttons"  was declared but never referenced
+  static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
+..\app\main.c(485): warning:  #177-D: function "log_init"  was declared but never referenced
+  static void log_init(void)
+..\app\main.c(497): warning:  #177-D: variable "m_adc_evt_counter"  was declared but never referenced
+  static uint32_t              m_adc_evt_counter;
+..\app\main.c(539): warning:  #177-D: function "adc_config"  was declared but never referenced
+  static void adc_config(void)
+..\app\main.c(574): warning:  #177-D: function "rtc_config"  was declared but never referenced
+  static void rtc_config(void)
+..\app\main.c(599): warning:  #177-D: function "bsp_evt_handler"  was declared but never referenced
+  static void bsp_evt_handler(bsp_event_t event)
+..\app\main.c: 18 warnings, 0 errors
 linking...
-.\Objects\Xinc_ble_sdk.axf: Warning: L6330W: Undefined symbol log_const_data$$Base (referred from nrf_cli_uart.o). Unused section has been removed.
-Program Size: Code=99988 RO-data=8996 RW-data=1212 ZI-data=20812  
-Finished: 0 information, 1 warning and 0 error messages.
+Program Size: Code=89880 RO-data=8512 RW-data=992 ZI-data=18752  
 After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
 After Build - User command #2: Xincboot_tool s.bin download.bin
 Xinc v3.1 build Mar 19 2019 23:08:55
 USAGE: [Xincboot_tool] <input FILE> <output FILE> 
 Input: s.bin download.bin 
-Input file "s.bin" raw size = 0x1ab0c byte 
+Input file "s.bin" raw size = 0x18170 byte 
  -): 
-".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 3 Warning(s).
+".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 18 Warning(s).
 
 <h2>Software Packages used:</h2>
 

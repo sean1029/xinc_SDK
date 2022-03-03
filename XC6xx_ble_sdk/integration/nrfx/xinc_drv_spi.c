@@ -39,7 +39,7 @@
  */
 
 #include "xinc_drv_spi.h"
-
+#if NRFX_CHECK(XINCX_SPIM_ENABLED)
 #ifdef SPIM_PRESENT
 #define INSTANCE_COUNT   SPIM_COUNT
 #endif
@@ -103,3 +103,4 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
     }
     return result;
 }
+#endif //

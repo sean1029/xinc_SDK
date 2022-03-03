@@ -38,7 +38,7 @@
  *
  */
 #include "sdk_common.h"
-#if 1// NRF_MODULE_ENABLED(FDS)
+#if  NRF_MODULE_ENABLED(FDS)
 #include "fds.h"
 #include "fds_internal_defs.h"
 

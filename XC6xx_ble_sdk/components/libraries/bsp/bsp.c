@@ -172,7 +172,7 @@ static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
     static bsp_event_t release_event_at_push[BUTTONS_NUMBER]; /**< Array of what the release event of each button was last time it was pushed, so that no release event is sent if the event was bound after the push of the button. */
 
     button = bsp_board_pin_to_button_idx(pin_no);
-	//	printf(" bsp_button :%d,button_action:%d\r\n",button,button_action);
+//		printf(" bsp_button :%d,button_action:%d\r\n",button,button_action);
     if (button < BUTTONS_NUMBER)
     {
         switch (button_action)
@@ -670,19 +670,41 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
         {
             err_code = app_button_enable();
         }
-
+#ifdef BSP_BUTTON_0
         if (err_code == NRF_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr,
                                         APP_TIMER_MODE_SINGLE_SHOT,
                                         button_timer_handler);
         }
+#endif
+				
+#ifdef BSP_BUTTON_1
 				 if (err_code == NRF_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr1,
                                         APP_TIMER_MODE_SINGLE_SHOT,
                                         button_timer_handler);
         }
+#endif
+				
+#ifdef BSP_BUTTON_2
+				 if (err_code == NRF_SUCCESS)
+        {
+            err_code = app_timer_create(&m_bsp_button_tmr2,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        button_timer_handler);
+        }
+#endif
+				
+#ifdef BSP_BUTTON_3
+				 if (err_code == NRF_SUCCESS)
+        {
+            err_code = app_timer_create(&m_bsp_button_tmr3,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        button_timer_handler);
+        }
+#endif
     }
 #elif (BUTTONS_NUMBER > 0) && (defined BSP_SIMPLE)
     bsp_board_init(type);

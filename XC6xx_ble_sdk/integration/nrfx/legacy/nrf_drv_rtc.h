@@ -41,7 +41,7 @@
 #ifndef NRF_DRV_RTC_H__
 #define NRF_DRV_RTC_H__
 
-#include <nrfx_rtc.h>
+#include <xincx_rtc.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -56,9 +56,9 @@ extern "C" {
  */
 
 /** @brief Type definition for forwarding the new implementation. */
-typedef nrfx_rtc_t          nrf_drv_rtc_t;
+typedef xincx_rtc_t          nrf_drv_rtc_t;
 /** @brief Type definition for forwarding the new implementation. */
-typedef nrfx_rtc_config_t   nrf_drv_rtc_config_t;
+typedef xincx_rtc_config_t   nrf_drv_rtc_config_t;
 
 /** @brief Macro for forwarding the new implementation. */
 #define NRF_DRV_RTC_INSTANCE            NRFX_RTC_INSTANCE
@@ -82,72 +82,72 @@ typedef nrfx_rtc_config_t   nrf_drv_rtc_config_t;
 /** @brief Macro for forwarding the new implementation. */
 #define NRF_DRV_RTC_INT_DAY        			NRFX_RTC_INT_DAT
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_int_type_t          nrfx_rtc_int_type_t
+#define nrf_drv_rtc_int_type_t          xincx_rtc_int_type_t
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_handler_t           nrfx_rtc_handler_t
+#define nrf_drv_rtc_handler_t           xincx_rtc_handler_t
 
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_init                nrfx_rtc_init
+#define nrf_drv_rtc_init                xincx_rtc_init
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_uninit              nrfx_rtc_uninit
+#define nrf_drv_rtc_uninit              xincx_rtc_uninit
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_enable              nrfx_rtc_enable
+#define nrf_drv_rtc_enable              xincx_rtc_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_disable             nrfx_rtc_disable
+#define nrf_drv_rtc_disable             xincx_rtc_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_sec_int_enable      nrfx_rtc_sec_int_enable
+#define nrf_drv_rtc_sec_int_enable      xincx_rtc_sec_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_sec_int_disable     nrfx_rtc_sec_int_disable
+#define nrf_drv_rtc_sec_int_disable     xincx_rtc_sec_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_min_int_enable      nrfx_rtc_min_int_enable
+#define nrf_drv_rtc_min_int_enable      xincx_rtc_min_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_min_int_disable     nrfx_rtc_min_int_disable
+#define nrf_drv_rtc_min_int_disable     xincx_rtc_min_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_hour_int_enable     nrfx_rtc_hour_int_enable
+#define nrf_drv_rtc_hour_int_enable     xincx_rtc_hour_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_hour_int_disable    nrfx_rtc_hour_int_disable
+#define nrf_drv_rtc_hour_int_disable    xincx_rtc_hour_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_day_int_enable     nrfx_rtc_day_int_enable
+#define nrf_drv_rtc_day_int_enable     xincx_rtc_day_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_day_int_disable    nrfx_rtc_day_int_disable
+#define nrf_drv_rtc_day_int_disable    xincx_rtc_day_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_hour_int_enable     nrfx_rtc_hour_int_enable
+#define nrf_drv_rtc_hour_int_enable     xincx_rtc_hour_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_hour_int_disable    nrfx_rtc_hour_int_disable
+#define nrf_drv_rtc_hour_int_disable    xincx_rtc_hour_int_disable
 
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time1_int_enable     nrfx_rtc_time1_int_enable
+#define nrf_drv_rtc_time1_int_enable     xincx_rtc_time1_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time1_int_disable    nrfx_rtc_time1_int_disable
+#define nrf_drv_rtc_time1_int_disable    xincx_rtc_time1_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time2_int_enable     nrfx_rtc_time2_int_enable
+#define nrf_drv_rtc_time2_int_enable     xincx_rtc_time2_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time2_int_disable    nrfx_rtc_time2_int_disable
+#define nrf_drv_rtc_time2_int_disable    xincx_rtc_time2_int_disable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time3_int_enable     nrfx_rtc_time3_int_enable
+#define nrf_drv_rtc_time3_int_enable     xincx_rtc_time3_int_enable
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time3_int_disable    nrfx_rtc_time3_int_disable
+#define nrf_drv_rtc_time3_int_disable    xincx_rtc_time3_int_disable
 
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time_set     					nrfx_rtc_time_set
+#define nrf_drv_rtc_time_set     					xincx_rtc_time_set
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_time_disable    			nrfx_rtc_time_disable
+#define nrf_drv_rtc_time_disable    			xincx_rtc_time_disable
 
 
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_AOtime_set     				nrfx_rtc_AOtime_set
+#define nrf_drv_rtc_AOtime_set     				xincx_rtc_AOtime_set
 
-#define nrf_drv_rtc_date_get     					nrfx_rtc_date_get
+#define nrf_drv_rtc_date_get     					xincx_rtc_date_get
 
-#define nrf_drv_rtc_date_set     					nrfx_rtc_date_set
-
-
+#define nrf_drv_rtc_date_set     					xincx_rtc_date_set
 
 
 
 
+
+
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_int_enable           nrfx_rtc_int_enable
+#define nrf_drv_rtc_int_enable           xincx_rtc_int_enable
 
 
 

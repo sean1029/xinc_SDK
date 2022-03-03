@@ -542,7 +542,7 @@ static void adc_config(void)
 		saadc_init();
 }
 
-const nrfx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+const xincx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
 
 static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 {
@@ -551,7 +551,7 @@ static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
     {
        nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
-			 printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+			// printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
 			if(rtc_time_val.sec == 10)
 			{
 				rtc_time_val.sec = 2;
@@ -567,7 +567,7 @@ static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
     {
        nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
-			 printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+			// printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
     }
 }
 
@@ -576,20 +576,20 @@ static void rtc_config(void)
     uint32_t err_code;
    
     //Initialize RTC instance
-    nrfx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+    xincx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
 		config.freq = 32768;
 		config.type = NRF_RTC_TYPE_RTC;
 		config.date.day = 4;
     err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
    
-		nrfx_rtc_match_config_t time;
+		xincx_rtc_match_config_t time;
 		memset(&time,0,sizeof(time));
 		time.times.sec = 10;
 		time.times.min = 0;
 		time.times.week = NRFX_RTC_WEEK_MATCH_SUNDAY | NRFX_RTC_WEEK_MATCH_MONDAY;
 		nrf_drv_rtc_time_set(&rtc,0,time,true);
     //Power on RTC instance
-    nrfx_rtc_enable(&rtc);
+    xincx_rtc_enable(&rtc);
 		nrf_drv_rtc_sec_int_enable(&rtc,true);
 		nrf_drv_rtc_min_int_enable(&rtc,true);
 	
@@ -598,27 +598,53 @@ static void rtc_config(void)
 
 static void bsp_evt_handler(bsp_event_t event)
 {
-	printf("%s,event:%d\r\n",__func__,event);
+	printf("%s,event:%d ",__func__,event);
     switch (event)
     {
         case BSP_EVENT_KEY_0:
             {
-                // @note: If pairing is supported by the implementation the only reason this code gets
-                // executed would be if the protocol is in incorrect state, which would imply an error
-                // either in the host or the client implementation.
+                printf("push \r\n");
             }
             break;
 
         case BSP_EVENT_KEY_1:
-            break;
+				{
+					printf("long push \r\n");
+				//	while(1);
+				}
+          break;
+				
+				case BSP_EVENT_KEY_2:
+				{
+					printf("release \r\n");
+				}break;
 
         default:
             return;
     }
 
+
 }
 
+APP_TIMER_DEF(m_test_tmr);
 
+static void test_timer_handler(void * p_context)
+{
+    printf("test_timer_handler \r\n");
+//	app_timer_start(m_test_tmr, APP_TIMER_TICKS(10000), (void*)0);
+}
+
+void timer_test()
+{
+	uint32_t err_code;
+	      err_code = app_timer_create(&m_test_tmr,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        test_timer_handler);
+	
+	
+
+}
+     
 int	main(void)
 {
 
@@ -636,11 +662,13 @@ int	main(void)
 	
 	btstack_main();
 	scheduler_init();
-	rtc_config();
+//	rtc_config();
 	key_init();
 	app_timer_init();
+	
+	timer_test();
 //	  nrfx_gpiote_init();
-	  bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);//BSP_INIT_BUTTONS
+	//  bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);//BSP_INIT_BUTTONS
 	//	gpio_direction_output(4);gpio_direction_output(5);
 		//log_init();
 	//app_button_init(app_buttons,2,50);
@@ -705,12 +733,14 @@ int	main(void)
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
-			 NRF_LOG_FLUSH();
+			// NRF_LOG_FLUSH();
 		   LastTimeGulSystickCount=GulSystickCount;
 			 
 			 if(LastTimeGulSystickCount == 100)
 			 {
 			//	adc_config();
+				// printf("\r\n app_timer_start ok!!!\r\n");
+				 app_timer_start(m_test_tmr, APP_TIMER_TICKS(10000), (void*)0);
 			 }
 			 int16_t gadc_val;
 			 if(LastTimeGulSystickCount % 600 == 0)

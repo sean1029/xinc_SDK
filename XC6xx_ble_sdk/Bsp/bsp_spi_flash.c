@@ -839,7 +839,7 @@ void  spi_flash_test(void)
 uint8_t buff16[60];
 
 #include "xinc_drv_spi.h"
-
+#if NRFX_CHECK(XINCX_SPIM_ENABLED)
 static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
 static void spi_handler(xinc_drv_spi_evt_t const* p_event,
@@ -1258,4 +1258,5 @@ void spim_flash_test(void)
 		
 
 }
+#endif //
 

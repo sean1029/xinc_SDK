@@ -61,7 +61,7 @@
 // If this is to be changed, protection must be added to prevent them from interrupting each other
 // (e.g. by using guard/trigger flags).
 
-#define MAX_TIMER_COUNTER_VAL     0xFFFF                                  /**< Maximum value of the RTC counter. */
+#define MAX_TIMER_COUNTER_VAL     0xFFFFFFFF                                  /**< Maximum value of the RTC counter. */
 
 #define TIMER_COMPARE_OFFSET_MIN  1                                           /**< Minimum offset between the current TIMER counter value and the Capture Compare register. */
 #define MAX_TIMER_TASKS_DELAY     47                                          /**< Maximum delay until an TIMER task is executed. */
@@ -138,8 +138,8 @@ static uint32_t                      m_ticks_latest;                            
 static uint32_t                      m_ticks_elapsed[CONTEXT_QUEUE_SIZE_MAX];   /**< Timer internal elapsed ticks queue. */
 static uint8_t                       m_ticks_elapsed_q_read_ind;                /**< Timer internal elapsed ticks queue read index. */
 static uint8_t                       m_ticks_elapsed_q_write_ind;               /**< Timer internal elapsed ticks queue write index. */
-static bool                          m_timer2_running;                            /**< Boolean indicating if TIMER0 is running. */
-static bool                          m_timer2_reset;                              /**< Boolean indicating if TIMER0 counter has been reset due to last timer removed from timer list during the timer list handling. */
+static bool                          m_RtcAOTimer_running;                        /**< Boolean indicating if RtcAoTIMER is running. */
+static bool                          m_RtcAOTimer_reset;                       /**< Boolean indicating if TIMER0 counter has been reset due to last timer removed from timer list during the timer list handling. */
 
 #if APP_TIMER_WITH_PROFILER
 static uint8_t                       m_max_user_op_queue_utilization;           /**< Maximum observed timer user operations queue utilization. */
@@ -150,7 +150,7 @@ static uint8_t                       m_max_user_op_queue_utilization;           
 static void timer_timeouts_check(void);
 	
 #include "nrf_drv_rtc.h"
-const static nrfx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+const static xincx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
 
 
 
@@ -179,11 +179,11 @@ static void rtc_AOtime_init(void)
     uint32_t err_code;
    
     //Initialize RTC instance
-    nrfx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+    xincx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
 		config.type = NRF_RTC_TYPE_AOTIME;
     err_code = nrf_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
     //Power on RTC instance
-    nrfx_rtc_enable(&rtc);
+    xincx_rtc_enable(&rtc);
 
 		printf("TIMER_TICKS(50):%d\r\n",APP_TIMER_TICKS(2000));
 
@@ -197,7 +197,7 @@ static void rtc_AOtime_init(void)
 static void rtc_AOtime_start(void)
 {
 
-  m_timer2_running = true;
+  m_RtcAOTimer_running = true;
 }
 
 
@@ -209,7 +209,7 @@ static void rtc_AOtime_stop(void)
 
     m_ticks_latest        = 0;
 
-    m_timer2_running = false;
+    m_RtcAOTimer_running = false;
 }
 
 
@@ -339,7 +339,7 @@ static bool timer_list_remove(timer_node_t * p_timer)
         if (mp_timer_id_head == NULL)
         {
             m_ticks_latest        = 0;
-            m_timer2_reset          = true;
+            m_RtcAOTimer_reset          = true;
             delay_us(MAX_TIMER_TASKS_DELAY);
         }
     }
@@ -652,7 +652,7 @@ static bool list_insertions_handler(timer_node_t * p_restart_list_head)
             p_timer->ticks_periodic_interval = p_user_op->params.start.ticks_periodic_interval;
             p_timer->p_context               = p_user_op->params.start.p_context;
 
-            if (m_timer2_reset)
+            if (m_RtcAOTimer_reset)
             {
                 p_timer->ticks_at_start = 0;
             }
@@ -711,7 +711,7 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
         uint32_t ticks_elapsed   = ticks_diff_get(pre_counter_val, cc) + TIMER_COMPARE_OFFSET_MIN;
 			//	printf("cc0:%d,pre:%d\r\n",cc,pre_counter_val);
 			//	printf("m_rtc1_running:%d\r\n",m_rtc1_running);
-        if (!m_timer2_running)
+        if (!m_RtcAOTimer_running)
         {
             // No timers were already running, start RTC
             rtc_AOtime_start();
@@ -721,7 +721,9 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
         cc &= MAX_TIMER_COUNTER_VAL;
 				
 			//	printf("cc1:%d,pre:%d\r\n",cc,pre_counter_val);
-		  	rtc_AOtime_sigle_set((cc - pre_counter_val));
+		  	//rtc_AOtime_sigle_set((cc - pre_counter_val));
+				rtc_AOtime_sigle_set(APP_TIMER_TICKS(TIMER_COMPARE_OFFSET_MIN));
+				
         uint32_t post_counter_val = systick_counter_get();
 
         if (
@@ -756,7 +758,6 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
  }
 static void timer_list_handler(void)
 {
-//	printf("timer_list_handler\n");
     timer_node_t * p_restart_list_head = NULL;
 
     uint32_t       ticks_elapsed;
@@ -805,7 +806,7 @@ static void timer_list_handler(void)
     {
         compare_reg_update(p_timer_id_head_old);
     }
-    m_timer2_reset = false;
+    m_RtcAOTimer_reset = false;
 }
 
 
