@@ -549,13 +549,23 @@ static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 		nrf_rtc_time_t rtc_time_val;
     if (int_type == NRFX_RTC_INT_SEC)
     {
-       nrf_rtc_val_get(rtc.p_reg,&rtc_time_val);
+       nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
 			 printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+			if(rtc_time_val.sec == 10)
+			{
+				rtc_time_val.sec = 2;
+				rtc_time_val.hour = 1;
+				rtc_time_val.day = 1;
+				rtc_time_val.week = 2;
+				rtc_time_val.min = 1;
+				
+			//	nrf_rtc_date_set(rtc.p_reg, rtc_time_val);
+			}
     }
     else if (int_type == NRFX_RTC_INT_TIME1)
     {
-       nrf_rtc_val_get(rtc.p_reg,&rtc_time_val);
+       nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
 			 printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
     }
@@ -567,7 +577,9 @@ static void rtc_config(void)
    
     //Initialize RTC instance
     nrfx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
-		config.freq = 29790;
+		config.freq = 32768;
+		config.type = NRF_RTC_TYPE_RTC;
+		config.date.day = 4;
     err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
    
 		nrfx_rtc_match_config_t time;
@@ -579,12 +591,33 @@ static void rtc_config(void)
     //Power on RTC instance
     nrfx_rtc_enable(&rtc);
 		nrf_drv_rtc_sec_int_enable(&rtc,true);
-//	while(1)
-	{
-		//for(int i=0;i<0x455000;i++);
-	//	nrf_rtc_val_get(rtc.p_reg,val);
-	};
+		nrf_drv_rtc_min_int_enable(&rtc,true);
+	
+	
 }
+
+static void bsp_evt_handler(bsp_event_t event)
+{
+	printf("%s,event:%d\r\n",__func__,event);
+    switch (event)
+    {
+        case BSP_EVENT_KEY_0:
+            {
+                // @note: If pairing is supported by the implementation the only reason this code gets
+                // executed would be if the protocol is in incorrect state, which would imply an error
+                // either in the host or the client implementation.
+            }
+            break;
+
+        case BSP_EVENT_KEY_1:
+            break;
+
+        default:
+            return;
+    }
+
+}
+
 
 int	main(void)
 {
@@ -597,19 +630,19 @@ int	main(void)
 
 	set_bd_addr();
 
-	printf("%s\r\n",__func__);
+//	printf("%s\r\n",__func__);
 
   ble_init((void *)&blestack_init);
-
+	
 	btstack_main();
 	scheduler_init();
-	app_timer_init();
-	key_init();
 	rtc_config();
-	//nrfx_gpiote_init();
-	 // bsp_init(BSP_INIT_LEDS,bsp_evt_handler);//BSP_INIT_BUTTONS
-		gpio_direction_output(4);gpio_direction_output(5);
-		log_init();
+	key_init();
+	app_timer_init();
+//	  nrfx_gpiote_init();
+	  bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);//BSP_INIT_BUTTONS
+	//	gpio_direction_output(4);gpio_direction_output(5);
+		//log_init();
 	//app_button_init(app_buttons,2,50);
 	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
   // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
@@ -657,15 +690,15 @@ int	main(void)
 	//	adc_config();
 //		spim_flash_test();
 		//flash_test();
-		printf("\r\n i2c_at24c02_test ok!!!\r\n");
+	//	printf("\r\n i2c_at24c02_test ok!!!\r\n");
     while(1) {
 		//	nrf_cli_process(&m_cli_uart);
-		  	NRF_LOG_FLUSH();
+		 // 	NRF_LOG_FLUSH();
        ble_mainloop();
 			if(list_handler_sched_flag > 0)
 			{
 				list_handler_sched_flag--;
-				extern_timer_list_handler();
+			//	extern_timer_list_handler();
 			}
 			app_sched_execute();
 		//	ff11_test_loop();

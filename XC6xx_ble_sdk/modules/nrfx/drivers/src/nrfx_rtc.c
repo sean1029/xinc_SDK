@@ -47,6 +47,7 @@
 #endif
 
 #include <nrfx_rtc.h>
+#include "bsp_clk.h"
 
 #define NRFX_LOG_MODULE RTC
 #include <nrfx_log.h>
@@ -61,50 +62,63 @@ typedef struct
 
 // User callbacks local storage.
 static nrfx_rtc_handler_t m_handlers[NRFX_RTC_ENABLED_COUNT];
+static nrfx_rtc_handler_t m_AoTimehandlers[NRFX_RTC_ENABLED_COUNT];
 static nrfx_rtc_cb_t      m_cb[NRFX_RTC_ENABLED_COUNT];
-
+static volatile uint8_t 						calibration_flag;
 
 nrfx_err_t nrfx_rtc_init(nrfx_rtc_t const * const  p_instance,
                          nrfx_rtc_config_t const * p_config,
                          nrfx_rtc_handler_t        handler)
 {
-	#include    "bsp_register_macro.h"
+
    
 	
     NRFX_ASSERT(p_config);
     NRFX_ASSERT(handler);
-    nrfx_err_t err_code;
-
-   
+    nrfx_err_t err_code = NRFX_SUCCESS;
+		uint32_t reg;
+	  float freq = 0.0;
+		if(p_config->type == NRF_RTC_TYPE_AOTIME)
+		{
+						 
+			  m_AoTimehandlers[p_instance->instance_id] = handler;
+				xc_rtc_clk_init();
+				NRFX_IRQ_ENABLE(RTC_IRQn);
+			
+				return err_code;
+	
+		} 
 
     if (m_cb[p_instance->instance_id].state != NRFX_DRV_STATE_UNINITIALIZED)
     {
         err_code = NRFX_ERROR_INVALID_STATE;
 				printf("Function: %s, error code",__func__);
+			
+				if(m_AoTimehandlers[p_instance->instance_id] != NULL)
+				{
+					err_code = NRFX_SUCCESS;
+				}
 
         NRFX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
                          NRFX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-		 __write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x20002);   // RTC_PCLK 时钟使能：
-    __write_hw_reg32(CPR_AOCLKEN_GRCTL, 0x20002);       // RTC_CLK 时钟使能：
 	
+		xc_rtc_clk_init();
 		p_instance->p_reg->ICR = 0x00;
 		m_handlers[p_instance->instance_id] = handler;
-		uint32_t reg = 0;
-		float freq = 0.0;
+		calibration_flag = 0;
 		p_instance->p_reg->AO_TIMER_CTL = 0;
 		p_instance->p_reg->AO_TIMER_CTL = 32;
 		p_instance->p_reg->AO_TIMER_CTL |= (0x01 << 18);
 		reg = p_instance->p_reg->ALL_INTR_AO;
 		
-	//	NRFX_IRQ_ENABLE(RTC_IRQn);
-		while((reg & 0x20) != 0x20)
+		//  NRFX_IRQ_PRIORITY_SET(p_instance->irq, p_config->interrupt_priority);
+		NRFX_IRQ_ENABLE(RTC_IRQn);
+		while(!calibration_flag)
 		{
-			reg = p_instance->p_reg->ALL_INTR_AO;
-			__nop();
-			printf("reg: %x\r\n",reg);
+			__nop();	
 		}
 		reg = p_instance->p_reg->FREQ_32K_TIMER_VAL;
 		p_instance->p_reg->AO_TIMER_CTL = (0X01 << 16);
@@ -113,29 +127,25 @@ nrfx_err_t nrfx_rtc_init(nrfx_rtc_t const * const  p_instance,
 		freq = (float)(15625.0 / (float)reg) * 32768.0;
 		
 		printf("freq: %f\r\n",freq);
-  //  NRFX_IRQ_PRIORITY_SET(p_instance->irq, p_config->interrupt_priority);
-    NRFX_IRQ_ENABLE(RTC_IRQn);
-		
-	
-	uint8_t date_val[6];
-	uint8_t data_limit[3];
-	date_val[0] = p_config->day;
-	date_val[1] = p_config->hour;
-	date_val[2] = p_config->min;
-	date_val[3] = p_config->sec;
-	date_val[4] = p_config->week;
-	printf("date=[%d:%d:%d:%d:%d]\n",date_val[0] , date_val[1], date_val[2] , date_val[3], date_val[4] );
-	
-	
-	data_limit[0] = p_config->hour_limit;
-	data_limit[1] = p_config->min_limit;
-	data_limit[2] = p_config->sec_limit;
-	
-	nrf_rtc_date_set(p_instance->p_reg, date_val);
-	
-	nrf_rtc_datelimit_set(p_instance->p_reg, data_limit);
-	
-	nrf_rtc_freq_set(p_instance->p_reg, (uint32_t)freq);
+ 
+
+		uint8_t data_limit[3];
+
+//	
+//	
+		data_limit[0] = p_config->hour_limit;
+		data_limit[1] = p_config->min_limit;
+		data_limit[2] = p_config->sec_limit;
+	//	
+		if(p_config->type != 0)
+		{
+			nrf_rtc_date_set(p_instance->p_reg, p_config->date);
+
+			nrf_rtc_datelimit_set(p_instance->p_reg, data_limit);
+
+			nrf_rtc_freq_set(p_instance->p_reg, (uint32_t)freq);
+	}
+
 		
 
     m_cb[p_instance->instance_id].reliable     = p_config->reliable;
@@ -295,7 +305,7 @@ void nrfx_rtc_int_disable(nrfx_rtc_t const * const p_instance)
 }
 
 nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
-                           uint32_t                 channel,
+                           nrfx_rtc_match_timer_ch_t                 channel,
                            nrfx_rtc_match_config_t  config ,
                            bool                     enable_irq)
 {
@@ -303,19 +313,19 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
 		uint8_t irq_idx;
 		switch(channel)
 		{
-			case 0:
+			case NRFX_RTC_MATCH_TIME_1:
 			{
 				reg = &(p_instance->p_reg->CMR_ONE);
 				irq_idx = 5;
 			}break;
 			
-			case 1:
+			case NRFX_RTC_MATCH_TIME_2:
 			{
 				reg = &(p_instance->p_reg->CMR_TWO);
 				irq_idx = 4;
 			}break;
 			
-			case 2:
+			case NRFX_RTC_MATCH_TIME_3:
 			{
 				reg = &(p_instance->p_reg->CMR_THREE);
 				irq_idx = 6;
@@ -331,8 +341,6 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
 			if(enable_irq)
 			{
 				nrf_rtc_int_enable(p_instance->p_reg, 0x01 << irq_idx);
-				nrf_rtc_int_enable(p_instance->p_reg, 0x01 << 4);
-				nrf_rtc_int_enable(p_instance->p_reg, 0x01 << 6);
 			}
 			 printf("ICR:0x%x\r\n",p_instance->p_reg->ICR);
 		}
@@ -340,8 +348,54 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
 
 }
 
-nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, uint32_t channel)
+nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, nrfx_rtc_match_timer_ch_t channel)
 {
+	uint8_t irq_idx;
+	switch(channel)
+		{
+			case NRFX_RTC_MATCH_TIME_1:
+			{
+				irq_idx = 5;
+			}break;
+			
+			case NRFX_RTC_MATCH_TIME_2:
+			{
+		
+				irq_idx = 4;
+			}break;
+			
+			case NRFX_RTC_MATCH_TIME_3:
+			{
+				irq_idx = 6;
+			}break;
+			
+			default:break;
+		}
+		nrf_rtc_int_disable(p_instance->p_reg, 0x01 << irq_idx);
+}
+
+
+nrfx_err_t nrfx_rtc_AOtime_set(nrfx_rtc_t const * const p_instance,                         
+                           uint32_t  tick)
+{
+	//	printf("AOtime_set:%d\r\n",tick);
+		p_instance->p_reg->AO_TIMER_CTL = 0;
+		p_instance->p_reg->AO_TIMER_CTL = tick;
+		p_instance->p_reg->AO_TIMER_CTL |= (0x01 << 17);
+
+}
+
+nrfx_err_t nrfx_rtc_date_set(nrfx_rtc_t const * const p_instance,                         
+                           nrf_rtc_time_t  date)
+{
+		nrf_rtc_date_set(p_instance->p_reg,date);
+
+}
+
+nrfx_err_t nrfx_rtc_date_get(nrfx_rtc_t const * const p_instance,                         
+                           nrf_rtc_time_t  *date)
+{
+		nrf_rtc_date_get(p_instance->p_reg,date);
 
 }
 
@@ -350,6 +404,7 @@ static void irq_handler(NRF_RTC_Type * p_reg,
 {
 	uint32_t reg ;
 	reg = p_reg->ALL_INTR_AO;
+//	printf("RTC irq_handler:%x\r\n",reg);
 	if(reg)
 	{
 		reg = p_reg->AO_TIMER_CTL;
@@ -358,10 +413,11 @@ static void irq_handler(NRF_RTC_Type * p_reg,
 		if(m_cb[instance_id].state == NRFX_DRV_STATE_UNINITIALIZED)
 		{
 			NRFX_LOG_INFO("RTC 32K  calibration ok.\r\n");
+			calibration_flag = 1;
 			printf("RTC 32K calibration ok.\r\n");
 		}else
 		{
-			
+			m_AoTimehandlers[instance_id](NRFX_RTC_INT_AOTIME);
 		}
 	}
 	

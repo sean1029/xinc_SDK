@@ -71,7 +71,8 @@ typedef enum
     NRFX_RTC_INT_SEC = 3, /**< Interrupt from SEC event. */
     NRFX_RTC_INT_MIN     = 4, /**< Interrupt from MIN event. */
     NRFX_RTC_INT_HOUR = 5,  /**< Interrupt from HOUR event. */
-	  NRFX_RTC_INT_DAY = 6  /**< Interrupt from DAY event. */
+	  NRFX_RTC_INT_DAY = 6,  /**< Interrupt from DAY event. */
+		NRFX_RTC_INT_AOTIME = 7
 } nrfx_rtc_int_type_t;
 
 /** @brief RTC driver interrupt types. */
@@ -85,6 +86,14 @@ enum
     NRFX_RTC_WEEK_MATCH_FRIDAY = (0x01 << 5),  /**< Interrupt from HOUR event. */
 	  NRFX_RTC_WEEK_MATCH_SATURDAY = (0x01 << 6)  /**< Interrupt from DAY event. */
 };
+
+/** @brief RTC driver interrupt types. */
+typedef enum
+{
+    NRFX_RTC_MATCH_TIME_1 = (0x01 << 5), /**< MATCH_TIME_1 ch. */
+    NRFX_RTC_MATCH_TIME_2 = (0x01 << 4), /**< MATCH_TIME_2 ch */
+    NRFX_RTC_MATCH_TIME_3 = (0x01 << 6), /**< MATCH_TIME_3 ch */
+}nrfx_rtc_match_timer_ch_t;
 
 /** @brief RTC driver instance structure. */
 typedef struct
@@ -117,16 +126,13 @@ enum {
 /** @brief RTC driver instance configuration structure. */
 typedef struct
 {
-	uint16_t  day;                   /**< day. */
-	uint8_t   hour;                  /**< hour. */
-	uint8_t   min;                   /**< minute. */
-	uint8_t   sec;                   /**< second. */
-	uint8_t   week;                  /**< week. */
+	nrf_rtc_time_t date;
 	uint8_t   hour_limit;            /**< hour limit. */
 	uint8_t   min_limit;             /**< minute limit. */
 	uint8_t   sec_limit;             /**< second limit. */
 	uint16_t  freq;                  /**< freq. */
 	uint8_t   interrupt_priority;    /**< Interrupt priority. */
+	nrf_rtc_type_t   type;           /**< Rtc type. */
 	bool      reliable;              /**< Reliable mode flag. */
 	
 } nrfx_rtc_config_t;
@@ -149,17 +155,17 @@ typedef union nrfx_rtc_match_config
 /** @brief RTC instance default configuration. */
 #define NRFX_RTC_DEFAULT_CONFIG                                                     \
 {                                                                                   \
-  .day                = 0,                                                                             \
-	.hour               = 0,                                                                              \
-	.min             = 0,                                                                             \
-	.sec             = 0,                                                                        \
-	.week               = 0,                                                        \
+  .date.day                = 0,                                                                             \
+	.date.hour               = 0,                                                                              \
+	.date.min             = 0,                                                                             \
+	.date.sec             = 0,                                                                        \
+	.date.week               = 0,                                                        \
 	.hour_limit         = 24,                                                        \
 	.min_limit          = 60,                                                        \
 	.sec_limit          = 60,                                                        \
 	.freq               = 29790,                                                        \
-   .interrupt_priority = 0,                     \
-   .reliable           = 0,                         \
+  .interrupt_priority = 0,                     \
+  .reliable           = 0,                         \
 }
 
 
@@ -235,14 +241,14 @@ void nrfx_rtc_disable(nrfx_rtc_t const * const p_instance);
  *                            if the reliable mode is enabled.
  */
 nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
-                           uint32_t                 channel,
+                           nrfx_rtc_match_timer_ch_t                 channel,
                            nrfx_rtc_match_config_t  config ,
                            bool                     enable_irq);
 
 /**
  * @brief Function for disabling a channel.
  *
- * This function disables channel events and channel interrupts.
+ * This function disables channel  events and channel interrupts.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] channel    One of the channels of the instance.
@@ -250,12 +256,12 @@ nrfx_err_t nrfx_rtc_time_set(nrfx_rtc_t const * const p_instance,
  * @retval NRFX_SUCCESS       The procedure is successful.
  * @retval NRFX_ERROR_TIMEOUT Interrupt is pending on the requested channel.
  */
-nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, uint32_t channel);
+nrfx_err_t nrfx_rtc_time_disable(nrfx_rtc_t const * const p_instance, nrfx_rtc_match_timer_ch_t channel);
 						 
 /**
  * @brief Function for enabling the sec event.
  *
- * This function enables the tick event and optionally the interrupt.
+ * This function enables the sec event and optionally the interrupt.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
@@ -270,4 +276,131 @@ void nrfx_rtc_sec_int_enable(nrfx_rtc_t const * const p_instance, bool enable_ir
  * @param[in] p_instance Pointer to the driver instance structure.
  */
 void nrfx_rtc_sec_int_disable(nrfx_rtc_t const * const p_instance);
+
+/**
+ * @brief Function for enabling the min event.
+ *
+ * This function enables the min event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_min_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the min event.
+ *
+ * This function disables the min event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_min_int_disable(nrfx_rtc_t const * const p_instance);
+
+/**
+ * @brief Function for enabling the hour event.
+ *
+ * This function enables the hour event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_hour_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the hour event.
+ *
+ * This function disables the hour event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_hour_int_disable(nrfx_rtc_t const * const p_instance);
+
+/**
+ * @brief Function for enabling the day event.
+ *
+ * This function enables the day event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_day_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the day event.
+ *
+ * This function disables the day event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_day_int_disable(nrfx_rtc_t const * const p_instance);
+
+/**
+ * @brief Function for enabling the Match Time 1 event.
+ *
+ * This function enables the Match Time 1 event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_time1_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the Match Time 1 event.
+ *
+ * This function disables the Match Time 1 event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_time1_int_disable(nrfx_rtc_t const * const p_instance);
+
+/**
+ * @brief Function for enabling the Match Time 2 event.
+ *
+ * This function enables the Match Time 2 event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_time2_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the Match Time 2 event.
+ *
+ * This function disables the Match Time 2 event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_time2_int_disable(nrfx_rtc_t const * const p_instance);
+
+
+/**
+ * @brief Function for enabling the Match Time 3 event.
+ *
+ * This function enables the Match Time 3 event and optionally the interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
+ */
+void nrfx_rtc_time3_int_enable(nrfx_rtc_t const * const p_instance, bool enable_irq);						 
+
+/**
+ * @brief Function for disabling the Match Time 3 event.
+ *
+ * This function disables the Match Time 3 event and interrupt.
+ *
+ * @param[in] p_instance Pointer to the driver instance structure.
+ */
+void nrfx_rtc_time3_int_disable(nrfx_rtc_t const * const p_instance);
+
+
+nrfx_err_t nrfx_rtc_date_set(nrfx_rtc_t const * const p_instance,                         
+                           nrf_rtc_time_t  date);
+
+nrfx_err_t nrfx_rtc_date_get(nrfx_rtc_t const * const p_instance,                         
+                           nrf_rtc_time_t  *date);
+
+
+
+nrfx_err_t nrfx_rtc_AOtime_set(nrfx_rtc_t const * const p_instance,                         
+                           uint32_t  tick);
 #endif // NRFX_H__

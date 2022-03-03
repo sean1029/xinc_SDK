@@ -263,7 +263,7 @@ static void gpiote_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t
     app_button_cfg_t const * p_btn = button_get(pin);
     bool is_set = nrf_drv_gpiote_in_is_set(p_btn->pin_no);
     bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_LOW) ^ is_set);
-//		printf("gpiote_event_handler pin : %d,is_set:%d,is_active:%d,m_pin_active:%d \r\n ",pin,is_set,is_active,m_pin_active);
+		//printf("gpiote_event_handler pin : %d,is_set:%d,is_active:%d,m_pin_active:%d \r\n ",pin,is_set,is_active,m_pin_active);
     /* If event indicates that pin is active and no other pin is active start the timer. All
      * action happens in timeout event.
      */

@@ -496,7 +496,7 @@ void nrfx_gpiote_irq_handler(void)
 				//	printf("nrfx_gpiote_irq_handler:%x,i:%d\n",status,i);
              nrfx_gpiote_evt_handler_t handler =
                         channel_handler_get((uint32_t)channel_port_get(i));
-					 if (handler)
+					if (handler)
 					{
 							handler(i, NRF_GPIOTE_POLARITY_LOTOHI);
 					}

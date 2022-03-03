@@ -134,9 +134,20 @@ typedef nrfx_rtc_config_t   nrf_drv_rtc_config_t;
 #define nrf_drv_rtc_time_disable    			nrfx_rtc_time_disable
 
 
+/** @brief Macro for forwarding the new implementation. */
+#define nrf_drv_rtc_AOtime_set     				nrfx_rtc_AOtime_set
+
+#define nrf_drv_rtc_date_get     					nrfx_rtc_date_get
+
+#define nrf_drv_rtc_date_set     					nrfx_rtc_date_set
+
+
+
+
+
 
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_rtc_int_enable          nrfx_rtc_int_enable
+#define nrf_drv_rtc_int_enable           nrfx_rtc_int_enable
 
 
 

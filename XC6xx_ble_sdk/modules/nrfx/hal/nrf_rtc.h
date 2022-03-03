@@ -66,9 +66,6 @@ extern "C" {
 /** @brief Macro for trimming values to the RTC bit width. */
 #define RTC_WRAP(val) ((val) & RTC_COUNTER_COUNTER_Msk)
 
-/** @brief Macro for creating the interrupt bitmask for the specified compare channel. */
-#define RTC_CHANNEL_INT_MASK(ch)    ((uint32_t)(NRF_RTC_INT_COMPARE0_MASK) << (ch))
-
 
 
 /** @brief RTC interrupts. */
@@ -84,14 +81,22 @@ typedef enum
 	  NRF_RTC_INT_ALL_MASK = (0x01 << 7) 
 } nrf_rtc_int_t;
 
+/** @brief RTC interrupts. */
+typedef enum
+{
+    NRF_RTC_TYPE_RTC     = (0x01 << 0),     
+    NRF_RTC_TYPE_AOTIME =  (0x01 << 1),
+
+} nrf_rtc_type_t;
+
 /** @brief RTC driver instance structure. */
 typedef struct
 {
   uint8_t sec;
 	uint8_t min;
 	uint8_t hour;
-	uint8_t         week; 
-  uint16_t         day;      
+	uint8_t week; 
+  uint16_t day;      
 } nrf_rtc_time_t;
 
 /**
@@ -131,37 +136,11 @@ __STATIC_INLINE uint32_t nrf_rtc_int_get(NRF_RTC_Type * p_reg);
 
 
 
-/**
- * @brief Function for returning a counter value.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Counter value.
- */
-__STATIC_INLINE uint32_t nrf_rtc_counter_get(NRF_RTC_Type * p_reg);
-
-/**
- * @brief Function for setting a prescaler value.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- * @param[in] val   Value to set the prescaler to.
- */
-__STATIC_INLINE void nrf_rtc_prescaler_set(NRF_RTC_Type * p_reg, uint32_t val);
-
-
-
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
-__STATIC_INLINE  void nrf_rtc_cc_set(NRF_RTC_Type * p_reg, uint32_t ch, uint32_t cc_val)
-{
-    //p_reg->CC[ch] = cc_val;
-}
 
-__STATIC_INLINE  uint32_t nrf_rtc_cc_get(NRF_RTC_Type * p_reg, uint32_t ch)
-{
-    //return p_reg->CC[ch];
-}
+
 
 __STATIC_INLINE void nrf_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask)
 {
@@ -175,38 +154,25 @@ __STATIC_INLINE void nrf_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask)
 
 __STATIC_INLINE uint32_t nrf_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask)
 {
-    //return (p_reg->INTENSET & mask);
+    return (p_reg->ICR & mask);
 }
 
 __STATIC_INLINE uint32_t nrf_rtc_int_get(NRF_RTC_Type * p_reg)
 {
-    //return p_reg->INTENSET;
+    return p_reg->ICR;
 }
 
 
 
-__STATIC_INLINE uint32_t nrf_rtc_counter_get(NRF_RTC_Type * p_reg)
-{
-     //return p_reg->COUNTER;
-}
-
-__STATIC_INLINE void nrf_rtc_prescaler_set(NRF_RTC_Type * p_reg, uint32_t val)
-{
-    NRFX_ASSERT(val <= (RTC_PRESCALER_PRESCALER_Msk >> RTC_PRESCALER_PRESCALER_Pos));
-    //p_reg->PRESCALER = val;
-}
-__STATIC_INLINE uint32_t rtc_prescaler_get(NRF_RTC_Type * p_reg)
-{
-    //return p_reg->PRESCALER;
-}
-
-__STATIC_INLINE void nrf_rtc_date_set(NRF_RTC_Type * p_reg, uint8_t* val)
+__STATIC_INLINE void nrf_rtc_date_set(NRF_RTC_Type * p_reg, nrf_rtc_time_t data)
 {	
-	uint32_t reg_val = p_reg->CLR;
-
-	reg_val = ( val[0]<<17 | val[1]<<12 | val[2]<<6 | val[3] );
+	uint32_t reg_val;;
+	reg_val = ( data.day<<17 | data.hour<<12 | data.min<<6 | data.sec );
 	p_reg->CLR = reg_val;
-	reg_val = p_reg->CLR;
+	
+	reg_val = data.week;
+	
+  p_reg->WLR = reg_val;
 }
 
 __STATIC_INLINE void nrf_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
@@ -234,7 +200,7 @@ __STATIC_INLINE void nrf_rtc_freq_set(NRF_RTC_Type * p_reg, uint16_t val)
 	p_reg->RAW_LIMIT = val;
 }
 
-__STATIC_INLINE void nrf_rtc_val_get(NRF_RTC_Type * p_reg, nrf_rtc_time_t *time)
+__STATIC_INLINE void nrf_rtc_date_get(NRF_RTC_Type * p_reg, nrf_rtc_time_t *time)
 {
 	uint32_t tmp_CCVR,tmp_WVR;
 	tmp_CCVR = p_reg->CCVR;

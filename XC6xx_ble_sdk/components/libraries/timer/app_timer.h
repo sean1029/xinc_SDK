@@ -87,7 +87,7 @@ extern "C" {
  */
 #define APP_TIMER_LOG_NAME app_timer
 
-#define APP_TIMER_CLOCK_FREQ            100                     /**< Clock frequency of the RTC timer used to implement the app timer module. */
+#define APP_TIMER_CLOCK_FREQ            1000                     /**< Clock frequency of the RTC timer used to implement the app timer module. */
 #define APP_TIMER_MIN_TIMEOUT_TICKS     5                         /**< Minimum value of the timeout_ticks parameter of app_timer_start(). */
 
 #ifdef RTX

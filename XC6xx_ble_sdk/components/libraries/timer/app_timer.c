@@ -61,23 +61,11 @@
 // If this is to be changed, protection must be added to prevent them from interrupting each other
 // (e.g. by using guard/trigger flags).
 
-#define MAX_TIMER_COUNTER_VAL     0xFFFFFFFF                                  /**< Maximum value of the RTC counter. */
+#define MAX_TIMER_COUNTER_VAL     0xFFFF                                  /**< Maximum value of the RTC counter. */
 
 #define TIMER_COMPARE_OFFSET_MIN  1                                           /**< Minimum offset between the current TIMER counter value and the Capture Compare register. */
 #define MAX_TIMER_TASKS_DELAY     47                                          /**< Maximum delay until an TIMER task is executed. */
 
-#ifdef EGU_PRESENT
-#define SWI_PART(_id) CONCAT_2(SWI,_id)
-#define EGU_PART(_id) CONCAT_2(_EGU,_id)
-#define SWI_IRQ_n(_id) CONCAT_3(SWI_PART(_id), EGU_PART(_id),_IRQn)
-#define SWI_IRQ_Handler_n(_id) CONCAT_3(SWI_PART(_id), EGU_PART(_id),_IRQHandler)
-#else //EGU_PRESENT
-#define SWI_IRQ_n(_id) CONCAT_3(SWI,_id,_IRQn)
-#define SWI_IRQ_Handler_n(_id) CONCAT_3(SWI,_id,_IRQHandler)
-#endif
-
-#define SWI_IRQn SWI_IRQ_n(APP_TIMER_CONFIG_SWI_NUMBER)
-#define SWI_IRQHandler SWI_IRQ_Handler_n(APP_TIMER_CONFIG_SWI_NUMBER)
 
 
 #define MODULE_INITIALIZED (m_op_queue.size != 0)                           /**< Macro designating whether the module has been initialized properly. */
@@ -157,43 +145,67 @@ static bool                          m_timer2_reset;                            
 static uint8_t                       m_max_user_op_queue_utilization;           /**< Maximum observed timer user operations queue utilization. */
 #endif
 
-/**@brief Function for initializing the RTC1 counter.
- *
- * @param[in] prescaler   Value of the RTC1 PRESCALER register. Set to 0 for no prescaling.
+/**@brief Function for checking for expired timers.
  */
-static void timer2_init(uint32_t prescaler)
+static void timer_timeouts_check(void);
+	
+#include "nrf_drv_rtc.h"
+const static nrfx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+
+
+
+/**@brief Function for handling the RTC1 interrupt.
+ *
+ * @details Checks for timeouts, and executes timeout handlers for expired timers.
+ */
+
+static void rtc_AOtime_handler(nrf_drv_rtc_int_type_t int_type)
 {
-
-	uint32_t clk =0;
-	clk = 0xf << 0;
-	clk |= 0xf << 8;
-	clk |= 0x01 << 28;
-	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x80008); //TIMER_PCLK ????
-	__write_hw_reg32(CPR_TIMER_CLK_CTL(APP_TIMER_CH),clk);//TIMERx_CLK ??????? mclk_in(32MHz)/2*(0x0F + 0x1)
-	__write_hw_reg32(TIMERx_TCR(APP_TIMER_CH),0x0);//
-
-	__write_hw_reg32(TIMERx_TLC(APP_TIMER_CH),100);//
-   __write_hw_reg32(TIMERx_TCR(APP_TIMER_CH),0x0);
-	NVIC_EnableIRQ((IRQn_Type)(TIMER0_IRQn+APP_TIMER_CH));
+		nrf_rtc_time_t rtc_time_val;
+    if (int_type == NRFX_RTC_INT_AOTIME)
+    {
+			timer_timeouts_check();
+    }
 }
+
+
+/**@brief Function for initializing the RTC_AOTIME .
+ *
+ * @param[in] VOID
+ */
+
+static void rtc_AOtime_init(void)
+{
+    uint32_t err_code;
+   
+    //Initialize RTC instance
+    nrfx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+		config.type = NRF_RTC_TYPE_AOTIME;
+    err_code = nrf_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
+    //Power on RTC instance
+    nrfx_rtc_enable(&rtc);
+
+		printf("TIMER_TICKS(50):%d\r\n",APP_TIMER_TICKS(2000));
+
+}
+
+
 
 
 /**@brief Function for starting the timer.
  */
-static void timer2_start(void)
+static void rtc_AOtime_start(void)
 {
-//	printf("%s\r\n",__func__);
-	//NVIC_EnableIRQ((IRQn_Type)(TIMER0_IRQn+APP_TIMER_CH));
+
   m_timer2_running = true;
 }
 
 
 /**@brief Function for stopping the timer.
  */
-static void timer2_stop(void)
+static void rtc_AOtime_stop(void)
 {
-	//	printf("%s\r\n",__func__);
-		__write_hw_reg32(TIMERx_TCR(APP_TIMER_CH),0x0);//enable timer_num
+		rtc.p_reg->AO_TIMER_CTL = 0;
 
     m_ticks_latest        = 0;
 
@@ -201,14 +213,14 @@ static void timer2_stop(void)
 }
 
 
-/**@brief Function for returning the current value of the RTC1 counter.
+/**@brief Function for returning the current value of the sys tick counter.
  *
  * @return     Current value of the RTC1 counter.
  */
 extern uint32_t SysTick_get(void);
-static __INLINE uint32_t timer2_counter_get(void) //timer counter use systick uint 10ms
+static __INLINE uint32_t systick_counter_get(void) //timer counter use systick uint 10ms 
 {
-	return SysTick_get();
+	return APP_TIMER_TICKS(SysTick_get() * 10) & MAX_TIMER_COUNTER_VAL;
 
 }
 
@@ -228,11 +240,10 @@ static __INLINE uint32_t ticks_diff_get(uint32_t ticks_now, uint32_t ticks_old)
  *
  * @param[in] value   New value of Capture Compare register 0.
  */
-static __INLINE void timer2_sigle_set(uint32_t value)
+static __INLINE void rtc_AOtime_sigle_set(uint32_t value)
 {
- __write_hw_reg32(TIMERx_TCR(APP_TIMER_CH),0x0);//?????timer_num
-	__write_hw_reg32(TIMERx_TLC(APP_TIMER_CH),value);
-   __write_hw_reg32(TIMERx_TCR(APP_TIMER_CH),0x1);//?????timer_num
+	uint16_t val =  value * 1000 / 31;
+	nrf_drv_rtc_AOtime_set(&rtc,val);
 }
 
 
@@ -354,7 +365,7 @@ static bool timer_list_remove(timer_node_t * p_timer)
  */
 static void timer_timeouts_check_sched(void)
 {
-	printf("timer_timeouts_check_sched \r\n");
+//	printf("timer_timeouts_check_sched \r\n");
 //	NVIC_SetPendingIRQ(TIMER2_IRQn);
 			
 }
@@ -372,7 +383,8 @@ static void timer_list_handler_sched(void)
 
 void	PendSV_Handler(void)
 {
-	list_handler_sched_flag++;
+//	list_handler_sched_flag++;
+	timer_list_handler();
 
 }
 
@@ -423,7 +435,7 @@ static void timer_timeouts_check(void)
         ticks_expired = 0;
 
         // ticks_elapsed is collected here, job will use it.
-        ticks_elapsed = ticks_diff_get(timer2_counter_get(), m_ticks_latest);
+        ticks_elapsed = ticks_diff_get(systick_counter_get(), m_ticks_latest);
 
         // Auto variable containing the head of timers expiring.
         p_timer = mp_timer_id_head;
@@ -692,25 +704,25 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
     if (mp_timer_id_head != NULL)
     {
         uint32_t ticks_to_expire = mp_timer_id_head->ticks_to_expire;
-        uint32_t pre_counter_val = timer2_counter_get();
+        uint32_t pre_counter_val = systick_counter_get();
 			//	printf("pre_counter_val:%d\r\n",pre_counter_val);
         uint32_t cc              = m_ticks_latest;
 			//  printf("m_ticks_latest:%d\r\n",m_ticks_latest);
         uint32_t ticks_elapsed   = ticks_diff_get(pre_counter_val, cc) + TIMER_COMPARE_OFFSET_MIN;
-
+			//	printf("cc0:%d,pre:%d\r\n",cc,pre_counter_val);
 			//	printf("m_rtc1_running:%d\r\n",m_rtc1_running);
         if (!m_timer2_running)
         {
             // No timers were already running, start RTC
-            timer2_start();
+            rtc_AOtime_start();
         }
 			//	printf("ticks_elapsed:%d,ticks_to_expire:%d\r\n",ticks_elapsed,ticks_to_expire);
         cc += (ticks_elapsed < ticks_to_expire) ? ticks_to_expire : ticks_elapsed;
         cc &= MAX_TIMER_COUNTER_VAL;
-			//	printf("cc:%d\r\n",cc);
 				
-		  	timer2_sigle_set((cc - pre_counter_val) * 10 );
-        uint32_t post_counter_val = timer2_counter_get();
+			//	printf("cc1:%d,pre:%d\r\n",cc,pre_counter_val);
+		  	rtc_AOtime_sigle_set((cc - pre_counter_val));
+        uint32_t post_counter_val = systick_counter_get();
 
         if (
             (ticks_diff_get(post_counter_val, pre_counter_val) + TIMER_COMPARE_OFFSET_MIN)
@@ -720,7 +732,7 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
         {
   
            
-						timer2_sigle_set(10);					
+						rtc_AOtime_sigle_set(APP_TIMER_TICKS(10));					
             delay_us(MAX_TIMER_TASKS_DELAY);
             timer_timeouts_check_sched();
         }
@@ -729,7 +741,7 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
     {
 #if (APP_TIMER_KEEPS_RTC_ACTIVE == 0)
         // No timers are running, stop RTC
-        timer2_stop();
+        rtc_AOtime_stop();
 #endif //(APP_TIMER_KEEPS_RTC_ACTIVE == 0)
     }
 }
@@ -865,7 +877,7 @@ static uint32_t timer_start_op_schedule(timer_node_t * p_node,
     {
         p_user_op->op_type                              = TIMER_USER_OP_TYPE_START;
         p_user_op->p_node                               = p_node;
-        p_user_op->params.start.ticks_at_start          = timer2_counter_get();
+        p_user_op->params.start.ticks_at_start          = systick_counter_get();
         p_user_op->params.start.ticks_first_interval    = timeout_initial;
         p_user_op->params.start.ticks_periodic_interval = timeout_periodic;
         p_user_op->params.start.p_context               = p_context;
@@ -920,34 +932,12 @@ static uint32_t timer_stop_op_schedule(timer_node_t * p_node,
     return err_code;
 }
 
-/**@brief Function for handling the RTC1 interrupt.
- *
- * @details Checks for timeouts, and executes timeout handlers for expired timers.
- */
-
-void TIMER2_Handler(void)
-{
-	uint32_t val=0;
-	__read_hw_reg32(TIMER2_TIC , val);
-//	printf("TIMER2_Handler\n");
-	timer_timeouts_check();
-	
-}
-
-/**@brief Function for handling the SWI interrupt.
- *
- * @details Performs all updates to the timer list.
- */
-void SWI_IRQHandler(void)
-{
-    timer_list_handler();
-}
 
 
 ret_code_t app_timer_init(void)
 {
     // Stop RTC to prevent any running timers from expiring (in case of reinitialization)
-    timer2_stop();
+    rtc_AOtime_stop();
 
     // Initialize operation queue
     m_op_queue.first           = 0;
@@ -962,13 +952,10 @@ ret_code_t app_timer_init(void)
     m_max_user_op_queue_utilization   = 0;
 #endif
 
- //   NVIC_ClearPendingIRQ(SWI_IRQn);
- //   NVIC_SetPriority(SWI_IRQn, SWI_IRQ_PRI);
- //   NVIC_EnableIRQ(SWI_IRQn);
+		rtc_AOtime_init();
 
-    timer2_init(APP_TIMER_CONFIG_TIMER_FREQUENCY);
-
-    m_ticks_latest = timer2_counter_get();
+    m_ticks_latest = systick_counter_get();
+		
 
     return NRF_SUCCESS;
 }
@@ -1061,7 +1048,7 @@ ret_code_t app_timer_stop_all(void)
 
 uint32_t app_timer_cnt_get(void)
 {
-    return timer2_counter_get();
+    return systick_counter_get();
 }
 
 
@@ -1087,5 +1074,7 @@ void app_timer_resume(void)
 {
 //    NRF_RTC1->TASKS_START = 1;
 }
+
+
 
 #endif //NRF_MODULE_ENABLED(APP_TIMER)

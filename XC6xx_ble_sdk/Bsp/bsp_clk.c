@@ -64,3 +64,11 @@ void xc_saadc_clk_init(void)
 	
 	
 }
+
+void xc_rtc_clk_init(void)
+{
+  	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x20002);   // RTC_PCLK 时钟使能：
+		__write_hw_reg32(CPR_AOCLKEN_GRCTL, 0x20002);       // RTC_CLK 时钟使能：
+	
+	
+}
