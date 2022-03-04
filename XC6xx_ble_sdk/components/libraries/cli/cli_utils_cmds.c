@@ -39,7 +39,7 @@
  */
 #include "nrf_cli.h"
 //#include "nrf_log.h"
-
+#if NRF_MODULE_ENABLED(NRF_CLI)
 static void cmd_reset(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
@@ -164,3 +164,5 @@ NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_msg)
 };
 
 NRF_CLI_CMD_REGISTER(log_msg, &m_sub_log_msg, "Trigger log message with decimal arguments", NULL);
+#endif //
+

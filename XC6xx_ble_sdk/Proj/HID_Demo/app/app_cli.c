@@ -38,6 +38,8 @@
  *
  */
 #include "nrf_cli.h"
+
+#if NRF_CLI_ENABLED
 //#include "nrf_log.h"
 #include "nrf_gpio.h"
 static void cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
@@ -157,3 +159,6 @@ NRF_CLI_CMD_REGISTER(xinc, &m_sub_xinc, NRF_CLI_HELP_XINC, nrf_cli_cmd_xinc);
 //};
 
 //NRF_CLI_CMD_REGISTER(cli,       &m_sub_cli,     NRF_CLI_HELP_CLI,       nrf_cli_cmd_cli);
+
+#endif
+

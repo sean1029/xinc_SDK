@@ -20,6 +20,7 @@
 #include "xinc_drv_saadc.h"
 #include "nrf_drv_rtc.h"
 #include "bsp_clk.h"
+#include "nrf_drv_timer.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -381,6 +382,8 @@ static void scheduler_init(void)
 #include "nrf_cli.h"
 #include "app_uart.h"
 
+
+#if NRF_CLI_ENABLED
 NRF_CLI_UART_DEF(cli_uart, 1, 64, 64);
 NRF_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
 
@@ -396,6 +399,8 @@ void cli_init(void)
     ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, NRF_LOG_SEVERITY_NONE);
     APP_ERROR_CHECK(err_code);
 }
+#endif 
+
 
 //void uart_event_handle(app_uart_evt_t * p_event)
 //{
@@ -587,7 +592,7 @@ static void rtc_config(void)
 		time.times.sec = 10;
 		time.times.min = 0;
 		time.times.week = NRFX_RTC_WEEK_MATCH_SUNDAY | NRFX_RTC_WEEK_MATCH_MONDAY;
-		nrf_drv_rtc_time_set(&rtc,0,time,true);
+		nrf_drv_rtc_time_set(&rtc,NRFX_RTC_MATCH_TIME_1,time,true);
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
 		nrf_drv_rtc_sec_int_enable(&rtc,true);
@@ -644,6 +649,64 @@ void timer_test()
 	
 
 }
+
+const nrf_drv_timer_t TIMER_LED = NRF_DRV_TIMER_INSTANCE(3);
+
+void timer_led_event_handler(nrf_timer_int_event_t event_type,uint8_t channel, void* p_context)
+{
+    static uint32_t i = 0;
+		static uint8_t on_off = 0;
+	//	printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+    switch (event_type)
+    {
+        case NRF_TIMER_EVENT_TIMEOUT:
+				{				
+						if(on_off == 0)
+						{						
+							GPIO_OUTPUT_HIGH(5);
+							on_off = 1;				
+						}else
+						{						
+							GPIO_OUTPUT_LOW(5);
+							on_off = 0;
+					
+						}	
+		}break;
+
+		default:
+				//Do nothing.
+				break;
+	}
+}
+
+static void timer_config(void)
+{
+    uint32_t time_ms = 200; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ticks;
+    uint32_t err_code = NRF_SUCCESS;
+	
+    //Configure TIMER_LED for generating simple light effect - leds on board will invert his state one after the other.
+    nrf_drv_timer_config_t timer_cfg = NRF_DRV_TIMER_DEFAULT_CONFIG;
+    err_code = nrf_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
+    //APP_ERROR_CHECK(err_code);
+
+    time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
+		printf("time_ticks= [%d]\n",time_ticks);
+	
+//		time_ticks = nrf_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
+//		printf("time_ticks= [%d]\n",time_ticks);
+    nrf_drv_timer_compare(
+         &TIMER_LED, time_ticks, true);
+
+    nrf_drv_timer_enable(&TIMER_LED);
+
+    while (1)
+    {
+        for(int i=0; i<455000; i++){}; 
+		for(int i=0; i<455000; i++){}; 
+	//	printf("count=[%d]\n",TIMER_LED.p_reg->TCV);
+    }
+}
      
 int	main(void)
 {
@@ -657,6 +720,8 @@ int	main(void)
 	set_bd_addr();
 
 //	printf("%s\r\n",__func__);
+	
+
 
   ble_init((void *)&blestack_init);
 	
@@ -666,7 +731,6 @@ int	main(void)
 	key_init();
 	app_timer_init();
 	
-	timer_test();
 //	  nrfx_gpiote_init();
 	//  bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);//BSP_INIT_BUTTONS
 	//	gpio_direction_output(4);gpio_direction_output(5);
@@ -674,6 +738,9 @@ int	main(void)
 	//app_button_init(app_buttons,2,50);
 	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
   // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
+		nrf_gpio_cfg_output(4);
+    nrf_gpio_cfg_output(5);
+		timer_config();
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;

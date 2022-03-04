@@ -32,49 +32,57 @@ compiling main.c...
   			if(pin_number >= 0 && pin_number <= 4)
 ..\..\..\integration\nrfx\xinc_drv_spi.h(477): warning:  #177-D: variable "tx_length"  was declared but never referenced
   	  uint16_t tx_length = 0;
+..\..\..\modules\nrfx\hal/nrf_timer.h(322): warning:  #188-D: enumerated type mixed with another type
+     event = p_reg->TIC;
+..\..\..\modules\nrfx\hal/nrf_timer.h(320): warning:  #550-D: parameter "event"  was set but never used
+  __STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type * p_reg,nrf_timer_int_event_t event)
+..\..\..\modules\nrfx\hal/nrf_timer.h(366): warning:  #188-D: enumerated type mixed with another type
+    return (nrf_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
+..\..\..\modules\nrfx\hal/nrf_timer.h(374): warning:  #177-D: variable "addr"  was declared but never referenced
+  	int addr ;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(224): warning:  #111-D: statement is unreachable
   			}break;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(229): warning:  #111-D: statement is unreachable
   			}break;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(234): warning:  #111-D: statement is unreachable
   			}break;
-..\app\main.c(394): warning:  #188-D: enumerated type mixed with another type
-  		uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
-..\app\main.c(590): warning:  #188-D: enumerated type mixed with another type
-  		nrf_drv_rtc_time_set(&rtc,0,time,true);
-..\app\main.c(576): warning:  #550-D: variable "err_code"  was set but never used
+..\app\main.c(581): warning:  #550-D: variable "err_code"  was set but never used
       uint32_t err_code;
-..\app\main.c(639): warning:  #550-D: variable "err_code"  was set but never used
+..\app\main.c(644): warning:  #550-D: variable "err_code"  was set but never used
   	uint32_t err_code;
-..\app\main.c(745): warning:  #177-D: variable "gadc_val"  was declared but never referenced
+..\app\main.c(657): warning:  #177-D: variable "i"  was declared but never referenced
+      static uint32_t i = 0;
+..\app\main.c(686): warning:  #550-D: variable "err_code"  was set but never used
+      uint32_t err_code = NRF_SUCCESS;
+..\app\main.c(812): warning:  #177-D: variable "gadc_val"  was declared but never referenced
   			 int16_t gadc_val;
-..\app\main.c(50): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
+..\app\main.c(51): warning:  #177-D: function "app_get_connect_state"  was declared but never referenced
   static int app_get_connect_state(void)
-..\app\main.c(273): warning:  #177-D: variable "input"  was declared but never referenced
+..\app\main.c(274): warning:  #177-D: variable "input"  was declared but never referenced
   static unsigned char input[BUF_SIZE]; 
-..\app\main.c(359): warning:  #177-D: variable "app_buttons"  was declared but never referenced
+..\app\main.c(360): warning:  #177-D: variable "app_buttons"  was declared but never referenced
   static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
-..\app\main.c(485): warning:  #177-D: function "log_init"  was declared but never referenced
+..\app\main.c(490): warning:  #177-D: function "log_init"  was declared but never referenced
   static void log_init(void)
-..\app\main.c(497): warning:  #177-D: variable "m_adc_evt_counter"  was declared but never referenced
+..\app\main.c(502): warning:  #177-D: variable "m_adc_evt_counter"  was declared but never referenced
   static uint32_t              m_adc_evt_counter;
-..\app\main.c(539): warning:  #177-D: function "adc_config"  was declared but never referenced
+..\app\main.c(544): warning:  #177-D: function "adc_config"  was declared but never referenced
   static void adc_config(void)
-..\app\main.c(574): warning:  #177-D: function "rtc_config"  was declared but never referenced
+..\app\main.c(579): warning:  #177-D: function "rtc_config"  was declared but never referenced
   static void rtc_config(void)
-..\app\main.c(599): warning:  #177-D: function "bsp_evt_handler"  was declared but never referenced
+..\app\main.c(604): warning:  #177-D: function "bsp_evt_handler"  was declared but never referenced
   static void bsp_evt_handler(bsp_event_t event)
-..\app\main.c: 18 warnings, 0 errors
+..\app\main.c: 22 warnings, 0 errors
 linking...
-Program Size: Code=89880 RO-data=8512 RW-data=992 ZI-data=18752  
+Program Size: Code=76448 RO-data=7184 RW-data=928 ZI-data=18048  
 After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
 After Build - User command #2: Xincboot_tool s.bin download.bin
 Xinc v3.1 build Mar 19 2019 23:08:55
 USAGE: [Xincboot_tool] <input FILE> <output FILE> 
 Input: s.bin download.bin 
-Input file "s.bin" raw size = 0x18170 byte 
+Input file "s.bin" raw size = 0x147b8 byte 
  -): 
-".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 18 Warning(s).
+".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 22 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -88,7 +96,7 @@ Package Vendor: ARM
   C:\Users\crabu\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\Device\ARM\ARMCM0\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

@@ -973,7 +973,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>timer</GroupName>
+          <GroupName>app_timer</GroupName>
           <Files>
             <File>
               <FileName>app_timer.c</FileName>
@@ -1071,9 +1071,9 @@
           <GroupName>spi</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_spim.c</FileName>
+              <FileName>xincx_spim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_spim.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_spi.c</FileName>
@@ -1149,6 +1149,16 @@
               <FileName>xincx_rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_rtc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>timer</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2035,7 +2045,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>timer</GroupName>
+          <GroupName>app_timer</GroupName>
           <Files>
             <File>
               <FileName>app_timer.c</FileName>
@@ -2133,9 +2143,9 @@
           <GroupName>spi</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_spim.c</FileName>
+              <FileName>xincx_spim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_spim.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_spim.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_spi.c</FileName>
@@ -2211,6 +2221,16 @@
               <FileName>xincx_rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_rtc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>timer</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_timer.c</FilePath>
             </File>
           </Files>
         </Group>

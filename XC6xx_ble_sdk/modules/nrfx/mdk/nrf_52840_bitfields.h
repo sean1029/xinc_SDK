@@ -13673,19 +13673,18 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Register: TIMER_MODE */
 /* Description: Timer mode selection */
 
-/* Bits 1..0 : Timer mode */
-#define TIMER_MODE_MODE_Pos (0UL) /*!< Position of MODE field. */
-#define TIMER_MODE_MODE_Msk (0x3UL << TIMER_MODE_MODE_Pos) /*!< Bit mask of MODE field. */
+/* Bits 1 : Timer mode */
+#define TIMER_MODE_MODE_Pos (1UL) /*!< Position of MODE field. */
+#define TIMER_MODE_MODE_Msk (0x1UL << TIMER_MODE_MODE_Pos) /*!< Bit mask of MODE field. */
 #define TIMER_MODE_MODE_Timer (0UL) /*!< Select Timer mode */
 #define TIMER_MODE_MODE_Counter (1UL) /*!< Deprecated enumerator -  Select Counter mode */
-#define TIMER_MODE_MODE_LowPowerCounter (2UL) /*!< Select Low Power Counter mode */
 
 /* Register: TIMER_BITMODE */
 /* Description: Configure the number of bits used by the TIMER */
 
 /* Bits 1..0 : Timer bit width */
-#define TIMER_BITMODE_BITMODE_Pos (0UL) /*!< Position of BITMODE field. */
-#define TIMER_BITMODE_BITMODE_Msk (0x3UL << TIMER_BITMODE_BITMODE_Pos) /*!< Bit mask of BITMODE field. */
+#define TIMER_BITMODE_BITMODE_Pos (1UL) /*!< Position of BITMODE field. */
+#define TIMER_BITMODE_BITMODE_Msk (0x1UL << TIMER_BITMODE_BITMODE_Pos) /*!< Bit mask of BITMODE field. */
 #define TIMER_BITMODE_BITMODE_16Bit (0UL) /*!< 16 bit timer bit width */
 #define TIMER_BITMODE_BITMODE_08Bit (1UL) /*!< 8 bit timer bit width */
 #define TIMER_BITMODE_BITMODE_24Bit (2UL) /*!< 24 bit timer bit width */

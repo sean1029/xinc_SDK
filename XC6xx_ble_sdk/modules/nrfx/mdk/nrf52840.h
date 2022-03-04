@@ -454,10 +454,82 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
   __IM   uint32_t  FREQ_32K_TIMER_VAL;       /*!< (@ 0x00000050) FREQ_TIMER value register                                                        */			
   
 } NRF_RTC_Type;   
+/* =========================================================================================================================== */
+/* ================                                          TIMER0                                           ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief Timer/Counter 0 (TIMER0)
+  */
+
+typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structure                                              */
+  __IOM  uint32_t  TLC;                   /*!< (@ 0x00000000) Load count value into register                             */
+  __IOM  uint32_t  TCV;                   /*!< (@ 0x00000004) current count value register                               */
+  __IOM  uint32_t  TCR;                   /*!< (@ 0x00000008) control register                                           */
+  __IOM  uint32_t  TIC;                   /*!< (@ 0x0000000C) interrupt clear register                                   */
+  __IOM  uint32_t  TIS;                   /*!< (@ 0x00000010) Interrupt Status Register                                  */
+
+} NRF_TIMER_Type;  
+
+
+typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structure                      */                        
+
+  __IOM  uint32_t  GLOBAL_TIS;                    /*!< (@ 0x000000A0) Global Interrupt Status Register                                  */
+  __IOM  uint32_t  GLOBAL_TIC;                    /*!< (@ 0x000000A4) Global interrupt clear register                                   */
+  __IOM  uint32_t  GLOBAL_RTIS;                   /*!< (@ 0x000000A8) Global Raw Interrupt Status register                              */
+	
+} NRF_TIMER_GLOBAL_Type; 
+
+typedef struct {                             /*!< (@ 0x40000000) CPR Structure                      */                        
+
+	__IM   uint32_t  RESERVED0[9];
+  __IOM  uint32_t  PCLK_GRCTL;              /*!< (@ 0x00000024) PCLK GR  */   
+  __IM   uint32_t  RESERVED1[2];        
+	__IOM  uint32_t  UART0_GRCTL;             /*!< (@ 0x00000030) UART0 CLK GR  */ 
+  __IOM  uint32_t  UART0_CLK_CTL;           /*!< (@ 0x00000034) UART0 CLK CTL  */ 
+	__IOM  uint32_t  UART1_GRCTL;             /*!< (@ 0x00000038) UART1 CLK GR  */ 
+  __IOM  uint32_t  UART1_CLK_CTL;           /*!< (@ 0x0000003C) UART1 CLK CTL  */  
+  __IOM  uint32_t  BT_CLK_CTL;              /*!< (@ 0x00000040) BT CLK CTL  */ 
+  __IM   uint32_t  RESERVED2;     
+  __IOM  uint32_t  BT_MODEM_CTL;              /*!< (@ 0x00000048) BT MODEM CTL  */ 
+  __IM   uint32_t  RESERVED3;
+  __IOM  uint32_t  SSI0_MCLK_CTL;              /*!< (@ 0x00000050) SSI0_MCLK CTL  */ 
+  __IOM  uint32_t  SSI1_MCLK_CTL;              /*!< (@ 0x00000054) SSI1_MCLK CTL  */ 
+  __IOM  uint32_t  TIMER0_CLK_CTL;             /*!< (@ 0x00000058) TIMER0 CLK CTL  */
+  __IOM  uint32_t  TIMER1_CLK_CTL;             /*!< (@ 0x0000005C) TIMER1 CLK CTL  */ 
+  __IOM  uint32_t  TIMER2_CLK_CTL;             /*!< (@ 0x00000060) TIMER2 CLK CTL  */
+  __IOM  uint32_t  TIMER3_CLK_CTL;             /*!< (@ 0x00000064) TIMER2 CLK CTL  */
+  __IOM  uint32_t  PWM_CLK_CTL;                /*!< (@ 0x00000068) PWM CLK CTL  */  
+  __IOM  uint32_t  AHBCLKEN_GRCTL;             /*!< (@ 0x0000006C) AHBCLKEN_GRCTL  */
+  __IOM  uint32_t  CTLAPBCLKEN_GRCTL;          /*!< (@ 0x00000070) CTLAPBCLKEN_GRCTL  */ 
+  __IOM  uint32_t  OTHERCLKEN_GRCTL;           /*!< (@ 0x00000074) OTHERCLKEN_GRCTL  */ 
+  __IOM  uint32_t  I2C_CLK_CTL;                /*!< (@ 0x00000078) I2C_CLK_CTL  */ 
+  __IM   uint32_t  RESERVED4[17];
+  __IOM  uint32_t  GPIO_FUN_SEL0;                /*!< (@ 0x000000C0) GPIO_FUNSEL0  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL1;                /*!< (@ 0x000000C4) GPIO_FUNSEL1  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL2;                /*!< (@ 0x000000C8) GPIO_FUNSEL2  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL3;                /*!< (@ 0x000000CC) GPIO_FUNSEL3  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL4;                /*!< (@ 0x000000D0) GPIO_FUNSEL4  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL5;                /*!< (@ 0x000000D4) GPIO_FUNSEL5  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL6;                /*!< (@ 0x000000D8) GPIO_FUNSEL6  */ 
+  __IOM  uint32_t  GPIO_FUN_SEL7;                /*!< (@ 0x000000DC) GPIO_FUNSEL7  */ 
+  __IM   uint32_t  RESERVED5[8];
+  __IOM  uint32_t  RSTCTL_CTLAPB_SW;             /*!< (@ 0x00000100) RSTCTL_CTLAPB_SW  */ 
+  __IOM  uint32_t  RSTCTL_SUBRST_SW;             /*!< (@ 0x00000104) RSTCTL_SUBRST_SW  */ 
+
+  __IOM  uint32_t  RSTCTL_M0RST_SW;             /*!< (@ 0x00000108) RSTCTL_M0RST_SW  */ 
+  __IOM  uint32_t  RSTCTL_M0RST_MASK;             /*!< (@ 0x0000010C) RSTCTL_M0RST_MASK  */  
+  __IM   uint32_t  RESERVED6;
+  __IOM  uint32_t  RSTCTL_WDTRST_MASK;             /*!< (@ 0x00000114) RSTCTL_WDTRST_MASK  */ 
+  __IM   uint32_t  RESERVED7[18];
+  __IOM  uint32_t  SSI_CTRL;                    /*!< (@ 0x00000160) SSI_CTRL  */
+} XINC_CPR_CTL_Type; 
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
 #define NRF_P0_BASE                 0x40001000UL
+#define XINC_CPR_BASE               0x40000000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
 #define XINC_GPIOTE_BASE             0x40006000UL
 #define XINC_UART0_BASE              0x40010000UL
@@ -467,6 +539,22 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
 #define NRF_RTC0_BASE               0x40002000UL
+#define NRF_TIMER0_BASE             0x40003000UL
+#define NRF_TIMER1_BASE             0x40003014UL
+#define NRF_TIMER2_BASE             0x40003028UL
+#define NRF_TIMER3_BASE             0x4000303CUL
+#define NRF_TIMER_GLOBAL_BASE       0x400030A0UL
+#define NRF_TIMER0_CLKCTL_BASE       0x40000058UL
+#define NRF_TIMER1_CLKCTL_BASE       0x4000005CUL
+#define NRF_TIMER2_CLKCTL_BASE       0x40000060UL
+#define NRF_TIMER3_CLKCTL_BASE       0x40000064UL
+
+#define	NRF_PWM0_BASE				0x40017000UL
+#define	NRF_PWM1_BASE				0x40017040UL
+#define	NRF_PWM2_BASE				0x40017400UL
+#define	NRF_PWM3_BASE				0x40017440UL
+#define	NRF_PWM4_BASE				0x40017800UL
+#define	NRF_PWM5_BASE				0x40017840UL
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
 /* =========================================================================================================================== */
@@ -476,6 +564,8 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
   * @{
   */
 #define NRF_P0                       ((NRF_GPIO_Type*)            NRF_P0_BASE)
+#define XINC_CPR                     ((XINC_CPR_CTL_Type*)    XINC_CPR_BASE)
+
 #define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
 #define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          XINC_GPIOTE_BASE)
 #define NRF_UART0                    ((NRF_UART_Type*)            XINC_UART0_BASE)
@@ -485,6 +575,23 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
 #define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
 #define NRF_RTC0                    ((NRF_RTC_Type*)           NRF_RTC0_BASE)
+#define NRF_TIMER0                  ((NRF_TIMER_Type*)         NRF_TIMER0_BASE)
+#define NRF_TIMER1                  ((NRF_TIMER_Type*)         NRF_TIMER1_BASE)
+#define NRF_TIMER2                  ((NRF_TIMER_Type*)         NRF_TIMER2_BASE)
+#define NRF_TIMER3                  ((NRF_TIMER_Type*)         NRF_TIMER3_BASE)
+#define NRF_TIMER_GLOBAL            ((NRF_TIMER_GLOBAL_Type*)  NRF_TIMER_GLOBAL_BASE)
+#define NRF_CLKCTL_TIMER0            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER0_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER1            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER1_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER2            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER2_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER3            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER3_CLKCTL_BASE)
+
+
+#define NRF_PWM0                    ((NRF_PWM_Type*)           NRF_PWM0_BASE)
+#define NRF_PWM1                    ((NRF_PWM_Type*)           NRF_PWM1_BASE)
+#define NRF_PWM2                    ((NRF_PWM_Type*)           NRF_PWM2_BASE)
+#define NRF_PWM3                    ((NRF_PWM_Type*)           NRF_PWM3_BASE)
+#define NRF_PWM4                    ((NRF_PWM_Type*)           NRF_PWM4_BASE)
+#define NRF_PWM5                    ((NRF_PWM_Type*)           NRF_PWM5_BASE)
 #ifdef __cplusplus
 }
 #endif
