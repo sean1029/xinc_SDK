@@ -88,10 +88,40 @@ nrfx_err_t nrfx_timer_init(nrfx_timer_t const * const  p_instance,
 											 NRFX_LOG_ERROR_STRING_GET(err_code));
 			return err_code;
 	}
+	printf("p_config->frequency val:%d,p_config->clk_src:%d\r\n",p_config->frequency,p_config->clk_src);
+	if(p_config->frequency > NRF_TIMER_FREQ_32000Hz)
+	{
+			err_code = NRFX_ERROR_INVALID_PARAM;
+			NRFX_LOG_WARNING("Function: %s, error code: %s.",
+											 __func__,
+											 NRFX_LOG_ERROR_STRING_GET(err_code));
+			
+			return err_code;
+	}
+	
+	if((p_config->frequency ==  NRF_TIMER_FREQ_32000Hz)&& (p_config->clk_src != NRF_TIMER_CLK_SRC_32K))
+	{
+		err_code = NRFX_ERROR_INVALID_PARAM;
+		
+		NRFX_LOG_WARNING("Function: %s, error code: %s.",
+											 __func__,
+											 NRFX_LOG_ERROR_STRING_GET(err_code));
+		return err_code;
+	}
+	
+	if((p_config->frequency < NRF_TIMER_FREQ_32000Hz)&& (p_config->clk_src == NRF_TIMER_CLK_SRC_32K))
+	{
+		err_code = NRFX_ERROR_INVALID_PARAM;
+		
+		NRFX_LOG_WARNING("Function: %s, error code: %s.",
+											 __func__,
+											 NRFX_LOG_ERROR_STRING_GET(err_code));
+		return err_code;
+	}
 		
 	p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK Ê±ÖÓÊ¹ÄÜ
  
-	nrf_timer_frequency_div_set(p_instance->p_cpr,p_instance->id,p_config->frequency); //TIMERx_CLK Ê±ÖÓ¿ØÖÆ¼Ä´æÆ÷ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
+	nrf_timer_frequency_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->frequency); //TIMERx_CLK Ê±ÖÓ¿ØÖÆ¼Ä´æÆ÷ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
 	printf("frequency val:0x%08x\r\n",p_config->frequency);
 	nrf_timer_mode_set(p_instance->p_reg, p_config->mode);
 	

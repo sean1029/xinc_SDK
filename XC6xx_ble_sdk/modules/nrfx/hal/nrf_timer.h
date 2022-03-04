@@ -135,25 +135,24 @@ typedef enum
 /** @brief Timer bit width. */
 typedef enum
 {
-    NRF_TIMER_BIT_WIDTH_8  = TIMER_BITMODE_BITMODE_08Bit, ///< Timer bit width 8 bit.
-    NRF_TIMER_BIT_WIDTH_16 = TIMER_BITMODE_BITMODE_16Bit, ///< Timer bit width 16 bit.
-    NRF_TIMER_BIT_WIDTH_24 = TIMER_BITMODE_BITMODE_24Bit, ///< Timer bit width 24 bit.
-    NRF_TIMER_BIT_WIDTH_32 = TIMER_BITMODE_BITMODE_32Bit  ///< Timer bit width 32 bit.
-} nrf_timer_bit_width_t;
+    NRF_TIMER_CLK_SRC_32M_DIV = 0, ///< Timer CLK SRC 32MHz div.
+    NRF_TIMER_CLK_SRC_32K_DIV = 1, ///< Timer CLK SRC 32kHz div.
+	  NRF_TIMER_CLK_SRC_32K = 4, ///< TimerCLK SRC 32kHz.
+} nrf_timer_clk_src_t;
 
 /** @brief Timer prescalers. */
 typedef enum
 {
-    NRF_TIMER_FREQ_16MHz = 0, ///< Timer frequency 16 MHz.
-    NRF_TIMER_FREQ_8MHz = 1,      ///< Timer frequency 8 MHz.
-    NRF_TIMER_FREQ_4MHz = 2,      ///< Timer frequency 4 MHz.
-    NRF_TIMER_FREQ_2MHz = 3,      ///< Timer frequency 2 MHz.
-    NRF_TIMER_FREQ_1MHz = 4,      ///< Timer frequency 1 MHz.
-    NRF_TIMER_FREQ_500kHz = 5,    ///< Timer frequency 500 kHz.
-    NRF_TIMER_FREQ_250kHz = 6,    ///< Timer frequency 250 kHz.
-    NRF_TIMER_FREQ_125kHz = 7,    ///< Timer frequency 125 kHz.
-    NRF_TIMER_FREQ_62500Hz = 8,   ///< Timer frequency 62500 Hz.
-    NRF_TIMER_FREQ_31250Hz = 9    ///< Timer frequency 31250 Hz.
+    NRF_TIMER_FREQ_16MHz = 0, 		///< Timer frequency 16 MHz or 16KHz
+    NRF_TIMER_FREQ_8MHz = 1,      ///< Timer frequency 8 MHz or 8KHz
+    NRF_TIMER_FREQ_4MHz = 2,      ///< Timer frequency 4 MHz or 4KHz.
+    NRF_TIMER_FREQ_2MHz = 3,      ///< Timer frequency 2 MHz or 2KHz.
+    NRF_TIMER_FREQ_1MHz = 4,      ///< Timer frequency 1 MHz or 1KHz.
+    NRF_TIMER_FREQ_500kHz = 5,    ///< Timer frequency 500 kHz or 500Hz.
+    NRF_TIMER_FREQ_250kHz = 6,    ///< Timer frequency 250 kHz or 250Hz.
+    NRF_TIMER_FREQ_125kHz = 7,    ///< Timer frequency 125 kHz or 125Hz.
+    NRF_TIMER_FREQ_62500Hz = 8,   ///< Timer frequency 62500 Hz or 62.5Hz.
+    NRF_TIMER_FREQ_32000Hz = 9    ///< Timer frequency 32000 Hz.
 } nrf_timer_frequency_t;
 
 
@@ -255,7 +254,7 @@ __STATIC_INLINE nrf_timer_mode_t nrf_timer_mode_get(NRF_TIMER_Type * p_reg);
  * @param[in] p_reg     Pointer to the structure of registers of the peripheral.
  * @param[in] frequency Timer frequency.
  */
-__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,
+__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,nrf_timer_clk_src_t clk_src,
                                              nrf_timer_frequency_t frequency);
 
 /**
@@ -265,7 +264,7 @@ __STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,
  *
  * @return Timer frequency.
  */
-__STATIC_INLINE nrf_timer_frequency_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
+__STATIC_INLINE uint32_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
 
 /**
  * @brief Function for writing the capture/compare register for the specified channel.
@@ -298,7 +297,7 @@ __STATIC_INLINE uint32_t nrf_timer_cc_read(NRF_TIMER_Type *       p_reg);
  * @return Number of timer ticks.
  */
 __STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
-                                               nrf_timer_frequency_t frequency);
+                                               uint32_t frequency);
 
 /**
  * @brief Function for calculating the number of timer ticks for a given time
@@ -310,7 +309,7 @@ __STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
  * @return Number of timer ticks.
  */
 __STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
-                                               nrf_timer_frequency_t frequency);
+                                               uint32_t frequency);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
@@ -368,30 +367,71 @@ __STATIC_INLINE nrf_timer_mode_t nrf_timer_mode_get(NRF_TIMER_Type * p_reg)
 
 
 
-__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,
+__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,nrf_timer_clk_src_t clk_src,
                                              nrf_timer_frequency_t frequency)
 {
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
 	Timer0CtlBaseAddr+= id;
-	 	
+	switch(clk_src)
+	{
+		case NRF_TIMER_CLK_SRC_32M_DIV:
+		{
+			*Timer0CtlBaseAddr = (1 << frequency) - 1 ;
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K_DIV:
+		{
+			*Timer0CtlBaseAddr = ((1 << frequency) - 1) | (0x01 << 28) ;
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K:
+		{
+			*Timer0CtlBaseAddr = (0x04 << 28);
+		}break;
+		
+		default:
+			break;
 	
-	*Timer0CtlBaseAddr = (1 << frequency) - 1 ;
+	}
 	
 	printf("timer clock id:%d, addr=[%p][%p],val=[%d],freq=[%d]\n",id,&p_reg->TIMER0_CLK_CTL,Timer0CtlBaseAddr,*Timer0CtlBaseAddr,frequency);
 }
 
-__STATIC_INLINE nrf_timer_frequency_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
+__STATIC_INLINE uint32_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
 {
 
-	uint8_t clk_div = 0;
+	uint32_t clk_div = 0;
+	nrf_timer_clk_src_t clk_src;
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
 	Timer0CtlBaseAddr+= id;
 	
-	clk_div = *Timer0CtlBaseAddr & 0xff;
+	clk_div = (*Timer0CtlBaseAddr);
+//	switch(clk_src)
+//	{
+//		case NRF_TIMER_CLK_SRC_32M_DIV:
+//		{
+//			clk_div = *Timer0CtlBaseAddr & 0xff;
+//		}break;
+//		
+//		case NRF_TIMER_CLK_SRC_32K_DIV:
+//		{
+//			clk_div = (*Timer0CtlBaseAddr & 0xff00) >> 8;
+//		}break;
+//		
+//		case NRF_TIMER_CLK_SRC_32K:
+//		{
+//			clk_div = 0;
+//		}break;
+//		
+//		default:
+//			break;
+//	
+//	}
+//	
 	
-	return (nrf_timer_frequency_t)clk_div;
+	return (uint32_t)clk_div;
 	
 }
 
@@ -410,27 +450,83 @@ __STATIC_INLINE uint32_t nrf_timer_cc_read(NRF_TIMER_Type * p_reg )
 
 
 __STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
-                                               nrf_timer_frequency_t frequency)
+                                               uint32_t frequency)
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16 MHz / 2^prescaler.
-    uint32_t prescaler = (uint32_t)frequency;
-    uint32_t ticks = ((time_us * 16ULL) / (prescaler + 1));
-		printf("%s,time_us:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,time_us,ticks ,prescaler);
+    nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+		uint32_t prescaler;
+		uint32_t clk_base;
+		uint32_t ticks;
+		switch(clk_src)
+		{
+		case NRF_TIMER_CLK_SRC_32M_DIV:
+		{
+			prescaler = frequency & 0xFF;
+			clk_base = 16ULL;
+			ticks = ((time_us * clk_base) /(prescaler + 1));
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K_DIV:
+		{
+			prescaler = (frequency >> 8 )& 0xFF;
+			clk_base = 16ULL;
+			ticks = ((time_us * clk_base) /(prescaler + 1)) / 1000;
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K:
+		{
+			prescaler = 0;
+			clk_base = 32ULL;
+			ticks = ((time_us * clk_base) /(prescaler + 1)) / 1000;
+		}break;
+		
+		default:
+			break;
+	
+		} 
+		if(ticks < 4) ticks = 4;
+		printf("%s,frequency:%x,clk_src:%d,time_us:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_us,ticks ,prescaler);
     NRFX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }
 
 __STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
-                                               nrf_timer_frequency_t frequency)
+                                               uint32_t frequency)
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16000 kHz / 2^prescaler.
 	// xinchip f=32000kHz/(2*(prescaler+1))
-
-    uint32_t prescaler = (uint32_t)frequency;
-    uint32_t ticks = ((time_ms * 16000ULL) /(prescaler + 1));
-		printf("%s,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,time_ms,ticks ,prescaler);
+		nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+		uint32_t prescaler;
+		uint32_t clk_base;
+		switch(clk_src)
+		{
+		case NRF_TIMER_CLK_SRC_32M_DIV:
+		{
+			prescaler = frequency & 0xFF;
+			clk_base = 16000ULL;
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K_DIV:
+		{
+			prescaler = (frequency >> 8 )& 0xFF;
+			clk_base = 16ULL;
+		}break;
+		
+		case NRF_TIMER_CLK_SRC_32K:
+		{
+			prescaler = 0;
+			clk_base = 32ULL;
+		}break;
+		
+		default:
+			break;
+	
+		}
+    uint32_t ticks = ((time_ms * clk_base) /(prescaler + 1));
+		if(ticks < 4) ticks = 4;
+		printf("%s,frequency:%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
     NRFX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }

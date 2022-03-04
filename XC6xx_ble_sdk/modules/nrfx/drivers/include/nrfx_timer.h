@@ -104,7 +104,7 @@ typedef struct
 {
     nrf_timer_frequency_t frequency;          ///< Frequency.
     nrf_timer_mode_t      mode;               ///< Mode of operation.
-    nrf_timer_bit_width_t bit_width;          ///< Bit width.
+    nrf_timer_clk_src_t 	clk_src;          ///< Bit width.
     uint8_t               interrupt_priority; ///< Interrupt priority.
     void *                p_context;          ///< Context passed to interrupt handler.
 } nrfx_timer_config_t;
@@ -114,7 +114,7 @@ typedef struct
 {                                                                                    \
     .frequency          = (nrf_timer_frequency_t)NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
     .mode               = (nrf_timer_mode_t)NRFX_TIMER_DEFAULT_CONFIG_MODE,          \
-    .bit_width          = (nrf_timer_bit_width_t)NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH,\
+    .clk_src          = 	(nrf_timer_clk_src_t)NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC,\
     .interrupt_priority = NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
     .p_context          = NULL                                                       \
 }
@@ -247,7 +247,7 @@ __STATIC_INLINE uint32_t nrfx_timer_us_to_ticks(nrfx_timer_t const * const p_ins
 __STATIC_INLINE uint32_t nrfx_timer_ms_to_ticks(nrfx_timer_t const * const p_instance,
                                                 uint32_t                   timer_ms)
 {
-    return nrf_timer_ms_to_ticks(timer_ms, nrf_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
+    return nrf_timer_ms_to_ticks(timer_ms,nrf_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
 }
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION

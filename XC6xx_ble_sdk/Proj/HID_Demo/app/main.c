@@ -656,7 +656,7 @@ void timer_led_event_handler(nrf_timer_int_event_t event_type,uint8_t channel, v
 {
     static uint32_t i = 0;
 		static uint8_t on_off = 0;
-	//	printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
     switch (event_type)
     {
         case NRF_TIMER_EVENT_TIMEOUT:
@@ -689,12 +689,12 @@ static void timer_config(void)
     nrf_drv_timer_config_t timer_cfg = NRF_DRV_TIMER_DEFAULT_CONFIG;
     err_code = nrf_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
     //APP_ERROR_CHECK(err_code);
-
+		time_ticks = nrf_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
+		printf("time_ticks = [%d]\n",time_ticks);
     time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
-		printf("time_ticks= [%d]\n",time_ticks);
+		printf("time_ticks = [%d]\n",time_ticks);
 	
-//		time_ticks = nrf_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
-//		printf("time_ticks= [%d]\n",time_ticks);
+
     nrf_drv_timer_compare(
          &TIMER_LED, time_ticks, true);
 

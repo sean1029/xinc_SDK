@@ -27,19 +27,51 @@ Project File Date:  03/03/2022
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'ble-fullstack'
+compiling nrfx_timer.c...
+..\..\..\modules\nrfx\hal/nrf_timer.h(321): warning:  #188-D: enumerated type mixed with another type
+     event = p_reg->TIC;
+..\..\..\modules\nrfx\hal/nrf_timer.h(319): warning:  #550-D: parameter "event"  was set but never used
+  __STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type * p_reg,nrf_timer_int_event_t event)
+..\..\..\modules\nrfx\hal/nrf_timer.h(365): warning:  #188-D: enumerated type mixed with another type
+    return (nrf_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
+..\..\..\modules\nrfx\hal/nrf_timer.h(405): warning:  #177-D: variable "clk_src"  was declared but never referenced
+  	nrf_timer_clk_src_t clk_src;
+..\..\..\modules\nrfx\hal/nrf_timer.h(457): warning:  #188-D: enumerated type mixed with another type
+      nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+..\..\..\modules\nrfx\hal/nrf_timer.h(500): warning:  #188-D: enumerated type mixed with another type
+  		nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(132): warning:  #188-D: enumerated type mixed with another type
+    nrf_timer_int_clear(p_instance->p_reg,1);
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(135): warning:  #188-D: enumerated type mixed with another type
+  	NRFX_IRQ_PRIORITY_SET(TIMER0_IRQn + p_instance->id,
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(137): warning:  #188-D: enumerated type mixed with another type
+    NRFX_IRQ_ENABLE(TIMER0_IRQn + p_instance->id);
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(197): warning:  #188-D: enumerated type mixed with another type
+      nrf_timer_int_mask_t timer_int = 0x01 << 2;
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(201): warning:  #188-D: enumerated type mixed with another type
+          nrf_timer_int_clear(p_instance->p_reg,1);
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(244): warning:  #188-D: enumerated type mixed with another type
+          nrf_timer_int_mask_t int_mask = 0x01 << 2;
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c(240): warning:  #177-D: variable "i"  was declared but never referenced
+      uint8_t i;
+..\..\..\modules\nrfx\drivers\src\nrfx_timer.c: 13 warnings, 0 errors
 compiling main.c...
 ..\..\..\modules\nrfx\hal\nrf_gpio.h(538): warning:  #186-D: pointless comparison of unsigned integer with zero
   			if(pin_number >= 0 && pin_number <= 4)
 ..\..\..\integration\nrfx\xinc_drv_spi.h(477): warning:  #177-D: variable "tx_length"  was declared but never referenced
   	  uint16_t tx_length = 0;
-..\..\..\modules\nrfx\hal/nrf_timer.h(322): warning:  #188-D: enumerated type mixed with another type
+..\..\..\modules\nrfx\hal/nrf_timer.h(321): warning:  #188-D: enumerated type mixed with another type
      event = p_reg->TIC;
-..\..\..\modules\nrfx\hal/nrf_timer.h(320): warning:  #550-D: parameter "event"  was set but never used
+..\..\..\modules\nrfx\hal/nrf_timer.h(319): warning:  #550-D: parameter "event"  was set but never used
   __STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type * p_reg,nrf_timer_int_event_t event)
-..\..\..\modules\nrfx\hal/nrf_timer.h(366): warning:  #188-D: enumerated type mixed with another type
+..\..\..\modules\nrfx\hal/nrf_timer.h(365): warning:  #188-D: enumerated type mixed with another type
     return (nrf_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
-..\..\..\modules\nrfx\hal/nrf_timer.h(374): warning:  #177-D: variable "addr"  was declared but never referenced
-  	int addr ;
+..\..\..\modules\nrfx\hal/nrf_timer.h(405): warning:  #177-D: variable "clk_src"  was declared but never referenced
+  	nrf_timer_clk_src_t clk_src;
+..\..\..\modules\nrfx\hal/nrf_timer.h(457): warning:  #188-D: enumerated type mixed with another type
+      nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+..\..\..\modules\nrfx\hal/nrf_timer.h(500): warning:  #188-D: enumerated type mixed with another type
+  		nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(224): warning:  #111-D: statement is unreachable
   			}break;
 ..\..\..\modules\nrfx\hal/nrf_uart.h(229): warning:  #111-D: statement is unreachable
@@ -72,17 +104,17 @@ compiling main.c...
   static void rtc_config(void)
 ..\app\main.c(604): warning:  #177-D: function "bsp_evt_handler"  was declared but never referenced
   static void bsp_evt_handler(bsp_event_t event)
-..\app\main.c: 22 warnings, 0 errors
+..\app\main.c: 24 warnings, 0 errors
 linking...
-Program Size: Code=76448 RO-data=7184 RW-data=928 ZI-data=18048  
+Program Size: Code=76972 RO-data=7204 RW-data=928 ZI-data=18048  
 After Build - User command #1: fromelf --bin --output=s.bin .\Objects\Xinc_ble_sdk.axf
 After Build - User command #2: Xincboot_tool s.bin download.bin
 Xinc v3.1 build Mar 19 2019 23:08:55
 USAGE: [Xincboot_tool] <input FILE> <output FILE> 
 Input: s.bin download.bin 
-Input file "s.bin" raw size = 0x147b8 byte 
+Input file "s.bin" raw size = 0x149d8 byte 
  -): 
-".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 22 Warning(s).
+".\Objects\Xinc_ble_sdk.axf" - 0 Error(s), 37 Warning(s).
 
 <h2>Software Packages used:</h2>
 

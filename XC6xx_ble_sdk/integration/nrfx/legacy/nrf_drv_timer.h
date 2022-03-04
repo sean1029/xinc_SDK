@@ -79,17 +79,7 @@ typedef nrfx_timer_config_t nrf_drv_timer_config_t;
 /** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_timer_is_enabled                 nrfx_timer_is_enabled
 /** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_pause                      nrfx_timer_pause
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_resume                     nrfx_timer_resume
-/** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_timer_clear                      nrfx_timer_clear
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_increment                  nrfx_timer_increment
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_capture                    nrfx_timer_capture
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_capture_get                nrfx_timer_capture_get
 /** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_timer_compare                    nrfx_timer_compare
 /** @brief Macro for forwarding the new implementation. */
@@ -101,14 +91,6 @@ typedef nrfx_timer_config_t nrf_drv_timer_config_t;
 /** @brief Macro for forwarding the new implementation. */
 #define nrf_drv_timer_compare_int_disable        nrfx_timer_compare_int_disable
 
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_task_address_get           nrfx_timer_task_address_get
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_capture_task_address_get   nrfx_timer_capture_task_address_get
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_event_address_get          nrfx_timer_event_address_get
-/** @brief Macro for forwarding the new implementation. */
-#define nrf_drv_timer_compare_event_address_get  nrfx_timer_compare_event_address_get
 
 /** @} */
 

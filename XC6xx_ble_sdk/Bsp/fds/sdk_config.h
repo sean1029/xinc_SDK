@@ -462,19 +462,18 @@
 
 // <o> NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY  - Timer frequency if in Timer mode
  
-// <0=> 16 MHz 
-// <1=> 8 MHz 
-// <2=> 4 MHz 
-// <3=> 2 MHz 
-// <4=> 1 MHz 
-// <5=> 500 kHz 
-// <6=> 250 kHz 
-// <7=> 125 kHz 
-// <8=> 62.5 kHz 
-// <9=> 31.25 kHz 
-
+// <0=> (16 MHz @ 32M clk div) |(16KHz @ 32K clk div)
+// <1=> 8 MHz (8 MHz @ 32M clk div) |(8KHz @ 32K clk div)
+// <2=> 4 MHz (4 MHz @ 32M clk div) |(4KHz @ 32K clk div)
+// <3=> 2 MHz (2 MHz @ 32M clk div) |(2KHz @ 32K clk div)
+// <4=> 1 MHz (1 MHz @ 32M clk div) |(1KHz @ 32K clk div)
+// <5=> 500 kHz (500 kHz @ 32M clk div) | (500Hz @ 32K clk div)
+// <6=> 250 kHz (250 kHz @ 32M clk div) | (250Hz @ 32K clk div)
+// <7=> 125 kHz (125 kHz @ 32M clk div) | (125Hz @ 32K clk div)
+// <8=> 62.5 kHz (62.5 kHz @ 32M clk div) | (62.5Hz @ 32K clk div)
+// <9=> 32KHz
 #ifndef NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY 4
+#define NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
 #endif
 
 // <o> NRFX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
@@ -486,15 +485,14 @@
 #define NRFX_TIMER_DEFAULT_CONFIG_MODE 1
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH  - Timer counter bit width
+// <o> NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC  - Timer CLK_SRC 
  
-// <0=> 16 bit 
-// <1=> 8 bit 
-// <2=> 24 bit 
-// <3=> 32 bit 
+// <0=> 32Mhz clk src div
+// <1=> 32K clk src div
+// <4=> 32K clk src 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH
-#define NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH 0
+#ifndef NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC
+#define NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
 #endif
 
 // <o> NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
