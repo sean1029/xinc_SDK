@@ -677,7 +677,7 @@ void timer_led_event_handler(nrf_timer_int_event_t event_type,uint8_t channel, v
 				//Do nothing.
 				break;
 	}
-}
+} 
 
 static void timer_config(void)
 {
