@@ -1156,9 +1156,9 @@
           <GroupName>timer</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_timer.c</FileName>
+              <FileName>xincx_timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_timer.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2228,9 +2228,9 @@
           <GroupName>timer</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_timer.c</FileName>
+              <FileName>xincx_timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_timer.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_timer.c</FilePath>
             </File>
           </Files>
         </Group>

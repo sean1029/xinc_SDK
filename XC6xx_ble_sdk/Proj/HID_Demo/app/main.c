@@ -20,7 +20,7 @@
 #include "xinc_drv_saadc.h"
 #include "nrf_drv_rtc.h"
 #include "bsp_clk.h"
-#include "nrf_drv_timer.h"
+#include "xinc_drv_timer.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -650,16 +650,16 @@ void timer_test()
 
 }
 
-const nrf_drv_timer_t TIMER_LED = NRF_DRV_TIMER_INSTANCE(3);
+const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(3);
 
-void timer_led_event_handler(nrf_timer_int_event_t event_type,uint8_t channel, void* p_context)
+void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
 {
     static uint32_t i = 0;
 		static uint8_t on_off = 0;
 		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
     switch (event_type)
     {
-        case NRF_TIMER_EVENT_TIMEOUT:
+        case XINC_TIMER_EVENT_TIMEOUT:
 				{				
 						if(on_off == 0)
 						{						
@@ -678,7 +678,7 @@ void timer_led_event_handler(nrf_timer_int_event_t event_type,uint8_t channel, v
 				break;
 	}
 } 
-
+ 
 static void timer_config(void)
 {
     uint32_t time_ms = 200; //Time(in miliseconds) between consecutive compare events.
@@ -686,19 +686,19 @@ static void timer_config(void)
     uint32_t err_code = NRF_SUCCESS;
 	
     //Configure TIMER_LED for generating simple light effect - leds on board will invert his state one after the other.
-    nrf_drv_timer_config_t timer_cfg = NRF_DRV_TIMER_DEFAULT_CONFIG;
-    err_code = nrf_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
+    xinc_drv_timer_config_t timer_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;
+    err_code = xinc_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
     //APP_ERROR_CHECK(err_code);
-		time_ticks = nrf_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
+		time_ticks = xinc_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
 		printf("time_ticks = [%d]\n",time_ticks);
-    time_ticks = nrf_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
+    time_ticks = xinc_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
 		printf("time_ticks = [%d]\n",time_ticks);
 	
 
-    nrf_drv_timer_compare(
+    xinc_drv_timer_compare(
          &TIMER_LED, time_ticks, true);
 
-    nrf_drv_timer_enable(&TIMER_LED);
+    xinc_drv_timer_enable(&TIMER_LED);
 
     while (1)
     {

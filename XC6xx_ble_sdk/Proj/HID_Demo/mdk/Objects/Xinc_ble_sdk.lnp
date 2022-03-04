@@ -74,7 +74,7 @@
 ".\objects\nrf_log_backend_serial.o"
 ".\objects\xincx_saadc.o"
 ".\objects\xincx_rtc.o"
-".\objects\nrfx_timer.o"
+".\objects\xincx_timer.o"
 --strict --scatter ".\cpu.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

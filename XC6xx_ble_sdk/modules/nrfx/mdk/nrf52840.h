@@ -470,7 +470,7 @@ typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structur
   __IOM  uint32_t  TIC;                   /*!< (@ 0x0000000C) interrupt clear register                                   */
   __IOM  uint32_t  TIS;                   /*!< (@ 0x00000010) Interrupt Status Register                                  */
 
-} NRF_TIMER_Type;  
+} XINC_TIMER_Type;  
 
 
 typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structure                      */                        
@@ -479,7 +479,7 @@ typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structur
   __IOM  uint32_t  GLOBAL_TIC;                    /*!< (@ 0x000000A4) Global interrupt clear register                                   */
   __IOM  uint32_t  GLOBAL_RTIS;                   /*!< (@ 0x000000A8) Global Raw Interrupt Status register                              */
 	
-} NRF_TIMER_GLOBAL_Type; 
+} XINC_TIMER_GLOBAL_Type; 
 
 typedef struct {                             /*!< (@ 0x40000000) CPR Structure                      */                        
 
@@ -539,15 +539,15 @@ typedef struct {                             /*!< (@ 0x40000000) CPR Structure  
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
 #define NRF_RTC0_BASE               0x40002000UL
-#define NRF_TIMER0_BASE             0x40003000UL
-#define NRF_TIMER1_BASE             0x40003014UL
-#define NRF_TIMER2_BASE             0x40003028UL
-#define NRF_TIMER3_BASE             0x4000303CUL
-#define NRF_TIMER_GLOBAL_BASE       0x400030A0UL
-#define NRF_TIMER0_CLKCTL_BASE       0x40000058UL
-#define NRF_TIMER1_CLKCTL_BASE       0x4000005CUL
-#define NRF_TIMER2_CLKCTL_BASE       0x40000060UL
-#define NRF_TIMER3_CLKCTL_BASE       0x40000064UL
+#define XINC_TIMER0_BASE             0x40003000UL
+#define XINC_TIMER1_BASE             0x40003014UL
+#define XINC_TIMER2_BASE             0x40003028UL
+#define XINC_TIMER3_BASE             0x4000303CUL
+#define XINC_TIMER_GLOBAL_BASE       0x400030A0UL
+#define XINC_TIMER0_CLKCTL_BASE       0x40000058UL
+#define XINC_TIMER1_CLKCTL_BASE       0x4000005CUL
+#define XINC_TIMER2_CLKCTL_BASE       0x40000060UL
+#define XINC_TIMER3_CLKCTL_BASE       0x40000064UL
 
 #define	NRF_PWM0_BASE				0x40017000UL
 #define	NRF_PWM1_BASE				0x40017040UL
@@ -575,15 +575,15 @@ typedef struct {                             /*!< (@ 0x40000000) CPR Structure  
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
 #define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
 #define NRF_RTC0                    ((NRF_RTC_Type*)           NRF_RTC0_BASE)
-#define NRF_TIMER0                  ((NRF_TIMER_Type*)         NRF_TIMER0_BASE)
-#define NRF_TIMER1                  ((NRF_TIMER_Type*)         NRF_TIMER1_BASE)
-#define NRF_TIMER2                  ((NRF_TIMER_Type*)         NRF_TIMER2_BASE)
-#define NRF_TIMER3                  ((NRF_TIMER_Type*)         NRF_TIMER3_BASE)
-#define NRF_TIMER_GLOBAL            ((NRF_TIMER_GLOBAL_Type*)  NRF_TIMER_GLOBAL_BASE)
-#define NRF_CLKCTL_TIMER0            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER0_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER1            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER1_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER2            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER2_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER3            ((NRF_TIMER_CLKCTL_Type*)  NRF_TIMER3_CLKCTL_BASE)
+#define XINC_TIMER0                  ((XINC_TIMER_Type*)         XINC_TIMER0_BASE)
+#define XINC_TIMER1                  ((XINC_TIMER_Type*)         XINC_TIMER1_BASE)
+#define XINC_TIMER2                  ((XINC_TIMER_Type*)         XINC_TIMER2_BASE)
+#define XINC_TIMER3                  ((XINC_TIMER_Type*)         XINC_TIMER3_BASE)
+#define XINC_TIMER_GLOBAL            ((XINC_TIMER_GLOBAL_Type*)  XINC_TIMER_GLOBAL_BASE)
+#define NRF_CLKCTL_TIMER0            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER0_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER1            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER1_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER2            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER2_CLKCTL_BASE)
+#define NRF_CLKCTL_TIMER3            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER3_CLKCTL_BASE)
 
 
 #define NRF_PWM0                    ((NRF_PWM_Type*)           NRF_PWM0_BASE)

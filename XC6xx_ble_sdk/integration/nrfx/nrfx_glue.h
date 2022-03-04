@@ -327,7 +327,7 @@ typedef ret_code_t nrfx_err_t;
 /**
  * @brief Bitmask defining TIMER instances reserved to be used outside of nrfx.
  */
-#define NRFX_TIMERS_USED        NRF_TIMERS_USED
+#define XINCX_TIMERS_USED        XINC_TIMERS_USED
 
 /** @} */
 

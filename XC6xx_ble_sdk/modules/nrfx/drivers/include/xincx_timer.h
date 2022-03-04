@@ -38,20 +38,20 @@
  *
  */
 
-#ifndef NRFX_TIMER_H__
-#define NRFX_TIMER_H__
+#ifndef XINCX_TIMER_H__
+#define XINCX_TIMER_H__
 
 #include <nrfx.h>
-#include <hal/nrf_timer.h>
+#include <hal/xinc_timer.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * @defgroup nrfx_timer Timer driver
+ * @defgroup xincx_timer Timer driver
  * @{
- * @ingroup nrf_timer
+ * @ingroup xinc_timer
  * @brief   TIMER peripheral driver.
  */
 
@@ -60,62 +60,61 @@ extern "C" {
  */
 typedef struct
 {
-    NRF_TIMER_Type * p_reg;            ///< Pointer to the structure with TIMER peripheral instance registers.
-	  NRF_TIMER_GLOBAL_Type * p_Greg;
+    XINC_TIMER_Type * p_reg;            ///< Pointer to the structure with TIMER peripheral instance registers.
+	  XINC_TIMER_GLOBAL_Type * p_Greg;
 		XINC_CPR_CTL_Type * p_cpr;  
 		uint8_t          id;      					///< Index of the driver instance. For internal use only.
     uint8_t          instance_idx;      ///< Index of the driver instance. For internal use only.
     uint8_t          cc_channel; ///< Number of capture/compare channels.
-		nrf_timer_frequency_t frequency;          ///< Frequency.
-} nrfx_timer_t;
-
-//}			
+		xinc_timer_frequency_t frequency;          ///< Frequency.
+} xincx_timer_t;
+			
 /** @brief Macro for creating a timer driver instance. */
-#define NRFX_TIMER_INSTANCE(Id)                                   \
+#define XINCX_TIMER_INSTANCE(Id)                                   \
 {                                                                 \
-    .p_reg            = NRFX_CONCAT_2(NRF_TIMER, Id),             \
-    .p_Greg            = NRF_TIMER_GLOBAL,												\
+    .p_reg            = NRFX_CONCAT_2(XINC_TIMER, Id),             \
+    .p_Greg            = XINC_TIMER_GLOBAL,												\
 	  .p_cpr            = XINC_CPR,																	\
 		.id            		= Id,																				\
-    .instance_idx      = NRFX_CONCAT_3(NRFX_TIMER, Id, _INST_IDX), \
+    .instance_idx      = NRFX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX), \
     .cc_channel = 		Id,          																 \
 }
           
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(NRFX_TIMER0_ENABLED)
-    NRFX_TIMER0_INST_IDX ,
+#if NRFX_CHECK(XINCX_TIMER0_ENABLED)
+    XINCX_TIMER0_INST_IDX ,
 #endif
-#if NRFX_CHECK(NRFX_TIMER1_ENABLED)
-    NRFX_TIMER1_INST_IDX,
+#if NRFX_CHECK(XINCX_TIMER1_ENABLED)
+    XINCX_TIMER1_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_TIMER2_ENABLED)
-    NRFX_TIMER2_INST_IDX ,
+#if NRFX_CHECK(XINCX_TIMER2_ENABLED)
+    XINCX_TIMER2_INST_IDX ,
 #endif
-#if NRFX_CHECK(NRFX_TIMER3_ENABLED)
-    NRFX_TIMER3_INST_IDX ,
+#if NRFX_CHECK(XINCX_TIMER3_ENABLED)
+    XINCX_TIMER3_INST_IDX ,
 #endif
-    NRFX_TIMER_ENABLED_COUNT
+    XINCX_TIMER_ENABLED_COUNT
 };
 #endif
 
 /** @brief The configuration structure of the timer driver instance. */
 typedef struct
 {
-    nrf_timer_frequency_t frequency;          ///< Frequency.
-    nrf_timer_mode_t      mode;               ///< Mode of operation.
-    nrf_timer_clk_src_t 	clk_src;          ///< Bit width.
+    xinc_timer_frequency_t frequency;          ///< Frequency.
+    xinc_timer_mode_t      mode;               ///< Mode of operation.
+    xinc_timer_clk_src_t 	clk_src;          ///< Bit width.
     uint8_t               interrupt_priority; ///< Interrupt priority.
     void *                p_context;          ///< Context passed to interrupt handler.
-} nrfx_timer_config_t;
+} xincx_timer_config_t;
 
 /** @brief Timer driver instance default configuration. */
-#define NRFX_TIMER_DEFAULT_CONFIG                                                    \
+#define XINCX_TIMER_DEFAULT_CONFIG                                                    \
 {                                                                                    \
-    .frequency          = (nrf_timer_frequency_t)NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
-    .mode               = (nrf_timer_mode_t)NRFX_TIMER_DEFAULT_CONFIG_MODE,          \
-    .clk_src          = 	(nrf_timer_clk_src_t)NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC,\
-    .interrupt_priority = NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
+    .frequency          = (xinc_timer_frequency_t)XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
+    .mode               = (xinc_timer_mode_t)XINCX_TIMER_DEFAULT_CONFIG_MODE,          \
+    .clk_src          = 	(xinc_timer_clk_src_t)XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC,\
+    .interrupt_priority = XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
     .p_context          = NULL                                                       \
 }
 
@@ -128,7 +127,7 @@ typedef struct
  *                       additional information to the handler function, for
  *                       example, the timer ID.
  */
-typedef void (* nrfx_timer_event_handler_t)(nrf_timer_int_event_t event_type,uint8_t channel ,
+typedef void (* xincx_timer_event_handler_t)(xinc_timer_int_event_t event_type,uint8_t channel ,
                                             void            * p_context);
 
 /**
@@ -142,23 +141,23 @@ typedef void (* nrfx_timer_event_handler_t)(nrf_timer_int_event_t event_type,uin
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The instance is already initialized.
  */
-nrfx_err_t nrfx_timer_init(nrfx_timer_t const * const  p_instance,
-                           nrfx_timer_config_t const * p_config,
-                           nrfx_timer_event_handler_t  timer_event_handler);
+nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
+                           xincx_timer_config_t const * p_config,
+                           xincx_timer_event_handler_t  timer_event_handler);
 
 /**
  * @brief Function for uninitializing the timer.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_timer_uninit(nrfx_timer_t const * const p_instance);
+void xincx_timer_uninit(xincx_timer_t const * const p_instance);
 
 /**
  * @brief Function for turning on the timer.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_timer_enable(nrfx_timer_t const * const p_instance);
+void xincx_timer_enable(xincx_timer_t const * const p_instance);
 
 /**
  * @brief Function for turning off the timer.
@@ -168,7 +167,7 @@ void nrfx_timer_enable(nrfx_timer_t const * const p_instance);
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_timer_disable(nrfx_timer_t const * const p_instance);
+void xincx_timer_disable(xincx_timer_t const * const p_instance);
 
 /**
  * @brief Function for checking the timer state.
@@ -178,7 +177,7 @@ void nrfx_timer_disable(nrfx_timer_t const * const p_instance);
  * @retval true  Timer is enabled.
  * @retval false Timer is not enabled.
  */
-bool nrfx_timer_is_enabled(nrfx_timer_t const * const p_instance);
+bool xincx_timer_is_enabled(xincx_timer_t const * const p_instance);
 
 
 
@@ -190,7 +189,7 @@ bool nrfx_timer_is_enabled(nrfx_timer_t const * const p_instance);
  * @param[in] cc_value   Compare value.
  * @param[in] enable_int Enable or disable the interrupt for the compare channel.
  */
-void nrfx_timer_compare(nrfx_timer_t const * const p_instance,
+void xincx_timer_compare(xincx_timer_t const * const p_instance,
                         uint32_t                   cc_value,
                         bool                       enable_int);
 
@@ -202,7 +201,7 @@ void nrfx_timer_compare(nrfx_timer_t const * const p_instance,
  *
  * @return Number of ticks.
  */
-__STATIC_INLINE uint32_t nrfx_timer_us_to_ticks(nrfx_timer_t const * const p_instance,
+__STATIC_INLINE uint32_t xincx_timer_us_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   time_us);
 
 /**
@@ -213,7 +212,7 @@ __STATIC_INLINE uint32_t nrfx_timer_us_to_ticks(nrfx_timer_t const * const p_ins
  *
  * @return Number of ticks.
  */
-__STATIC_INLINE uint32_t nrfx_timer_ms_to_ticks(nrfx_timer_t const * const p_instance,
+__STATIC_INLINE uint32_t xincx_timer_ms_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   time_ms);
 
 /**
@@ -222,7 +221,7 @@ __STATIC_INLINE uint32_t nrfx_timer_ms_to_ticks(nrfx_timer_t const * const p_ins
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] channel    Compare channel.
  */
-void nrfx_timer_compare_int_enable(nrfx_timer_t const * const p_instance,
+void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
                                    uint32_t                   channel);
 
 /**
@@ -231,23 +230,23 @@ void nrfx_timer_compare_int_enable(nrfx_timer_t const * const p_instance,
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] channel    Compare channel.
  */
-void nrfx_timer_compare_int_disable(nrfx_timer_t const * const p_instance,
+void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
                                     uint32_t                   channel);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 
-__STATIC_INLINE uint32_t nrfx_timer_us_to_ticks(nrfx_timer_t const * const p_instance,
+__STATIC_INLINE uint32_t xincx_timer_us_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   timer_us)
 {
-    return nrf_timer_us_to_ticks(timer_us, nrf_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
+    return xinc_timer_us_to_ticks(timer_us, xinc_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
 }
 
-__STATIC_INLINE uint32_t nrfx_timer_ms_to_ticks(nrfx_timer_t const * const p_instance,
+__STATIC_INLINE uint32_t xincx_timer_ms_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   timer_ms)
 {
-    return nrf_timer_ms_to_ticks(timer_ms,nrf_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
+    return xinc_timer_ms_to_ticks(timer_ms,xinc_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
 }
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
@@ -255,15 +254,15 @@ __STATIC_INLINE uint32_t nrfx_timer_ms_to_ticks(nrfx_timer_t const * const p_ins
 /** @} */
 
 
-void nrfx_timer_0_irq_handler(void);
-void nrfx_timer_1_irq_handler(void);
-void nrfx_timer_2_irq_handler(void);
-void nrfx_timer_3_irq_handler(void);
+void xincx_timer_0_irq_handler(void);
+void xincx_timer_1_irq_handler(void);
+void xincx_timer_2_irq_handler(void);
+void xincx_timer_3_irq_handler(void);
 
 
 #ifdef __cplusplus
 }
 #endif //__NRFX_DOXYGEN_
 
-#endif // NRFX_TIMER_H__
+#endif // XINCX_TIMER_H__
 

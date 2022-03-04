@@ -38,8 +38,8 @@
  *
  */
 
-#ifndef NRF_TIMER_H__
-#define NRF_TIMER_H__
+#ifndef XINC_TIMER_H__
+#define XINC_TIMER_H__
 
 #include <nrfx.h>
 
@@ -48,9 +48,9 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_timer_hal TIMER HAL
+ * @defgroup xinc_timer_hal TIMER HAL
  * @{
- * @ingroup nrf_timer
+ * @ingroup xinc_timer
  * @brief   Hardware access layer for managing the TIMER peripheral.
  */
 
@@ -73,16 +73,16 @@ extern "C" {
  * @retval false Timer instance does not support the specified bit width resolution value.
  */
 #define TIMER_BIT_WIDTH_MAX(id, bit_width) \
-    (TIMER_MAX_SIZE(id) == 8   ? (bit_width == NRF_TIMER_BIT_WIDTH_8)  :  \
-    (TIMER_MAX_SIZE(id) == 16  ? (bit_width == NRF_TIMER_BIT_WIDTH_8)  || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_16)  : \
-    (TIMER_MAX_SIZE(id) == 24  ? (bit_width == NRF_TIMER_BIT_WIDTH_8)  || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_16) || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_24) :  \
-    (TIMER_MAX_SIZE(id) == 32  ? (bit_width == NRF_TIMER_BIT_WIDTH_8)  || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_16) || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_24) || \
-                                 (bit_width == NRF_TIMER_BIT_WIDTH_32) :  \
+    (TIMER_MAX_SIZE(id) == 8   ? (bit_width == XINC_TIMER_BIT_WIDTH_8)  :  \
+    (TIMER_MAX_SIZE(id) == 16  ? (bit_width == XINC_TIMER_BIT_WIDTH_8)  || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_16)  : \
+    (TIMER_MAX_SIZE(id) == 24  ? (bit_width == XINC_TIMER_BIT_WIDTH_8)  || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_16) || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_24) :  \
+    (TIMER_MAX_SIZE(id) == 32  ? (bit_width == XINC_TIMER_BIT_WIDTH_8)  || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_16) || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_24) || \
+                                 (bit_width == XINC_TIMER_BIT_WIDTH_32) :  \
     false))))
 
 /**
@@ -95,23 +95,23 @@ extern "C" {
  * @retval false Timer instance does not support the specified bit width resolution value.
  */
 #if (TIMER_COUNT == 3) || defined(__NRFX_DOXYGEN__)
-    #define NRF_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
-           ((p_reg == NRF_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
-        || ((p_reg == NRF_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
-        || ((p_reg == NRF_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width)))
+    #define XINC_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
+           ((p_reg == XINC_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
+        || ((p_reg == XINC_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
+        || ((p_reg == XINC_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width)))
 #elif (TIMER_COUNT == 4)
-    #define NRF_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
-           ((p_reg == NRF_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
-        || ((p_reg == NRF_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
-        || ((p_reg == NRF_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width))   \
-        || ((p_reg == NRF_TIMER3) && TIMER_BIT_WIDTH_MAX(3, bit_width)))
+    #define XINC_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
+           ((p_reg == XINC_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
+        || ((p_reg == XINC_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
+        || ((p_reg == XINC_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width))   \
+        || ((p_reg == XINC_TIMER3) && TIMER_BIT_WIDTH_MAX(3, bit_width)))
 #elif (TIMER_COUNT == 5)
-    #define NRF_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
-           ((p_reg == NRF_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
-        || ((p_reg == NRF_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
-        || ((p_reg == NRF_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width))   \
-        || ((p_reg == NRF_TIMER3) && TIMER_BIT_WIDTH_MAX(3, bit_width))   \
-        || ((p_reg == NRF_TIMER4) && TIMER_BIT_WIDTH_MAX(4, bit_width)))
+    #define XINC_TIMER_IS_BIT_WIDTH_VALID(p_reg, bit_width) (              \
+           ((p_reg == XINC_TIMER0) && TIMER_BIT_WIDTH_MAX(0, bit_width))   \
+        || ((p_reg == XINC_TIMER1) && TIMER_BIT_WIDTH_MAX(1, bit_width))   \
+        || ((p_reg == XINC_TIMER2) && TIMER_BIT_WIDTH_MAX(2, bit_width))   \
+        || ((p_reg == XINC_TIMER3) && TIMER_BIT_WIDTH_MAX(3, bit_width))   \
+        || ((p_reg == XINC_TIMER4) && TIMER_BIT_WIDTH_MAX(4, bit_width)))
 #else
     #error "Not supported timer count"
 #endif
@@ -121,55 +121,55 @@ extern "C" {
 /** @brief Timer events. */
 typedef enum
 {
-	NRF_TIMER_EVENT_TIMEOUT = 0x01 << 0,
+	XINC_TIMER_EVENT_TIMEOUT = 0x01 << 0,
 
-} nrf_timer_int_event_t;
+} xinc_timer_int_event_t;
 
 /** @brief Timer modes. */
 typedef enum
 {
-    NRF_TIMER_MODE_AUTO_TIMER             = 0,//TIMER_MODE_MODE_Timer,           ///< Timer mode: timer.
-    NRF_TIMER_MODE_USER_COUNTER           =  1,//TIMER_MODE_MODE_Counter,         ///< Timer mode: counter.
-} nrf_timer_mode_t;
+    XINC_TIMER_MODE_AUTO_TIMER             = 0,//TIMER_MODE_MODE_Timer,           ///< Timer mode: timer.
+    XINC_TIMER_MODE_USER_COUNTER           =  1,//TIMER_MODE_MODE_Counter,         ///< Timer mode: counter.
+} xinc_timer_mode_t;
 
 /** @brief Timer bit width. */
 typedef enum
 {
-    NRF_TIMER_CLK_SRC_32M_DIV = 0, ///< Timer CLK SRC 32MHz div.
-    NRF_TIMER_CLK_SRC_32K_DIV = 1, ///< Timer CLK SRC 32kHz div.
-	  NRF_TIMER_CLK_SRC_32K = 4, ///< TimerCLK SRC 32kHz.
-} nrf_timer_clk_src_t;
+    XINC_TIMER_CLK_SRC_32M_DIV = 0, ///< Timer CLK SRC 32MHz div.
+    XINC_TIMER_CLK_SRC_32K_DIV = 1, ///< Timer CLK SRC 32kHz div.
+	  XINC_TIMER_CLK_SRC_32K = 4, ///< TimerCLK SRC 32kHz.
+} xinc_timer_clk_src_t;
 
 /** @brief Timer prescalers. */
 typedef enum
 {
-    NRF_TIMER_FREQ_16MHz = 0, 		///< Timer frequency 16 MHz or 16KHz
-    NRF_TIMER_FREQ_8MHz = 1,      ///< Timer frequency 8 MHz or 8KHz
-    NRF_TIMER_FREQ_4MHz = 2,      ///< Timer frequency 4 MHz or 4KHz.
-    NRF_TIMER_FREQ_2MHz = 3,      ///< Timer frequency 2 MHz or 2KHz.
-    NRF_TIMER_FREQ_1MHz = 4,      ///< Timer frequency 1 MHz or 1KHz.
-    NRF_TIMER_FREQ_500kHz = 5,    ///< Timer frequency 500 kHz or 500Hz.
-    NRF_TIMER_FREQ_250kHz = 6,    ///< Timer frequency 250 kHz or 250Hz.
-    NRF_TIMER_FREQ_125kHz = 7,    ///< Timer frequency 125 kHz or 125Hz.
-    NRF_TIMER_FREQ_62500Hz = 8,   ///< Timer frequency 62500 Hz or 62.5Hz.
-    NRF_TIMER_FREQ_32000Hz = 9    ///< Timer frequency 32000 Hz.
-} nrf_timer_frequency_t;
+    XINC_TIMER_FREQ_16MHz = 0, 		///< Timer frequency 16 MHz or 16KHz
+    XINC_TIMER_FREQ_8MHz = 1,      ///< Timer frequency 8 MHz or 8KHz
+    XINC_TIMER_FREQ_4MHz = 2,      ///< Timer frequency 4 MHz or 4KHz.
+    XINC_TIMER_FREQ_2MHz = 3,      ///< Timer frequency 2 MHz or 2KHz.
+    XINC_TIMER_FREQ_1MHz = 4,      ///< Timer frequency 1 MHz or 1KHz.
+    XINC_TIMER_FREQ_500kHz = 5,    ///< Timer frequency 500 kHz or 500Hz.
+    XINC_TIMER_FREQ_250kHz = 6,    ///< Timer frequency 250 kHz or 250Hz.
+    XINC_TIMER_FREQ_125kHz = 7,    ///< Timer frequency 125 kHz or 125Hz.
+    XINC_TIMER_FREQ_62500Hz = 8,   ///< Timer frequency 62500 Hz or 62.5Hz.
+    XINC_TIMER_FREQ_32000Hz = 9    ///< Timer frequency 32000 Hz.
+} xinc_timer_frequency_t;
 
 
 /** @brief Timer interrupts. */
 typedef enum
 {
-    NRF_TIMER_INT_COMPARE0_MASK = TIMER_INTENSET_COMPARE0_Msk, ///< Timer interrupt from compare event on channel 0.
-    NRF_TIMER_INT_COMPARE1_MASK = TIMER_INTENSET_COMPARE1_Msk, ///< Timer interrupt from compare event on channel 1.
-    NRF_TIMER_INT_COMPARE2_MASK = TIMER_INTENSET_COMPARE2_Msk, ///< Timer interrupt from compare event on channel 2.
-    NRF_TIMER_INT_COMPARE3_MASK = TIMER_INTENSET_COMPARE3_Msk, ///< Timer interrupt from compare event on channel 3.
+    XINC_TIMER_INT_COMPARE0_MASK = TIMER_INTENSET_COMPARE0_Msk, ///< Timer interrupt from compare event on channel 0.
+    XINC_TIMER_INT_COMPARE1_MASK = TIMER_INTENSET_COMPARE1_Msk, ///< Timer interrupt from compare event on channel 1.
+    XINC_TIMER_INT_COMPARE2_MASK = TIMER_INTENSET_COMPARE2_Msk, ///< Timer interrupt from compare event on channel 2.
+    XINC_TIMER_INT_COMPARE3_MASK = TIMER_INTENSET_COMPARE3_Msk, ///< Timer interrupt from compare event on channel 3.
 #if defined(TIMER_INTENSET_COMPARE4_Msk) || defined(__NRFX_DOXYGEN__)
-    NRF_TIMER_INT_COMPARE4_MASK = TIMER_INTENSET_COMPARE4_Msk, ///< Timer interrupt from compare event on channel 4.
+    XINC_TIMER_INT_COMPARE4_MASK = TIMER_INTENSET_COMPARE4_Msk, ///< Timer interrupt from compare event on channel 4.
 #endif
 #if defined(TIMER_INTENSET_COMPARE5_Msk) || defined(__NRFX_DOXYGEN__)
-    NRF_TIMER_INT_COMPARE5_MASK = TIMER_INTENSET_COMPARE5_Msk, ///< Timer interrupt from compare event on channel 5.
+    XINC_TIMER_INT_COMPARE5_MASK = TIMER_INTENSET_COMPARE5_Msk, ///< Timer interrupt from compare event on channel 5.
 #endif
-} nrf_timer_int_mask_t;
+} xinc_timer_int_mask_t;
 
 
 
@@ -180,8 +180,8 @@ typedef enum
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] event Event to clear.
  */
-__STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type *  p_reg,
-                                           nrf_timer_int_event_t event);
+__STATIC_INLINE void xinc_timer_int_clear(XINC_TIMER_Type *  p_reg,
+                                           xinc_timer_int_event_t event);
 
 /**
  * @brief Function for retrieving the state of the TIMER event.
@@ -192,8 +192,8 @@ __STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type *  p_reg,
  * @retval true  The event has been generated.
  * @retval false The event has not been generated.
  */
-__STATIC_INLINE bool nrf_timer_int_check(NRF_TIMER_Type *  p_reg,
-                                           nrf_timer_int_event_t event);
+__STATIC_INLINE bool xinc_timer_int_check(XINC_TIMER_Type *  p_reg,
+                                           xinc_timer_int_event_t event);
 
 #endif
 
@@ -204,7 +204,7 @@ __STATIC_INLINE bool nrf_timer_int_check(NRF_TIMER_Type *  p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be enabled.
  */
-__STATIC_INLINE void nrf_timer_int_enable(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE void xinc_timer_int_enable(XINC_TIMER_Type * p_reg,
                                           uint32_t         mask);
 
 /**
@@ -213,7 +213,7 @@ __STATIC_INLINE void nrf_timer_int_enable(NRF_TIMER_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be disabled.
  */
-__STATIC_INLINE void nrf_timer_int_disable(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE void xinc_timer_int_disable(XINC_TIMER_Type * p_reg,
                                            uint32_t         mask);
 
 /**
@@ -225,7 +225,7 @@ __STATIC_INLINE void nrf_timer_int_disable(NRF_TIMER_Type * p_reg,
  * @retval true  The interrupt is enabled.
  * @retval false The interrupt is not enabled.
  */
-__STATIC_INLINE bool nrf_timer_int_enable_check(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE bool xinc_timer_int_enable_check(XINC_TIMER_Type * p_reg,
                                                 uint32_t         timer_int);
 
 /**
@@ -234,8 +234,8 @@ __STATIC_INLINE bool nrf_timer_int_enable_check(NRF_TIMER_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mode  Timer mode.
  */
-__STATIC_INLINE void nrf_timer_mode_set(NRF_TIMER_Type * p_reg,
-                                        nrf_timer_mode_t mode);
+__STATIC_INLINE void xinc_timer_mode_set(XINC_TIMER_Type * p_reg,
+                                        xinc_timer_mode_t mode);
 
 /**
  * @brief Function for retrieving the timer mode.
@@ -244,7 +244,7 @@ __STATIC_INLINE void nrf_timer_mode_set(NRF_TIMER_Type * p_reg,
  *
  * @return Timer mode.
  */
-__STATIC_INLINE nrf_timer_mode_t nrf_timer_mode_get(NRF_TIMER_Type * p_reg);
+__STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg);
 
 
 
@@ -254,8 +254,8 @@ __STATIC_INLINE nrf_timer_mode_t nrf_timer_mode_get(NRF_TIMER_Type * p_reg);
  * @param[in] p_reg     Pointer to the structure of registers of the peripheral.
  * @param[in] frequency Timer frequency.
  */
-__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,nrf_timer_clk_src_t clk_src,
-                                             nrf_timer_frequency_t frequency);
+__STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
+                                             xinc_timer_frequency_t frequency);
 
 /**
  * @brief Function for retrieving the timer frequency.
@@ -264,7 +264,7 @@ __STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,
  *
  * @return Timer frequency.
  */
-__STATIC_INLINE uint32_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
+__STATIC_INLINE uint32_t xinc_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
 
 /**
  * @brief Function for writing the capture/compare register for the specified channel.
@@ -273,7 +273,7 @@ __STATIC_INLINE uint32_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,u
  * @param[in] cc_channel The specified capture/compare channel.
  * @param[in] cc_value   Value to write to the capture/compare register.
  */
-__STATIC_INLINE void nrf_timer_cc_write(NRF_TIMER_Type *       p_reg,
+__STATIC_INLINE void xinc_timer_cc_write(XINC_TIMER_Type *       p_reg,
                                         uint32_t               cc_value);
 
 /**
@@ -284,7 +284,7 @@ __STATIC_INLINE void nrf_timer_cc_write(NRF_TIMER_Type *       p_reg,
  *
  * @return Value from the specified capture/compare register.
  */
-__STATIC_INLINE uint32_t nrf_timer_cc_read(NRF_TIMER_Type *       p_reg);
+__STATIC_INLINE uint32_t xinc_timer_cc_read(XINC_TIMER_Type *       p_reg);
 
 
 /**
@@ -296,7 +296,7 @@ __STATIC_INLINE uint32_t nrf_timer_cc_read(NRF_TIMER_Type *       p_reg);
  *
  * @return Number of timer ticks.
  */
-__STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
+__STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
                                                uint32_t frequency);
 
 /**
@@ -308,7 +308,7 @@ __STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
  *
  * @return Number of timer ticks.
  */
-__STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
+__STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
                                                uint32_t frequency);
 
 
@@ -316,41 +316,41 @@ __STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
 
 
 
-__STATIC_INLINE void nrf_timer_int_clear(NRF_TIMER_Type * p_reg,nrf_timer_int_event_t event)
+__STATIC_INLINE void xinc_timer_int_clear(XINC_TIMER_Type * p_reg,xinc_timer_int_event_t event)
 {
    event = p_reg->TIC;
 
 }
 
-__STATIC_INLINE bool nrf_timer_int_check(NRF_TIMER_Type * p_reg,
-                                           nrf_timer_int_event_t event)
+__STATIC_INLINE bool xinc_timer_int_check(XINC_TIMER_Type * p_reg,
+                                           xinc_timer_int_event_t event)
 {
 	  return (bool)(p_reg->TIS & event);
 }
 
 
-__STATIC_INLINE void nrf_timer_int_enable(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE void xinc_timer_int_enable(XINC_TIMER_Type * p_reg,
                                           uint32_t mask)
 {
 	p_reg->TCR &= ~(mask);
 }
 
-__STATIC_INLINE void nrf_timer_int_disable(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE void xinc_timer_int_disable(XINC_TIMER_Type * p_reg,
                                            uint32_t mask)
 {
 	p_reg->TCR |= (mask);
 
 }
 
-__STATIC_INLINE bool nrf_timer_int_enable_check(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE bool xinc_timer_int_enable_check(XINC_TIMER_Type * p_reg,
                                                 uint32_t timer_int)
 {
     return (bool)!(p_reg->TCR & (timer_int));
 }
 
 
-__STATIC_INLINE void nrf_timer_mode_set(NRF_TIMER_Type * p_reg,
-                                        nrf_timer_mode_t mode)
+__STATIC_INLINE void xinc_timer_mode_set(XINC_TIMER_Type * p_reg,
+                                        xinc_timer_mode_t mode)
 {
 //    p_reg->TCR = (p_reg->TCR & ~TIMER_MODE_MODE_Msk) |
 //                    ((mode << TIMER_MODE_MODE_Pos) & TIMER_MODE_MODE_Msk);
@@ -360,32 +360,32 @@ __STATIC_INLINE void nrf_timer_mode_set(NRF_TIMER_Type * p_reg,
 	p_reg->TCR = reg;
 }
 
-__STATIC_INLINE nrf_timer_mode_t nrf_timer_mode_get(NRF_TIMER_Type * p_reg)
+__STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg)
 {
-  return (nrf_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
+  return (xinc_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
 }
 
 
 
-__STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,nrf_timer_clk_src_t clk_src,
-                                             nrf_timer_frequency_t frequency)
+__STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
+                                             xinc_timer_frequency_t frequency)
 {
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
 	Timer0CtlBaseAddr+= id;
 	switch(clk_src)
 	{
-		case NRF_TIMER_CLK_SRC_32M_DIV:
+		case XINC_TIMER_CLK_SRC_32M_DIV:
 		{
 			*Timer0CtlBaseAddr = (1 << frequency) - 1 ;
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K_DIV:
+		case XINC_TIMER_CLK_SRC_32K_DIV:
 		{
 			*Timer0CtlBaseAddr = ((1 << frequency) - 1) | (0x01 << 28) ;
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K:
+		case XINC_TIMER_CLK_SRC_32K:
 		{
 			*Timer0CtlBaseAddr = (0x04 << 28);
 		}break;
@@ -398,83 +398,61 @@ __STATIC_INLINE void nrf_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8
 	printf("timer clock id:%d, addr=[%p][%p],val=[%d],freq=[%d]\n",id,&p_reg->TIMER0_CLK_CTL,Timer0CtlBaseAddr,*Timer0CtlBaseAddr,frequency);
 }
 
-__STATIC_INLINE uint32_t nrf_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
+__STATIC_INLINE uint32_t xinc_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
 {
 
 	uint32_t clk_div = 0;
-	nrf_timer_clk_src_t clk_src;
+	xinc_timer_clk_src_t clk_src;
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
 	Timer0CtlBaseAddr+= id;
 	
 	clk_div = (*Timer0CtlBaseAddr);
-//	switch(clk_src)
-//	{
-//		case NRF_TIMER_CLK_SRC_32M_DIV:
-//		{
-//			clk_div = *Timer0CtlBaseAddr & 0xff;
-//		}break;
-//		
-//		case NRF_TIMER_CLK_SRC_32K_DIV:
-//		{
-//			clk_div = (*Timer0CtlBaseAddr & 0xff00) >> 8;
-//		}break;
-//		
-//		case NRF_TIMER_CLK_SRC_32K:
-//		{
-//			clk_div = 0;
-//		}break;
-//		
-//		default:
-//			break;
-//	
-//	}
-//	
 	
 	return (uint32_t)clk_div;
 	
 }
 
-__STATIC_INLINE void nrf_timer_cc_write(NRF_TIMER_Type * p_reg,
+__STATIC_INLINE void xinc_timer_cc_write(XINC_TIMER_Type * p_reg,
                                         uint32_t               cc_value)
 {
 	p_reg->TLC = cc_value;
 	printf("%s,p_reg->TLC:%d,ticks=[%d],\n",__FUNCTION__ ,p_reg->TLC,cc_value);
 }
 
-__STATIC_INLINE uint32_t nrf_timer_cc_read(NRF_TIMER_Type * p_reg )
+__STATIC_INLINE uint32_t xinc_timer_cc_read(XINC_TIMER_Type * p_reg )
 {
 	return p_reg->TLC;
 }
 
 
 
-__STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
+__STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
                                                uint32_t frequency)
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16 MHz / 2^prescaler.
-    nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+    xinc_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
 		uint32_t prescaler;
 		uint32_t clk_base;
 		uint32_t ticks;
 		switch(clk_src)
 		{
-		case NRF_TIMER_CLK_SRC_32M_DIV:
+		case XINC_TIMER_CLK_SRC_32M_DIV:
 		{
 			prescaler = frequency & 0xFF;
 			clk_base = 16ULL;
 			ticks = ((time_us * clk_base) /(prescaler + 1));
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K_DIV:
+		case XINC_TIMER_CLK_SRC_32K_DIV:
 		{
 			prescaler = (frequency >> 8 )& 0xFF;
 			clk_base = 16ULL;
 			ticks = ((time_us * clk_base) /(prescaler + 1)) / 1000;
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K:
+		case XINC_TIMER_CLK_SRC_32K:
 		{
 			prescaler = 0;
 			clk_base = 32ULL;
@@ -491,30 +469,30 @@ __STATIC_INLINE uint32_t nrf_timer_us_to_ticks(uint32_t              time_us,
     return (uint32_t)ticks;
 }
 
-__STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
+__STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
                                                uint32_t frequency)
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16000 kHz / 2^prescaler.
 	// xinchip f=32000kHz/(2*(prescaler+1))
-		nrf_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+		xinc_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
 		uint32_t prescaler;
 		uint32_t clk_base;
 		switch(clk_src)
 		{
-		case NRF_TIMER_CLK_SRC_32M_DIV:
+		case XINC_TIMER_CLK_SRC_32M_DIV:
 		{
 			prescaler = frequency & 0xFF;
 			clk_base = 16000ULL;
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K_DIV:
+		case XINC_TIMER_CLK_SRC_32K_DIV:
 		{
 			prescaler = (frequency >> 8 )& 0xFF;
 			clk_base = 16ULL;
 		}break;
 		
-		case NRF_TIMER_CLK_SRC_32K:
+		case XINC_TIMER_CLK_SRC_32K:
 		{
 			prescaler = 0;
 			clk_base = 32ULL;
@@ -538,4 +516,4 @@ __STATIC_INLINE uint32_t nrf_timer_ms_to_ticks(uint32_t              time_ms,
 #ifdef __cplusplus
 }
 
-#endif // NRF_TIMER_H__
+#endif // XINC_TIMER_H__

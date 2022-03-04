@@ -426,41 +426,41 @@
 #define NRF_STRERROR_ENABLED 1
 #endif
 
-// <e> NRFX_TIMER_ENABLED - nrfx_timer - TIMER periperal driver
+// <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
-#ifndef NRFX_TIMER_ENABLED
-#define NRFX_TIMER_ENABLED 1
+#ifndef XINCX_TIMER_ENABLED
+#define XINCX_TIMER_ENABLED 1
 #endif
 
-// <q> NRFX_TIMER0_ENABLED  - Enable TIMER0 instance
+// <q> XINCX_TIMER0_ENABLED  - Enable TIMER0 instance
 
- #ifndef NRFX_TIMER0_ENABLED
-#define NRFX_TIMER0_ENABLED 1
+ #ifndef XINCX_TIMER0_ENABLED
+#define XINCX_TIMER0_ENABLED 1
 #endif
  
  
-// <q> NRFX_TIMER1_ENABLED  - Enable TIMER1 instance
+// <q> XINCX_TIMER1_ENABLED  - Enable TIMER1 instance
 
-#ifndef NRFX_TIMER1_ENABLED
-#define NRFX_TIMER1_ENABLED 1
+#ifndef XINCX_TIMER1_ENABLED
+#define XINCX_TIMER1_ENABLED 1
 #endif
 
-// <q> NRFX_TIMER2_ENABLED  - Enable TIMER2 instance
+// <q> XINCX_TIMER2_ENABLED  - Enable TIMER2 instance
  
-#ifndef NRFX_TIMER2_ENABLED
-#define NRFX_TIMER2_ENABLED 1
+#ifndef XINCX_TIMER2_ENABLED
+#define XINCX_TIMER2_ENABLED 1
 #endif
 
-// <q> NRFX_TIMER3_ENABLED  - Enable TIMER3 instance
+// <q> XINCX_TIMER3_ENABLED  - Enable TIMER3 instance
  
 
-#ifndef NRFX_TIMER3_ENABLED
-#define NRFX_TIMER3_ENABLED 1
+#ifndef XINCX_TIMER3_ENABLED
+#define XINCX_TIMER3_ENABLED 1
 #endif
 
 
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY  - Timer frequency if in Timer mode
+// <o> XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY  - Timer frequency if in Timer mode
  
 // <0=> (16 MHz @ 32M clk div) |(16KHz @ 32K clk div)
 // <1=> 8 MHz (8 MHz @ 32M clk div) |(8KHz @ 32K clk div)
@@ -472,30 +472,30 @@
 // <7=> 125 kHz (125 kHz @ 32M clk div) | (125Hz @ 32K clk div)
 // <8=> 62.5 kHz (62.5 kHz @ 32M clk div) | (62.5Hz @ 32K clk div)
 // <9=> 32KHz
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
+// <o> XINCX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
  
 // <0=> Timer 
 // <1=> Counter 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_MODE
-#define NRFX_TIMER_DEFAULT_CONFIG_MODE 1
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_MODE
+#define XINCX_TIMER_DEFAULT_CONFIG_MODE 1
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC  - Timer CLK_SRC 
+// <o> XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC  - Timer CLK_SRC 
  
 // <0=> 32Mhz clk src div
 // <1=> 32K clk src div
 // <4=> 32K clk src 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC
-#define NRFX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC
+#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -506,27 +506,27 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_TIMER_CONFIG_LOG_ENABLED
-#define NRFX_TIMER_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_TIMER_CONFIG_LOG_ENABLED
+#define XINCX_TIMER_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_TIMER_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_TIMER_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
 // <2=> Warning 
 // <3=> Info 
 // <4=> Debug 
-#ifndef NRFX_TIMER_CONFIG_LOG_LEVEL
-#define NRFX_TIMER_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_TIMER_CONFIG_LOG_LEVEL
+#define XINCX_TIMER_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_TIMER_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TIMER_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -538,11 +538,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TIMER_CONFIG_INFO_COLOR
-#define NRFX_TIMER_CONFIG_INFO_COLOR 0
+#ifndef XINCX_TIMER_CONFIG_INFO_COLOR
+#define XINCX_TIMER_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_TIMER_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TIMER_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -554,8 +554,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TIMER_CONFIG_DEBUG_COLOR
-#define NRFX_TIMER_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_TIMER_CONFIG_DEBUG_COLOR
+#define XINCX_TIMER_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
