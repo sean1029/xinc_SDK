@@ -694,16 +694,16 @@
 #endif
 // </e>
 
-// <e> NRFX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
+// <e> XINCX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
-#ifndef NRFX_RTC_ENABLED
-#define NRFX_RTC_ENABLED 1
+#ifndef XINCX_RTC_ENABLED
+#define XINCX_RTC_ENABLED 1
 #endif
 
-// <q> NRFX_RTC0_ENABLED  - Enable RTC0 instance
+// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance
  
-#ifndef NRFX_RTC0_ENABLED
-#define NRFX_RTC0_ENABLED 1
+#ifndef XINCX_RTC0_ENABLED
+#define XINCX_RTC0_ENABLED 1
 #endif
 
 // </e>

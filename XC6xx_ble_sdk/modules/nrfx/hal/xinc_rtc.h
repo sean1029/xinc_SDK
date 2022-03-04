@@ -48,9 +48,9 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_rtc_hal RTC HAL
+ * @defgroup xinc_rtc_hal RTC HAL
  * @{
- * @ingroup nrf_rtc
+ * @ingroup xinc_rtc
  * @brief   Hardware access layer for managing the Real Time Counter (RTC) peripheral.
  */
 
@@ -79,7 +79,7 @@ typedef enum
     NRF_RTC_INT_TIME1_MASK = (0x01 << 5),  /**< RTC interrupt from compare event on channel 3. *///RTC_INTENSET_COMPARE3_Msk
 		NRF_RTC_INT_TIME3_MASK = (0x01 << 6) ,
 	  NRF_RTC_INT_ALL_MASK = (0x01 << 7) 
-} nrf_rtc_int_t;
+} xinc_rtc_int_t;
 
 /** @brief RTC interrupts. */
 typedef enum
@@ -87,7 +87,7 @@ typedef enum
     NRF_RTC_TYPE_RTC     = (0x01 << 0),     
     NRF_RTC_TYPE_AOTIME =  (0x01 << 1),
 
-} nrf_rtc_type_t;
+} xinc_rtc_type_t;
 
 /** @brief RTC driver instance structure. */
 typedef struct
@@ -97,7 +97,7 @@ typedef struct
 	uint8_t hour;
 	uint8_t week; 
   uint16_t day;      
-} nrf_rtc_time_t;
+} xinc_rtc_time_t;
 
 /**
  * @brief Function for enabling interrupts.
@@ -105,7 +105,7 @@ typedef struct
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Interrupt mask to be enabled.
  */
-__STATIC_INLINE void nrf_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE void xinc_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for disabling interrupts.
@@ -113,7 +113,7 @@ __STATIC_INLINE void nrf_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask);
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Interrupt mask to be disabled.
  */
-__STATIC_INLINE void nrf_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE void xinc_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for checking if interrupts are enabled.
@@ -123,7 +123,7 @@ __STATIC_INLINE void nrf_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask);
  *
  * @return Mask with enabled interrupts.
  */
-__STATIC_INLINE uint32_t nrf_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for returning the status of currently enabled interrupts.
@@ -132,7 +132,7 @@ __STATIC_INLINE uint32_t nrf_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t m
  *
  * @return Value in INTEN register.
  */
-__STATIC_INLINE uint32_t nrf_rtc_int_get(NRF_RTC_Type * p_reg);
+__STATIC_INLINE uint32_t xinc_rtc_int_get(NRF_RTC_Type * p_reg);
 
 
 
@@ -142,29 +142,29 @@ __STATIC_INLINE uint32_t nrf_rtc_int_get(NRF_RTC_Type * p_reg);
 
 
 
-__STATIC_INLINE void nrf_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE void xinc_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask)
 {
     p_reg->ICR |= mask;
 }
 
-__STATIC_INLINE void nrf_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE void xinc_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask)
 {
     p_reg->ICR &= ~(mask);
 }
 
-__STATIC_INLINE uint32_t nrf_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask)
 {
     return (p_reg->ICR & mask);
 }
 
-__STATIC_INLINE uint32_t nrf_rtc_int_get(NRF_RTC_Type * p_reg)
+__STATIC_INLINE uint32_t xinc_rtc_int_get(NRF_RTC_Type * p_reg)
 {
     return p_reg->ICR;
 }
 
 
 
-__STATIC_INLINE void nrf_rtc_date_set(NRF_RTC_Type * p_reg, nrf_rtc_time_t data)
+__STATIC_INLINE void xinc_rtc_date_set(NRF_RTC_Type * p_reg, xinc_rtc_time_t data)
 {	
 	uint32_t reg_val;;
 	reg_val = ( data.day<<17 | data.hour<<12 | data.min<<6 | data.sec );
@@ -175,7 +175,7 @@ __STATIC_INLINE void nrf_rtc_date_set(NRF_RTC_Type * p_reg, nrf_rtc_time_t data)
   p_reg->WLR = reg_val;
 }
 
-__STATIC_INLINE void nrf_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
+__STATIC_INLINE void xinc_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
 {
  
 	uint32_t reg_val;
@@ -195,12 +195,12 @@ __STATIC_INLINE void nrf_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
 	printf("datelimit=[hour:%d,min:%d,sec:%d]\n",p_reg->HOUR_LIMIT, p_reg->MINUTE_LIMIT, p_reg->SECOND_LIMIT);	
 }
 
-__STATIC_INLINE void nrf_rtc_freq_set(NRF_RTC_Type * p_reg, uint16_t val)
+__STATIC_INLINE void xinc_rtc_freq_set(NRF_RTC_Type * p_reg, uint16_t val)
 {
 	p_reg->RAW_LIMIT = val;
 }
 
-__STATIC_INLINE void nrf_rtc_date_get(NRF_RTC_Type * p_reg, nrf_rtc_time_t *time)
+__STATIC_INLINE void xinc_rtc_date_get(NRF_RTC_Type * p_reg, xinc_rtc_time_t *time)
 {
 	uint32_t tmp_CCVR,tmp_WVR;
 	tmp_CCVR = p_reg->CCVR;

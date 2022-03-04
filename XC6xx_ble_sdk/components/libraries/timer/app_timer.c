@@ -149,8 +149,8 @@ static uint8_t                       m_max_user_op_queue_utilization;           
  */
 static void timer_timeouts_check(void);
 	
-#include "nrf_drv_rtc.h"
-const static xincx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+#include "xinc_drv_rtc.h"
+const static xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance of xinc_drv_rtc for RTC0. */
 
 
 
@@ -159,10 +159,10 @@ const static xincx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance 
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
 
-static void rtc_AOtime_handler(nrf_drv_rtc_int_type_t int_type)
+static void rtc_AOtime_handler(xinc_drv_rtc_int_type_t int_type)
 {
-		nrf_rtc_time_t rtc_time_val;
-    if (int_type == NRFX_RTC_INT_AOTIME)
+		xinc_rtc_time_t rtc_time_val;
+    if (int_type == XINCX_RTC_INT_AOTIME)
     {
 			timer_timeouts_check();
     }
@@ -179,9 +179,9 @@ static void rtc_AOtime_init(void)
     uint32_t err_code;
    
     //Initialize RTC instance
-    xincx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+    xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
 		config.type = NRF_RTC_TYPE_AOTIME;
-    err_code = nrf_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
+    err_code = xinc_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
 
@@ -243,7 +243,7 @@ static __INLINE uint32_t ticks_diff_get(uint32_t ticks_now, uint32_t ticks_old)
 static __INLINE void rtc_AOtime_sigle_set(uint32_t value)
 {
 	uint16_t val =  value * 1000 / 31;
-	nrf_drv_rtc_AOtime_set(&rtc,val);
+	xinc_drv_rtc_AOtime_set(&rtc,val);
 }
 
 

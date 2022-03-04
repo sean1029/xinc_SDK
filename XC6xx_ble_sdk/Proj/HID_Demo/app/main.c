@@ -18,7 +18,7 @@
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
 #include "xinc_drv_saadc.h"
-#include "nrf_drv_rtc.h"
+#include "xinc_drv_rtc.h"
 #include "bsp_clk.h"
 #include "xinc_drv_timer.h"
 uint8_t flag_show_hci = 0;
@@ -547,14 +547,14 @@ static void adc_config(void)
 		saadc_init();
 }
 
-const xincx_rtc_t rtc = NRFX_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
+const xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance of xinc_drv_rtc for RTC0. */
 
-static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
+static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
 {
-		nrf_rtc_time_t rtc_time_val;
-    if (int_type == NRFX_RTC_INT_SEC)
+		xinc_rtc_time_t rtc_time_val;
+    if (int_type == XINCX_RTC_INT_SEC)
     {
-       nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
+       xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
 			// printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
 			if(rtc_time_val.sec == 10)
@@ -565,12 +565,12 @@ static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
 				rtc_time_val.week = 2;
 				rtc_time_val.min = 1;
 				
-			//	nrf_rtc_date_set(rtc.p_reg, rtc_time_val);
+			//	xinc_rtc_date_set(rtc.p_reg, rtc_time_val);
 			}
     }
-    else if (int_type == NRFX_RTC_INT_TIME1)
+    else if (int_type == XINCX_RTC_INT_TIME1)
     {
-       nrf_drv_rtc_date_get(&rtc,&rtc_time_val);
+       xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
 			
 			// printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
     }
@@ -581,22 +581,22 @@ static void rtc_config(void)
     uint32_t err_code;
    
     //Initialize RTC instance
-    xincx_rtc_config_t config = NRFX_RTC_DEFAULT_CONFIG;
+    xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
 		config.freq = 32768;
 		config.type = NRF_RTC_TYPE_RTC;
 		config.date.day = 4;
-    err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
+    err_code = xinc_drv_rtc_init(&rtc, &config, rtc_handler);
    
 		xincx_rtc_match_config_t time;
 		memset(&time,0,sizeof(time));
 		time.times.sec = 10;
 		time.times.min = 0;
-		time.times.week = NRFX_RTC_WEEK_MATCH_SUNDAY | NRFX_RTC_WEEK_MATCH_MONDAY;
-		nrf_drv_rtc_time_set(&rtc,NRFX_RTC_MATCH_TIME_1,time,true);
+		time.times.week = XINCX_RTC_WEEK_MATCH_SUNDAY | XINCX_RTC_WEEK_MATCH_MONDAY;
+		xinc_drv_rtc_time_set(&rtc,XINCX_RTC_MATCH_TIME_1,time,true);
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
-		nrf_drv_rtc_sec_int_enable(&rtc,true);
-		nrf_drv_rtc_min_int_enable(&rtc,true);
+		xinc_drv_rtc_sec_int_enable(&rtc,true);
+		xinc_drv_rtc_min_int_enable(&rtc,true);
 	
 	
 }

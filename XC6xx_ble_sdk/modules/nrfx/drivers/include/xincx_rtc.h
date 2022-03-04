@@ -38,8 +38,8 @@
  *
  */
 
-#ifndef NRFX_RTC_H__
-#define NRFX_RTC_H__
+#ifndef XINCX_RTC_H__
+#define XINCX_RTC_H__
 
 
 #include <nrfx_config.h>
@@ -55,44 +55,44 @@ extern "C" {
 /**
  * @defgroup xincx_rtc RTC driver
  * @{
- * @ingroup nrf_rtc
+ * @ingroup xinc_rtc
  * @brief   Real Timer Counter (RTC) peripheral driver.
  */
 
 /** @brief Macro for converting microseconds into ticks. */
-#define NRFX_RTC_US_TO_TICKS(us,freq) (((us) * (freq)) / 1000000U)
+#define XINCX_RTC_US_TO_TICKS(us,freq) (((us) * (freq)) / 1000000U)
 
 /** @brief RTC driver interrupt types. */
 typedef enum
 {
-    NRFX_RTC_INT_TIME1 = 0, /**< Interrupt from TIME1 event. */
-    NRFX_RTC_INT_TIME2 = 1, /**< Interrupt from TIME2 event. */
-    NRFX_RTC_INT_TIME3 = 2, /**< Interrupt from TIME3 event. */
-    NRFX_RTC_INT_SEC = 3, /**< Interrupt from SEC event. */
-    NRFX_RTC_INT_MIN     = 4, /**< Interrupt from MIN event. */
-    NRFX_RTC_INT_HOUR = 5,  /**< Interrupt from HOUR event. */
-	  NRFX_RTC_INT_DAY = 6,  /**< Interrupt from DAY event. */
-		NRFX_RTC_INT_AOTIME = 7
+    XINCX_RTC_INT_TIME1 = 0, /**< Interrupt from TIME1 event. */
+    XINCX_RTC_INT_TIME2 = 1, /**< Interrupt from TIME2 event. */
+    XINCX_RTC_INT_TIME3 = 2, /**< Interrupt from TIME3 event. */
+    XINCX_RTC_INT_SEC = 3, /**< Interrupt from SEC event. */
+    XINCX_RTC_INT_MIN     = 4, /**< Interrupt from MIN event. */
+    XINCX_RTC_INT_HOUR = 5,  /**< Interrupt from HOUR event. */
+	  XINCX_RTC_INT_DAY = 6,  /**< Interrupt from DAY event. */
+		XINCX_RTC_INT_AOTIME = 7
 } xincx_rtc_int_type_t;
 
 /** @brief RTC driver interrupt types. */
 enum
 {
-    NRFX_RTC_WEEK_MATCH_SUNDAY = (0x01 << 0), /**< Interrupt from TIME1 event. */
-    NRFX_RTC_WEEK_MATCH_MONDAY = (0x01 << 1), /**< Interrupt from TIME2 event. */
-    NRFX_RTC_WEEK_MATCH_TUESDAY = (0x01 << 2), /**< Interrupt from TIME3 event. */
-    NRFX_RTC_WEEK_MATCH_WEDNESDAY = (0x01 << 3), /**< Interrupt from SEC event. */
-    NRFX_RTC_WEEK_MATCH_THURSDAY     = (0x01 << 4), /**< Interrupt from MIN event. */
-    NRFX_RTC_WEEK_MATCH_FRIDAY = (0x01 << 5),  /**< Interrupt from HOUR event. */
-	  NRFX_RTC_WEEK_MATCH_SATURDAY = (0x01 << 6)  /**< Interrupt from DAY event. */
+    XINCX_RTC_WEEK_MATCH_SUNDAY = (0x01 << 0), /**< Interrupt from TIME1 event. */
+    XINCX_RTC_WEEK_MATCH_MONDAY = (0x01 << 1), /**< Interrupt from TIME2 event. */
+    XINCX_RTC_WEEK_MATCH_TUESDAY = (0x01 << 2), /**< Interrupt from TIME3 event. */
+    XINCX_RTC_WEEK_MATCH_WEDNESDAY = (0x01 << 3), /**< Interrupt from SEC event. */
+    XINCX_RTC_WEEK_MATCH_THURSDAY     = (0x01 << 4), /**< Interrupt from MIN event. */
+    XINCX_RTC_WEEK_MATCH_FRIDAY = (0x01 << 5),  /**< Interrupt from HOUR event. */
+	  XINCX_RTC_WEEK_MATCH_SATURDAY = (0x01 << 6)  /**< Interrupt from DAY event. */
 };
 
 /** @brief RTC driver interrupt types. */
 typedef enum
 {
-    NRFX_RTC_MATCH_TIME_1 = (0x01 << 5), /**< MATCH_TIME_1 ch. */
-    NRFX_RTC_MATCH_TIME_2 = (0x01 << 4), /**< MATCH_TIME_2 ch */
-    NRFX_RTC_MATCH_TIME_3 = (0x01 << 6), /**< MATCH_TIME_3 ch */
+    XINCX_RTC_MATCH_TIME_1 = (0x01 << 5), /**< MATCH_TIME_1 ch. */
+    XINCX_RTC_MATCH_TIME_2 = (0x01 << 4), /**< MATCH_TIME_2 ch */
+    XINCX_RTC_MATCH_TIME_3 = (0x01 << 6), /**< MATCH_TIME_3 ch */
 }xincx_rtc_match_timer_ch_t;
 
 /** @brief RTC driver instance structure. */
@@ -106,19 +106,19 @@ typedef struct
 
 
 /** @brief Macro for creating an RTC driver instance. */
-#define NRFX_RTC_INSTANCE(id)                                   \
+#define XINCX_RTC_INSTANCE(id)                                   \
 {                                                               \
     .p_reg            = NRFX_CONCAT_2(NRF_RTC, id),             \
-    .instance_id      = NRFX_CONCAT_3(NRFX_RTC, id, _INST_IDX), \
+    .instance_id      = NRFX_CONCAT_3(XINCX_RTC, id, _INST_IDX), \
     .cc_channel_count = NRF_RTC_CC_CHANNEL_COUNT(id),           \
 }
 
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(NRFX_RTC0_ENABLED)
-    NRFX_RTC0_INST_IDX,
+#if NRFX_CHECK(XINCX_RTC0_ENABLED)
+    XINCX_RTC0_INST_IDX,
 #endif
-    NRFX_RTC_ENABLED_COUNT
+    XINCX_RTC_ENABLED_COUNT
 };
 #endif
 
@@ -126,13 +126,13 @@ enum {
 /** @brief RTC driver instance configuration structure. */
 typedef struct
 {
-	nrf_rtc_time_t date;
+	xinc_rtc_time_t date;
 	uint8_t   hour_limit;            /**< hour limit. */
 	uint8_t   min_limit;             /**< minute limit. */
 	uint8_t   sec_limit;             /**< second limit. */
 	uint16_t  freq;                  /**< freq. */
 	uint8_t   interrupt_priority;    /**< Interrupt priority. */
-	nrf_rtc_type_t   type;           /**< Rtc type. */
+	xinc_rtc_type_t   type;           /**< Rtc type. */
 	bool      reliable;              /**< Reliable mode flag. */
 	
 } xincx_rtc_config_t;
@@ -153,7 +153,7 @@ typedef union xincx_rtc_match_config
 
 
 /** @brief RTC instance default configuration. */
-#define NRFX_RTC_DEFAULT_CONFIG                                                     \
+#define XINCX_RTC_DEFAULT_CONFIG                                                     \
 {                                                                                   \
   .date.day                = 0,                                                                             \
 	.date.hour               = 0,                                                                              \
@@ -394,10 +394,10 @@ void xincx_rtc_time3_int_disable(xincx_rtc_t const * const p_instance);
 
 
 void xincx_rtc_date_set(xincx_rtc_t const * const p_instance,                         
-                           nrf_rtc_time_t  date);
+                           xinc_rtc_time_t  date);
 
 void xincx_rtc_date_get(xincx_rtc_t const * const p_instance,                         
-                           nrf_rtc_time_t  *date);
+                           xinc_rtc_time_t  *date);
 
 
 
