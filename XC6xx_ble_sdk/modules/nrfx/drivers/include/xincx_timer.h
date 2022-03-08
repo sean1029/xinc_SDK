@@ -66,7 +66,7 @@ typedef struct
 		uint8_t          id;      					///< Index of the driver instance. For internal use only.
     uint8_t          instance_idx;      ///< Index of the driver instance. For internal use only.
     uint8_t          cc_channel; ///< Number of capture/compare channels.
-		xinc_timer_frequency_t frequency;          ///< Frequency.
+
 } xincx_timer_t;
 			
 /** @brief Macro for creating a timer driver instance. */
@@ -101,7 +101,7 @@ enum {
 /** @brief The configuration structure of the timer driver instance. */
 typedef struct
 {
-    xinc_timer_frequency_t frequency;          ///< Frequency.
+    xinc_timer_ref_clk_t ref_clk;          ///< ref clk.
     xinc_timer_mode_t      mode;               ///< Mode of operation.
     xinc_timer_clk_src_t 	clk_src;          ///< Bit width.
     uint8_t               interrupt_priority; ///< Interrupt priority.
@@ -111,7 +111,7 @@ typedef struct
 /** @brief Timer driver instance default configuration. */
 #define XINCX_TIMER_DEFAULT_CONFIG                                                    \
 {                                                                                    \
-    .frequency          = (xinc_timer_frequency_t)XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
+    .ref_clk          = (xinc_timer_ref_clk_t)XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
     .mode               = (xinc_timer_mode_t)XINCX_TIMER_DEFAULT_CONFIG_MODE,          \
     .clk_src          = 	(xinc_timer_clk_src_t)XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC,\
     .interrupt_priority = XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
@@ -240,13 +240,13 @@ void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
 __STATIC_INLINE uint32_t xincx_timer_us_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   timer_us)
 {
-    return xinc_timer_us_to_ticks(timer_us, xinc_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
+    return xinc_timer_us_to_ticks(timer_us, xinc_timer_clk_div_get(p_instance->p_cpr,p_instance->id));
 }
 
 __STATIC_INLINE uint32_t xincx_timer_ms_to_ticks(xincx_timer_t const * const p_instance,
                                                 uint32_t                   timer_ms)
 {
-    return xinc_timer_ms_to_ticks(timer_ms,xinc_timer_frequency_div_get(p_instance->p_cpr,p_instance->id));
+    return xinc_timer_ms_to_ticks(timer_ms,xinc_timer_clk_div_get(p_instance->p_cpr,p_instance->id));
 }
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION

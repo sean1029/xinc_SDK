@@ -1162,6 +1162,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>pwm</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_pwm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2231,6 +2241,16 @@
               <FileName>xincx_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>pwm</GroupName>
+          <Files>
+            <File>
+              <FileName>nrfx_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_pwm.c</FilePath>
             </File>
           </Files>
         </Group>

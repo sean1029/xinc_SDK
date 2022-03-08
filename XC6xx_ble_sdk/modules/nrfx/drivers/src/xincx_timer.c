@@ -87,8 +87,8 @@ nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
 											 NRFX_LOG_ERROR_STRING_GET(err_code));
 			return err_code;
 	}
-	printf("p_config->frequency val:%d,p_config->clk_src:%d\r\n",p_config->frequency,p_config->clk_src);
-	if(p_config->frequency > XINC_TIMER_FREQ_32000Hz)
+	printf("p_config->ref_clk val:%d,p_config->clk_src:%d\r\n",p_config->ref_clk,p_config->clk_src);
+	if(p_config->ref_clk > XINC_TIMER_REF_CLK_32000Hz)
 	{
 			err_code = NRFX_ERROR_INVALID_PARAM;
 			NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -98,30 +98,11 @@ nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
 			return err_code;
 	}
 	
-	if((p_config->frequency ==  XINC_TIMER_FREQ_32000Hz)&& (p_config->clk_src != XINC_TIMER_CLK_SRC_32K))
-	{
-		err_code = NRFX_ERROR_INVALID_PARAM;
-		
-		NRFX_LOG_WARNING("Function: %s, error code: %s.",
-											 __func__,
-											 NRFX_LOG_ERROR_STRING_GET(err_code));
-		return err_code;
-	}
-	
-	if((p_config->frequency < XINC_TIMER_FREQ_32000Hz)&& (p_config->clk_src == XINC_TIMER_CLK_SRC_32K))
-	{
-		err_code = NRFX_ERROR_INVALID_PARAM;
-		
-		NRFX_LOG_WARNING("Function: %s, error code: %s.",
-											 __func__,
-											 NRFX_LOG_ERROR_STRING_GET(err_code));
-		return err_code;
-	}
 		
 	p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK Ê±ÖÓÊ¹ÄÜ
  
-	xinc_timer_frequency_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->frequency); //TIMERx_CLK Ê±ÖÓ¿ØÖÆ¼Ä´æÆ÷ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
-	printf("frequency val:0x%08x\r\n",p_config->frequency);
+	xinc_timer_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk); //TIMERx_CLK Ê±ÖÓ¿ØÖÆ¼Ä´æÆ÷ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
+	printf("frequency val:0x%08x\r\n",p_config->ref_clk);
 	xinc_timer_mode_set(p_instance->p_reg, p_config->mode);
 	
 	p_cb->handler = timer_event_handler;

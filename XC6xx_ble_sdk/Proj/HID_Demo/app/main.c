@@ -21,6 +21,7 @@
 #include "xinc_drv_rtc.h"
 #include "bsp_clk.h"
 #include "xinc_drv_timer.h"
+#include "nrf_drv_pwm.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -595,8 +596,8 @@ static void rtc_config(void)
 		xinc_drv_rtc_time_set(&rtc,XINCX_RTC_MATCH_TIME_1,time,true);
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
-		xinc_drv_rtc_sec_int_enable(&rtc,true);
-		xinc_drv_rtc_min_int_enable(&rtc,true);
+	//	xinc_drv_rtc_sec_int_enable(&rtc,true);
+	//	xinc_drv_rtc_min_int_enable(&rtc,true);
 	
 	
 }
@@ -649,14 +650,14 @@ void timer_test()
 	
 
 }
-
+ void pwm_update_duty(uint8_t duty);
 const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(3);
 
 void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
 {
     static uint32_t i = 0;
 		static uint8_t on_off = 0;
-		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+//		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
     switch (event_type)
     {
         case XINC_TIMER_EVENT_TIMEOUT:
@@ -669,7 +670,13 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 						{						
 							GPIO_OUTPUT_LOW(5);
 							on_off = 0;
-					
+							i++;
+							if(i > 99)
+							{
+								i = 1;
+							}
+						//	printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+							pwm_update_duty(i);
 						}	
 		}break;
 
@@ -678,10 +685,10 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 				break;
 	}
 } 
- 
+
 static void timer_config(void)
 {
-    uint32_t time_ms = 200; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ms = 2000; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
     uint32_t err_code = NRF_SUCCESS;
 	
@@ -700,13 +707,15 @@ static void timer_config(void)
 
     xinc_drv_timer_enable(&TIMER_LED);
 
-    while (1)
+  //  while (1)
     {
         for(int i=0; i<455000; i++){}; 
 		for(int i=0; i<455000; i++){}; 
 	//	printf("count=[%d]\n",TIMER_LED.p_reg->TCV);
     }
 }
+
+static void pwm_config(void);
      
 int	main(void)
 {
@@ -727,7 +736,7 @@ int	main(void)
 	
 	btstack_main();
 	scheduler_init();
-//	rtc_config();
+	rtc_config();
 	key_init();
 	app_timer_init();
 	
@@ -741,6 +750,8 @@ int	main(void)
 		nrf_gpio_cfg_output(4);
     nrf_gpio_cfg_output(5);
 		timer_config();
+		
+		pwm_config();
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -868,3 +879,118 @@ void sbc_enc_params_print(uint8_t *out_put,uint16_t len)
 }
 
 #endif
+
+static nrf_drv_pwm_t m_pwm0 = NRF_DRV_PWM_INSTANCE(0);
+static nrf_drv_pwm_t m_pwm1 = NRF_DRV_PWM_INSTANCE(1);
+static nrf_drv_pwm_t m_pwm2 = NRF_DRV_PWM_INSTANCE(2);
+static nrf_drv_pwm_t m_pwm3 = NRF_DRV_PWM_INSTANCE(3);
+static nrf_drv_pwm_t m_pwm4 = NRF_DRV_PWM_INSTANCE(4);
+static nrf_drv_pwm_t m_pwm5 = NRF_DRV_PWM_INSTANCE(5);
+static uint8_t m_used = 0;
+
+
+static uint16_t const              m_demo1_top  = 100;
+static uint16_t const              m_demo1_step = 200;
+static uint8_t                     m_demo1_phase;
+static nrf_pwm_values_individual_t m_demo1_seq_values;
+static nrf_pwm_sequence_t const    m_demo1_seq =
+{
+    .values.p_individual = &m_demo1_seq_values,
+    .length              = NRF_PWM_VALUES_LENGTH(m_demo1_seq_values),
+    .repeats             = 0,
+    .end_delay           = 0
+};
+
+static void demo1_handler()
+{
+   
+}
+void pwm_update_duty(uint8_t duty)
+{
+	printf("pwm_update_duty:%d\n",duty);
+	nrf_drv_pwm_duty_cycle_update(&m_pwm0,duty);
+}
+
+static void pwm_config(void)
+{
+
+    nrf_drv_pwm_config_t const config0 =
+    {
+        .output_pins =  24,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32K,
+        .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,//XINC_PWM_REF_CLK_8MHz,//XINC_PWM_REF_CLK_32000Hz
+        .frequency       = 2,
+				.duty_cycle   = 75,
+				.start   = false
+    };
+    APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm0, &config0, demo1_handler));
+		
+		printf("freq_valid:%d\n",nrf_drv_pwm_freq_valid_range_check(config0.clk_src,config0.ref_clk,200));;
+		
+		nrf_drv_pwm_start(&m_pwm0);
+	
+	nrf_drv_pwm_config_t const config1 =
+    {
+        .output_pins =  25,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32K,
+        .ref_clk   = XINC_PWM_REF_CLK_1MHzOr1K,
+        .frequency       = 6,
+				.duty_cycle   = 50,
+				.start   = true
+    };
+    APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm1, &config1, demo1_handler));
+	
+	nrf_drv_pwm_config_t const config2 =
+    {
+        .output_pins =  0,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
+        .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
+        .frequency       = 2000,
+				.duty_cycle   = 33
+    };
+//	APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm2, &config2, demo1_handler));
+	
+	nrf_drv_pwm_config_t const config3 =
+    {
+        .output_pins =  1,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
+        .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
+        .frequency       = 2000,
+				.duty_cycle   = 44
+    };
+//	APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm3, &config3, demo1_handler));
+		
+		nrf_drv_pwm_config_t const config4 =
+    {
+        .output_pins =  1,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
+        .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
+        .frequency       = 2000,
+				.duty_cycle   = 44
+    };
+//	APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm4, &config4, demo1_handler));
+		
+		nrf_drv_pwm_config_t const config5 =
+    {
+        .output_pins =  1,
+        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
+        .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
+        .frequency       = 2000,
+				.duty_cycle   = 44
+    };
+	//APP_ERROR_CHECK(nrf_drv_pwm_init(&m_pwm5, &config5, demo1_handler));
+		
+	while(1)
+	{
+		for(int i=0; i<455000; i++){}; 
+		for(int i=0; i<455000; i++){}; 
+	//	printf("run\n");
+	}
+
+}

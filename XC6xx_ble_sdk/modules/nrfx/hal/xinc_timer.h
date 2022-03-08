@@ -141,19 +141,19 @@ typedef enum
 } xinc_timer_clk_src_t;
 
 /** @brief Timer prescalers. */
-typedef enum
+typedef enum XINC_PWM_REF_CLK_16MHzOr16K
 {
-    XINC_TIMER_FREQ_16MHz = 0, 		///< Timer frequency 16 MHz or 16KHz
-    XINC_TIMER_FREQ_8MHz = 1,      ///< Timer frequency 8 MHz or 8KHz
-    XINC_TIMER_FREQ_4MHz = 2,      ///< Timer frequency 4 MHz or 4KHz.
-    XINC_TIMER_FREQ_2MHz = 3,      ///< Timer frequency 2 MHz or 2KHz.
-    XINC_TIMER_FREQ_1MHz = 4,      ///< Timer frequency 1 MHz or 1KHz.
-    XINC_TIMER_FREQ_500kHz = 5,    ///< Timer frequency 500 kHz or 500Hz.
-    XINC_TIMER_FREQ_250kHz = 6,    ///< Timer frequency 250 kHz or 250Hz.
-    XINC_TIMER_FREQ_125kHz = 7,    ///< Timer frequency 125 kHz or 125Hz.
-    XINC_TIMER_FREQ_62500Hz = 8,   ///< Timer frequency 62500 Hz or 62.5Hz.
-    XINC_TIMER_FREQ_32000Hz = 9    ///< Timer frequency 32000 Hz.
-} xinc_timer_frequency_t;
+    XINC_TIMER_REF_CLK_16MHzOr16K = 0, 		///< Timer ref clk 16 MHz or 16KHz
+    XINC_TIMER_REF_CLK_8MHzOr8K = 1,      ///< Timer ref clk 8 MHz or 8KHz
+    XINC_TIMER_REF_CLK_4MHzOr4K = 2,      ///< Timer ref clk 4 MHz or 4KHz.
+    XINC_TIMER_REF_CLK_2MHzOr2K = 3,      ///< Timer ref clk 2 MHz or 2KHz.
+    XINC_TIMER_REF_CLK_1MHzOr1K = 4,      ///< Timer ref clk 1 MHz or 1KHz.
+    XINC_TIMER_REF_CLK_500kHzOr500 = 5,    ///< Timer ref clk 500 kHz or 500Hz.
+    XINC_TIMER_REF_CLK_250kHzOr250 = 6,    ///< Timer ref clk 250 kHz or 250Hz.
+    XINC_TIMER_REF_CLK_125kHzOr125 = 7,    ///< Timer ref clk 125 kHz or 125Hz.
+    XINC_TIMER_REF_CLK_62500HzOr62_5 = 8,   ///< Timer ref clk 62500 Hz or 62.5Hz.
+    XINC_TIMER_REF_CLK_32000Hz = 9    ///< Timer ref clk 32000 Hz.
+} xinc_timer_ref_clk_t;
 
 
 /** @brief Timer interrupts. */
@@ -254,8 +254,8 @@ __STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg);
  * @param[in] p_reg     Pointer to the structure of registers of the peripheral.
  * @param[in] frequency Timer frequency.
  */
-__STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
-                                             xinc_timer_frequency_t frequency);
+__STATIC_INLINE void xinc_timer_clk_div_set(XINC_CPR_CTL_Type *      p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
+                                             xinc_timer_ref_clk_t ref_clk);
 
 /**
  * @brief Function for retrieving the timer frequency.
@@ -264,7 +264,7 @@ __STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type *      p_reg
  *
  * @return Timer frequency.
  */
-__STATIC_INLINE uint32_t xinc_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
+__STATIC_INLINE uint32_t xinc_timer_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
 
 /**
  * @brief Function for writing the capture/compare register for the specified channel.
@@ -367,8 +367,8 @@ __STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg)
 
 
 
-__STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
-                                             xinc_timer_frequency_t frequency)
+__STATIC_INLINE void xinc_timer_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_timer_clk_src_t clk_src,
+                                             xinc_timer_ref_clk_t ref_clk)
 {
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
@@ -377,12 +377,12 @@ __STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint
 	{
 		case XINC_TIMER_CLK_SRC_32M_DIV:
 		{
-			*Timer0CtlBaseAddr = (1 << frequency) - 1 ;
+			*Timer0CtlBaseAddr = (1 << ref_clk) - 1 ;
 		}break;
 		
 		case XINC_TIMER_CLK_SRC_32K_DIV:
 		{
-			*Timer0CtlBaseAddr = ((1 << frequency) - 1) | (0x01 << 28) ;
+			*Timer0CtlBaseAddr = ((1 << ref_clk) - 1) | (0x01 << 28) ;
 		}break;
 		
 		case XINC_TIMER_CLK_SRC_32K:
@@ -395,10 +395,10 @@ __STATIC_INLINE void xinc_timer_frequency_div_set(XINC_CPR_CTL_Type * p_reg,uint
 	
 	}
 	
-	printf("timer clock id:%d, addr=[%p][%p],val=[%d],freq=[%d]\n",id,&p_reg->TIMER0_CLK_CTL,Timer0CtlBaseAddr,*Timer0CtlBaseAddr,frequency);
+	printf("timer clock id:%d, addr=[%p][%p],val=[%d],freq=[%d]\n",id,&p_reg->TIMER0_CLK_CTL,Timer0CtlBaseAddr,*Timer0CtlBaseAddr,ref_clk);
 }
 
-__STATIC_INLINE uint32_t xinc_timer_frequency_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
+__STATIC_INLINE uint32_t xinc_timer_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id)
 {
 
 	uint32_t clk_div = 0;

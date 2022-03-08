@@ -66,50 +66,7 @@ typedef enum {
   PendSV_IRQn               =  -2,              /*!< -2 Pendable request for system service                                    */
   SysTick_IRQn              =  -1,              /*!< -1 System Tick Timer                                                      */
 	
-/* ==========================================  nrf52840 Specific Interrupt Numbers  ========================================== */
-  POWER_CLOCK_IRQn          =   0,              /*!< 0  POWER_CLOCK                                                            */
-  RADIO_IRQn                =   1,              /*!< 1  RADIO                                                                  */
-  UARTE0_UART0_IRQn         =   2,              /*!< 2  UARTE0_UART0                                                           */
-  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0_IRQn=   3,  /*!< 3  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0                                      */
-  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1_IRQn=   4,  /*!< 4  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1                                      */
-  NFCT_IRQn                 =   5,              /*!< 5  NFCT                                                                   */
-  GPIOTE_IRQn               =   6,              /*!< 6  GPIOTE                                                                 */
-  SAADC_IRQn                =   7,              /*!< 7  SAADC                                                                  */
-  
-  RTC0_IRQn                 =  8,              /*!< 11 RTC0                                                                   */
-  TEMP_IRQn                 =  12,              /*!< 12 TEMP                                                                   */
-  RNG_IRQn                  =  13,              /*!< 13 RNG                                                                    */
-  ECB_IRQn                  =  14,              /*!< 14 ECB                                                                    */
-  CCM_AAR_IRQn              =  15,              /*!< 15 CCM_AAR                                                                */
- 
-  RTC1_IRQn                 =  17,              /*!< 17 RTC1                                                                   */
-  QDEC_IRQn                 =  16,              /*!< 18 QDEC                                                                   */
-  COMP_LPCOMP_IRQn          =  19,              /*!< 19 COMP_LPCOMP                                                            */
-  SWI0_EGU0_IRQn            =  20,              /*!< 20 SWI0_EGU0                                                              */
-  SWI1_EGU1_IRQn            =  21,              /*!< 21 SWI1_EGU1                                                              */
-  SWI2_EGU2_IRQn            =  22,              /*!< 22 SWI2_EGU2                                                              */
-  SWI3_EGU3_IRQn            =  23,              /*!< 23 SWI3_EGU3                                                              */
-  SWI4_EGU4_IRQn            =  24,              /*!< 24 SWI4_EGU4                                                              */
-  SWI5_EGU5_IRQn            =  25,              /*!< 25 SWI5_EGU5                                                              */
-  
-  TIMER4_IRQn               =  27,              /*!< 27 TIMER4                                                                 */
-  PWM0_IRQn                 =  28,              /*!< 28 PWM0                                                                   */
-  PDM_IRQn                  =  29,              /*!< 29 PDM                                                                    */
-  MWU_IRQn                  =  32,              /*!< 32 MWU                                                                    */
-  PWM1_IRQn                 =  33,              /*!< 33 PWM1                                                                   */
-  PWM2_IRQn                 =  34,              /*!< 34 PWM2                                                                   */
-  SPIM2_SPIS2_SPI2_IRQn     =  35,              /*!< 35 SPIM2_SPIS2_SPI2                                                       */
-  RTC2_IRQn                 =  36,              /*!< 36 RTC2                                                                   */
-  I2S_IRQn                  =  37,              /*!< 37 I2S                                                                    */
-  FPU_IRQn                  =  38,              /*!< 38 FPU                                                                    */
-  USBD_IRQn                 =  39,              /*!< 39 USBD                                                                   */
-  UARTE1_IRQn               =  40,              /*!< 40 UARTE1                                                                 */
-  QSPI_IRQn                 =  41,              /*!< 41 QSPI                                                                   */
-  CRYPTOCELL_IRQn           =  42,              /*!< 42 CRYPTOCELL                                                             */
-  PWM3_IRQn                 =  45,              /*!< 45 PWM3                                                                   */
-  SPIM3_IRQn                =  47,               /*!< 47 SPIM3  																																	*/
-
-  BLUETOOTH_IRQn      			= 0,        /*!< Device Interrupt                                 */
+  BLUETOOTH_IRQn      			= 0,        		/*!< Device Interrupt                                 */
   DMAS_IRQn	    						= 1,
   CPR_IRQn 			       			= 2,
   GPIO_IRQn    			    		= 3,
