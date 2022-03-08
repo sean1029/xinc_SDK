@@ -1166,9 +1166,9 @@
           <GroupName>pwm</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_pwm.c</FileName>
+              <FileName>xincx_pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_pwm.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_pwm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2248,9 +2248,9 @@
           <GroupName>pwm</GroupName>
           <Files>
             <File>
-              <FileName>nrfx_pwm.c</FileName>
+              <FileName>xincx_pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_pwm.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_pwm.c</FilePath>
             </File>
           </Files>
         </Group>

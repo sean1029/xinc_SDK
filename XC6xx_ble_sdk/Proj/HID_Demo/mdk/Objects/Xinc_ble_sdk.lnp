@@ -75,7 +75,7 @@
 ".\objects\xincx_saadc.o"
 ".\objects\xincx_rtc.o"
 ".\objects\xincx_timer.o"
-".\objects\nrfx_pwm.o"
+".\objects\xincx_pwm.o"
 --strict --scatter ".\cpu.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

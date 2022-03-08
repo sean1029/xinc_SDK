@@ -48,9 +48,9 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_pwm_hal PWM HAL
+ * @defgroup xinc_pwm_hal PWM HAL
  * @{
- * @ingroup nrf_pwm
+ * @ingroup xinc_pwm
  * @brief   Hardware access layer for managing the Pulse Width Modulation (PWM) peripheral.
  */
 
@@ -72,7 +72,7 @@ typedef enum
     NRF_PWM_TASK_SEQSTART0 = offsetof(NRF_PWM_Type, TASKS_SEQSTART[0]), ///< Starts playback of sequence 0.
     NRF_PWM_TASK_SEQSTART1 = offsetof(NRF_PWM_Type, TASKS_SEQSTART[1]), ///< Starts playback of sequence 1.
     NRF_PWM_TASK_NEXTSTEP  = offsetof(NRF_PWM_Type, TASKS_NEXTSTEP)     ///< Steps by one value in the current sequence if the decoder is set to @ref NRF_PWM_STEP_TRIGGERED mode.
-} nrf_pwm_task_t;
+} xinc_pwm_task_t;
 
 /** @brief PWM events. */
 typedef enum
@@ -84,7 +84,7 @@ typedef enum
     NRF_PWM_EVENT_SEQEND1      = offsetof(NRF_PWM_Type, EVENTS_SEQEND[1]),     ///< Emitted at the end of every sequence 1 when its last value has been read from RAM.
     NRF_PWM_EVENT_PWMPERIODEND = offsetof(NRF_PWM_Type, EVENTS_PWMPERIODEND),  ///< Emitted at the end of each PWM period.
     NRF_PWM_EVENT_LOOPSDONE    = offsetof(NRF_PWM_Type, EVENTS_LOOPSDONE)      ///< Concatenated sequences have been played the specified number of times.
-} nrf_pwm_event_t;
+} xinc_pwm_event_t;
 #endif
 /** @brief PWM interrupts. */
 typedef enum
@@ -96,7 +96,7 @@ typedef enum
     NRF_PWM_INT_SEQEND1_MASK      = PWM_INTENSET_SEQEND1_Msk,      ///< Interrupt on SEQEND[1] event.
     NRF_PWM_INT_PWMPERIODEND_MASK = PWM_INTENSET_PWMPERIODEND_Msk, ///< Interrupt on PWMPERIODEND event.
     NRF_PWM_INT_LOOPSDONE_MASK    = PWM_INTENSET_LOOPSDONE_Msk     ///< Interrupt on LOOPSDONE event.
-} nrf_pwm_int_mask_t;
+} xinc_pwm_int_mask_t;
 
 
 /** @brief PWM shortcuts. */
@@ -107,14 +107,14 @@ typedef enum
     NRF_PWM_SHORT_LOOPSDONE_SEQSTART0_MASK = PWM_SHORTS_LOOPSDONE_SEQSTART0_Msk, ///< Shortcut between LOOPSDONE event and SEQSTART[0] task.
     NRF_PWM_SHORT_LOOPSDONE_SEQSTART1_MASK = PWM_SHORTS_LOOPSDONE_SEQSTART1_Msk, ///< Shortcut between LOOPSDONE event and SEQSTART[1] task.
     NRF_PWM_SHORT_LOOPSDONE_STOP_MASK      = PWM_SHORTS_LOOPSDONE_STOP_Msk       ///< Shortcut between LOOPSDONE event and STOP task.
-} nrf_pwm_short_mask_t;
+} xinc_pwm_short_mask_t;
 
 /** @brief PWM modes of operation. */
 typedef enum
 {
     NRF_PWM_MODE_UP          = PWM_MODE_UPDOWN_Up,        ///< Up counter (edge-aligned PWM duty cycle).
     NRF_PWM_MODE_UP_AND_DOWN = PWM_MODE_UPDOWN_UpAndDown, ///< Up and down counter (center-aligned PWM duty cycle).
-} nrf_pwm_mode_t;
+} xinc_pwm_mode_t;
 
 
 /** @brief PWM interrupts. */
@@ -154,7 +154,7 @@ typedef enum
     XINC_PWM_REF_CLK_125kHzOr125 = 7,    ///< PWM CLK 125 kHz or 125Hz.
     XINC_PWM_REF_CLK_62500HzOr62_5 = 8,   ///< PWM CLK 62500 Hz or 62.5Hz.
     XINC_PWM_REF_CLK_32000Hz = 9    ///< PWM CLK 32000 Hz.
-} nrf_pwm_ref_clk_t;
+} xinc_pwm_ref_clk_t;
 /**
  * @brief PWM decoder load modes.
  *
@@ -167,7 +167,7 @@ typedef enum
     NRF_PWM_LOAD_GROUPED    = PWM_DECODER_LOAD_Grouped,    ///< 1st half word (16-bit) used in channels 0 and 1; 2nd word in channels 2 and 3.
     NRF_PWM_LOAD_INDIVIDUAL = PWM_DECODER_LOAD_Individual, ///< 1st half word (16-bit) used in channel 0; 2nd in channel 1; 3rd in channel 2; 4th in channel 3.
     NRF_PWM_LOAD_WAVE_FORM  = PWM_DECODER_LOAD_WaveForm    ///< 1st half word (16-bit) used in channel 0; 2nd in channel 1; ... ; 4th as the top value for the pulse generator counter.
-} nrf_pwm_dec_load_t;
+} xinc_pwm_dec_load_t;
 
 /**
  * @brief PWM decoder next step modes.
@@ -179,13 +179,13 @@ typedef enum
 {
     NRF_PWM_STEP_AUTO      = PWM_DECODER_MODE_RefreshCount, ///< Automatically after the current value is played and repeated the requested number of times.
     NRF_PWM_STEP_TRIGGERED = PWM_DECODER_MODE_NextStep      ///< When the @ref NRF_PWM_TASK_NEXTSTEP task is triggered.
-} nrf_pwm_dec_step_t;
+} xinc_pwm_dec_step_t;
 
 /**
  * @brief Type used for defining duty cycle values for a sequence
  *        loaded in @ref NRF_PWM_LOAD_COMMON mode.
  */
-typedef uint16_t nrf_pwm_values_common_t;
+typedef uint16_t xinc_pwm_values_common_t;
 
 /**
  * @brief Structure for defining duty cycle values for a sequence
@@ -194,7 +194,7 @@ typedef uint16_t nrf_pwm_values_common_t;
 typedef struct {
     uint16_t group_0; ///< Duty cycle value for group 0 (channels 0 and 1).
     uint16_t group_1; ///< Duty cycle value for group 1 (channels 2 and 3).
-} nrf_pwm_values_grouped_t;
+} xinc_pwm_values_grouped_t;
 
 /**
  * @brief Structure for defining duty cycle values for a sequence
@@ -206,7 +206,7 @@ typedef struct
     uint16_t channel_1; ///< Duty cycle value for channel 1.
     uint16_t channel_2; ///< Duty cycle value for channel 2.
     uint16_t channel_3; ///< Duty cycle value for channel 3.
-} nrf_pwm_values_individual_t;
+} xinc_pwm_values_individual_t;
 
 /**
  * @brief Structure for defining duty cycle values for a sequence
@@ -217,24 +217,24 @@ typedef struct {
     uint16_t channel_1;   ///< Duty cycle value for channel 1.
     uint16_t channel_2;   ///< Duty cycle value for channel 2.
     uint16_t counter_top; ///< Top value for the pulse generator counter.
-} nrf_pwm_values_wave_form_t;
+} xinc_pwm_values_wave_form_t;
 
 /**
  * @brief Union grouping pointers to arrays of duty cycle values applicable to
  *        various loading modes.
  */
 typedef union {
-    nrf_pwm_values_common_t     const * p_common;     ///< Pointer to be used in @ref NRF_PWM_LOAD_COMMON mode.
-    nrf_pwm_values_grouped_t    const * p_grouped;    ///< Pointer to be used in @ref NRF_PWM_LOAD_GROUPED mode.
-    nrf_pwm_values_individual_t const * p_individual; ///< Pointer to be used in @ref NRF_PWM_LOAD_INDIVIDUAL mode.
-    nrf_pwm_values_wave_form_t  const * p_wave_form;  ///< Pointer to be used in @ref NRF_PWM_LOAD_WAVE_FORM mode.
+    xinc_pwm_values_common_t     const * p_common;     ///< Pointer to be used in @ref NRF_PWM_LOAD_COMMON mode.
+    xinc_pwm_values_grouped_t    const * p_grouped;    ///< Pointer to be used in @ref NRF_PWM_LOAD_GROUPED mode.
+    xinc_pwm_values_individual_t const * p_individual; ///< Pointer to be used in @ref NRF_PWM_LOAD_INDIVIDUAL mode.
+    xinc_pwm_values_wave_form_t  const * p_wave_form;  ///< Pointer to be used in @ref NRF_PWM_LOAD_WAVE_FORM mode.
     uint16_t                    const * p_raw;        ///< Pointer providing raw access to the values.
-} nrf_pwm_values_t;
+} xinc_pwm_values_t;
 
 /**
  * @brief Structure for defining a sequence of PWM duty cycles.
  *
- * When the sequence is set (by a call to @ref nrf_pwm_sequence_set), the
+ * When the sequence is set (by a call to @ref xinc_pwm_sequence_set), the
  * provided duty cycle values are not copied. The @p values pointer is stored
  * in the internal register of the peripheral, and the values are loaded from RAM
  * during the sequence playback. Therefore, you must ensure that the values
@@ -253,11 +253,11 @@ typedef union {
  */
 typedef struct
 {
-    nrf_pwm_values_t values; ///< Pointer to an array with duty cycle values. This array must be in Data RAM.
+    xinc_pwm_values_t values; ///< Pointer to an array with duty cycle values. This array must be in Data RAM.
                              /**< This field is defined as an union of pointers
                               *   to provide a convenient way to define duty
                               *   cycle values in various loading modes
-                              *   (see @ref nrf_pwm_dec_load_t).
+                              *   (see @ref xinc_pwm_dec_load_t).
                               *   In each value, the most significant bit (15)
                               *   determines the polarity of the output and the
                               *   others (14-0) compose the 15-bit value to be
@@ -265,7 +265,7 @@ typedef struct
     uint16_t length;    ///< Number of 16-bit values in the array pointed by @p values.
     uint32_t repeats;   ///< Number of times that each duty cycle is to be repeated (after being played once). Ignored in @ref NRF_PWM_STEP_TRIGGERED mode.
     uint32_t end_delay; ///< Additional time (in PWM periods) that the last duty cycle is to be kept after the sequence is played. Ignored in @ref NRF_PWM_STEP_TRIGGERED mode.
-} nrf_pwm_sequence_t;
+} xinc_pwm_sequence_t;
 
 #if 0
 /**
@@ -274,8 +274,8 @@ typedef struct
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] task  Task to be activated.
  */
-__STATIC_INLINE void nrf_pwm_task_trigger(NRF_PWM_Type * p_reg,
-                                          nrf_pwm_task_t task);
+__STATIC_INLINE void xinc_pwm_task_trigger(NRF_PWM_Type * p_reg,
+                                          xinc_pwm_task_t task);
 
 /**
  * @brief Function for getting the address of the specified PWM task register.
@@ -285,8 +285,8 @@ __STATIC_INLINE void nrf_pwm_task_trigger(NRF_PWM_Type * p_reg,
  *
  * @return Address of the specified task register.
  */
-__STATIC_INLINE uint32_t nrf_pwm_task_address_get(NRF_PWM_Type const * p_reg,
-                                                  nrf_pwm_task_t       task);
+__STATIC_INLINE uint32_t xinc_pwm_task_address_get(NRF_PWM_Type const * p_reg,
+                                                  xinc_pwm_task_t       task);
 
 /**
  * @brief Function for clearing the specified PWM event.
@@ -294,8 +294,8 @@ __STATIC_INLINE uint32_t nrf_pwm_task_address_get(NRF_PWM_Type const * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] event Event to clear.
  */
-__STATIC_INLINE void nrf_pwm_event_clear(NRF_PWM_Type *  p_reg,
-                                         nrf_pwm_event_t event);
+__STATIC_INLINE void xinc_pwm_event_clear(NRF_PWM_Type *  p_reg,
+                                         xinc_pwm_event_t event);
 
 /**
  * @brief Function for retrieving the state of the PWM event.
@@ -306,8 +306,8 @@ __STATIC_INLINE void nrf_pwm_event_clear(NRF_PWM_Type *  p_reg,
  * @retval true  The event has been generated.
  * @retval false The event has not been generated.
  */
-__STATIC_INLINE bool nrf_pwm_event_check(NRF_PWM_Type const * p_reg,
-                                         nrf_pwm_event_t      event);
+__STATIC_INLINE bool xinc_pwm_event_check(NRF_PWM_Type const * p_reg,
+                                         xinc_pwm_event_t      event);
 
 /**
  * @brief Function for getting the address of the specified PWM event register.
@@ -317,8 +317,8 @@ __STATIC_INLINE bool nrf_pwm_event_check(NRF_PWM_Type const * p_reg,
  *
  * @return Address of the specified event register.
  */
-__STATIC_INLINE uint32_t nrf_pwm_event_address_get(NRF_PWM_Type const * p_reg,
-                                                   nrf_pwm_event_t      event);
+__STATIC_INLINE uint32_t xinc_pwm_event_address_get(NRF_PWM_Type const * p_reg,
+                                                   xinc_pwm_event_t      event);
 
 /**
  * @brief Function for enabling the specified shortcuts.
@@ -326,7 +326,7 @@ __STATIC_INLINE uint32_t nrf_pwm_event_address_get(NRF_PWM_Type const * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of shortcuts to be enabled.
  */
-__STATIC_INLINE void nrf_pwm_shorts_enable(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_shorts_enable(NRF_PWM_Type * p_reg,
                                            uint32_t       mask);
 
 /**
@@ -335,7 +335,7 @@ __STATIC_INLINE void nrf_pwm_shorts_enable(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of shortcuts to be disabled.
  */
-__STATIC_INLINE void nrf_pwm_shorts_disable(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_shorts_disable(NRF_PWM_Type * p_reg,
                                             uint32_t       mask);
 
 /**
@@ -344,7 +344,7 @@ __STATIC_INLINE void nrf_pwm_shorts_disable(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Shortcuts configuration to be set.
  */
-__STATIC_INLINE void nrf_pwm_shorts_set(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_shorts_set(NRF_PWM_Type * p_reg,
                                         uint32_t       mask);
 #endif
 /**
@@ -353,7 +353,7 @@ __STATIC_INLINE void nrf_pwm_shorts_set(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be enabled.
  */
-__STATIC_INLINE void nrf_pwm_int_enable(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_int_enable(NRF_PWM_Type * p_reg,
                                         uint32_t       mask);
 
 /**
@@ -362,7 +362,7 @@ __STATIC_INLINE void nrf_pwm_int_enable(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be disabled.
  */
-__STATIC_INLINE void nrf_pwm_int_disable(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_int_disable(NRF_PWM_Type * p_reg,
                                          uint32_t       mask);
 
 /**
@@ -371,7 +371,7 @@ __STATIC_INLINE void nrf_pwm_int_disable(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be set.
  */
-__STATIC_INLINE void nrf_pwm_int_set(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_int_set(NRF_PWM_Type * p_reg,
                                      uint32_t       mask);
 
 /**
@@ -383,8 +383,8 @@ __STATIC_INLINE void nrf_pwm_int_set(NRF_PWM_Type * p_reg,
  * @retval true  The interrupt is enabled.
  * @retval false The interrupt is not enabled.
  */
-__STATIC_INLINE bool nrf_pwm_int_enable_check(NRF_PWM_Type const * p_reg,
-                                              nrf_pwm_int_mask_t   pwm_int);
+__STATIC_INLINE bool xinc_pwm_int_enable_check(NRF_PWM_Type const * p_reg,
+                                              xinc_pwm_int_mask_t   pwm_int);
 
 #if defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
 /**
@@ -395,8 +395,8 @@ __STATIC_INLINE bool nrf_pwm_int_enable_check(NRF_PWM_Type const * p_reg,
  * @param[in] task    Task for which to set the configuration.
  * @param[in] channel Channel through which to subscribe events.
  */
-__STATIC_INLINE void nrf_pwm_subscribe_set(NRF_PWM_Type * p_reg,
-                                           nrf_pwm_task_t task,
+__STATIC_INLINE void xinc_pwm_subscribe_set(NRF_PWM_Type * p_reg,
+                                           xinc_pwm_task_t task,
                                            uint8_t        channel);
 
 /**
@@ -406,8 +406,8 @@ __STATIC_INLINE void nrf_pwm_subscribe_set(NRF_PWM_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] task  Task for which to clear the configuration.
  */
-__STATIC_INLINE void nrf_pwm_subscribe_clear(NRF_PWM_Type * p_reg,
-                                             nrf_pwm_task_t task);
+__STATIC_INLINE void xinc_pwm_subscribe_clear(NRF_PWM_Type * p_reg,
+                                             xinc_pwm_task_t task);
 
 /**
  * @brief Function for setting the publish configuration for a given
@@ -417,8 +417,8 @@ __STATIC_INLINE void nrf_pwm_subscribe_clear(NRF_PWM_Type * p_reg,
  * @param[in] event   Event for which to set the configuration.
  * @param[in] channel Channel through which to publish the event.
  */
-__STATIC_INLINE void nrf_pwm_publish_set(NRF_PWM_Type *  p_reg,
-                                         nrf_pwm_event_t event,
+__STATIC_INLINE void xinc_pwm_publish_set(NRF_PWM_Type *  p_reg,
+                                         xinc_pwm_event_t event,
                                          uint8_t         channel);
 
 /**
@@ -428,8 +428,8 @@ __STATIC_INLINE void nrf_pwm_publish_set(NRF_PWM_Type *  p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] event Event for which to clear the configuration.
  */
-__STATIC_INLINE void nrf_pwm_publish_clear(NRF_PWM_Type *  p_reg,
-                                           nrf_pwm_event_t event);
+__STATIC_INLINE void xinc_pwm_publish_clear(NRF_PWM_Type *  p_reg,
+                                           xinc_pwm_event_t event);
 #endif // defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
 
 /**
@@ -437,14 +437,14 @@ __STATIC_INLINE void nrf_pwm_publish_clear(NRF_PWM_Type *  p_reg,
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_pwm_enable(NRF_PWM_Type * p_reg);
+__STATIC_INLINE void xinc_pwm_enable(NRF_PWM_Type * p_reg);
 
 /**
  * @brief Function for disabling the PWM peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_pwm_disable(NRF_PWM_Type * p_reg);
+__STATIC_INLINE void xinc_pwm_disable(NRF_PWM_Type * p_reg);
 
 
 
@@ -456,7 +456,7 @@ __STATIC_INLINE void nrf_pwm_disable(NRF_PWM_Type * p_reg);
  * @param[in] mode       Operating mode of the pulse generator counter.
  * @param[in] top_value  Value up to which the pulse generator counter counts.
  */
-__STATIC_INLINE void nrf_pwm_configure(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_configure(NRF_PWM_Type * p_reg,
                                        uint8_t       period,
 									   uint8_t        duty_cycle);
 
@@ -465,7 +465,7 @@ __STATIC_INLINE void nrf_pwm_configure(NRF_PWM_Type * p_reg,
 
 
 __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_pwm_clk_src_t clk_src,
-                                             nrf_pwm_ref_clk_t ref_clk);
+                                             xinc_pwm_ref_clk_t ref_clk);
 
 __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t id);
 
@@ -473,19 +473,19 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 
-__STATIC_INLINE void nrf_pwm_enable(NRF_PWM_Type * p_reg)
+__STATIC_INLINE void xinc_pwm_enable(NRF_PWM_Type * p_reg)
 {
     p_reg->EN |= (PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);	
 }
 
-__STATIC_INLINE void nrf_pwm_disable(NRF_PWM_Type * p_reg)
+__STATIC_INLINE void xinc_pwm_disable(NRF_PWM_Type * p_reg)
 {	
     p_reg->EN &= ~(PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);
 }
 
 
 
-__STATIC_INLINE void nrf_pwm_configure(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_configure(NRF_PWM_Type * p_reg,
                                        uint8_t       period,
 																			 uint8_t  duty_cycle)
 {
@@ -499,7 +499,7 @@ __STATIC_INLINE void nrf_pwm_configure(NRF_PWM_Type * p_reg,
 
 
 __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_pwm_clk_src_t clk_src,
-                                             nrf_pwm_ref_clk_t ref_clk)
+                                             xinc_pwm_ref_clk_t ref_clk)
 {
 	
 	switch(clk_src)

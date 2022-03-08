@@ -1,54 +1,20 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XINCHIP
  *
  * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
  */
 
 #include <nrfx.h>
 
-#if NRFX_CHECK(NRFX_PWM_ENABLED)
+#if NRFX_CHECK(XINCX_PWM_ENABLED)
 
-#if !(NRFX_CHECK(NRFX_PWM0_ENABLED) || NRFX_CHECK(NRFX_PWM1_ENABLED) || \
-      NRFX_CHECK(NRFX_PWM2_ENABLED) || NRFX_CHECK(NRFX_PWM3_ENABLED) || \
-			NRFX_CHECK(NRFX_PWM4_ENABLED) || NRFX_CHECK(NRFX_PWM5_ENABLED))
+#if !(NRFX_CHECK(XINCX_PWM0_ENABLED) || NRFX_CHECK(XINCX_PWM1_ENABLED) || \
+      NRFX_CHECK(XINCX_PWM2_ENABLED) || NRFX_CHECK(XINCX_PWM3_ENABLED) || \
+			NRFX_CHECK(XINCX_PWM4_ENABLED) || NRFX_CHECK(XINCX_PWM5_ENABLED))
 #error "No enabled PWM instances. Check <nrfx_config.h>."
 #endif
 
-#include <nrfx_pwm.h>
+#include <xincx_pwm.h>
 #include <hal/nrf_gpio.h>
 
 #define NRFX_LOG_MODULE PWM
@@ -61,16 +27,16 @@ typedef struct
     nrfx_drv_state_t volatile state;
     uint8_t                   flags;
 		xinc_pwm_clk_src_t clk_src;          ///< Bit width.
-		nrf_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
+		xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
 		uint8_t period; //set pwm out freq
 		uint8_t ocpy;// duty cycle
 } pwm_control_block_t;
-static pwm_control_block_t m_cb[NRFX_PWM_ENABLED_COUNT];
+static pwm_control_block_t m_cb[XINCX_PWM_ENABLED_COUNT];
 
-static uint16_t nrfx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
+static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 
-static void configure_pins(nrfx_pwm_t const * const p_instance,
-                           nrfx_pwm_config_t const * p_config)
+static void configure_pins(xincx_pwm_t const * const p_instance,
+                           xincx_pwm_config_t const * p_config)
 {
     uint32_t out_pins;
 
@@ -99,9 +65,9 @@ static void configure_pins(nrfx_pwm_t const * const p_instance,
 }
 
 
-nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
-                         nrfx_pwm_config_t const * p_config,
-                         nrfx_pwm_handler_t        handler)
+nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
+                         xincx_pwm_config_t const * p_config,
+                         xincx_pwm_handler_t        handler)
 {
 	#include    "bsp_register_macro.h"
 	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x10001000); //PWM_PCLK Ê±ÖÓÊ¹ÄÜ
@@ -121,9 +87,9 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
         return err_code;
     }
 		
-		printf("p_instance->id:%d,p_instance->drv_inst_idx:%d,NRFX_PWM_ENABLED_COUNT:%d \r\n",p_instance->id,p_instance->drv_inst_idx,NRFX_PWM_ENABLED_COUNT);
+		printf("p_instance->id:%d,p_instance->drv_inst_idx:%d,XINCX_PWM_ENABLED_COUNT:%d \r\n",p_instance->id,p_instance->drv_inst_idx,XINCX_PWM_ENABLED_COUNT);
 
-		for(uint8_t i = 0;i < NRFX_PWM_ENABLED_COUNT;i ++)
+		for(uint8_t i = 0;i < XINCX_PWM_ENABLED_COUNT;i ++)
 		{
 			pwm_control_block_t * p_cb1  = &m_cb[i];
 			if (p_cb1->state == NRFX_DRV_STATE_INITIALIZED)
@@ -170,7 +136,7 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
 
 	printf("reg addr=%p\r\n", p_instance->p_reg);
 
-	nrf_pwm_disable(p_instance->p_reg);
+	xinc_pwm_disable(p_instance->p_reg);
 	
 	configure_pins(p_instance, p_config);
 	   
@@ -181,10 +147,10 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
 	xinc_pwm_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk);
 
 	uint16_t period;
-	period = nrfx_pwm_freq_to_period(p_instance->drv_inst_idx,p_config->frequency);
+	period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,p_config->frequency);
 	if(period == 0xFFFF)
 	{	
-		nrfx_pwm_freq_valid_range_check(p_cb->clk_src,p_cb->ref_clk,p_config->frequency);
+		xincx_pwm_freq_valid_range_check(p_cb->clk_src,p_cb->ref_clk,p_config->frequency);
 		err_code = NRFX_ERROR_INVALID_PARAM;
 		
 		NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -196,13 +162,13 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
 											 NRFX_LOG_ERROR_STRING_GET(err_code));
 		return err_code;
 	}
-	nrf_pwm_configure(p_instance->p_reg,period, p_config->duty_cycle);
+	xinc_pwm_configure(p_instance->p_reg,period, p_config->duty_cycle);
 	p_cb->period = period;
 	p_cb->ocpy =  p_config->duty_cycle;
 	
 	if(p_config->start)
 	{
-		nrf_pwm_enable(p_instance->p_reg);
+		xinc_pwm_enable(p_instance->p_reg);
 	}
 	
 	p_cb->state = NRFX_DRV_STATE_INITIALIZED;
@@ -213,20 +179,20 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const p_instance,
 }
 
 
-void nrfx_pwm_uninit(nrfx_pwm_t const * const p_instance)
+void xincx_pwm_uninit(xincx_pwm_t const * const p_instance)
 {
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
 
 
 
-    nrf_pwm_disable(p_instance->p_reg);
+    xinc_pwm_disable(p_instance->p_reg);
 
     p_cb->state = NRFX_DRV_STATE_UNINITIALIZED;
 }
 
 
-bool nrfx_pwm_start(nrfx_pwm_t const * const p_instance)
+bool xincx_pwm_start(xincx_pwm_t const * const p_instance)
 {
     NRFX_ASSERT(m_cb[p_instance->drv_inst_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 		
@@ -234,12 +200,12 @@ bool nrfx_pwm_start(nrfx_pwm_t const * const p_instance)
 		{
 			return false;
 		}
-    nrf_pwm_enable(p_instance->p_reg);
+    xinc_pwm_enable(p_instance->p_reg);
 		
 		return true;
 }
 
-bool nrfx_pwm_stop(nrfx_pwm_t const * const p_instance)
+bool xincx_pwm_stop(xincx_pwm_t const * const p_instance)
 {
     NRFX_ASSERT(m_cb[p_instance->drv_inst_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 		
@@ -247,7 +213,7 @@ bool nrfx_pwm_stop(nrfx_pwm_t const * const p_instance)
 		{
 			return false;
 		}
-    nrf_pwm_disable(p_instance->p_reg);
+    xinc_pwm_disable(p_instance->p_reg);
 		
 		return true;
 }
@@ -255,12 +221,12 @@ bool nrfx_pwm_stop(nrfx_pwm_t const * const p_instance)
 
 
 
-nrfx_err_t nrfx_pwm_freq_update(nrfx_pwm_t const * const p_instance,uint32_t new_freq)
+nrfx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq)
 {
 	nrfx_err_t err_code = NRFX_SUCCESS;
 	uint16_t period;
 	pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
-	period = nrfx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
+	period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
 	if(period == 0xFFFF)
 	{
 		err_code = NRFX_ERROR_INVALID_PARAM;
@@ -275,13 +241,13 @@ nrfx_err_t nrfx_pwm_freq_update(nrfx_pwm_t const * const p_instance,uint32_t new
 		return err_code;
 	}
 	p_cb->period = period;
-	nrf_pwm_configure(p_instance->p_reg,period,p_cb->ocpy);
+	xinc_pwm_configure(p_instance->p_reg,period,p_cb->ocpy);
 
 	return err_code;
 }
 
 
-nrfx_err_t nrfx_pwm_duty_cycle_update(nrfx_pwm_t const * const p_instance,uint8_t new_duty)
+nrfx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty)
 {
 	nrfx_err_t err_code = NRFX_SUCCESS;
 	NRFX_ASSERT(new_duty <= 100);
@@ -301,18 +267,18 @@ nrfx_err_t nrfx_pwm_duty_cycle_update(nrfx_pwm_t const * const p_instance,uint8_
 		return err_code;
 	}
 	p_cb->ocpy = new_duty;
-	nrf_pwm_configure(p_instance->p_reg,p_cb->period,new_duty);
+	xinc_pwm_configure(p_instance->p_reg,p_cb->period,new_duty);
 	
 	return err_code;
 
 }
-nrfx_err_t nrfx_pwm_freq_duty_cycl_update(nrfx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty)
+nrfx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty)
 {
 	nrfx_err_t err_code = NRFX_SUCCESS;
 	NRFX_ASSERT(new_duty <= 100);
 	uint16_t period;
 	pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
-	period = nrfx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
+	period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
 	if((period == 0xFFFF) || (new_duty > 100))
 	{
 		err_code = NRFX_ERROR_INVALID_PARAM;
@@ -328,14 +294,14 @@ nrfx_err_t nrfx_pwm_freq_duty_cycl_update(nrfx_pwm_t const * const p_instance,ui
 	}
 	p_cb->period = period;
 	p_cb->ocpy = new_duty;
-	nrf_pwm_configure(p_instance->p_reg,period,new_duty);
+	xinc_pwm_configure(p_instance->p_reg,period,new_duty);
 	
 	return err_code;
 }
 
 
 
-static uint16_t nrfx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq)
+static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq)
 {
 	pwm_control_block_t * p_cb  = &m_cb[inst_idx];
 	uint32_t pwm_clk;
@@ -376,7 +342,7 @@ static uint16_t nrfx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq)
 	return period;
 }
 
-bool nrfx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t set_freq)
+bool xincx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t set_freq)
 {
 	uint32_t pwm_clk;
 	uint32_t valid_freq_min = 0;
@@ -423,4 +389,4 @@ bool nrfx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t s
 	return false;
 }
 
-#endif // NRFX_CHECK(NRFX_PWM_ENABLED)
+#endif // NRFX_CHECK(XINCX_PWM_ENABLED)

@@ -38,20 +38,20 @@
  *
  */
 
-#ifndef NRFX_PWM_H__
-#define NRFX_PWM_H__
+#ifndef XINCX_PWM_H__
+#define XINCX_PWM_H__
 
 #include <nrfx.h>
-#include <hal/nrf_pwm.h>
+#include <hal/xinc_pwm.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * @defgroup nrfx_pwm PWM driver
+ * @defgroup xincx_pwm PWM driver
  * @{
- * @ingroup nrf_pwm
+ * @ingroup xinc_pwm
  * @brief   Pulse Width Modulation (PWM) peripheral driver.
  */
 
@@ -62,38 +62,38 @@ typedef struct
 		XINC_CPR_CTL_Type * p_cpr; 
 		uint8_t          id;
     uint8_t        drv_inst_idx; ///< Index of the driver instance. For internal use only.
-} nrfx_pwm_t;
+} xincx_pwm_t;
 
 /** @brief Macro for creating a PWM driver instance. */
-#define NRFX_PWM_INSTANCE(Id)                               \
+#define XINCX_PWM_INSTANCE(Id)                               \
 {                                                           \
     .p_reg  = NRFX_CONCAT_2(NRF_PWM, Id),             \
 		.p_cpr            = XINC_CPR,											\
 		.id 		= Id,																				\
-    .drv_inst_idx = NRFX_CONCAT_3(NRFX_PWM, Id, _INST_IDX), \
+    .drv_inst_idx = NRFX_CONCAT_3(XINCX_PWM, Id, _INST_IDX), \
 }
 
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(NRFX_PWM0_ENABLED)
-    NRFX_PWM0_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM0_ENABLED)
+    XINCX_PWM0_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_PWM1_ENABLED)
-    NRFX_PWM1_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM1_ENABLED)
+    XINCX_PWM1_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_PWM2_ENABLED)
-    NRFX_PWM2_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM2_ENABLED)
+    XINCX_PWM2_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_PWM3_ENABLED)
-    NRFX_PWM3_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM3_ENABLED)
+    XINCX_PWM3_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_PWM4_ENABLED)
-    NRFX_PWM4_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM4_ENABLED)
+    XINCX_PWM4_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_PWM5_ENABLED)
-    NRFX_PWM5_INST_IDX,
+#if NRFX_CHECK(XINCX_PWM5_ENABLED)
+    XINCX_PWM5_INST_IDX,
 #endif
-    NRFX_PWM_ENABLED_COUNT
+    XINCX_PWM_ENABLED_COUNT
 };
 #endif
 
@@ -102,34 +102,34 @@ enum {
  *        to specify that its output is not used and therefore does not need
  *        to be connected to a pin.
  */
-#define NRFX_PWM_PIN_NOT_USED    0xFF
+#define XINCX_PWM_PIN_NOT_USED    0xFF
 
 /** @brief This value can be added to a pin number to invert its polarity (set idle state = 1). */
-#define NRFX_PWM_PIN_INVERTED    0x80
+#define XINCX_PWM_PIN_INVERTED    0x80
 
 /** @brief PWM driver configuration structure. */
 typedef struct
 {
     uint8_t output_pins; ///< Pin numbers for individual output channels (optional).
-                                                /**< Use @ref NRFX_PWM_PIN_NOT_USED
+                                                /**< Use @ref XINCX_PWM_PIN_NOT_USED
                                                  *   if a given output channel is not needed. */
     uint8_t            irq_priority; ///< Interrupt priority.
 		xinc_pwm_clk_src_t clk_src;          ///< Bit width.
-    nrf_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
+    xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
 
 		uint32_t            frequency;
 		uint16_t           	duty_cycle;
 	
 		bool           			start;
 		
-} nrfx_pwm_config_t;
+} xincx_pwm_config_t;
 
 /** @brief PWM driver default configuration. */
-#define NRFX_PWM_DEFAULT_CONFIG                                             \
+#define XINCX_PWM_DEFAULT_CONFIG                                             \
 {                                                                           \
-    .output_pins  =  NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN,                      \
-    .irq_priority =  NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
-    .ref_clk   = (nrf_pwm_ref_clk_t)NRFX_PWM_DEFAULT_CONFIG_REF_CLOCK,      \
+    .output_pins  =  XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN,                      \
+    .irq_priority =  XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
+    .ref_clk   = (xinc_pwm_ref_clk_t)XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK,      \
 		.clk_src   = 		(xinc_pwm_clk_src_t)XINCX_PWM_DEFAULT_CONFIG_CLK_SRC,      \
 		.frequency       =  1000,                                                     \
 		.duty_cycle   =  50,                                                    \
@@ -139,7 +139,7 @@ typedef struct
 /** @brief PWM flags that provide additional playback options. */
 typedef enum
 {
-    NRFX_PWM_FLAG_STOP = 0x01, /**< When the requested playback is finished,
+    XINCX_PWM_FLAG_STOP = 0x01, /**< When the requested playback is finished,
                                     the peripheral will be stopped.
                                     @note The STOP task is triggered when
                                     the last value of the final sequence is
@@ -149,10 +149,10 @@ typedef enum
                                     of duty cycle values, this might result in
                                     less than the requested number of repeats
                                     of the last value. */
-    NRFX_PWM_FLAG_LOOP = 0x02, /**< When the requested playback is finished,
+    XINCX_PWM_FLAG_LOOP = 0x02, /**< When the requested playback is finished,
                                     it will be started from the beginning.
                                     This flag is ignored if used together
-                                    with @ref NRFX_PWM_FLAG_STOP.
+                                    with @ref XINCX_PWM_FLAG_STOP.
                                     @note The playback restart is done via a
                                     shortcut configured in the PWM peripheral.
                                     This shortcut triggers the proper starting
@@ -164,37 +164,37 @@ typedef enum
                                     the playback restart will occur right
                                     after switching to the final value (this
                                     final value will be played only once). */
-    NRFX_PWM_FLAG_SIGNAL_END_SEQ0 = 0x04, /**< The event handler is to be
+    XINCX_PWM_FLAG_SIGNAL_END_SEQ0 = 0x04, /**< The event handler is to be
                                                called when the last value
                                                from sequence 0 is loaded. */
-    NRFX_PWM_FLAG_SIGNAL_END_SEQ1 = 0x08, /**< The event handler is to be
+    XINCX_PWM_FLAG_SIGNAL_END_SEQ1 = 0x08, /**< The event handler is to be
                                                called when the last value
                                                from sequence 1 is loaded. */
-    NRFX_PWM_FLAG_NO_EVT_FINISHED = 0x10, /**< The playback finished event
+    XINCX_PWM_FLAG_NO_EVT_FINISHED = 0x10, /**< The playback finished event
                                                (enabled by default) is to be
                                                suppressed. */
-    NRFX_PWM_FLAG_START_VIA_TASK = 0x80, /**< The playback must not be
+    XINCX_PWM_FLAG_START_VIA_TASK = 0x80, /**< The playback must not be
                                               started directly by the called
                                               function. Instead, the function
                                               must only prepare it and
                                               return the address of the task
                                               to be triggered to start the
                                               playback. */
-} nrfx_pwm_flag_t;
+} xincx_pwm_flag_t;
 
 /** @brief PWM driver event type. */
 typedef enum
 {
-    NRFX_PWM_EVT_FINISHED, ///< Sequence playback finished.
-    NRFX_PWM_EVT_END_SEQ0, /**< End of sequence 0 reached. Its data can be
+    XINCX_PWM_EVT_FINISHED, ///< Sequence playback finished.
+    XINCX_PWM_EVT_END_SEQ0, /**< End of sequence 0 reached. Its data can be
                                 safely modified now. */
-    NRFX_PWM_EVT_END_SEQ1, /**< End of sequence 1 reached. Its data can be
+    XINCX_PWM_EVT_END_SEQ1, /**< End of sequence 1 reached. Its data can be
                                 safely modified now. */
-    NRFX_PWM_EVT_STOPPED,  ///< The PWM peripheral has been stopped.
-} nrfx_pwm_evt_type_t;
+    XINCX_PWM_EVT_STOPPED,  ///< The PWM peripheral has been stopped.
+} xincx_pwm_evt_type_t;
 
 /** @brief PWM driver event handler type. */
-typedef void (* nrfx_pwm_handler_t)(nrfx_pwm_evt_type_t event_type);
+typedef void (* xincx_pwm_handler_t)(xincx_pwm_evt_type_t event_type);
 
 /**
  * @brief Function for initializing the PWM driver.
@@ -208,9 +208,9 @@ typedef void (* nrfx_pwm_handler_t)(nrfx_pwm_evt_type_t event_type);
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
  */
-nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const  p_instance,
-                         nrfx_pwm_config_t const * p_config,
-                         nrfx_pwm_handler_t        handler);
+nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const  p_instance,
+                         xincx_pwm_config_t const * p_config,
+                         xincx_pwm_handler_t        handler);
 
 /**
  * @brief Function for uninitializing the PWM driver.
@@ -219,11 +219,11 @@ nrfx_err_t nrfx_pwm_init(nrfx_pwm_t const * const  p_instance,
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_pwm_uninit(nrfx_pwm_t const * const p_instance);
+void xincx_pwm_uninit(xincx_pwm_t const * const p_instance);
 
 
-bool nrfx_pwm_start(nrfx_pwm_t const * const p_instance);
-bool nrfx_pwm_stop(nrfx_pwm_t const * const p_instance);
+bool xincx_pwm_start(xincx_pwm_t const * const p_instance);
+bool xincx_pwm_stop(xincx_pwm_t const * const p_instance);
 
 /**
  * @brief Function for checking the status of the PWM peripheral.
@@ -233,15 +233,15 @@ bool nrfx_pwm_stop(nrfx_pwm_t const * const p_instance);
  * @retval true  The PWM peripheral is stopped.
  * @retval false The PWM peripheral is not stopped.
  */
-bool nrfx_pwm_is_stopped(nrfx_pwm_t const * const p_instance);
+bool xincx_pwm_is_stopped(xincx_pwm_t const * const p_instance);
 
-nrfx_err_t nrfx_pwm_freq_duty_cycl_update(nrfx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
+nrfx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
 
-nrfx_err_t nrfx_pwm_duty_cycle_update(nrfx_pwm_t const * const p_instance,uint8_t new_duty);
+nrfx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty);
 
-nrfx_err_t nrfx_pwm_freq_update(nrfx_pwm_t const * const p_instance,uint32_t new_freq);
+nrfx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq);
 
-bool nrfx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t set_freq);
+bool xincx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t set_freq);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
@@ -258,4 +258,4 @@ bool nrfx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t s
 }
 #endif
 
-#endif // NRFX_PWM_H__
+#endif // XINCX_PWM_H__

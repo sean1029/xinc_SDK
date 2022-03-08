@@ -562,93 +562,93 @@
 
 // </e>
 
-// <e> NRFX_PWM_ENABLED - nrfx_pwm - PWM peripheral driver
+// <e> XINCX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
-#ifndef NRFX_PWM_ENABLED
-#define NRFX_PWM_ENABLED 1
+#ifndef XINCX_PWM_ENABLED
+#define XINCX_PWM_ENABLED 1
 #endif
 
-// <q> NRFX_PWM0_ENABLED  - Enable PWM0 instance
+// <q> XINCX_PWM0_ENABLED  - Enable PWM0 instance
  
-#ifndef NRFX_PWM0_ENABLED
-#define NRFX_PWM0_ENABLED 1
+#ifndef XINCX_PWM0_ENABLED
+#define XINCX_PWM0_ENABLED 1
 #endif
 
-// <q> NRFX_PWM1_ENABLED  - Enable PWM1 instance
- 
-
-#ifndef NRFX_PWM1_ENABLED
-#define NRFX_PWM1_ENABLED 1
-#endif
-
-// <q> NRFX_PWM2_ENABLED  - Enable PWM2 instance
+// <q> XINCX_PWM1_ENABLED  - Enable PWM1 instance
  
 
-#ifndef NRFX_PWM2_ENABLED
-#define NRFX_PWM2_ENABLED 1
+#ifndef XINCX_PWM1_ENABLED
+#define XINCX_PWM1_ENABLED 1
 #endif
 
-// <q> NRFX_PWM3_ENABLED  - Enable PWM3 instance
+// <q> XINCX_PWM2_ENABLED  - Enable PWM2 instance
  
 
-#ifndef NRFX_PWM3_ENABLED
-#define NRFX_PWM3_ENABLED 1
+#ifndef XINCX_PWM2_ENABLED
+#define XINCX_PWM2_ENABLED 1
 #endif
 
-// <q> NRFX_PWM4_ENABLED  - Enable PWM4 instance
+// <q> XINCX_PWM3_ENABLED  - Enable PWM3 instance
  
 
-#ifndef NRFX_PWM4_ENABLED
-#define NRFX_PWM4_ENABLED 1
+#ifndef XINCX_PWM3_ENABLED
+#define XINCX_PWM3_ENABLED 1
 #endif
 
-// <q> NRFX_PWM5_ENABLED  - Enable PWM5 instance
+// <q> XINCX_PWM4_ENABLED  - Enable PWM4 instance
  
 
-#ifndef NRFX_PWM5_ENABLED
-#define NRFX_PWM5_ENABLED 1
+#ifndef XINCX_PWM4_ENABLED
+#define XINCX_PWM4_ENABLED 1
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN - Out0 pin  <0-31> 
+// <q> XINCX_PWM5_ENABLED  - Enable PWM5 instance
+ 
 
-
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN 31
+#ifndef XINCX_PWM5_ENABLED
+#define XINCX_PWM5_ENABLED 1
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN - Out1 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN - Out0 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN - Out2 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN - Out1 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN - Out3 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN - Out2 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT4_PIN - Out4 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN - Out3 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT4_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT4_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT5_PIN - Out5 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT4_PIN - Out4 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT5_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT5_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT4_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT4_PIN 31
+#endif
+
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT5_PIN - Out5 pin  <0-31> 
+
+
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT5_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT5_PIN 31
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC  - Timer CLK_SRC 
@@ -661,7 +661,7 @@
 #define XINCX_PWM_DEFAULT_CONFIG_CLK_SRC 4
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_BASE_CLOCK  - Base clock
+// <o> XINCX_PWM_DEFAULT_CONFIG_BASE_CLOCK  - Base clock
  
 // <0=> (16 MHz @ 32M clk div) |(16KHz @ 32K clk div)
 // <1=> 8 MHz (8 MHz @ 32M clk div) |(8KHz @ 32K clk div)
@@ -674,53 +674,53 @@
 // <8=> 62.5 kHz (62.5 kHz @ 32M clk div) | (62.5Hz @ 32K clk div)
 // <9=> 32KHz
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_REF_CLOCK
-#define NRFX_PWM_DEFAULT_CONFIG_REF_CLOCK 4
+#ifndef XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK
+#define XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK 4
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_FREQUENCY  - frequency Hz <1-100000>Hz
+// <o> XINCX_PWM_DEFAULT_CONFIG_FREQUENCY  - frequency Hz <1-100000>Hz
  
-#ifndef NRFX_PWM_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_PWM_DEFAULT_CONFIG_FREQUENCY 4
+#ifndef XINCX_PWM_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_PWM_DEFAULT_CONFIG_FREQUENCY 4
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE  - Count mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE  - Count mode
  
 // <0=> Up 
 // <1=> Up and Down 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE - Top value 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE
-#define NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE 1000
+// <o> XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE - Top value 
+#ifndef XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE
+#define XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE 1000
 #endif
 
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE  - Load mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE  - Load mode
  
 // <0=> Common 
 // <1=> Grouped 
 // <2=> Individual 
 // <3=> Waveform 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE 0
 #endif
 
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_STEP_MODE  - Step mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_STEP_MODE  - Step mode
  
 // <0=> Auto 
 // <1=> Triggered 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_STEP_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_STEP_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_STEP_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_STEP_MODE 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -731,16 +731,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_PWM_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_PWM_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_PWM_CONFIG_LOG_ENABLED
-#define NRFX_PWM_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_PWM_CONFIG_LOG_ENABLED
+#define XINCX_PWM_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_PWM_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_PWM_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -748,11 +748,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_PWM_CONFIG_LOG_LEVEL
-#define NRFX_PWM_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_PWM_CONFIG_LOG_LEVEL
+#define XINCX_PWM_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_PWM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PWM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -764,11 +764,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PWM_CONFIG_INFO_COLOR
-#define NRFX_PWM_CONFIG_INFO_COLOR 0
+#ifndef XINCX_PWM_CONFIG_INFO_COLOR
+#define XINCX_PWM_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_PWM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PWM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -780,8 +780,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PWM_CONFIG_DEBUG_COLOR
-#define NRFX_PWM_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_PWM_CONFIG_DEBUG_COLOR
+#define XINCX_PWM_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
