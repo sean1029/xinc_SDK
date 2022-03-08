@@ -55,7 +55,6 @@
 #include  "bsp_register_macro.h"
 
 
-#define APP_TIMER_CH 								APP_TIMER_CONFIG_TIMER_CH
 
 // The current design assumes that both interrupt handlers run at the same interrupt level.
 // If this is to be changed, protection must be added to prevent them from interrupting each other

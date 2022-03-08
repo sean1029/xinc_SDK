@@ -1172,6 +1172,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>wdt</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_wdt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_wdt.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2251,6 +2261,16 @@
               <FileName>xincx_pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_pwm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>wdt</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_wdt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_wdt.c</FilePath>
             </File>
           </Files>
         </Group>

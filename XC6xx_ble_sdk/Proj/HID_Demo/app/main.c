@@ -22,6 +22,7 @@
 #include "bsp_clk.h"
 #include "xinc_drv_timer.h"
 #include "xinc_drv_pwm.h"
+#include "xinc_drv_wdt.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -676,7 +677,7 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 								i = 1;
 							}
 						//	printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
-							pwm_update_duty(i);
+						//	pwm_update_duty(i);
 						}	
 		}break;
 
@@ -716,6 +717,40 @@ static void timer_config(void)
 }
 
 static void pwm_config(void);
+
+#if 1
+
+/**
+ * @brief WDT events handler.
+ */
+void wdt_event_handler(void)
+{
+    //bsp_board_leds_off();
+	printf("wdt_event_handler\n");
+	xincx_wdt_feed();
+    //NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
+}
+
+static void wdg_config(void)
+{
+    uint32_t err_code;
+    uint32_t val[6];
+    //Initialize RTC instance
+    xinc_drv_wdt_config_t config = XINC_DRV_WDT_DEAFULT_CONFIG;
+	err_code = xinc_drv_wdt_init(&config, wdt_event_handler);
+    // err_code = xinc_drv_wdt_channel_alloc(&m_channel_id);
+    xinc_drv_wdt_enable();
+	while(1)
+	{
+	//	xincx_wdt_feed();
+	//	nrf_rtc_val_get(rtc.p_reg,val);
+		for(uint32_t i=0; i<0x120000; i++);
+		for(uint32_t i=0; i<0x120000; i++);
+		for(uint32_t i=0; i<0x120000; i++);
+		//for(uint32_t i=0; i<0x455000; i++);
+	};
+}
+#endif
      
 int	main(void)
 {
@@ -750,7 +785,7 @@ int	main(void)
 		nrf_gpio_cfg_output(4);
     nrf_gpio_cfg_output(5);
 		timer_config();
-		
+		wdg_config();
 		pwm_config();
     // setup advertisements
     uint16_t adv_int_min = 0x0030;

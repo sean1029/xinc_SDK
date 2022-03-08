@@ -548,6 +548,24 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
 } NRF_PWM_Type;                                 /*!< Size =  ()                                                       */
 
 
+/* =========================================================================================================================== */
+/* ================                                            WDT                                            ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief Watchdog Timer (WDT)
+  */
+
+typedef struct {                  /*!< (@ 0x40010000) WDT Structure                                              */
+  __IOM  uint32_t  CR;                          /*!< (@ 0x00000000) control register                             */
+  __IOM  uint32_t  TORR;                        /*!< (@ 0x00000004) Timeout Range Register                       */
+  __IOM  uint32_t  CCVR;                        /*!< (@ 0x00000008) current count value register                 */
+  __OM   uint32_t  CRR;                         /*!< (@ 0x0000000c) Counter restart register                     */
+  __IM   uint32_t  STAT;                        /*!< (@ 0x00000010) Interrupt Status Register                    */
+  __IM   uint32_t  ICR;                         /*!< (@ 0x00000014) interrupt clear register                     */
+ 
+} XINC_WDT_Type;                                 /*!< Size = ?                                                    */
 
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
@@ -563,6 +581,7 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
 #define NRF_RTC0_BASE               0x40002000UL
+#define XINC_WDT_BASE                0x40004000UL
 #define XINC_TIMER0_BASE             0x40003000UL
 #define XINC_TIMER1_BASE             0x40003014UL
 #define XINC_TIMER2_BASE             0x40003028UL
@@ -599,6 +618,7 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
 #define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
 #define NRF_RTC0                    ((NRF_RTC_Type*)           NRF_RTC0_BASE)
+#define XINC_WDT                     ((XINC_WDT_Type*)           XINC_WDT_BASE)
 #define XINC_TIMER0                  ((XINC_TIMER_Type*)         XINC_TIMER0_BASE)
 #define XINC_TIMER1                  ((XINC_TIMER_Type*)         XINC_TIMER1_BASE)
 #define XINC_TIMER2                  ((XINC_TIMER_Type*)         XINC_TIMER2_BASE)

@@ -426,6 +426,112 @@
 #define NRF_STRERROR_ENABLED 1
 #endif
 
+// <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
+//==========================================================
+#ifndef XINCX_WDT_ENABLED
+#define XINCX_WDT_ENABLED 1
+#endif
+
+
+// <o> XINCX_WDT_CONFIG_RELOAD_VALUE - Reload value
+
+// <0=> 0xFFFF 
+// <1=> 0x1FFFF 
+// <2=> 0x3FFFF 
+// <3=> 0x7FFFF
+// <4=> 0xFFFFF
+// <5=> 0x1FFFFF 
+// <6=> 0x3FFFFF 
+// <7=> 0x7FFFFF 
+// <8=> 0xFFFFFF 
+// <9=>  0x1FFFFFF
+// <10=> 0x3FFFFFF
+// <11=> 0x7FFFFFF
+// <12=> 0xFFFFFFF
+// <13=> 0x1FFFFFFF
+// <14=> 0x3FFFFFFF
+// <15=> 0x7FFFFFFF
+#ifndef XINCX_WDT_CONFIG_RELOAD_VALUE
+#define XINCX_WDT_CONFIG_RELOAD_VALUE 10
+#endif
+
+// <o> XINCX_WDT_CONFIG_NO_IRQ  - Remove WDT IRQ handling from WDT driver
+ 
+// <0=> Include WDT IRQ handling 
+// <1=> Remove WDT IRQ handling 
+
+#ifndef XINCX_WDT_CONFIG_NO_IRQ
+#define XINCX_WDT_CONFIG_NO_IRQ 0
+#endif
+
+// <o> XINCX_WDT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_WDT_CONFIG_IRQ_PRIORITY
+#define XINCX_WDT_CONFIG_IRQ_PRIORITY 0
+#endif
+
+// <e> XINCX_WDT_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_WDT_CONFIG_LOG_ENABLED
+#define XINCX_WDT_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_WDT_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+
+#ifndef XINCX_WDT_CONFIG_LOG_LEVEL
+#define XINCX_WDT_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> XINCX_WDT_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_WDT_CONFIG_INFO_COLOR
+#define XINCX_WDT_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_WDT_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_WDT_CONFIG_DEBUG_COLOR
+#define XINCX_WDT_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
 // <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
 #ifndef XINCX_TIMER_ENABLED
@@ -967,17 +1073,6 @@
 #define APP_TIMER_CONFIG_TIMER_FREQUENCY 0
 #endif
 
-// <o> APP_TIMER_CONFIG_TIMER_CH  
-
-// <i> Priorities 
-// <0=> 0 can't use
-// <1=> 1 can't use
-// <2=> 2 
-// <3=> 3 
-
-#ifndef APP_TIMER_CONFIG_TIMER_CH
-#define APP_TIMER_CONFIG_TIMER_CH 2
-#endif
 
 // <o> APP_TIMER_CONFIG_OP_QUEUE_SIZE - Capacity of timer requests queue. 
 // <i> Size of the queue depends on how many timers are used
