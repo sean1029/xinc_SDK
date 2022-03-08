@@ -403,6 +403,11 @@
               <FileType>5</FileType>
               <FilePath>..\..\..\Bsp\fds\sdk_config.h</FilePath>
             </File>
+            <File>
+              <FileName>nrf_sdkconfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\nrf_sdkconfig.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1648,6 +1653,11 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\Bsp\fds\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_sdkconfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\nrf_sdkconfig.h</FilePath>
             </File>
           </Files>
         </Group>

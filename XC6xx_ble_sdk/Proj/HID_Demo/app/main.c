@@ -689,7 +689,7 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 
 static void timer_config(void)
 {
-    uint32_t time_ms = 2000; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ms = 400; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
     uint32_t err_code = NRF_SUCCESS;
 	
