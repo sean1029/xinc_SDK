@@ -110,91 +110,33 @@ enum {
 /** @brief PWM driver configuration structure. */
 typedef struct
 {
-    uint8_t output_pins; ///< Pin numbers for individual output channels (optional).
-                                                /**< Use @ref XINCX_PWM_PIN_NOT_USED
-                                                 *   if a given output channel is not needed. */
-    uint8_t            irq_priority; ///< Interrupt priority.
-		xinc_pwm_clk_src_t clk_src;          ///< Bit width.
-    xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
+	uint8_t output_pin; ///< Pin numbers for individual output ./**< Use @ref XINCX_PWM_PIN_NOT_USED */
+	uint8_t output_inv_pin;					///< Pin numbers for individual output(optional )																		
+	xinc_pwm_clk_src_t clk_src;          ///< Bit width.
+	xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
 
-		uint32_t            frequency;
-		uint16_t           	duty_cycle;
-	
-		bool           			start;
+	uint32_t            frequency;
+	uint16_t           	duty_cycle;
+	uint8_t           	inv_delay;
+	bool           			start;
+	bool           			inv_enable;
 		
 } xincx_pwm_config_t;
 
 /** @brief PWM driver default configuration. */
 #define XINCX_PWM_DEFAULT_CONFIG                                             \
 {                                                                           \
-    .output_pins  =  XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN,                      \
-    .irq_priority =  XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
-    .ref_clk   = (xinc_pwm_ref_clk_t)XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK,      \
-		.clk_src   = 		(xinc_pwm_clk_src_t)XINCX_PWM_DEFAULT_CONFIG_CLK_SRC,      \
-		.frequency       =  1000,                                                     \
-		.duty_cycle   =  50,                                                    \
+	.output_pins  =  XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN,                      \
+	.ref_clk   = (xinc_pwm_ref_clk_t)XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK,      \
+	.clk_src   = 		(xinc_pwm_clk_src_t)XINCX_PWM_DEFAULT_CONFIG_CLK_SRC,      \
+	.frequency       =  1000,                                                     \
+	.duty_cycle   =  50,   	                                                 \
 }
 
 
-/** @brief PWM flags that provide additional playback options. */
-typedef enum
-{
-    XINCX_PWM_FLAG_STOP = 0x01, /**< When the requested playback is finished,
-                                    the peripheral will be stopped.
-                                    @note The STOP task is triggered when
-                                    the last value of the final sequence is
-                                    loaded from RAM, and the peripheral stops
-                                    at the end of the current PWM period.
-                                    For sequences with configured repeating
-                                    of duty cycle values, this might result in
-                                    less than the requested number of repeats
-                                    of the last value. */
-    XINCX_PWM_FLAG_LOOP = 0x02, /**< When the requested playback is finished,
-                                    it will be started from the beginning.
-                                    This flag is ignored if used together
-                                    with @ref XINCX_PWM_FLAG_STOP.
-                                    @note The playback restart is done via a
-                                    shortcut configured in the PWM peripheral.
-                                    This shortcut triggers the proper starting
-                                    task when the final value of previous
-                                    playback is read from RAM and applied to
-                                    the pulse generator counter.
-                                    When this mechanism is used together with
-                                    the @ref NRF_PWM_STEP_TRIGGERED mode,
-                                    the playback restart will occur right
-                                    after switching to the final value (this
-                                    final value will be played only once). */
-    XINCX_PWM_FLAG_SIGNAL_END_SEQ0 = 0x04, /**< The event handler is to be
-                                               called when the last value
-                                               from sequence 0 is loaded. */
-    XINCX_PWM_FLAG_SIGNAL_END_SEQ1 = 0x08, /**< The event handler is to be
-                                               called when the last value
-                                               from sequence 1 is loaded. */
-    XINCX_PWM_FLAG_NO_EVT_FINISHED = 0x10, /**< The playback finished event
-                                               (enabled by default) is to be
-                                               suppressed. */
-    XINCX_PWM_FLAG_START_VIA_TASK = 0x80, /**< The playback must not be
-                                              started directly by the called
-                                              function. Instead, the function
-                                              must only prepare it and
-                                              return the address of the task
-                                              to be triggered to start the
-                                              playback. */
-} xincx_pwm_flag_t;
-
-/** @brief PWM driver event type. */
-typedef enum
-{
-    XINCX_PWM_EVT_FINISHED, ///< Sequence playback finished.
-    XINCX_PWM_EVT_END_SEQ0, /**< End of sequence 0 reached. Its data can be
-                                safely modified now. */
-    XINCX_PWM_EVT_END_SEQ1, /**< End of sequence 1 reached. Its data can be
-                                safely modified now. */
-    XINCX_PWM_EVT_STOPPED,  ///< The PWM peripheral has been stopped.
-} xincx_pwm_evt_type_t;
 
 /** @brief PWM driver event handler type. */
-typedef void (* xincx_pwm_handler_t)(xincx_pwm_evt_type_t event_type);
+typedef void (* xincx_pwm_handler_t)();
 
 /**
  * @brief Function for initializing the PWM driver.
@@ -225,15 +167,6 @@ void xincx_pwm_uninit(xincx_pwm_t const * const p_instance);
 bool xincx_pwm_start(xincx_pwm_t const * const p_instance);
 bool xincx_pwm_stop(xincx_pwm_t const * const p_instance);
 
-/**
- * @brief Function for checking the status of the PWM peripheral.
- *
- * @param[in] p_instance Pointer to the driver instance structure.
- *
- * @retval true  The PWM peripheral is stopped.
- * @retval false The PWM peripheral is not stopped.
- */
-bool xincx_pwm_is_stopped(xincx_pwm_t const * const p_instance);
 
 nrfx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
 

@@ -886,25 +886,10 @@ static xinc_drv_pwm_t m_pwm2 = XINC_DRV_PWM_INSTANCE(2);
 static xinc_drv_pwm_t m_pwm3 = XINC_DRV_PWM_INSTANCE(3);
 static xinc_drv_pwm_t m_pwm4 = XINC_DRV_PWM_INSTANCE(4);
 static xinc_drv_pwm_t m_pwm5 = XINC_DRV_PWM_INSTANCE(5);
-static uint8_t m_used = 0;
 
 
-static uint16_t const              m_demo1_top  = 100;
-static uint16_t const              m_demo1_step = 200;
-static uint8_t                     m_demo1_phase;
-static xinc_pwm_values_individual_t m_demo1_seq_values;
-static xinc_pwm_sequence_t const    m_demo1_seq =
-{
-    .values.p_individual = &m_demo1_seq_values,
-    .length              = NRF_PWM_VALUES_LENGTH(m_demo1_seq_values),
-    .repeats             = 0,
-    .end_delay           = 0
-};
 
-static void demo1_handler()
-{
-   
-}
+
 void pwm_update_duty(uint8_t duty)
 {
 	printf("pwm_update_duty:%d\n",duty);
@@ -916,15 +901,17 @@ static void pwm_config(void)
 
     xinc_drv_pwm_config_t const config0 =
     {
-        .output_pins =  24,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  24,
+				.output_inv_pin =  25,
 				.clk_src = XINC_PWM_CLK_SRC_32K,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,//XINC_PWM_REF_CLK_8MHz,//XINC_PWM_REF_CLK_32000Hz
         .frequency       = 2,
 				.duty_cycle   = 75,
+				.inv_delay   = 4,
+				.inv_enable   = true,
 				.start   = false
     };
-    APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm0, &config0, demo1_handler));
+    APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm0, &config0, NULL));
 		
 		printf("freq_valid:%d\n",xinc_drv_pwm_freq_valid_range_check(config0.clk_src,config0.ref_clk,200));;
 		
@@ -932,59 +919,54 @@ static void pwm_config(void)
 	
 	xinc_drv_pwm_config_t const config1 =
     {
-        .output_pins =  25,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  25,
 				.clk_src = XINC_PWM_CLK_SRC_32K,
         .ref_clk   = XINC_PWM_REF_CLK_1MHzOr1K,
         .frequency       = 6,
 				.duty_cycle   = 50,
 				.start   = true
     };
-    APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm1, &config1, demo1_handler));
+  //  APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm1, &config1, NULL));
 	
 	xinc_drv_pwm_config_t const config2 =
     {
-        .output_pins =  0,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  0,
 				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
         .frequency       = 2000,
 				.duty_cycle   = 33
     };
-//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm2, &config2, demo1_handler));
+//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm2, &config2, NULL));
 	
 	xinc_drv_pwm_config_t const config3 =
     {
-        .output_pins =  1,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  1,
 				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
         .frequency       = 2000,
 				.duty_cycle   = 44
     };
-//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm3, &config3, demo1_handler));
+//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm3, &config3, NULL));
 		
 		xinc_drv_pwm_config_t const config4 =
     {
-        .output_pins =  1,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  1,
 				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
         .frequency       = 2000,
 				.duty_cycle   = 44
     };
-//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm4, &config4, demo1_handler));
+//	APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm4, &config4, NULL));
 		
 		xinc_drv_pwm_config_t const config5 =
     {
-        .output_pins =  1,
-        .irq_priority = APP_IRQ_PRIORITY_LOWEST,
+        .output_pin =  1,
 				.clk_src = XINC_PWM_CLK_SRC_32M_DIV,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,
         .frequency       = 2000,
 				.duty_cycle   = 44
     };
-	//APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm5, &config5, demo1_handler));
+	//APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm5, &config5, NULL));
 		
 	while(1)
 	{

@@ -543,8 +543,8 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
 	__IOM  uint32_t  RST;                   /*!< (@ 0x00000008) PWM RST  Register                                  */
 	__IOM  uint32_t  PERIOD;                   /*!< (@ 0x00000010) PWM Period Register                                  */
 	__IOM  uint32_t  OCPY;                   /*!< (@ 0x00000010) PWM OCPY Register                                  */
-	__IOM  uint32_t  PWMCOMPEN0;                   /*!< (@ 0x0000001C) PWM  COMP EN Register                                  */
-	__IOM  uint32_t  PWMCOMPTIME0;                   /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register              */
+	__IOM  uint32_t  PWMCOMPEN;                   /*!< (@ 0x0000001C) PWM  COMP EN Register                                  */
+	__IOM  uint32_t  PWMCOMPTIME;                   /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register              */
 } NRF_PWM_Type;                                 /*!< Size =  ()                                                       */
 
 

@@ -51,6 +51,7 @@ pupd_config_t		pupd_config = {
 
 0:GPIO_Dx   1:UART0_TX  2:UART0_RX      3:UART0_CTS      4:UART0_RTS  5:I2C_SCL     6:I2C_SDA     7:UART1_RX   8:UART1_TX
 9:SIM_IO    10:SIM_RST  11:SIM_CLK_OUT  12:PWM0          13:PWM1      14:SSI1_CLK   15:SSI1_SSN   16:SSI1_RX   17:SSI1_TX
+【32/16PIN新加复用功能--18:PWM0_INV 19:PWM1_INV】
 -------------------------------------------------------------------------------------------------------------------*/
 gpio_fun_sel_config_t   gpio_fun_sel_config = {
         

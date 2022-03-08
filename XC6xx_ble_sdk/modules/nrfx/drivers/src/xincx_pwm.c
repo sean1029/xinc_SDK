@@ -42,24 +42,40 @@ static void configure_pins(xincx_pwm_t const * const p_instance,
 
 	if(p_instance->id == NRF_PWM_ID_2 || p_instance->id == NRF_PWM_ID_3)
 	{
-		gpio_mux_ctl(p_config->output_pins,2);
+		gpio_mux_ctl(p_config->output_pin,2);
 	}
 	else if(p_instance->id == NRF_PWM_ID_4 || p_instance->id == NRF_PWM_ID_5)
 	{
-		gpio_mux_ctl(p_config->output_pins,3);
+		gpio_mux_ctl(p_config->output_pin,3);
 	}
 	else if(p_instance->id == NRF_PWM_ID_0)
 	{
-		gpio_mux_ctl(p_config->output_pins,0); 
-		gpio_fun_sel(p_config->output_pins,12); 
-		gpio_fun_inter(p_config->output_pins,0);
-		printf("configure_pins p_config->output_pins:%d,p_instance->id :%d\r\n",p_config->output_pins,p_instance->id);
+		gpio_mux_ctl(p_config->output_pin,0); 
+		gpio_fun_sel(p_config->output_pin,12); 
+		gpio_fun_inter(p_config->output_pin,0);
+		#if (NRFX_CHECK(XINCX_PWM0_ENABLED))
+		if(p_config->inv_enable)
+		{
+			gpio_mux_ctl(p_config->output_inv_pin,0); 
+			gpio_fun_sel(p_config->output_inv_pin,18); 
+			gpio_fun_inter(p_config->output_inv_pin,0);
+		}
+		#endif
+		printf("configure_pins p_config->output_pins:%d,p_instance->id :%d\r\n",p_config->output_pin,p_instance->id);
 	}
 	else if(p_instance->id == NRF_PWM_ID_1)
 	{
-		gpio_mux_ctl(p_config->output_pins,0); 
-		gpio_fun_sel(p_config->output_pins,13); 
-		gpio_fun_inter(p_config->output_pins,0);
+		gpio_mux_ctl(p_config->output_pin,0); 
+		gpio_fun_sel(p_config->output_pin,13); 
+		gpio_fun_inter(p_config->output_pin,0);
+		#if (NRFX_CHECK(XINCX_PWM1_ENABLED))
+		if(p_config->inv_enable)
+		{
+			gpio_mux_ctl(p_config->output_inv_pin,0); 
+			gpio_fun_sel(p_config->output_inv_pin,19); 
+			gpio_fun_inter(p_config->output_inv_pin,0);
+		}
+		#endif
 	}
 
 }
@@ -69,9 +85,6 @@ nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
                          xincx_pwm_config_t const * p_config,
                          xincx_pwm_handler_t        handler)
 {
-	#include    "bsp_register_macro.h"
-	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x10001000); //PWM_PCLK 时钟使能
-//	__write_hw_reg32(CPR_PWM_CLK_CTL,0x80000009); //pwm_clk=mclk_in(32M)/(2*(9+1))=1.6M
     NRFX_ASSERT(p_config);
 
     nrfx_err_t err_code = NRFX_SUCCESS;
@@ -133,8 +146,7 @@ nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
 				return err_code;
 		}
 	
-
-	printf("reg addr=%p\r\n", p_instance->p_reg);
+	p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x10001000;//PWM_PCLK 时钟使能
 
 	xinc_pwm_disable(p_instance->p_reg);
 	
@@ -165,6 +177,14 @@ nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
 	xinc_pwm_configure(p_instance->p_reg,period, p_config->duty_cycle);
 	p_cb->period = period;
 	p_cb->ocpy =  p_config->duty_cycle;
+	
+	#if (NRFX_CHECK(XINCX_PWM0_ENABLED) || NRFX_CHECK(XINCX_PWM1_ENABLED))
+	if(p_config->inv_enable && ((p_instance->id == NRF_PWM_ID_0) ||(p_instance->id == NRF_PWM_ID_1) ))
+	{
+		p_instance->p_reg->PWMCOMPTIME = p_config->inv_delay;
+		p_instance->p_reg->PWMCOMPEN = 1;
+	}
+	#endif
 	
 	if(p_config->start)
 	{
