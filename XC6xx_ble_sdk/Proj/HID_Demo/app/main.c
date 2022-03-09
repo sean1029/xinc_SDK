@@ -401,6 +401,9 @@ int	main(void)
 	log_test();
 #endif
 	app_timer_init();
+void spim_flash_test(void);	
+	spim_flash_test();
+	
 	
 //	  nrfx_gpiote_init();
 

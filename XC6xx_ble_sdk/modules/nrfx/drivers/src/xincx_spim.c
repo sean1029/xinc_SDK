@@ -53,7 +53,6 @@
 #endif
 
 #include <xincx_spim.h>
-//#include "prs/nrfx_prs.h"
 #include <hal/nrf_gpio.h>
 
 #define NRFX_LOG_MODULE SPIM
@@ -122,6 +121,8 @@ typedef struct
     size_t          tx_length;
     size_t          rx_length;
 #endif
+		uint8_t tx_dma_ch;
+		uint8_t rx_dma_ch;
 } spim_control_block_t;
 static spim_control_block_t m_cb[XINCX_SPIM_ENABLED_COUNT];
 
@@ -174,7 +175,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 {
     NRFX_ASSERT(p_config);
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    nrfx_err_t err_code;
+    nrfx_err_t err_code = NRFX_SUCCESS;
 
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
@@ -185,14 +186,14 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         return err_code;
     }
 
-		 if (p_instance->drv_inst_idx != 1)
-    {
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
-                         __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
-        return err_code;
-    }
+//		 if (p_instance->id != 1)
+//    {
+//        err_code = NRFX_ERROR_INVALID_PARAM;
+//        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+//                         __func__,
+//                         NRFX_LOG_ERROR_STRING_GET(err_code));
+//        return err_code;
+//    }
 
     XINC_SPIM_Type * p_spim = (XINC_SPIM_Type *)p_instance->p_reg;
 
@@ -209,73 +210,131 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     //   buffer must always be connected for the SPI to work.
 
     // - MOSI (optional) - output with initial value 0,
-    if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
-    {
-        mosi_pin = p_config->mosi_pin;
-     
-    }
-    else
-    {
-        mosi_pin = XINC_SPIM_PIN_NOT_CONNECTED;
-				err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
-                         __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
-        return err_code;
-    }
-    // - MISO (optional) - input,
-    if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
-    {
-        miso_pin = p_config->miso_pin;
-    }
-    else
-    {
-        miso_pin = XINC_SPIM_PIN_NOT_CONNECTED;
-				err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
-                         __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
-        return err_code;
-    }
+		if(p_instance->id != 0)
+		{
+			if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
+			{
+					mosi_pin = p_config->mosi_pin;
+					err_code = xinc_gpio_fun_config(mosi_pin,NRF_GPIO_PIN_SSI1_TX);
+				
+					if(err_code != NRFX_SUCCESS)
+					{
+						return err_code;
+					}
+			}
+			else
+			{
+					mosi_pin = XINC_SPIM_PIN_NOT_CONNECTED;
+					err_code = NRFX_ERROR_INVALID_PARAM;
+					NRFX_LOG_WARNING("Function: %s, error code: %s.",
+													 __func__,
+													 NRFX_LOG_ERROR_STRING_GET(err_code));
+					return err_code;
+			}
+			// - MISO (optional) - input,
+			if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
+			{
+					miso_pin = p_config->miso_pin;
+					err_code = xinc_gpio_fun_config(miso_pin,NRF_GPIO_PIN_SSI1_RX);
+				
+					if(err_code != NRFX_SUCCESS)
+					{
+						return err_code;
+					}
+			}
+			else
+			{
+					miso_pin = XINC_SPIM_PIN_NOT_CONNECTED;
+					err_code = NRFX_ERROR_INVALID_PARAM;
+					NRFX_LOG_WARNING("Function: %s, error code: %s.",
+													 __func__,
+													 NRFX_LOG_ERROR_STRING_GET(err_code));
+					return err_code;
+			}
+			
+			if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
+			{
+		 
+					p_cb->ss_active_high = p_config->ss_active_high;
+					err_code = xinc_gpio_fun_config(p_config->ss_pin,NRF_GPIO_PIN_SSI1_SSN);
+				
+					if(err_code != NRFX_SUCCESS)
+					{
+						return err_code;
+					}
+			}
+			
+			if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
+			{
+					err_code = xinc_gpio_fun_config(p_config->sck_pin,NRF_GPIO_PIN_SSI1_CLK);
+				
+					if(err_code != NRFX_SUCCESS)
+					{
+						return err_code;
+					}
+			}
+		}
+		miso_pin = p_config->miso_pin;
+		mosi_pin = p_config->mosi_pin;
     p_cb->miso_pin = p_config->miso_pin;
     // - Slave Select (optional) - output with initial value 1 (inactive).
 
     // 'p_cb->ss_pin' variable is used during transfers to check if SS pin should be toggled,
     // so this field needs to be initialized even if the pin is not used.
     p_cb->ss_pin = p_config->ss_pin;
+		
+		printf("miso_pin:%d\n",miso_pin); 
+		printf("mosi_pin:%d\n",mosi_pin); 
+		printf("sck_pin:%d\n",p_config->sck_pin);
+		printf("ss_pin:%d\n",p_config->ss_pin);		
 
-    if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
-    {
-   
-        p_cb->ss_active_high = p_config->ss_active_high;
-    }
 
 
-  //  xinc_spim_pins_set(p_spim, p_config->sck_pin, mosi_pin, miso_pin);
-	
-		gpio_fun_sel(p_cb->ss_pin,SSI1_SSN);
-		gpio_fun_sel(p_config->sck_pin,SSI1_CLK);
-		gpio_fun_sel(mosi_pin,SSI1_TX);
-		gpio_fun_sel(miso_pin,SSI1_RX);
-
+		//	xc_spi_clk_init(ch);
+				// __write_hw_reg32(CPR_SPIx_MCLK_CTL(ch), 0x110010);//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+    //__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , (0x1000100<<ch)); 	//- ��spi(x) pclk.
+//    __read_hw_reg32(CPR_SSI_CTRL, val);
+//    val |= (ch==0)? 0x01: 0x30;
+//    __write_hw_reg32(CPR_SSI_CTRL, val); 
+		xinc_spim_disable(p_spim);
 		uint32_t    val;
+		uint8_t ch = p_instance->id;
+		volatile uint32_t *Spim0CtlBaseAddr = (uint32_t*)&(p_instance->p_cpr->SSI0_MCLK_CTL);
+		Spim0CtlBaseAddr+=ch;
 		
-		uint8_t ch = p_instance->drv_inst_idx;
+		*Spim0CtlBaseAddr = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+		p_instance->p_cpr->CTLAPBCLKEN_GRCTL = (0x1000100 << ch);
+			
+		val = p_instance->p_cpr->SSI_CTRL;
+		val |= (ch==0)? 0x01: 0x30;
+		p_instance->p_cpr->SSI_CTRL = val;
 		
-		xc_spi_clk_init(ch);
-		printf("p_spim:%p\n",p_spim); 
-		__write_hw_reg32(SSIx_CTRL0(ch) , 0x07);					/* 16bit SPI data */
-   // p_spim->CTRL0 = 0xf;/* 16bit SPI data */
+		// DMA 通道和外设使用是固定绑定关系的，因此此处不能做修改，对应中断处理里也就固定其检测值
+		if(ch == 0)
+		{
+			p_cb->rx_dma_ch = 10;
+			p_cb->tx_dma_ch = 2;
+		}
+		
+		if(ch == 1)
+		{
+			p_cb->rx_dma_ch = 11;
+			p_cb->tx_dma_ch = 3;
+		}
+		
 
-		printf("CTRL0:%p\n",&(p_spim->CTRL0)); 
+		printf("p_spim:%p\n",p_spim); 
+	//	__write_hw_reg32(SSIx_CTRL0(ch) , 0x07);					/* 8bit SPI data */
+		p_spim->CTRL0 = 0x07;
+		printf("CTRL0:%p,0x%x\n",&(p_spim->CTRL0),p_spim->CTRL0); 
 		printf("xincx_spim_init ch :%d,mode:%d\n",ch,p_config->mode); 
 		
 		
     xinc_spim_configure(p_spim, p_config->mode, p_config->bit_order);
 		
-		
-   // __write_hw_reg32(SSIx_EN(ch), 0x00);
-		p_spim->EN = 0x00;
+	
+	//	p_spim->EN = 0x00;
+		xinc_spim_disable(p_spim);
 		printf("EN:%p\n",&(p_spim->EN)); 
 		
 		
@@ -283,8 +342,9 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 	 p_spim->SE = 0x01;
 	 printf("SE:%p\n",&(p_spim->SE)); 
 	 
-   // __write_hw_reg32(SSIx_BAUD(ch), p_config->frequency);						//- spix_mclk ��Ƶ.
-	p_spim->BAUD = p_config->frequency;
+   // __write_hw_reg32(SSIx_BAUD(ch), p_config->frequency);						//- spix_mclk ��Ƶ.
+	//p_spim->BAUD = p_config->frequency;
+	xinc_spim_frequency_set(p_spim,p_config->frequency);
 	
 	 printf("BAUD:%p\n",&(p_spim->BAUD)); 
 		
@@ -295,12 +355,12 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 	printf("RXFLT:%p\n",&(p_spim->RXFLT)); 
 	printf("TXFLT:%p\n",&(p_spim->TXFLT)); 
 	printf("frequency:%d\n",p_config->frequency); 
- //   xinc_spim_orc_set(p_spim, p_config->orc);
 
 
     if (p_cb->handler)
     {
-			p_spim->IE = 0x01;
+		//	p_spim->IE = 0x01;
+			xinc_spim_int_enable(p_spim,0x01);
 			NVIC_EnableIRQ(SPI0_IRQn + ch);
     }
 
@@ -339,7 +399,8 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
     {
       //  nrf_gpio_cfg_default(p_cb->miso_pin);
     }
-    p_spim->IE = 0x00;
+  //  p_spim->IE = 0x00;
+		xinc_spim_int_disable(p_spim,0x0);
 
 #ifdef USE_WORKAROUND_FOR_ANOMALY_195
     if (p_spim == XINC_SPIM3)
@@ -384,13 +445,14 @@ __STATIC_INLINE void spim_int_enable(XINC_SPIM_Type * p_spim, bool enable)
 {
     if (!enable)
     {
-     //   xinc_spim_int_disable(p_spim, XINC_SPIM_INT_END_MASK);
-			p_spim->IE = 0X00;
+      xinc_spim_int_disable(p_spim, 0x0);
+		//	p_spim->IE = 0X00;
     }
     else
     {
-      //  xinc_spim_int_enable(p_spim, XINC_SPIM_INT_END_MASK);
-			p_spim->IE = 0X01;
+        xinc_spim_int_enable(p_spim, 0x01);
+		//	p_spim->IE = 0X01;
+
     }
 }
 
@@ -428,25 +490,29 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
 //    __write_hw_reg32(SSI1_DMATDL, 0x4);          //-
 //    __write_hw_reg32(SSI1_DMARDL, 0x4);          //- 1/4 FIFO
 		
-		p_spim->EN = 0x00;
+	//	p_spim->EN = 0x00;
+		xinc_spim_disable(p_spim);
 		p_spim->DMAS = 0x03;
 		p_spim->DMATDL = 0x04;
 		p_spim->DMARDL = 0x04;
 		
+		
+		
 				//- TX Channel
-		__write_hw_reg32(DMAS_CHx_SAR(3) , (uint32_t)p_xfer_desc->p_tx_buffer);
-    __write_hw_reg32(DMAS_CHx_DAR(3) , (uint32_t)&(p_spim->DATA));
-    __write_hw_reg32(DMAS_CHx_CTL1(3) ,((2 << 8)|  0));
-    __write_hw_reg32(DMAS_CHx_CTL0(3) ,p_xfer_desc->tx_length);//
+		__write_hw_reg32(DMAS_CHx_SAR(p_cb->tx_dma_ch) , (uint32_t)p_xfer_desc->p_tx_buffer);
+    __write_hw_reg32(DMAS_CHx_DAR(p_cb->tx_dma_ch) , (uint32_t)&(p_spim->DATA));
+    __write_hw_reg32(DMAS_CHx_CTL1(p_cb->tx_dma_ch) ,((2 << 8)|  0));
+    __write_hw_reg32(DMAS_CHx_CTL0(p_cb->tx_dma_ch) ,p_xfer_desc->tx_length);//
 
+		
 		
 		
    // xinc_spim_rx_buffer_set(p_spim, p_xfer_desc->p_rx_buffer, p_xfer_desc->rx_length);
 			//- RX Channel
-		__write_hw_reg32(DMAS_CHx_SAR(11) , (uint32_t)&(p_spim->DATA));//0x40014060
-    __write_hw_reg32(DMAS_CHx_DAR(11) , (uint32_t)p_xfer_desc->p_rx_buffer);
-    __write_hw_reg32(DMAS_CHx_CTL1(11) ,((2 << 8)|  0));
-    __write_hw_reg32(DMAS_CHx_CTL0(11) ,p_xfer_desc->rx_length);
+		__write_hw_reg32(DMAS_CHx_SAR(p_cb->rx_dma_ch) , (uint32_t)&(p_spim->DATA));//
+    __write_hw_reg32(DMAS_CHx_DAR(p_cb->rx_dma_ch) , (uint32_t)p_xfer_desc->p_rx_buffer);
+    __write_hw_reg32(DMAS_CHx_CTL1(p_cb->rx_dma_ch) ,((2 << 8)|  0));
+    __write_hw_reg32(DMAS_CHx_CTL0(p_cb->rx_dma_ch) ,p_xfer_desc->rx_length);
 	
 
 #if NRFX_CHECK(XINCX_SPIM3_NRF52840_ANOMALY_198_WORKAROUND_ENABLED)
@@ -483,15 +549,12 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     {
       //  spim_int_enable(p_spim, !(flags & XINCX_SPIM_FLAG_NO_XFER_EVT_HANDLER));
 
-			  __write_hw_reg32(DMAS_EN , 11);
-			  __write_hw_reg32(DMAS_EN , 3);
+			  __write_hw_reg32(DMAS_EN , p_cb->rx_dma_ch);
+			  __write_hw_reg32(DMAS_EN , p_cb->tx_dma_ch);
 			
 			//	__write_hw_reg32(SSI1_EN , 0x01);
-			  p_spim->EN = 0x01;
-
-		
-			 
-			
+			//  p_spim->EN = 0x01;
+			xinc_spim_enable(p_spim);
 			
     }
     err_code = NRFX_SUCCESS;
@@ -573,6 +636,7 @@ static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
      //   xinc_spim_event_clear(p_spim, XINC_SPIM_EVENT_END);
         NRFX_ASSERT(p_cb->handler);
         NRFX_LOG_DEBUG("Event: XINC_SPIM_EVENT_END.");
+			//	printf("finish_transfer %p\n",finish_transfer); 
         finish_transfer(p_cb);
 			//	p_spim->EN = 0;
     }
@@ -601,22 +665,21 @@ void SPI0_Handler()
 	__read_hw_reg32(SSIx_RIS(0) , iWK1);
 	__read_hw_reg32(SSIx_STS(0) , STS);
 	
-	
-	//printf("SPI1_Handler iWK :%x,iWK1:%x,STS:%x\n",iWK,iWK1,STS); 
 	if(iWK && (STS & 0x4))
 	{
 			do	{
     	__read_hw_reg32(DMAS_INT_RAW , iWK);
-    }while((iWK&0x808) != 0x808);
+    }while((iWK&0x404) != 0x404);
 				
-		__write_hw_reg32(DMAS_INT_RAW, 0x808);
-    __write_hw_reg32(DMAS_CLR , 11);
-    __write_hw_reg32(DMAS_CLR , 3);
+		__write_hw_reg32(DMAS_INT_RAW, 0x404);
+    __write_hw_reg32(DMAS_CLR , 10);
+    __write_hw_reg32(DMAS_CLR , 2);
 		__write_hw_reg32(SSI0_EN, 0x00);
 	  GPIO_OUTPUT_LOW(5);
 	 GPIO_OUTPUT_HIGH(5);
 	 GPIO_OUTPUT_LOW(5);
 	//		irq_handler(XINC_SPIM0, &m_cb[XINCX_SPIM0_INST_IDX]);
+		xincx_spim_0_irq_handler();
 	}
 	
 }
@@ -629,7 +692,7 @@ void SPI1_Handler()
 	__read_hw_reg32(SSIx_IS(1) , iWK);
 	__read_hw_reg32(SSIx_RIS(1) , iWK1);
 	__read_hw_reg32(SSIx_STS(1) , STS);
-	 
+//	printf("SPI1_Handler iWK :%x,iWK1:%x,STS:%x\n",iWK,iWK1,STS);  
 	if(iWK && (STS & 0x4))
 	{
 			do	{

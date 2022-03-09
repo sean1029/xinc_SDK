@@ -224,8 +224,35 @@ __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 
+__STATIC_INLINE void xinc_spim_int_disable(XINC_SPIM_Type * p_reg,
+                                          uint32_t        mask)
+{
+	p_reg->IE = mask;
+}
 
 
+__STATIC_INLINE void xinc_spim_int_enable(XINC_SPIM_Type * p_reg,
+                                         uint32_t        mask)
+{
+	p_reg->IE = mask;
+}
+
+__STATIC_INLINE void xinc_spim_enable(XINC_SPIM_Type * p_reg)
+{
+    p_reg->EN = 0x1 << 0UL;//(SPIM_ENABLE_ENABLE_Enabled << SPIM_ENABLE_ENABLE_Pos);
+}
+
+__STATIC_INLINE void xinc_spim_disable(XINC_SPIM_Type * p_reg)
+{
+
+	p_reg->EN = 0x0 << 0UL;
+}
+
+__STATIC_INLINE void xinc_spim_frequency_set(XINC_SPIM_Type *      p_reg,
+                                            xinc_spim_frequency_t frequency)
+{
+	p_reg->BAUD = frequency;
+}
 __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
                                         xinc_spim_mode_t      spi_mode,
                                         xinc_spim_bit_order_t spi_bit_order)

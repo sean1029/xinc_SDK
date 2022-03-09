@@ -74,8 +74,8 @@ void spi_flash_Read_128bitsID(uint8_t *buff)
     uint32_t    iWK = 0;
   //  memset(txbuff,0,PACKET_FULL_LEN+4);
  //   memset(rxbuff,0,PACKET_FULL_LEN+4);
-		txbuff[0] = 0x0;
-	  txbuff[1] = CMD_ID;
+		txbuff[1] = 0x0;
+	  txbuff[0] = CMD_ID;
 		txbuff[2] = 0x0;
 		txbuff[3] = 0x0;
     
@@ -125,8 +125,8 @@ void spi_flash_Read_MID(uint8_t *buff)
     uint32_t    iWK = 0;
   //  memset(txbuff,0,PACKET_FULL_LEN+4);
  //   memset(rxbuff,0,PACKET_FULL_LEN+4);
-		txbuff[0] = 0x0;
-	  txbuff[1] = 0X9F;
+		txbuff[1] = 0x0;
+	  txbuff[0] = 0X9F;
 		txbuff[2] = 0x0;
 		txbuff[3] = 0x0;
     
@@ -139,14 +139,14 @@ void spi_flash_Read_MID(uint8_t *buff)
 	//- RX Channel
 	__write_hw_reg32(DMAS_CHx_SAR(10) , 0x40013060);
     __write_hw_reg32(DMAS_CHx_DAR(10) , (uint32_t)rxbuff);
-    __write_hw_reg32(DMAS_CHx_CTL1(10) ,((2 << 8)|  1));
+    __write_hw_reg32(DMAS_CHx_CTL1(10) ,((2 << 8)|  0));
     __write_hw_reg32(DMAS_CHx_CTL0(10) ,4);
     __write_hw_reg32(DMAS_EN , 10);
 
 		//- TX Channel
 	__write_hw_reg32(DMAS_CHx_SAR(2) , (uint32_t)txbuff);
     __write_hw_reg32(DMAS_CHx_DAR(2) , 0x40013060);
-    __write_hw_reg32(DMAS_CHx_CTL1(2) ,((2 << 8)|  1));
+    __write_hw_reg32(DMAS_CHx_CTL1(2) ,((2 << 8)|  0));
     __write_hw_reg32(DMAS_CHx_CTL0(2) ,4);//���ջ������׵�ַ������4�ı������Ҵ�С�������ĵı���
     __write_hw_reg32(DMAS_EN , 2);
 
@@ -776,25 +776,25 @@ void  spi_flash_test(void)
 #if 1		
 
 		
-	spi_flash_write_enable();
-	while(spi_flash_wait_till_ready());	
-	spi_flash_write_page(132 * 1024 + 4,&test_tx_buff[4],3);
-	while(spi_flash_wait_till_ready());
-	
-	
-		
-	spi_flash_write_enable();
-	while(spi_flash_wait_till_ready());	
-	spi_flash_write_page(132 * 1024 + 7,&test_tx_buff[7],3);
-	while(spi_flash_wait_till_ready());
-	
-	
-		
-	spi_flash_write_enable();
-	while(spi_flash_wait_till_ready());	
-	spi_flash_write_page(132 * 1024 + 10,&test_tx_buff[10],4);
-	while(spi_flash_wait_till_ready());
-	
+//	spi_flash_write_enable();
+//	while(spi_flash_wait_till_ready());	
+//	spi_flash_write_page(132 * 1024 + 4,&test_tx_buff[4],3);
+//	while(spi_flash_wait_till_ready());
+//	
+//	
+//		
+//	spi_flash_write_enable();
+//	while(spi_flash_wait_till_ready());	
+//	spi_flash_write_page(132 * 1024 + 7,&test_tx_buff[7],3);
+//	while(spi_flash_wait_till_ready());
+//	
+//	
+//		
+//	spi_flash_write_enable();
+//	while(spi_flash_wait_till_ready());	
+//	spi_flash_write_page(132 * 1024 + 10,&test_tx_buff[10],4);
+//	while(spi_flash_wait_till_ready());
+//	
 	
 		
 //	spi_flash_write_enable();
@@ -819,17 +819,17 @@ void  spi_flash_test(void)
 //	while(spi_flash_wait_till_ready());	
 ////	spi_flash_write_page(132 * 1024,txbuff,200);
 //	while(spi_flash_wait_till_ready());	
-	spi_flash_page_erase(132 * 1024);
-	spi_flash_page_erase(132 * 1024 + 256);
-	spi_flash_write(132 * 1024 + 1,test_tx_buff,357);;
-	spi_flash_Read(132 * 1024 + 1 ,test_rx_buff,560);
+//	spi_flash_page_erase(132 * 1024);
+//	spi_flash_page_erase(132 * 1024 + 256);
+//	spi_flash_write(132 * 1024 + 1,test_tx_buff,357);;
+//	spi_flash_Read(132 * 1024 + 1 ,test_rx_buff,560);
 	//spi_flash_Read_Page(132 * 1024 ,rxbuff,520);
 //	p_buf = (uint8_t *)0x10000000;
 //	
-	for(int i = 0;i < 255;i++)
-	{
-		printf("rxbuf1[%d]:%d\n",i,test_rx_buff[i]); 
-	}while(spi_flash_wait_till_ready());	
+//	for(int i = 0;i < 255;i++)
+//	{
+//		printf("rxbuf1[%d]:%d\n",i,test_rx_buff[i]); 
+//	}while(spi_flash_wait_till_ready());	
 
 }
 
@@ -840,7 +840,7 @@ uint8_t buff16[60];
 
 #include "xinc_drv_spi.h"
 #if NRFX_CHECK(XINCX_SPIM_ENABLED)
-static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
+static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(0);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
 static void spi_handler(xinc_drv_spi_evt_t const* p_event,
                         void *                    p_context)
@@ -869,8 +869,9 @@ static void spi_handler(xinc_drv_spi_evt_t const* p_event,
 void spim_flash_Read_128bitsID(uint8_t *buff)
 {
 
-		memset(txbuff,0,21);
+		memset(txbuff,0,24);
 		txbuff[0] = CMD_ID; 
+
 		spi_xfer_done = false;									
 		xinc_drv_spi_transfer(&m_spi,txbuff,21,rxbuff,21);
 		while (!spi_xfer_done)
@@ -1147,6 +1148,7 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 	{
 			if((WriteLength - buffIdx) >= FLASH_PAGE_SIZE)
 			{
+				while(spim_read_flash_status() & 0x01);
 				spim_flash_write_enable();
 				spim_flash_write_page(pre_address,&buff[buffIdx],FLASH_PAGE_SIZE);
 				while(spim_read_flash_status() & 0x01);
@@ -1154,6 +1156,7 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 				pre_address += FLASH_PAGE_SIZE;
 			}else
 			{
+				while(spim_read_flash_status() & 0x01);
 				spim_flash_write_enable();
 				spim_flash_write_page(pre_address,&buff[buffIdx],WriteLength - buffIdx);
 				while(spim_read_flash_status() & 0x01);
@@ -1165,9 +1168,14 @@ void	spim_flash_write(uint32_t	WriteAddR, uint8_t *buff,uint16_t WriteLength)
 	return;
 
 }
-
+	#define TEST_FLASH_ADDR   (132* 1024)
 void spim_flash_test(void)
 {
+	
+	//spi_flash_test();
+	
+//	return;
+
 	ret_code_t err_code;
 	uint8_t w_buf[200];
 	uint8_t r_buf[200];
@@ -1184,18 +1192,9 @@ void spim_flash_test(void)
 									};
 		err_code = xinc_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
 								
-									printf("xinc_drv_spi_init:err_code:0x%x",err_code);
-		spim_flash_Read_MID(r_buf);
-		printf("mid:");
-		for(int i = 0;i < 3;i++)
-		{
-			printf("%02x ",r_buf[i]);
-			if(i % 16 == 15)
-			{
-				printf("\r\n");
-			}
-		}
-		printf("\r\n");
+		printf("xinc_drv_spi_init:err_code:0x%x\r\n",err_code);
+//	spim_flash_Read_MID(r_buf);
+	//
 		
 		spim_flash_Read_128bitsID(r_buf);
 		printf("ID:");
@@ -1213,14 +1212,13 @@ void spim_flash_test(void)
 		{
 			w_buf[i] = i + 1;
 		}
-	  spim_flash_sector_erase(0x1000);
+	  spim_flash_sector_erase(TEST_FLASH_ADDR);
 		
-		spim_flash_write(0x1100 - 0x10,w_buf,0x20);
+		spim_flash_write(TEST_FLASH_ADDR,w_buf,0x20);
 		
-		spim_flash_write(0x1110,&w_buf[0x20],0x20);
+
 		
-		
-		spim_flash_read(0x1100 - 0x10,r_buf,0x20);
+		spim_flash_read(TEST_FLASH_ADDR,r_buf,0x20);
 		printf("read_data:\r\n");
 		for(int i = 0;i < 0x20;i++)
 		{
@@ -1232,29 +1230,7 @@ void spim_flash_test(void)
 		}
 		printf("\r\n");
 		
-		spim_flash_read(0x1110 ,r_buf,0x20);
-		printf("read_data:\r\n");
-		for(int i = 0;i < 0x20;i++)
-		{
-			printf("%02x ",r_buf[i]);
-			if(i % 16 == 15)
-			{
-				printf("\r\n");
-			}
-		}
-		printf("\r\n");
-		
-		spim_flash_read(0x1100,r_buf,0x30);
-		printf("read_data:\r\n");
-		for(int i = 0;i < 0x30;i++)
-		{
-			printf("%02x ",r_buf[i]);
-			if(i % 16 == 15)
-			{
-				printf("\r\n");
-			}
-		}
-		printf("\r\n");
+
 		
 
 }

@@ -12739,11 +12739,11 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Register: SPIM_ENABLE */
 /* Description: Enable SPIM */
 
-/* Bits 3..0 : Enable or disable SPIM */
+/* Bits 0 : Enable or disable SPIM */
 #define SPIM_ENABLE_ENABLE_Pos (0UL) /*!< Position of ENABLE field. */
-#define SPIM_ENABLE_ENABLE_Msk (0xFUL << SPIM_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
+#define SPIM_ENABLE_ENABLE_Msk (0x0UL << SPIM_ENABLE_ENABLE_Pos) /*!< Bit mask of ENABLE field. */
 #define SPIM_ENABLE_ENABLE_Disabled (0UL) /*!< Disable SPIM */
-#define SPIM_ENABLE_ENABLE_Enabled (7UL) /*!< Enable SPIM */
+#define SPIM_ENABLE_ENABLE_Enabled (1UL) /*!< Enable SPIM */
 
 /* Register: SPIM_PSEL_SCK */
 /* Description: Pin select for SCK */

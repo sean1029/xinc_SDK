@@ -783,6 +783,11 @@ __STATIC_INLINE void nrf_gpio_pin_dir_set(uint32_t pin_number, nrf_gpio_pin_dir_
 __STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_sel_t fun)
 {
 		ret_code_t err_code = NRF_SUCCESS; 
+		if(pin > XINC_GPIO_31)
+		{
+			err_code = NRF_ERROR_INVALID_PARAM;
+			return err_code;
+		}
 		if((NRF_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
 		{
 			gpio_mux_ctl(pin,2);		
@@ -827,7 +832,8 @@ __STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_se
 			
 			default:
 			{
-				gpio_mux_ctl(pin,0);
+				
+			//	gpio_mux_ctl(pin,0);
 				if(fun > NRF_GPIO_PIN_PWM1_INV)
 				{
 					err_code = NRFX_ERROR_INVALID_PARAM;
@@ -873,7 +879,7 @@ __STATIC_INLINE void nrf_gpio_pin_toggle(uint32_t pin_number)
 
 		reg->DR[reg_dix] = 0x10001 << (pin_number & 0x0f);
 	  reg->DR[reg_dix] = 0x10000 << (pin_number & 0x0f);
-
+	
 
 }
 

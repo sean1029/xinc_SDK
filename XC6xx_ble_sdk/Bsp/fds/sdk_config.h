@@ -582,8 +582,16 @@
 // <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef XINCX_SPIM_ENABLED
-#define XINCX_SPIM_ENABLED 0
+#define XINCX_SPIM_ENABLED 1
 #endif
+
+// <q> XINCX_SPIM0_ENABLED  - Enable SPIM0 instance
+ 
+
+#ifndef XINCX_SPIM0_ENABLED
+#define XINCX_SPIM0_ENABLED 1
+#endif
+
 // <q> XINCX_SPIM1_ENABLED  - Enable SPIM1 instance
  
 

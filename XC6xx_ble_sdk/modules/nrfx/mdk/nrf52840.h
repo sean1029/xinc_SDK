@@ -458,6 +458,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          XINC_GPIOTE_BASE)
 #define NRF_UART0                    ((NRF_UART_Type*)            XINC_UART0_BASE)
 #define NRF_UART1                    ((NRF_UART_Type*)            XINC_UART1_BASE)
+#define XINC_SPIM0										 ((XINC_SPIM_Type*)         XINC_SPIM0_BASE)
 #define XINC_SPIM1										 ((XINC_SPIM_Type*)         XINC_SPIM1_BASE)
 
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)

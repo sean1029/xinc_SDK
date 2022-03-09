@@ -59,7 +59,9 @@ extern "C" {
 typedef struct
 {
     XINC_SPIM_Type * p_reg;        ///< Pointer to a structure with SPIM registers.
+		XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
     uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
+		uint8_t         id;
 } xincx_spim_t;
 
 #ifndef __NRFX_DOXYGEN__
@@ -75,10 +77,12 @@ enum {
 #endif
 
 /** @brief Macro for creating an instance of the SPIM driver. */
-#define XINCX_SPIM_INSTANCE(id)                               \
+#define XINCX_SPIM_INSTANCE(Id)                               \
 {                                                            \
-    .p_reg        = NRFX_CONCAT_2(XINC_SPIM, id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(XINCX_SPIM, id, _INST_IDX), \
+    .p_reg        = NRFX_CONCAT_2(XINC_SPIM, Id),             \
+		.p_cpr				= XINC_CPR,																	\
+    .drv_inst_idx = NRFX_CONCAT_3(XINCX_SPIM, Id, _INST_IDX), \
+		.id 					= Id,																				\
 }
 
 /**
