@@ -16,8 +16,8 @@ void cli_test(void)
 {
 #if NRF_MODULE_ENABLED(NRF_CLI)
     nrf_drv_uart_config_t uart_config;
-    uart_config.pseltxd = TX_PIN_NUMBER;
-    uart_config.pselrxd = RX_PIN_NUMBER;
+    uart_config.pseltxd = CLI_TX_PIN_NUMBER;
+    uart_config.pselrxd = CLI_RX_PIN_NUMBER;
 		uart_config.hwfc    = NRF_UART_HWFC_DISABLED;
 		uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
 	
@@ -98,8 +98,8 @@ void drv_uart_test(void)
 
     app_uart_comm_params_t const comm_params =
     {
-        .rx_pin_no    = RX_PIN_NUMBER,
-        .tx_pin_no    = TX_PIN_NUMBER,
+        .rx_pin_no    = APP_UART_RX_PIN_NUMBER,
+        .tx_pin_no    = APP_UART_TX_PIN_NUMBER,
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
         .use_parity   = false,
         .baud_rate    = UART_BAUDRATE_BAUDRATE_Baud115200
@@ -377,7 +377,7 @@ void wdt_event_handler(void)
 	APP_ERROR_CHECK(err_code);
 
 	xinc_drv_wdt_enable();
-
+	
 	#endif
 }
 #endif

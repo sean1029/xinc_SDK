@@ -79,19 +79,50 @@ typedef struct
 } uart_control_block_t;
 static uart_control_block_t m_cb[NRFX_UART_ENABLED_COUNT];
 
-static void apply_config(nrfx_uart_t        const * p_instance,
+static nrfx_err_t apply_config(nrfx_uart_t        const * p_instance,
                          nrfx_uart_config_t const * p_config)
 {
 		printf("%s\r\n",__func__);
-	
+		nrfx_err_t err_code = NRFX_SUCCESS;
 		printf("pseltxd:%d\r\n",p_config->pseltxd);
     if (p_config->pseltxd != NRF_UART_PSEL_DISCONNECTED)
     {     
-      
+      if(p_instance->id == 0)
+			{
+				err_code = xinc_gpio_fun_config(p_config->pseltxd, NRF_GPIO_PIN_UART0_TX);
+				if(err_code != NRFX_SUCCESS)
+				{
+					return err_code;
+				}
+			}
+			if(p_instance->id == 1)
+			{
+				err_code = xinc_gpio_fun_config(p_config->pseltxd, NRF_GPIO_PIN_UART1_TX);
+				if(err_code != NRFX_SUCCESS)
+				{
+					return err_code;
+				}
+			}
     }
 		printf("pselrxd:%d\r\n",p_config->pselrxd);
     if (p_config->pselrxd != NRF_UART_PSEL_DISCONNECTED)
     {
+			if(p_instance->id == 0)
+			{
+				err_code = xinc_gpio_fun_config(p_config->pselrxd, NRF_GPIO_PIN_UART0_RX);
+				if(err_code != NRFX_SUCCESS)
+				{
+					return err_code;
+				}
+			}
+			if(p_instance->id == 1)
+			{
+				err_code = xinc_gpio_fun_config(p_config->pselrxd, NRF_GPIO_PIN_UART1_RX);
+				if(err_code != NRFX_SUCCESS)
+				{
+					return err_code;
+				}
+			}
       
     }
 		printf("baudrate_set:%d\r\n",p_config->baudrate);
@@ -103,16 +134,6 @@ static void apply_config(nrfx_uart_t        const * p_instance,
 		p_instance->p_reg->MCR &= ~(0x01 << 5);
 		p_instance->p_reg->TCR |= (0x03 << 0);
 		p_instance->p_reg->IIR_FCR.FCR = 0XB7;
-		
-    nrf_uart_txrx_pins_set(p_instance->p_reg, p_config->pseltxd, p_config->pselrxd);
-		
-		
-		gpio_fun_sel(p_config->pseltxd,UART1_TX);
-		gpio_fun_sel(p_config->pselrxd,UART1_RX);
-		
-		
-		
-		
 		
     if (p_config->hwfc == NRF_UART_HWFC_ENABLED)
     {
@@ -126,6 +147,7 @@ static void apply_config(nrfx_uart_t        const * p_instance,
         }
      
     }
+		return err_code;
 }
 
 static void interrupts_enable(nrfx_uart_t const * p_instance,
@@ -157,7 +179,7 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
     NRFX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     nrfx_err_t err_code = NRFX_SUCCESS;
-	printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
+		printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
 	// printf("NRF_UART_Type size :%d\r\n",sizeof(NRF_UART_Type));
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
@@ -171,7 +193,16 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
 		xc_uart_clk_init(p_instance->id,p_config->baudrate);
 		
 
-    apply_config(p_instance, p_config);
+    err_code = apply_config(p_instance, p_config);
+		
+		if(err_code != NRFX_SUCCESS)
+		{
+				err_code = NRFX_ERROR_INVALID_PARAM;
+        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+                         __func__,
+                         NRFX_LOG_ERROR_STRING_GET(err_code));
+        return err_code;
+		}
 
     p_cb->handler   = event_handler;
     p_cb->p_context = p_config->p_context;

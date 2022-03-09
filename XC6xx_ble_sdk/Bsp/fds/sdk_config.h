@@ -17,7 +17,7 @@
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
-#define XINCX_WDT_ENABLED 0
+#define XINCX_WDT_ENABLED 1
 #endif
 
 

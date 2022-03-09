@@ -88,11 +88,15 @@ extern "C" {
 //#define BSP_BUTTON_2   BUTTON_3
 //#define BSP_BUTTON_3   BUTTON_4
 
-#define RX_PIN_NUMBER  23
-#define TX_PIN_NUMBER  22
+#define APP_UART_RX_PIN_NUMBER  22
+#define APP_UART_TX_PIN_NUMBER  23
 #define CTS_PIN_NUMBER 7
 #define RTS_PIN_NUMBER 5
 #define HWFC           false
+	
+
+#define CLI_RX_PIN_NUMBER  22
+#define CLI_TX_PIN_NUMBER  23
 
 
 #define SPIM0_SCK_PIN   29  // SPI clock GPIO pin number.
@@ -104,11 +108,6 @@ extern "C" {
 #define SPIM1_MOSI_PIN  7   // SPI Master Out Slave In GPIO pin number.
 #define SPIM1_MISO_PIN  6   // SPI Master In Slave Out GPIO pin number.
 #define SPIM1_SS_PIN    3   // SPI Slave Select GPIO pin number.
-
-
-
-
-
 
 
 

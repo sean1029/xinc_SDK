@@ -273,19 +273,6 @@ __STATIC_INLINE void nrf_uart_disable(NRF_UART_Type * p_reg)
 
 }
 
-__STATIC_INLINE void nrf_uart_txrx_pins_set(NRF_UART_Type * p_reg, uint32_t pseltxd, uint32_t pselrxd)
-{
-//#if defined(UART_PSEL_RXD_CONNECT_Pos)
-//    p_reg->PSEL.RXD = pselrxd;
-//#else
-//    p_reg->PSELRXD = pselrxd;
-//#endif
-//#if defined(UART_PSEL_TXD_CONNECT_Pos)
-//    p_reg->PSEL.TXD = pseltxd;
-//#else
-//    p_reg->PSELTXD = pseltxd;
-//#endif
-}
 
 
 __STATIC_INLINE uint8_t nrf_uart_rxd_get(NRF_UART_Type * p_reg)

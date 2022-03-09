@@ -76,6 +76,40 @@ extern "C" {
 /** @brief Macro for mapping port and pin numbers to values understandable for nrf_gpio functions. */
 #define NRF_GPIO_PIN_MAP(port, pin) (((port) << 5) | ((pin) & 0x1F))
 
+
+#define XINC_GPIO_0				NRF_GPIO_PIN_MAP(0, 0)
+#define XINC_GPIO_1				NRF_GPIO_PIN_MAP(0, 1)
+#define XINC_GPIO_2				NRF_GPIO_PIN_MAP(0, 2)
+#define XINC_GPIO_3				NRF_GPIO_PIN_MAP(0, 3)
+#define XINC_GPIO_4				NRF_GPIO_PIN_MAP(0, 4)
+#define XINC_GPIO_5				NRF_GPIO_PIN_MAP(0, 5)
+#define XINC_GPIO_6				NRF_GPIO_PIN_MAP(0, 6)
+#define XINC_GPIO_7				NRF_GPIO_PIN_MAP(0, 7)
+#define XINC_GPIO_8				NRF_GPIO_PIN_MAP(0, 8)
+#define XINC_GPIO_9				NRF_GPIO_PIN_MAP(0, 9)
+#define XINC_GPIO_10				NRF_GPIO_PIN_MAP(0, 10)
+#define XINC_GPIO_11				NRF_GPIO_PIN_MAP(0, 11)
+#define XINC_GPIO_12				NRF_GPIO_PIN_MAP(0, 12)
+#define XINC_GPIO_13				NRF_GPIO_PIN_MAP(0, 13)
+#define XINC_GPIO_14				NRF_GPIO_PIN_MAP(0, 14)
+#define XINC_GPIO_15				NRF_GPIO_PIN_MAP(0, 15)
+#define XINC_GPIO_16				NRF_GPIO_PIN_MAP(0, 16)
+#define XINC_GPIO_17				NRF_GPIO_PIN_MAP(0, 17)
+#define XINC_GPIO_18				NRF_GPIO_PIN_MAP(0, 18)
+#define XINC_GPIO_19				NRF_GPIO_PIN_MAP(0, 19)
+#define XINC_GPIO_20				NRF_GPIO_PIN_MAP(0, 20)
+#define XINC_GPIO_21				NRF_GPIO_PIN_MAP(0, 21)
+#define XINC_GPIO_22				NRF_GPIO_PIN_MAP(0, 22)
+#define XINC_GPIO_23				NRF_GPIO_PIN_MAP(0, 23)
+#define XINC_GPIO_24				NRF_GPIO_PIN_MAP(0, 24)
+#define XINC_GPIO_25				NRF_GPIO_PIN_MAP(0, 25)
+#define XINC_GPIO_26				NRF_GPIO_PIN_MAP(0, 26)
+#define XINC_GPIO_27				NRF_GPIO_PIN_MAP(0, 27)
+#define XINC_GPIO_28				NRF_GPIO_PIN_MAP(0, 28)
+#define XINC_GPIO_29				NRF_GPIO_PIN_MAP(0, 29)
+#define XINC_GPIO_30				NRF_GPIO_PIN_MAP(0, 30)
+#define XINC_GPIO_31				NRF_GPIO_PIN_MAP(0, 31)
+
 #include "bsp_gpio.h"
 /** @brief Pin direction definitions. */
 typedef enum
@@ -127,7 +161,15 @@ typedef enum
 		NRF_GPIO_PIN_SSI1_RX = SSI1_RX, //
 		NRF_GPIO_PIN_SSI1_TX = SSI1_TX, //
 		NRF_GPIO_PIN_PWM0_INV = PWM0_INV, //
-		NRF_GPIO_PIN_PWM1_INV = PWM1_INV, //
+		NRF_GPIO_PIN_PWM1_INV = PWM1_INV, // 
+	//////////////////////////////////////////////////////
+	
+		NRF_GPIO_PIN_PWM2,
+		NRF_GPIO_PIN_PWM3,
+		NRF_GPIO_PIN_PWM4,
+		NRF_GPIO_PIN_PWM5,
+	
+	
 		
 } nrf_gpio_pin_fun_sel_t;
 
@@ -737,6 +779,69 @@ __STATIC_INLINE void nrf_gpio_pin_dir_set(uint32_t pin_number, nrf_gpio_pin_dir_
 }
 
 
+#include "bsp_gpio.h"
+__STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_sel_t fun)
+{
+		ret_code_t err_code = NRF_SUCCESS; 
+		if((NRF_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
+		{
+			gpio_mux_ctl(pin,2);		
+			return err_code;
+				
+		}
+		if((NRF_GPIO_PIN_PWM3 == fun) && (XINC_GPIO_1 == pin))
+		{
+			gpio_mux_ctl(pin,2);		
+			return err_code;
+								
+		}
+		if((NRF_GPIO_PIN_PWM4 == fun) && (XINC_GPIO_12 == pin))
+		{
+			
+			gpio_mux_ctl(pin,3);		
+			return err_code;
+				
+		}
+		if((NRF_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
+		{
+						
+			gpio_mux_ctl(pin,13);		
+			return err_code;
+		}
+		
+		switch(pin)
+		{
+			case XINC_GPIO_11:
+			case XINC_GPIO_12:
+			case XINC_GPIO_13:	
+			{
+				gpio_mux_ctl(pin,1);
+				if(fun > NRF_GPIO_PIN_PWM1_INV)
+				{
+					err_code = NRFX_ERROR_INVALID_PARAM;
+					return err_code;
+				}
+				gpio_fun_sel(pin,fun);
+				
+			}break;
+			
+			default:
+			{
+				gpio_mux_ctl(pin,0);
+				if(fun > NRF_GPIO_PIN_PWM1_INV)
+				{
+					err_code = NRFX_ERROR_INVALID_PARAM;
+					return err_code;
+				}
+				gpio_fun_sel(pin,fun);
+			}
+			break;	
+		
+		}	
+	return err_code;
+
+}
+
 __STATIC_INLINE void nrf_gpio_pin_set(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
@@ -808,97 +913,6 @@ __STATIC_INLINE uint32_t nrf_gpio_pin_out_read(uint32_t pin_number)
 }
 
 
-//__STATIC_INLINE nrf_gpio_pin_sense_t nrf_gpio_pin_sense_get(uint32_t pin_number)
-//{
-//    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-
-//    return 0;//(nrf_gpio_pin_sense_t)((reg->PIN_CNF[pin_number] &
-//                                //   GPIO_PIN_CNF_SENSE_Msk) >> GPIO_PIN_CNF_SENSE_Pos);
-//}
-
-#if 0
-__STATIC_INLINE nrf_gpio_pin_dir_t nrf_gpio_pin_dir_get(uint32_t pin_number)
-{
-    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-
-    return (nrf_gpio_pin_dir_t)((reg->PIN_CNF[pin_number] &
-                                 GPIO_PIN_CNF_DIR_Msk) >> GPIO_PIN_CNF_DIR_Pos);
-}
-
-__STATIC_INLINE nrf_gpio_pin_input_t nrf_gpio_pin_input_get(uint32_t pin_number)
-{
-    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-
-    return (nrf_gpio_pin_input_t)((reg->PIN_CNF[pin_number] &
-                                   GPIO_PIN_CNF_INPUT_Msk) >> GPIO_PIN_CNF_INPUT_Pos);
-}
-
-__STATIC_INLINE nrf_gpio_pin_pull_t nrf_gpio_pin_pull_get(uint32_t pin_number)
-{
-    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-
-    return (nrf_gpio_pin_pull_t)((reg->PIN_CNF[pin_number] &
-                                  GPIO_PIN_CNF_PULL_Msk) >> GPIO_PIN_CNF_PULL_Pos);
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_dir_output_set(NRF_GPIO_Type * p_reg, uint32_t out_mask)
-{
-    p_reg->DIRSET = out_mask;
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_dir_input_set(NRF_GPIO_Type * p_reg, uint32_t in_mask)
-{
-    p_reg->DIRCLR = in_mask;
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_dir_write(NRF_GPIO_Type * p_reg, uint32_t value)
-{
-    p_reg->DIR = value;
-}
-
-
-__STATIC_INLINE uint32_t nrf_gpio_port_dir_read(NRF_GPIO_Type const * p_reg)
-{
-    return p_reg->DIR;
-}
-
-
-__STATIC_INLINE uint32_t nrf_gpio_port_in_read(NRF_GPIO_Type const * p_reg)
-{
-    return p_reg->IN;
-}
-
-
-__STATIC_INLINE uint32_t nrf_gpio_port_out_read(NRF_GPIO_Type const * p_reg)
-{
-    return p_reg->OUT;
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_out_write(NRF_GPIO_Type * p_reg, uint32_t value)
-{
-    p_reg->OUT = value;
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_out_set(NRF_GPIO_Type * p_reg, uint32_t set_mask)
-{
-		if(set_mask > 0x00008000)
-		{
-			p_reg->DR[1] = set_mask;
-		}
-    p_reg->OUTSET = set_mask;
-}
-
-
-__STATIC_INLINE void nrf_gpio_port_out_clear(NRF_GPIO_Type * p_reg, uint32_t clr_mask)
-{
-    p_reg->DR[0] = clr_mask;
-}
-#endif
 
 __STATIC_INLINE void nrf_gpio_ports_read(uint32_t start_port, uint32_t length, uint32_t * p_masks)
 {

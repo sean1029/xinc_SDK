@@ -443,6 +443,7 @@ int	main(void)
 	drv_adc_test();
 #endif
 
+
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;

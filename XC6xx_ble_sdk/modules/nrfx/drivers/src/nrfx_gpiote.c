@@ -440,37 +440,6 @@ bool nrfx_gpiote_in_is_set(nrfx_gpiote_pin_t pin)
 }
 
 
-
-
-//static bool input_read_and_check(uint32_t * input, uint32_t * pins_to_check)
-//{
-//    bool process_inputs_again;
-//    uint32_t new_input[GPIO_COUNT];
-
-//    nrf_gpio_ports_read(0, GPIO_COUNT, new_input);
-
-//    process_inputs_again = false;
-//    for (uint32_t port_idx = 0; port_idx < GPIO_COUNT; port_idx++)
-//    {
-//        /* Execute XOR to find out which inputs have changed. */
-//        uint32_t input_diff = input[port_idx] ^ new_input[port_idx];
-//        input[port_idx] = new_input[port_idx];
-//        if (input_diff)
-//        {
-//            /* If any differences among inputs were found, mark those pins
-//             * to be processed again. */
-//            pins_to_check[port_idx] = input_diff;
-//            process_inputs_again = true;
-//        }
-//        else
-//        {
-//            pins_to_check[port_idx] = 0;
-//        }
-//    }
-//    return process_inputs_again;
-//}
-
-
 void nrfx_gpiote_irq_handler(void)
 {
     uint32_t status            = 0;
