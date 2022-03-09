@@ -135,22 +135,7 @@ void	Uart_Register_Callback(uint32_t	ch, uHandler_callback callback)
 - 输入参数: 无
 - 创建日期: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
-void	UART0_Handler(void)
-{
-		uint32_t	iWK = 0 ;
-		uint8_t		tWK = 0 ;
 
-		__read_hw_reg32(UART0_IIR , iWK);
-		iWK &= 0x0F;
-        
-		if((iWK != 0x04) && (iWK != 0x0c)) return;
-		
-		__read_hw_reg32(UART0_RBR , tWK);
-	
-		if(uHandler_Callback[0] != (uHandler_callback)0)
-			(uHandler_Callback[0])(tWK);
-		
-}
 
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: UART1_Handler
@@ -158,42 +143,8 @@ void	UART0_Handler(void)
 - 输入参数: 无
 - 创建日期: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
-void nrfx_uart_1_irq_handler(void);
+
 uint8_t rx_buff[20];
-void	UART1_Handler(void)
-{
-		uint32_t	iWK = 0 ;
-		uint8_t		tWK = 0 ;
-		uint8_t idx = 0;
-	//	__read_hw_reg32(UART1_IIR , iWK);
-	//	iWK &= 0x0F;
-	//	printf("UART1_IIR:0x%x\r\n",iWK);
-	//	
-    
-		
-	//	if((iWK != 0x04) && (iWK != 0x0c)) return;
-	//	__read_hw_reg32(UART1_TSR , iWK);
-//		while(iWK& 0x01)
-//		{
-//			__read_hw_reg32(UART1_RBR , rx_buff[idx++]);
-//			__read_hw_reg32(UART1_TSR , iWK);
-//		}
-//		
-//		for(int i  = 0;i < idx;i++)
-//		{
-//			printf("%c ",rx_buff[i]);
-//		}
-
-	//	__read_hw_reg32(UART1_RBR , tWK);
-	
-		nrfx_uart_1_irq_handler();
-	
-		if(uHandler_Callback[1] != (uHandler_callback)0)
-			(uHandler_Callback[1])(tWK);
-		
-
-}
-
 
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: Uart_Send_Char

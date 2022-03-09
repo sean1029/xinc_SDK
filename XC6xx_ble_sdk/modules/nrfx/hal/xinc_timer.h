@@ -159,16 +159,10 @@ typedef enum XINC_PWM_REF_CLK_16MHzOr16K
 /** @brief Timer interrupts. */
 typedef enum
 {
-    XINC_TIMER_INT_COMPARE0_MASK = TIMER_INTENSET_COMPARE0_Msk, ///< Timer interrupt from compare event on channel 0.
-    XINC_TIMER_INT_COMPARE1_MASK = TIMER_INTENSET_COMPARE1_Msk, ///< Timer interrupt from compare event on channel 1.
-    XINC_TIMER_INT_COMPARE2_MASK = TIMER_INTENSET_COMPARE2_Msk, ///< Timer interrupt from compare event on channel 2.
-    XINC_TIMER_INT_COMPARE3_MASK = TIMER_INTENSET_COMPARE3_Msk, ///< Timer interrupt from compare event on channel 3.
-#if defined(TIMER_INTENSET_COMPARE4_Msk) || defined(__NRFX_DOXYGEN__)
-    XINC_TIMER_INT_COMPARE4_MASK = TIMER_INTENSET_COMPARE4_Msk, ///< Timer interrupt from compare event on channel 4.
-#endif
-#if defined(TIMER_INTENSET_COMPARE5_Msk) || defined(__NRFX_DOXYGEN__)
-    XINC_TIMER_INT_COMPARE5_MASK = TIMER_INTENSET_COMPARE5_Msk, ///< Timer interrupt from compare event on channel 5.
-#endif
+    XINC_TIMER_INT_COMPARE0_MASK = 0x01 << 0, ///< Timer interrupt from compare event on channel 0.
+    XINC_TIMER_INT_COMPARE1_MASK = 0x01 << 1, ///< Timer interrupt from compare event on channel 1.
+    XINC_TIMER_INT_COMPARE2_MASK = 0x01 << 2, ///< Timer interrupt from compare event on channel 2.
+    XINC_TIMER_INT_COMPARE3_MASK = 0x01 << 3, ///< Timer interrupt from compare event on channel 3.
 } xinc_timer_int_mask_t;
 
 
@@ -270,7 +264,6 @@ __STATIC_INLINE uint32_t xinc_timer_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_
  * @brief Function for writing the capture/compare register for the specified channel.
  *
  * @param[in] p_reg      Pointer to the structure of registers of the peripheral.
- * @param[in] cc_channel The specified capture/compare channel.
  * @param[in] cc_value   Value to write to the capture/compare register.
  */
 __STATIC_INLINE void xinc_timer_cc_write(XINC_TIMER_Type *       p_reg,
@@ -280,7 +273,6 @@ __STATIC_INLINE void xinc_timer_cc_write(XINC_TIMER_Type *       p_reg,
  * @brief Function for retrieving the capture/compare value for a specified channel.
  *
  * @param[in] p_reg      Pointer to the structure of registers of the peripheral.
- * @param[in] cc_channel The specified capture/compare channel.
  *
  * @return Value from the specified capture/compare register.
  */
@@ -318,8 +310,8 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
 
 __STATIC_INLINE void xinc_timer_int_clear(XINC_TIMER_Type * p_reg,xinc_timer_int_event_t event)
 {
-   event = p_reg->TIC;
-
+	uint32_t reg = p_reg->TIC;
+ 
 }
 
 __STATIC_INLINE bool xinc_timer_int_check(XINC_TIMER_Type * p_reg,
@@ -362,7 +354,7 @@ __STATIC_INLINE void xinc_timer_mode_set(XINC_TIMER_Type * p_reg,
 
 __STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg)
 {
-  return (xinc_timer_mode_t)(p_reg->TCR & 0x02) >> 1;
+  return (xinc_timer_mode_t)((p_reg->TCR & 0x02) >> 1);
 }
 
 
@@ -402,7 +394,6 @@ __STATIC_INLINE uint32_t xinc_timer_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_
 {
 
 	uint32_t clk_div = 0;
-	xinc_timer_clk_src_t clk_src;
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
 	
 	Timer0CtlBaseAddr+= id;
@@ -432,7 +423,7 @@ __STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16 MHz / 2^prescaler.
-    xinc_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+    xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency >> 28) & 0x07);
 		uint32_t prescaler;
 		uint32_t clk_base;
 		uint32_t ticks;
@@ -475,7 +466,7 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16000 kHz / 2^prescaler.
 	// xinchip f=32000kHz/(2*(prescaler+1))
-		xinc_timer_clk_src_t clk_src  = (frequency >> 28) & 0x07;
+		xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency >> 28) & 0x07);
 		uint32_t prescaler;
 		uint32_t clk_base;
 		switch(clk_src)

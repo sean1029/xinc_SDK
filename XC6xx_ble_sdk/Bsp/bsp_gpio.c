@@ -350,7 +350,8 @@ void		gpio_direction_input(uint8_t num, uint8_t pull_up_type)
 		uint32_t* base_reg = 0x0;
         //uint32_t pos = (num&0x0f)<<1;
 
-		if(num>=0 && num<=4)
+	//	if(num>=0 && num<=4)
+		if(num<=4)
 		{
 			base_reg = (uint32_t*)(0x40002400+0x38);
 		}

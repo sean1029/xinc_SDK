@@ -38,8 +38,8 @@
  *
  */
 
-#ifndef NRF_PWM_H__
-#define NRF_PWM_H__
+#ifndef XINC_PWM_H__
+#define XINC_PWM_H__
 
 #include <nrfx.h>
 
@@ -56,7 +56,7 @@ extern "C" {
 
 
 /** @brief Number of channels in each PWM instance. */
-#define NRF_PWM_CHANNEL_COUNT  6
+#define XINC_PWM_CHANNEL_COUNT  6
 
 
 
@@ -65,12 +65,12 @@ extern "C" {
 /** @brief PWM interrupts. */
 enum
 {
-    NRF_PWM_ID_0 = 0,      ///< NRF_PWM_ID_0
-    NRF_PWM_ID_1  = 1,
-    NRF_PWM_ID_2 = 2,
-    NRF_PWM_ID_3 = 3 ,
-    NRF_PWM_ID_4 = 4,     
-    NRF_PWM_ID_5 = 5, 
+    XINC_PWM_ID_0 = 0,      ///< XINC_PWM_ID_0
+    XINC_PWM_ID_1  = 1,
+    XINC_PWM_ID_2 = 2,
+    XINC_PWM_ID_3 = 3 ,
+    XINC_PWM_ID_4 = 4,     
+    XINC_PWM_ID_5 = 5, 
    
 } ;
 
@@ -107,14 +107,14 @@ typedef enum
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void xinc_pwm_enable(NRF_PWM_Type * p_reg);
+__STATIC_INLINE void xinc_pwm_enable(XINC_PWM_Type * p_reg);
 
 /**
  * @brief Function for disabling the PWM peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void xinc_pwm_disable(NRF_PWM_Type * p_reg);
+__STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg);
 
 
 
@@ -126,7 +126,7 @@ __STATIC_INLINE void xinc_pwm_disable(NRF_PWM_Type * p_reg);
  * @param[in] mode       Operating mode of the pulse generator counter.
  * @param[in] top_value  Value up to which the pulse generator counter counts.
  */
-__STATIC_INLINE void xinc_pwm_configure(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
 									   uint8_t        duty_cycle);
 
@@ -143,19 +143,19 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
 
-__STATIC_INLINE void xinc_pwm_enable(NRF_PWM_Type * p_reg)
+__STATIC_INLINE void xinc_pwm_enable(XINC_PWM_Type * p_reg)
 {
     p_reg->EN |= (PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);	
 }
 
-__STATIC_INLINE void xinc_pwm_disable(NRF_PWM_Type * p_reg)
+__STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg)
 {	
     p_reg->EN &= ~(PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);
 }
 
 
 
-__STATIC_INLINE void xinc_pwm_configure(NRF_PWM_Type * p_reg,
+__STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
 																			 uint8_t  duty_cycle)
 {
@@ -193,7 +193,8 @@ __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,x
 			break;
 	
 	}
-	p_reg->PWM_CLK_CTL |= (0x01 << 31UL);
+	p_reg->PWM_CLK_CTL |= ((unsigned int)(1 << 31UL));
+
 	printf("pwm clock id:%d, addr=[%p],val=[0x%x],ref_clk=[%d]\n",id,&p_reg->PWM_CLK_CTL,p_reg->PWM_CLK_CTL,ref_clk);
 }
 
@@ -212,5 +213,5 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 }
 #endif
 
-#endif // NRF_PWM_H__
+#endif // XINC_PWM_H__
 

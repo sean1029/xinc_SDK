@@ -109,12 +109,12 @@ nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
   p_cb->context = p_config->p_context;
 
 	// clear timer interrupt
-  xinc_timer_int_clear(p_instance->p_reg,1);
+  xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
 	
 	
-	NRFX_IRQ_PRIORITY_SET(TIMER0_IRQn + p_instance->id,
+	NRFX_IRQ_PRIORITY_SET((IRQn_Type)(TIMER0_IRQn + p_instance->id),
         p_config->interrupt_priority);
-  NRFX_IRQ_ENABLE(TIMER0_IRQn + p_instance->id);
+  NRFX_IRQ_ENABLE((IRQn_Type)(TIMER0_IRQn + p_instance->id));
 	
 
 	p_cb->state = NRFX_DRV_STATE_INITIALIZED;
@@ -174,11 +174,11 @@ void xincx_timer_compare(xincx_timer_t const * const p_instance,
                         uint32_t                   cc_value,
                         bool                       enable_int)
 {
-    xinc_timer_int_mask_t timer_int = 0x01 << 2;
+    xinc_timer_int_mask_t timer_int = XINC_TIMER_INT_COMPARE2_MASK;
 
     if (enable_int)
     {
-        xinc_timer_int_clear(p_instance->p_reg,1);
+        xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
         xinc_timer_int_enable(p_instance->p_reg, timer_int);
     }
     else
@@ -197,7 +197,6 @@ void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
                                    uint32_t                   channel)
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
-    NRFX_ASSERT(channel < p_instance->cc_channel);
 
     xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
    
@@ -208,7 +207,6 @@ void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
                                     uint32_t                   channel)
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
-    NRFX_ASSERT(channel < p_instance->cc_channel);
 
     xinc_timer_int_disable(p_instance->p_reg,0x01 << 2);
 }
@@ -217,11 +215,10 @@ static void irq_handler(XINC_TIMER_Type        * p_reg,
                         timer_control_block_t * p_cb,
                         uint8_t                 channel)
 {
-    uint8_t i;
    
     {
         xinc_timer_int_event_t event = XINC_TIMER_EVENT_TIMEOUT;
-        xinc_timer_int_mask_t int_mask = 0x01 << 2;
+        xinc_timer_int_mask_t int_mask = XINC_TIMER_INT_COMPARE2_MASK;
         if (xinc_timer_int_check(p_reg, event) &&
             xinc_timer_int_enable_check(p_reg, int_mask))
         {           

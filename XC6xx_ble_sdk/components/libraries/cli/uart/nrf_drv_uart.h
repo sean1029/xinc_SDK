@@ -153,6 +153,7 @@ extern "C" {
 typedef struct
 {
     uint8_t inst_idx;
+		uint8_t id;
 #if defined(NRF_DRV_UART_WITH_UARTE)
     nrfx_uarte_t uarte;
 #endif
@@ -164,11 +165,12 @@ typedef struct
 /**
  * @brief Macro for creating an UART driver instance.
  */
-#define NRF_DRV_UART_INSTANCE(id) \
+#define NRF_DRV_UART_INSTANCE(Id) \
 {                                 \
-    .inst_idx = id,               \
-    NRF_DRV_UART_CREATE_UARTE(id) \
-    NRF_DRV_UART_CREATE_UART(id)  \
+    .inst_idx = Id,               \
+		.id = Id,											\
+    NRF_DRV_UART_CREATE_UARTE(Id) \
+    NRF_DRV_UART_CREATE_UART(Id)  \
 }
 
 /**

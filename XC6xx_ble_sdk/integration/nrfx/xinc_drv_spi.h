@@ -474,7 +474,6 @@ ret_code_t xinc_drv_spi_transfer(xinc_drv_spi_t const * const p_instance,
                                 uint16_t         rx_buffer_length)
 {
     ret_code_t result = 0;
-	  uint16_t tx_length = 0;
     if (XINC_DRV_SPI_USE_SPIM)
     {
     #ifdef SPIM_PRESENT

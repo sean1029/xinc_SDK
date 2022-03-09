@@ -60,27 +60,29 @@ typedef struct
 {
     NRF_UART_Type * p_reg;        ///< Pointer to a structure with UART registers.
     uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
+		uint8_t         id;
 } nrfx_uart_t;
 
 #ifndef __NRFX_DOXYGEN__
 enum {
 #if NRFX_CHECK(NRFX_UART0_ENABLED)
-    NRFX_UART0_INST_IDX = 0,
+    NRFX_UART0_INST_IDX ,
 #endif
 #if NRFX_CHECK(NRFX_UART1_ENABLED)
-		NRFX_UART1_INST_IDX = 1,
+		NRFX_UART1_INST_IDX ,
 #endif
-    NRFX_UART_ENABLED_COUNT = 2,
+    NRFX_UART_ENABLED_COUNT,
 
 };
 #endif
 
 
 /** @brief Macro for creating a UART driver instance. */
-#define NRFX_UART_INSTANCE(id)                               \
+#define NRFX_UART_INSTANCE(Id)                               \
 {                                                            \
-    .p_reg        = NRFX_CONCAT_2(NRF_UART, id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(NRFX_UART, id, _INST_IDX), \
+    .p_reg        = NRFX_CONCAT_2(NRF_UART, Id),             \
+    .drv_inst_idx = NRFX_CONCAT_3(NRFX_UART, Id, _INST_IDX), \
+		.id = Id, 																							\
 }
 
 /** @brief Types of UART driver events. */

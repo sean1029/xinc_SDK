@@ -114,12 +114,11 @@ uint8_t privilege_level_get(void)
 
 uint8_t current_int_priority_get(void)
 {
- //   uint32_t isr_vector_num = __get_IPSR() & IPSR_ISR_Msk ;
-	uint32_t isr_vector_num ;
+    uint32_t isr_vector_num = __get_IPSR() & IPSR_ISR_Msk ;
     if (isr_vector_num > 0)
     {
         int32_t irq_type = ((int32_t)isr_vector_num - EXTERNAL_INT_VECTOR_OFFSET);
-        return  0;//(NVIC_GetPriority((IRQn_Type)irq_type) & 0xFF);
+        return  (NVIC_GetPriority((IRQn_Type)irq_type) & 0xFF);
     }
     else
     {

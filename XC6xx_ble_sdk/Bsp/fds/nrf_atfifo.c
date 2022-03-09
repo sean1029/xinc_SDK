@@ -171,7 +171,8 @@ ret_code_t nrf_atfifo_get_free(nrf_atfifo_t * const p_fifo, void * const p_var, 
 
 void * nrf_atfifo_item_get(nrf_atfifo_t * const p_fifo, nrf_atfifo_item_get_t * p_context)
 {
-   // if (nrf_atfifo_rspace_req(p_fifo, &(p_context->last_head)))
+  //  if (nrf_atfifo_rspace_req(p_fifo, &(p_context->last_head)))
+		
 		p_context->last_head = p_fifo->head;
     {
         void * p_item = ((uint8_t*)(p_fifo->p_buf)) + p_context->last_head.pos.rd;

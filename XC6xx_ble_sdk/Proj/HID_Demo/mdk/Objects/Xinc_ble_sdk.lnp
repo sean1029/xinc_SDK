@@ -13,6 +13,7 @@
 ".\objects\hids_device_skyworth.o"
 ".\objects\skyworth_rc_demo.o"
 ".\objects\app_cli.o"
+".\objects\app_test.o"
 ".\objects\rf_driver.o"
 ".\objects\patch.o"
 "..\..\..\LIB\Xinc_ble_sdk_md.lib"

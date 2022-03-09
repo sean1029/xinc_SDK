@@ -535,7 +535,7 @@ __STATIC_INLINE void nrf_gpio_cfg(
 		if(NRF_GPIO_PIN_DIR_INPUT == dir)
 		{
 			gpio_fun_inter(pin_number,inter);
-			if(pin_number >= 0 && pin_number <= 4)
+			if(/*(pin_number >= 0 &&) */pin_number <= 4)
 			{
 				reg_value = pull_reg->PE_CTRL2 ;
 				reg_idx = 2;

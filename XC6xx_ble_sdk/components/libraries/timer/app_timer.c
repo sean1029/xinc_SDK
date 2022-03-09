@@ -160,7 +160,6 @@ const static xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance
 
 static void rtc_AOtime_handler(xinc_drv_rtc_int_type_t int_type)
 {
-		xinc_rtc_time_t rtc_time_val;
     if (int_type == XINCX_RTC_INT_AOTIME)
     {
 			timer_timeouts_check();
@@ -179,8 +178,9 @@ static void rtc_AOtime_init(void)
    
     //Initialize RTC instance
     xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
-		config.type = NRF_RTC_TYPE_AOTIME;
+		config.type = XINC_RTC_TYPE_AOTIME;
     err_code = xinc_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
+		APP_ERROR_CHECK(err_code);
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
 
@@ -1067,12 +1067,12 @@ uint8_t app_timer_op_queue_utilization_get(void)
 
 void app_timer_pause(void)
 {
-   // NRF_RTC1->TASKS_STOP = 1;
+   // XINC_RTC1->TASKS_STOP = 1;
 }
 
 void app_timer_resume(void)
 {
-//    NRF_RTC1->TASKS_START = 1;
+//    XINC_RTC1->TASKS_START = 1;
 }
 
 

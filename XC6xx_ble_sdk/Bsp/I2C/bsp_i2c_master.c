@@ -29,9 +29,8 @@ static	void	i2c_master_StatusCheck(uint8_t	nbit, uint8_t bitval)
 ----------------------------------------------------------------------------------------------------*/
 extern	void	i2c_master_init(uint8_t	i2cAddR, uint32_t speed)
 {
-	uint32_t	i;
     
-    __ASSERT((speed==I2C_FAST_MODE) || (speed = I2C_STANDARD_MODE));
+    __ASSERT((speed==I2C_FAST_MODE) || (speed == I2C_STANDARD_MODE));
     
 	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x8000800);
 

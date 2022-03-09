@@ -62,22 +62,21 @@ typedef struct
 {
     XINC_I2C_Type * p_i2c;        ///< Pointer to a structure with I2C registers.
     uint8_t        drv_inst_idx; ///< Index of the driver instance. For internal use only.
+		uint8_t        id; 
 } xincx_i2c_t;
 
 /** @brief Macro for creating a I2C master driver instance. */
-#define XINC_I2C_INSTANCE(id)                               \
+#define XINC_I2C_INSTANCE(Id)                               \
 {                                                           \
-    .p_i2c        = NRFX_CONCAT_2(XINC_I2C, id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(XINCX_I2C, id, _INST_IDX), \
+    .p_i2c        = NRFX_CONCAT_2(XINC_I2C, Id),             \
+    .drv_inst_idx = NRFX_CONCAT_3(XINCX_I2C, Id, _INST_IDX), \
+		.id = Id 																									\
 }
 
 #ifndef __NRFX_DOXYGEN__
 enum {
 #if NRFX_CHECK(XINCX_I2C0_ENABLED)
     XINCX_I2C0_INST_IDX,
-#endif
-#if NRFX_CHECK(XINCX_I2C1_ENABLED)
-    XINCX_I2C1_INST_IDX,
 #endif
     XINCX_I2C_ENABLED_COUNT
 };

@@ -60,7 +60,7 @@ uint8_t keyValue2code(uint8_t value)
 	return 0;
 }
 
-uint8_t keyCode2Type(uint8_t keyCode)
+key_type_t keyCode2Type(uint8_t keyCode)
 {
 	key_type_t keytype;
 	switch(keyCode)
@@ -478,6 +478,7 @@ int xc620_kbs_scan(void)
 	 KBS_INT_RPRS_INT_EN_MASK | KBS_INT_LPRS_INT_EN_MASK | KBS_INT_RLS_INT_EN_MASK;
 	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 	 
+	 return 0;
 }	
 
 void kbs_gpio_map(void)

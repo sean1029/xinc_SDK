@@ -98,19 +98,19 @@ typedef enum
 /** @brief RTC driver instance structure. */
 typedef struct
 {
-    NRF_RTC_Type  * p_reg;            /**< Pointer to instance register set. */
+    XINC_RTC_Type  * p_reg;            /**< Pointer to instance register set. */
     uint8_t         instance_id;      /**< Index of the driver instance. For internal use only. */
-    uint8_t         cc_channel_count; /**< Number of capture/compare channels. */
+    uint8_t         id; /**< Number of capture/compare channels. */
 } xincx_rtc_t;
 
 
 
 /** @brief Macro for creating an RTC driver instance. */
-#define XINCX_RTC_INSTANCE(id)                                   \
+#define XINCX_RTC_INSTANCE(Id)                                   \
 {                                                               \
-    .p_reg            = NRFX_CONCAT_2(NRF_RTC, id),             \
-    .instance_id      = NRFX_CONCAT_3(XINCX_RTC, id, _INST_IDX), \
-    .cc_channel_count = NRF_RTC_CC_CHANNEL_COUNT(id),           \
+    .p_reg            = NRFX_CONCAT_2(XINC_RTC, Id),             \
+    .instance_id      = NRFX_CONCAT_3(XINCX_RTC, Id, _INST_IDX), \
+    .id 							= Id,          														 \
 }
 
 #ifndef __NRFX_DOXYGEN__

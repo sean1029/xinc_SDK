@@ -580,6 +580,11 @@
               <FileType>1</FileType>
               <FilePath>..\app\app_cli.c</FilePath>
             </File>
+            <File>
+              <FileName>app_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_test.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1797,6 +1802,11 @@
               <FileName>app_cli.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\app_cli.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\app_test.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -104,3 +104,4 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
     return result;
 }
 #endif //
+

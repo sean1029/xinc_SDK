@@ -32,67 +32,6 @@ extern "C" {
 /* =========================================================================================================================== */
 /* ================                                Interrupt Number Definition                                ================ */
 /* =========================================================================================================================== */
-#if 0
-typedef enum {
-/* =======================================  ARM Cortex-M4 Specific Interrupt Numbers  ======================================== */
-  Reset_IRQn                = -15,              /*!< -15  Reset Vector, invoked on Power up and warm reset                     */
-  NonMaskableInt_IRQn       = -14,              /*!< -14  Non maskable Interrupt, cannot be stopped or preempted               */
-  HardFault_IRQn            = -13,              /*!< -13  Hard Fault, all classes of Fault                                     */
-  MemoryManagement_IRQn     = -12,              /*!< -12  Memory Management, MPU mismatch, including Access Violation
-                                                     and No Match                                                              */
-  BusFault_IRQn             = -11,              /*!< -11  Bus Fault, Pre-Fetch-, Memory Access Fault, other address/memory
-                                                     related Fault                                                             */
-  UsageFault_IRQn           = -10,              /*!< -10  Usage Fault, i.e. Undef Instruction, Illegal State Transition        */
-  SVCall_IRQn               =  -5,              /*!< -5 System Service Call via SVC instruction                                */
-  DebugMonitor_IRQn         =  -4,              /*!< -4 Debug Monitor                                                          */
-  PendSV_IRQn               =  -2,              /*!< -2 Pendable request for system service                                    */
-  SysTick_IRQn              =  -1,              /*!< -1 System Tick Timer                                                      */
-/* ==========================================  nrf52840 Specific Interrupt Numbers  ========================================== */
-  POWER_CLOCK_IRQn          =   0,              /*!< 0  POWER_CLOCK                                                            */
-  RADIO_IRQn                =   1,              /*!< 1  RADIO                                                                  */
-  UARTE0_UART0_IRQn         =   2,              /*!< 2  UARTE0_UART0                                                           */
-  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0_IRQn=   3,  /*!< 3  SPIM0_SPIS0_I2CM0_I2CS0_SPI0_I2C0                                      */
-  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1_IRQn=   4,  /*!< 4  SPIM1_SPIS1_I2CM1_I2CS1_SPI1_I2C1                                      */
-  NFCT_IRQn                 =   5,              /*!< 5  NFCT                                                                   */
-  GPIOTE_IRQn               =   6,              /*!< 6  GPIOTE                                                                 */
-  SAADC_IRQn                =   7,              /*!< 7  SAADC                                                                  */
-  TIMER0_IRQn               =   8,              /*!< 8  TIMER0                                                                 */
-  TIMER1_IRQn               =   9,              /*!< 9  TIMER1                                                                 */
-  TIMER2_IRQn               =  10,              /*!< 10 TIMER2                                                                 */
-  RTC0_IRQn                 =  11,              /*!< 11 RTC0                                                                   */
-  TEMP_IRQn                 =  12,              /*!< 12 TEMP                                                                   */
-  RNG_IRQn                  =  13,              /*!< 13 RNG                                                                    */
-  ECB_IRQn                  =  14,              /*!< 14 ECB                                                                    */
-  CCM_AAR_IRQn              =  15,              /*!< 15 CCM_AAR                                                                */
-  WDT_IRQn                  =  16,              /*!< 16 WDT                                                                    */
-  RTC1_IRQn                 =  17,              /*!< 17 RTC1                                                                   */
-  QDEC_IRQn                 =  18,              /*!< 18 QDEC                                                                   */
-  COMP_LPCOMP_IRQn          =  19,              /*!< 19 COMP_LPCOMP                                                            */
-  SWI0_EGU0_IRQn            =  20,              /*!< 20 SWI0_EGU0                                                              */
-  SWI1_EGU1_IRQn            =  21,              /*!< 21 SWI1_EGU1                                                              */
-  SWI2_EGU2_IRQn            =  22,              /*!< 22 SWI2_EGU2                                                              */
-  SWI3_EGU3_IRQn            =  23,              /*!< 23 SWI3_EGU3                                                              */
-  SWI4_EGU4_IRQn            =  24,              /*!< 24 SWI4_EGU4                                                              */
-  SWI5_EGU5_IRQn            =  25,              /*!< 25 SWI5_EGU5                                                              */
-  TIMER3_IRQn               =  26,              /*!< 26 TIMER3                                                                 */
-  TIMER4_IRQn               =  27,              /*!< 27 TIMER4                                                                 */
-  PWM0_IRQn                 =  28,              /*!< 28 PWM0                                                                   */
-  PDM_IRQn                  =  29,              /*!< 29 PDM                                                                    */
-  MWU_IRQn                  =  32,              /*!< 32 MWU                                                                    */
-  PWM1_IRQn                 =  33,              /*!< 33 PWM1                                                                   */
-  PWM2_IRQn                 =  34,              /*!< 34 PWM2                                                                   */
-  SPIM2_SPIS2_SPI2_IRQn     =  35,              /*!< 35 SPIM2_SPIS2_SPI2                                                       */
-  RTC2_IRQn                 =  36,              /*!< 36 RTC2                                                                   */
-  I2S_IRQn                  =  37,              /*!< 37 I2S                                                                    */
-  FPU_IRQn                  =  38,              /*!< 38 FPU                                                                    */
-  USBD_IRQn                 =  39,              /*!< 39 USBD                                                                   */
-  UARTE1_IRQn               =  40,              /*!< 40 UARTE1                                                                 */
-  QSPI_IRQn                 =  41,              /*!< 41 QSPI                                                                   */
-  CRYPTOCELL_IRQn           =  42,              /*!< 42 CRYPTOCELL                                                             */
-  PWM3_IRQn                 =  45,              /*!< 45 PWM3                                                                   */
-  SPIM3_IRQn                =  47               /*!< 47 SPIM3                                                                  */
-} IRQn_Type;
-#endif 
 
 #include "xinc_m0.h"
 
@@ -140,27 +79,6 @@ typedef struct {                                /*!< (@ 0x4001E000) NVMC Structu
 /**
   * @brief GPIO Port 1 (P0)
   */
-#if 0
-typedef struct {                                /*!< (@ 0x50000000) P0 Structure                                               */
-  __IM  uint32_t  RESERVED[321];
-  __IOM uint32_t  OUT;                          /*!< (@ 0x00000504) Write GPIO port                                            */
-  __IOM uint32_t  OUTSET;                       /*!< (@ 0x00000508) Set individual bits in GPIO port                           */
-  __IOM uint32_t  OUTCLR;                       /*!< (@ 0x0000050C) Clear individual bits in GPIO port                         */
-  __IM  uint32_t  IN;                           /*!< (@ 0x00000510) Read GPIO port                                             */
-  __IOM uint32_t  DIR;                          /*!< (@ 0x00000514) Direction of GPIO pins                                     */
-  __IOM uint32_t  DIRSET;                       /*!< (@ 0x00000518) DIR set register                                           */
-  __IOM uint32_t  DIRCLR;                       /*!< (@ 0x0000051C) DIR clear register                                         */
-  __IOM uint32_t  LATCH;                        /*!< (@ 0x00000520) Latch register indicating what GPIO pins that
-                                                                    have met the criteria set in the PIN_CNF[n].SENSE
-                                                                    registers                                                  */
-  __IOM uint32_t  DETECTMODE;                   /*!< (@ 0x00000524) Select between default DETECT signal behaviour
-                                                                    and LDETECT mode                                           */
-  __IM  uint32_t  RESERVED1[118];
-  __IOM uint32_t  PIN_CNF[32];                  /*!< (@ 0x00000700) Description collection: Configuration of GPIO
-                                                                    pins                                                       */
-} NRF_GPIO_Type;    
-
-#else
 
 typedef struct {                                /*!< (@ 0x40001000) P0 Structure                                               */
 	__IOM uint32_t  DR[2];   										/*!< (@ 0x40001000) GPIO_PORT_DRx */
@@ -182,66 +100,14 @@ typedef struct {                                /*!< (@ 0x40001000) P0 Structure
   __IM uint32_t   INTR_STATUS_C0;                       /*!< (@ 0x40001220) DIR clear register                                         */
                                                     
 } NRF_GPIO_Type;//XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
-#endif
+
 typedef struct { 
 	 __IM  uint32_t  RESERVED[13]; /*!< (@ 0x40002400) CPR AO Structure                                               */
 	__IOM uint32_t  PU_CTRL1;  /*!< (@ 0x40002434) CPR AO  GPIO PU Ctrl                                               */
   __IOM uint32_t  PE_CTRL2; 	/*!< (@ 0x40002438) CPR AO  GPIO PE Ctrl                                               */
 }XINC_CPRA_AO_Type;
 
-
-#if 0
-typedef struct {                                /*!< (@ 0x40006000) GPIOTE Structure                                           */
-  __OM  uint32_t  TASKS_OUT[8];                 /*!< (@ 0x00000000) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is configured in CONFIG[n].POLARITY.                       */
-  __IM  uint32_t  RESERVED[4];
-  __OM  uint32_t  TASKS_SET[8];                 /*!< (@ 0x00000030) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is to set it high.                                         */
-  __IM  uint32_t  RESERVED1[4];
-  __OM  uint32_t  TASKS_CLR[8];                 /*!< (@ 0x00000060) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is to set it low.                                          */
-  __IM  uint32_t  RESERVED2[32];
-  __IOM uint32_t  EVENTS_IN[8];                 /*!< (@ 0x00000100) Description collection: Event generated from
-                                                                    pin specified in CONFIG[n].PSEL                            */
-  __IM  uint32_t  RESERVED3[23];
-  __IOM uint32_t  EVENTS_PORT;                  /*!< (@ 0x0000017C) Event generated from multiple input GPIO pins
-                                                                    with SENSE mechanism enabled                               */
-  __IM  uint32_t  RESERVED4[97];
-  __IOM uint32_t  INTENSET;                     /*!< (@ 0x00000304) Enable interrupt                                           */
-  __IOM uint32_t  INTENCLR;                     /*!< (@ 0x00000308) Disable interrupt                                          */
-  __IM  uint32_t  RESERVED5[129];
-  __IOM uint32_t  CONFIG[8];                    /*!< (@ 0x00000510) Description collection: Configuration for OUT[n],
-                                                                    SET[n], and CLR[n] tasks and IN[n] event                   */
-} NRF_GPIOTE_Type;                              /*!< Size = 1328 (0x530)   */
-#else
-typedef struct {                                /*!< (@ 0x40006000) GPIOTE Structure                                           */
-  __OM  uint32_t  TASKS_OUT[8];                 /*!< (@ 0x00000000) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is configured in CONFIG[n].POLARITY.                       */
-
-  __OM  uint32_t  TASKS_SET[8];                 /*!< (@ 0x00000030) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is to set it high.                                         */
-
-  __OM  uint32_t  TASKS_CLR[8];                 /*!< (@ 0x00000060) Description collection: Task for writing to pin
-                                                                    specified in CONFIG[n].PSEL. Action on pin
-                                                                    is to set it low.                                          */
-
-  __IOM uint32_t  EVENTS_IN[8];                 /*!< (@ 0x00000100) Description collection: Event generated from
-                                                                    pin specified in CONFIG[n].PSEL                            */
-
-  __IOM uint32_t  EVENTS_PORT;                  /*!< (@ 0x0000017C) Event generated from multiple input GPIO pins
-                                                                    with SENSE mechanism enabled                               */
-
-  __IOM uint32_t  INTENSET;                     /*!< (@ 0x00000304) Enable interrupt                                           */
-  __IOM uint32_t  INTENCLR;                     /*!< (@ 0x00000308) Disable interrupt                                          */
-  __IOM uint32_t  CONFIG[8];                    /*!< (@ 0x00000510) Description collection: Configuration for OUT[n],
-                                                                    SET[n], and CLR[n] tasks and IN[n] event                   */
-} NRF_GPIOTE_Type;                             
-#endif
+                           
 /* =========================================================================================================================== */
 /* ================                          Device Specific Peripheral Address Map                           ================ */
 /* =========================================================================================================================== */
@@ -288,34 +154,8 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
 /**
   * @brief Serial Peripheral Interface Master with EasyDMA 0 (SPIM0_NS)
   */
-/**
-  * @brief SPIM_PSEL [PSEL] (Unspecified)
-  */
-typedef struct {
-  __IOM uint32_t  SCK;                          /*!< (@ 0x00000000) Pin select for SCK                                         */
-  __IOM uint32_t  MOSI;                         /*!< (@ 0x00000004) Pin select for MOSI signal                                 */
-  __IOM uint32_t  MISO;                         /*!< (@ 0x00000008) Pin select for MISO signal                                 */
-} SPIM_PSEL_Type;  
-/**
-  * @brief SPIM_RXD [RXD] (RXD EasyDMA channel)
-  */
-typedef struct {
-  __IOM uint32_t  PTR;                          /*!< (@ 0x00000000) Data pointer                                               */
-  __IOM uint32_t  MAXCNT;                       /*!< (@ 0x00000004) Maximum number of bytes in receive buffer                  */
-  __IM  uint32_t  AMOUNT;                       /*!< (@ 0x00000008) Number of bytes transferred in the last transaction        */
-  __IOM uint32_t  LIST;                         /*!< (@ 0x0000000C) EasyDMA list type                                          */
-} SPIM_RXD_Type;                                /*!< Size = 16 (0x10)                                                          */
 
 
-/**
-  * @brief SPIM_TXD [TXD] (TXD EasyDMA channel)
-  */
-typedef struct {
-  __IOM uint32_t  PTR;                          /*!< (@ 0x00000000) Data pointer                                               */
-  __IOM uint32_t  MAXCNT;                       /*!< (@ 0x00000004) Maximum number of bytes in transmit buffer                 */
-  __IM  uint32_t  AMOUNT;                       /*!< (@ 0x00000008) Number of bytes transferred in the last transaction        */
-  __IOM uint32_t  LIST;                         /*!< (@ 0x0000000C) EasyDMA list type                                          */
-} SPIM_TXD_Type;     
 
 typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Structure                                         */
   __IOM  uint32_t  CTRL0;
@@ -453,7 +293,7 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
   __IOM  uint32_t  ALL_INTR_AO; 			 /*!< (@ 0x0000004C) AO Interrupt Register                                                            			*/													
   __IM   uint32_t  FREQ_32K_TIMER_VAL;       /*!< (@ 0x00000050) FREQ_TIMER value register                                                        */			
   
-} NRF_RTC_Type;   
+} XINC_RTC_Type;   
 /* =========================================================================================================================== */
 /* ================                                          TIMER0                                           ================ */
 /* =========================================================================================================================== */
@@ -480,6 +320,11 @@ typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structur
   __IOM  uint32_t  GLOBAL_RTIS;                   /*!< (@ 0x000000A8) Global Raw Interrupt Status register                              */
 	
 } XINC_TIMER_GLOBAL_Type; 
+
+
+/* =========================================================================================================================== */
+/* ================                                          CPR                                           ================ */
+/* =========================================================================================================================== */
 
 typedef struct {                             /*!< (@ 0x40000000) CPR Structure                      */                        
 
@@ -545,7 +390,7 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
 	__IOM  uint32_t  OCPY;                   /*!< (@ 0x00000010) PWM OCPY Register                                  */
 	__IOM  uint32_t  PWMCOMPEN;                   /*!< (@ 0x0000001C) PWM  COMP EN Register                                  */
 	__IOM  uint32_t  PWMCOMPTIME;                   /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register              */
-} NRF_PWM_Type;                                 /*!< Size =  ()                                                       */
+} XINC_PWM_Type;                                 /*!< Size =  ()                                                       */
 
 
 /* =========================================================================================================================== */
@@ -580,7 +425,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define XINC_SPIM1_BASE              0x40014000UL
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
-#define NRF_RTC0_BASE               0x40002000UL
+#define XINC_RTC0_BASE               0x40002000UL
 #define XINC_WDT_BASE                0x40004000UL
 #define XINC_TIMER0_BASE             0x40003000UL
 #define XINC_TIMER1_BASE             0x40003014UL
@@ -592,12 +437,12 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define XINC_TIMER2_CLKCTL_BASE       0x40000060UL
 #define XINC_TIMER3_CLKCTL_BASE       0x40000064UL
 
-#define	NRF_PWM0_BASE				0x40017000UL
-#define	NRF_PWM1_BASE				0x40017040UL
-#define	NRF_PWM2_BASE				0x40017400UL
-#define	NRF_PWM3_BASE				0x40017440UL
-#define	NRF_PWM4_BASE				0x40017800UL
-#define	NRF_PWM5_BASE				0x40017840UL
+#define	XINC_PWM0_BASE				0x40017000UL
+#define	XINC_PWM1_BASE				0x40017040UL
+#define	XINC_PWM2_BASE				0x40017400UL
+#define	XINC_PWM3_BASE				0x40017440UL
+#define	XINC_PWM4_BASE				0x40017800UL
+#define	XINC_PWM5_BASE				0x40017840UL
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
 /* =========================================================================================================================== */
@@ -617,7 +462,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
 #define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
-#define NRF_RTC0                    ((NRF_RTC_Type*)           NRF_RTC0_BASE)
+#define XINC_RTC0                    ((XINC_RTC_Type*)           XINC_RTC0_BASE)
 #define XINC_WDT                     ((XINC_WDT_Type*)           XINC_WDT_BASE)
 #define XINC_TIMER0                  ((XINC_TIMER_Type*)         XINC_TIMER0_BASE)
 #define XINC_TIMER1                  ((XINC_TIMER_Type*)         XINC_TIMER1_BASE)
@@ -630,12 +475,12 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define NRF_CLKCTL_TIMER3            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER3_CLKCTL_BASE)
 
 
-#define NRF_PWM0                    ((NRF_PWM_Type*)           NRF_PWM0_BASE)
-#define NRF_PWM1                    ((NRF_PWM_Type*)           NRF_PWM1_BASE)
-#define NRF_PWM2                    ((NRF_PWM_Type*)           NRF_PWM2_BASE)
-#define NRF_PWM3                    ((NRF_PWM_Type*)           NRF_PWM3_BASE)
-#define NRF_PWM4                    ((NRF_PWM_Type*)           NRF_PWM4_BASE)
-#define NRF_PWM5                    ((NRF_PWM_Type*)           NRF_PWM5_BASE)
+#define XINC_PWM0                    ((XINC_PWM_Type*)           XINC_PWM0_BASE)
+#define XINC_PWM1                    ((XINC_PWM_Type*)           XINC_PWM1_BASE)
+#define XINC_PWM2                    ((XINC_PWM_Type*)           XINC_PWM2_BASE)
+#define XINC_PWM3                    ((XINC_PWM_Type*)           XINC_PWM3_BASE)
+#define XINC_PWM4                    ((XINC_PWM_Type*)           XINC_PWM4_BASE)
+#define XINC_PWM5                    ((XINC_PWM_Type*)           XINC_PWM5_BASE)
 #ifdef __cplusplus
 }
 #endif

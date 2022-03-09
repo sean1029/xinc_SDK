@@ -653,9 +653,9 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 
         for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == NRF_SUCCESS)); num++)
         {
-            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, BSP_EVENT_KEY_0 + num * 3);
-					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, BSP_EVENT_KEY_1+ num * 3);
-					  err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, BSP_EVENT_KEY_2 + num * 3);
+            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 + num * 3));
+					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 + num * 3));
+					  err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_KEY_2 + num * 3));
 					  
         }
 

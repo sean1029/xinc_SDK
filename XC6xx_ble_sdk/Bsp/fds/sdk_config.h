@@ -17,7 +17,7 @@
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
-#define XINCX_WDT_ENABLED 1
+#define XINCX_WDT_ENABLED 0
 #endif
 
 
@@ -123,7 +123,7 @@
 // <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
 #ifndef XINCX_TIMER_ENABLED
-#define XINCX_TIMER_ENABLED 1
+#define XINCX_TIMER_ENABLED 0
 #endif
 
 // <q> XINCX_TIMER0_ENABLED  - Enable TIMER0 instance
@@ -259,7 +259,7 @@
 // <e> XINCX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
 #ifndef XINCX_PWM_ENABLED
-#define XINCX_PWM_ENABLED 1
+#define XINCX_PWM_ENABLED 0
 #endif
 
 // <q> XINCX_PWM0_ENABLED  - Enable PWM0 instance
@@ -631,7 +631,7 @@
 // <e> XINCX_SAADC_ENABLED - xinc_saadc - SAADC peripheral driver
 //==========================================================
 #ifndef XINCX_SAADC_ENABLED
-#define XINCX_SAADC_ENABLED 1
+#define XINCX_SAADC_ENABLED 0
 #endif
 // <o> XINCX_SAADC_CONFIG_RESOLUTION  - Resolution
  
@@ -764,7 +764,7 @@
 // <0=> Disabled 
 // <1=> Enabled 
 #ifndef NRFX_UART0_ENABLED
-#define NRFX_UART0_ENABLED 0
+#define NRFX_UART0_ENABLED 1
 #endif
 
 // <o> NRFX_UART1_ENABLED - Enable UART01 instance 
@@ -1320,7 +1320,7 @@
 // <e> NRF_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
 //==========================================================
 #ifndef NRF_FSTORAGE_ENABLED
-#define NRF_FSTORAGE_ENABLED 1
+#define NRF_FSTORAGE_ENABLED 0
 #endif
 // <h> nrf_fstorage - Common settings
 
@@ -1550,7 +1550,7 @@
  
 
 #ifndef NRF_FPRINTF_ENABLED
-#define NRF_FPRINTF_ENABLED 1
+#define NRF_FPRINTF_ENABLED 0
 #endif
 
 // <q> NRF_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED  - For each printed LF, function will add CR.
@@ -1581,7 +1581,7 @@
 // <e> NRF_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
 //==========================================================
 #ifndef NRF_LOG_BACKEND_UART_ENABLED
-#define NRF_LOG_BACKEND_UART_ENABLED 1
+#define NRF_LOG_BACKEND_UART_ENABLED 0
 #endif
 
 // <o> NRF_LOG_BACKEND_UART_TX_PIN - UART TX pin 

@@ -65,7 +65,6 @@ typedef struct
 		XINC_CPR_CTL_Type * p_cpr;  
 		uint8_t          id;      					///< Index of the driver instance. For internal use only.
     uint8_t          instance_idx;      ///< Index of the driver instance. For internal use only.
-    uint8_t          cc_channel; ///< Number of capture/compare channels.
 
 } xincx_timer_t;
 			
@@ -77,7 +76,6 @@ typedef struct
 	  .p_cpr            = XINC_CPR,																	\
 		.id            		= Id,																				\
     .instance_idx      = NRFX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX), \
-    .cc_channel = 		Id,          																 \
 }
           
 #ifndef __NRFX_DOXYGEN__
@@ -185,7 +183,6 @@ bool xincx_timer_is_enabled(xincx_timer_t const * const p_instance);
  * @brief Function for setting the timer channel in compare mode.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
- * @param[in] cc_channel Compare channel number.
  * @param[in] cc_value   Compare value.
  * @param[in] enable_int Enable or disable the interrupt for the compare channel.
  */

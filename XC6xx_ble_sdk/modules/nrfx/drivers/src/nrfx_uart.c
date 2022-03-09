@@ -140,13 +140,13 @@ static void interrupts_enable(nrfx_uart_t const * p_instance,
 	//	printf("p_instance->p_reg.IER:%p\r\n",&p_instance->p_reg->IER_DLH.IER);
               
 	
-		NVIC_EnableIRQ((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
+		NVIC_EnableIRQ((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
 static void interrupts_disable(nrfx_uart_t const * p_instance)
 {
    p_instance->p_reg->IER_DLH.IER = 0X00;
-    NRFX_IRQ_DISABLE((IRQn_Type)UART0_IRQn + p_instance->drv_inst_idx);
+    NRFX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
 
@@ -157,8 +157,8 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
     NRFX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     nrfx_err_t err_code = NRFX_SUCCESS;
-	 printf("%s,ch:%d\r\n",__func__,p_instance->drv_inst_idx);
-	 printf("NRF_UART_Type size :%d\r\n",sizeof(NRF_UART_Type));
+	printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
+	// printf("NRF_UART_Type size :%d\r\n",sizeof(NRF_UART_Type));
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
         err_code = NRFX_ERROR_INVALID_STATE;
@@ -168,7 +168,7 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
         return err_code;
     }
 	
-		xc_uart_clk_init(p_instance->drv_inst_idx,p_config->baudrate);
+		xc_uart_clk_init(p_instance->id,p_config->baudrate);
 		
 
     apply_config(p_instance, p_config);
@@ -188,6 +188,10 @@ nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
     p_cb->tx_buffer_length           = 0;
     p_cb->state                      = NRFX_DRV_STATE_INITIALIZED;
     NRFX_LOG_WARNING("Function: %s, error code: %s.",
+                     __func__,
+                     NRFX_LOG_ERROR_STRING_GET(err_code));
+		
+		printf("Function: %s, error code: %s.\r\n",
                      __func__,
                      NRFX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
@@ -500,7 +504,7 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
                              uart_control_block_t * p_cb)
 {
 	
-		uint32_t IIR,IER,TSR;
+		uint32_t IIR,IER;
 		IER = p_uart->IER_DLH.IER;
 		IIR = p_uart->IIR_FCR.IIR;
 	//	printf("IER:%x,IIR:%x\r\n",IER,IIR);
@@ -600,106 +604,16 @@ static void uart_irq_handler(NRF_UART_Type *        p_uart,
 
 }
 
-#if 0
-static void uart1_irq_handler(NRF_UART_Type *        p_uart,
-                             uart_control_block_t * p_cb)
-{
-    if (nrf_uart_int_enable_check(p_uart, NRF_UART_INT_MASK_ERROR) &&
-        nrf_uart_event_check(p_uart, NRF_UART_EVENT_ERROR))
-    {
-        nrfx_uart_event_t event;
-//        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_ERROR);
-        NRFX_LOG_DEBUG("Event: %s.", EVT_TO_STR(NRF_UART_EVENT_ERROR));
-        nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
-                                     NRF_UART_INT_MASK_ERROR);
-        if (!p_cb->rx_enabled)
-        {
-//            nrf_uart_task_trigger(p_uart, NRF_UART_TASK_STOPRX);
-        }
-        event.type                   = NRFX_UART_EVT_ERROR;
-        event.data.error.error_mask  = nrf_uart_errorsrc_get_and_clear(p_uart);
-        event.data.error.rxtx.bytes  = p_cb->rx_buffer_length;
-        event.data.error.rxtx.p_data = p_cb->p_rx_buffer;
-
-        // Abort transfer.
-        p_cb->rx_buffer_length = 0;
-        p_cb->rx_secondary_buffer_length = 0;
-
-        p_cb->handler(&event,p_cb->p_context);
-    }
-    else if (nrf_uart_int_enable_check(p_uart, NRF_UART_INT_MASK_RXDRDY) &&
-             nrf_uart_event_check(p_uart, NRF_UART_EVENT_RXDRDY))
-    {
-        rx_byte(p_uart, p_cb);
-        if (p_cb->rx_buffer_length == p_cb->rx_counter)
-        {
-            if (p_cb->rx_secondary_buffer_length)
-            {
-                uint8_t * p_data     = p_cb->p_rx_buffer;
-                size_t    rx_counter = p_cb->rx_counter;
-
-                // Switch to secondary buffer.
-                p_cb->rx_buffer_length = p_cb->rx_secondary_buffer_length;
-                p_cb->p_rx_buffer = p_cb->p_rx_secondary_buffer;
-                p_cb->rx_secondary_buffer_length = 0;
-                p_cb->rx_counter = 0;
-                rx_done_event(p_cb, rx_counter, p_data);
-            }
-            else
-            {
-                if (!p_cb->rx_enabled)
-                {
-//                    
-                }
-                nrf_uart_int_disable(p_uart, NRF_UART_INT_MASK_RXDRDY |
-                                             NRF_UART_INT_MASK_ERROR);
-                p_cb->rx_buffer_length = 0;
-                rx_done_event(p_cb, p_cb->rx_counter, p_cb->p_rx_buffer);
-            }
-        }
-    }
-
-    if (nrf_uart_event_check(p_uart, NRF_UART_EVENT_TXDRDY))
-    {
-        // Use a local variable to avoid undefined order of accessing two volatile variables
-        // in one statement.
-        size_t const tx_buffer_length = p_cb->tx_buffer_length;
-        if (p_cb->tx_counter < tx_buffer_length && !p_cb->tx_abort)
-        {
-            tx_byte(p_uart, p_cb);
-        }
-        else
-        {
-//            nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
-            if (p_cb->tx_buffer_length)
-            {
-                tx_done_event(p_cb, p_cb->tx_buffer_length);
-            }
-        }
-    }
-
-    if (nrf_uart_event_check(p_uart, NRF_UART_EVENT_RXTO))
-    {
-//        nrf_uart_event_clear(p_uart, NRF_UART_EVENT_RXTO);
-
-        // RXTO event may be triggered as a result of abort call. In th
-        if (p_cb->rx_enabled)
-        {
-//           
-        }
-        if (p_cb->rx_buffer_length)
-        {
-            p_cb->rx_buffer_length = 0;
-            rx_done_event(p_cb, p_cb->rx_counter, p_cb->p_rx_buffer);
-        }
-    }
-}
-#endif
 
 #if NRFX_CHECK(NRFX_UART0_ENABLED)
 void nrfx_uart_0_irq_handler(void)
 {
     uart_irq_handler(NRF_UART0, &m_cb[NRFX_UART0_INST_IDX]);
+}
+void	UART0_Handler(void)
+{
+	nrfx_uart_0_irq_handler();
+		
 }
 #endif
 
@@ -707,6 +621,11 @@ void nrfx_uart_0_irq_handler(void)
 void nrfx_uart_1_irq_handler(void)
 {
     uart_irq_handler(NRF_UART1, &m_cb[NRFX_UART1_INST_IDX]);
+}
+void	UART1_Handler(void)
+{
+	nrfx_uart_1_irq_handler();
+		
 }
 #endif
 

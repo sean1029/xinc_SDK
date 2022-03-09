@@ -38,8 +38,8 @@
  *
  */
 
-#ifndef NRF_RTC_H
-#define NRF_RTC_H
+#ifndef XINC_RTC_H
+#define XINC_RTC_H
 
 #include <nrfx.h>
 
@@ -55,7 +55,7 @@ extern "C" {
  */
 
 /** @brief Macro for getting the number of compare channels available in a given RTC instance. */
-#define NRF_RTC_CC_CHANNEL_COUNT(id)  NRFX_CONCAT_3(RTC, id, _CC_NUM)
+#define XINC_RTC_CC_CHANNEL_COUNT(id)  NRFX_CONCAT_3(RTC, id, _CC_NUM)
 
 /** @brief Input frequency of the RTC instance. */
 #define RTC_INPUT_FREQ 32768
@@ -71,21 +71,21 @@ extern "C" {
 /** @brief RTC interrupts. */
 typedef enum
 {
-    NRF_RTC_INT_DAY_MASK     = (0x01 << 0),     /**< RTC interrupt from tick event. */
-    NRF_RTC_INT_HOUR_MASK = (0x01 << 1),   /**< RTC interrupt from overflow event. */
-    NRF_RTC_INT_MIN_MASK = (0x01 << 2), /**< RTC interrupt from compare event on channel 0. */
-    NRF_RTC_INT_SEC_MASK = (0x01 << 3), /**< RTC interrupt from compare event on channel 1. */
-    NRF_RTC_INT_TIME2_MASK = (0x01 << 4), /**< RTC interrupt from compare event on channel 2. */
-    NRF_RTC_INT_TIME1_MASK = (0x01 << 5),  /**< RTC interrupt from compare event on channel 3. *///RTC_INTENSET_COMPARE3_Msk
-		NRF_RTC_INT_TIME3_MASK = (0x01 << 6) ,
-	  NRF_RTC_INT_ALL_MASK = (0x01 << 7) 
+    XINC_RTC_INT_DAY_MASK     = (0x01 << 0),     /**< RTC interrupt from tick event. */
+    XINC_RTC_INT_HOUR_MASK = (0x01 << 1),   /**< RTC interrupt from overflow event. */
+    XINC_RTC_INT_MIN_MASK = (0x01 << 2), /**< RTC interrupt from compare event on channel 0. */
+    XINC_RTC_INT_SEC_MASK = (0x01 << 3), /**< RTC interrupt from compare event on channel 1. */
+    XINC_RTC_INT_TIME2_MASK = (0x01 << 4), /**< RTC interrupt from compare event on channel 2. */
+    XINC_RTC_INT_TIME1_MASK = (0x01 << 5),  /**< RTC interrupt from compare event on channel 3. *///RTC_INTENSET_COMPARE3_Msk
+		XINC_RTC_INT_TIME3_MASK = (0x01 << 6) ,
+	  XINC_RTC_INT_ALL_MASK = (0x01 << 7) 
 } xinc_rtc_int_t;
 
 /** @brief RTC interrupts. */
 typedef enum
 {
-    NRF_RTC_TYPE_RTC     = (0x01 << 0),     
-    NRF_RTC_TYPE_AOTIME =  (0x01 << 1),
+    XINC_RTC_TYPE_RTC     = (0x01 << 0),     
+    XINC_RTC_TYPE_AOTIME =  (0x01 << 1),
 
 } xinc_rtc_type_t;
 
@@ -105,7 +105,7 @@ typedef struct
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Interrupt mask to be enabled.
  */
-__STATIC_INLINE void xinc_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE void xinc_rtc_int_enable(XINC_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for disabling interrupts.
@@ -113,7 +113,7 @@ __STATIC_INLINE void xinc_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask);
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Interrupt mask to be disabled.
  */
-__STATIC_INLINE void xinc_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE void xinc_rtc_int_disable(XINC_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for checking if interrupts are enabled.
@@ -123,7 +123,7 @@ __STATIC_INLINE void xinc_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask);
  *
  * @return Mask with enabled interrupts.
  */
-__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask);
+__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(XINC_RTC_Type * p_reg, uint32_t mask);
 
 /**
  * @brief Function for returning the status of currently enabled interrupts.
@@ -132,7 +132,7 @@ __STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t 
  *
  * @return Value in INTEN register.
  */
-__STATIC_INLINE uint32_t xinc_rtc_int_get(NRF_RTC_Type * p_reg);
+__STATIC_INLINE uint32_t xinc_rtc_int_get(XINC_RTC_Type * p_reg);
 
 
 
@@ -142,29 +142,29 @@ __STATIC_INLINE uint32_t xinc_rtc_int_get(NRF_RTC_Type * p_reg);
 
 
 
-__STATIC_INLINE void xinc_rtc_int_enable(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE void xinc_rtc_int_enable(XINC_RTC_Type * p_reg, uint32_t mask)
 {
     p_reg->ICR |= mask;
 }
 
-__STATIC_INLINE void xinc_rtc_int_disable(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE void xinc_rtc_int_disable(XINC_RTC_Type * p_reg, uint32_t mask)
 {
     p_reg->ICR &= ~(mask);
 }
 
-__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(NRF_RTC_Type * p_reg, uint32_t mask)
+__STATIC_INLINE uint32_t xinc_rtc_int_is_enabled(XINC_RTC_Type * p_reg, uint32_t mask)
 {
     return (p_reg->ICR & mask);
 }
 
-__STATIC_INLINE uint32_t xinc_rtc_int_get(NRF_RTC_Type * p_reg)
+__STATIC_INLINE uint32_t xinc_rtc_int_get(XINC_RTC_Type * p_reg)
 {
     return p_reg->ICR;
 }
 
 
 
-__STATIC_INLINE void xinc_rtc_date_set(NRF_RTC_Type * p_reg, xinc_rtc_time_t data)
+__STATIC_INLINE void xinc_rtc_date_set(XINC_RTC_Type * p_reg, xinc_rtc_time_t data)
 {	
 	uint32_t reg_val;;
 	reg_val = ( data.day<<17 | data.hour<<12 | data.min<<6 | data.sec );
@@ -175,7 +175,7 @@ __STATIC_INLINE void xinc_rtc_date_set(NRF_RTC_Type * p_reg, xinc_rtc_time_t dat
   p_reg->WLR = reg_val;
 }
 
-__STATIC_INLINE void xinc_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
+__STATIC_INLINE void xinc_rtc_datelimit_set(XINC_RTC_Type * p_reg, uint8_t* val)
 {
  
 	uint32_t reg_val;
@@ -195,12 +195,12 @@ __STATIC_INLINE void xinc_rtc_datelimit_set(NRF_RTC_Type * p_reg, uint8_t* val)
 	printf("datelimit=[hour:%d,min:%d,sec:%d]\n",p_reg->HOUR_LIMIT, p_reg->MINUTE_LIMIT, p_reg->SECOND_LIMIT);	
 }
 
-__STATIC_INLINE void xinc_rtc_freq_set(NRF_RTC_Type * p_reg, uint16_t val)
+__STATIC_INLINE void xinc_rtc_freq_set(XINC_RTC_Type * p_reg, uint16_t val)
 {
 	p_reg->RAW_LIMIT = val;
 }
 
-__STATIC_INLINE void xinc_rtc_date_get(NRF_RTC_Type * p_reg, xinc_rtc_time_t *time)
+__STATIC_INLINE void xinc_rtc_date_get(XINC_RTC_Type * p_reg, xinc_rtc_time_t *time)
 {
 	uint32_t tmp_CCVR,tmp_WVR;
 	tmp_CCVR = p_reg->CCVR;
@@ -224,4 +224,4 @@ __STATIC_INLINE void xinc_rtc_date_get(NRF_RTC_Type * p_reg, xinc_rtc_time_t *ti
 }
 #endif
 
-#endif  /* NRF_RTC_H */
+#endif  /* XINC_RTC_H */

@@ -38,17 +38,16 @@ static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 static void configure_pins(xincx_pwm_t const * const p_instance,
                            xincx_pwm_config_t const * p_config)
 {
-    uint32_t out_pins;
 
-	if(p_instance->id == NRF_PWM_ID_2 || p_instance->id == NRF_PWM_ID_3)
+	if(p_instance->id == XINC_PWM_ID_2 || p_instance->id == XINC_PWM_ID_3)
 	{
 		gpio_mux_ctl(p_config->output_pin,2);
 	}
-	else if(p_instance->id == NRF_PWM_ID_4 || p_instance->id == NRF_PWM_ID_5)
+	else if(p_instance->id == XINC_PWM_ID_4 || p_instance->id == XINC_PWM_ID_5)
 	{
 		gpio_mux_ctl(p_config->output_pin,3);
 	}
-	else if(p_instance->id == NRF_PWM_ID_0)
+	else if(p_instance->id == XINC_PWM_ID_0)
 	{
 		gpio_mux_ctl(p_config->output_pin,0); 
 		gpio_fun_sel(p_config->output_pin,12); 
@@ -63,7 +62,7 @@ static void configure_pins(xincx_pwm_t const * const p_instance,
 		#endif
 		printf("configure_pins p_config->output_pins:%d,p_instance->id :%d\r\n",p_config->output_pin,p_instance->id);
 	}
-	else if(p_instance->id == NRF_PWM_ID_1)
+	else if(p_instance->id == XINC_PWM_ID_1)
 	{
 		gpio_mux_ctl(p_config->output_pin,0); 
 		gpio_fun_sel(p_config->output_pin,13); 
@@ -179,7 +178,7 @@ nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
 	p_cb->ocpy =  p_config->duty_cycle;
 	
 	#if (NRFX_CHECK(XINCX_PWM0_ENABLED) || NRFX_CHECK(XINCX_PWM1_ENABLED))
-	if(p_config->inv_enable && ((p_instance->id == NRF_PWM_ID_0) ||(p_instance->id == NRF_PWM_ID_1) ))
+	if(p_config->inv_enable && ((p_instance->id == XINC_PWM_ID_0) ||(p_instance->id == XINC_PWM_ID_1) ))
 	{
 		p_instance->p_reg->PWMCOMPTIME = p_config->inv_delay;
 		p_instance->p_reg->PWMCOMPEN = 1;

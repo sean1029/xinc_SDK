@@ -99,7 +99,7 @@ uint16_t fix_data_average(uint16_t *data,uint16_t len)
         add_cnt++;
     }
 
-    if(0 == add_cnt) return -1;
+    if(0 == add_cnt) return 0xffff;
     else return sum_data/add_cnt;
 }
 
@@ -386,7 +386,6 @@ bool xincx_saadc_is_busy(void)
 void GADC_Handler(void)
 {
 	uint32_t INT_reg;
-	uint32_t val;
 	INT_reg = XINC_SAADC->INT;
 	if(INT_reg == 0)
 	{

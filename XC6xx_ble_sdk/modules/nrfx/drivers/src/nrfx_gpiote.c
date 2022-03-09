@@ -116,7 +116,6 @@ typedef struct
     uint8_t                   configured_pins[((MAX_PIN_NUMBER)+7) / 8];
     nrfx_drv_state_t          state;
 	
-		NRF_GPIOTE_Type           NRF_GPIOTE_STRUCT;
 } gpiote_control_block_t;
 
 static gpiote_control_block_t m_cb;

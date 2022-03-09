@@ -216,26 +216,27 @@ __STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_
 
 __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event)
 {
+		bool event_has = false;
 		switch(event)
 		{
 			case NRF_UART_EVENT_RXDRDY:
 			{
-				return p_reg->TSR & 0X01;
+				 event_has = (bool)(p_reg->TSR & 0X01);
 			}break;
 			
 			case NRF_UART_EVENT_ERROR:
 			{
-				return p_reg->IIR_FCR.IIR  & 0X06;
+				 event_has = (bool)(p_reg->IIR_FCR.IIR  & 0X06);
 			}break;
 			
 			case NRF_UART_EVENT_RXTO:
 			{
-				return p_reg->IIR_FCR.IIR  & 0X0C;
+				 event_has = (bool)(p_reg->IIR_FCR.IIR  & 0X0C);
 			}break;
 			
 			default:break;
 		}
-    return 0;//(bool)*(volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
+    return (bool)event_has;
 }
 
 

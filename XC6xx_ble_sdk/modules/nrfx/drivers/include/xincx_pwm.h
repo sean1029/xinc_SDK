@@ -58,7 +58,7 @@ extern "C" {
 /** @brief PWM driver instance data structure. */
 typedef struct
 {
-    NRF_PWM_Type * p_reg;  ///< Pointer to the structure with PWM peripheral instance registers.
+    XINC_PWM_Type * p_reg;  ///< Pointer to the structure with PWM peripheral instance registers.
 		XINC_CPR_CTL_Type * p_cpr; 
 		uint8_t          id;
     uint8_t        drv_inst_idx; ///< Index of the driver instance. For internal use only.
@@ -67,7 +67,7 @@ typedef struct
 /** @brief Macro for creating a PWM driver instance. */
 #define XINCX_PWM_INSTANCE(Id)                               \
 {                                                           \
-    .p_reg  = NRFX_CONCAT_2(NRF_PWM, Id),             \
+    .p_reg  = NRFX_CONCAT_2(XINC_PWM, Id),             \
 		.p_cpr            = XINC_CPR,											\
 		.id 		= Id,																				\
     .drv_inst_idx = NRFX_CONCAT_3(XINCX_PWM, Id, _INST_IDX), \
