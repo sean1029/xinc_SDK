@@ -833,7 +833,7 @@ __STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_se
 			default:
 			{
 				
-			//	gpio_mux_ctl(pin,0);
+				gpio_mux_ctl(pin,0);
 				if(fun > NRF_GPIO_PIN_PWM1_INV)
 				{
 					err_code = NRFX_ERROR_INVALID_PARAM;

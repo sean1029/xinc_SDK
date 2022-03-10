@@ -1,40 +1,8 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022- 2025, XINCHIP
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -61,16 +29,18 @@ extern "C" {
 typedef struct
 {
     XINC_I2C_Type * p_i2c;        ///< Pointer to a structure with I2C registers.
+    XINC_CPR_CTL_Type * p_cpr;  	///< Pointer to a structure with CPR registers.
     uint8_t        drv_inst_idx; ///< Index of the driver instance. For internal use only.
-		uint8_t        id; 
+    uint8_t        id; 
 } xincx_i2c_t;
 
 /** @brief Macro for creating a I2C master driver instance. */
 #define XINC_I2C_INSTANCE(Id)                               \
 {                                                           \
     .p_i2c        = NRFX_CONCAT_2(XINC_I2C, Id),             \
+    .p_cpr            = XINC_CPR,	                        \
     .drv_inst_idx = NRFX_CONCAT_3(XINCX_I2C, Id, _INST_IDX), \
-		.id = Id 																									\
+    .id = Id 												\
 }
 
 #ifndef __NRFX_DOXYGEN__
@@ -107,7 +77,7 @@ typedef struct
 /** @brief Flag indicating that the TX transfer will not end with a stop condition. */
 #define XINCX_I2C_FLAG_TX_NO_STOP          (1UL << 5)
 
-#define XINCX_I2C_FLAG_TX_HAS_START          (1UL << 7)
+#define XINCX_I2C_FLAG_TX_HAS_START        (1UL << 7)
 /** @brief Flag indicating that the transfer will be suspended. */
 #define XINCX_I2C_FLAG_SUSPEND             (1UL << 6)
 
@@ -355,7 +325,6 @@ bool xincx_i2c_is_busy(xincx_i2c_t const * p_instance);
 
 
 void xincx_i2c_0_irq_handler(void);
-void xincx_i2c_1_irq_handler(void);
 
 
 #ifdef __cplusplus

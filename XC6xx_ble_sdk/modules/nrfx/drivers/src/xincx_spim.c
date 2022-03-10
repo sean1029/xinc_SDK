@@ -186,14 +186,6 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         return err_code;
     }
 
-//		 if (p_instance->id != 1)
-//    {
-//        err_code = NRFX_ERROR_INVALID_PARAM;
-//        NRFX_LOG_WARNING("Function: %s, error code: %s.",
-//                         __func__,
-//                         NRFX_LOG_ERROR_STRING_GET(err_code));
-//        return err_code;
-//    }
 
     XINC_SPIM_Type * p_spim = (XINC_SPIM_Type *)p_instance->p_reg;
 
@@ -477,13 +469,6 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
 				printf("spim_xfer error:%d\r\n",err_code);
         return err_code;
     }
-	
-		
-		 
-
-
- //   xinc_spim_tx_buffer_set(p_spim, p_xfer_desc->p_tx_buffer, p_xfer_desc->tx_length);
-		
 		
 //		__write_hw_reg32(SSI1_EN , 0x00);
 //    __write_hw_reg32(SSI1_DMAS , 0x03);

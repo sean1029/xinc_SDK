@@ -486,7 +486,7 @@
 // <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
 #ifndef XINCX_I2C_ENABLED
-#define XINCX_I2C_ENABLED 0
+#define XINCX_I2C_ENABLED 1
 #endif
 
 // <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
