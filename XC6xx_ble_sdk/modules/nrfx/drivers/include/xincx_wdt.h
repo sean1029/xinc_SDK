@@ -44,10 +44,10 @@ typedef void (*xincx_wdt_event_handler_t)(void);
 
 /** @brief WDT driver default configuration. */
 #define XINCX_WDT_DEAFULT_CONFIG                                               \
-    {                                                                         \
-        .reload_value       = XINCX_WDT_CONFIG_RELOAD_VALUE,                   \
-        XINCX_WDT_IRQ_CONFIG                                                   \
-    }
+{                                                                         \
+    .reload_value       = XINCX_WDT_CONFIG_RELOAD_VALUE,                   \
+    XINCX_WDT_IRQ_CONFIG                                                   \
+}
 /**
  * @brief This function initializes the watchdog.
  *

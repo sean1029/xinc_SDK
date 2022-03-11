@@ -61,10 +61,22 @@ extern "C" {
 /** @brief WDT behavior in the SLEEP or HALT CPU modes. */
 typedef enum
 {
-    XINC_WDT_MODE_RUN_0        = 0,                         /**< WDT will run on mode 0. */
-    XINC_WDT_MODE_RUN_1         = 1,                        /**< WDT will run on mode 1. */                                
+    XINC_WDT_MODE_RUN_0        = WDT_CR_RMOD_Mode0,                         /**< WDT will run on mode 0. */
+    XINC_WDT_MODE_RUN_1         = WDT_CR_RMOD_Mode1,                        /**< WDT will run on mode 1. */                                
 } xinc_wdt_mode_t;
 
+/** @brief WDT behavior in the SLEEP or HALT CPU modes. */
+enum
+{
+    XINC_WDT_RPL_CLK2           = WDT_CR_RPL_2pclk,                    /**< 2 pclk 时钟周期 */
+    XINC_WDT_RPL_CLK4           = WDT_CR_RPL_4pclk,                    /**< 4 pclk 时钟周期 */   
+    XINC_WDT_RPL_CLK8           = WDT_CR_RPL_8pclk,                    /**< 8 pclk 时钟周期 */
+    XINC_WDT_RPL_CLK16          = WDT_CR_RPL_16pclk,                   /**< 16 pclk 时钟周期 */  
+    XINC_WDT_RPL_CLK32          = WDT_CR_RPL_32pclk,                   /**< 32 pclk 时钟周期 */
+    XINC_WDT_RPL_CLK64          = WDT_CR_RPL_64pclk,                    /**< 64 pclk 时钟周期 */  
+    XINC_WDT_RPL_CLK128         = WDT_CR_RPL_128pclk,                   /**< 128 pclk 时钟周期 */
+    XINC_WDT_RPL_CLK256         = WDT_CR_RPL_256pclk,                    /**< 256 pclk 时钟周期 */      
+} ;
 
 
 /**
@@ -79,15 +91,8 @@ __STATIC_INLINE void xinc_wdt_mode_set(xinc_wdt_mode_t mode);
  *
  * @param[in] int_mask Interrupt.
  */
-__STATIC_INLINE void xinc_wdt_int_enable(uint32_t int_mask);
+__STATIC_INLINE void xinc_wdt_enable(uint32_t en);
 
-
-/**
- * @brief Function for disabling a specific interrupt.
- *
- * @param[in] int_mask Interrupt.
- */
-__STATIC_INLINE void xinc_wdt_int_disable(uint32_t int_mask);
 
 /**
  * @brief Function for retrieving the watchdog status.
@@ -124,20 +129,22 @@ __STATIC_INLINE void xinc_wdt_reload_request_set(uint32_t value);
 
 __STATIC_INLINE void xinc_wdt_mode_set(xinc_wdt_mode_t mode)
 {
-    XINC_WDT->CR &= ~(0x01 << 1);
-		XINC_WDT->CR |= (mode << 1);
+    uint32_t reg = XINC_WDT->CR;  
+    reg &= ~(WDT_CR_RMOD_Msk);
+    reg |= (mode << WDT_CR_RMOD_Pos);
+    XINC_WDT->CR = reg;
 }
 
-__STATIC_INLINE void xinc_wdt_int_enable(uint32_t int_mask)
+__STATIC_INLINE void xinc_wdt_enable(uint32_t en)
 {
 
-	XINC_WDT->CR |= int_mask;
-	XINC_WDT->CRR = 0x76;
+	XINC_WDT->CR |= en;
+	XINC_WDT->CRR = WDT_CRR_CRR_Enable;
 }
 
-__STATIC_INLINE bool xinc_wdt_int_enable_check(uint32_t int_mask)
+__STATIC_INLINE bool xinc_wdt_enable_check(uint32_t int_mask)
 {
-    return (bool)(XINC_WDT->CR & int_mask);// 0x01 << 0,wdt en
+    return (bool)(XINC_WDT->CR & WDT_CR_WDT_EN_Msk);// 0x01 << 0,wdt en
 }
 
 __STATIC_INLINE void xinc_wdt_int_disable(uint32_t int_mask)
@@ -148,7 +155,7 @@ __STATIC_INLINE void xinc_wdt_int_disable(uint32_t int_mask)
 
 __STATIC_INLINE bool xinc_wdt_started(void)
 {
-    return (bool)(XINC_WDT->CR & 0x01);
+    return (bool)(XINC_WDT->CR & WDT_CR_WDT_EN_Msk);
 }
 
 
