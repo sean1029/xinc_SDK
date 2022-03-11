@@ -58,19 +58,36 @@ extern "C" {
 /** @brief PWM driver instance data structure. */
 typedef struct
 {
-    XINC_PWM_Type * p_reg;  ///< Pointer to the structure with PWM peripheral instance registers.
-		XINC_CPR_CTL_Type * p_cpr; 
-		uint8_t          id;
-    uint8_t        drv_inst_idx; ///< Index of the driver instance. For internal use only.
+    XINC_PWM_Type       *p_reg;  ///< Pointer to the structure with PWM peripheral instance registers.
+    XINC_CPR_CTL_Type   *p_cpr; 
+    uint8_t             id;
+    uint8_t             drv_inst_idx; ///< Index of the driver instance. For internal use only.
+    uint8_t             output_pin; ///< Pin numbers for individual output ./**< Use @ref XINCX_PWM_PIN_NOT_USED */
+    uint8_t             output_inv_pin;					///< Pin numbers for individual output(optional )
 } xincx_pwm_t;
+
+//#if NRFX_CHECK(XINCX_PWM2_ENABLED)
+//#define    XINCX_PWM_DEFAULT_CONFIG_OUT2_INV_PIN (0xFF)
+//#endif
+//#if NRFX_CHECK(XINCX_PWM3_ENABLED)
+//#define    XINCX_PWM_DEFAULT_CONFIG_OUT3_INV_PIN (0xFF)
+//#endif
+//#if NRFX_CHECK(XINCX_PWM4_ENABLED)
+//#define    XINCX_PWM_DEFAULT_CONFIG_OUT4_INV_PIN (0xFF)
+//#endif
+//#if NRFX_CHECK(XINCX_PWM5_ENABLED)
+//#define    XINCX_PWM_DEFAULT_CONFIG_OUT5_INV_PIN (0xFF)
+//#endif
 
 /** @brief Macro for creating a PWM driver instance. */
 #define XINCX_PWM_INSTANCE(Id)                               \
 {                                                           \
     .p_reg  = NRFX_CONCAT_2(XINC_PWM, Id),             \
-		.p_cpr            = XINC_CPR,											\
-		.id 		= Id,																				\
+    .p_cpr            = XINC_CPR,											\
+    .id 		= Id,																				\
     .drv_inst_idx = NRFX_CONCAT_3(XINCX_PWM, Id, _INST_IDX), \
+    .output_pin  = NRFX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_PIN),                   \
+    .output_inv_pin  = NRFX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_INV_PIN),                   \
 }
 
 #ifndef __NRFX_DOXYGEN__
@@ -110,8 +127,7 @@ enum {
 /** @brief PWM driver configuration structure. */
 typedef struct
 {
-	uint8_t output_pin; ///< Pin numbers for individual output ./**< Use @ref XINCX_PWM_PIN_NOT_USED */
-	uint8_t output_inv_pin;					///< Pin numbers for individual output(optional )																		
+																		
 	xinc_pwm_clk_src_t clk_src;          ///< Bit width.
 	xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
 
@@ -126,7 +142,6 @@ typedef struct
 /** @brief PWM driver default configuration. */
 #define XINCX_PWM_DEFAULT_CONFIG                                             \
 {                                                                           \
-	.output_pins  =  XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN,                      \
 	.ref_clk   = (xinc_pwm_ref_clk_t)XINCX_PWM_DEFAULT_CONFIG_REF_CLOCK,      \
 	.clk_src   = 		(xinc_pwm_clk_src_t)XINCX_PWM_DEFAULT_CONFIG_CLK_SRC,      \
 	.frequency       =  1000,                                                     \

@@ -365,15 +365,6 @@ void ff11_test_loop(void);
 
 
 
-
-
-
- void pwm_update_duty(uint8_t duty);
-
-
-static void pwm_config(void);
-
-
      
 int	main(void)
 {

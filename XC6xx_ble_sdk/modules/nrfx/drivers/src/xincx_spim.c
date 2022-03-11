@@ -353,7 +353,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     {
 		//	p_spim->IE = 0x01;
 			xinc_spim_int_enable(p_spim,0x01);
-			NVIC_EnableIRQ(SPI0_IRQn + ch);
+			NRFX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
     }
 
     p_cb->transfer_in_progress = false;
@@ -372,7 +372,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
     if (p_cb->handler)
     {
 			
-			NVIC_DisableIRQ(SPI0_IRQn + p_instance->drv_inst_idx);
+			NRFX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->drv_inst_idx));
     }
 
     XINC_SPIM_Type * p_spim = (XINC_SPIM_Type *)p_instance->p_reg;
@@ -393,6 +393,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
     }
   //  p_spim->IE = 0x00;
 		xinc_spim_int_disable(p_spim,0x0);
+
 
 #ifdef USE_WORKAROUND_FOR_ANOMALY_195
     if (p_spim == XINC_SPIM3)
@@ -433,20 +434,20 @@ static void finish_transfer(spim_control_block_t * p_cb)
     p_cb->handler(&p_cb->evt, p_cb->p_context);
 }
 
-__STATIC_INLINE void spim_int_enable(XINC_SPIM_Type * p_spim, bool enable)
-{
-    if (!enable)
-    {
-      xinc_spim_int_disable(p_spim, 0x0);
-		//	p_spim->IE = 0X00;
-    }
-    else
-    {
-        xinc_spim_int_enable(p_spim, 0x01);
-		//	p_spim->IE = 0X01;
+//__STATIC_INLINE void spim_int_enable(XINC_SPIM_Type * p_spim, bool enable)
+//{
+//    if (!enable)
+//    {
+//      xinc_spim_int_disable(p_spim, 0x0);
+//		//	p_spim->IE = 0X00;
+//    }
+//    else
+//    {
+//        xinc_spim_int_enable(p_spim, 0x01);
+//		//	p_spim->IE = 0X01;
 
-    }
-}
+//    }
+//}
 
 
 static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
@@ -455,7 +456,6 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
                             uint32_t                      flags)
 {
     nrfx_err_t err_code;
-		uint8_t tmp_buf;
     // EasyDMA requires that transfer buffers are placed in Data RAM region;
     // signal error if they are not.
     if ((p_xfer_desc->p_tx_buffer != NULL && !nrfx_is_in_ram(p_xfer_desc->p_tx_buffer)) ||
@@ -666,6 +666,8 @@ void SPI0_Handler()
 	//		irq_handler(XINC_SPIM0, &m_cb[XINCX_SPIM0_INST_IDX]);
 		xincx_spim_0_irq_handler();
 	}
+    
+    (void)iWK1;
 	
 }
 
@@ -692,7 +694,7 @@ void SPI1_Handler()
 	  GPIO_OUTPUT_LOW(5);
 		xincx_spim_1_irq_handler();
 	}
-	
+	(void)iWK1;
 }
 
 

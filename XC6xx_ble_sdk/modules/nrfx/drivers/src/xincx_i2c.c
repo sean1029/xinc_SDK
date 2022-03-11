@@ -615,6 +615,8 @@ __STATIC_INLINE nrfx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
     {
         p_cb->busy = false;
     }
+    
+    (void)reg;
     return err_code;
 }
 
@@ -739,6 +741,8 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 					
         }
     }
+    
+   (void)reg;
 
 }
 

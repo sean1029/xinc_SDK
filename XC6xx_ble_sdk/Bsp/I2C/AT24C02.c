@@ -335,10 +335,7 @@ void  i2c_at24c02_test(void)
 {
  	i2c_at24c02_init();
 	
-	
-	uint8_t dat ;
 	uint8_t addr ;
-	dat = 0x58;
 	addr = 0;
 	
 //	AT24Cxx_write_byte(addr,dat);

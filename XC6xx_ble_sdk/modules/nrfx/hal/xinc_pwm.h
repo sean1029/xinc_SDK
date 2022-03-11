@@ -82,7 +82,7 @@ typedef enum
 {
     XINC_PWM_CLK_SRC_32M_DIV = 0, ///< PWM CLK SRC 32MHz div.
     XINC_PWM_CLK_SRC_32K_DIV = 1, ///< PWM CLK SRC 32kHz div.
-	  XINC_PWM_CLK_SRC_32K = 4, ///< PWM CLK SRC 32kHz.
+    XINC_PWM_CLK_SRC_32K = 4, ///< PWM CLK SRC 32kHz.
 } xinc_pwm_clk_src_t;
 
 /** @brief Timer prescalers. */
@@ -100,6 +100,18 @@ typedef enum
     XINC_PWM_REF_CLK_62500HzOr62_5 = 8,   ///< PWM CLK 62500 Hz or 62.5Hz.
     XINC_PWM_REF_CLK_32000Hz = 9    ///< PWM CLK 32000 Hz.
 } xinc_pwm_ref_clk_t;
+
+enum
+{
+    XINC_PWMCOMPTIME_VAL_1clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_1clk, 		///< 死区为 1 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_2clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_2clk,      ///< 死区为 2 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_3clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_3clk,      ///< 死区为 3 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_4clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_4clk,      ///< 死区为 4 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_5clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_5clk,      ///< 死区为 5 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_6clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_6clk,   ///< 死区为 6 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_7clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_7clk,    ///< 死区为 7 个 pwm_clk 时钟周期
+    XINC_PWMCOMPTIME_VAL_8clk = PWM_COMP_TIME_PWMCOMPTIME_VAL_8clk,   ///< 死区为 8 个 pwm_clk 时钟周期
+};
 
 
 /**
@@ -145,12 +157,12 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 
 __STATIC_INLINE void xinc_pwm_enable(XINC_PWM_Type * p_reg)
 {
-    p_reg->EN |= (PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);	
+    p_reg->EN = (PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos) & PWM_EN_Msk;	
 }
 
 __STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg)
 {	
-    p_reg->EN &= ~(PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos);
+    p_reg->EN = (PWM_ENABLE_ENABLE_Disabled << PWM_ENABLE_ENABLE_Pos)& PWM_EN_Msk;
 }
 
 
@@ -160,10 +172,9 @@ __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
 																			 uint8_t  duty_cycle)
 {
     //NRFX_ASSERT(top_value <= PWM_COUNTERTOP_COUNTERTOP_Msk);
-
-	p_reg->OCPY = duty_cycle;
-  p_reg->PERIOD = period;
-	p_reg->UP = 0x1;
+    p_reg->OCPY = (duty_cycle << PWM_OCPY_OCPY_RATIO_Pos) & PWM_OCPY_OCPY_RATIO_Msk ;
+    p_reg->PERIOD = (period << PWM_P_PERIOD_Pos) & PWM_P_PERIOD_Msk;
+    p_reg->UP = (PWM_UP_UPDATE_Enable < PWM_UP_UPDATE_Pos) & PWM_UP_UPDATE_Msk;
 }
 
 
@@ -181,12 +192,12 @@ __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,x
 		
 		case XINC_PWM_CLK_SRC_32K_DIV:
 		{
-			p_reg->PWM_CLK_CTL = ((1 << ref_clk) - 1) | (0x01 << 28UL) ;
+			p_reg->PWM_CLK_CTL = ((1 << ref_clk) - 1) | (XINC_PWM_CLK_SRC_32K_DIV << 28UL) ;
 		}break;
 		
 		case XINC_PWM_CLK_SRC_32K:
 		{
-			p_reg->PWM_CLK_CTL = (0x04 << 28UL);
+			p_reg->PWM_CLK_CTL = (XINC_PWM_CLK_SRC_32K << 28UL);
 		}break;
 		
 		default:

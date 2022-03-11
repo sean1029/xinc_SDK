@@ -128,7 +128,7 @@ void * nrf_atfifo_item_alloc(nrf_atfifo_t * const p_fifo, nrf_atfifo_item_put_t 
         return p_item;
     }
 //    NRF_LOG_INST_WARNING(p_fifo->p_log, "Allocation failed - no space.");
-    return NULL;
+  //  return NULL; 
 }
 
 
@@ -180,7 +180,7 @@ void * nrf_atfifo_item_get(nrf_atfifo_t * const p_fifo, nrf_atfifo_item_get_t * 
         return p_item;
     }
 //    NRF_LOG_INST_WARNING(p_fifo->p_log, "Get failed - no item in the FIFO.");
-    return NULL;
+ //   return NULL;
 }
 
 

@@ -850,7 +850,8 @@ static void spi_handler(xinc_drv_spi_evt_t const* p_event,
 	uint8_t *tx_data = p_event->data.done.p_tx_buffer;
 	uint8_t *rx_data = p_event->data.done.p_rx_buffer;
 	spi_xfer_done = true;
-
+    (void)tx_data;
+    (void)rx_data;
 }
 
 #define		CMD_READ_DATA			0x03
