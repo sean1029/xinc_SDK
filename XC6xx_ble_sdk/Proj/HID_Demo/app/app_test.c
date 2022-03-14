@@ -77,7 +77,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
             break;
                 
         case APP_UART_DATA:
-                app_uart_get(&data_array[0]);
+            app_uart_get(&data_array[0]);
             //  printf("data:%c \r\n",data_array[0]);
         app_uart_put(data_array[0]);
         break;
@@ -215,7 +215,7 @@ static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
     {
         xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
             
-        // printf("SEC day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+        printf("SEC:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
         if(rtc_time_val.sec == 10)
         {
             rtc_time_val.sec = 2;
@@ -227,11 +227,41 @@ static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
         //	xinc_rtc_date_set(rtc.p_reg, rtc_time_val);
         }
     }
+    else if (int_type == XINCX_RTC_INT_MIN)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("MIN:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
+    else if (int_type == XINCX_RTC_INT_HOUR)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("HOUR:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
+    else if (int_type == XINCX_RTC_INT_DAY)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("DAY:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
     else if (int_type == XINCX_RTC_INT_TIME1)
     {
         xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
             
-        // printf("TIME1 day:%d,hour:%d,min:%d,sec:%d,week:%d\r\n",rtc_time_val.day,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec,rtc_time_val.week);
+        printf("TIMER1:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
+     else if (int_type == XINCX_RTC_INT_TIME2)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("TIMER2:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
+     else if (int_type == XINCX_RTC_INT_TIME3)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("TIMER3:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
     }
 
 }
@@ -247,20 +277,24 @@ void rtc_test(void)
     xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
     config.freq = 32768;
     config.type = XINC_RTC_TYPE_RTC;
+    config.date.week = RTC_WVR_WLR_Monday;
     config.date.day = 4;
+    config.date.hour = 18;
+    config.date.min = 34;
+    config.date.sec = 0;
 
     err_code = xinc_drv_rtc_init(&rtc, &config, rtc_handler);
     printf("%s,err_code:0x%x ",__func__,err_code);
 
     xincx_rtc_match_config_t time;
     memset(&time,0,sizeof(time));
-    time.times.sec = 10;
+    time.times.sec = 20;
     time.times.min = 0;
     time.times.week = XINCX_RTC_WEEK_MATCH_SUNDAY | XINCX_RTC_WEEK_MATCH_MONDAY;
     xinc_drv_rtc_time_set(&rtc,XINCX_RTC_MATCH_TIME_1,time,true);
     //Power on RTC instance
     xincx_rtc_enable(&rtc);
-    //	xinc_drv_rtc_sec_int_enable(&rtc,true);
+    	xinc_drv_rtc_sec_int_enable(&rtc,true);
     //	xinc_drv_rtc_min_int_enable(&rtc,true);
 #endif
 	

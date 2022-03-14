@@ -71,8 +71,8 @@ typedef enum
     XINCX_RTC_INT_SEC = 3, /**< Interrupt from SEC event. */
     XINCX_RTC_INT_MIN     = 4, /**< Interrupt from MIN event. */
     XINCX_RTC_INT_HOUR = 5,  /**< Interrupt from HOUR event. */
-	  XINCX_RTC_INT_DAY = 6,  /**< Interrupt from DAY event. */
-		XINCX_RTC_INT_AOTIME = 7
+    XINCX_RTC_INT_DAY = 6,  /**< Interrupt from DAY event. */
+    XINCX_RTC_INT_AOTIME = 7
 } xincx_rtc_int_type_t;
 
 /** @brief RTC driver interrupt types. */
@@ -84,7 +84,7 @@ enum
     XINCX_RTC_WEEK_MATCH_WEDNESDAY = (0x01 << 3), /**< Interrupt from SEC event. */
     XINCX_RTC_WEEK_MATCH_THURSDAY     = (0x01 << 4), /**< Interrupt from MIN event. */
     XINCX_RTC_WEEK_MATCH_FRIDAY = (0x01 << 5),  /**< Interrupt from HOUR event. */
-	  XINCX_RTC_WEEK_MATCH_SATURDAY = (0x01 << 6)  /**< Interrupt from DAY event. */
+    XINCX_RTC_WEEK_MATCH_SATURDAY = (0x01 << 6)  /**< Interrupt from DAY event. */
 };
 
 /** @brief RTC driver interrupt types. */
@@ -99,6 +99,7 @@ typedef enum
 typedef struct
 {
     XINC_RTC_Type  * p_reg;            /**< Pointer to instance register set. */
+    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers. 
     uint8_t         instance_id;      /**< Index of the driver instance. For internal use only. */
     uint8_t         id; /**< Number of capture/compare channels. */
 } xincx_rtc_t;
@@ -106,18 +107,19 @@ typedef struct
 
 
 /** @brief Macro for creating an RTC driver instance. */
-#define XINCX_RTC_INSTANCE(Id)                                   \
+#define XINCX_RTC_INSTANCE(Id)                                  \
 {                                                               \
-    .p_reg            = NRFX_CONCAT_2(XINC_RTC, Id),             \
-    .instance_id      = NRFX_CONCAT_3(XINCX_RTC, Id, _INST_IDX), \
-    .id 							= Id,          														 \
+    .p_reg          = NRFX_CONCAT_2(XINC_RTC, Id),              \
+    .p_cpr          = XINC_CPR,                                 \
+    .instance_id    = NRFX_CONCAT_3(XINCX_RTC, Id, _INST_IDX),  \
+    .id             = Id,                                       \
 }
 
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_RTC0_ENABLED)
+    #if NRFX_CHECK(XINCX_RTC0_ENABLED)
     XINCX_RTC0_INST_IDX,
-#endif
+    #endif
     XINCX_RTC_ENABLED_COUNT
 };
 #endif
@@ -126,46 +128,46 @@ enum {
 /** @brief RTC driver instance configuration structure. */
 typedef struct
 {
-	xinc_rtc_time_t date;
-	uint8_t   hour_limit;            /**< hour limit. */
-	uint8_t   min_limit;             /**< minute limit. */
-	uint8_t   sec_limit;             /**< second limit. */
-	uint16_t  freq;                  /**< freq. */
-	uint8_t   interrupt_priority;    /**< Interrupt priority. */
-	xinc_rtc_type_t   type;           /**< Rtc type. */
-	bool      reliable;              /**< Reliable mode flag. */
+    xinc_rtc_time_t date;
+    uint8_t   hour_limit;            /**< hour limit. */
+    uint8_t   min_limit;             /**< minute limit. */
+    uint8_t   sec_limit;             /**< second limit. */
+    uint16_t  freq;                  /**< freq. */
+    uint8_t   interrupt_priority;    /**< Interrupt priority. */
+    xinc_rtc_type_t   type;           /**< Rtc type. */
+    bool      reliable;              /**< Reliable mode flag. */
 	
 } xincx_rtc_config_t;
 
 /** @brief RTC driver instance configuration structure. */
 typedef union xincx_rtc_match_config
 {
-	uint32_t    value;
-	struct time
-	{
-			uint32_t  sec:6;                    /**< second. */
-			uint32_t  hour:6;                  /**< hour. */
-			uint32_t  min:5;                   /**< minute. */
-			uint32_t  week:7;                  /**< week. */
-	}times;
+    uint32_t    value;
+    struct time
+    {
+        uint32_t  sec:6;                    /**< second. */
+        uint32_t  hour:6;                  /**< hour. */
+        uint32_t  min:5;                   /**< minute. */
+        uint32_t  week:7;                  /**< week. */
+    }times;
 
 } xincx_rtc_match_config_t;
 
 
 /** @brief RTC instance default configuration. */
-#define XINCX_RTC_DEFAULT_CONFIG                                                     \
-{                                                                                   \
-  .date.day                = 0,                                                                             \
-	.date.hour               = 0,                                                                              \
-	.date.min             = 0,                                                                             \
-	.date.sec             = 0,                                                                        \
-	.date.week               = 0,                                                        \
-	.hour_limit         = 24,                                                        \
-	.min_limit          = 60,                                                        \
-	.sec_limit          = 60,                                                        \
-	.freq               = 29790,                                                        \
-  .interrupt_priority = 0,                     \
-  .reliable           = 0,                         \
+#define XINCX_RTC_DEFAULT_CONFIG                                \
+{                                                               \
+    .date.day           = 0,                                    \
+    .date.hour          = 0,                                    \
+    .date.min           = 0,                                    \
+    .date.sec           = 0,                                    \
+    .date.week          = 0,                                    \
+    .hour_limit         = 24,                                   \
+    .min_limit          = 60,                                   \
+    .sec_limit          = 60,                                   \
+    .freq               = 32716,                                \
+    .interrupt_priority = 0,                                    \
+    .reliable           = 0,                                    \
 }
 
 
