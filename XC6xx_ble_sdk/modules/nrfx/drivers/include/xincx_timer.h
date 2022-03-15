@@ -61,21 +61,21 @@ extern "C" {
 typedef struct
 {
     XINC_TIMER_Type * p_reg;            ///< Pointer to the structure with TIMER peripheral instance registers.
-	  XINC_TIMER_GLOBAL_Type * p_Greg;
-		XINC_CPR_CTL_Type * p_cpr;  
-		uint8_t          id;      					///< Index of the driver instance. For internal use only.
+    XINC_TIMER_GLOBAL_Type * p_Greg;
+    XINC_CPR_CTL_Type * p_cpr;  
+    uint8_t          id;      					///< Index of the driver instance. For internal use only.
     uint8_t          instance_idx;      ///< Index of the driver instance. For internal use only.
 
 } xincx_timer_t;
 			
 /** @brief Macro for creating a timer driver instance. */
-#define XINCX_TIMER_INSTANCE(Id)                                   \
-{                                                                 \
-    .p_reg            = NRFX_CONCAT_2(XINC_TIMER, Id),             \
-    .p_Greg            = XINC_TIMER_GLOBAL,												\
-	  .p_cpr            = XINC_CPR,																	\
-		.id            		= Id,																				\
-    .instance_idx      = NRFX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX), \
+#define XINCX_TIMER_INSTANCE(Id)                                            \
+{                                                                           \
+    .p_reg          =   NRFX_CONCAT_2(XINC_TIMER, Id),                      \
+    .p_Greg         =   XINC_TIMER_GLOBAL,                                  \
+    .p_cpr          =   XINC_CPR,                                           \
+    .id             =   Id,                                                 \
+    .instance_idx   =   NRFX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX),          \
 }
           
 #ifndef __NRFX_DOXYGEN__
@@ -99,21 +99,21 @@ enum {
 /** @brief The configuration structure of the timer driver instance. */
 typedef struct
 {
-    xinc_timer_ref_clk_t ref_clk;          ///< ref clk.
-    xinc_timer_mode_t      mode;               ///< Mode of operation.
-    xinc_timer_clk_src_t 	clk_src;          ///< Bit width.
-    uint8_t               interrupt_priority; ///< Interrupt priority.
-    void *                p_context;          ///< Context passed to interrupt handler.
+    xinc_timer_ref_clk_t    ref_clk;          ///< ref clk.
+    xinc_timer_mode_t       mode;               ///< Mode of operation.
+    xinc_timer_clk_src_t    clk_src;          ///< Bit width.
+    uint8_t                 interrupt_priority; ///< Interrupt priority.
+    void *                  p_context;          ///< Context passed to interrupt handler.
 } xincx_timer_config_t;
 
 /** @brief Timer driver instance default configuration. */
-#define XINCX_TIMER_DEFAULT_CONFIG                                                    \
-{                                                                                    \
-    .ref_clk          = (xinc_timer_ref_clk_t)XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY,\
-    .mode               = (xinc_timer_mode_t)XINCX_TIMER_DEFAULT_CONFIG_MODE,          \
-    .clk_src          = 	(xinc_timer_clk_src_t)XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC,\
-    .interrupt_priority = XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                    \
-    .p_context          = NULL                                                       \
+#define XINCX_TIMER_DEFAULT_CONFIG                                                              \
+{                                                                                               \
+    .ref_clk            =   (xinc_timer_ref_clk_t)XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY,         \
+    .mode               =   (xinc_timer_mode_t)XINCX_TIMER_DEFAULT_CONFIG_MODE,                 \
+    .clk_src            =   (xinc_timer_clk_src_t)XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC,           \
+    .interrupt_priority =   XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY,                            \
+    .p_context          =   NULL                                                                \
 }
 
 /**
@@ -184,11 +184,11 @@ bool xincx_timer_is_enabled(xincx_timer_t const * const p_instance);
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] cc_value   Compare value.
- * @param[in] enable_int Enable or disable the interrupt for the compare channel.
+ * @param[in] xinc_timer_mode_t                       mode.
  */
 void xincx_timer_compare(xincx_timer_t const * const p_instance,
                         uint32_t                   cc_value,
-                        bool                       enable_int);
+                        xinc_timer_mode_t                       mode,bool enable);
 
 /**
  * @brief Function for converting time in microseconds to timer ticks.

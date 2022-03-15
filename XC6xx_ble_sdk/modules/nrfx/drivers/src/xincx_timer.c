@@ -143,7 +143,7 @@ void xincx_timer_uninit(xincx_timer_t const * const p_instance)
 void xincx_timer_enable(xincx_timer_t const * const p_instance)
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state == NRFX_DRV_STATE_INITIALIZED);
-    p_instance->p_reg->TCR |= (0x01 << 0);
+    xinc_timer_enable(p_instance->p_reg);
     m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_POWERED_ON;
     NRFX_LOG_INFO("Enabled instance: %d.", p_instance->instance_idx);
 }
@@ -152,7 +152,7 @@ void xincx_timer_disable(xincx_timer_t const * const p_instance)
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 
-    p_instance->p_reg->TCR &= ~(0x01 << 0);
+    xinc_timer_disable(p_instance->p_reg);
     printf("timer TCR=[%x]\n", p_instance->p_reg->TCR);
 
     m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_INITIALIZED;
@@ -170,21 +170,22 @@ bool xincx_timer_is_enabled(xincx_timer_t const * const p_instance)
 
 void xincx_timer_compare(xincx_timer_t const * const p_instance,               
                         uint32_t                   cc_value,
-                        bool                       enable_int)
+                        xinc_timer_mode_t                       mode,bool enable)
 {
-    xinc_timer_int_mask_t timer_int = XINC_TIMER_INT_COMPARE2_MASK;
+    xinc_timer_ctr_mask_t timer_int = XINC_TIMER_INT_MASK;
 
-    if (enable_int)
-    {
-        xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
-        xinc_timer_int_enable(p_instance->p_reg, timer_int);
-    }
-    else
-    {
-        xinc_timer_int_disable(p_instance->p_reg, timer_int);
-    }
+    xincx_timer_disable(p_instance);
+
+    xinc_timer_mode_set(p_instance->p_reg,mode);
+    xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
+    xinc_timer_int_enable(p_instance->p_reg, timer_int);
 
     xinc_timer_cc_write(p_instance->p_reg, cc_value);
+    if(enable)
+    {
+          xincx_timer_enable(p_instance);
+    }
+  
     NRFX_LOG_INFO("Timer id: %d, capture value set: %lu.",
                     p_instance->instance_idx,
                     cc_value);
@@ -198,7 +199,7 @@ void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
 
     xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
 
-    xinc_timer_int_enable(p_instance->p_reg,0x01 << 2);
+    xinc_timer_int_enable(p_instance->p_reg,TIMERx_TCR_TIM_Msk);
 }
 
 void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
@@ -206,7 +207,7 @@ void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 
-    xinc_timer_int_disable(p_instance->p_reg,0x01 << 2);
+    xinc_timer_int_disable(p_instance->p_reg,TIMERx_TCR_TIM_Msk);
 }
 
 static void irq_handler(XINC_TIMER_Type        * p_reg,
@@ -216,7 +217,7 @@ static void irq_handler(XINC_TIMER_Type        * p_reg,
 
     {
         xinc_timer_int_event_t event = XINC_TIMER_EVENT_TIMEOUT;
-        xinc_timer_int_mask_t int_mask = XINC_TIMER_INT_COMPARE2_MASK;
+        xinc_timer_ctr_mask_t int_mask = XINC_TIMER_INT_MASK;
         if (xinc_timer_int_check(p_reg, event) &&
             xinc_timer_int_enable_check(p_reg, int_mask))
         {           

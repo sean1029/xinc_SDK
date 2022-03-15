@@ -323,13 +323,13 @@ void timer_test()
 #if DRV_TIMER_TEST_EN
 
 #if NRFX_CHECK(XINCX_TIMER_ENABLED)
-const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(3);
+const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(2);
 
 void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
 {
     static uint32_t i = 0;
         static uint8_t on_off = 0;
-    //		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+    		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
     switch (event_type)
     {
         case XINC_TIMER_EVENT_TIMEOUT:
@@ -363,7 +363,7 @@ void drv_timer_test(void)
 {
 	
 #if NRFX_CHECK(XINCX_TIMER_ENABLED)
-    uint32_t time_ms = 400; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ms = 600; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
     uint32_t err_code = NRF_SUCCESS;
 
@@ -378,9 +378,9 @@ void drv_timer_test(void)
     printf("time_ticks = [%d]\n",time_ticks);
 
 
-    xinc_drv_timer_compare(&TIMER_LED, time_ticks, true);
+    xinc_drv_timer_compare(&TIMER_LED, time_ticks, XINC_TIMER_MODE_USER_COUNTER,true);
 
-    xinc_drv_timer_enable(&TIMER_LED);
+   // xinc_drv_timer_enable(&TIMER_LED);
 #endif //
 
 }
