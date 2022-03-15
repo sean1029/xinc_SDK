@@ -72,12 +72,12 @@ typedef enum
 /** @brief UART interrupts. */
 typedef enum
 {
-    NRF_UART_INT_MASK_CTS    = UART_INTENCLR_CTS_Msk,    /**< CTS line activation interrupt. */
-    NRF_UART_INT_MASK_NCTS   = UART_INTENCLR_NCTS_Msk,   /**< CTS line deactivation interrupt. */
-    NRF_UART_INT_MASK_RXDRDY = UART_INTENCLR_RXDRDY_Msk, /**< Data ready in RXD interrupt. */
-    NRF_UART_INT_MASK_TXDRDY = UART_INTENCLR_TXDRDY_Msk, /**< Data sent from TXD interrupt. */
-    NRF_UART_INT_MASK_ERROR  = UART_INTENCLR_ERROR_Msk,  /**< Error detection interrupt. */
-    NRF_UART_INT_MASK_RXTO   = UART_INTENCLR_RXTO_Msk    /**< Receiver timeout interrupt. */
+    NRF_UART_INT_MASK_CTS    = 0,//UART_INTENCLR_CTS_Msk,    /**< CTS line activation interrupt. */
+    NRF_UART_INT_MASK_NCTS   = 1,//UART_INTENCLR_NCTS_Msk,   /**< CTS line deactivation interrupt. */
+    NRF_UART_INT_MASK_RXDRDY = 2,//UART_INTENCLR_RXDRDY_Msk, /**< Data ready in RXD interrupt. */
+    NRF_UART_INT_MASK_TXDRDY = 3,//UART_INTENCLR_TXDRDY_Msk, /**< Data sent from TXD interrupt. */
+    NRF_UART_INT_MASK_ERROR  = 4,//UART_INTENCLR_ERROR_Msk,  /**< Error detection interrupt. */
+    NRF_UART_INT_MASK_RXTO   = 50,//UART_INTENCLR_RXTO_Msk    /**< Receiver timeout interrupt. */
 } nrf_uart_int_mask_t;
 
 /** @brief Baudrates supported by UART. */
@@ -104,10 +104,10 @@ typedef enum
 /** @brief Types of UART error masks. */
 typedef enum
 {
-    NRF_UART_ERROR_OVERRUN_MASK = UART_ERRORSRC_OVERRUN_Msk,   /**< Overrun error. */
-    NRF_UART_ERROR_PARITY_MASK  = UART_ERRORSRC_PARITY_Msk,    /**< Parity error. */
-    NRF_UART_ERROR_FRAMING_MASK = UART_ERRORSRC_FRAMING_Msk,   /**< Framing error. */
-    NRF_UART_ERROR_BREAK_MASK   = UART_ERRORSRC_BREAK_Msk,     /**< Break error. */
+    NRF_UART_ERROR_OVERRUN_MASK = 0,//UART_ERRORSRC_OVERRUN_Msk,   /**< Overrun error. */
+    NRF_UART_ERROR_PARITY_MASK  = 1,//UART_ERRORSRC_PARITY_Msk,    /**< Parity error. */
+    NRF_UART_ERROR_FRAMING_MASK = 2,//UART_ERRORSRC_FRAMING_Msk,   /**< Framing error. */
+    NRF_UART_ERROR_BREAK_MASK   = 3,//UART_ERRORSRC_BREAK_Msk,     /**< Break error. */
 } nrf_uart_error_mask_t;
 
 /** @brief Types of UART parity modes. */

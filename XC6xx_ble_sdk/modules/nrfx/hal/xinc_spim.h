@@ -86,23 +86,23 @@ extern "C" {
  */
 typedef enum
 {
-    XINC_SPIM_SHORT_END_START_MASK = SPIM_SHORTS_END_START_Msk, ///< Shortcut between END event and START task.
-    XINC_SPIM_ALL_SHORTS_MASK      = SPIM_SHORTS_END_START_Msk  ///< All SPIM shortcuts.
+    XINC_SPIM_SHORT_END_START_MASK = 1,//SPIM_SHORTS_END_START_Msk, ///< Shortcut between END event and START task.
+    XINC_SPIM_ALL_SHORTS_MASK      = 2,//SPIM_SHORTS_END_START_Msk  ///< All SPIM shortcuts.
 } xinc_spim_short_mask_t;
 
 /** @brief SPIM interrupts. */
 typedef enum
 {
-    XINC_SPIM_INT_STOPPED_MASK = SPIM_INTENSET_STOPPED_Msk,  ///< Interrupt on STOPPED event.
-    XINC_SPIM_INT_ENDRX_MASK   = SPIM_INTENSET_ENDRX_Msk,    ///< Interrupt on ENDRX event.
-    XINC_SPIM_INT_END_MASK     = SPIM_INTENSET_END_Msk,      ///< Interrupt on END event.
-    XINC_SPIM_INT_ENDTX_MASK   = SPIM_INTENSET_ENDTX_Msk,    ///< Interrupt on ENDTX event.
-    XINC_SPIM_INT_STARTED_MASK = SPIM_INTENSET_STARTED_Msk,  ///< Interrupt on STARTED event.
-    XINC_SPIM_ALL_INTS_MASK    = SPIM_INTENSET_STOPPED_Msk |
-                                SPIM_INTENSET_ENDRX_Msk   |
-                                SPIM_INTENSET_END_Msk     |
-                                SPIM_INTENSET_ENDTX_Msk   |
-                                SPIM_INTENSET_STARTED_Msk   ///< All SPIM interrupts.
+    XINC_SPIM_INT_STOPPED_MASK = 0,//SPIM_INTENSET_STOPPED_Msk,  ///< Interrupt on STOPPED event.
+    XINC_SPIM_INT_ENDRX_MASK   = 1,//SPIM_INTENSET_ENDRX_Msk,    ///< Interrupt on ENDRX event.
+    XINC_SPIM_INT_END_MASK     = 1,//SPIM_INTENSET_END_Msk,      ///< Interrupt on END event.
+    XINC_SPIM_INT_ENDTX_MASK   =1,// SPIM_INTENSET_ENDTX_Msk,    ///< Interrupt on ENDTX event.
+    XINC_SPIM_INT_STARTED_MASK =1,// SPIM_INTENSET_STARTED_Msk,  ///< Interrupt on STARTED event.
+    XINC_SPIM_ALL_INTS_MASK    = 4,//SPIM_INTENSET_STOPPED_Msk |
+//                                SPIM_INTENSET_ENDRX_Msk   |
+//                                SPIM_INTENSET_END_Msk     |
+//                                SPIM_INTENSET_ENDTX_Msk   |
+//                                SPIM_INTENSET_STARTED_Msk   ///< All SPIM interrupts.
 } xinc_spim_int_mask_t;
 
 /** @brief SPI master data rates. */

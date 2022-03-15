@@ -134,9 +134,9 @@ void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_w
 /** @brief NVMC modes. */
 typedef enum
 {
-    NRF_NVMC_MODE_READONLY      = NVMC_CONFIG_WEN_Ren, ///< NVMC in read-only mode.
-    NRF_NVMC_MODE_WRITE         = NVMC_CONFIG_WEN_Wen, ///< NVMC in read and write mode.
-    NRF_NVMC_MODE_ERASE         = NVMC_CONFIG_WEN_Een, ///< NVMC in read and erase mode.
+    NRF_NVMC_MODE_READONLY      = 0,//NVMC_CONFIG_WEN_Ren, ///< NVMC in read-only mode.
+    NRF_NVMC_MODE_WRITE         = 1,//NVMC_CONFIG_WEN_Wen, ///< NVMC in read and write mode.
+    NRF_NVMC_MODE_ERASE         = 2,//NVMC_CONFIG_WEN_Een, ///< NVMC in read and erase mode.
 #if defined(NVMC_CONFIG_WEN_PEen)
     NRF_NVMC_MODE_PARTIAL_ERASE = NVMC_CONFIG_WEN_PEen ///< NVMC in read and partial erase mode.
 #endif

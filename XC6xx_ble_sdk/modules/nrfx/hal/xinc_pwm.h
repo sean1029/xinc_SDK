@@ -157,12 +157,12 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 
 __STATIC_INLINE void xinc_pwm_enable(XINC_PWM_Type * p_reg)
 {
-    p_reg->EN = (PWM_ENABLE_ENABLE_Enabled << PWM_ENABLE_ENABLE_Pos) & PWM_EN_Msk;	
+    p_reg->EN = (PWM_EN_Enable << PWM_EN_Pos) & PWM_EN_Msk;	
 }
 
 __STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg)
 {	
-    p_reg->EN = (PWM_ENABLE_ENABLE_Disabled << PWM_ENABLE_ENABLE_Pos)& PWM_EN_Msk;
+    p_reg->EN = (PWM_EN_Disable << PWM_EN_Pos)& PWM_EN_Msk;
 }
 
 

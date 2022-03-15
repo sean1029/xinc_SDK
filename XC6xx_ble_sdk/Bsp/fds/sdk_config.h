@@ -123,7 +123,7 @@
 // <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
 #ifndef XINCX_TIMER_ENABLED
-#define XINCX_TIMER_ENABLED 0
+#define XINCX_TIMER_ENABLED 1
 #endif
 
 // <q> XINCX_TIMER0_ENABLED  - Enable TIMER0 instance
@@ -674,7 +674,7 @@
 // <e> XINCX_SAADC_ENABLED - xinc_saadc - SAADC peripheral driver
 //==========================================================
 #ifndef XINCX_SAADC_ENABLED
-#define XINCX_SAADC_ENABLED 0
+#define XINCX_SAADC_ENABLED 1
 #endif
 // <o> XINCX_SAADC_CONFIG_RESOLUTION  - Resolution
  

@@ -68,64 +68,62 @@ nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
                            xincx_timer_event_handler_t  timer_event_handler)
 {
 
-	nrfx_err_t err_code;
+    nrfx_err_t err_code;
 
-	timer_control_block_t * p_cb = &m_cb[p_instance->instance_idx];
-	
-#ifdef SOFTDEVICE_PRESENT
+    timer_control_block_t * p_cb = &m_cb[p_instance->instance_idx];
+
+    #ifdef SOFTDEVICE_PRESENT
     NRFX_ASSERT(p_instance->p_reg != XINC_TIMER0);
-#endif
+    #endif
     NRFX_ASSERT(p_config);
     NRFX_ASSERT(timer_event_handler);
 
-    
-	if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
-	{
-			err_code = NRFX_ERROR_INVALID_STATE;
-			NRFX_LOG_WARNING("Function: %s, error code: %s.",
-											 __func__,
-											 NRFX_LOG_ERROR_STRING_GET(err_code));
-			return err_code;
-	}
-	printf("p_config->ref_clk val:%d,p_config->clk_src:%d\r\n",p_config->ref_clk,p_config->clk_src);
-	if(p_config->ref_clk > XINC_TIMER_REF_CLK_32000Hz)
-	{
-			err_code = NRFX_ERROR_INVALID_PARAM;
-			NRFX_LOG_WARNING("Function: %s, error code: %s.",
-											 __func__,
-											 NRFX_LOG_ERROR_STRING_GET(err_code));
-			
-			return err_code;
-	}
-	
-		
-	p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK Ê±ÖÓÊ¹ÄÜ
- 
-	xinc_timer_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk); //TIMERx_CLK Ê±ÖÓ¿ØÖÆ¼Ä´æÆ÷ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
-	printf("frequency val:0x%08x\r\n",p_config->ref_clk);
-	xinc_timer_mode_set(p_instance->p_reg, p_config->mode);
-	
-	p_cb->handler = timer_event_handler;
-  p_cb->context = p_config->p_context;
 
-	// clear timer interrupt
-  xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
-	
-	
-	NRFX_IRQ_PRIORITY_SET((IRQn_Type)(TIMER0_IRQn + p_instance->id),
+    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    {
+        err_code = NRFX_ERROR_INVALID_STATE;
+        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+                                            __func__,
+                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+        return err_code;
+    }
+    printf("p_config->ref_clk val:%d,p_config->clk_src:%d\r\n",p_config->ref_clk,p_config->clk_src);
+    if(p_config->ref_clk > XINC_TIMER_REF_CLK_32000Hz)
+    {
+        err_code = NRFX_ERROR_INVALID_PARAM;
+        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+                                            __func__,
+                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+        
+        return err_code;
+    }
+
+    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK Ê±ï¿½ï¿½Ê¹ï¿½ï¿½
+
+    xinc_timer_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk); //TIMERx_CLK Ê±ï¿½Ó¿ï¿½ï¿½Æ¼Ä´ï¿½ï¿½ï¿½ mclk_in(32MHz)/2x(0x0f + 0x1)=1M
+    printf("frequency val:0x%08x\r\n",p_config->ref_clk);
+    xinc_timer_mode_set(p_instance->p_reg, p_config->mode);
+
+    p_cb->handler = timer_event_handler;
+    p_cb->context = p_config->p_context;
+
+    // clear timer interrupt
+    xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
+
+
+    NRFX_IRQ_PRIORITY_SET((IRQn_Type)(TIMER0_IRQn + p_instance->id),
         p_config->interrupt_priority);
-  NRFX_IRQ_ENABLE((IRQn_Type)(TIMER0_IRQn + p_instance->id));
+    NRFX_IRQ_ENABLE((IRQn_Type)(TIMER0_IRQn + p_instance->id));
+
+
+    p_cb->state = NRFX_DRV_STATE_INITIALIZED;
+
+    err_code = NRFX_SUCCESS;
+    NRFX_LOG_INFO("Function: %s, error code: %s.",
+                                __func__,
+                                NRFX_LOG_ERROR_STRING_GET(err_code));
+    return err_code;
 	
-
-	p_cb->state = NRFX_DRV_STATE_INITIALIZED;
-
-	err_code = NRFX_SUCCESS;
-	NRFX_LOG_INFO("Function: %s, error code: %s.",
-								__func__,
-								NRFX_LOG_ERROR_STRING_GET(err_code));
-	return err_code;
-	
-
 }
 
 void xincx_timer_uninit(xincx_timer_t const * const p_instance)
@@ -145,18 +143,18 @@ void xincx_timer_uninit(xincx_timer_t const * const p_instance)
 void xincx_timer_enable(xincx_timer_t const * const p_instance)
 {
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state == NRFX_DRV_STATE_INITIALIZED);
-		p_instance->p_reg->TCR |= (0x01 << 0);
+    p_instance->p_reg->TCR |= (0x01 << 0);
     m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_POWERED_ON;
     NRFX_LOG_INFO("Enabled instance: %d.", p_instance->instance_idx);
 }
 
 void xincx_timer_disable(xincx_timer_t const * const p_instance)
 {
-		NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
+    NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 
-		p_instance->p_reg->TCR &= ~(0x01 << 0);
-		printf("timer TCR=[%x]\n", p_instance->p_reg->TCR);
-		
+    p_instance->p_reg->TCR &= ~(0x01 << 0);
+    printf("timer TCR=[%x]\n", p_instance->p_reg->TCR);
+
     m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_INITIALIZED;
     NRFX_LOG_INFO("Disabled instance: %d.", p_instance->instance_idx);
 }
@@ -188,8 +186,8 @@ void xincx_timer_compare(xincx_timer_t const * const p_instance,
 
     xinc_timer_cc_write(p_instance->p_reg, cc_value);
     NRFX_LOG_INFO("Timer id: %d, capture value set: %lu.",
-                  p_instance->instance_idx,
-                  cc_value);
+                    p_instance->instance_idx,
+                    cc_value);
 }
 
 
@@ -199,7 +197,7 @@ void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
     NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
 
     xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
-   
+
     xinc_timer_int_enable(p_instance->p_reg,0x01 << 2);
 }
 
@@ -215,20 +213,20 @@ static void irq_handler(XINC_TIMER_Type        * p_reg,
                         timer_control_block_t * p_cb,
                         uint8_t                 channel)
 {
-   
+
     {
         xinc_timer_int_event_t event = XINC_TIMER_EVENT_TIMEOUT;
         xinc_timer_int_mask_t int_mask = XINC_TIMER_INT_COMPARE2_MASK;
         if (xinc_timer_int_check(p_reg, event) &&
             xinc_timer_int_enable_check(p_reg, int_mask))
         {           
-						if(p_cb->handler)
-						{
-							p_cb->handler(event,channel, p_cb->context);
-						}
-						 
+            if(p_cb->handler)
+            {
+                p_cb->handler(event,channel, p_cb->context);
+            }
+                            
         }
-				xinc_timer_int_clear(p_reg, event);
+        xinc_timer_int_clear(p_reg, event);
     }
 }
 
@@ -265,7 +263,7 @@ void xincx_timer_1_irq_handler(void)
 void TIMER2_Handler(void)
 {
 
-	xincx_timer_2_irq_handler();
+    xincx_timer_2_irq_handler();
 
 }
 void xincx_timer_2_irq_handler(void)
