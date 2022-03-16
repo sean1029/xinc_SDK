@@ -25,43 +25,66 @@ extern "C" {
 /** @brief Value to be set as low limit to disable limit detection. */
 #define XINCX_SAADC_LIMITL_DISABLED (-2048)
 
+/** @brief SAADC driver instance data structure. */
+typedef struct
+{
+    XINC_SAADC_Type     *p_reg;  ///< Pointer to the structure with PWM peripheral instance registers.
+    XINC_CPR_CTL_Type   *p_cpr; 
+    uint8_t             id;
+    uint8_t             drv_inst_idx; ///< Index of the driver instance. For internal use only.
+
+} xincx_saadc_t;
+
+/** @brief Macro for creating a PWM driver instance. */
+
+#define XINCX_SAADC_INSTANCE(Id)                                            \
+{                                                                           \
+    .p_reg          =   NRFX_CONCAT_2(XINC_SAADC,Id),                       \
+    .p_cpr          =   XINC_CPR,                                           \
+    .id 		    =   Id,                                                 \
+    .drv_inst_idx   =   NRFX_CONCAT_3(XINCX_SAADC, Id, _INST_IDX),          \
+};
+
+#ifndef __NRFX_DOXYGEN__
+enum {
+#if NRFX_CHECK(XINCX_SAADC_ENABLED)
+    XINCX_SAADC0_INST_IDX,
+#endif
+    XINCX_SAADC_ENABLED_COUNT
+};
+#endif
+
 /** @brief Macro for setting @ref xinc_saadc_config_t to default settings. */
 
 #define XINCX_SAADC_DEFAULT_CONFIG                                               \
 {                                                                               \
     .interrupt_priority = XINCX_SAADC_CONFIG_IRQ_PRIORITY,                       \
-    .low_power_mode     = XINCX_SAADC_CONFIG_LP_MODE                             \
-}
-
-#define XINCX_SAADC_DEFAULT_CHANNEL_CONFIG                                         \
-{                                                                                 \
     .refvol             = (xinc_saadc_refvol_t)NRF_SAADC_CHANNEL_REFVOL_2_47,      \
-    .freq               = (xinc_saadc_freq_t)NRF_SAADC_FREQ_1M,                    \
-    .waite_time         = 4,																											\
-		.adc_fifo_len       = XINCX_SAADC_CONFIG_FIFO_LEN                             \
+    .freq               = (xinc_saadc_freq_t)NRF_SAADC_FREQ_8M,                    \
+    .waite_time         = 4,														\
 }
-
 /**
  * @brief Macro for setting @ref xinc_saadc_channel_config_t to default settings
  *        in single-ended mode.
  *
  * @param PIN_P Analog input.
  */
-#define XINCX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(PIN_P) \
-{                                                   \
-    .reference  = NRF_SAADC_REFERENCE_INTERNAL,     \
-    .acq_time   = NRF_SAADC_ACQTIME_10US,           \
-    .mode       = NRF_SAADC_MODE_SINGLE_ENDED,      \
+
+
+#define XINCX_SAADC_DEFAULT_CHANNEL_CONFIG                                         \
+{                                                                                 \
+    .mode               =  NRF_SAADC_MODE_SINGLE_ENDED,                              \
+	.adc_fifo_len       = XINCX_SAADC_CONFIG_FIFO_LEN                             \
 }
-
-
 
 /** @brief SAADC driver configuration structure. */
 
 typedef struct
 {
     uint8_t                interrupt_priority; ///< Interrupt priority.
-    bool                   low_power_mode;     ///< Indicates if low power mode is active.
+    xinc_saadc_refvol_t    refvol;  ///< Reference control value.
+    xinc_saadc_freq_t      freq;     
+    uint32_t            waite_time;  
 } xincx_saadc_config_t;
 
 
@@ -79,8 +102,8 @@ typedef struct
 {
     xinc_saadc_value_t * p_buffer; ///< Pointer to buffer with converted samples.
     uint16_t          size;     ///< Number of samples in the buffer.
-		int16_t           adc_value;     ///< Number of samples in the buffer.
-		uint8_t           channel;    ///< Channel on which the limit was detected.
+    int16_t           adc_value;     ///< Number of samples in the buffer.
+    uint8_t           channel;    ///< Channel on which the limit was detected.
 } xincx_saadc_done_evt_t;
 
 
@@ -112,7 +135,8 @@ typedef void (* xincx_saadc_event_handler_t)(xincx_saadc_evt_t const * p_event);
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The driver is already initialized.
  */
-nrfx_err_t xincx_saadc_init(xincx_saadc_config_t const * p_config,
+nrfx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
+                            xincx_saadc_config_t const * p_config,
                            xincx_saadc_event_handler_t  event_handler);
 
 /**
@@ -120,10 +144,12 @@ nrfx_err_t xincx_saadc_init(xincx_saadc_config_t const * p_config,
  *
  * This function stops all ongoing conversions and disables all channels.
  */
-void xincx_saadc_uninit(void);
+void xincx_saadc_uninit(xincx_saadc_t const * const p_instance);
 
 
 
+void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,                                
+                                   xincx_saadc_config_t const * p_config);
 /**
  * @brief Function for initializing an SAADC channel.
  *
@@ -136,7 +162,8 @@ void xincx_saadc_uninit(void);
  * @retval NRFX_ERROR_INVALID_STATE The SAADC was not initialized.
  * @retval NRFX_ERROR_NO_MEM        The specified channel was already allocated.
  */
-nrfx_err_t xincx_saadc_channel_init(uint8_t                                  channel,
+nrfx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
+                                    uint8_t     channel,
                                    xinc_saadc_channel_config_t const * const p_config);
 
 /**
@@ -147,7 +174,7 @@ nrfx_err_t xincx_saadc_channel_init(uint8_t                                  cha
  * @retval NRFX_SUCCESS    Uninitialization was successful.
  * @retval NRFX_ERROR_BUSY The SAADC is busy.
  */
-nrfx_err_t xincx_saadc_channel_uninit(uint8_t channel);
+nrfx_err_t xincx_saadc_channel_uninit(xincx_saadc_t const * const p_instance,uint8_t channel);
 
 /**
  * @brief Function for starting the SAADC sampling.
@@ -155,7 +182,7 @@ nrfx_err_t xincx_saadc_channel_uninit(uint8_t channel);
  * @retval NRFX_SUCCESS             The SAADC sampling was triggered.
  * @retval NRFX_ERROR_INVALID_STATE The SAADC is in idle state.
  */
-nrfx_err_t xincx_saadc_sample(uint8_t channel);
+nrfx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel);
 
 /**
  * @brief Blocking function for executing a single SAADC conversion.
@@ -171,7 +198,7 @@ nrfx_err_t xincx_saadc_sample(uint8_t channel);
  * @retval NRFX_SUCCESS    The conversion was successful.
  * @retval NRFX_ERROR_BUSY The SAADC driver is busy.
  */
-nrfx_err_t xincx_saadc_sample_convert(uint8_t channel, xinc_saadc_value_t * p_value);
+nrfx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value);
 
 /**
  * @brief Function for issuing conversion of data to the buffer.
@@ -192,7 +219,7 @@ nrfx_err_t xincx_saadc_sample_convert(uint8_t channel, xinc_saadc_value_t * p_va
  * @retval NRFX_SUCCESS    The conversion was successful.
  * @retval NRFX_ERROR_BUSY The driver already has two buffers set or the calibration is in progress.
  */
-nrfx_err_t xincx_saadc_buffer_convert(xinc_saadc_value_t * buffer, uint16_t size);
+nrfx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xinc_saadc_value_t * buffer, uint16_t size);
 
 
 /**
@@ -201,14 +228,13 @@ nrfx_err_t xincx_saadc_buffer_convert(xinc_saadc_value_t * buffer, uint16_t size
  * @retval true  The SAADC is busy.
  * @retval false The SAADC is ready.
  */
-bool xincx_saadc_is_busy(void);
+bool xincx_saadc_is_busy(xincx_saadc_t const * const p_instance);
 
 
 
 /** @} */
 #endif // defined(XINCX_SAADC_API_V2)
 
-void xincx_saadc_irq_handler(void);
 
 #ifdef __cplusplus
 }

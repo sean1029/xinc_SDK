@@ -249,16 +249,16 @@ typedef struct {                                /*!< (@ 0x40006000) I2C Structur
   */
 
 typedef struct {                          /*!< (@ 0x40018000) SAADC Structure                                            */
-  __IOM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000) Starts the SAADC and prepares the result buffer                                         */
-  __IOM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004) Takes one SAADC sample                                     */
-  __IOM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008) Stops the SAADC and terminates all on-going conversions    */
-  __IOM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C) Starts offset auto-calibration                             */
-  __IOM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010) Starts offset auto-calibration                             */
-  __IOM  uint32_t  INT ;                      /*!< (@ 0x00000014) The SAADC has started                                      */
-  __IM   uint32_t  INT_RAW;                   /*!< (@ 0x00000018) The SAADC has filled up the result buffer                  */
-  __IOM  uint32_t  INT_EN;                    /*!< (@ 0x0000001C) A conversion task has been completed. Depending            */
-  __IM   uint32_t  FIFO;                      /*!< (@ 0x00000020) Result ready for transfer to RAM                                   */
-  __IOM  uint32_t  RF_CTL;                    /*!< (@ 0x00000054) Calibration is complete                                    */
+  __IOM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000)                                          */
+  __IOM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004)                                 */
+  __IOM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008)   */
+  __IOM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C)                           */
+  __IOM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010)                          */
+  __IOM  uint32_t  INT ;                      /*!< (@ 0x00000014)                            */
+  __IM   uint32_t  INT_RAW;                   /*!< (@ 0x00000018)                 */
+  __IOM  uint32_t  INT_EN;                    /*!< (@ 0x0000001C)             */
+  __IM   uint32_t  FIFO;                      /*!< (@ 0x00000020)                                 */
+  __IOM  uint32_t  RF_CTL;                    /*!< (@ 0x00000024)                             */
 
 } XINC_SAADC_Type;  
 
@@ -425,6 +425,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define XINC_SPIM1_BASE              0x40014000UL
 #define XINC_I2C0_BASE               0x40006000UL
 #define XINC_SAADC_BASE              0x40018000UL
+#define XINC_SAADC0_BASE             0x40018000UL
 #define XINC_RTC0_BASE               0x40002000UL
 #define XINC_WDT_BASE                0x40004000UL
 #define XINC_TIMER0_BASE             0x40003000UL
@@ -462,7 +463,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define XINC_SPIM1										 ((XINC_SPIM_Type*)         XINC_SPIM1_BASE)
 
 #define XINC_I2C0										 ((XINC_I2C_Type*)           XINC_I2C0_BASE)
-#define XINC_SAADC                   ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
+#define XINC_SAADC0                  ((XINC_SAADC_Type*)          XINC_SAADC_BASE)
 #define XINC_RTC0                    ((XINC_RTC_Type*)           XINC_RTC0_BASE)
 #define XINC_WDT                     ((XINC_WDT_Type*)           XINC_WDT_BASE)
 #define XINC_TIMER0                  ((XINC_TIMER_Type*)         XINC_TIMER0_BASE)

@@ -66,18 +66,6 @@ typedef struct
     uint8_t             output_inv_pin;					///< Pin numbers for individual output(optional )
 } xincx_pwm_t;
 
-//#if NRFX_CHECK(XINCX_PWM2_ENABLED)
-//#define    XINCX_PWM_DEFAULT_CONFIG_OUT2_INV_PIN (0xFF)
-//#endif
-//#if NRFX_CHECK(XINCX_PWM3_ENABLED)
-//#define    XINCX_PWM_DEFAULT_CONFIG_OUT3_INV_PIN (0xFF)
-//#endif
-//#if NRFX_CHECK(XINCX_PWM4_ENABLED)
-//#define    XINCX_PWM_DEFAULT_CONFIG_OUT4_INV_PIN (0xFF)
-//#endif
-//#if NRFX_CHECK(XINCX_PWM5_ENABLED)
-//#define    XINCX_PWM_DEFAULT_CONFIG_OUT5_INV_PIN (0xFF)
-//#endif
 
 /** @brief Macro for creating a PWM driver instance. */
 #define XINCX_PWM_INSTANCE(Id)                               \

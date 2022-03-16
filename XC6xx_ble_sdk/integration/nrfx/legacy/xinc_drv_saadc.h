@@ -16,9 +16,13 @@ extern "C" {
  *
  * @brief    @tagAPI52 Layer providing compatibility with the former API.
  */
-
+/** @brief Type definition for forwarding the new implementation. */
+typedef xincx_saadc_t        xinc_drv_saadc_t;
 /** @brief Type definition for forwarding the new implementation. */
 typedef xincx_saadc_config_t xinc_drv_saadc_config_t;
+
+/** @brief Macro for forwarding the new implementation. */
+#define XINC_DRV_SAADC_INSTANCE          XINCX_SAADC_INSTANCE
 
 /** @brief Macro for forwarding the new implementation. */
 #define XINC_DRV_SAADC_EVT_DONE          XINCX_SAADC_EVT_DONE
@@ -71,7 +75,7 @@ typedef xincx_saadc_config_t xinc_drv_saadc_config_t;
  * @retval NRF_ERROR_INVALID_STATE If the driver is already initialized.
  * @retval NRF_ERROR_INVALID_PARAM If event_handler is NULL.
  */
-__STATIC_INLINE ret_code_t xinc_drv_saadc_init(xinc_drv_saadc_config_t const * p_config,
+__STATIC_INLINE ret_code_t xinc_drv_saadc_init(xincx_saadc_t const * const  p_instance,xinc_drv_saadc_config_t const * p_config,
                                               xinc_drv_saadc_event_handler_t  event_handler)
 {
     if (p_config == NULL)
@@ -79,7 +83,7 @@ __STATIC_INLINE ret_code_t xinc_drv_saadc_init(xinc_drv_saadc_config_t const * p
         static const xincx_saadc_config_t default_config = XINCX_SAADC_DEFAULT_CONFIG;
         p_config = &default_config;
     }
-    return xincx_saadc_init(p_config, event_handler);
+    return xincx_saadc_init(p_instance,p_config, event_handler);
 }
 
 /** @} */

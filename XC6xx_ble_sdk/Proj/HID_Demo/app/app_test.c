@@ -151,7 +151,11 @@ void log_flush(void)
 
 #if NRFX_CHECK(XINCX_SAADC_ENABLED)
 #define SAMPLES_IN_BUFFER 32
-static xinc_saadc_value_t     m_buffer_pool[2][SAMPLES_IN_BUFFER];
+
+static xinc_drv_saadc_t m_saadc = XINCX_SAADC_INSTANCE(0);
+
+
+static xinc_saadc_value_t   m_buffer_pool[2][SAMPLES_IN_BUFFER];
 
 void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
 {
@@ -174,18 +178,20 @@ void saadc_init(void)
 
     xinc_saadc_channel_config_t channel_config =  XINC_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE;
 
-    err_code = xinc_drv_saadc_init(NULL, saadc_callback);
+    err_code = xinc_drv_saadc_init(&m_saadc,NULL, saadc_callback);
         
     APP_ERROR_CHECK(err_code);
 
-    err_code = xinc_drv_saadc_channel_init(4, &channel_config);
-        err_code = xinc_drv_saadc_channel_init(5, &channel_config);
+    err_code = xinc_drv_saadc_channel_init(&m_saadc,8, &channel_config);
+    err_code = xinc_drv_saadc_channel_init(&m_saadc,5, &channel_config);
 
     APP_ERROR_CHECK(err_code);
 
-        err_code = xinc_drv_saadc_buffer_convert(m_buffer_pool[0], SAMPLES_IN_BUFFER);
+        err_code = xinc_drv_saadc_buffer_convert(&m_saadc,m_buffer_pool[0], SAMPLES_IN_BUFFER);
+    xincx_saadc_sample(&m_saadc,8);
+    
 
-    APP_ERROR_CHECK(err_code);
+        APP_ERROR_CHECK(err_code);
         printf("%s,%x\n",__func__,err_code);
 
 #endif
@@ -329,7 +335,10 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 {
     static uint32_t i = 0;
         static uint8_t on_off = 0;
-    		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+    xinc_saadc_value_t adc_val;
+    //		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+    
+   // 
     switch (event_type)
     {
         case XINC_TIMER_EVENT_TIMEOUT:
@@ -337,10 +346,13 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
             if(on_off == 0)
             {						
                 GPIO_OUTPUT_HIGH(5);
-                on_off = 1;				
+                on_off = 1;		
+xincx_saadc_sample(&m_saadc,8);                
             }else
             {						
                 GPIO_OUTPUT_LOW(5);
+                xincx_saadc_sample_convert(&m_saadc,8,&adc_val);
+                printf("adc_val:%d\n",adc_val);
                 on_off = 0;
                 i++;
                 if(i > 99)
@@ -363,7 +375,7 @@ void drv_timer_test(void)
 {
 	
 #if NRFX_CHECK(XINCX_TIMER_ENABLED)
-    uint32_t time_ms = 600; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ms = 3000; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
     uint32_t err_code = NRF_SUCCESS;
 
