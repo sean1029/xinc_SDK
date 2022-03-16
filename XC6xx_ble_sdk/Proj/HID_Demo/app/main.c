@@ -394,7 +394,7 @@ int	main(void)
 	app_timer_init();
 void spim_flash_test(void);	
 void  i2c_at24c02_test(void);
-	//spim_flash_test();
+	spim_flash_test();
 	
 	//i2c_at24c02_test();
 //	  nrfx_gpiote_init();

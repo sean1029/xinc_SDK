@@ -81,41 +81,34 @@ extern "C" {
 
 
 
-/**
- * @brief SPIM shortcuts.
- */
-typedef enum
-{
-    XINC_SPIM_SHORT_END_START_MASK = 1,//SPIM_SHORTS_END_START_Msk, ///< Shortcut between END event and START task.
-    XINC_SPIM_ALL_SHORTS_MASK      = 2,//SPIM_SHORTS_END_START_Msk  ///< All SPIM shortcuts.
-} xinc_spim_short_mask_t;
 
 /** @brief SPIM interrupts. */
 typedef enum
 {
-    XINC_SPIM_INT_STOPPED_MASK = 0,//SPIM_INTENSET_STOPPED_Msk,  ///< Interrupt on STOPPED event.
-    XINC_SPIM_INT_ENDRX_MASK   = 1,//SPIM_INTENSET_ENDRX_Msk,    ///< Interrupt on ENDRX event.
-    XINC_SPIM_INT_END_MASK     = 1,//SPIM_INTENSET_END_Msk,      ///< Interrupt on END event.
-    XINC_SPIM_INT_ENDTX_MASK   =1,// SPIM_INTENSET_ENDTX_Msk,    ///< Interrupt on ENDTX event.
-    XINC_SPIM_INT_STARTED_MASK =1,// SPIM_INTENSET_STARTED_Msk,  ///< Interrupt on STARTED event.
-    XINC_SPIM_ALL_INTS_MASK    = 4,//SPIM_INTENSET_STOPPED_Msk |
-//                                SPIM_INTENSET_ENDRX_Msk   |
-//                                SPIM_INTENSET_END_Msk     |
-//                                SPIM_INTENSET_ENDTX_Msk   |
-//                                SPIM_INTENSET_STARTED_Msk   ///< All SPIM interrupts.
+    XINC_SPIM_INT_DISALL_MASK = 0,
+    XINC_SPIM_INT_TXEIE_MASK = SSI_SSI_IE_TXEIE_Msk, ///< 发送 FIFO 空中断.
+    XINC_SPIM_INT_TXOIE_MASK   = SSI_SSI_IE_TXOIE_Msk,//发送 FIFO 上溢出中断
+    XINC_SPIM_INT_RXUIE_MASK     = SSI_SSI_IE_RXUIE_Msk,//接收 FIFO 下溢出中断
+    XINC_SPIM_INT_RXOIE_MASK   = SSI_SSI_IE_RXOIE_Msk,//接收 FIFO 上溢出中断
+    XINC_SPIM_INT_RXFIE_MASK = SSI_SSI_IE_RXFIE_Msk,// 接收 FIFO 满中断
+    XINC_SPIM_ALL_INTS_MASK    = SSI_SSI_IE_TXEIE_Msk |
+                                SSI_SSI_IE_TXOIE_Msk   |
+                                SSI_SSI_IE_RXUIE_Msk     |
+                                SSI_SSI_IE_RXOIE_Msk   |
+                                SSI_SSI_IE_RXFIE_Msk   ///< All SPIM interrupts.
 } xinc_spim_int_mask_t;
 
 /** @brief SPI master data rates. */
 typedef enum
 {
-    XINC_SPIM_FREQ_125K = SPIM_FREQUENCY_FREQUENCY_K125,    ///< 125 kbps.
-    XINC_SPIM_FREQ_250K = SPIM_FREQUENCY_FREQUENCY_K250,    ///< 250 kbps.
-    XINC_SPIM_FREQ_500K = SPIM_FREQUENCY_FREQUENCY_K500,    ///< 500 kbps.
-    XINC_SPIM_FREQ_1M   = SPIM_FREQUENCY_FREQUENCY_M1,      ///< 1 Mbps.
-    XINC_SPIM_FREQ_2M   = SPIM_FREQUENCY_FREQUENCY_M2,      ///< 2 Mbps.
-    XINC_SPIM_FREQ_4M   = SPIM_FREQUENCY_FREQUENCY_M4,      ///< 4 Mbps.
-    XINC_SPIM_FREQ_8M   = SPIM_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
-    XINC_SPIM_FREQ_16M  = SPIM_FREQUENCY_FREQUENCY_M16,     ///< 16 Mbps.
+    XINC_SPIM_FREQ_125K = SSI_FREQUENCY_FREQUENCY_K125,    ///< 125 kbps.
+    XINC_SPIM_FREQ_250K = SSI_FREQUENCY_FREQUENCY_K250,    ///< 250 kbps.
+    XINC_SPIM_FREQ_500K = SSI_FREQUENCY_FREQUENCY_K500,    ///< 500 kbps.
+    XINC_SPIM_FREQ_1M   = SSI_FREQUENCY_FREQUENCY_M1,      ///< 1 Mbps.
+    XINC_SPIM_FREQ_2M   = SSI_FREQUENCY_FREQUENCY_M2,      ///< 2 Mbps.
+    XINC_SPIM_FREQ_4M   = SSI_FREQUENCY_FREQUENCY_M4,      ///< 4 Mbps.
+    XINC_SPIM_FREQ_8M   = SSI_FREQUENCY_FREQUENCY_M8, ///< 8 Mbps.
+    XINC_SPIM_FREQ_16M  = SSI_FREQUENCY_FREQUENCY_M16,     ///< 16 Mbps.
 
 
 } xinc_spim_frequency_t;
@@ -225,27 +218,26 @@ __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
 
 
 __STATIC_INLINE void xinc_spim_int_disable(XINC_SPIM_Type * p_reg,
-                                          uint32_t        mask)
+                                        uint32_t        mask)
 {
-	p_reg->IE = mask;
+    p_reg->IE = mask;
 }
 
 
 __STATIC_INLINE void xinc_spim_int_enable(XINC_SPIM_Type * p_reg,
                                          uint32_t        mask)
 {
-	p_reg->IE = mask;
+    p_reg->IE = mask;
 }
 
 __STATIC_INLINE void xinc_spim_enable(XINC_SPIM_Type * p_reg)
 {
-    p_reg->EN = 0x1 << 0UL;//(SPIM_ENABLE_ENABLE_Enabled << SPIM_ENABLE_ENABLE_Pos);
+    p_reg->EN = SSI_SSI_EN_SEN_Enable << SSI_SSI_EN_SEN_Pos;
 }
 
 __STATIC_INLINE void xinc_spim_disable(XINC_SPIM_Type * p_reg)
 {
-
-	p_reg->EN = 0x0 << 0UL;
+    p_reg->EN = SSI_SSI_EN_SEN_Disable << SSI_SSI_EN_SEN_Pos;
 }
 
 __STATIC_INLINE void xinc_spim_frequency_set(XINC_SPIM_Type *      p_reg,
@@ -258,43 +250,47 @@ __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
                                         xinc_spim_bit_order_t spi_bit_order)
 {
     uint32_t config = (spi_bit_order == XINC_SPIM_BIT_ORDER_MSB_FIRST ?
-        SPIM_CONFIG_ORDER_MsbFirst : SPIM_CONFIG_ORDER_LsbFirst);
-	
-		config = 0;
+    SPIM_CONFIG_ORDER_MsbFirst : SPIM_CONFIG_ORDER_LsbFirst);
+
+    config = 0;
+
+    config |=  (SSI_SSI_CTRL0_SRL_Normal << SSI_SSI_CTRL0_SRL_Pos)  | 
+                (SSI_SSI_CTRL0_TMOD_WR << SSI_SSI_CTRL0_TMOD_Pos)    |
+                (SSI_SSI_CTRL0_FRF_Motorola << SSI_SSI_CTRL0_FRF_Pos) |
+                (SSI_SSI_CTRL0_DFS_LEN_8bits << SSI_SSI_CTRL0_DFS_Pos) ;	/* 8bit SPI data */
+
     switch (spi_mode)
     {
-    default:
-    case XINC_SPIM_MODE_0:
-//        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
-//                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
-//		
-		    config |= (0 << 7) |(0    << 6); 
-                  
-        break;
+        case XINC_SPIM_MODE_0:
+        {
+            config |=   (SSI_SSI_CTRL0_SCPOL_ActiveHigh << SSI_SSI_CTRL0_SCPOL_Pos) |
+                        (SSI_SSI_CTRL0_SCPHA_Trailing    << SSI_SSI_CTRL0_SCPHA_Pos);
+        }break;        
+        
+        case XINC_SPIM_MODE_1:
+        {
+            config |=   (SSI_SSI_CTRL0_SCPOL_ActiveHigh << SSI_SSI_CTRL0_SCPOL_Pos) |
+                        (SSI_SSI_CTRL0_SCPHA_Leading    << SSI_SSI_CTRL0_SCPHA_Pos); 
+        }break;              
+        
+        case XINC_SPIM_MODE_2:
+        {
 
-    case XINC_SPIM_MODE_1:
-//        config |= (SPIM_CONFIG_CPOL_ActiveHigh << SPIM_CONFIG_CPOL_Pos) |
-//                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
-		    config |= (0 << 7) |(1    << 6); 
-        break;
+            config |=   (SSI_SSI_CTRL0_SCPOL_ActiveLow << SSI_SSI_CTRL0_SCPOL_Pos) |
+                        (SSI_SSI_CTRL0_SCPHA_Leading    << SSI_SSI_CTRL0_SCPHA_Pos); 
+        }break;
 
-    case XINC_SPIM_MODE_2:
-//        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
-//                  (SPIM_CONFIG_CPHA_Leading    << SPIM_CONFIG_CPHA_Pos);
-		   config |= (1 << 7) |(0    << 6); 
-        break;
-
-    case XINC_SPIM_MODE_3:
-//        config |= (SPIM_CONFIG_CPOL_ActiveLow  << SPIM_CONFIG_CPOL_Pos) |
-//                  (SPIM_CONFIG_CPHA_Trailing   << SPIM_CONFIG_CPHA_Pos);
-		config |= (1 << 7) |(1    << 6); 
+        case XINC_SPIM_MODE_3:
+        {
+            config |=   (SSI_SSI_CTRL0_SCPOL_ActiveLow << SSI_SSI_CTRL0_SCPOL_Pos) |
+                        (SSI_SSI_CTRL0_SCPHA_Trailing    << SSI_SSI_CTRL0_SCPHA_Pos); 
+        } break;
+       
+        default:
         break;
     }
-    p_reg->CTRL0 &= ~(0x03 << 6);
-		p_reg->CTRL0 |= config;
+    p_reg->CTRL0 = config;
 }
-
-
 
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION

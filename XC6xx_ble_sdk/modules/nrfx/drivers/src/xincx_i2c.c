@@ -182,10 +182,7 @@ nrfx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
 		
     if (p_cb->handler)
     {
-      //  p_i2c->i2c_INTR_EN = 0x01 << 2;
-       // NRFX_IRQ_ENABLE(I2C_IRQn);
-			
-		//	p_config->   XINCX_I2C_FLAG_NO_XFER_EVT_HANDLER
+
     }
 
     p_cb->state = NRFX_DRV_STATE_INITIALIZED;
@@ -212,8 +209,7 @@ void xincx_i2c_uninit(xincx_i2c_t const * p_instance)
 
     if (!p_cb->hold_bus_uninit)
     {
-      //  nrf_gpio_cfg_default(xinc_i2c_scl_pin_get(p_instance->p_i2c));
-       // nrf_gpio_cfg_default(xinc_i2c_sda_pin_get(p_instance->p_i2c));
+
     }
 
     p_cb->state = NRFX_DRV_STATE_UNINITIALIZED;
@@ -273,20 +269,17 @@ static bool i2c_send_byte(XINC_I2C_Type          * p_i2c,
     {
         if (p_cb->curr_tx_no_stop)
         {
-           // xinc_i2c_task_trigger(p_i2c, NRF_I2C_TASK_SUSPEND);
             xinc_i2c_txd_set(p_i2c, p_cb->p_curr_buf[p_cb->bytes_transferred] | data_cmd);
             return false;
         }
         else if(I2C_FLAG_SUSPEND(p_cb->flags))
         {
-          //  xinc_i2c_task_trigger(p_i2c, NRF_I2C_TASK_SUSPEND);
             xinc_i2c_txd_set(p_i2c, p_cb->p_curr_buf[p_cb->bytes_transferred] | data_cmd);
             p_cb->prev_suspend = I2C_SUSPEND_TX;
             return false;
         }
         else
         {
-         //   xinc_i2c_task_trigger(p_i2c, NRF_I2C_TASK_STOP);
             xinc_i2c_txd_set(p_i2c, p_cb->p_curr_buf[p_cb->bytes_transferred] | (I2C_DATA_CMD_STOP_Set << I2C_DATA_CMD_STOP_Pos) | data_cmd);
             return false;
         }
@@ -444,7 +437,6 @@ static nrfx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
 
     if (p_cb->prev_suspend != I2C_SUSPEND_TX)
     {
-      //  xinc_i2c_task_trigger(p_i2c, NRF_I2C_TASK_STARTTX);
         p_cb->flags |= (XINCX_I2C_FLAG_TX_HAS_START);
     }
    
@@ -515,7 +507,7 @@ static nrfx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
 
     if (p_cb->prev_suspend != I2C_SUSPEND_RX)
     {
-      //  xinc_i2c_task_trigger(p_i2c, XINC_I2C_TASK_STARTRX);
+
     }
 	
     if (p_cb->handler)

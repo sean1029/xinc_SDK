@@ -1187,7 +1187,7 @@ void spim_flash_test(void)
 											.ss_pin       = SPIM1_SS_PIN,
 											.irq_priority = 0,
 											.orc          = 0xFF,
-											.frequency    = (xinc_drv_spi_frequency_t) SPIM_FREQUENCY_FREQUENCY_K125,
+											.frequency    = (xinc_drv_spi_frequency_t) XINC_SPIM_FREQ_16M,
 											.mode         = XINC_DRV_SPI_MODE_0,
 											.bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,
 									};
