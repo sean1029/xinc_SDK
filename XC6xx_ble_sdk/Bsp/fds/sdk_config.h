@@ -70,7 +70,7 @@
 // <e> XINCX_WDT_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
 #ifndef XINCX_WDT_CONFIG_LOG_ENABLED
-#define XINCX_WDT_CONFIG_LOG_ENABLED 0
+#define XINCX_WDT_CONFIG_LOG_ENABLED 1
 #endif
 // <o> XINCX_WDT_CONFIG_LOG_LEVEL  - Default Severity level
  
@@ -829,11 +829,38 @@
 // <o> NRFX_UART_DEFAULT_CONFIG_PARITY  - Parity
  
 // <0=> Excluded 
-// <14=> Included 
+// <1=> Included 
 
 #ifndef NRFX_UART_DEFAULT_CONFIG_PARITY
 #define NRFX_UART_DEFAULT_CONFIG_PARITY 0
 #endif
+
+// <o> NRFX_UART_DEFAULT_CONFIG_PARITY_TYPE  - Parity type
+// <0=> Included Odd  
+// <1=> Included Even 
+ 
+#ifndef NRFX_UART_DEFAULT_CONFIG_PARITY_TYPE
+#define NRFX_UART_DEFAULT_CONFIG_PARITY_TYPE 0
+#endif
+
+// <o> NRFX_UART_DEFAULT_CONFIG_DATA_BITS  - Data bits
+// <0=> 5 bits
+// <1=> 6 bits
+// <2=> 7 bits
+// <3=> 8 bits
+ 
+#ifndef NRFX_UART_DEFAULT_CONFIG_DATA_BITS
+#define NRFX_UART_DEFAULT_CONFIG_DATA_BITS 3
+#endif
+
+// <o> NRFX_UART_DEFAULT_CONFIG_STOP_BITS  - Stop bits
+// <0=> 1 bits
+// <1=> 1.5 / 2 bits
+#ifndef NRFX_UART_DEFAULT_CONFIG_STOP_BITS
+#define NRFX_UART_DEFAULT_CONFIG_STOP_BITS 1
+#endif
+
+
 
 // <o> NRFX_UART_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
  

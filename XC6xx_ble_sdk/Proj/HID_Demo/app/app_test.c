@@ -45,7 +45,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
     uint32_t ret_val;
     uint32_t err_code;
     int i = 0;
-	//  printf("uart_event_handle ,evt_type:%d\r\n",p_event->evt_type);
+	 // printf("uart_event_handle ,evt_type:%d\r\n",p_event->evt_type);
     switch (p_event->evt_type)
     {
         /**@snippet [Handling data from UART] */
@@ -53,7 +53,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
             UNUSED_VARIABLE(app_uart_get(&data_array[0]));
             index++;
             app_uart_get(&data_array[0]);
-    //		printf("Data:%c\r\n",data_array[0]);
+    	//	printf("Data:%c\r\n",data_array[0]);
         //	for( i = 0; i< 16;i++)
             {
                 err_code = app_uart_put(data_array[0] + 0);
@@ -79,7 +79,11 @@ void uart_event_handle(app_uart_evt_t * p_event)
         case APP_UART_DATA:
             app_uart_get(&data_array[0]);
             //  printf("data:%c \r\n",data_array[0]);
-        app_uart_put(data_array[0]);
+        if(app_uart_put(data_array[0]))
+        {
+            printf("put err\n");
+        }
+    //    app_uart_put(data_array[0]);
         break;
 
         default:
@@ -104,6 +108,8 @@ void drv_uart_test(void)
         .tx_pin_no    = APP_UART_TX_PIN_NUMBER,
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
         .use_parity   = false,
+        .data_bits = 3,
+        .stop_bits = 1,
         .baud_rate    = UART_BAUDRATE_BAUDRATE_Baud115200
     };
 
@@ -347,12 +353,12 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
             {						
                 GPIO_OUTPUT_HIGH(5);
                 on_off = 1;		
-xincx_saadc_sample(&m_saadc,8);                
+            //xincx_saadc_sample(&m_saadc,8);                
             }else
             {						
                 GPIO_OUTPUT_LOW(5);
-                xincx_saadc_sample_convert(&m_saadc,8,&adc_val);
-                printf("adc_val:%d\n",adc_val);
+           //     xincx_saadc_sample_convert(&m_saadc,8,&adc_val);
+             //   printf("adc_val:%d\n",adc_val);
                 on_off = 0;
                 i++;
                 if(i > 99)

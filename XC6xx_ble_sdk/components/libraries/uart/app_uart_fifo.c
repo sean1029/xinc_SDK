@@ -56,7 +56,7 @@ static __INLINE uint32_t fifo_length(app_fifo_t * const fifo)
 
 
 static app_uart_event_handler_t   m_event_handler;            /**< Event handler function. */
-static uint8_t tx_buffer[1];
+static uint8_t tx_buffer[100];
 static uint8_t rx_buffer[1];
 static bool m_rx_ovf;
 
@@ -150,7 +150,7 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     {
         return NRF_ERROR_INVALID_PARAM;
     }
-
+    printf("app_uart_init baud:%d \r\n",p_comm_params->baud_rate);
     // Configure buffer RX buffer.
     err_code = app_fifo_init(&m_rx_fifo, p_buffers->rx_buf, p_buffers->rx_buf_size);
     VERIFY_SUCCESS(err_code);
@@ -169,6 +169,11 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     config.pselrts = p_comm_params->rts_pin_no;
     config.pselrxd = p_comm_params->rx_pin_no;
     config.pseltxd = p_comm_params->tx_pin_no;
+    
+    config.data_bits = p_comm_params->data_bits;
+    config.stop_bits = p_comm_params->stop_bits;
+    
+    printf("config baud:%d \r\n",config.baudrate);
 
     err_code = nrf_drv_uart_init(&app_uart_inst, &config, uart_event_handler);
     VERIFY_SUCCESS(err_code);

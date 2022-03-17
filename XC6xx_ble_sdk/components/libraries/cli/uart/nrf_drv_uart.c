@@ -122,6 +122,8 @@ ret_code_t nrf_drv_uart_init(nrf_drv_uart_t const *        p_instance,
 #endif
 
     nrf_drv_uart_config_t config = *p_config;
+    printf("uart_init p_config baudrate:%d\r\n",p_config->baudrate);
+    printf("uart_init config baudrate:%d\r\n",config.baudrate);
     config.p_context = (void *)inst_idx;
 
     ret_code_t result = 0;

@@ -1,40 +1,8 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -61,23 +29,22 @@ extern "C" {
 /** @brief UART events. */
 typedef enum
 {
-    NRF_UART_EVENT_CTS    = 0,//offsetof(NRF_UART_Type, EVENTS_CTS),   /**< Event from CTS line activation. */
-    NRF_UART_EVENT_NCTS   = 1,//offsetof(NRF_UART_Type, EVENTS_NCTS),  /**< Event from CTS line deactivation. */
-    NRF_UART_EVENT_RXDRDY = 2,//offsetof(NRF_UART_Type, EVENTS_RXDRDY),/**< Event from data ready in RXD. */
-    NRF_UART_EVENT_TXDRDY = 3,//offsetof(NRF_UART_Type, EVENTS_TXDRDY),/**< Event from data sent from TXD. */
-    NRF_UART_EVENT_ERROR  = 4,//offsetof(NRF_UART_Type, EVENTS_ERROR), /**< Event from error detection. */
-    NRF_UART_EVENT_RXTO   = 5,//offsetof(NRF_UART_Type, EVENTS_RXTO)   /**< Event from receiver timeout. */
+    NRF_UART_EVENT_CTS    = UART_UARTx_IIR_IID_EMSI,  /**< Event from CTS line activation. */
+    NRF_UART_EVENT_TXDRDY = UART_UARTx_IIR_IID_ETHEI, /**< Event from data sent from TXD. */
+    NRF_UART_EVENT_RXDRDY = UART_UARTx_IIR_IID_ERDAI, /**< Event from data ready in RXD. */
+    NRF_UART_EVENT_ERROR  = UART_UARTx_IIR_IID_ETSI, /**< Event from error detection. */
+    NRF_UART_EVENT_BUSY   = UART_UARTx_IIR_IID_BUSY, /**< Event from BUSY. */
+    NRF_UART_EVENT_RXTO   = UART_UARTx_IIR_IID_TO,   /**< Event from receiver timeout. */
 } nrf_uart_event_t;
 
 /** @brief UART interrupts. */
 typedef enum
 {
-    NRF_UART_INT_MASK_CTS    = 0,//UART_INTENCLR_CTS_Msk,    /**< CTS line activation interrupt. */
-    NRF_UART_INT_MASK_NCTS   = 1,//UART_INTENCLR_NCTS_Msk,   /**< CTS line deactivation interrupt. */
-    NRF_UART_INT_MASK_RXDRDY = 2,//UART_INTENCLR_RXDRDY_Msk, /**< Data ready in RXD interrupt. */
-    NRF_UART_INT_MASK_TXDRDY = 3,//UART_INTENCLR_TXDRDY_Msk, /**< Data sent from TXD interrupt. */
-    NRF_UART_INT_MASK_ERROR  = 4,//UART_INTENCLR_ERROR_Msk,  /**< Error detection interrupt. */
-    NRF_UART_INT_MASK_RXTO   = 50,//UART_INTENCLR_RXTO_Msk    /**< Receiver timeout interrupt. */
+    NRF_UART_INT_MASK_CTS    = UART_UARTx_IER_EMSI_Msk,//,    /**< CTS line activation interrupt. */
+    NRF_UART_INT_MASK_RXDRDY = UART_UARTx_IER_ERDAI_Msk,//, /**< Data ready in RXD interrupt. */
+    NRF_UART_INT_MASK_TXDRDY = UART_UARTx_IER_ETHEI_Msk,//, /**< Data sent from TXD interrupt. */
+    NRF_UART_INT_MASK_ERROR  = UART_UARTx_IER_ETSI_Msk,//,  /**< Error detection interrupt. */
+    NRF_UART_INT_MASK_RXTO   = UART_UARTx_IER_ERDAI_Msk,//    /**< Receiver timeout interrupt. */
 } nrf_uart_int_mask_t;
 
 /** @brief Baudrates supported by UART. */
@@ -104,26 +71,49 @@ typedef enum
 /** @brief Types of UART error masks. */
 typedef enum
 {
-    NRF_UART_ERROR_OVERRUN_MASK = 0,//UART_ERRORSRC_OVERRUN_Msk,   /**< Overrun error. */
-    NRF_UART_ERROR_PARITY_MASK  = 1,//UART_ERRORSRC_PARITY_Msk,    /**< Parity error. */
-    NRF_UART_ERROR_FRAMING_MASK = 2,//UART_ERRORSRC_FRAMING_Msk,   /**< Framing error. */
-    NRF_UART_ERROR_BREAK_MASK   = 3,//UART_ERRORSRC_BREAK_Msk,     /**< Break error. */
+    NRF_UART_ERROR_OVERFIFO_MASK = UART_UARTx_TSR_OE_Msk,   /**< OverFIFO error. */
+    NRF_UART_ERROR_PARITY_MASK  = UART_UARTx_TSR_PE_Msk,   /**< Parity error. */
+    NRF_UART_ERROR_FRAMING_MASK = UART_UARTx_TSR_FE_Msk,   /**< Framing error. */
+    NRF_UART_ERROR_BREAK_MASK   = UART_UARTx_TSR_BI_Msk   /**< Break error. */
 } nrf_uart_error_mask_t;
 
 /** @brief Types of UART parity modes. */
 typedef enum
 {
-    NRF_UART_PARITY_EXCLUDED = UART_CONFIG_PARITY_Excluded << UART_CONFIG_PARITY_Pos, /**< Parity excluded. */
-    NRF_UART_PARITY_INCLUDED = UART_CONFIG_PARITY_Included << UART_CONFIG_PARITY_Pos, /**< Parity included. */
+    NRF_UART_PARITY_EXCLUDED = UART_UARTx_TCR_PEN_Excluded << UART_UARTx_TCR_PEN_Pos, /**< Parity excluded. */
+    NRF_UART_PARITY_INCLUDED = UART_UARTx_TCR_PENS_Included << UART_UARTx_TCR_PEN_Pos, /**< Parity included. */
 } nrf_uart_parity_t;
+
+/** @brief Types of UART parity type. */
+typedef enum
+{
+    NRF_UART_PARITY_ODD  = UART_UARTx_TCR_EPS_Odd << UART_UARTx_TCR_EPS_Pos, /**< Parity excluded. */
+    NRF_UART_PARITY_EVEN = UART_UARTx_TCR_EPS_Even << UART_UARTx_TCR_EPS_Pos, /**< Parity included. */
+} nrf_uart_parity_type_t;
 
 /** @brief Types of UART flow control modes. */
 typedef enum
 {
-    NRF_UART_HWFC_DISABLED = UART_CONFIG_HWFC_Disabled, /**< Hardware flow control disabled. */
-    NRF_UART_HWFC_ENABLED  = UART_CONFIG_HWFC_Enabled,  /**< Hardware flow control enabled. */
+    NRF_UART_HWFC_DISABLED = UART_UARTx_MCR_AFCE_Disable, /**< Hardware flow control disabled. */
+    NRF_UART_HWFC_ENABLED  = UART_UARTx_MCR_AFCE_Enable,  /**< Hardware flow control enabled. */
 } nrf_uart_hwfc_t;
 
+/** @brief Types of UART data bits */
+typedef enum
+{
+    NRF_UART_DATA_5_BITS  = UART_UARTx_TCR_CLS_5bits, /**< Hardware data 5 bits. */
+    NRF_UART_DATA_6_BITS  = UART_UARTx_TCR_CLS_6bits,  /**<  Hardware data 5 bits.. */
+    NRF_UART_DATA_7_BITS  = UART_UARTx_TCR_CLS_7bits, /**< Hardware data 5 bits. */
+    NRF_UART_DATA_8_BITS  = UART_UARTx_TCR_CLS_8bits,  /**<  Hardware data 5 bits.. */
+} nrf_uart_data_bits_t;
+
+/** @brief Types of UART stop bits */
+typedef enum
+{
+    NRF_UART_STOP_1_BITS  = UART_UARTx_TCR_STOP_1bits, /**< Hardware stop 1 bits. */
+    NRF_UART_STOP_1_5_BITS  = UART_UARTx_TCR_STOP_1_5bits,  /**<  Hardware stop 1.5 bits.. */
+    NRF_UART_STOP_2_BITS  = UART_UARTx_TCR_STOP_2bits, /**< Hardware stop 2 bits. */
+} nrf_uart_stop_bits_t;
 
 
 
@@ -209,56 +199,59 @@ __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type * p_reg, nrf_uart_baudr
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
-__STATIC_INLINE void nrf_uart_event_clear(NRF_UART_Type * p_reg, nrf_uart_event_t event)
-{
 
-}
 
 __STATIC_INLINE bool nrf_uart_event_check(NRF_UART_Type * p_reg, nrf_uart_event_t event)
 {
-		bool event_has = false;
-		switch(event)
-		{
-			case NRF_UART_EVENT_RXDRDY:
-			{
-				 event_has = (bool)(p_reg->TSR & 0X01);
-			}break;
-			
-			case NRF_UART_EVENT_ERROR:
-			{
-				 event_has = (bool)(p_reg->IIR_FCR.IIR  & 0X06);
-			}break;
-			
-			case NRF_UART_EVENT_RXTO:
-			{
-				 event_has = (bool)(p_reg->IIR_FCR.IIR  & 0X0C);
-			}break;
-			
-			default:break;
-		}
+    bool event_has = false;
+    switch(event)
+    {    
+        case NRF_UART_EVENT_TXDRDY:
+        {
+                event_has = (bool)((p_reg->TSR & UART_UARTx_TSR_THRE_Msk));
+            
+        }break;
+        
+        case NRF_UART_EVENT_RXDRDY:
+        {
+                event_has = (bool)((p_reg->IIR_FCR.IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ERDAI);
+        }break;
+        
+        case NRF_UART_EVENT_ERROR:
+        {
+                event_has = (bool)((p_reg->IIR_FCR.IIR & UART_UARTx_IIR_IID_Msk)  == UART_UARTx_IIR_IID_ETSI);
+        }break;
+        
+        case NRF_UART_EVENT_RXTO:
+        {
+                event_has = (bool)((p_reg->IIR_FCR.IIR & UART_UARTx_IIR_IID_Msk)  == UART_UARTx_IIR_IID_TO);
+        }break;
+        
+        default:break;
+    }
     return (bool)event_has;
 }
 
 
 
-__STATIC_INLINE void nrf_uart_int_enable(NRF_UART_Type * p_reg, uint32_t mask)
+__STATIC_INLINE void nrf_uart_int_enable(NRF_UART_Type * p_reg, uint32_t mask)//DLAB = 0 操作的才是这个寄存器
 {
-   
+  // p_reg->IER_DLH.IER |= mask;
 }
 
 __STATIC_INLINE bool nrf_uart_int_enable_check(NRF_UART_Type * p_reg, uint32_t mask)
 {
-    return (bool)0;
+    return (bool)(p_reg->IER_DLH.IER & mask);
 }
 
 __STATIC_INLINE void nrf_uart_int_disable(NRF_UART_Type * p_reg, uint32_t mask)
 {
-
+  //  p_reg->IER_DLH.IER &= ~mask;
 }
 
 __STATIC_INLINE uint32_t nrf_uart_errorsrc_get_and_clear(NRF_UART_Type * p_reg)
 {
-    uint32_t errsrc_mask = 0;
+    uint32_t errsrc_mask = 0;//p_reg->TSR;
 
     return errsrc_mask;
 }
@@ -277,22 +270,23 @@ __STATIC_INLINE void nrf_uart_disable(NRF_UART_Type * p_reg)
 
 __STATIC_INLINE uint8_t nrf_uart_rxd_get(NRF_UART_Type * p_reg)
 {
-    return p_reg->RBR_THR_DLL.RBR;
+    return (p_reg->RBR_THR_DLL.RBR & UART_UARTx_RBR_RBR_Msk) >> UART_UARTx_RBR_RBR_Pos;
 }
 
 __STATIC_INLINE void nrf_uart_txd_set(NRF_UART_Type * p_reg, uint8_t txd)
 {
-		p_reg->RBR_THR_DLL.THR = txd;
+   // printf("txd_set\r\n");
+		p_reg->RBR_THR_DLL.THR = txd;//(txd << UART_UARTx_THR_THR_Pos) & UART_UARTx_THR_THR_Msk;
 }
 
 
  
 __STATIC_INLINE void nrf_uart_baudrate_set(NRF_UART_Type   * p_reg, nrf_uart_baudrate_t baudrate)
 {
-   p_reg->TCR |= (0x01 << 7);
-	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f;
+     p_reg->TCR |= (UART_UARTx_TCR_DLAB_DLLH_Enable << UART_UARTx_TCR_DLAB_Pos);
+	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f ;//& UART_UARTx_DLL_DLL_Msk;
 	 p_reg->IER_DLH.DLH = 0;
-	 p_reg->TCR &= ~(0x01 << 7);
+	 p_reg->TCR &= ~(UART_UARTx_TCR_DLAB_DLLH_Enable << UART_UARTx_TCR_DLAB_Pos);
 }
 #endif //SUPPRESS_INLINE_IMPLEMENTATION
 

@@ -37,13 +37,13 @@
 
 #define RTC_TEST_EN 0
 
-#define DRV_TIMER_TEST_EN 1
+#define DRV_TIMER_TEST_EN 0
 
 
 #define DRV_WDT_TEST_EN 0
 #define DRV_PWM_TEST_EN 0
-#define DRV_SAADC_TEST_EN 1
-#define DRV_UART_TEST_EN 0
+#define DRV_SAADC_TEST_EN 0
+#define DRV_UART_TEST_EN 1
 
 #define BSP_BUTTON_TEST_EN 0
 #define APP_BUTTON_TEST_EN 0

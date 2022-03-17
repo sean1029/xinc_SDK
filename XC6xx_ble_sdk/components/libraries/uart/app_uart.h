@@ -77,6 +77,8 @@ typedef struct
     uint32_t                cts_pin_no;   /**< CTS pin number, only used if flow control is enabled. */
     app_uart_flow_control_t flow_control; /**< Flow control setting, if flow control is used, the system will use low power UART mode, based on CTS signal. */
     bool                    use_parity;   /**< Even parity if TRUE, no parity if FALSE. */
+    uint8_t data_bits;
+    uint8_t stop_bits;
     uint32_t                baud_rate;    /**< Baud rate configuration. */
 } app_uart_comm_params_t;
 

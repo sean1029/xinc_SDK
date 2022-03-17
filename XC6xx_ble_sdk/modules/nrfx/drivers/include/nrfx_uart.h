@@ -102,10 +102,15 @@ typedef struct
     uint32_t            pselrts;            ///< RTS pin number.
     void *              p_context;          ///< Context passed to interrupt handler.
     nrf_uart_hwfc_t     hwfc;               ///< Flow control configuration.
+    nrf_uart_data_bits_t data_bits;             ///< configuration data bits.
+    nrf_uart_stop_bits_t stop_bits;
     nrf_uart_parity_t   parity;             ///< Parity configuration.
+    nrf_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     nrf_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
 } nrfx_uart_config_t;
+
+
 
 /** @brief UART default configuration. */
 #define NRFX_UART_DEFAULT_CONFIG                                                  \
@@ -117,6 +122,9 @@ typedef struct
     .p_context          = NULL,                                                   \
     .hwfc               = (nrf_uart_hwfc_t)NRFX_UART_DEFAULT_CONFIG_HWFC,         \
     .parity             = (nrf_uart_parity_t)NRFX_UART_DEFAULT_CONFIG_PARITY,     \
+    .parity_type        = (nrf_uart_parity_type_t)NRFX_UART_DEFAULT_CONFIG_PARITY_TYPE,     \
+    .data_bits          = (nrf_uart_data_bits_t) NRFX_UART_DEFAULT_CONFIG_DATA_BITS,\
+    .stop_bits          = (nrf_uart_stop_bits_t) NRFX_UART_DEFAULT_CONFIG_STOP_BITS,\
     .baudrate           = (nrf_uart_baudrate_t)NRFX_UART_DEFAULT_CONFIG_BAUDRATE, \
     .interrupt_priority = NRFX_UART_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
 }

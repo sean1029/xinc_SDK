@@ -133,7 +133,6 @@
     typedef nrf_uarte_parity_t          nrf_uart_parity_t;
     typedef nrf_uarte_event_t           nrf_uart_event_t;
     #define NRF_UART_PSEL_DISCONNECTED  NRF_UARTE_PSEL_DISCONNECTED
-    #define nrf_uart_event_clear(...)
 #endif
 
 #ifdef __cplusplus
@@ -183,7 +182,24 @@ typedef enum
     NRF_DRV_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
 } nrf_drv_uart_evt_type_t;
 
-/**@brief Structure for UART configuration. */
+
+///**@brief Structure for UART configuration. */
+//typedef struct
+//{
+//    uint32_t            pseltxd;            ///< TXD pin number.
+//    uint32_t            pselrxd;            ///< RXD pin number.
+//    uint32_t            pselcts;            ///< CTS pin number.
+//    uint32_t            pselrts;            ///< RTS pin number.
+//    void *              p_context;          ///< Context passed to interrupt handler.
+//    nrf_uart_hwfc_t     hwfc;               ///< Flow control configuration.
+//    nrf_uart_parity_t   parity;             ///< Parity configuration.
+//    nrf_uart_baudrate_t baudrate;           ///< Baudrate.
+//    uint8_t             interrupt_priority; ///< Interrupt priority.
+//#if defined(NRF_DRV_UART_WITH_UARTE) && defined(NRF_DRV_UART_WITH_UART)
+//    bool                use_easy_dma;
+//#endif
+//} nrf_drv_uart_config_t;
+
 typedef struct
 {
     uint32_t            pseltxd;            ///< TXD pin number.
@@ -192,12 +208,12 @@ typedef struct
     uint32_t            pselrts;            ///< RTS pin number.
     void *              p_context;          ///< Context passed to interrupt handler.
     nrf_uart_hwfc_t     hwfc;               ///< Flow control configuration.
+    nrf_uart_data_bits_t data_bits;             ///< configuration data bits.
+    nrf_uart_stop_bits_t stop_bits;
     nrf_uart_parity_t   parity;             ///< Parity configuration.
-    nrf_uart_baudrate_t baudrate;           ///< Baudrate.
+    nrf_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
+    nrf_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
-#if defined(NRF_DRV_UART_WITH_UARTE) && defined(NRF_DRV_UART_WITH_UART)
-    bool                use_easy_dma;
-#endif
 } nrf_drv_uart_config_t;
 
 #if defined(NRF_DRV_UART_WITH_UARTE) && defined(NRF_DRV_UART_WITH_UART)
@@ -588,7 +604,6 @@ uint32_t nrf_drv_uart_errorsrc_get(nrf_drv_uart_t const * p_instance)
     }
     else if (NRF_DRV_UART_USE_UART)
     {
-//        nrf_uart_event_clear(p_instance->uart.p_reg, NRF_UART_EVENT_ERROR);
         result = nrfx_uart_errorsrc_get(&p_instance->uart);
     }
     return result;
