@@ -1,40 +1,6 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -59,9 +25,9 @@ extern "C" {
 typedef struct
 {
     XINC_SPIM_Type * p_reg;        ///< Pointer to a structure with SPIM registers.
-		XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
+    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
     uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
-		uint8_t         id;
+    uint8_t         id;
 } xincx_spim_t;
 
 #ifndef __NRFX_DOXYGEN__
@@ -77,12 +43,12 @@ enum {
 #endif
 
 /** @brief Macro for creating an instance of the SPIM driver. */
-#define XINCX_SPIM_INSTANCE(Id)                               \
-{                                                            \
-    .p_reg        = NRFX_CONCAT_2(XINC_SPIM, Id),             \
-		.p_cpr				= XINC_CPR,																	\
-    .drv_inst_idx = NRFX_CONCAT_3(XINCX_SPIM, Id, _INST_IDX), \
-		.id 					= Id,																				\
+#define XINCX_SPIM_INSTANCE(Id)                                         \
+{                                                                       \
+    .p_reg          = NRFX_CONCAT_2(XINC_SPIM, Id),                     \
+    .p_cpr          = XINC_CPR,                                         \
+    .drv_inst_idx   = NRFX_CONCAT_3(XINCX_SPIM, Id, _INST_IDX),         \
+    .id             = Id,                                               \
 }
 
 /**
@@ -97,19 +63,19 @@ typedef struct
 {
     uint8_t sck_pin;      ///< SCK pin number.
     uint8_t mosi_pin;     ///< MOSI pin number (optional).
-                          /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
-                           *   if this signal is not needed. */
+                            /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
+                             *   if this signal is not needed. */
     uint8_t miso_pin;     ///< MISO pin number (optional).
-                          /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
-                           *   if this signal is not needed. */
+                            /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
+                             *   if this signal is not needed. */
     uint8_t ss_pin;       ///< Slave Select pin number (optional).
-                          /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
-                           *   if this signal is not needed. */
+                            /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
+                             *   if this signal is not needed. */
     bool ss_active_high;  ///< Polarity of the Slave Select pin during transmission.
     uint8_t irq_priority; ///< Interrupt priority.
     uint8_t orc;          ///< Overrun character.
-                          /**< This character is used when all bytes from the TX buffer are sent,
-                               but the transfer continues due to RX. */
+                            /**< This character is used when all bytes from the TX buffer are sent,
+                                 but the transfer continues due to RX. */
     xinc_spim_frequency_t frequency; ///< SPIM frequency.
     xinc_spim_mode_t      mode;      ///< SPIM mode.
     xinc_spim_bit_order_t bit_order; ///< SPIM bit order.
@@ -128,7 +94,7 @@ typedef struct
     .miso_pin       = XINCX_SPIM_PIN_NOT_USED,                \
     .ss_pin         = XINCX_SPIM_PIN_NOT_USED,                \
     .ss_active_high = false,                                 \
-    .irq_priority   = 0, \
+    .irq_priority   = 0,                                    \
     .orc            = 0xFF,                                  \
     .frequency      = XINC_SPIM_FREQ_4M,                      \
     .mode           = XINC_SPIM_MODE_0,                       \
@@ -161,13 +127,13 @@ typedef struct
  *
  * This macro is for internal use only.
  */
-#define XINCX_SPIM_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len) \
-    {                                                     \
-    .p_tx_buffer = (uint8_t *)(p_tx),               \
-    .tx_length = (tx_len),                                \
-    .p_rx_buffer = (p_rx),                                \
-    .rx_length = (rx_len),                                \
-    }
+#define XINCX_SPIM_SINGLE_XFER(p_tx, tx_len, p_rx, rx_len)  \
+{                                                           \
+    .p_tx_buffer = (uint8_t *)(p_tx),                       \
+    .tx_length = (tx_len),                                  \
+    .p_rx_buffer = (p_rx),                                  \
+    .rx_length = (rx_len),                                  \
+}
 
 /** @brief Macro for setting the duplex TX RX transfer. */
 #define XINCX_SPIM_XFER_TRX(p_tx_buf, tx_length, p_rx_buf, rx_length) \
@@ -231,7 +197,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t const * const  p_instance,
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void       xincx_spim_uninit(xincx_spim_t const * const p_instance);
+void xincx_spim_uninit(xincx_spim_t const * const p_instance);
 
 /**
  * @brief Function for starting the SPIM data transfer.

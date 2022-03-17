@@ -1,40 +1,8 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -59,18 +27,19 @@ extern "C" {
 typedef struct
 {
     XINC_UART_Type * p_reg;        ///< Pointer to a structure with UART registers.
+    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
     uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
-		uint8_t         id;
+    uint8_t         id;
 } xincx_uart_t;
 
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_UART0_ENABLED)
+    #if NRFX_CHECK(XINCX_UART0_ENABLED)
     XINCX_UART0_INST_IDX ,
-#endif
-#if NRFX_CHECK(XINCX_UART1_ENABLED)
-		XINCX_UART1_INST_IDX ,
-#endif
+    #endif
+    #if NRFX_CHECK(XINCX_UART1_ENABLED)
+    XINCX_UART1_INST_IDX ,
+    #endif
     XINCX_UART_ENABLED_COUNT,
 
 };
@@ -78,11 +47,12 @@ enum {
 
 
 /** @brief Macro for creating a UART driver instance. */
-#define XINCX_UART_INSTANCE(Id)                               \
-{                                                            \
-    .p_reg        = NRFX_CONCAT_2(XINC_UART, Id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(XINCX_UART, Id, _INST_IDX), \
-		.id = Id, 																							\
+#define XINCX_UART_INSTANCE(Id)                                     \
+{                                                                   \
+    .p_reg          = NRFX_CONCAT_2(XINC_UART, Id),                 \
+    .p_cpr          = XINC_CPR,                                     \
+    .drv_inst_idx   = NRFX_CONCAT_3(XINCX_UART, Id, _INST_IDX),     \
+    .id             = Id,                                           \
 }
 
 /** @brief Types of UART driver events. */

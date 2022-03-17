@@ -367,7 +367,8 @@ typedef struct {                             /*!< (@ 0x40000000) CPR Structure  
   __IOM  uint32_t  RSTCTL_M0RST_MASK;             /*!< (@ 0x0000010C) RSTCTL_M0RST_MASK  */  
   __IM   uint32_t  RESERVED6;
   __IOM  uint32_t  RSTCTL_WDTRST_MASK;             /*!< (@ 0x00000114) RSTCTL_WDTRST_MASK  */ 
-  __IM   uint32_t  RESERVED7[18];
+  __IOM  uint32_t  LP_CTL;                          /*!< (@ 0x00000118) 低功耗控制寄存器  */ 
+  __IM   uint32_t  RESERVED7[17];
   __IOM  uint32_t  SSI_CTRL;                    /*!< (@ 0x00000160) SSI_CTRL  */
 } XINC_CPR_CTL_Type; 
 

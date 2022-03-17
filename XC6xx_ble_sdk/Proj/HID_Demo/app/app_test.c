@@ -109,7 +109,7 @@ void drv_uart_test(void)
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
         .use_parity   = false,
         .data_bits = 3,
-        .stop_bits = 1,
+        .stop_bits = 0,
         .baud_rate    = UART_BAUDRATE_BAUDRATE_Baud115200
     };
 

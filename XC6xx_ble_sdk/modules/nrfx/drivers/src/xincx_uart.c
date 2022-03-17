@@ -229,9 +229,34 @@ nrfx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
         return err_code;
     }
 
-    xc_uart_clk_init(p_instance->id,p_config->baudrate);
+ //   xc_uart_clk_init(p_instance->id,p_config->baudrate);
 
+    XINC_CPR_CTL_Type * p_cpr = p_instance->p_cpr;
+    uint8_t ch = p_instance->id;
+    uint32_t	val;		
 
+    p_cpr->RSTCTL_CTLAPB_SW = (1<<(16+ch));
+    p_cpr->RSTCTL_CTLAPB_SW = ((1<<(16+ch))|(1<<ch));
+    
+    val = p_cpr->LP_CTL;
+    val &= ~(1<<(1-ch));
+    p_cpr->LP_CTL = val;
+    
+    val = (1<<(16+ch+4)) | (1<<(ch+4));
+    p_cpr->CTLAPBCLKEN_GRCTL = val;
+    
+    if(ch == 0)
+    {
+        p_cpr->UART0_GRCTL = 0x110018;
+        p_cpr->UART0_CLK_CTL = p_config->baudrate>>4;
+    }
+    else
+    {   
+        p_cpr->UART1_GRCTL = 0x110018;
+        p_cpr->UART1_CLK_CTL = p_config->baudrate>>4;
+    
+    }
+    
     err_code = apply_config(p_instance, p_config);
 
     if(err_code != NRFX_SUCCESS)
