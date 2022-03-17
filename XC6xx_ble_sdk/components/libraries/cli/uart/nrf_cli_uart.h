@@ -41,7 +41,7 @@
 #define NRF_CLI_UART_H__
 
 #include "nrf_cli.h"
-#include "nrf_drv_uart.h"
+#include "xinc_drv_uart.h"
 #include "nrf_ringbuf.h"
 #include "app_timer.h"
 
@@ -68,7 +68,7 @@ typedef struct nrf_cli_uart_internal_s nrf_cli_uart_internal_t;
 typedef struct {
     nrf_cli_transport_handler_t   handler;
     void *                        p_context;
-    nrf_drv_uart_config_t         uart_config;
+    xinc_drv_uart_config_t         uart_config;
     bool                          timer_created;
     bool                          blocking;
 } nrf_cli_uart_internal_cb_t;
@@ -79,10 +79,10 @@ struct nrf_cli_uart_internal_s {
     app_timer_id_t const *       p_timer;
     nrf_ringbuf_t const *        p_rx_ringbuf;
     nrf_ringbuf_t const *        p_tx_ringbuf;
-    nrf_drv_uart_t const *       p_uart;
+    xinc_drv_uart_t const *       p_uart;
 };
 
-typedef nrf_drv_uart_config_t nrf_cli_uart_config_t;
+typedef xinc_drv_uart_config_t nrf_cli_uart_config_t;
 
 /**@brief CLI UART transport definition.
  *
@@ -95,7 +95,7 @@ typedef nrf_drv_uart_config_t nrf_cli_uart_config_t;
     APP_TIMER_DEF(CONCAT_2(_name, _timer));                         \
     NRF_RINGBUF_DEF(CONCAT_2(_name,_tx_ringbuf), _tx_buf_sz);       \
     NRF_RINGBUF_DEF(CONCAT_2(_name,_rx_ringbuf), _rx_buf_sz);       \
-    static const nrf_drv_uart_t CONCAT_2(_name,_uart) =             \
+    static const xinc_drv_uart_t CONCAT_2(_name,_uart) =             \
                                  NRF_DRV_UART_INSTANCE(_uart_id);   \
     static nrf_cli_uart_internal_cb_t CONCAT_2(_name, _cb);         \
     static const nrf_cli_uart_internal_t _name = {                  \

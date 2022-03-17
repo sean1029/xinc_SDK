@@ -15,10 +15,10 @@ NRF_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
 void cli_test(void)
 {
     #if NRF_MODULE_ENABLED(NRF_CLI)
-    nrf_drv_uart_config_t uart_config;
+    xinc_drv_uart_config_t uart_config;
     uart_config.pseltxd = CLI_TX_PIN_NUMBER;
     uart_config.pselrxd = CLI_RX_PIN_NUMBER;
-    uart_config.hwfc    = NRF_UART_HWFC_DISABLED;
+    uart_config.hwfc    = XINC_UART_HWFC_DISABLED;
     uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
 
     ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, NRF_LOG_SEVERITY_NONE);
@@ -37,7 +37,7 @@ void cli_processt(void)
 
 #if DRV_UART_TEST_EN
 
-#if NRFX_CHECK(NRFX_UART_ENABLED)
+#if NRFX_CHECK(XINCX_UART_ENABLED)
 void uart_event_handle(app_uart_evt_t * p_event)
 {
     static uint8_t data_array[20];
@@ -99,7 +99,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
 
 void drv_uart_test(void)
 {
-    #if NRFX_CHECK(NRFX_UART_ENABLED)
+    #if NRFX_CHECK(XINCX_UART_ENABLED)
     ret_code_t err_code;
 
     app_uart_comm_params_t const comm_params =

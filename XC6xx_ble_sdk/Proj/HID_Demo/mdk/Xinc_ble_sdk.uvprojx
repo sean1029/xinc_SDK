@@ -1061,9 +1061,9 @@
               <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_drv_uart.c</FileName>
+              <FileName>xinc_drv_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\nrf_drv_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>nrf_ringbuf.c</FileName>
@@ -1071,9 +1071,9 @@
               <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
             </File>
             <File>
-              <FileName>nrfx_uart.c</FileName>
+              <FileName>xincx_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2163,9 +2163,9 @@
               <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_drv_uart.c</FileName>
+              <FileName>xinc_drv_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\nrf_drv_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>nrf_ringbuf.c</FileName>
@@ -2173,9 +2173,9 @@
               <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
             </File>
             <File>
-              <FileName>nrfx_uart.c</FileName>
+              <FileName>xincx_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_uart.c</FilePath>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
             </File>
           </Files>
         </Group>

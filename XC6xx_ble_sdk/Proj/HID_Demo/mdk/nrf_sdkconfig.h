@@ -4297,40 +4297,40 @@
 
 // </e>
 
-// <e> NRFX_UARTE_ENABLED - nrfx_uarte - UARTE peripheral driver
+// <e> XINCX_UARTE_ENABLED - xincx_uarte - UARTE peripheral driver
 //==========================================================
-#ifndef NRFX_UARTE_ENABLED
-#define NRFX_UARTE_ENABLED 0
+#ifndef XINCX_UARTE_ENABLED
+#define XINCX_UARTE_ENABLED 0
 #endif
-// <o> NRFX_UARTE0_ENABLED - Enable UARTE0 instance 
-#ifndef NRFX_UARTE0_ENABLED
-#define NRFX_UARTE0_ENABLED 0
-#endif
-
-// <o> NRFX_UARTE1_ENABLED - Enable UARTE1 instance 
-#ifndef NRFX_UARTE1_ENABLED
-#define NRFX_UARTE1_ENABLED 0
+// <o> XINCX_UARTE0_ENABLED - Enable UARTE0 instance 
+#ifndef XINCX_UARTE0_ENABLED
+#define XINCX_UARTE0_ENABLED 0
 #endif
 
-// <o> NRFX_UARTE_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
+// <o> XINCX_UARTE1_ENABLED - Enable UARTE1 instance 
+#ifndef XINCX_UARTE1_ENABLED
+#define XINCX_UARTE1_ENABLED 0
+#endif
+
+// <o> XINCX_UARTE_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
  
 // <0=> Disabled 
 // <1=> Enabled 
 
-#ifndef NRFX_UARTE_DEFAULT_CONFIG_HWFC
-#define NRFX_UARTE_DEFAULT_CONFIG_HWFC 0
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_HWFC
+#define XINCX_UARTE_DEFAULT_CONFIG_HWFC 0
 #endif
 
-// <o> NRFX_UARTE_DEFAULT_CONFIG_PARITY  - Parity
+// <o> XINCX_UARTE_DEFAULT_CONFIG_PARITY  - Parity
  
 // <0=> Excluded 
 // <14=> Included 
 
-#ifndef NRFX_UARTE_DEFAULT_CONFIG_PARITY
-#define NRFX_UARTE_DEFAULT_CONFIG_PARITY 0
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_PARITY
+#define XINCX_UARTE_DEFAULT_CONFIG_PARITY 0
 #endif
 
-// <o> NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
+// <o> XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
  
 // <323584=> 1200 baud 
 // <643072=> 2400 baud 
@@ -4351,11 +4351,11 @@
 // <251658240=> 921600 baud 
 // <268435456=> 1000000 baud 
 
-#ifndef NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE
-#define NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE 30801920
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE
+#define XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE 30801920
 #endif
 
-// <o> NRFX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4366,16 +4366,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_UARTE_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_UARTE_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_UARTE_CONFIG_LOG_ENABLED
-#define NRFX_UARTE_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_UARTE_CONFIG_LOG_ENABLED
+#define XINCX_UARTE_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_UARTE_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_UARTE_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4383,11 +4383,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_UARTE_CONFIG_LOG_LEVEL
-#define NRFX_UARTE_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_UARTE_CONFIG_LOG_LEVEL
+#define XINCX_UARTE_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_UARTE_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_UARTE_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4399,11 +4399,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_UARTE_CONFIG_INFO_COLOR
-#define NRFX_UARTE_CONFIG_INFO_COLOR 0
+#ifndef XINCX_UARTE_CONFIG_INFO_COLOR
+#define XINCX_UARTE_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_UARTE_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_UARTE_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4415,43 +4415,43 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_UARTE_CONFIG_DEBUG_COLOR
-#define NRFX_UARTE_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_UARTE_CONFIG_DEBUG_COLOR
+#define XINCX_UARTE_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_UART_ENABLED - nrfx_uart - UART peripheral driver
+// <e> XINCX_UART_ENABLED - xincx_uart - UART peripheral driver
 //==========================================================
-#ifndef NRFX_UART_ENABLED
-#define NRFX_UART_ENABLED 0
+#ifndef XINCX_UART_ENABLED
+#define XINCX_UART_ENABLED 0
 #endif
-// <o> NRFX_UART0_ENABLED - Enable UART0 instance 
-#ifndef NRFX_UART0_ENABLED
-#define NRFX_UART0_ENABLED 0
+// <o> XINCX_UART0_ENABLED - Enable UART0 instance 
+#ifndef XINCX_UART0_ENABLED
+#define XINCX_UART0_ENABLED 0
 #endif
 
-// <o> NRFX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
+// <o> XINCX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
  
 // <0=> Disabled 
 // <1=> Enabled 
 
-#ifndef NRFX_UART_DEFAULT_CONFIG_HWFC
-#define NRFX_UART_DEFAULT_CONFIG_HWFC 0
+#ifndef XINCX_UART_DEFAULT_CONFIG_HWFC
+#define XINCX_UART_DEFAULT_CONFIG_HWFC 0
 #endif
 
-// <o> NRFX_UART_DEFAULT_CONFIG_PARITY  - Parity
+// <o> XINCX_UART_DEFAULT_CONFIG_PARITY  - Parity
  
 // <0=> Excluded 
 // <14=> Included 
 
-#ifndef NRFX_UART_DEFAULT_CONFIG_PARITY
-#define NRFX_UART_DEFAULT_CONFIG_PARITY 0
+#ifndef XINCX_UART_DEFAULT_CONFIG_PARITY
+#define XINCX_UART_DEFAULT_CONFIG_PARITY 0
 #endif
 
-// <o> NRFX_UART_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
+// <o> XINCX_UART_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
  
 // <323584=> 1200 baud 
 // <643072=> 2400 baud 
@@ -4472,11 +4472,11 @@
 // <247386112=> 921600 baud 
 // <268435456=> 1000000 baud 
 
-#ifndef NRFX_UART_DEFAULT_CONFIG_BAUDRATE
-#define NRFX_UART_DEFAULT_CONFIG_BAUDRATE 30924800
+#ifndef XINCX_UART_DEFAULT_CONFIG_BAUDRATE
+#define XINCX_UART_DEFAULT_CONFIG_BAUDRATE 30924800
 #endif
 
-// <o> NRFX_UART_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4487,16 +4487,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_UART_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_UART_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_UART_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_UART_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_UART_CONFIG_LOG_ENABLED
-#define NRFX_UART_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_UART_CONFIG_LOG_ENABLED
+#define XINCX_UART_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_UART_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_UART_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4504,11 +4504,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_UART_CONFIG_LOG_LEVEL
-#define NRFX_UART_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_UART_CONFIG_LOG_LEVEL
+#define XINCX_UART_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_UART_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_UART_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4520,11 +4520,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_UART_CONFIG_INFO_COLOR
-#define NRFX_UART_CONFIG_INFO_COLOR 0
+#ifndef XINCX_UART_CONFIG_INFO_COLOR
+#define XINCX_UART_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_UART_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_UART_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4536,8 +4536,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_UART_CONFIG_DEBUG_COLOR
-#define NRFX_UART_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_UART_CONFIG_DEBUG_COLOR
+#define XINCX_UART_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
@@ -5786,7 +5786,7 @@
 
 // </e>
 
-// <e> UART_ENABLED - nrf_drv_uart - UART/UARTE peripheral driver - legacy layer
+// <e> UART_ENABLED - xinc_drv_uart - UART/UARTE peripheral driver - legacy layer
 //==========================================================
 #ifndef UART_ENABLED
 #define UART_ENABLED 0

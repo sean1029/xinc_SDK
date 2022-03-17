@@ -143,7 +143,7 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
   __IM  uint32_t  MSR;
   __IM  uint32_t  USR;
 
-} NRF_UART_Type;  
+} XINC_UART_Type;  
 
 
 /* =========================================================================================================================== */
@@ -457,8 +457,8 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 
 #define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
 #define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          XINC_GPIOTE_BASE)
-#define NRF_UART0                    ((NRF_UART_Type*)            XINC_UART0_BASE)
-#define NRF_UART1                    ((NRF_UART_Type*)            XINC_UART1_BASE)
+#define XINC_UART0                    ((XINC_UART_Type*)            XINC_UART0_BASE)
+#define XINC_UART1                    ((XINC_UART_Type*)            XINC_UART1_BASE)
 #define XINC_SPIM0										 ((XINC_SPIM_Type*)         XINC_SPIM0_BASE)
 #define XINC_SPIM1										 ((XINC_SPIM_Type*)         XINC_SPIM1_BASE)
 

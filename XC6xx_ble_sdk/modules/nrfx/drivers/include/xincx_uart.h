@@ -38,60 +38,60 @@
  *
  */
 
-#ifndef NRFX_UART_H__
-#define NRFX_UART_H__
+#ifndef XINCX_UART_H__
+#define XINCX_UART_H__
 
 #include <nrfx.h>
-#include <hal/nrf_uart.h>
+#include <hal/xinc_uart.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * @defgroup nrfx_uart UART driver
+ * @defgroup xincx_uart UART driver
  * @{
- * @ingroup nrf_uart
+ * @ingroup xinc_uart
  * @brief   UART peripheral driver.
  */
 
 /** @brief Data structure of the UART driver instance. */
 typedef struct
 {
-    NRF_UART_Type * p_reg;        ///< Pointer to a structure with UART registers.
+    XINC_UART_Type * p_reg;        ///< Pointer to a structure with UART registers.
     uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
 		uint8_t         id;
-} nrfx_uart_t;
+} xincx_uart_t;
 
 #ifndef __NRFX_DOXYGEN__
 enum {
-#if NRFX_CHECK(NRFX_UART0_ENABLED)
-    NRFX_UART0_INST_IDX ,
+#if NRFX_CHECK(XINCX_UART0_ENABLED)
+    XINCX_UART0_INST_IDX ,
 #endif
-#if NRFX_CHECK(NRFX_UART1_ENABLED)
-		NRFX_UART1_INST_IDX ,
+#if NRFX_CHECK(XINCX_UART1_ENABLED)
+		XINCX_UART1_INST_IDX ,
 #endif
-    NRFX_UART_ENABLED_COUNT,
+    XINCX_UART_ENABLED_COUNT,
 
 };
 #endif
 
 
 /** @brief Macro for creating a UART driver instance. */
-#define NRFX_UART_INSTANCE(Id)                               \
+#define XINCX_UART_INSTANCE(Id)                               \
 {                                                            \
-    .p_reg        = NRFX_CONCAT_2(NRF_UART, Id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(NRFX_UART, Id, _INST_IDX), \
+    .p_reg        = NRFX_CONCAT_2(XINC_UART, Id),             \
+    .drv_inst_idx = NRFX_CONCAT_3(XINCX_UART, Id, _INST_IDX), \
 		.id = Id, 																							\
 }
 
 /** @brief Types of UART driver events. */
 typedef enum
 {
-    NRFX_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
-    NRFX_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
-    NRFX_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
-} nrfx_uart_evt_type_t;
+    XINCX_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
+    XINCX_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
+    XINCX_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
+} xincx_uart_evt_type_t;
 
 /** @brief Structure for the UART configuration. */
 typedef struct
@@ -101,32 +101,32 @@ typedef struct
     uint32_t            pselcts;            ///< CTS pin number.
     uint32_t            pselrts;            ///< RTS pin number.
     void *              p_context;          ///< Context passed to interrupt handler.
-    nrf_uart_hwfc_t     hwfc;               ///< Flow control configuration.
-    nrf_uart_data_bits_t data_bits;             ///< configuration data bits.
-    nrf_uart_stop_bits_t stop_bits;
-    nrf_uart_parity_t   parity;             ///< Parity configuration.
-    nrf_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
-    nrf_uart_baudrate_t baudrate;           ///< Baud rate.
+    xinc_uart_hwfc_t     hwfc;               ///< Flow control configuration.
+    xinc_uart_data_bits_t data_bits;             ///< configuration data bits.
+    xinc_uart_stop_bits_t stop_bits;
+    xinc_uart_parity_t   parity;             ///< Parity configuration.
+    xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
+    xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
-} nrfx_uart_config_t;
+} xincx_uart_config_t;
 
 
 
 /** @brief UART default configuration. */
-#define NRFX_UART_DEFAULT_CONFIG                                                  \
+#define XINCX_UART_DEFAULT_CONFIG                                                  \
 {                                                                                 \
-    .pseltxd            = NRF_UART_PSEL_DISCONNECTED,                             \
-    .pselrxd            = NRF_UART_PSEL_DISCONNECTED,                             \
-    .pselcts            = NRF_UART_PSEL_DISCONNECTED,                             \
-    .pselrts            = NRF_UART_PSEL_DISCONNECTED,                             \
+    .pseltxd            = XINC_UART_PSEL_DISCONNECTED,                             \
+    .pselrxd            = XINC_UART_PSEL_DISCONNECTED,                             \
+    .pselcts            = XINC_UART_PSEL_DISCONNECTED,                             \
+    .pselrts            = XINC_UART_PSEL_DISCONNECTED,                             \
     .p_context          = NULL,                                                   \
-    .hwfc               = (nrf_uart_hwfc_t)NRFX_UART_DEFAULT_CONFIG_HWFC,         \
-    .parity             = (nrf_uart_parity_t)NRFX_UART_DEFAULT_CONFIG_PARITY,     \
-    .parity_type        = (nrf_uart_parity_type_t)NRFX_UART_DEFAULT_CONFIG_PARITY_TYPE,     \
-    .data_bits          = (nrf_uart_data_bits_t) NRFX_UART_DEFAULT_CONFIG_DATA_BITS,\
-    .stop_bits          = (nrf_uart_stop_bits_t) NRFX_UART_DEFAULT_CONFIG_STOP_BITS,\
-    .baudrate           = (nrf_uart_baudrate_t)NRFX_UART_DEFAULT_CONFIG_BAUDRATE, \
-    .interrupt_priority = NRFX_UART_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
+    .hwfc               = (xinc_uart_hwfc_t)XINCX_UART_DEFAULT_CONFIG_HWFC,         \
+    .parity             = (xinc_uart_parity_t)XINCX_UART_DEFAULT_CONFIG_PARITY,     \
+    .parity_type        = (xinc_uart_parity_type_t)XINCX_UART_DEFAULT_CONFIG_PARITY_TYPE,     \
+    .data_bits          = (xinc_uart_data_bits_t) XINCX_UART_DEFAULT_CONFIG_DATA_BITS,\
+    .stop_bits          = (xinc_uart_stop_bits_t) XINCX_UART_DEFAULT_CONFIG_STOP_BITS,\
+    .baudrate           = (xinc_uart_baudrate_t)XINCX_UART_DEFAULT_CONFIG_BAUDRATE, \
+    .interrupt_priority = XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
 }
 
 /** @brief Structure for the UART transfer completion event. */
@@ -134,25 +134,25 @@ typedef struct
 {
     uint8_t * p_data; ///< Pointer to memory used for transfer.
     uint32_t  bytes;  ///< Number of bytes transfered.
-} nrfx_uart_xfer_evt_t;
+} xincx_uart_xfer_evt_t;
 
 /** @brief Structure for the UART error event. */
 typedef struct
 {
-    nrfx_uart_xfer_evt_t rxtx;       ///< Transfer details, including number of bytes transferred.
+    xincx_uart_xfer_evt_t rxtx;       ///< Transfer details, including number of bytes transferred.
     uint32_t             error_mask; ///< Mask of error flags that generated the event.
-} nrfx_uart_error_evt_t;
+} xincx_uart_error_evt_t;
 
 /** @brief Structure for the UART event. */
 typedef struct
 {
-    nrfx_uart_evt_type_t type; ///< Event type.
+    xincx_uart_evt_type_t type; ///< Event type.
     union
     {
-        nrfx_uart_xfer_evt_t  rxtx;  ///< Data provided for transfer completion events.
-        nrfx_uart_error_evt_t error; ///< Data provided for error event.
+        xincx_uart_xfer_evt_t  rxtx;  ///< Data provided for transfer completion events.
+        xincx_uart_error_evt_t error; ///< Data provided for error event.
     } data;                          ///< Union to store event data.
-} nrfx_uart_event_t;
+} xincx_uart_event_t;
 
 /**
  * @brief UART interrupt event handler.
@@ -161,7 +161,7 @@ typedef struct
  *                      only within the context of the event handler.
  * @param[in] p_context Context passed to the interrupt handler, set on initialization.
  */
-typedef void (*nrfx_uart_event_handler_t)(nrfx_uart_event_t const * p_event,
+typedef void (*xincx_uart_event_handler_t)(xincx_uart_event_t const * p_event,
                                           void *                    p_context);
 
 /**
@@ -181,22 +181,22 @@ typedef void (*nrfx_uart_event_handler_t)(nrfx_uart_event_t const * p_event,
  *                                  possible only if @ref nrfx_prs module
  *                                  is enabled.
  */
-nrfx_err_t nrfx_uart_init(nrfx_uart_t const *        p_instance,
-                          nrfx_uart_config_t const * p_config,
-                          nrfx_uart_event_handler_t  event_handler);
+nrfx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
+                          xincx_uart_config_t const * p_config,
+                          xincx_uart_event_handler_t  event_handler);
 
 /**
  * @brief Function for uninitializing the UART driver.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uart_uninit(nrfx_uart_t const * p_instance);
+void xincx_uart_uninit(xincx_uart_t const * p_instance);
 
 
 /**
  * @brief Function for sending data over UART.
  *
- * If an event handler was provided in nrfx_uart_init() call, this function
+ * If an event handler was provided in xincx_uart_init() call, this function
  * returns immediately and the handler is called when the transfer is done.
  * Otherwise, the transfer is performed in blocking mode, that is this function
  * returns when the transfer is finished. Blocking mode is not using interrupt
@@ -211,7 +211,7 @@ void nrfx_uart_uninit(nrfx_uart_t const * p_instance);
  * @retval NRFX_ERROR_FORBIDDEN The transfer was aborted from a different context
  *                              (blocking mode only).
  */
-nrfx_err_t nrfx_uart_tx(nrfx_uart_t const * p_instance,
+nrfx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
                         uint8_t const *     p_data,
                         size_t              length);
 
@@ -223,22 +223,22 @@ nrfx_err_t nrfx_uart_tx(nrfx_uart_t const * p_instance,
  * @retval true  The UART is transmitting.
  * @retval false The UART is not transmitting.
  */
-bool nrfx_uart_tx_in_progress(nrfx_uart_t const * p_instance);
+bool xincx_uart_tx_in_progress(xincx_uart_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing transmission.
- * @note @ref NRFX_UART_EVT_TX_DONE event will be generated in non-blocking mode.
+ * @note @ref XINCX_UART_EVT_TX_DONE event will be generated in non-blocking mode.
  *       It will contain number of bytes sent until the abort was called. The event
  *       handler will be called from the function context.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uart_tx_abort(nrfx_uart_t const * p_instance);
+void xincx_uart_tx_abort(xincx_uart_t const * p_instance);
 
 /**
  * @brief Function for receiving data over UART.
  *
- * If an event handler is provided in the nrfx_uart_init() call, this function
+ * If an event handler is provided in the xincx_uart_init() call, this function
  * returns immediately and the handler is called when the transfer is done.
  * Otherwise, the transfer is performed in blocking mode, that is this function
  * returns when the transfer is finished. Blocking mode is not using interrupt so
@@ -248,14 +248,14 @@ void nrfx_uart_tx_abort(nrfx_uart_t const * p_instance);
  * when the primary buffer is full. The double-buffering feature allows
  * receiving data continuously.
  *
- * If this function is used without a previous call to @ref nrfx_uart_rx_enable, the reception
+ * If this function is used without a previous call to @ref xincx_uart_rx_enable, the reception
  * will be stopped on error or when the supplied buffer fills up. In both cases,
  * RX FIFO gets disabled. This means that, in case of error, the bytes that follow are lost.
- * If this nrfx_uart_rx() function is used with the previous call to @ref nrfx_uart_rx_enable,
+ * If this xincx_uart_rx() function is used with the previous call to @ref xincx_uart_rx_enable,
  * the reception is stopped in case of error, but FIFO is still ongoing. The receiver is still
- * working, so after handling the error, an immediate repeated call to this nrfx_uart_rx()
+ * working, so after handling the error, an immediate repeated call to this xincx_uart_rx()
  * function with fresh data buffer will re-establish reception. To disable the receiver,
- * you must call @ref nrfx_uart_rx_disable explicitly.
+ * you must call @ref xincx_uart_rx_disable explicitly.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] p_data     Pointer to data.
@@ -267,10 +267,10 @@ void nrfx_uart_tx_abort(nrfx_uart_t const * p_instance);
  *                                 (and the secondary buffer has already been set
  *                                 in non-blocking mode).
  * @retval    NRFX_ERROR_FORBIDDEN The transfer was aborted from a different context
- *                                 (blocking mode only, also see @ref nrfx_uart_rx_disable).
+ *                                 (blocking mode only, also see @ref xincx_uart_rx_disable).
  * @retval    NRFX_ERROR_INTERNAL  The UART peripheral reported an error.
  */
-nrfx_err_t nrfx_uart_rx(nrfx_uart_t const * p_instance,
+nrfx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
                         uint8_t *           p_data,
                         size_t              length);
 
@@ -282,41 +282,41 @@ nrfx_err_t nrfx_uart_rx(nrfx_uart_t const * p_instance,
  * @retval true  The receiver has at least one byte of data to get.
  * @retval false The receiver is empty.
  */
-bool nrfx_uart_rx_ready(nrfx_uart_t const * p_instance);
+bool xincx_uart_rx_ready(xincx_uart_t const * p_instance);
 
 /**
  * @brief Function for enabling the receiver.
  *
  * UART has a 6-byte-long RX FIFO and it is used to store incoming data. If a user does not call the
  * UART receive function before the FIFO is filled, an overrun error will appear. The receiver must be
- * explicitly closed by the user @sa nrfx_uart_rx_disable.
+ * explicitly closed by the user @sa xincx_uart_rx_disable.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uart_rx_enable(nrfx_uart_t const * p_instance);
+void xincx_uart_rx_enable(xincx_uart_t const * p_instance);
 
 /**
  * @brief Function for disabling the receiver.
  *
  * This function must be called to close the receiver after it has been explicitly enabled by
- * @sa nrfx_uart_rx_enable.
+ * @sa xincx_uart_rx_enable.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uart_rx_disable(nrfx_uart_t const * p_instance);
+void xincx_uart_rx_disable(xincx_uart_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing reception.
- * @note @ref NRFX_UART_EVT_TX_DONE event will be generated in non-blocking mode.
+ * @note @ref XINCX_UART_EVT_TX_DONE event will be generated in non-blocking mode.
  *       It will contain number of bytes received until the abort was called. The event
  *       handler will be called from the UART interrupt context.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uart_rx_abort(nrfx_uart_t const * p_instance);
+void xincx_uart_rx_abort(xincx_uart_t const * p_instance);
 
 /**
- * @brief Function for reading error source mask. Mask contains values from @ref nrf_uart_error_mask_t.
+ * @brief Function for reading error source mask. Mask contains values from @ref xinc_uart_error_mask_t.
  * @note Function must be used in blocking mode only. In case of non-blocking mode, an error event is
  *       generated. Function clears error sources after reading.
  *
@@ -324,17 +324,17 @@ void nrfx_uart_rx_abort(nrfx_uart_t const * p_instance);
  *
  * @return Mask of reported errors.
  */
-uint32_t nrfx_uart_errorsrc_get(nrfx_uart_t const * p_instance);
+uint32_t xincx_uart_errorsrc_get(xincx_uart_t const * p_instance);
 
 
 /** @} */
 
 
-void nrfx_uart_0_irq_handler(void);
+void xincx_uart_0_irq_handler(void);
 
-void nrfx_uart_1_irq_handler(void);
+void xincx_uart_1_irq_handler(void);
 #ifdef __cplusplus
 }
 #endif
 
-#endif // NRFX_UART_H__
+#endif // XINCX_UART_H__
