@@ -42,7 +42,6 @@
 ".\objects\nrf_atfifo.o"
 ".\objects\app_button.o"
 ".\objects\nrfx_gpiote.o"
-".\objects\app_gpiote.o"
 ".\objects\app_error.o"
 ".\objects\app_error_weak.o"
 ".\objects\bsp.o"

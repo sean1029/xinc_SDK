@@ -1,40 +1,8 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -77,16 +45,16 @@ extern "C" {
 #define NRF_GPIO_PIN_MAP(port, pin) (((port) << 5) | ((pin) & 0x1F))
 
 
-#define XINC_GPIO_0				NRF_GPIO_PIN_MAP(0, 0)
-#define XINC_GPIO_1				NRF_GPIO_PIN_MAP(0, 1)
-#define XINC_GPIO_2				NRF_GPIO_PIN_MAP(0, 2)
-#define XINC_GPIO_3				NRF_GPIO_PIN_MAP(0, 3)
-#define XINC_GPIO_4				NRF_GPIO_PIN_MAP(0, 4)
-#define XINC_GPIO_5				NRF_GPIO_PIN_MAP(0, 5)
-#define XINC_GPIO_6				NRF_GPIO_PIN_MAP(0, 6)
-#define XINC_GPIO_7				NRF_GPIO_PIN_MAP(0, 7)
-#define XINC_GPIO_8				NRF_GPIO_PIN_MAP(0, 8)
-#define XINC_GPIO_9				NRF_GPIO_PIN_MAP(0, 9)
+#define XINC_GPIO_0				    NRF_GPIO_PIN_MAP(0, 0)
+#define XINC_GPIO_1				    NRF_GPIO_PIN_MAP(0, 1)
+#define XINC_GPIO_2				    NRF_GPIO_PIN_MAP(0, 2)
+#define XINC_GPIO_3				    NRF_GPIO_PIN_MAP(0, 3)
+#define XINC_GPIO_4				    NRF_GPIO_PIN_MAP(0, 4)
+#define XINC_GPIO_5				    NRF_GPIO_PIN_MAP(0, 5)
+#define XINC_GPIO_6				    NRF_GPIO_PIN_MAP(0, 6)
+#define XINC_GPIO_7				    NRF_GPIO_PIN_MAP(0, 7)
+#define XINC_GPIO_8				    NRF_GPIO_PIN_MAP(0, 8)
+#define XINC_GPIO_9				    NRF_GPIO_PIN_MAP(0, 9)
 #define XINC_GPIO_10				NRF_GPIO_PIN_MAP(0, 10)
 #define XINC_GPIO_11				NRF_GPIO_PIN_MAP(0, 11)
 #define XINC_GPIO_12				NRF_GPIO_PIN_MAP(0, 12)
@@ -121,10 +89,10 @@ typedef enum
 /** @brief Connection of input buffer. */
 typedef enum
 {
-  NRF_GPIO_PIN_INPUT_NOINT    = NOT_INT,   ///< Connect input No int.
-  NRF_GPIO_PIN_INPUT_RIS_EDGE_INT    = RIS_EDGE_INT,   //
-	NRF_GPIO_PIN_INPUT_FAIL_EDGE_INT    = FAIL_EDGE_INT,   //
-	NRF_GPIO_PIN_INPUTEDGE_INT    = RIS_FAIL_EDGE_INT,   //
+    NRF_GPIO_PIN_INPUT_NOINT            = NOT_INT,   ///< Connect input No int.
+    NRF_GPIO_PIN_INPUT_RIS_EDGE_INT     = RIS_EDGE_INT,   //
+    NRF_GPIO_PIN_INPUT_FAIL_EDGE_INT    = FAIL_EDGE_INT,   //
+    NRF_GPIO_PIN_INPUTEDGE_IN           = RIS_FAIL_EDGE_INT,   //
 } nrf_gpio_pin_input_int_t;
 
 /**
@@ -150,42 +118,40 @@ typedef enum
     NRF_GPIO_PIN_I2C_SCL = I2C_SCL, //
     NRF_GPIO_PIN_I2C_SDA = I2C_SDA, //
     NRF_GPIO_PIN_UART1_RX = UART1_RX, //
-	  NRF_GPIO_PIN_UART1_TX = UART1_TX, //
-		NRF_GPIO_PIN_SIM_IO = SIM_IO, //
-		NRF_GPIO_PIN_SIM_RST = SIM_RST, //
-		NRF_GPIO_PIN_SIM_CLK_OUT = SIM_CLK_OUT, //
-		NRF_GPIO_PIN_PWM0 = PWM0, //
-		NRF_GPIO_PIN_PWM1 = PWM1, //
-		NRF_GPIO_PIN_SSI1_CLK = SSI1_CLK, //
-		NRF_GPIO_PIN_SSI1_SSN = SSI1_SSN, //
-		NRF_GPIO_PIN_SSI1_RX = SSI1_RX, //
-		NRF_GPIO_PIN_SSI1_TX = SSI1_TX, //
-		NRF_GPIO_PIN_PWM0_INV = PWM0_INV, //
-		NRF_GPIO_PIN_PWM1_INV = PWM1_INV, // 
-	//////////////////////////////////////////////////////
-	
-		NRF_GPIO_PIN_PWM2,
-		NRF_GPIO_PIN_PWM3,
-		NRF_GPIO_PIN_PWM4,
-		NRF_GPIO_PIN_PWM5,
-	
-	
+    NRF_GPIO_PIN_UART1_TX = UART1_TX, //
+    NRF_GPIO_PIN_SIM_IO = SIM_IO, //
+    NRF_GPIO_PIN_SIM_RST = SIM_RST, //
+    NRF_GPIO_PIN_SIM_CLK_OUT = SIM_CLK_OUT, //
+    NRF_GPIO_PIN_PWM0 = PWM0, //
+    NRF_GPIO_PIN_PWM1 = PWM1, //
+    NRF_GPIO_PIN_SSI1_CLK = SSI1_CLK, //
+    NRF_GPIO_PIN_SSI1_SSN = SSI1_SSN, //
+    NRF_GPIO_PIN_SSI1_RX = SSI1_RX, //
+    NRF_GPIO_PIN_SSI1_TX = SSI1_TX, //
+    NRF_GPIO_PIN_PWM0_INV = PWM0_INV, //
+    NRF_GPIO_PIN_PWM1_INV = PWM1_INV, // 
+    //////////////////////////////////////////////////////
+
+    NRF_GPIO_PIN_PWM2,
+    NRF_GPIO_PIN_PWM3,
+    NRF_GPIO_PIN_PWM4,
+    NRF_GPIO_PIN_PWM5,
 		
 } nrf_gpio_pin_fun_sel_t;
 
-/** @brief Enumerator used for selecting the pin to sense high or low level on the pin input. */
+/** @brief Enumerator used for mux. */
 typedef enum
 {
-    NRF_GPIO_PIN_MUX0    = 0, ///<  Pin sense level disabled.
-    NRF_GPIO_PIN_MUX1  = 1,      ///<  Pin sense low level.
-    NRF_GPIO_PIN_MUX2 = 2,     ///<  Pin sense high level.
-	  NRF_GPIO_PIN_MUX3 = 3
+    NRF_GPIO_PIN_MUX0   = 0, ///<  
+    NRF_GPIO_PIN_MUX1   = 1,      ///< 
+    NRF_GPIO_PIN_MUX2   = 2,     ///<  Pin
+    NRF_GPIO_PIN_MUX3   = 3
 } nrf_gpio_pin_mux_t;
 
-/** @brief Enumerator used for selecting the pin to sense high or low level on the pin input. */
+/** @brief Enumerator used for selecting the pin to debounce on the pin input. */
 typedef enum
 {
-		NRF_GPIO_PIN_DEBOUNCE_DISABLE = 0,
+    NRF_GPIO_PIN_DEBOUNCE_DISABLE   = 0,
     NRF_GPIO_PIN_DEBOUNCE_ENABLE    = 1, ///<  Pin DEBOUNCE  enabled.
 } nrf_gpio_pin_debounce_t;
 
@@ -266,41 +232,6 @@ __STATIC_INLINE void nrf_gpio_cfg_input(uint32_t pin_number, nrf_gpio_pin_pull_t
  */
 __STATIC_INLINE void nrf_gpio_cfg_default(uint32_t pin_number);
 
-/**
- * @brief Function for configuring the given GPIO pin number as a watcher. Only input is connected.
- *
- * @param pin_number Specifies the pin number.
- *
- */
-__STATIC_INLINE void nrf_gpio_cfg_watcher(uint32_t pin_number);
-
-/**
- * @brief Function for disconnecting input for the given GPIO.
- *
- * @param pin_number Specifies the pin number.
- */
-__STATIC_INLINE void nrf_gpio_input_disconnect(uint32_t pin_number);
-
-/**
- * @brief Function for configuring the given GPIO pin number as input, hiding inner details.
- *        This function can be used to configure pin range as simple input.
- *        Sense capability on the pin is configurable and input is connected to buffer so that the GPIO->IN register is readable.
- *
- * @param pin_number   Specifies the pin number.
- * @param pull_config  State of the pin pull resistor (no pull, pulled down, or pulled high).
- * @param sense_config Sense level of the pin (no sense, sense low, or sense high).
- */
-//__STATIC_INLINE void nrf_gpio_cfg_sense_input(uint32_t             pin_number,
-                                        //      nrf_gpio_pin_pull_t  pull_config,
-                                         //     nrf_gpio_pin_sense_t sense_config);
-
-/**
- * @brief Function for configuring sense level for the given GPIO.
- *
- * @param pin_number   Specifies the pin number.
- * @param sense_config Sense configuration.
- */
-//__STATIC_INLINE void nrf_gpio_cfg_sense_set(uint32_t pin_number, nrf_gpio_pin_sense_t sense_config);
 
 /**
  * @brief Function for setting the direction for a GPIO pin.
@@ -566,114 +497,106 @@ __STATIC_INLINE void nrf_gpio_cfg(
     nrf_gpio_pin_debounce_t debounce)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-		XINC_CPRA_AO_Type * pull_reg = nrf_gpio_pin_pull_decode(&pin_number);
-	
-		uint32_t reg_value ;
-		uint32_t tmp_num;
-		tmp_num = pin_number;
-		uint8_t reg_idx = 0;
-	
-		gpio_fun_sel(pin_number,fun);
-		if(NRF_GPIO_PIN_DIR_INPUT == dir)
-		{
-			gpio_fun_inter(pin_number,inter);
-			if(/*(pin_number >= 0 &&) */pin_number <= 4)
-			{
-				reg_value = pull_reg->PE_CTRL2 ;
-				reg_idx = 2;
-			}
-			else if(pin_number >= 5 && pin_number <= 15)
-			{
-				reg_value = pull_reg->PU_CTRL1 ;
-				reg_idx = 1;
-				if(pin_number >= 11 && pin_number <= 13)
-				{
-					pin_number = pin_number + 2;
-					reg_value = pull_reg->PE_CTRL2;
-					reg_idx = 2;
-				}
-			}
-			else if(pin_number >= 16 && pin_number <= 28)
-			{
-				reg_value = pull_reg->PE_CTRL2;
-				reg_idx = 2;
-				pin_number = pin_number % 16;
-			}
-		
-		
-			if(NRF_GPIO_PIN_PULLUP == pull)
-			{
-					clrbit(reg_value,pin_number*2);
-					setbit(reg_value,pin_number*2+1);
-				
-			}else if(NRF_GPIO_PIN_PULLDOWN == pull)
-			{
-				setbit(reg_value,pin_number*2);
-				clrbit(reg_value,pin_number*2+1);
-			}
-			else
-			{
-					clrbit(reg_value,pin_number*2);
-					clrbit(reg_value,pin_number*2+1);
-			}
-			if(reg_idx == 1)
-			{
-				pull_reg->PU_CTRL1 = reg_value;
-			}else
-			{
-				pull_reg->PE_CTRL2 = reg_value;
-			}
-		
-			if(tmp_num >= 16)
-			{
-				reg_value = reg->DDR[1];
-				reg_value |= (0x10000 << (tmp_num & 0x0F));
-				reg->DDR[1] = reg_value;
-				
-				if(NRF_GPIO_PIN_DEBOUNCE_ENABLE == debounce )
-				{
-					reg_value = reg->DEBOUNCE[1];
-					reg_value |= (0x10001 << (tmp_num & 0x0F));
-					reg->DEBOUNCE[1] = reg_value;
-				}
+    XINC_CPRA_AO_Type * pull_reg = nrf_gpio_pin_pull_decode(&pin_number);
 
-				
-			}else
-			{
-				reg_value = reg->DDR[0];
-				reg_value |= (0x10000 << (tmp_num & 0x0F));
-				reg->DDR[0] = reg_value;
-				if(NRF_GPIO_PIN_DEBOUNCE_ENABLE == debounce )
-				{
-					reg_value = reg->DEBOUNCE[0];
-					reg_value |= (0x10001 << (tmp_num & 0x0F));
-				//	reg->DEBOUNCE[0] = reg_value;
-				}		
-			}
-		}else
-		{
-			if(tmp_num >= 16)
-			{
-				reg_value = reg->DDR[1];
-				reg_value |= (0x10001 << (tmp_num & 0x0F));
-				reg->DDR[1] = reg_value;
-				
-			
-				
-			}else
-			{
-				reg_value = reg->DDR[0];
-				reg_value |= (0x10001 << (tmp_num & 0x0F));
-				reg->DDR[0] = reg_value;
-					
-			}
-		}
+    uint32_t reg_value ;
+    uint32_t tmp_num;
+    tmp_num = pin_number;
+    uint8_t reg_idx = 0;
 
-//    reg->PIN_CNF[pin_number] = ((uint32_t)dir << GPIO_PIN_CNF_DIR_Pos)
-//                               | ((uint32_t)input << GPIO_PIN_CNF_INPUT_Pos)
-//                               | ((uint32_t)pull << GPIO_PIN_CNF_PULL_Pos)
-//                               | ((uint32_t)drive << GPIO_PIN_CNF_DRIVE_Pos)
-//                               | ((uint32_t)sense << GPIO_PIN_CNF_SENSE_Pos);
+    gpio_fun_sel(pin_number,fun);
+    if(NRF_GPIO_PIN_DIR_INPUT == dir)
+    {
+        gpio_fun_inter(pin_number,inter);
+        if(/*(pin_number >= 0 &&) */pin_number <= 4)
+        {
+            reg_value = pull_reg->PE_CTRL2 ;
+            reg_idx = 2;
+        }
+        else if(pin_number >= 5 && pin_number <= 15)
+        {
+            reg_value = pull_reg->PU_CTRL1 ;
+            reg_idx = 1;
+            if(pin_number >= 11 && pin_number <= 13)
+            {
+                pin_number = pin_number + 2;
+                reg_value = pull_reg->PE_CTRL2;
+                reg_idx = 2;
+            }
+        }
+        else if(pin_number >= 16 && pin_number <= 28)
+        {
+            reg_value = pull_reg->PE_CTRL2;
+            reg_idx = 2;
+            pin_number = pin_number % 16;
+        }
+
+		
+        if(NRF_GPIO_PIN_PULLUP == pull)
+        {
+                clrbit(reg_value,pin_number*2);
+                setbit(reg_value,pin_number*2+1);
+            
+        }else if(NRF_GPIO_PIN_PULLDOWN == pull)
+        {
+            setbit(reg_value,pin_number*2);
+            clrbit(reg_value,pin_number*2+1);
+        }
+        else
+        {
+                clrbit(reg_value,pin_number*2);
+                clrbit(reg_value,pin_number*2+1);
+        }
+        if(reg_idx == 1)
+        {
+            pull_reg->PU_CTRL1 = reg_value;
+        }else
+        {
+            pull_reg->PE_CTRL2 = reg_value;
+        }
+		
+        if(tmp_num >= 16)
+        {
+            reg_value = reg->DDR[1];
+            reg_value |= (0x10000 << (tmp_num & 0x0F));
+            reg->DDR[1] = reg_value;
+            
+            if(NRF_GPIO_PIN_DEBOUNCE_ENABLE == debounce )
+            {
+                reg_value = reg->DEBOUNCE[1];
+                reg_value |= (0x10001 << (tmp_num & 0x0F));
+                reg->DEBOUNCE[1] = reg_value;
+            }
+
+            
+        }else
+        {
+            reg_value = reg->DDR[0];
+            reg_value |= (0x10000 << (tmp_num & 0x0F));
+            reg->DDR[0] = reg_value;
+            if(NRF_GPIO_PIN_DEBOUNCE_ENABLE == debounce )
+            {
+                reg_value = reg->DEBOUNCE[0];
+                reg_value |= (0x10001 << (tmp_num & 0x0F));
+            //	reg->DEBOUNCE[0] = reg_value;
+            }		
+        }
+    }else
+    {
+        if(tmp_num >= 16)
+        {
+            reg_value = reg->DDR[1];
+            reg_value |= (0x10001 << (tmp_num & 0x0F));
+            reg->DDR[1] = reg_value;      
+        }else
+        {
+            reg_value = reg->DDR[0];
+            reg_value |= (0x10001 << (tmp_num & 0x0F));
+            reg->DDR[0] = reg_value;
+                
+        }
+    }
+
 }
 
 
@@ -713,38 +636,6 @@ __STATIC_INLINE void nrf_gpio_cfg_default(uint32_t pin_number)
 }
 
 
-__STATIC_INLINE void nrf_gpio_cfg_watcher(uint32_t pin_number)
-{
-    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-    /*lint -e{845} // A zero has been given as right argument to operator '|'" */
-  //  uint32_t cnf = reg->PIN_CNF[pin_number] & ~GPIO_PIN_CNF_INPUT_Msk;
-
-   // reg->PIN_CNF[pin_number] = cnf | (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos);
-}
-
-
-__STATIC_INLINE void nrf_gpio_input_disconnect(uint32_t pin_number)
-{
-    NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-    /*lint -e{845} // A zero has been given as right argument to operator '|'" */
- //   uint32_t cnf = reg->PIN_CNF[pin_number] & ~GPIO_PIN_CNF_INPUT_Msk;
-
-  //  reg->PIN_CNF[pin_number] = cnf | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos);
-}
-
-
-__STATIC_INLINE void nrf_gpio_cfg_sense_input(uint32_t             pin_number,
-                                              nrf_gpio_pin_pull_t  pull_config,
-                                              nrf_gpio_pin_debounce_t debounce_config)
-{
-    nrf_gpio_cfg(
-        pin_number,
-        NRF_GPIO_PIN_DIR_INPUT,
-        NRF_GPIO_PIN_INPUT_NOINT,
-        pull_config,
-        NRF_GPIO_PIN_GPIODx,
-        debounce_config);
-}
 
 
 __STATIC_INLINE void nrf_gpio_cfg_sense_set(uint32_t pin_number, nrf_gpio_pin_debounce_t debounce_config)
@@ -779,7 +670,6 @@ __STATIC_INLINE void nrf_gpio_pin_dir_set(uint32_t pin_number, nrf_gpio_pin_dir_
 }
 
 
-#include "bsp_gpio.h"
 __STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_sel_t fun)
 {
 		ret_code_t err_code = NRF_SUCCESS; 
@@ -851,23 +741,19 @@ __STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,nrf_gpio_pin_fun_se
 __STATIC_INLINE void nrf_gpio_pin_set(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-	  uint8_t reg_idx = pin_number >>4;
-	
-		reg->DR[reg_idx] = 0x00010001 << (pin_number & 0xF);
+    uint8_t reg_idx = pin_number >>4;
 
-//    nrf_gpio_port_out_set(reg, 1UL << pin_number);
+    reg->DR[reg_idx] = 0x00010001 << (pin_number & 0xF);
+
 }
 
 
 __STATIC_INLINE void nrf_gpio_pin_clear(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
+    uint8_t reg_idx = pin_number >>4;
 
-		uint8_t reg_idx = pin_number >>4;
-	
-		reg->DR[reg_idx] = 0x00010000 << (pin_number & 0xF);
-	
-  //  nrf_gpio_port_out_clear(reg, 1UL << pin_number);
+    reg->DR[reg_idx] = 0x00010000 << (pin_number & 0xF);
 	
 }
 
@@ -875,10 +761,10 @@ __STATIC_INLINE void nrf_gpio_pin_clear(uint32_t pin_number)
 __STATIC_INLINE void nrf_gpio_pin_toggle(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg        = nrf_gpio_pin_port_decode(&pin_number);
-		uint8_t reg_dix = pin_number >>4;
+    uint8_t reg_dix = pin_number >>4;
 
-		reg->DR[reg_dix] = 0x10001 << (pin_number & 0x0f);
-	  reg->DR[reg_dix] = 0x10000 << (pin_number & 0x0f);
+    reg->DR[reg_dix] = 0x10001 << (pin_number & 0x0f);
+    reg->DR[reg_dix] = 0x10000 << (pin_number & 0x0f);
 	
 
 }
@@ -900,10 +786,10 @@ __STATIC_INLINE void nrf_gpio_pin_write(uint32_t pin_number, uint32_t value)
 __STATIC_INLINE uint32_t nrf_gpio_pin_read(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-	
-	  uint32_t value = reg->EXT_PORT0;
-	
-		return (value & (0x01L << (pin_number & 0x1F)))? (1) : (0);
+
+    uint32_t value = reg->EXT_PORT0;
+
+    return (value & (0x01L << (pin_number & 0x1F)))? (1) : (0);
 
 }
 
@@ -911,10 +797,10 @@ __STATIC_INLINE uint32_t nrf_gpio_pin_read(uint32_t pin_number)
 __STATIC_INLINE uint32_t nrf_gpio_pin_out_read(uint32_t pin_number)
 {
     NRF_GPIO_Type * reg = nrf_gpio_pin_port_decode(&pin_number);
-	
-		uint32_t value = reg->EXT_PORT0;
 
-		return (value & (0x01L << (pin_number & 0x1F)))? (1) : (0);
+    uint32_t value = reg->EXT_PORT0;
+
+    return (value & (0x01L << (pin_number & 0x1F)))? (1) : (0);
 
 }
 
@@ -930,7 +816,7 @@ __STATIC_INLINE void nrf_gpio_ports_read(uint32_t start_port, uint32_t length, u
     for (i = start_port; i < (start_port + length); i++)
     {
       //  *p_masks = nrf_gpio_port_in_read(gpio_regs[i]);
-				*p_masks = gpio_regs[0]->EXT_PORT0;
+		*p_masks = gpio_regs[0]->EXT_PORT0;
         p_masks++;
     }
 }

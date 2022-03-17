@@ -956,11 +956,6 @@
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c</FilePath>
             </File>
             <File>
-              <FileName>app_gpiote.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\gpiote\app_gpiote.c</FilePath>
-            </File>
-            <File>
               <FileName>app_error.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\util\app_error.c</FilePath>
@@ -2056,11 +2051,6 @@
               <FileName>nrfx_gpiote.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\nrfx\drivers\src\nrfx_gpiote.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_gpiote.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\gpiote\app_gpiote.c</FilePath>
             </File>
             <File>
               <FileName>app_error.c</FileName>

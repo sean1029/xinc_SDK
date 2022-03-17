@@ -403,8 +403,8 @@ nrfx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 
     if (p_cb->handler)
     {
-        xinc_uart_int_disable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
-                                                XINC_UART_INT_MASK_ERROR);
+//        xinc_uart_int_disable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
+//                                                XINC_UART_INT_MASK_ERROR);
     }
     if (p_cb->rx_buffer_length != 0)
     {

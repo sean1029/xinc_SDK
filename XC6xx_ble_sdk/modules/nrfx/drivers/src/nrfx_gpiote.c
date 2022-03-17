@@ -1,40 +1,7 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 
@@ -61,61 +28,18 @@
 #define FORBIDDEN_HANDLER_ADDRESS ((nrfx_gpiote_evt_handler_t)UINT32_MAX)
 #define PIN_NOT_USED              (-1)
 #define PIN_USED                  (-2)
-#define NO_CHANNELS               (-1)
+#define NO_HANDLERS_ID               (-1)
 #define POLARITY_FIELD_POS        (6)
 #define POLARITY_FIELD_MASK       (0xC0)
 
-/* Check if every pin can be encoded on provided number of bits. */
-//NRFX_STATIC_ASSERT(MAX_PIN_NUMBER <= (1 << POLARITY_FIELD_POS));
-
-/**
- * @brief Macro for converting task-event index to an address of an event register.
- *
- * Macro utilizes the fact that registers are grouped together in ascending order.
- */
-#define TE_IDX_TO_EVENT_ADDR(idx)    (nrf_gpiote_events_t)((uint32_t)NRF_GPIOTE_EVENTS_IN_0 + \
-                                                           (sizeof(uint32_t) * (idx)))
-
-/**
- * @brief Macro for converting task-event index of OUT task to an address of a task register.
- *
- * Macro utilizes the fact that registers are grouped together in ascending order.
- */
-#define TE_OUT_IDX_TO_TASK_ADDR(idx) (nrf_gpiote_tasks_t)((uint32_t)NRF_GPIOTE_TASKS_OUT_0 + \
-                                                          (sizeof(uint32_t) * (idx)))
-
-#if defined(GPIOTE_FEATURE_SET_PRESENT) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Macro for converting task-event index of SET task to an address of a task register.
- *
- * Macro utilizes the fact that registers are grouped together in ascending order.
- */
-#define TE_SET_IDX_TO_TASK_ADDR(idx) (nrf_gpiote_tasks_t)((uint32_t)NRF_GPIOTE_TASKS_SET_0 + \
-                                                          (sizeof(uint32_t) * (idx)))
-
-#endif // defined(GPIOTE_FEATURE_SET_PRESENT) || defined(__NRFX_DOXYGEN__)
-
-#if defined(GPIOTE_FEATURE_CLR_PRESENT) || defined(__NRFX_DOXYGEN__)
-/**
- * @brief Macro for converting task-event index of CLR task to an address of a task register.
- *
- * Macro utilizes the fact that registers are grouped together in ascending order.
- */
-#define TE_CLR_IDX_TO_TASK_ADDR(idx) (nrf_gpiote_tasks_t)((uint32_t)NRF_GPIOTE_TASKS_CLR_0 + \
-                                                          (sizeof(uint32_t) * (idx)))
-
-#endif // defined(GPIOTE_FEATURE_CLR_PRESENT) || defined(__NRFX_DOXYGEN__)
 
 /*lint -save -e571*/ /* Suppress "Warning 571: Suspicious cast" */
 typedef struct
 {
     nrfx_gpiote_evt_handler_t handlers[MAX_PIN_NUMBER];
-
     int8_t                    pin_assignments[MAX_PIN_NUMBER];
-    int8_t                    port_handlers_pins[NRFX_GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS];
     uint8_t                   configured_pins[((MAX_PIN_NUMBER)+7) / 8];
     nrfx_drv_state_t          state;
-	
 } gpiote_control_block_t;
 
 static gpiote_control_block_t m_cb;
@@ -126,20 +50,18 @@ __STATIC_INLINE bool pin_in_use(uint32_t pin)
 }
 
 
-__STATIC_INLINE bool pin_in_use_by_gpiote(uint32_t pin)
+__STATIC_INLINE bool pin_in_use_by_gpio_handler(uint32_t pin)
 {
     return (m_cb.pin_assignments[pin] >= 0);
 }
 
 
-__STATIC_INLINE void pin_in_use_by_te_set(uint32_t                  pin,
-                                          uint32_t                  channel_id,
-                                          nrfx_gpiote_evt_handler_t handler,
-                                          bool                      is_channel)
+__STATIC_INLINE void pin_in_use_by_handler_set(uint32_t                  pin,
+                                        uint32_t                  handler_id,
+                                        nrfx_gpiote_evt_handler_t handler)
 {
-    m_cb.pin_assignments[pin] = channel_id;
-    m_cb.handlers[channel_id] = handler;
-   
+    m_cb.pin_assignments[pin] = handler_id;
+    m_cb.handlers[handler_id] = handler;
 }
 
 
@@ -170,26 +92,25 @@ __STATIC_INLINE bool pin_configured_check(uint32_t pin)
     return 0 != nrf_bitmask_bit_is_set(pin, m_cb.configured_pins);
 }
 
-__STATIC_INLINE int8_t channel_port_get(uint32_t pin)
+__STATIC_INLINE int8_t pin_handler_id_get(uint32_t pin)
 {
     return m_cb.pin_assignments[pin];
 }
 
 
-__STATIC_INLINE nrfx_gpiote_evt_handler_t channel_handler_get(uint32_t channel)
+__STATIC_INLINE nrfx_gpiote_evt_handler_t pin_handler_get(uint32_t channel)
 {
     return m_cb.handlers[channel];
 }
 
 
-static int8_t channel_port_alloc(uint32_t pin, nrfx_gpiote_evt_handler_t handler, bool channel)
+static int8_t pin_handler_use_alloc(uint32_t pin, nrfx_gpiote_evt_handler_t handler)
 {
-    int8_t   channel_id = NO_CHANNELS;
+    int8_t   handler_id = NO_HANDLERS_ID;
     uint32_t i;
 
-    uint32_t start_idx = 0;//channel ? 0 : GPIOTE_CH_NUM;
+    uint32_t start_idx = 0;
     uint32_t end_idx   = MAX_PIN_NUMBER;
-      //  channel ? GPIOTE_CH_NUM : (GPIOTE_CH_NUM + NRFX_GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS);
 
     // critical section
 
@@ -197,20 +118,20 @@ static int8_t channel_port_alloc(uint32_t pin, nrfx_gpiote_evt_handler_t handler
     {
         if (m_cb.handlers[i] == FORBIDDEN_HANDLER_ADDRESS)
         {
-            pin_in_use_by_te_set(pin, i, handler, channel);
-            channel_id = i;
+            pin_in_use_by_handler_set(pin, i, handler);
+            handler_id = i;
             break;
         }
     }
-		printf("channel_port_alloc :%d\r\n",channel_id);
+    printf("pin_handler_use_alloc :%d\r\n",handler_id);
     // critical section
-    return channel_id;
+    return handler_id;
 }
 
 
-static void channel_free(uint8_t channel_id)
+static void pin_handler_free(uint8_t handler_id)
 {
-    m_cb.handlers[channel_id] = FORBIDDEN_HANDLER_ADDRESS;
+    m_cb.handlers[handler_id] = FORBIDDEN_HANDLER_ADDRESS;
 }
 
 
@@ -226,28 +147,28 @@ nrfx_err_t nrfx_gpiote_init(void)
                          NRFX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-		printf("Function 0: %s\r\n ", __func__);
+    printf("Function 0: %s\r\n ", __func__);
     uint8_t i;
 
     for (i = 0; i < MAX_PIN_NUMBER; i++)
     {
-      //  if (nrf_gpio_pin_present_check(i))
+        if (nrf_gpio_pin_present_check(i))
         {
             pin_in_use_clear(i);
         }
-				channel_free(i);
+        pin_handler_free(i);
     }
  
     memset(m_cb.configured_pins, 0, sizeof(m_cb.configured_pins));
 
-		NVIC_EnableIRQ(GPIO_IRQn);
-		NVIC_EnableIRQ(PendSV_IRQn);
+    NVIC_EnableIRQ(GPIO_IRQn);
+    NVIC_EnableIRQ(PendSV_IRQn);
 
     m_cb.state = NRFX_DRV_STATE_INITIALIZED;
 
     err_code = NRFX_SUCCESS;
     NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
-		printf("Function 1: %s, error:%x \r\n ", __func__,err_code);
+    printf("Function 1: %s, error:%x \r\n ", __func__,err_code);
     return err_code;
 }
 
@@ -269,7 +190,7 @@ void nrfx_gpiote_uninit(void)
         if (nrf_gpio_pin_present_check(i))
         {
            
-            if (pin_in_use_by_gpiote(i))
+            if (pin_in_use_by_gpio_handler(i))
             {
                 /* Disable gpiote_in is having the same effect on out pin as gpiote_out_uninit on
                  * so it can be called on all pins used by GPIOTE.
@@ -303,8 +224,8 @@ nrfx_err_t nrfx_gpiote_out_init(nrfx_gpiote_pin_t                pin,
         
         if (err_code == NRFX_SUCCESS)
         {
-					  nrf_gpio_cfg_output(pin);
-					  pin_configured_set(pin);
+            nrf_gpio_cfg_output(pin);
+            pin_configured_set(pin);
             if (p_config->init_state == NRF_GPIOTE_INITIAL_VALUE_HIGH)
             {
                 nrf_gpio_pin_set(pin);
@@ -313,7 +234,7 @@ nrfx_err_t nrfx_gpiote_out_init(nrfx_gpiote_pin_t                pin,
             {
                 nrf_gpio_pin_clear(pin);
             }     
-           
+            
         }
     }
 
@@ -342,7 +263,6 @@ void nrfx_gpiote_out_set(nrfx_gpiote_pin_t pin)
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
-
     nrf_gpio_pin_set(pin);
 }
 
@@ -352,7 +272,6 @@ void nrfx_gpiote_out_clear(nrfx_gpiote_pin_t pin)
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
-
     nrf_gpio_pin_clear(pin);
 }
 
@@ -361,7 +280,6 @@ void nrfx_gpiote_out_toggle(nrfx_gpiote_pin_t pin)
 {
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
-
 
     nrf_gpio_pin_toggle(pin);
 }
@@ -373,26 +291,27 @@ nrfx_err_t nrfx_gpiote_in_init(nrfx_gpiote_pin_t               pin,
 {
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
     nrfx_err_t err_code = NRFX_SUCCESS;
-
+    if (pin_in_use_by_gpio_handler(pin))
     {
-        int8_t channel = channel_port_alloc(pin, evt_handler, p_config->hi_accuracy);
-			   printf("evt_handler : %p \r\n ", evt_handler);
-        if (channel != NO_CHANNELS)
-        {
-            
-            {              
-                {
-                    nrf_gpio_cfg_input(pin, p_config->pull);
-										printf("nrf_gpio_cfg_input : %d \r\n ", pin);
-                }
-                pin_configured_set(pin);
-            }
+        err_code = NRFX_ERROR_INVALID_STATE;
+    }
+    else
+    {
 
+        int8_t handler_id = pin_handler_use_alloc(pin, evt_handler);
+        printf("evt_handler : %p \r\n ", evt_handler);
+        if (handler_id != NO_HANDLERS_ID)
+        {     
+            nrf_gpio_cfg_input(pin, p_config->pull);
+            printf("nrf_gpio_cfg_input : %d \r\n ", pin);
+
+            pin_configured_set(pin);         
         }
         else
         {
-            err_code = NRFX_ERROR_NO_MEM;
+         err_code = NRFX_ERROR_NO_MEM;
         }
+
     }
 
     NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
@@ -403,7 +322,7 @@ nrfx_err_t nrfx_gpiote_in_init(nrfx_gpiote_pin_t               pin,
 void nrfx_gpiote_in_event_enable(nrfx_gpiote_pin_t pin, bool int_enable)
 {
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpiote(pin));
+    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
 
 }
 
@@ -411,14 +330,14 @@ void nrfx_gpiote_in_event_enable(nrfx_gpiote_pin_t pin, bool int_enable)
 void nrfx_gpiote_in_event_disable(nrfx_gpiote_pin_t pin)
 {
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpiote(pin));
+    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
 }
 
 
 void nrfx_gpiote_in_uninit(nrfx_gpiote_pin_t pin)
 {
     NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpiote(pin));
+    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
     nrfx_gpiote_in_event_disable(pin);
    
     if (pin_configured_check(pin))
@@ -427,7 +346,7 @@ void nrfx_gpiote_in_uninit(nrfx_gpiote_pin_t pin)
         pin_configured_clear(pin);
     }
     {
-        channel_free((uint8_t)channel_port_get(pin));
+        pin_handler_free((uint8_t)pin_handler_id_get(pin));
     }
     pin_in_use_clear(pin);
 }
@@ -442,39 +361,39 @@ bool nrfx_gpiote_in_is_set(nrfx_gpiote_pin_t pin)
 
 void nrfx_gpiote_irq_handler(void)
 {
-    uint32_t status            = 0;
-		uint32_t            i;
-		uint32_t            mask  = (uint32_t)0x01;
-		
-		NRF_GPIO_Type * gpio_regs[GPIO_COUNT] = GPIO_REG_LIST;
-		
-		status = gpio_regs[0]->INTR_STATUS_C0;
-		
-		gpio_regs[0]->INTR_CLR0 = status;
-		
+    uint32_t            status     = 0;
+    uint32_t            i;
+    uint32_t            mask  = (uint32_t)0x01;
+    
+    NRF_GPIO_Type * gpio_regs[GPIO_COUNT] = GPIO_REG_LIST;
+
+    status = gpio_regs[0]->INTR_STATUS_C0;
+
+    gpio_regs[0]->INTR_CLR0 = status;
+        
 
     /* collect status of all GPIOTE pin events. Processing is done once all are collected and cleared.*/
-		    /* Process pin events. */
-		if (status)
-		{
-			for (i = 0; i < MAX_PIN_NUMBER; i++)
-			{
-        if (mask & status)
+        /* Process pin events. */
+    if (status)
+    {
+        for (i = 0; i < MAX_PIN_NUMBER; i++)
         {
-				//	printf("nrfx_gpiote_irq_handler:%x,i:%d\n",status,i);
-             nrfx_gpiote_evt_handler_t handler =
-                        channel_handler_get((uint32_t)channel_port_get(i));
-					if (handler)
-					{
-							handler(i, NRF_GPIOTE_POLARITY_LOTOHI);
-					}
-            status |= mask;
+            if (mask & status)
+            {
+                //	printf("nrfx_gpiote_irq_handler:%x,i:%d\n",status,i);
+                nrfx_gpiote_evt_handler_t handler =
+                pin_handler_get((uint32_t)pin_handler_id_get(i));
+                if (handler)
+                {
+                    handler(i, NRF_GPIOTE_POLARITY_LOTOHI);
+                }
+                status |= mask;
+            }
+            mask <<= 1;
+            /* Incrementing to next event, utilizing the fact that events are grouped together
+            * in ascending order. */
         }
-        mask <<= 1;
-        /* Incrementing to next event, utilizing the fact that events are grouped together
-         * in ascending order. */
-			}
-		}
+    }
 		
 }
 
