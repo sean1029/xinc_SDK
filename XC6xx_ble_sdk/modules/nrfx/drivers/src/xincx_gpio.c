@@ -341,6 +341,77 @@ bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin)
 }
 
 
+ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
+{
+    ret_code_t err_code = NRF_SUCCESS; 
+
+    if (pin_in_use(pin))
+    {
+        err_code = NRFX_ERROR_INVALID_STATE;
+    }
+    else
+    {
+        if(pin > XINC_GPIO_31)
+        {
+            err_code = NRF_ERROR_INVALID_PARAM;
+        }
+        else if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
+        {
+            gpio_mux_ctl(pin,2);		     
+        }
+        else if((XINC_GPIO_PIN_PWM3 == fun) && (XINC_GPIO_1 == pin))
+        {
+            gpio_mux_ctl(pin,2);		         
+        }
+        else if((XINC_GPIO_PIN_PWM4 == fun) && (XINC_GPIO_12 == pin))
+        {
+            gpio_mux_ctl(pin,3);		
+        }
+        else if((XINC_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
+        {                       
+            gpio_mux_ctl(pin,13);		
+        }
+        
+        switch(pin)
+        {
+            case XINC_GPIO_11:
+            case XINC_GPIO_12:
+            case XINC_GPIO_13:	
+            { 
+                if(fun > XINC_GPIO_PIN_PWM1_INV)
+                {
+                    err_code = NRFX_ERROR_INVALID_PARAM;
+                }else
+                {
+                    gpio_mux_ctl(pin,1);
+                    gpio_fun_sel(pin,fun);
+                }                
+            }break;
+            
+            default:
+            {                
+                if(fun > XINC_GPIO_PIN_PWM1_INV)
+                {
+                    err_code = NRFX_ERROR_INVALID_PARAM;
+                }else
+								{
+										gpio_mux_ctl(pin,0);
+                    gpio_fun_sel(pin,fun);
+								}
+            }
+            break;	
+        
+        }	
+    }
+
+    if(err_code == NRF_SUCCESS)
+    {
+        pin_in_use_set(pin);
+    }
+
+    return err_code;
+}
+
 void xincx_gpio_irq_handler(void)
 {
     uint32_t            status[GPIO_COUNT]    = {0};

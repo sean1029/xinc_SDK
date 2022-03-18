@@ -83,24 +83,24 @@ extern "C" {
  /** @brief Polarity for the GPIO channel. */
 typedef enum
 {
-  XINC_GPIO_POLARITY_LOTOHI = 0,//GPIOTE_CONFIG_POLARITY_LoToHi,       ///<  Low to high.
-  XINC_GPIO_POLARITY_HITOLO = 1,//GPIOTE_CONFIG_POLARITY_HiToLo,       ///<  High to low.
-  XINC_GPIO_POLARITY_TOGGLE = 2,//GPIOTE_CONFIG_POLARITY_Toggle        ///<  Toggle.
+  XINC_GPIO_POLARITY_LOTOHI = 0,//,       ///<  Low to high.
+  XINC_GPIO_POLARITY_HITOLO = 1,//,       ///<  High to low.
+  XINC_GPIO_POLARITY_TOGGLE = 2,//        ///<  Toggle.
 } xinc_gpio_polarity_t;
 
 /** @brief Initial output value for the GPIO channel. */
 typedef enum
 {
-  XINC_GPIO_INITIAL_VALUE_LOW  = 0,//GPIOTE_CONFIG_OUTINIT_Low,       ///<  Low to high.
-  XINC_GPIO_INITIAL_VALUE_HIGH = 1//GPIOTE_CONFIG_OUTINIT_High       ///<  High to low.
+  XINC_GPIO_INITIAL_VALUE_LOW  = GPIO_GPIO_PORT_DR_Low,//,       ///<  Low 
+  XINC_GPIO_INITIAL_VALUE_HIGH = GPIO_GPIO_PORT_DR_High//       ///<  High.
 } xinc_gpio_outinit_t;
 
 
 /** @brief Pin direction definitions. */
 typedef enum
 {
-    XINC_GPIO_PIN_DIR_INPUT  = GPIO_PIN_CNF_DIR_Input, ///< Input.
-    XINC_GPIO_PIN_DIR_OUTPUT = GPIO_PIN_CNF_DIR_Output ///< Output.
+    XINC_GPIO_PIN_DIR_INPUT  = GPIO_GPIO_PORT_DDR_Input, ///< Input.
+    XINC_GPIO_PIN_DIR_OUTPUT = GPIO_GPIO_PORT_DDR_Output ///< Output.
 } xinc_gpio_pin_dir_t;
 
 /** @brief Connection of input buffer. */
@@ -503,6 +503,96 @@ __STATIC_INLINE void xinc_gpio_range_cfg_input(uint32_t            pin_range_sta
         xinc_gpio_cfg_input(pin_range_start, pull_config);
     }
 }
+/* ---------------------------------------------------------------------------------------------------
+- 函数名称: gpio_fun_inter
+- 函数功能: gpio中断模式设置 
+- 输入参数: gpio编号0-28  中断类型0无中断 5上升沿中断 7下降沿中断
+-【inter=0  GPIO关闭中断:NOT_INT        】                       
+-【inter=5  GPIO上升沿中断:RIS_EDGE_INT 】                        
+-【inter=7  GPIO下降沿中断:FAIL_EDGE_INT】
+-【inter=9  GPIO上升沿下降沿中断:RIS_FAIL_EDGE_INT】
+- 创建日期: 2022-03-18
+----------------------------------------------------------------------------------------------------*/
+__STATIC_INLINE void xinc_gpio_fun_inter(uint32_t  pin_number,xinc_gpio_pin_input_int_t inter)
+{
+
+
+
+}
+/* ---------------------------------------------------------------------------------------------------
+- 函数名称: xinc_gpio_mux_ctl
+- 函数功能: pin脚连接控制
+- 输入参数: mux
+- 创建日期: 2022-3-18
+
+- 32/16 PIN脚
+- GPIO0 : 【mux=0 连接到gpio_d[0] 】 【mux=1 NA】               【mux=2 pwm2】       【mux=3 NA】
+- GPIO1 : 【mux=0 连接到gpio_d[1] 】 【mux=1 NA】               【mux=2 pwm3】       【mux=3 NA】
+- GPIO2 : 【mux=0 连接到gpio_d[2] 】 【mux=1 NA】               【mux=2 clk_12M_out】【mux=3 NA】
+- GPIO3 : 【mux=0 连接到gpio_d[3] 】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO4 : 【mux=0 连接到gpio_d[4] 】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO5 : 【mux=0 连接到gpio_d[5] 】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO6 : 【mux=0 连接到gpio_d[6] 】 【mux=1 NA】               【mux=2 txen】       【mux=3 NA】
+- GPIO7 : 【mux=0 连接到gpio_d[7] 】 【mux=1 NA】               【mux=2 rxen】       【mux=3 NA】
+- GPIO8 : 【mux=0 连接到gpio_d[8] 】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO9 : 【mux=0 连接到gpio_d[9] 】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO10: 【mux=0 连接到gpio_d[10]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO11: 【mux=0 连接到BOOT_CTL  】 【mux=1 连接到gpio_d[11]】 【mux=2 NA】         【mux=3 NA】
+- GPIO12: 【mux=0 连接到SWI的 SWCK】 【mux=1 连接到gpio_d[12]】 【mux=2 NA】         【mux=3 pwm4】
+- GPIO13: 【mux=0 连接到SWI的 SWD 】 【mux=1 连接到gpio_d[13]】 【mux=2 NA】         【mux=3 pwm5】
+- GPIO14: 【mux=0 连接到gpio_d[14]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO18: 【mux=0 连接到gpio_d[18]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO19: 【mux=0 连接到gpio_d[19]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO20: 【mux=0 连接到gpio_d[20]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO21: 【mux=0 连接到gpio_d[21]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO22: 【mux=0 连接到gpio_d[22]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO23: 【mux=0 连接到gpio_d[23]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO24: 【mux=0 连接到gpio_d[24]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- GPIO25: 【mux=0 连接到gpio_d[25]】 【mux=1 NA】               【mux=2 NA】         【mux=3 NA】
+- ----------------------------------------------------------------------------------------------------*/
+__STATIC_INLINE void xinc_gpio_mux_ctl(uint32_t  pin_number,uint8_t mux)
+{
+
+
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------------
+- 函数名称: gpio_fun_sel
+- 函数功能: gpio复用功能设置
+- 输入参数: gpio编号0-28 sel复用
+-【sel=0   普通GPIO功能:GPIO_Dx               】
+-【sel=1   串口0发送:UART0_TX                 】
+-【sel=2   串口0接收::UART0_RX                】 
+-【sel=3   串口0流控:UART0_CTS                】
+-【sel=4   串口0流控:UART0_RTS                】
+-【sel=5   I2C时钟:I2C_SCL                    】 
+-【sel=6   I2C数据:I2C_SDA                    】
+-【sel=7   串口1接收:UART1_RX                 】
+-【sel=8   串口1发送:UART1_TX                 】 
+-【sel=9   SIM_IO                             】   
+-【sel=10  SIM_RST                            】 
+-【sel=11  SIM_CLK_OUT                        】                  
+-【sel=12  PWM0输出:PWM0                      】  
+-【sel=13  PWM1输出:PWM1                      】   
+-【sel=14  SPI1时钟:SSI1_CLK                  】
+-【sel=15  SPI1片选:SSI1_SSN                  】
+-【sel=16  SPI1接收:SSI1_RX                   】 
+-【sel=17  SPI1发送:SSI1_TX                   】
+-【sel=18  PWM0互补输出:PWM0_INV(32/16PIN新增)】
+-【sel=19  PWM1互补输出:PWM1_INV(32/16PIN新增)】
+- 创建日期: 2019-12-03
+----------------------------------------------------------------------------------------------------*/
+__STATIC_INLINE void xinc_gpio_fun_sel(uint32_t pin_number,xinc_gpio_pin_fun_sel_t fun)
+{
+
+}
+	
+__STATIC_INLINE void xinc_gpio_dir_cfg(uint32_t pin_number,xinc_gpio_pin_dir_t dir)
+{
+
+}
 
 
 __STATIC_INLINE void xinc_gpio_cfg(
@@ -687,81 +777,14 @@ __STATIC_INLINE void xinc_gpio_pin_dir_set(uint32_t pin_number, xinc_gpio_pin_di
 }
 
 
-__STATIC_INLINE ret_code_t xinc_gpio_fun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
-{
-		ret_code_t err_code = NRF_SUCCESS; 
-		if(pin > XINC_GPIO_31)
-		{
-			err_code = NRF_ERROR_INVALID_PARAM;
-			return err_code;
-		}
-		if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
-		{
-			gpio_mux_ctl(pin,2);		
-			return err_code;
-				
-		}
-		if((XINC_GPIO_PIN_PWM3 == fun) && (XINC_GPIO_1 == pin))
-		{
-			gpio_mux_ctl(pin,2);		
-			return err_code;
-								
-		}
-		if((XINC_GPIO_PIN_PWM4 == fun) && (XINC_GPIO_12 == pin))
-		{
-			
-			gpio_mux_ctl(pin,3);		
-			return err_code;
-				
-		}
-		if((XINC_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
-		{
-						
-			gpio_mux_ctl(pin,13);		
-			return err_code;
-		}
-		
-		switch(pin)
-		{
-			case XINC_GPIO_11:
-			case XINC_GPIO_12:
-			case XINC_GPIO_13:	
-			{
-				gpio_mux_ctl(pin,1);
-				if(fun > XINC_GPIO_PIN_PWM1_INV)
-				{
-					err_code = NRFX_ERROR_INVALID_PARAM;
-					return err_code;
-				}
-				gpio_fun_sel(pin,fun);
-				
-			}break;
-			
-			default:
-			{
-				
-				gpio_mux_ctl(pin,0);
-				if(fun > XINC_GPIO_PIN_PWM1_INV)
-				{
-					err_code = NRFX_ERROR_INVALID_PARAM;
-					return err_code;
-				}
-				gpio_fun_sel(pin,fun);
-			}
-			break;	
-		
-		}	
-	return err_code;
-
-}
-
 __STATIC_INLINE void xinc_gpio_pin_set(uint32_t pin_number)
 {
     XINC_GPIO_Type * reg = xinc_gpio_pin_port_decode(&pin_number);
 		uint8_t port = pin_number >> 4UL;
     uint8_t reg_idx = pin_number & 0xFUL;
 
-    reg->PORT_DR[port] = 0x00010001 << (reg_idx);
+    reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_High << GPIO_GPIO_PORT_DR_Pos) |
+													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
 
 }
 
@@ -772,7 +795,8 @@ __STATIC_INLINE void xinc_gpio_pin_clear(uint32_t pin_number)
     uint8_t port = pin_number >> 4UL;
     uint8_t reg_idx = pin_number & 0xFUL;
 
-		reg->PORT_DR[port] = 0x00010000 << (reg_idx);
+		reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_Low << GPIO_GPIO_PORT_DR_Pos) |
+													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
 }
 
 
@@ -783,8 +807,11 @@ __STATIC_INLINE void xinc_gpio_pin_toggle(uint32_t pin_number)
 		uint8_t port = pin_number >> 4UL;
     uint8_t reg_idx = pin_number & 0xFUL;
 
-    reg->PORT_DR[port] = 0x10001 << reg_idx;
-    reg->PORT_DR[port] = 0x10000 << reg_idx;
+    reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_High << GPIO_GPIO_PORT_DR_Pos) |
+													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
+	
+    reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_Low << GPIO_GPIO_PORT_DR_Pos) |
+													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
 	
 
 }
@@ -811,7 +838,7 @@ __STATIC_INLINE uint32_t xinc_gpio_pin_read(uint32_t pin_number)
 
     uint32_t value = reg->EXT_PORT[port];
 
-    return (value & (0x01UL << pin_idx))? (1UL) : (0UL);
+    return (value & (0x01UL << pin_idx))? (GPIO_GPIO_EXT_PORT_DIN_High) : (GPIO_GPIO_EXT_PORT_DIN_Low);
 
 }
 
@@ -823,7 +850,7 @@ __STATIC_INLINE uint32_t xinc_gpio_pin_out_read(uint32_t pin_number)
 		uint8_t pin_idx = pin_number & 0x1F;
     uint32_t value = reg->EXT_PORT[port];
 
-    return (value & (0x01UL << (pin_idx & 0x1F)))? (1UL) : (0UL);
+    return (value & (0x01UL << pin_idx))? (GPIO_GPIO_EXT_PORT_DIN_High) : (GPIO_GPIO_EXT_PORT_DIN_Low);
 
 }
 
@@ -873,6 +900,8 @@ __STATIC_INLINE bool xinc_gpio_pin_present_check(uint32_t pin_number)
 }
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
+
+ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun);
 
 /** @} */
 

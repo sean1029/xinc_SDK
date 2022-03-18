@@ -50,32 +50,32 @@
 #define INSTANCE_COUNT   I2C_COUNT
 #endif
 
-#define SCL_PIN_INIT_CONF                                     \
-    ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
-    | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
-    | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
-    | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
-    | (GPIO_PIN_CNF_DIR_Input      << GPIO_PIN_CNF_DIR_Pos))
+// #define SCL_PIN_INIT_CONF                                     \
+//     ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
+//     | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
+//     | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
+//     | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
+//     | (GPIO_PIN_CNF_DIR_Input      << GPIO_PIN_CNF_DIR_Pos))
 
-#define SDA_PIN_INIT_CONF        SCL_PIN_INIT_CONF
+// #define SDA_PIN_INIT_CONF        SCL_PIN_INIT_CONF
 
-#define SDA_PIN_UNINIT_CONF                                     \
-    ( (GPIO_PIN_CNF_SENSE_Disabled   << GPIO_PIN_CNF_SENSE_Pos) \
-    | (GPIO_PIN_CNF_DRIVE_H0H1       << GPIO_PIN_CNF_DRIVE_Pos) \
-    | (GPIO_PIN_CNF_PULL_Disabled    << GPIO_PIN_CNF_PULL_Pos)  \
-    | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos) \
-    | (GPIO_PIN_CNF_DIR_Input        << GPIO_PIN_CNF_DIR_Pos))
+// #define SDA_PIN_UNINIT_CONF                                     \
+//     ( (GPIO_PIN_CNF_SENSE_Disabled   << GPIO_PIN_CNF_SENSE_Pos) \
+//     | (GPIO_PIN_CNF_DRIVE_H0H1       << GPIO_PIN_CNF_DRIVE_Pos) \
+//     | (GPIO_PIN_CNF_PULL_Disabled    << GPIO_PIN_CNF_PULL_Pos)  \
+//     | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos) \
+//     | (GPIO_PIN_CNF_DIR_Input        << GPIO_PIN_CNF_DIR_Pos))
 
-#define SCL_PIN_UNINIT_CONF      SDA_PIN_UNINIT_CONF
+// #define SCL_PIN_UNINIT_CONF      SDA_PIN_UNINIT_CONF
 
-#define SCL_PIN_INIT_CONF_CLR                                 \
-    ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
-    | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
-    | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
-    | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
-    | (GPIO_PIN_CNF_DIR_Output     << GPIO_PIN_CNF_DIR_Pos))
+// #define SCL_PIN_INIT_CONF_CLR                                 \
+//     ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
+//     | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
+//     | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
+//     | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
+//     | (GPIO_PIN_CNF_DIR_Output     << GPIO_PIN_CNF_DIR_Pos))
 
-#define SDA_PIN_INIT_CONF_CLR    SCL_PIN_INIT_CONF_CLR
+// #define SDA_PIN_INIT_CONF_CLR    SCL_PIN_INIT_CONF_CLR
 
 static xinc_drv_i2c_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];

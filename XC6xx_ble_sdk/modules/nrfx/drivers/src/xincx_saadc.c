@@ -279,7 +279,6 @@ nrfx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
         return err_code;
     }
 
-    XINC_SAADC_Type     *p_reg = p_instance->p_reg;
 
     p_cb->channel_config[channel].mode = p_config->mode;
     p_cb->channel_config[channel].adc_fifo_len = p_config->adc_fifo_len;

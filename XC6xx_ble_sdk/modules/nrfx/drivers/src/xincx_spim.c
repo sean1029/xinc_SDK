@@ -118,7 +118,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             mosi_pin = p_config->mosi_pin;
-            err_code = xinc_gpio_fun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
+            err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -138,7 +138,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             miso_pin = p_config->miso_pin;
-            err_code = xinc_gpio_fun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
+            err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -158,7 +158,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             p_cb->ss_active_high = p_config->ss_active_high;
-            err_code = xinc_gpio_fun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
+            err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -168,7 +168,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         
         if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
         {
-            err_code = xinc_gpio_fun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
+            err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
         
             if(err_code != NRFX_SUCCESS)
             {

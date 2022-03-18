@@ -38,17 +38,17 @@ static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 
 static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
 {
-    bool valid = true;
+    bool valid = false;
     switch(p_instance->id)
     {
         case XINC_PWM_ID_0:      
         case XINC_PWM_ID_1:            
         {   
-            xinc_gpio_fun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0 + p_instance->id));
+            xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0 + p_instance->id));
             #if (NRFX_CHECK(XINCX_PWM0_ENABLED))
             if(p_config->inv_enable)
             {
-                xinc_gpio_fun_config(p_instance->output_inv_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0_INV + p_instance->id));
+                xinc_gpio_secfun_config(p_instance->output_inv_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0_INV + p_instance->id));
             }
             #endif
             valid = true;
@@ -56,33 +56,37 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         
         case XINC_PWM_ID_2:
         {
-            if(p_instance->output_pin != XINC_GPIO_0)
+            if(p_instance->output_pin == XINC_GPIO_0)
             {
-                valid = false;
-            }  
+                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM2));
+                valid = true;
+            }					
         }break;
         
         case XINC_PWM_ID_3:
         {
-            if(p_instance->output_pin != XINC_GPIO_1)
+            if(p_instance->output_pin == XINC_GPIO_1)
             {
-                valid = false;
+                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM3));
+                valid = true;
             }
         }break;
         
         case XINC_PWM_ID_4:
         {
-            if(p_instance->output_pin != XINC_GPIO_12)
+            if(p_instance->output_pin == XINC_GPIO_12)
             {
-                valid = false;
+                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM4));
+                valid = true;
             }
         }break;
         
         case XINC_PWM_ID_5:
         {
-            if(p_instance->output_pin != XINC_GPIO_13)
+            if(p_instance->output_pin == XINC_GPIO_13)
             {
-                valid = false;
+                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM5));
+                valid = true;
             }
         }break;
         
@@ -91,11 +95,6 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         {
             valid = false;
         }break;
-        
-        if(valid && (p_instance->id > XINC_PWM_ID_1))
-        {
-            xinc_gpio_fun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM2 + p_instance->id - XINC_PWM_ID_2));
-        }
               
     }
 

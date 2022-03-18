@@ -414,9 +414,8 @@ void xincx_rtc_date_get(xincx_rtc_t const * const p_instance,
 static void irq_handler(XINC_RTC_Type * p_reg,
                         uint32_t       instance_id)
 {
-    uint32_t reg,clr_reg,keep_reg;
+    uint32_t reg,clr_reg;
     reg = p_reg->ALL_INTR_AO;
-    uint8_t gpio_idx;
     //	printf("RTC irq_handler:%x\r\n",reg);
     if(reg & (RTC_AO_ALL_INTR_AO_TIMER_INTR_Msk))
     {

@@ -211,6 +211,8 @@ void xincx_gpio_in_uninit(xincx_gpio_pin_t pin);
 bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin);
 
 
+
+
 /** @} */
 
 
