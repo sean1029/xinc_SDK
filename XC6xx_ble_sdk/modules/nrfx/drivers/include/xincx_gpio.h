@@ -59,11 +59,7 @@ extern "C" {
 /** @brief Input pin configuration. */
 typedef struct
 {
-  //  xinc_gpio_polarity_t sense;               /**< Transition that triggers the interrupt. */
     xinc_gpio_pin_pull_t   pull;                /**< Pulling mode. */
-    bool                  is_watcher      : 1; /**< True when the input pin is tracking an output pin. */
-    bool                  hi_accuracy     : 1; /**< True when high accuracy (IN_EVENT) is used. */
-    bool                  skip_gpio_setup : 1; /**< Do not change GPIO configuration */
 } xincx_gpio_in_config_t;
 
 /**
@@ -75,9 +71,7 @@ typedef struct
 /** @brief Output pin configuration. */
 typedef struct
 {
-//    xinc_gpio_polarity_t action;     /**< Configuration of the pin task. */
     xinc_gpio_outinit_t  init_state; /**< Initial state of the output pin. */
-    bool                  task_pin;   /**< True if the pin is controlled by a GPIOTE task. */
 } xincx_gpio_out_config_t;
 
 

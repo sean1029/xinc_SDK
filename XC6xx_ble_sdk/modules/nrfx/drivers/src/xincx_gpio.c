@@ -123,7 +123,7 @@ static int8_t pin_handler_use_alloc(uint32_t pin, xincx_gpio_evt_handler_t handl
             break;
         }
     }
-    printf("pin_handler_use_alloc :%d\r\n",handler_id);
+  //  printf("pin_handler_use_alloc :%d\r\n",handler_id);
     // critical section
     return handler_id;
 }
@@ -145,9 +145,10 @@ nrfx_err_t xincx_gpio_init(void)
         NRFX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
                          NRFX_LOG_ERROR_STRING_GET(err_code));
+        printf("Function: %s,error code:0x%x\r\n ", __func__,err_code);
         return err_code;
     }
-    printf("Function 0: %s\r\n ", __func__);
+    
     uint8_t i;
 
     for (i = 0; i < MAX_PIN_NUMBER; i++)
@@ -394,10 +395,10 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
                 {
                     err_code = NRFX_ERROR_INVALID_PARAM;
                 }else
-								{
-										gpio_mux_ctl(pin,0);
+                {
+                    gpio_mux_ctl(pin,0);
                     gpio_fun_sel(pin,fun);
-								}
+                }
             }
             break;	
         

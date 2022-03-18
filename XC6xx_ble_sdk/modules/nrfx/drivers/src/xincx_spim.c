@@ -281,7 +281,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
 
     if (p_cb->miso_pin != XINCX_SPIM_PIN_NOT_USED)
     {
-        //  xinc_gpio_cfg_default(p_cb->miso_pin);
+
     }
 
     xinc_spim_int_disable(p_spim,XINC_SPIM_INT_DISALL_MASK);

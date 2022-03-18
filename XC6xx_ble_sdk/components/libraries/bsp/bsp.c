@@ -1,40 +1,8 @@
 /**
- * Copyright (c) 2014 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
 #include "bsp.h"
@@ -178,149 +146,157 @@ static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
         switch (button_action)
         {
             case APP_BUTTON_PUSH:
+            {     
                 event = m_events_list[button].push_event;
                 if (m_events_list[button].long_push_event != BSP_EVENT_NOTHING)
                 {						
-										switch(button)
-										{
-											case 0:
-											{
-												#ifdef BSP_BUTTON_0
-												err_code = app_timer_start(m_bsp_button_tmr, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;
-											
-											case 1:
-											{
-												#ifdef BSP_BUTTON_1
-												err_code = app_timer_start(m_bsp_button_tmr1, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 2:
-											{
-												#ifdef BSP_BUTTON_2
-												err_code = app_timer_start(m_bsp_button_tmr2, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 3:
-											{
-												#ifdef BSP_BUTTON_3
-												err_code = app_timer_start(m_bsp_button_tmr3, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 4:
-											{
-												#ifdef BSP_BUTTON_4
-												err_code = app_timer_start(m_bsp_button_tmr4, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 5:
-											{
-												#ifdef BSP_BUTTON_5
-												err_code = app_timer_start(m_bsp_button_tmr5, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 6:
-											{
-												#ifdef BSP_BUTTON_6
-												err_code = app_timer_start(m_bsp_button_tmr6, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											case 7:
-											{
-												#ifdef BSP_BUTTON_7
-												err_code = app_timer_start(m_bsp_button_tmr7, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
-												#endif
-											}break;	
-											
-											default:
-												break;
-										}
-                   
+                    switch(button)
+                    {
+                        case 0:
+                        {
+                            #ifdef BSP_BUTTON_0
+                            err_code = app_timer_start(m_bsp_button_tmr, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;
+                        
+                        case 1:
+                        {
+                            #ifdef BSP_BUTTON_1
+                            err_code = app_timer_start(m_bsp_button_tmr1, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        case 2:
+                        {
+                            #ifdef BSP_BUTTON_2
+                            err_code = app_timer_start(m_bsp_button_tmr2, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        case 3:
+                        {
+                            #ifdef BSP_BUTTON_3
+                            err_code = app_timer_start(m_bsp_button_tmr3, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        case 4:
+                        {
+                            #ifdef BSP_BUTTON_4
+                            err_code = app_timer_start(m_bsp_button_tmr4, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                                            
+                        case 5:
+                        {
+                            #ifdef BSP_BUTTON_5
+                            err_code = app_timer_start(m_bsp_button_tmr5, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        case 6:
+                        {
+                            #ifdef BSP_BUTTON_6
+                            err_code = app_timer_start(m_bsp_button_tmr6, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        case 7:
+                        {
+                            #ifdef BSP_BUTTON_7
+                            err_code = app_timer_start(m_bsp_button_tmr7, APP_TIMER_TICKS(BSP_LONG_PUSH_TIMEOUT_MS), (void*)&current_long_push_pin_no[button]);
+                            #endif
+                        }break;	
+                        
+                        default:
+                            break;
+                    }
+
 									 
                     if (err_code == NRF_SUCCESS)
                     {
                         current_long_push_pin_no[button] = pin_no;
                     }
                 }
+
                 release_event_at_push[button] = m_events_list[button].release_event;
-                break;
+            }break;
+
             case APP_BUTTON_RELEASE:
+            {
                 
-									switch(button)
-										{
-											case 0:
-											{		
-												  #ifdef BSP_BUTTON_0
-												 (void)app_timer_stop(m_bsp_button_tmr);
-													#endif
-											}break;
-											
-											case 1:
-											{
-												  #ifdef BSP_BUTTON_1
-												 (void)app_timer_stop(m_bsp_button_tmr1);
-													#endif
-											}break;	
-											
-											case 2:
-											{
-												  #ifdef BSP_BUTTON_2
-												 (void)app_timer_stop(m_bsp_button_tmr2);
-													#endif
-											}break;	
-											
-											case 3:
-											{
-												  #ifdef BSP_BUTTON_3
-												 (void)app_timer_stop(m_bsp_button_tmr3);
-													#endif
-											}break;	
-											
-											case 4:
-											{
-												  #ifdef BSP_BUTTON_4
-												 (void)app_timer_stop(m_bsp_button_tmr4);
-													#endif
-											}break;	
-											
-											case 5:
-											{
-												  #ifdef BSP_BUTTON_5
-												 (void)app_timer_stop(m_bsp_button_tmr5);
-													#endif
-											}break;	
-											
-											case 6:
-											{
-												  #ifdef BSP_BUTTON_6
-												 (void)app_timer_stop(m_bsp_button_tmr6);
-													#endif
-											}break;	
-											
-											case 7:
-											{
-												  #ifdef BSP_BUTTON_7
-												 (void)app_timer_stop(m_bsp_button_tmr7);
-													#endif
-											}break;	
-											
-											default:
-												break;
-										}
+                switch(button)
+                {
+                    case 0:
+                    {		
+                        #ifdef BSP_BUTTON_0
+                        (void)app_timer_stop(m_bsp_button_tmr);
+                        #endif
+                    }break;
+                    
+                    case 1:
+                    {
+                        #ifdef BSP_BUTTON_1
+                        (void)app_timer_stop(m_bsp_button_tmr1);
+                        #endif
+                    }break;	
+                        
+                    case 2:
+                    {
+                        #ifdef BSP_BUTTON_2
+                        (void)app_timer_stop(m_bsp_button_tmr2);
+                        #endif
+                    }break;	
+                    
+                    case 3:
+                    {
+                        #ifdef BSP_BUTTON_3
+                        (void)app_timer_stop(m_bsp_button_tmr3);
+                        #endif
+                    }break;	
+                    
+                    case 4:
+                    {
+                        #ifdef BSP_BUTTON_4
+                        (void)app_timer_stop(m_bsp_button_tmr4);
+                        #endif
+                    }break;	
+                    
+                    case 5:
+                    {
+                        #ifdef BSP_BUTTON_5
+                        (void)app_timer_stop(m_bsp_button_tmr5);
+                        #endif
+                    }break;	
+                    
+                    case 6:
+                    {
+                        #ifdef BSP_BUTTON_6
+                        (void)app_timer_stop(m_bsp_button_tmr6);
+                        #endif
+                    }break;	
+                        
+                    case 7:
+                    {
+                        #ifdef BSP_BUTTON_7
+                        (void)app_timer_stop(m_bsp_button_tmr7);
+                        #endif
+                    }break;	
+                    
+                    default:
+                        break;
+                }
                 if (release_event_at_push[button] == m_events_list[button].release_event)
                 {
                     event = m_events_list[button].release_event;
                 }
-                break;
+            }break;
+
             case BSP_BUTTON_ACTION_LONG_PUSH:
-                event = m_events_list[button].long_push_event;
+            {
+                 event = m_events_list[button].long_push_event;
+            }break;
+               
         }
     }
 
@@ -714,7 +690,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
     if (type & BSP_INIT_LEDS)
     {
       //handle LEDs only. Buttons are already handled.
-      bsp_board_init(BSP_INIT_LEDS);
+      err_code = bsp_board_init(BSP_INIT_LEDS);
 
       // timers module must be already initialized!
       if (err_code == NRF_SUCCESS)

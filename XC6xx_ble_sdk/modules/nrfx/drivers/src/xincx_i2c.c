@@ -151,9 +151,16 @@ nrfx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     
     xinc_i2c_int_disable(p_i2c,XINC_I2C_INT_DIS_MASK_ALL);//不使能所有中断 0x
 
-    //   xinc_i2c_pins_set(p_i2c, p_config->scl, p_config->sda);
-    xinc_gpio_secfun_config(p_config->scl,XINC_GPIO_PIN_I2C_SCL);
-    xinc_gpio_secfun_config(p_config->sda,XINC_GPIO_PIN_I2C_SDA);
+    err_code = xinc_gpio_secfun_config(p_config->scl,XINC_GPIO_PIN_I2C_SCL);
+    if(err_code != NRFX_SUCCESS)
+    {
+        return err_code;
+    }
+    err_code = xinc_gpio_secfun_config(p_config->sda,XINC_GPIO_PIN_I2C_SDA);
+    if(err_code != NRFX_SUCCESS)
+    {
+        return err_code;
+    }
    // xinc_i2c_frequency_set(p_i2c,(xinc_i2c_frequency_t)p_config->frequency);
     if(p_config->frequency == XINC_I2C_FREQ_100K)//0x0063 48 4FUL
     {

@@ -36,30 +36,40 @@ static pwm_control_block_t m_cb[XINCX_PWM_ENABLED_COUNT];
 
 static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 
-static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
+static nrfx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
 {
-    bool valid = false;
+    nrfx_err_t err_code = NRFX_SUCCESS;
     switch(p_instance->id)
     {
         case XINC_PWM_ID_0:      
         case XINC_PWM_ID_1:            
         {   
-            xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0 + p_instance->id));
+            err_code = xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0 + p_instance->id));
+            if(err_code != NRFX_SUCCESS)
+            {
+                return err_code;
+            }
             #if (NRFX_CHECK(XINCX_PWM0_ENABLED))
             if(p_config->inv_enable)
             {
-                xinc_gpio_secfun_config(p_instance->output_inv_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0_INV + p_instance->id));
+                err_code = xinc_gpio_secfun_config(p_instance->output_inv_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0_INV + p_instance->id));
+                if(err_code != NRFX_SUCCESS)
+                {
+                    return err_code;
+                }
             }
             #endif
-            valid = true;
         }break;
         
         case XINC_PWM_ID_2:
         {
             if(p_instance->output_pin == XINC_GPIO_0)
             {
-                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM2));
-                valid = true;
+                err_code = xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM2));
+                if(err_code != NRFX_SUCCESS)
+                {
+                    return err_code;
+                }
             }					
         }break;
         
@@ -67,8 +77,11 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         {
             if(p_instance->output_pin == XINC_GPIO_1)
             {
-                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM3));
-                valid = true;
+                err_code = xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM3));
+                if(err_code != NRFX_SUCCESS)
+                {
+                    return err_code;
+                }
             }
         }break;
         
@@ -76,8 +89,11 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         {
             if(p_instance->output_pin == XINC_GPIO_12)
             {
-                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM4));
-                valid = true;
+                err_code = xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM4));
+                if(err_code != NRFX_SUCCESS)
+                {
+                    return err_code;
+                }
             }
         }break;
         
@@ -85,20 +101,22 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         {
             if(p_instance->output_pin == XINC_GPIO_13)
             {
-                xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM5));
-                valid = true;
+                err_code = xinc_gpio_secfun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM5));
+                if(err_code != NRFX_SUCCESS)
+                {
+                    return err_code;
+                }
             }
         }break;
-        
-        
+            
         default:
         {
-            valid = false;
+            err_code = NRFX_ERROR_NOT_SUPPORTED;
         }break;
               
     }
 
-    return valid;
+    return err_code;
 }
                           
 
@@ -121,9 +139,9 @@ nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         return err_code;
     }
 
-    if(!configure_pins(p_instance,p_config))
+    err_code = configure_pins(p_instance,p_config);
+    if(err_code != NRFX_SUCCESS)
     {
-        err_code = NRFX_ERROR_INVALID_PARAM;
         return err_code;
     }
         

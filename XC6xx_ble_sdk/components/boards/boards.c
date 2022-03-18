@@ -122,8 +122,9 @@ static void gpio_output_voltage_setup(void)
 }
 #endif
 
-static void bsp_board_leds_init(void)
+static nrfx_err_t bsp_board_leds_init(void)
 {
+    nrfx_err_t err_code = NRFX_SUCCESS;
     #if defined(BOARD_PCA10059)
     // If nRF52 USB Dongle is powered from USB (high voltage mode),
     // GPIO output voltage is set to 1.8 V by default, which is not
@@ -135,13 +136,33 @@ static void bsp_board_leds_init(void)
         gpio_output_voltage_setup();
     }
     #endif
+    
+    if (!xinc_drv_gpio_is_init())
+    {
+        err_code = xinc_drv_gpio_init();
+        if(err_code != NRFX_SUCCESS)
+        {
+            return err_code;
+        }
+    }
 
     uint32_t i;
+    
+    xincx_gpio_out_config_t config;
+    config.init_state = XINC_GPIO_INITIAL_VALUE_LOW;
+    
     for (i = 0; i < LEDS_NUMBER; ++i)
     {
-        xinc_gpio_cfg_output(m_board_led_list[i]);
+        err_code = xincx_gpio_out_init(m_board_led_list[i],&config);
+        if(err_code != NRFX_SUCCESS)
+        {
+            return err_code;
+        }
+        
     }
     bsp_board_leds_off();
+    
+    return err_code;
 }
 
 uint32_t bsp_board_led_idx_to_pin(uint32_t led_idx)
@@ -174,14 +195,7 @@ bool bsp_board_button_state_get(uint32_t button_idx)
     return (pin_set == (BUTTONS_ACTIVE_STATE ? true : false));
 }
 
-static void bsp_board_buttons_init(void)
-{
-    uint32_t i;
-    for (i = 0; i < BUTTONS_NUMBER; ++i)
-    {
-        xinc_gpio_cfg_input(m_board_btn_list[i], BUTTON_PULL);
-    }
-}
+
 
 uint32_t bsp_board_pin_to_button_idx(uint32_t pin_number)
 {
@@ -206,8 +220,9 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx)
 #endif //BUTTONS_NUMBER > 0
 
 
-void bsp_board_init(uint32_t init_flags)
+nrfx_err_t bsp_board_init(uint32_t init_flags)
 {
+    nrfx_err_t err_code;
     #if defined(BOARDS_WITH_USB_DFU_TRIGGER) && defined(BOARD_PCA10059)
     (void) nrf_dfu_trigger_usb_init();
     #endif
@@ -215,14 +230,10 @@ void bsp_board_init(uint32_t init_flags)
     #if LEDS_NUMBER > 0
     if (init_flags & BSP_INIT_LEDS)
     {
-        bsp_board_leds_init();
+       err_code  = bsp_board_leds_init();
     }
     #endif //LEDS_NUMBER > 0
+    
+    return err_code;
 
-    #if BUTTONS_NUMBER > 0
-    if (init_flags & BSP_INIT_BUTTONS)
-    {
-        bsp_board_buttons_init();
-    }
-    #endif //BUTTONS_NUMBER > 0
 }
