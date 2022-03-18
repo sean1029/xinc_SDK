@@ -43,7 +43,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "sdk_config.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "nrf_assert.h"
 #include "sdk_errors.h"
 #include "nrf_log_instance.h"

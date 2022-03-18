@@ -54,7 +54,7 @@
 #include <stddef.h>
 #include "nrf.h"
 #include "app_util.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "app_util_platform.h"
 
 #if ((__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)) == 0

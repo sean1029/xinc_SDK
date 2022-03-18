@@ -49,7 +49,7 @@
 #include "nrf.h"
 #include <stdio.h>
 #include "app_error.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "sdk_errors.h"
 
 /**@brief Function for error handling, which is called when an error has occurred.

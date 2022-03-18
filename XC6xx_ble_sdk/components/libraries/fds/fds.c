@@ -46,7 +46,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "nrf_error.h"
-#include "cfc_atomic.h"
+#include "nrf_atomic.h"
 #include "nrf_atfifo.h"
 
 #include "xinc_fstorage.h"

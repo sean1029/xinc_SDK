@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2013 - 2020, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,48 +37,41 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "bsp_nfc.h"
-#include "bsp.h"
-#include "nrf.h"
-#include "app_util_platform.h"
+/** @cond */
+/**@file
+ *
+ * @ingroup experimental_api
+ * @defgroup sdk_common SDK Common Header
+ * @brief All common headers needed for SDK examples will be included here so that application
+ *       developer does not have to include headers on him/herself.
+ * @{
+ */
 
-#ifndef BSP_SIMPLE
-#define BTN_ACTION_SLEEP          BSP_BUTTON_ACTION_RELEASE    /**< Button action used to put the application into sleep mode. */
+#ifndef SDK_COMMON_H__
+#define SDK_COMMON_H__
 
-ret_code_t bsp_nfc_btn_init(uint32_t sleep_button)
-{
-    uint32_t err_code = bsp_event_to_button_action_assign(sleep_button,
-                                                          BTN_ACTION_SLEEP,
-                                                          BSP_EVENT_SLEEP);
-    return err_code;
-}
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
+#include "sdk_config.h"
+#include "xinchip_common.h"
+#include "compiler_abstraction.h"
+#include "sdk_os.h"
+#include "sdk_errors.h"
+#include "app_util.h"
+#include "sdk_macros.h"
 
-ret_code_t bsp_nfc_btn_deinit(uint32_t sleep_button)
-{
-    uint32_t err_code = bsp_event_to_button_action_assign(sleep_button,
-                                                          BTN_ACTION_SLEEP,
-                                                          BSP_EVENT_DEFAULT);
-    return err_code;
-}
-
-ret_code_t bsp_nfc_sleep_mode_prepare(void)
-{
-#if defined(NFCT_PRESENT)
-    // Check if peripheral is not used.
-    CRITICAL_REGION_ENTER();
-#ifdef NRF52832_XXAA
-    if ((*(uint32_t *)0x40005410 & 0x07) == 0)
-#else
-    if ((NRF_NFCT->NFCTAGSTATE & NFCT_NFCTAGSTATE_NFCTAGSTATE_Msk)
-        == NFCT_NFCTAGSTATE_NFCTAGSTATE_Disabled)
-#endif // NRF52832_XXAA
-    {
-        NRF_NFCT->TASKS_SENSE = 1;
-    }
-    CRITICAL_REGION_EXIT();
-    return NRF_SUCCESS;
-#else
-    return NRF_ERROR_NOT_SUPPORTED;
+#ifdef __cplusplus
+extern "C" {
 #endif
+
+
+/** @} */
+/** @endcond */
+
+#ifdef __cplusplus
 }
-#endif //BSP_SIMPLE
+#endif
+
+#endif // SDK_COMMON_H__
+

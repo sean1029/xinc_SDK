@@ -53,7 +53,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include "compiler_abstraction.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "nrf.h"
 
 #ifdef __cplusplus

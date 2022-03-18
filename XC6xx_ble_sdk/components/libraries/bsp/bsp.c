@@ -8,7 +8,7 @@
 #include "bsp.h"
 #include <stddef.h>
 #include <stdio.h>
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "nrf.h"
 #include "xinc_gpio.h"
 #include "nrf_error.h"

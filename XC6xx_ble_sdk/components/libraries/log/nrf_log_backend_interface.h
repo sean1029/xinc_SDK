@@ -55,7 +55,7 @@
 #endif
 
 #include "nrf_section.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include <stdint.h>
 
 #ifdef __cplusplus

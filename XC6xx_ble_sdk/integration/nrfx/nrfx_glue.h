@@ -178,7 +178,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
     return (NVIC_GetPendingIRQ(irq_number) == 1);
 }
 
-#include <cfc_common.h>
+#include <xinchip_common.h>
 #include <app_util_platform.h>
 /**
  * @brief Macro for entering into a critical section.

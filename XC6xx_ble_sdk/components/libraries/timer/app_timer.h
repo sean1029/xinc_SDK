@@ -70,7 +70,7 @@
 #include "app_error.h"
 #include "app_util.h"
 #include "compiler_abstraction.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #ifdef APP_TIMER_V2
 #include "nrf_log_instance.h"
 #include "nrf_sortlist.h"

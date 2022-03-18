@@ -302,7 +302,7 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 	static uint8_t on_off = 0;
 
 	static uint8_t ocpy_ratio = 10;
-
+   // printf("system_run_timer_handler\n");
 	ocpy_ratio++;
 //	g_sys_time++;
 	if(ocpy_ratio >= 99)
@@ -319,7 +319,7 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 		on_off = 1;
 	//	led_value = xinc_gpio_pin_read(LED1);
 
-		//printf("led_value,led_value1:%d\n");
+		
 	}else
 	{
 	
@@ -394,10 +394,12 @@ int	main(void)
 #if LOG_TEST_EN
 	log_test();
 #endif
+
+
 	app_timer_init();
 void spim_flash_test(void);	
 void  i2c_at24c02_test(void);
-	spim_flash_test();
+//	spim_flash_test();
 	
 	//i2c_at24c02_test();
 //	  xincx_gpio_init();
@@ -409,7 +411,9 @@ void  i2c_at24c02_test(void);
   // xinc_gpio_cfg_input(0, XINC_GPIO_PIN_PULLDOWN);
 //		xinc_gpio_cfg_output(4);
 //    xinc_gpio_cfg_output(5);
-		
+		#if BSP_BUTTON_TEST_EN
+	bsp_button_led_test();
+#endif
 #if DRV_UART_TEST_EN				
 		drv_uart_test();
 #endif
@@ -422,9 +426,7 @@ void  i2c_at24c02_test(void);
   drv_wdg_test();
 #endif
 
-#if BSP_BUTTON_TEST_EN
-	bsp_button_led_test();
-#endif
+
 
 #if APP_BUTTON_TEST_EN
 	app_button_test();

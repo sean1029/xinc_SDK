@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2012 - 2020, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -42,92 +42,64 @@
  *@brief NMVC driver implementation
  */
 
-#include <nrfx.h>
-#include "nrf_nvmc.h"
+//#include <nrfx.h>
+#include <string.h>
+#include <stdio.h>
+#include "xinc_flash.h"
+#include  "bsp_spi_flash.h"
 
 static inline void wait_for_flash_ready(void)
 {
-    while (NRF_NVMC->READY == NVMC_READY_READY_Busy) {;}
+  //  while (NRF_NVMC->READY == NVMC_READY_READY_Busy) {;}
 }
 
 void nrf_nvmc_page_erase(uint32_t address)
 {
-    // Enable erase.
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Een;
-    __ISB();
-    __DSB();
 
+		spi_flash_page_erase(address);
     // Erase the page
-    NRF_NVMC->ERASEPAGE = address;
-    wait_for_flash_ready();
-
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
-    __ISB();
-    __DSB();
 }
 
 
 void nrf_nvmc_write_byte(uint32_t address, uint8_t value)
 {
-    uint32_t byte_shift = address & (uint32_t)0x03;
-    uint32_t address32 = address & ~byte_shift; // Address to the word this byte is in.
-    uint32_t value32 = (*(uint32_t*)address32 & ~((uint32_t)0xFF << (byte_shift << (uint32_t)3)));
-    value32 = value32 + ((uint32_t)value << (byte_shift << 3));
 
-    // Enable write.
-    NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos);
-    __ISB();
-    __DSB();
+    spi_flash_write(address,(uint8_t *)&value,1);
 
-    *(uint32_t*)address32 = value32;
-    wait_for_flash_ready();
-
-    NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos);
-    __ISB();
-    __DSB();
+ //   NRF_NVMC->CONFIG = (NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos);
+ //   __ISB();
+ //   __DSB();
 }
 
 void nrf_nvmc_write_word(uint32_t address, uint32_t value)
 {
-    // Enable write.
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;
-    __ISB();
-    __DSB();
 
-    *(uint32_t*)address = value;
+    spi_flash_write(address,(uint8_t *)&value,4);
     wait_for_flash_ready();
 
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
-    __ISB();
-    __DSB();
 }
 
 void nrf_nvmc_write_bytes(uint32_t address, const uint8_t * src, uint32_t num_bytes)
 {
-    uint32_t i;
-    for (i = 0; i < num_bytes; i++)
-    {
-       nrf_nvmc_write_byte(address + i,src[i]);
-    }
+	printf("%s\r\n",__func__);
+	//uint8_t *txBuff = src;
+  spi_flash_write(address,src,num_bytes);
 }
 
 void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_words)
 {
-    uint32_t i;
+		printf("%s\r\n",__func__);
+//    uint32_t i;
 
     // Enable write.
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;
-    __ISB();
-    __DSB();
+//    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;
+//    __ISB();
+//    __DSB();
+		spi_flash_write(address,(uint8_t *)src,num_words * 4);
 
-    for (i = 0; i < num_words; i++)
-    {
-        ((uint32_t*)address)[i] = src[i];
-        wait_for_flash_ready();
-    }
-
-    NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
-    __ISB();
-    __DSB();
+    
+ //   NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
+ //   __ISB();
+ //   __DSB();
 }
 

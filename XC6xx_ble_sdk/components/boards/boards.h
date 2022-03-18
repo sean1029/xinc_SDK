@@ -43,7 +43,7 @@
 #include "xinc_drv_gpio.h"
 #include "xinc_gpio.h"
 #include "xincx_gpio.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 
 #if defined(BOARD_NRF6310)
   #include "nrf6310.h"

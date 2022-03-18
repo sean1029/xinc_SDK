@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED NRF52840_XXAA BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\Bsp\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\nrfx\hal;..\..\..\modules\nrfx;..\..\..\modules\nrfx\mdk;..\..\..\modules\nrfx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\nrfx\legacy;..\..\..\components\libraries\util;..\..\..\integration\nrfx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,14 +399,14 @@
               <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
             </File>
             <File>
-              <FileName>sdk_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\Bsp\fds\sdk_config.h</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>sdk_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\config\xc6801\sdk_config.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -704,11 +704,6 @@
           <GroupName>bsp</GroupName>
           <Files>
             <File>
-              <FileName>AT24C02.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\I2C\AT24C02.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_retarget.c</FilePath>
@@ -906,39 +901,39 @@
           <GroupName>fds</GroupName>
           <Files>
             <File>
-              <FileName>xinc_fstorage_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\xinc_fstorage_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\xinc_fstorage.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfc_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\cfc_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_atomic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_atomic.c</FilePath>
-            </File>
-            <File>
               <FileName>app_util_poatform.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\app_util_poatform.c</FilePath>
-            </File>
-            <File>
-              <FileName>fds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\fds.c</FilePath>
+              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
               <FileName>nrf_atfifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_atfifo.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic_fifo\nrf_atfifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_atomic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\atomic\nrf_atomic.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_fstorage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_fstorage_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>fds.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fds\fds.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -999,6 +994,11 @@
               <FileName>app_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
             </File>
             <File>
               <FileName>app_uart_fifo.c</FileName>
@@ -1065,11 +1065,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
             </File>
-            <File>
-              <FileName>xincx_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1104,6 +1099,11 @@
               <FileName>xinc_drv_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>AT24C02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1650,14 +1650,14 @@
               <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
             </File>
             <File>
-              <FileName>sdk_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\..\Bsp\fds\sdk_config.h</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>sdk_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\config\xc6801\sdk_config.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1903,11 +1903,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>AT24C02.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\I2C\AT24C02.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_retarget.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_retarget.c</FilePath>
@@ -2003,39 +1998,39 @@
           <GroupName>fds</GroupName>
           <Files>
             <File>
-              <FileName>xinc_fstorage_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\xinc_fstorage_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\xinc_fstorage.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfc_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\cfc_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_atomic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_atomic.c</FilePath>
-            </File>
-            <File>
               <FileName>app_util_poatform.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\app_util_poatform.c</FilePath>
-            </File>
-            <File>
-              <FileName>fds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\fds.c</FilePath>
+              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
               <FileName>nrf_atfifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\fds\nrf_atfifo.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic_fifo\nrf_atfifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_atomic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\atomic\nrf_atomic.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_fstorage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_fstorage_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fstorage\xinc_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>fds.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\fds\fds.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2096,6 +2091,11 @@
               <FileName>app_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
             </File>
             <File>
               <FileName>app_uart_fifo.c</FileName>
@@ -2162,11 +2162,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
             </File>
-            <File>
-              <FileName>xincx_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\nrfx\drivers\src\xincx_uart.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2201,6 +2196,11 @@
               <FileName>xinc_drv_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\nrfx\xinc_drv_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>AT24C02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -90,6 +90,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
         if(p_instance->id == 0)
         {
             err_code = xinc_gpio_secfun_config(p_config->pseltxd, XINC_GPIO_PIN_UART0_TX);
+            printf("secfun_config0:%d\r\n",err_code);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;
@@ -98,6 +99,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
         if(p_instance->id == 1)
         {
             err_code = xinc_gpio_secfun_config(p_config->pseltxd, XINC_GPIO_PIN_UART1_TX);
+            printf("secfun_config1:%d\r\n",err_code);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;
@@ -601,7 +603,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
 
-  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
+   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;

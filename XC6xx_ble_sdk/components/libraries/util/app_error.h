@@ -55,7 +55,7 @@
 #include <stdbool.h>
 #include "nrf.h"
 #include "sdk_errors.h"
-#include "cfc_common.h"
+#include "xinchip_common.h"
 #include "app_error_weak.h"
 #ifdef ANT_STACK_SUPPORT_REQD
 #include "ant_error.h"

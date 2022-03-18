@@ -40,7 +40,7 @@
 #ifndef NRF_SECTION_H__
 #define NRF_SECTION_H__
 
-#include "cfc_common.h"
+#include "xinchip_common.h"
 
 #ifdef __cplusplus
 extern "C" {

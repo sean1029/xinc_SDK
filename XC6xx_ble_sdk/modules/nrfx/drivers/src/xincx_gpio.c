@@ -67,6 +67,7 @@ __STATIC_INLINE void pin_in_use_by_handler_set(uint32_t                  pin,
 
 __STATIC_INLINE void pin_in_use_set(uint32_t pin)
 {
+    printf("pin_in_use_set:%d\r\n",pin);
     m_cb.pin_assignments[pin] = PIN_USED;
 }
 
