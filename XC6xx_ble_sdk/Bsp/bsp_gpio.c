@@ -266,7 +266,7 @@ void	gpio_Register_Callback(IoHandler_callback callback)
 - 输入参数: 无
 - 创建日期: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
-#include "nrfx_gpiote.h"
+#include "xincx_gpio.h"
 void	GPIO_Handler(void)
 {
 		uint32_t	val;
@@ -284,7 +284,7 @@ void	GPIO_Handler(void)
      //  printf("interrupt:%#x\n",val);
 		//	 printf("GPIO_Handler\n"); 
 
-			 nrfx_gpiote_irq_handler();
+			 xincx_gpio_irq_handler();
 }
 
 /* ---------------------------------------------------------------------------------------------------

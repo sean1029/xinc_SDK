@@ -81,25 +81,25 @@ typedef struct {                                /*!< (@ 0x4001E000) NVMC Structu
   */
 
 typedef struct {                                /*!< (@ 0x40001000) P0 Structure                                               */
-	__IOM uint32_t  DR[2];   										/*!< (@ 0x40001000) GPIO_PORT_DRx */
+	__IOM uint32_t  PORT_DR[2];   										/*!< (@ 0x40001000) GPIO_PORT_DRx */
   __IM  uint32_t  RESERVED[6];
-	__IOM uint32_t  DDR[2];   										/*!< (@ 0x40001020) GPIO_PORT_DATA DRx */
+	__IOM uint32_t  PORT_DDR[2];   										/*!< (@ 0x40001020) GPIO_PORT_DATA DRx */
 	__IM  uint32_t  RESERVED1[6];
-  __IOM uint32_t  EXT_PORT0;                    /*!< (@ 0x40001040) Read GPIO port                                            */
+  __IOM uint32_t  EXT_PORT[1];                    /*!< (@ 0x40001040) Read GPIO port                                            */
 	__IM  uint32_t  RESERVED2[47];
 	__IOM uint32_t  INTR_CTRL[8];									/*!< (@ 0x40001100) Intr ctr GPIO port                                         */
 	__IM  uint32_t  RESERVED3[24];
   __IOM uint32_t  DEBOUNCE[2];                   /*!< (@ 0x40001180) Set individual bits in GPIO port                           */
 	__IM  uint32_t  RESERVED4[6];
-  __IM uint32_t   INTR_RAW0;                      /*!< (@ 0x400011A0) Intr RAW                         */
+  __IM uint32_t   INTR_RAW[1];                      /*!< (@ 0x400011A0) Intr RAW                         */
   __IM  uint32_t  RESERVED5[3];
-  __IOM uint32_t  INTR_CLR0;                     /*!< (@ 0x400011B0) Intr Clear                                      */
+  __IOM uint32_t  INTR_CLR[1];                     /*!< (@ 0x400011B0) Intr Clear                                      */
 	__IM  uint32_t  RESERVED6[19];
   __IOM uint32_t  INTR_MASK_C0[2];                       /*!< (@ 0x40001200) DIR set register                                           */
 	__IM  uint32_t  RESERVED7[6];
-  __IM uint32_t   INTR_STATUS_C0;                       /*!< (@ 0x40001220) DIR clear register                                         */
+  __IM uint32_t   INTR_STATUS_C0[1];                       /*!< (@ 0x40001220) 中断状态寄存器                                         */
                                                     
-} NRF_GPIO_Type;//XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
+} XINC_GPIO_Type;//XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
 
 typedef struct { 
 	 __IM  uint32_t  RESERVED[13]; /*!< (@ 0x40002400) CPR AO Structure                                               */
@@ -453,11 +453,11 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 /** @addtogroup Device_Peripheral_declaration
   * @{
   */
-#define NRF_P0                       ((NRF_GPIO_Type*)            NRF_P0_BASE)
+#define NRF_P0                       ((XINC_GPIO_Type*)            NRF_P0_BASE)
 #define XINC_CPR                     ((XINC_CPR_CTL_Type*)    XINC_CPR_BASE)
 
 #define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
-#define NRF_GPIOTE                   ((NRF_GPIOTE_Type*)          XINC_GPIOTE_BASE)
+#define XINC_GPIO                   ((XINC_GPIO_Type*)          XINC_GPIOTE_BASE)
 #define XINC_UART0                    ((XINC_UART_Type*)            XINC_UART0_BASE)
 #define XINC_UART1                    ((XINC_UART_Type*)            XINC_UART1_BASE)
 #define XINC_SPIM0										 ((XINC_SPIM_Type*)         XINC_SPIM0_BASE)

@@ -42,7 +42,7 @@
 #include <stdio.h>
 #include "cfc_common.h"
 #include "nrf.h"
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 #include "nrf_error.h"
 #include "bsp_config.h"
 #include "boards.h"

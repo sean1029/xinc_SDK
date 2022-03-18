@@ -44,7 +44,7 @@
 extern "C" {
 #endif
 
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 
 // LEDs definitions for PCA10040
 #define LEDS_NUMBER    2
@@ -76,8 +76,8 @@ extern "C" {
 #define BUTTON_3       15
 //#define BUTTON_4       16
 #define BUTTON_STOP    16
-#define BUTTON_PULL    NRF_GPIO_PIN_PULLUP
-#define BUTTON_PULLDOWN NRF_GPIO_PIN_PULLDOWN
+#define BUTTON_PULL    XINC_GPIO_PIN_PULLUP
+#define BUTTON_PULLDOWN XINC_GPIO_PIN_PULLDOWN
 
 #define BUTTONS_ACTIVE_STATE 0
 

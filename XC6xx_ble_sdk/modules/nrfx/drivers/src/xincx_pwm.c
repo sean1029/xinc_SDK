@@ -15,7 +15,7 @@
 #endif
 
 #include <xincx_pwm.h>
-#include <hal/nrf_gpio.h>
+#include <hal/xinc_gpio.h>
 
 #define NRFX_LOG_MODULE PWM
 #include <nrfx_log.h>
@@ -44,11 +44,11 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         case XINC_PWM_ID_0:      
         case XINC_PWM_ID_1:            
         {   
-            xinc_gpio_fun_config(p_instance->output_pin,(nrf_gpio_pin_fun_sel_t)(NRF_GPIO_PIN_PWM0 + p_instance->id));
+            xinc_gpio_fun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0 + p_instance->id));
             #if (NRFX_CHECK(XINCX_PWM0_ENABLED))
             if(p_config->inv_enable)
             {
-                xinc_gpio_fun_config(p_instance->output_inv_pin,(nrf_gpio_pin_fun_sel_t)(NRF_GPIO_PIN_PWM0_INV + p_instance->id));
+                xinc_gpio_fun_config(p_instance->output_inv_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM0_INV + p_instance->id));
             }
             #endif
             valid = true;
@@ -94,7 +94,7 @@ static bool configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config
         
         if(valid && (p_instance->id > XINC_PWM_ID_1))
         {
-            xinc_gpio_fun_config(p_instance->output_pin,(nrf_gpio_pin_fun_sel_t)(NRF_GPIO_PIN_PWM2 + p_instance->id - XINC_PWM_ID_2));
+            xinc_gpio_fun_config(p_instance->output_pin,(xinc_gpio_pin_fun_sel_t)(XINC_GPIO_PIN_PWM2 + p_instance->id - XINC_PWM_ID_2));
         }
               
     }

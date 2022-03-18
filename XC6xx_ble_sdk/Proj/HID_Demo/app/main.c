@@ -11,10 +11,10 @@
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
 #include    "bsp_spi_flash.h"
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 #include "bsp_uart.h"
 
-#include "nrfx_gpiote.h"
+#include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
 #include "xinc_drv_saadc.h"
@@ -301,7 +301,6 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 
 	static uint8_t on_off = 0;
 
-
 	static uint8_t ocpy_ratio = 10;
 
 	ocpy_ratio++;
@@ -314,16 +313,20 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
 	if(on_off == 0)
 	{
 		
-		GPIO_OUTPUT_HIGH(4);
+		//GPIO_OUTPUT_HIGH(4);
+		bsp_board_led_on(0);
+		bsp_board_led_off(1);
 		on_off = 1;
-	//	led_value = nrf_gpio_pin_read(LED1);
+	//	led_value = xinc_gpio_pin_read(LED1);
 
-	//	printf("led_value:%d,led_value1:%d\n",led_value,led_value1);
+		//printf("led_value,led_value1:%d\n");
 	}else
 	{
 	
 		
-		GPIO_OUTPUT_LOW(4);
+	//	GPIO_OUTPUT_LOW(4);
+		bsp_board_led_off(0);
+		bsp_board_led_on(1);
 		on_off = 0;
 	//	printf("LED1 ON\n");
 	}	
@@ -394,18 +397,18 @@ int	main(void)
 	app_timer_init();
 void spim_flash_test(void);	
 void  i2c_at24c02_test(void);
-	spim_flash_test();
+//	spim_flash_test();
 	
 	//i2c_at24c02_test();
-//	  nrfx_gpiote_init();
+//	  xincx_gpio_init();
 
 	//	gpio_direction_output(4);gpio_direction_output(5);
 		//log_init();
 	//app_button_init(app_buttons,2,50);
-	//	nrf_gpio_cfg_input(1, NRF_GPIO_PIN_PULLDOWN);
-  // nrf_gpio_cfg_input(0, NRF_GPIO_PIN_PULLDOWN);
-		nrf_gpio_cfg_output(4);
-    nrf_gpio_cfg_output(5);
+	//	xinc_gpio_cfg_input(1, XINC_GPIO_PIN_PULLDOWN);
+  // xinc_gpio_cfg_input(0, XINC_GPIO_PIN_PULLDOWN);
+//		xinc_gpio_cfg_output(4);
+//    xinc_gpio_cfg_output(5);
 		
 #if DRV_UART_TEST_EN				
 		drv_uart_test();

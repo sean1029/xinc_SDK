@@ -47,7 +47,7 @@
 #endif
 
 #include <xincx_uart.h>
-#include <hal/nrf_gpio.h>
+#include <hal/xinc_gpio.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
 #include "bsp_uart.h"
@@ -89,7 +89,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
     {     
         if(p_instance->id == 0)
         {
-            err_code = xinc_gpio_fun_config(p_config->pseltxd, NRF_GPIO_PIN_UART0_TX);
+            err_code = xinc_gpio_fun_config(p_config->pseltxd, XINC_GPIO_PIN_UART0_TX);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;
@@ -97,7 +97,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
         }
         if(p_instance->id == 1)
         {
-            err_code = xinc_gpio_fun_config(p_config->pseltxd, NRF_GPIO_PIN_UART1_TX);
+            err_code = xinc_gpio_fun_config(p_config->pseltxd, XINC_GPIO_PIN_UART1_TX);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;
@@ -109,7 +109,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
     {
         if(p_instance->id == 0)
         {
-            err_code = xinc_gpio_fun_config(p_config->pselrxd, NRF_GPIO_PIN_UART0_RX);
+            err_code = xinc_gpio_fun_config(p_config->pselrxd, XINC_GPIO_PIN_UART0_RX);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;
@@ -117,7 +117,7 @@ static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
         }
         if(p_instance->id == 1)
         {
-            err_code = xinc_gpio_fun_config(p_config->pselrxd, NRF_GPIO_PIN_UART1_RX);
+            err_code = xinc_gpio_fun_config(p_config->pselrxd, XINC_GPIO_PIN_UART1_RX);
             if(err_code != NRFX_SUCCESS)
             {
                 return err_code;

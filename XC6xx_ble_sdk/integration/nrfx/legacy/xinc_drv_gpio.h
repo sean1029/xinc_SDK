@@ -37,65 +37,53 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#ifndef NRF_DRV_GPIOTE_H__
+#define NRF_DRV_GPIOTE_H__
 
-#ifndef NRF_GPIOTE_H__
-#define NRF_GPIOTE_H__
+#include <xincx_gpio.h>
 
-#include <nrfx.h>
-#include "nrf52840.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
-* @defgroup nrf_gpiote_hal GPIOTE HAL
-* @{
-* @ingroup nrf_gpiote
-* @brief   Hardware access layer (HAL) for managing the GPIOTE peripheral.
-*/
-
-
- /** @brief Polarity for the GPIO channel. */
-typedef enum
-{
-  NRF_GPIOTE_POLARITY_LOTOHI = GPIOTE_CONFIG_POLARITY_LoToHi,       ///<  Low to high.
-  NRF_GPIOTE_POLARITY_HITOLO = GPIOTE_CONFIG_POLARITY_HiToLo,       ///<  High to low.
-  NRF_GPIOTE_POLARITY_TOGGLE = GPIOTE_CONFIG_POLARITY_Toggle        ///<  Toggle.
-} nrf_gpiote_polarity_t;
-
-/** @brief Initial output value for the GPIO channel. */
-typedef enum
-{
-  NRF_GPIOTE_INITIAL_VALUE_LOW  = GPIOTE_CONFIG_OUTINIT_Low,       ///<  Low to high.
-  NRF_GPIOTE_INITIAL_VALUE_HIGH = GPIOTE_CONFIG_OUTINIT_High       ///<  High to low.
-} nrf_gpiote_outinit_t;
-
-
-/** @brief GPIOTE interrupts. */
-
-/**
- * @brief Function for enabling interrupts.
- *
- * @param[in] mask Mask of interrupts to be enabled.
+ * @defgroup xinc_drv_gpio GPIOTE driver - legacy layer
+ * @{
+ * @ingroup xinc_gpio
+ * @brief Layer providing compatibility with the former API.
  */
-__STATIC_INLINE void nrf_gpiote_int_enable(uint32_t mask);
 
-/**
- * @brief Function for disabling interrupts.
- *
- * @param[in] mask Mask of interrupts to be disabled.
- */
-__STATIC_INLINE void nrf_gpiote_int_disable(uint32_t mask);
+/** @brief Type definition for forwarding the new implementation. */
+typedef xincx_gpio_in_config_t xinc_drv_gpio_in_config_t;
+/** @brief Type definition for forwarding the new implementation. */
+typedef xincx_gpio_pin_t xinc_drv_gpio_pin_t;
+/** @brief Type definition for forwarding the new implementation. */
+typedef xincx_gpio_out_config_t xinc_drv_gpio_out_config_t;
+/** @brief Type definition for forwarding the new implementation. */
+typedef xincx_gpio_evt_handler_t xinc_drv_gpio_evt_handler_t;
 
-/**
- * @brief Function for checking if interrupts are enabled.
- *
- * @param[in] mask Mask of interrupts to be checked.
- *
- * @return Mask with enabled interrupts.
- */
-__STATIC_INLINE uint32_t nrf_gpiote_int_is_enabled(uint32_t mask);
-
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_init               xincx_gpio_init
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_is_init            xincx_gpio_is_init
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_uninit             xincx_gpio_uninit
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_out_init           xincx_gpio_out_init
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_out_uninit         xincx_gpio_out_uninit
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_out_set            xincx_gpio_out_set
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_out_clear          xincx_gpio_out_clear
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_out_toggle         xincx_gpio_out_toggle
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_in_init            xincx_gpio_in_init
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_in_uninit          xincx_gpio_in_uninit
+/** @brief Macro for forwarding the new implementation. */
+#define xinc_drv_gpio_in_is_set          xincx_gpio_in_is_set
 
 
 /** @} */
@@ -104,4 +92,4 @@ __STATIC_INLINE uint32_t nrf_gpiote_int_is_enabled(uint32_t mask);
 }
 #endif
 
-#endif
+#endif //NRF_DRV_GPIOTE_H__

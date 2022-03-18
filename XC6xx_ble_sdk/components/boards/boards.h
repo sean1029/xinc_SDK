@@ -40,7 +40,7 @@
 #ifndef BOARDS_H
 #define BOARDS_H
 
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 #include "cfc_common.h"
 
 #if defined(BOARD_NRF6310)
@@ -213,7 +213,7 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx);
                         (1u << (uint32_t)((_pin) & (~P0_PIN_NUM))) \
                         /*lint -restore    */
 
-#define PIN_PORT(_pin) (((_pin) >= P0_PIN_NUM) ? NRF_P1 : NRF_GPIO)
+#define PIN_PORT(_pin) (((_pin) >= P0_PIN_NUM) ? NRF_P1 : XINC_GPIO)
 
 #ifdef BSP_LED_0
 #define BSP_LED_0_MASK PIN_MASK(BSP_LED_0)
@@ -337,29 +337,29 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx);
 
 /* This macro is supporting only P0 and should not be used if LEDs are on other ports. */
 #define LEDS_OFF(leds_mask) do {  ASSERT(sizeof(leds_mask) == 4);                     \
-                        NRF_GPIO->OUTSET = (leds_mask) & (LEDS_MASK & LEDS_INV_MASK); \
-                        NRF_GPIO->OUTCLR = (leds_mask) & (LEDS_MASK & ~LEDS_INV_MASK); } while (0)
+                        XINC_GPIO->OUTSET = (leds_mask) & (LEDS_MASK & LEDS_INV_MASK); \
+                        XINC_GPIO->OUTCLR = (leds_mask) & (LEDS_MASK & ~LEDS_INV_MASK); } while (0)
 
 /* This macro is supporting only P0 and should not be used if LEDs are on other ports. */
 #define LEDS_ON(leds_mask) do {  ASSERT(sizeof(leds_mask) == 4);                     \
-                       NRF_GPIO->OUTCLR = (leds_mask) & (LEDS_MASK & LEDS_INV_MASK); \
-                       NRF_GPIO->OUTSET = (leds_mask) & (LEDS_MASK & ~LEDS_INV_MASK); } while (0)
+                       XINC_GPIO->OUTCLR = (leds_mask) & (LEDS_MASK & LEDS_INV_MASK); \
+                       XINC_GPIO->OUTSET = (leds_mask) & (LEDS_MASK & ~LEDS_INV_MASK); } while (0)
 
 /* This macro is supporting only P0 and should not be used if LEDs are on other ports. */
-#define LED_IS_ON(leds_mask) ((leds_mask) & (NRF_GPIO->OUT ^ LEDS_INV_MASK) )
+#define LED_IS_ON(leds_mask) ((leds_mask) & (XINC_GPIO->OUT ^ LEDS_INV_MASK) )
 
 /* This macro is supporting only P0 and should not be used if LEDs are on other ports. */
-#define LEDS_INVERT(leds_mask) do { uint32_t gpio_state = NRF_GPIO->OUT;      \
+#define LEDS_INVERT(leds_mask) do { uint32_t gpio_state = XINC_GPIO->OUT;      \
                               ASSERT(sizeof(leds_mask) == 4);                 \
-                              NRF_GPIO->OUTSET = ((leds_mask) & ~gpio_state); \
-                              NRF_GPIO->OUTCLR = ((leds_mask) & gpio_state); } while (0)
+                              XINC_GPIO->OUTSET = ((leds_mask) & ~gpio_state); \
+                              XINC_GPIO->OUTCLR = ((leds_mask) & gpio_state); } while (0)
 
 /* This macro is supporting only P0 and should not be used if LEDs are on other ports. */
 #define LEDS_CONFIGURE(leds_mask) do { uint32_t pin;                  \
                                   ASSERT(sizeof(leds_mask) == 4);     \
                                   for (pin = 0; pin < 32; pin++)      \
                                       if ( (leds_mask) & (1 << pin) ) \
-                                          nrf_gpio_cfg_output(pin); } while (0)
+                                          xinc_gpio_cfg_output(pin); } while (0)
 
 #ifdef __cplusplus
 }

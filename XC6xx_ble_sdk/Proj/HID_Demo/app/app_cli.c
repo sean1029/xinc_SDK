@@ -41,7 +41,7 @@
 
 #if NRF_CLI_ENABLED
 //#include "nrf_log.h"
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 static void cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
@@ -72,7 +72,7 @@ static void nrf_cli_cmd_led_off(nrf_cli_t const * p_cli, size_t argc, char **arg
 			printf("argv[%d]:%s\r\n",i,argv[i]);
 		}
     printf("cmd_led_off\r\n");
-		nrf_gpio_pin_set(5);
+		xinc_gpio_pin_set(5);
 }
 
 static void nrf_cli_cmd_led_on(nrf_cli_t const * p_cli, size_t argc, char **argv)
@@ -83,7 +83,7 @@ static void nrf_cli_cmd_led_on(nrf_cli_t const * p_cli, size_t argc, char **argv
 		}
     printf("cmd_led_on\r\n");
 		
-		nrf_gpio_pin_clear(5);
+		xinc_gpio_pin_clear(5);
 }
 
 static void nrf_cli_cmd_xinc(nrf_cli_t const * p_cli, size_t argc, char **argv)

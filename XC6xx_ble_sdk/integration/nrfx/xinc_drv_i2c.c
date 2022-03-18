@@ -42,7 +42,7 @@
 
 #if NRFX_CHECK(XINCX_I2C_ENABLED)
 //#include <nrf_delay.h>
-#include <hal/nrf_gpio.h>
+#include <hal/xinc_gpio.h>
 
 #ifdef I2CM_PRESENT
 #define INSTANCE_COUNT   I2CM_COUNT
@@ -82,20 +82,20 @@ static void *                    m_contexts[INSTANCE_COUNT];
 
 static void i2c_clear_bus(xinc_drv_i2c_config_t const * p_config)
 {
-//    NRF_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF;
-//    NRF_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF;
+//    XINC_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF;
+//    XINC_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF;
 
-//    nrf_gpio_pin_set(p_config->scl);
-//    nrf_gpio_pin_set(p_config->sda);
+//    xinc_gpio_pin_set(p_config->scl);
+//    xinc_gpio_pin_set(p_config->sda);
 
-//    NRF_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF_CLR;
-//    NRF_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF_CLR;
+//    XINC_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF_CLR;
+//    XINC_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF_CLR;
 
 //    nrf_delay_us(4);
 
 //    for (int i = 0; i < 9; i++)
 //    {
-//        if (nrf_gpio_pin_read(p_config->sda))
+//        if (xinc_gpio_pin_read(p_config->sda))
 //        {
 //            if (i == 0)
 //            {
@@ -106,14 +106,14 @@ static void i2c_clear_bus(xinc_drv_i2c_config_t const * p_config)
 //                break;
 //            }
 //        }
-//        nrf_gpio_pin_clear(p_config->scl);
+//        xinc_gpio_pin_clear(p_config->scl);
 //        nrf_delay_us(4);
-//        nrf_gpio_pin_set(p_config->scl);
+//        xinc_gpio_pin_set(p_config->scl);
 //        nrf_delay_us(4);
 //    }
-//    nrf_gpio_pin_clear(p_config->sda);
+//    xinc_gpio_pin_clear(p_config->sda);
 //    nrf_delay_us(4);
-//    nrf_gpio_pin_set(p_config->sda);
+//    xinc_gpio_pin_set(p_config->sda);
 }
 
 #ifdef I2CM_PRESENT

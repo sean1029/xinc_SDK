@@ -12,10 +12,10 @@
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
 #include "bsp_spi_flash.h"
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 #include "bsp_uart.h"
 
-#include "nrfx_gpiote.h"
+#include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
 #include "xinc_drv_saadc.h"
@@ -43,9 +43,9 @@
 #define DRV_WDT_TEST_EN 0
 #define DRV_PWM_TEST_EN 0
 #define DRV_SAADC_TEST_EN 0
-#define DRV_UART_TEST_EN 1
+#define DRV_UART_TEST_EN 0
 
-#define BSP_BUTTON_TEST_EN 0
+#define BSP_BUTTON_TEST_EN 1
 #define APP_BUTTON_TEST_EN 0
 
 void cli_test(void);

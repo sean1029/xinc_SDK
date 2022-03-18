@@ -56,20 +56,20 @@ static const uint8_t m_board_btn_list[BUTTONS_NUMBER] = BUTTONS_LIST;
 bool bsp_board_led_state_get(uint32_t led_idx)
 {
     ASSERT(led_idx < LEDS_NUMBER);
-    bool pin_set = nrf_gpio_pin_out_read(m_board_led_list[led_idx]) ? true : false;
+    bool pin_set = xinc_gpio_pin_out_read(m_board_led_list[led_idx]) ? true : false;
     return (pin_set == (LEDS_ACTIVE_STATE ? true : false));
 }
 
 void bsp_board_led_on(uint32_t led_idx)
 {
         ASSERT(led_idx < LEDS_NUMBER);
-        nrf_gpio_pin_write(m_board_led_list[led_idx], LEDS_ACTIVE_STATE ? 1 : 0);
+        xinc_gpio_pin_write(m_board_led_list[led_idx], LEDS_ACTIVE_STATE ? 1 : 0);
 }
 
 void bsp_board_led_off(uint32_t led_idx)
 {
     ASSERT(led_idx < LEDS_NUMBER);
-    nrf_gpio_pin_write(m_board_led_list[led_idx], LEDS_ACTIVE_STATE ? 0 : 1);
+    xinc_gpio_pin_write(m_board_led_list[led_idx], LEDS_ACTIVE_STATE ? 0 : 1);
 }
 
 void bsp_board_leds_off(void)
@@ -93,7 +93,7 @@ void bsp_board_leds_on(void)
 void bsp_board_led_invert(uint32_t led_idx)
 {
     ASSERT(led_idx < LEDS_NUMBER);
-    nrf_gpio_pin_toggle(m_board_led_list[led_idx]);
+    xinc_gpio_pin_toggle(m_board_led_list[led_idx]);
 }
 
 #if defined(BOARD_PCA10059)
@@ -139,7 +139,7 @@ static void bsp_board_leds_init(void)
     uint32_t i;
     for (i = 0; i < LEDS_NUMBER; ++i)
     {
-        nrf_gpio_cfg_output(m_board_led_list[i]);
+        xinc_gpio_cfg_output(m_board_led_list[i]);
     }
     bsp_board_leds_off();
 }
@@ -170,7 +170,7 @@ uint32_t bsp_board_pin_to_led_idx(uint32_t pin_number)
 bool bsp_board_button_state_get(uint32_t button_idx)
 {
     ASSERT(button_idx < BUTTONS_NUMBER);
-    bool pin_set = nrf_gpio_pin_read(m_board_btn_list[button_idx]) ? true : false;
+    bool pin_set = xinc_gpio_pin_read(m_board_btn_list[button_idx]) ? true : false;
     return (pin_set == (BUTTONS_ACTIVE_STATE ? true : false));
 }
 
@@ -179,7 +179,7 @@ static void bsp_board_buttons_init(void)
     uint32_t i;
     for (i = 0; i < BUTTONS_NUMBER; ++i)
     {
-        nrf_gpio_cfg_input(m_board_btn_list[i], BUTTON_PULL);
+        xinc_gpio_cfg_input(m_board_btn_list[i], BUTTON_PULL);
     }
 }
 

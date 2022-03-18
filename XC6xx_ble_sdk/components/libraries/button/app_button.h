@@ -67,7 +67,7 @@
 #include <stdbool.h>
 #include "nrf.h"
 #include "app_error.h"
-#include "nrf_gpio.h"
+#include "xinc_gpio.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -89,7 +89,7 @@ typedef struct
 #if defined(BUTTON_HIGH_ACCURACY_ENABLED) && (BUTTON_HIGH_ACCURACY_ENABLED == 1)
     bool                 hi_accuracy;      /**< True if GPIOTE high accuracy (IN_EVENT) is used. */
 #endif
-    nrf_gpio_pin_pull_t  pull_cfg;         /**< Pull-up or -down configuration. */
+    xinc_gpio_pin_pull_t  pull_cfg;         /**< Pull-up or -down configuration. */
     app_button_handler_t button_handler;   /**< Handler to be called when button is pushed. */
 } app_button_cfg_t;
 

@@ -22,7 +22,7 @@
 #endif
 
 #include <xincx_spim.h>
-#include <hal/nrf_gpio.h>
+#include <hal/xinc_gpio.h>
 
 #define NRFX_LOG_MODULE SPIM
 #include <nrfx_log.h>
@@ -118,7 +118,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             mosi_pin = p_config->mosi_pin;
-            err_code = xinc_gpio_fun_config(mosi_pin,NRF_GPIO_PIN_SSI1_TX);
+            err_code = xinc_gpio_fun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -138,7 +138,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             miso_pin = p_config->miso_pin;
-            err_code = xinc_gpio_fun_config(miso_pin,NRF_GPIO_PIN_SSI1_RX);
+            err_code = xinc_gpio_fun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -158,7 +158,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             p_cb->ss_active_high = p_config->ss_active_high;
-            err_code = xinc_gpio_fun_config(p_config->ss_pin,NRF_GPIO_PIN_SSI1_SSN);
+            err_code = xinc_gpio_fun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -168,7 +168,7 @@ nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         
         if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
         {
-            err_code = xinc_gpio_fun_config(p_config->sck_pin,NRF_GPIO_PIN_SSI1_CLK);
+            err_code = xinc_gpio_fun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
         
             if(err_code != NRFX_SUCCESS)
             {
@@ -281,7 +281,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
 
     if (p_cb->miso_pin != XINCX_SPIM_PIN_NOT_USED)
     {
-        //  nrf_gpio_cfg_default(p_cb->miso_pin);
+        //  xinc_gpio_cfg_default(p_cb->miso_pin);
     }
 
     xinc_spim_int_disable(p_spim,XINC_SPIM_INT_DISALL_MASK);
@@ -309,11 +309,11 @@ static void finish_transfer(spim_control_block_t * p_cb)
         {
             if (p_cb->ss_active_high)
             {
-             //   nrf_gpio_pin_clear(p_cb->ss_pin);
+             //   xinc_gpio_pin_clear(p_cb->ss_pin);
             }
             else
             {
-             //   nrf_gpio_pin_set(p_cb->ss_pin);
+             //   xinc_gpio_pin_set(p_cb->ss_pin);
             }
         }
     }
@@ -388,11 +388,11 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
             {
                 if (p_cb->ss_active_high)
                 {
-                  //  nrf_gpio_pin_clear(p_cb->ss_pin);
+                  //  xinc_gpio_pin_clear(p_cb->ss_pin);
                 }
                 else
                 {
-                  //  nrf_gpio_pin_set(p_cb->ss_pin);
+                  //  xinc_gpio_pin_set(p_cb->ss_pin);
                 }
             }
         }
@@ -450,11 +450,11 @@ nrfx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
         {
             if (p_cb->ss_active_high)
             {
-              //  nrf_gpio_pin_set(p_cb->ss_pin);
+              //  xinc_gpio_pin_set(p_cb->ss_pin);
             }
             else
             {
-              //  nrf_gpio_pin_clear(p_cb->ss_pin);
+              //  xinc_gpio_pin_clear(p_cb->ss_pin);
             }
         }
     }

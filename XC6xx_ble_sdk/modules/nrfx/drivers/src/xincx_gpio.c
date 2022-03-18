@@ -7,9 +7,9 @@
 
 #include <nrfx.h>
 
-#if NRFX_CHECK(NRFX_GPIOTE_ENABLED)
+#if NRFX_CHECK(XINCX_GPIO_ENABLED)
 
-#include <nrfx_gpiote.h>
+#include <xincx_gpio.h>
 #include "nrf_bitmask.h"
 #include <string.h>
 
@@ -25,7 +25,7 @@
 #error "Not supported."
 #endif
 
-#define FORBIDDEN_HANDLER_ADDRESS ((nrfx_gpiote_evt_handler_t)UINT32_MAX)
+#define FORBIDDEN_HANDLER_ADDRESS ((xincx_gpio_evt_handler_t)UINT32_MAX)
 #define PIN_NOT_USED              (-1)
 #define PIN_USED                  (-2)
 #define NO_HANDLERS_ID               (-1)
@@ -36,7 +36,7 @@
 /*lint -save -e571*/ /* Suppress "Warning 571: Suspicious cast" */
 typedef struct
 {
-    nrfx_gpiote_evt_handler_t handlers[MAX_PIN_NUMBER];
+    xincx_gpio_evt_handler_t handlers[MAX_PIN_NUMBER];
     int8_t                    pin_assignments[MAX_PIN_NUMBER];
     uint8_t                   configured_pins[((MAX_PIN_NUMBER)+7) / 8];
     nrfx_drv_state_t          state;
@@ -58,7 +58,7 @@ __STATIC_INLINE bool pin_in_use_by_gpio_handler(uint32_t pin)
 
 __STATIC_INLINE void pin_in_use_by_handler_set(uint32_t                  pin,
                                         uint32_t                  handler_id,
-                                        nrfx_gpiote_evt_handler_t handler)
+                                        xincx_gpio_evt_handler_t handler)
 {
     m_cb.pin_assignments[pin] = handler_id;
     m_cb.handlers[handler_id] = handler;
@@ -98,13 +98,13 @@ __STATIC_INLINE int8_t pin_handler_id_get(uint32_t pin)
 }
 
 
-__STATIC_INLINE nrfx_gpiote_evt_handler_t pin_handler_get(uint32_t channel)
+__STATIC_INLINE xincx_gpio_evt_handler_t pin_handler_get(uint32_t channel)
 {
     return m_cb.handlers[channel];
 }
 
 
-static int8_t pin_handler_use_alloc(uint32_t pin, nrfx_gpiote_evt_handler_t handler)
+static int8_t pin_handler_use_alloc(uint32_t pin, xincx_gpio_evt_handler_t handler)
 {
     int8_t   handler_id = NO_HANDLERS_ID;
     uint32_t i;
@@ -135,7 +135,7 @@ static void pin_handler_free(uint8_t handler_id)
 }
 
 
-nrfx_err_t nrfx_gpiote_init(void)
+nrfx_err_t xincx_gpio_init(void)
 {
     nrfx_err_t err_code;
 
@@ -152,7 +152,7 @@ nrfx_err_t nrfx_gpiote_init(void)
 
     for (i = 0; i < MAX_PIN_NUMBER; i++)
     {
-        if (nrf_gpio_pin_present_check(i))
+        if (xinc_gpio_pin_present_check(i))
         {
             pin_in_use_clear(i);
         }
@@ -168,18 +168,17 @@ nrfx_err_t nrfx_gpiote_init(void)
 
     err_code = NRFX_SUCCESS;
     NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
-    printf("Function 1: %s, error:%x \r\n ", __func__,err_code);
     return err_code;
 }
 
 
-bool nrfx_gpiote_is_init(void)
+bool xincx_gpio_is_init(void)
 {
     return (m_cb.state != NRFX_DRV_STATE_UNINITIALIZED) ? true : false;
 }
 
 
-void nrfx_gpiote_uninit(void)
+void xincx_gpio_uninit(void)
 {
     NRFX_ASSERT(m_cb.state != NRFX_DRV_STATE_UNINITIALIZED);
 
@@ -187,7 +186,7 @@ void nrfx_gpiote_uninit(void)
 
     for (i = 0; i < MAX_PIN_NUMBER; i++)
     {   
-        if (nrf_gpio_pin_present_check(i))
+        if (xinc_gpio_pin_present_check(i))
         {
            
             if (pin_in_use_by_gpio_handler(i))
@@ -195,7 +194,7 @@ void nrfx_gpiote_uninit(void)
                 /* Disable gpiote_in is having the same effect on out pin as gpiote_out_uninit on
                  * so it can be called on all pins used by GPIOTE.
                  */
-                nrfx_gpiote_in_uninit(i);
+                xincx_gpio_in_uninit(i);
             }
         }
     }
@@ -204,10 +203,10 @@ void nrfx_gpiote_uninit(void)
 }
 
 
-nrfx_err_t nrfx_gpiote_out_init(nrfx_gpiote_pin_t                pin,
-                                nrfx_gpiote_out_config_t const * p_config)
+nrfx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
+                                xincx_gpio_out_config_t const * p_config)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(m_cb.state == NRFX_DRV_STATE_INITIALIZED);
     NRFX_ASSERT(p_config);
 
@@ -224,15 +223,15 @@ nrfx_err_t nrfx_gpiote_out_init(nrfx_gpiote_pin_t                pin,
         
         if (err_code == NRFX_SUCCESS)
         {
-            nrf_gpio_cfg_output(pin);
+            xinc_gpio_cfg_output(pin);
             pin_configured_set(pin);
-            if (p_config->init_state == NRF_GPIOTE_INITIAL_VALUE_HIGH)
+            if (p_config->init_state == XINC_GPIO_INITIAL_VALUE_HIGH)
             {
-                nrf_gpio_pin_set(pin);
+                xinc_gpio_pin_set(pin);
             }
             else
             {
-                nrf_gpio_pin_clear(pin);
+                xinc_gpio_pin_clear(pin);
             }     
             
         }
@@ -243,53 +242,53 @@ nrfx_err_t nrfx_gpiote_out_init(nrfx_gpiote_pin_t                pin,
 }
 
 
-void nrfx_gpiote_out_uninit(nrfx_gpiote_pin_t pin)
+void xincx_gpio_out_uninit(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
     pin_in_use_clear(pin);
 
     if (pin_configured_check(pin))
     {
-        nrf_gpio_cfg_default(pin);
+        xinc_gpio_cfg_default(pin);
         pin_configured_clear(pin);
     }
 }
 
 
-void nrfx_gpiote_out_set(nrfx_gpiote_pin_t pin)
+void xincx_gpio_out_set(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
-    nrf_gpio_pin_set(pin);
+    xinc_gpio_pin_set(pin);
 }
 
 
-void nrfx_gpiote_out_clear(nrfx_gpiote_pin_t pin)
+void xincx_gpio_out_clear(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
-    nrf_gpio_pin_clear(pin);
+    xinc_gpio_pin_clear(pin);
 }
 
 
-void nrfx_gpiote_out_toggle(nrfx_gpiote_pin_t pin)
+void xincx_gpio_out_toggle(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use(pin));
 
-    nrf_gpio_pin_toggle(pin);
+    xinc_gpio_pin_toggle(pin);
 }
 
 
-nrfx_err_t nrfx_gpiote_in_init(nrfx_gpiote_pin_t               pin,
-                               nrfx_gpiote_in_config_t const * p_config,
-                               nrfx_gpiote_evt_handler_t       evt_handler)
+nrfx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
+                               xincx_gpio_in_config_t const * p_config,
+                               xincx_gpio_evt_handler_t       evt_handler)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     nrfx_err_t err_code = NRFX_SUCCESS;
     if (pin_in_use_by_gpio_handler(pin))
     {
@@ -299,11 +298,9 @@ nrfx_err_t nrfx_gpiote_in_init(nrfx_gpiote_pin_t               pin,
     {
 
         int8_t handler_id = pin_handler_use_alloc(pin, evt_handler);
-        printf("evt_handler : %p \r\n ", evt_handler);
         if (handler_id != NO_HANDLERS_ID)
         {     
-            nrf_gpio_cfg_input(pin, p_config->pull);
-            printf("nrf_gpio_cfg_input : %d \r\n ", pin);
+            xinc_gpio_cfg_input(pin, p_config->pull);
 
             pin_configured_set(pin);         
         }
@@ -315,34 +312,19 @@ nrfx_err_t nrfx_gpiote_in_init(nrfx_gpiote_pin_t               pin,
     }
 
     NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
-		printf("Function: %s, error code: %x.\r\n", __func__, (err_code));
     return err_code;
 }
 
-void nrfx_gpiote_in_event_enable(nrfx_gpiote_pin_t pin, bool int_enable)
+
+
+void xincx_gpio_in_uninit(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
-
-}
-
-
-void nrfx_gpiote_in_event_disable(nrfx_gpiote_pin_t pin)
-{
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
-}
-
-
-void nrfx_gpiote_in_uninit(nrfx_gpiote_pin_t pin)
-{
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
-    nrfx_gpiote_in_event_disable(pin);
    
     if (pin_configured_check(pin))
     {
-        nrf_gpio_cfg_default(pin);
+        xinc_gpio_cfg_default(pin);
         pin_configured_clear(pin);
     }
     {
@@ -352,42 +334,42 @@ void nrfx_gpiote_in_uninit(nrfx_gpiote_pin_t pin)
 }
 
 
-bool nrfx_gpiote_in_is_set(nrfx_gpiote_pin_t pin)
+bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(nrf_gpio_pin_present_check(pin));
-    return nrf_gpio_pin_read(pin) ? true : false;
+    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
+    return xinc_gpio_pin_read(pin) ? true : false;
 }
 
 
-void nrfx_gpiote_irq_handler(void)
+void xincx_gpio_irq_handler(void)
 {
-    uint32_t            status     = 0;
+    uint32_t            status[GPIO_COUNT]    = {0};
     uint32_t            i;
     uint32_t            mask  = (uint32_t)0x01;
     
-    NRF_GPIO_Type * gpio_regs[GPIO_COUNT] = GPIO_REG_LIST;
+    XINC_GPIO_Type * gpio_regs[GPIO_COUNT] = GPIO_REG_LIST;
 
-    status = gpio_regs[0]->INTR_STATUS_C0;
+    status[0] = gpio_regs[0]->INTR_STATUS_C0[0];
 
-    gpio_regs[0]->INTR_CLR0 = status;
+    gpio_regs[0]->INTR_CLR[0] = status[0];
+		
         
-
     /* collect status of all GPIOTE pin events. Processing is done once all are collected and cleared.*/
         /* Process pin events. */
-    if (status)
+    if (status[0])
     {
         for (i = 0; i < MAX_PIN_NUMBER; i++)
         {
-            if (mask & status)
+            if (mask & status[0])
             {
-                //	printf("nrfx_gpiote_irq_handler:%x,i:%d\n",status,i);
-                nrfx_gpiote_evt_handler_t handler =
+                //	printf("xincx_gpio_irq_handler:%x,i:%d\n",status,i);
+                xincx_gpio_evt_handler_t handler =
                 pin_handler_get((uint32_t)pin_handler_id_get(i));
                 if (handler)
                 {
-                    handler(i, NRF_GPIOTE_POLARITY_LOTOHI);
+                    handler(i, XINC_GPIO_POLARITY_LOTOHI);
                 }
-                status |= mask;
+              //  status[0] |= mask;
             }
             mask <<= 1;
             /* Incrementing to next event, utilizing the fact that events are grouped together
@@ -399,4 +381,4 @@ void nrfx_gpiote_irq_handler(void)
 
 
 /*lint -restore*/
-#endif // NRFX_CHECK(NRFX_GPIOTE_ENABLED)
+#endif // NRFX_CHECK(XINCX_GPIO_ENABLED)

@@ -467,7 +467,7 @@ static void bsp_evt_handler(bsp_event_t event)
 
 void bsp_button_led_test(void)
 {
-    bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);
+    bsp_init(  BSP_INIT_LEDS|BSP_INIT_BUTTONS,bsp_evt_handler);//
 }
 
 #endif

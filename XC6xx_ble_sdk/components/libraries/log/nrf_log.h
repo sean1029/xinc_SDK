@@ -55,7 +55,7 @@
 #include "nrf_strerror.h"
 #define NRF_LOG_ERROR_STRING_GET(code) nrf_strerror_get(code)
 #else
-#define NRF_LOG_ERROR_STRING_GET(code) ""
+#define NRF_LOG_ERROR_STRING_GET(code)  (code)//""
 #endif
 
 

@@ -41,7 +41,7 @@
 ".\objects\fds.o"
 ".\objects\nrf_atfifo.o"
 ".\objects\app_button.o"
-".\objects\nrfx_gpiote.o"
+".\objects\xincx_gpio.o"
 ".\objects\app_error.o"
 ".\objects\app_error_weak.o"
 ".\objects\bsp.o"

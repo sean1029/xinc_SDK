@@ -636,9 +636,9 @@
 
 // <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
  
-// <0=> NRF_GPIO_PIN_NOPULL 
-// <1=> NRF_GPIO_PIN_PULLDOWN 
-// <3=> NRF_GPIO_PIN_PULLUP 
+// <0=> XINC_GPIO_PIN_NOPULL 
+// <1=> XINC_GPIO_PIN_PULLDOWN 
+// <3=> XINC_GPIO_PIN_PULLUP 
 
 #ifndef XINCX_SPIM_MISO_PULL_CFG
 #define XINCX_SPIM_MISO_PULL_CFG 1
@@ -646,14 +646,14 @@
 
 // </e>
 
-// <e> NRFX_GPIOTE_ENABLED - nrfx_gpiote - GPIOTE peripheral driver
+// <e> XINCX_GPIO_ENABLED - xincx_gpio - GPIOTE peripheral driver
 //==========================================================
-#ifndef NRFX_GPIOTE_ENABLED
-#define NRFX_GPIOTE_ENABLED 1
+#ifndef XINCX_GPIO_ENABLED
+#define XINCX_GPIO_ENABLED 1
 #endif
-// <o> NRFX_GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS - Number of lower power input pins 
-#ifndef NRFX_GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS
-#define NRFX_GPIOTE_CONFIG_NUM_OF_LOW_POWER_EVENTS 1
+// <o> XINCX_GPIO_CONFIG_NUM_OF_LOW_POWER_EVENTS - Number of lower power input pins 
+#ifndef XINCX_GPIO_CONFIG_NUM_OF_LOW_POWER_EVENTS
+#define XINCX_GPIO_CONFIG_NUM_OF_LOW_POWER_EVENTS 1
 #endif
 // </e>
 
