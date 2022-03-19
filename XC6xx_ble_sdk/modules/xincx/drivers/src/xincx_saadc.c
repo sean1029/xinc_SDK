@@ -1,4 +1,11 @@
-
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 #include <nrfx.h>
 #include "bsp_gpio.h"
 #if NRFX_CHECK(XINCX_SAADC_ENABLED)

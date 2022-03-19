@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 #ifndef 	__AT24C02_H
 #define 	__AT24C02_H
 

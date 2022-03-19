@@ -1,3 +1,13 @@
+
+
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 #include "Platform.h"
 #include "bsp.h"
 #include "AT24C02.h"

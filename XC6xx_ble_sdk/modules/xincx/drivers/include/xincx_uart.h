@@ -3,9 +3,9 @@
  *
  * All rights reserved.
  *
+ * Author :sean cheng
  *
  */
-
 #ifndef XINCX_UART_H__
 #define XINCX_UART_H__
 

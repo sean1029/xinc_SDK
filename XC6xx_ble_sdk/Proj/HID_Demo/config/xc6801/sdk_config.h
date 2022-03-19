@@ -12,7 +12,7 @@
 
 
 
-// <h> nRF_Drivers 
+// <h> Xinc_Drivers 
 
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
@@ -1122,7 +1122,7 @@
 
 // </e>
 
-// </h> nRF_Drivers 
+// </h> Xinc_Drivers 
 //==========================================================
  
 
@@ -1133,7 +1133,7 @@
 
 
 
-// <h> nRF_Libraries 
+// <h> Xinc_Libraries 
 
 //==========================================================
 // <q> APP_FIFO_ENABLED  - app_fifo - Software FIFO implementation
@@ -1638,7 +1638,7 @@
 #endif
 
 // </h> 
-//===============nrf_fprintf===================================
+//===============xinc_fprintf===================================
 
 
 // </h>
@@ -1646,7 +1646,7 @@
 
 
 
-// <h> nRF_Log 
+// <h> Xinc_Log 
 
 // <e> NRF_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
 //==========================================================

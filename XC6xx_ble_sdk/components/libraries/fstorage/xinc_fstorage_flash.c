@@ -1,4 +1,11 @@
-
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 
 #include "xinc_fstorage_flash.h"
 #include <stdint.h>

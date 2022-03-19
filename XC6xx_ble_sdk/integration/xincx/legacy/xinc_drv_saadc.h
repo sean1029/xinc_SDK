@@ -1,4 +1,11 @@
-
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 
 #ifndef XINC_DRV_SAADC_H__
 #define XINC_DRV_SAADC_H__

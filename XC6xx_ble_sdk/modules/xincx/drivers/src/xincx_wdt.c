@@ -1,8 +1,9 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
+ * Author :sean cheng
  *
  */
 

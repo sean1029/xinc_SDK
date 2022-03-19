@@ -3,6 +3,8 @@
  *
  * All rights reserved.
  *
+ * Author :sean cheng
+ *
  */
 
 #include <nrfx.h>

@@ -1,5 +1,12 @@
-
-/** @addtogroup Nordic Semiconductor
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
+/** @addtogroup XinChip
   * @{
   */
 

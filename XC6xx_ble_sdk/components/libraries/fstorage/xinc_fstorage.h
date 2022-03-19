@@ -1,4 +1,11 @@
-
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 #ifndef XINC_FSTORAGE_H__
 #define XINC_FSTORAGE_H__
 

@@ -1,4 +1,13 @@
 /**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
+
+/**
  * @file
  *
  * @defgroup xinc_fstorage_flash FLASH implementation

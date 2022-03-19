@@ -2,6 +2,7 @@
     "files.associations": {
         "nrf_gpio.h": "c",
         "nrf_drv_twi.h": "c",
-        "at24c02.h": "c"
+        "at24c02.h": "c",
+        "xinc_drv_uart.h": "c"
     }
 }

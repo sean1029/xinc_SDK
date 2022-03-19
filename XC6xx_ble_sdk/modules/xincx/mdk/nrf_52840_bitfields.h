@@ -1,10 +1,11 @@
-/*
-
-Copyright (c) 2022 - 2025, XinChip
-
-All rights reserved.
-
-*/
+/**
+ * Copyright (c) 2022 - 2025, XinChip
+ *
+ * All rights reserved.
+ *
+ * Author :sean cheng
+ *
+ */
 
 #ifndef __NRF52840_BITS_H
 #define __NRF52840_BITS_H
