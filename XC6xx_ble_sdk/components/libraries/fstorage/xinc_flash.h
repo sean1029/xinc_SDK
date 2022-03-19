@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef XINC_NVMC_H__
-#define XINC_NVMC_H__
+#ifndef XINC_FLASH_H__
+#define XINC_FLASH_H__
 
 #include <xincx.h>
 #include <stdint.h>

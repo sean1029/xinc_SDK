@@ -11,7 +11,6 @@
 #define XINC_GPIO_H__
 
 #include <xincx.h>
-#include "xinc_52840_bitfields.h"
 #include "XC620610.h"
 #include "bsp_gpio.h"
 #ifdef __cplusplus

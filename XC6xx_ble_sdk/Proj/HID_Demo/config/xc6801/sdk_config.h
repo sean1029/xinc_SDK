@@ -1129,10 +1129,6 @@
 
 
 
-
-
-
-
 // <h> Xinc_Libraries 
 
 //==========================================================
@@ -1253,7 +1249,7 @@
 // <0=> 0 
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
-#define APP_UART_DRIVER_INSTANCE 1
+#define APP_UART_DRIVER_INSTANCE 0
 #endif
 
 // </e>
@@ -1478,7 +1474,7 @@
  
 
 #ifndef XINC_QUEUE_CLI_CMDS
-#define XINC_QUEUE_CLI_CMDS 0
+#define XINC_QUEUE_CLI_CMDS 1
 #endif
 
 // </e>
@@ -1520,7 +1516,7 @@
  
 
 #ifndef XINC_CLI_ENABLED
-#define XINC_CLI_ENABLED 0
+#define XINC_CLI_ENABLED 1
 #endif
 
 // <o> XINC_CLI_ARGC_MAX - Maximum number of parameters passed to the command handler. 
@@ -1531,7 +1527,7 @@
 // <q> XINC_CLI_BUILD_IN_CMDS_ENABLED  - CLI built-in commands.
  
 #ifndef XINC_CLI_BUILD_IN_CMDS_ENABLED
-#define XINC_CLI_BUILD_IN_CMDS_ENABLED 0
+#define XINC_CLI_BUILD_IN_CMDS_ENABLED 1
 #endif
 
 // <o> XINC_CLI_CMD_BUFF_SIZE - Maximum buffer size for a single command. 
@@ -1620,7 +1616,7 @@
  
 
 #ifndef XINC_FPRINTF_ENABLED
-#define XINC_FPRINTF_ENABLED 0
+#define XINC_FPRINTF_ENABLED 1
 #endif
 
 // <q> XINC_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED  - For each printed LF, function will add CR.

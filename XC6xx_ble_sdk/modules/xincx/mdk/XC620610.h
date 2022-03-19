@@ -11,13 +11,13 @@
   */
 
 
-/** @addtogroup xc6801
+/** @addtogroup xc6206
   * @{
   */
 
 
-#ifndef XINC52840_H
-#define XINC52840_H
+#ifndef XINC620610_H
+#define XINC620610_H
 
 #include <stdint.h>
 #ifdef __cplusplus

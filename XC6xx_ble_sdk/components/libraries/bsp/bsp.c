@@ -703,7 +703,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
       if (err_code == XINC_SUCCESS)
       {
           err_code =
-              app_timer_create(&m_bsp_alert_tmr, APP_TIMER_MODE_REPEATED, alert_timer_handler);
+                app_timer_create(&m_bsp_alert_tmr, APP_TIMER_MODE_REPEATED, alert_timer_handler);
       }
     }
 #endif // LEDS_NUMBER > 0 && !(defined BSP_SIMPLE)

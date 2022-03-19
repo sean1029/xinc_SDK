@@ -572,7 +572,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
 
-   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
+    printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;
@@ -695,6 +695,7 @@ void xincx_uart_1_irq_handler(void)
 }
 void UART1_Handler(void)
 {
+    
 	xincx_uart_1_irq_handler();
 		
 }

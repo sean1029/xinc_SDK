@@ -7,11 +7,11 @@
  *
  */
 /** @file
- * @brief Common defines and macros for firmware developed by Nordic Semiconductor.
+ * @brief Common defines and macros for firmware developed by XINCHIP.
  */
 
-#ifndef NORDIC_COMMON_H__
-#define NORDIC_COMMON_H__
+#ifndef XINCHIP_COMMON_H__
+#define XINCHIP_COMMON_H__
 
 #ifdef __cplusplus
 extern "C" {

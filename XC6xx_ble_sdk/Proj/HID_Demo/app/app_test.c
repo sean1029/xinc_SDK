@@ -18,6 +18,8 @@ void cli_test(void)
     xinc_drv_uart_config_t uart_config;
     uart_config.pseltxd = CLI_TX_PIN_NUMBER;
     uart_config.pselrxd = CLI_RX_PIN_NUMBER;
+    uart_config.data_bits = 3;
+    uart_config.stop_bits = 0;
     uart_config.hwfc    = XINC_UART_HWFC_DISABLED;
     uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
 
@@ -150,6 +152,27 @@ void log_flush(void)
 }
 	 
 #endif // LOG_TEST_EN
+
+#if DRV_SAADC_TEST_EN
+
+void drv_i2c_test(void)
+{
+    i2c_at24c02_test();
+}
+
+#endif
+
+#if DRV_SPI_TEST_EN
+void spim_flash_test(void);	
+void drv_spi_test(void)
+{
+    spim_flash_test();
+}
+
+#endif
+
+
+
 
 
 
@@ -342,7 +365,7 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
     static uint32_t i = 0;
         static uint8_t on_off = 0;
     xinc_saadc_value_t adc_val;
-    //		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+    		printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
     
    // 
     switch (event_type)

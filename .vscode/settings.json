@@ -3,6 +3,7 @@
         "xinc_gpio.h": "c",
         "xinc_drv_twi.h": "c",
         "at24c02.h": "c",
-        "xinc_drv_uart.h": "c"
+        "xinc_drv_uart.h": "c",
+        "xc620610.h": "c"
     }
 }

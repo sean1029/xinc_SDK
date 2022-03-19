@@ -386,6 +386,7 @@ int	main(void)
 
   ble_init((void *)&blestack_init);
 	key_init();
+    xincx_gpio_init();
 	btstack_main();
 	scheduler_init();
 #if RTC_TEST_EN	
@@ -397,11 +398,13 @@ int	main(void)
 
 
 	app_timer_init();
-void spim_flash_test(void);	
-void  i2c_at24c02_test(void);
-//	spim_flash_test();
-	
-	//i2c_at24c02_test();
+#if DRV_SPI_TEST_EN
+ drv_spi_test();
+#endif
+
+#if DRV_I2C_TEST_EN
+ drv_i2c_test();
+#endif
 //	  xincx_gpio_init();
 
 	//	gpio_direction_output(4);gpio_direction_output(5);

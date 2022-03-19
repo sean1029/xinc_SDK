@@ -117,6 +117,9 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
                             XINCX_LOG_ERROR_STRING_GET(err_code));
+         printf("Function: %s, error code: %x.\r\n",
+                            __func__,
+                            (err_code));
         return err_code;
     }
 
@@ -152,11 +155,13 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     xinc_i2c_int_disable(p_i2c,XINC_I2C_INT_DIS_MASK_ALL);//不使能所有中断 0x
 
     err_code = xinc_gpio_secfun_config(p_config->scl,XINC_GPIO_PIN_I2C_SCL);
+    printf("p_config->scl:%d,secfun_config ret:0x%x\r\n",p_config->scl,err_code);
     if(err_code != XINCX_SUCCESS)
     {
         return err_code;
     }
     err_code = xinc_gpio_secfun_config(p_config->sda,XINC_GPIO_PIN_I2C_SDA);
+     printf("p_config->sda:%d,secfun_config ret:0x%x\r\n",p_config->sda,err_code);
     if(err_code != XINCX_SUCCESS)
     {
         return err_code;

@@ -31,7 +31,7 @@
 #include "app_timer.h"
 #include "bsp.h"
 
-#define CLI_TEST_EN 0
+#define CLI_TEST_EN 1
 
 #define LOG_TEST_EN 0
 
@@ -39,13 +39,14 @@
 
 #define DRV_TIMER_TEST_EN 0
 
-
-#define DRV_WDT_TEST_EN 0
+#define DRV_I2C_TEST_EN 0
+#define DRV_SPI_TEST_EN 0
+#define DRV_WDT_TEST_EN 1
 #define DRV_PWM_TEST_EN 0
-#define DRV_SAADC_TEST_EN 0
+#define DRV_SAADC_TEST_EN 1
 #define DRV_UART_TEST_EN 0
 
-#define BSP_BUTTON_TEST_EN 1
+#define BSP_BUTTON_TEST_EN 0
 #define APP_BUTTON_TEST_EN 0
 
 void cli_test(void);
@@ -61,10 +62,15 @@ void drv_wdg_test(void);
 void drv_adc_test(void);
 void drv_pwm_test(void);
 void drv_uart_test(void);
+void drv_i2c_test(void);
+void drv_spi_test(void);
+
 
 void bsp_button_led_test(void);
 
 void app_button_test(void);
+
+
 
 
 

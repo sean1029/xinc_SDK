@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef __XINC52840_BITS_H
-#define __XINC52840_BITS_H
+#ifndef __XINC620610_BITS_H
+#define __XINC620610_BITS_H
 
 /*lint ++flb "Enter library region" */
 

@@ -49,7 +49,7 @@
     (SPIM0_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len) || \
      SPIM1_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len))
 
-#if defined(XINC52840_XXAA) && (XINCX_CHECK(XINCX_SPIM3_ENABLED))
+#if defined(XINC6206_XXAA) && (XINCX_CHECK(XINCX_SPIM3_ENABLED))
 // Enable workaround for nRF52840 anomaly 195 (SPIM3 continues to draw current after disable).
 #define USE_WORKAROUND_FOR_ANOMALY_195
 #endif

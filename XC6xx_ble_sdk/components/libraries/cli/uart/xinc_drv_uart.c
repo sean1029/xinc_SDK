@@ -81,7 +81,7 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
     m_contexts[inst_idx] = p_config->p_context;
 
 #if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
-#ifdef XINC52840_XXAA
+#ifdef XINC6206_XXAA
     if (inst_idx == 1)
     {
         ASSERT(p_config->use_easy_dma);

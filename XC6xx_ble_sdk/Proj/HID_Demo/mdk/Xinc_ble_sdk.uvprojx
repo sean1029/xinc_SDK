@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>SBC_ENC_INCLUDED XINC52840_XXAA BOARD_PCA10040</Define>
+              <Define>SBC_ENC_INCLUDED XINC6206_XXAA BOARD_PCA10040</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx</IncludePath>
             </VariousControls>

@@ -43,11 +43,11 @@ ret_code_t xinc_atfifo_init(xinc_atfifo_t * const p_fifo, void * p_buf, uint16_t
 
     p_fifo->p_buf     = p_buf;
     p_fifo->tail.tag  = 0;
-		p_fifo->tail.pos.wr = 0;
-		p_fifo->tail.pos.rd = 0;
+    p_fifo->tail.pos.wr = 0;
+    p_fifo->tail.pos.rd = 0;
     p_fifo->head.tag  = 0;
-		p_fifo->head.pos.wr = 0;
-		p_fifo->head.pos.rd = 0;
+    p_fifo->head.pos.wr = 0;
+    p_fifo->head.pos.rd = 0;
     p_fifo->buf_size  = buf_size;
     p_fifo->item_size = item_size;
 
@@ -142,11 +142,11 @@ void * xinc_atfifo_item_get(xinc_atfifo_t * const p_fifo, xinc_atfifo_item_get_t
 {
   //  if (xinc_atfifo_rspace_req(p_fifo, &(p_context->last_head)))
 		
-		p_context->last_head = p_fifo->head;
+    p_context->last_head = p_fifo->head;
     {
-        void * p_item = ((uint8_t*)(p_fifo->p_buf)) + p_context->last_head.pos.rd;
-        XINC_LOG_INST_DEBUG(p_fifo->p_log, "Get element: 0x%08X", p_item);
-        return p_item;
+    void * p_item = ((uint8_t*)(p_fifo->p_buf)) + p_context->last_head.pos.rd;
+    XINC_LOG_INST_DEBUG(p_fifo->p_log, "Get element: 0x%08X", p_item);
+    return p_item;
     }
 //    XINC_LOG_INST_WARNING(p_fifo->p_log, "Get failed - no item in the FIFO.");
  //   return NULL;
@@ -158,7 +158,7 @@ bool xinc_atfifo_item_free(xinc_atfifo_t * const p_fifo, xinc_atfifo_item_get_t 
     if ((p_context->last_head.pos.wr) == (p_context->last_head.pos.rd))
     {
         XINC_LOG_INST_DEBUG(p_fifo->p_log, "Free (uninterrupted)");
-				p_fifo->head = p_context->last_head ;
+        p_fifo->head = p_context->last_head ;
        // xinc_atfifo_rspace_close(p_fifo);
         return true;
     }
