@@ -20,7 +20,7 @@ extern "C" {
 /**
  * @defgroup xincx_i2c I2C driver
  * @{
- * @ingroup nrf_i2c
+ * @ingroup xinc_i2c
  * @brief   Two Wire Interface master (I2C) peripheral driver.
  */
 

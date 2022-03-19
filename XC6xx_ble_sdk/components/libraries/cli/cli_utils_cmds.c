@@ -6,16 +6,16 @@
  * Author :sean cheng
  *
  */
-#include "nrf_cli.h"
+#include "xinc_cli.h"
 #if XINC_MODULE_ENABLED(XINC_CLI)
-static void cmd_reset(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_reset(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
     UNUSED_PARAMETER(argv);
 
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 
@@ -24,14 +24,14 @@ static void cmd_reset(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 
 
-static void cmd_error(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_error(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
     UNUSED_PARAMETER(argv);
 
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 		printf("cmd_error\r\n");
@@ -39,33 +39,33 @@ static void cmd_error(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 
 
-static void cmd_app_size(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_app_size(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
     UNUSED_PARAMETER(argv);
 
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 
-      nrf_cli_fprintf(p_cli,
+      xinc_cli_fprintf(p_cli,
                     XINC_CLI_NORMAL,
                     "Application address:%d (0x%08X), size: %d (0x%08X)\r\n",
                     CODE_START,
                     CODE_START,
                     CODE_SIZE,
                     CODE_SIZE);
-	//	nrf_cli_print_stream(0,0,1);
+	//	xinc_cli_print_stream(0,0,1);
 }
 
 
-static void cmd_log_msg_error(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_log_msg_error(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 
@@ -88,11 +88,11 @@ static void cmd_log_msg_error(nrf_cli_t const * p_cli, size_t argc, char **argv)
 }
 
 
-static void cmd_log_msg_warning(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_log_msg_warning(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 

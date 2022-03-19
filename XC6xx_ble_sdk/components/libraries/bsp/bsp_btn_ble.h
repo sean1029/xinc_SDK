@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 /**@brief BLE Button Module error handler type. */
-typedef void (*bsp_btn_ble_error_handler_t) (uint32_t nrf_error);
+typedef void (*bsp_btn_ble_error_handler_t) (uint32_t xinc_error);
 
 /**@brief Function for initializing the BLE Button Module.
  *

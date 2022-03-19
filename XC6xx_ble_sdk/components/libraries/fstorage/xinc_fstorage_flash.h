@@ -32,7 +32,7 @@ extern "C" {
  *          this structure as a parameter to @ref xinc_fstorage_init.
  *          The structure is defined in @c xinc_fstorage_flash.c.
  */
-extern nrf_fstorage_api_t nrf_fstorage_nvmc;
+extern xinc_fstorage_api_t xinc_fstorage_nvmc;
 	
 #ifdef __cplusplus
 }

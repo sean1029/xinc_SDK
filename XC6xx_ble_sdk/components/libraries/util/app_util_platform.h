@@ -20,12 +20,12 @@
 
 #include <stdint.h>
 #include "compiler_abstraction.h"
-#include "nrf.h"
+#include "xinc.h"
 #ifdef SOFTDEVICE_PRESENT
-#include "nrf_soc.h"
-#include "nrf_nvic.h"
+#include "xinc_soc.h"
+#include "xinc_nvic.h"
 #endif
-#include "nrf_assert.h"
+#include "xinc_assert.h"
 #include "app_error.h"
 
 #ifdef __cplusplus

@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-//#include "nrf_soc.h"
-#include "nrf_assert.h"
+//#include "xinc_soc.h"
+#include "xinc_assert.h"
 #include "app_util.h"
 #include "app_util_platform.h"
 

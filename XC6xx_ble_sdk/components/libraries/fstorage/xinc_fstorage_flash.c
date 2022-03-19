@@ -11,14 +11,14 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
-#include "nrf_atomic.h"
+#include "xinc_atomic.h"
 #include "xinc_flash.h"
-void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
+void assert_xinc_callback(uint16_t line_num, const uint8_t * p_file_name)
 {
    // app_error_handler(DEAD_BEEF, line_num, p_file_name);
 }
 
-static nrf_fstorage_info_t m_flash_info =
+static xinc_fstorage_info_t m_flash_info =
 {
 	 .erase_unit = 4096,
 #if defined(XC_620610)
@@ -32,12 +32,12 @@ static nrf_fstorage_info_t m_flash_info =
 };
 
  /* An operation initiated by fstorage is ongoing. */
-static nrf_atomic_flag_t m_flash_operation_ongoing;
+static xinc_atomic_flag_t m_flash_operation_ongoing;
 
 
 /* Send event to the event handler. */
-static void event_send(nrf_fstorage_t        const * p_fs,
-                       nrf_fstorage_evt_id_t         evt_id,
+static void event_send(xinc_fstorage_t        const * p_fs,
+                       xinc_fstorage_evt_id_t         evt_id,
                        void const *                  p_src,
                        uint32_t                      addr,
                        uint32_t                      len,
@@ -49,7 +49,7 @@ static void event_send(nrf_fstorage_t        const * p_fs,
         return;
     }
 
-    nrf_fstorage_evt_t evt =
+    xinc_fstorage_evt_t evt =
     {
         .result  = XINC_SUCCESS,
         .id      = evt_id,
@@ -62,7 +62,7 @@ static void event_send(nrf_fstorage_t        const * p_fs,
     p_fs->evt_handler(&evt);
 }
 
-static ret_code_t init(nrf_fstorage_t * p_fs, void * p_param)
+static ret_code_t init(xinc_fstorage_t * p_fs, void * p_param)
 {
     UNUSED_PARAMETER(p_param);
 
@@ -73,18 +73,18 @@ static ret_code_t init(nrf_fstorage_t * p_fs, void * p_param)
     return XINC_SUCCESS;
 }
 
-static ret_code_t uninit(nrf_fstorage_t * p_fs, void * p_param)
+static ret_code_t uninit(xinc_fstorage_t * p_fs, void * p_param)
 {
     UNUSED_PARAMETER(p_fs);
     UNUSED_PARAMETER(p_param);
 
-    (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
+    (void) xinc_atomic_flag_clear(&m_flash_operation_ongoing);
 
     return XINC_SUCCESS;
 }
 
 
-static ret_code_t read(nrf_fstorage_t const * p_fs, uint32_t src, void * p_dest, uint32_t len)
+static ret_code_t read(xinc_fstorage_t const * p_fs, uint32_t src, void * p_dest, uint32_t len)
 {
     UNUSED_PARAMETER(p_fs);
 
@@ -95,22 +95,22 @@ static ret_code_t read(nrf_fstorage_t const * p_fs, uint32_t src, void * p_dest,
 }
 
 
-static ret_code_t write(nrf_fstorage_t const * p_fs,
+static ret_code_t write(xinc_fstorage_t const * p_fs,
                         uint32_t               dest,
                         void           const * p_src,
                         uint32_t               len,
                         void                 * p_param)
 {
 		printf("flash %s\n",__func__);
-    if (nrf_atomic_flag_set_fetch(&m_flash_operation_ongoing))
+    if (xinc_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
         return XINC_ERROR_BUSY;
     }
 
-    nrf_nvmc_write_words(dest, (uint32_t*)p_src, (len / m_flash_info.program_unit));
+    xinc_nvmc_write_words(dest, (uint32_t*)p_src, (len / m_flash_info.program_unit));
 
     /* Clear the flag before sending the event, to allow API calls in the event context. */
-    (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
+    (void) xinc_atomic_flag_clear(&m_flash_operation_ongoing);
 
     event_send(p_fs, XINC_FSTORAGE_EVT_WRITE_RESULT, p_src, dest, len, p_param);
 
@@ -118,33 +118,33 @@ static ret_code_t write(nrf_fstorage_t const * p_fs,
 }
 
 
-static ret_code_t erase(nrf_fstorage_t const * p_fs,
+static ret_code_t erase(xinc_fstorage_t const * p_fs,
                         uint32_t               page_addr,
                         uint32_t               len,
                         void                 * p_param)
 {
     uint32_t progress = 0;
 		printf("flash %s\n",__func__);
-    if (nrf_atomic_flag_set_fetch(&m_flash_operation_ongoing))
+    if (xinc_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
         return XINC_ERROR_BUSY;
     }
 
     while (progress != len)
     {
-        nrf_nvmc_page_erase(page_addr + (progress * m_flash_info.erase_unit));
+        xinc_nvmc_page_erase(page_addr + (progress * m_flash_info.erase_unit));
         progress++;
     }
 
     /* Clear the flag before sending the event, to allow API calls in the event context. */
-    (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
+    (void) xinc_atomic_flag_clear(&m_flash_operation_ongoing);
 
     event_send(p_fs, XINC_FSTORAGE_EVT_ERASE_RESULT, NULL, page_addr, len, p_param);
 
     return XINC_SUCCESS;
 }
 
-static uint8_t const * rmap(nrf_fstorage_t const * p_fs, uint32_t addr)
+static uint8_t const * rmap(xinc_fstorage_t const * p_fs, uint32_t addr)
 {
     UNUSED_PARAMETER(p_fs);
 
@@ -152,7 +152,7 @@ static uint8_t const * rmap(nrf_fstorage_t const * p_fs, uint32_t addr)
 }
 
 
-static uint8_t * wmap(nrf_fstorage_t const * p_fs, uint32_t addr)
+static uint8_t * wmap(xinc_fstorage_t const * p_fs, uint32_t addr)
 {
     UNUSED_PARAMETER(p_fs);
     UNUSED_PARAMETER(addr);
@@ -162,7 +162,7 @@ static uint8_t * wmap(nrf_fstorage_t const * p_fs, uint32_t addr)
 }
 
 
-static bool is_busy(nrf_fstorage_t const * p_fs)
+static bool is_busy(xinc_fstorage_t const * p_fs)
 {
     UNUSED_PARAMETER(p_fs);
 
@@ -171,7 +171,7 @@ static bool is_busy(nrf_fstorage_t const * p_fs)
 
 
 /* The exported API. */
-nrf_fstorage_api_t nrf_fstorage_nvmc =
+xinc_fstorage_api_t xinc_fstorage_nvmc =
 {
     .init    = init,
     .uninit  = uninit,

@@ -12,7 +12,7 @@
 #include "app_timer.h"
 #include "app_error.h"
 #include "xinc_drv_gpio.h"
-#include "nrf_assert.h"
+#include "xinc_assert.h"
 #include "xincx_gpio.h"
 #include "app_util_platform.h"
 
@@ -24,7 +24,7 @@
 #else //APP_BUTTON_CONFIG_LOG_ENABLED
 #define XINC_LOG_LEVEL       0
 #endif //APP_BUTTON_CONFIG_LOG_ENABLED
-#include "nrf_log.h"
+#include "xinc_log.h"
 XINC_LOG_MODULE_REGISTER();
 
 /*

@@ -10,9 +10,9 @@
 #include <stddef.h>
 #include <stdio.h>
 #include "xinchip_common.h"
-#include "nrf.h"
+#include "xinc.h"
 #include "xinc_gpio.h"
-#include "nrf_error.h"
+#include "xinc_error.h"
 #include "bsp_config.h"
 #include "boards.h"
 

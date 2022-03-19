@@ -15,7 +15,7 @@
  * @brief Common application error handler.
  */
 
-#include "nrf.h"
+#include "xinc.h"
 #include <stdio.h>
 #include "app_error.h"
 #include "xinchip_common.h"

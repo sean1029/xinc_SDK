@@ -14,12 +14,12 @@
 #include <stdint.h>
 #include "sdk_errors.h"
 #include "sdk_macros.h"
-#include "nrf_section.h"
+#include "xinc_section.h"
 #include <stdio.h>
 
 
 /* Create the section "fs_data". */
-XINC_SECTION_DEF(fs_data, nrf_fstorage_t);
+XINC_SECTION_DEF(fs_data, xinc_fstorage_t);
 
 
 /**@brief   Macro to handle user input validation.
@@ -39,11 +39,11 @@ XINC_SECTION_DEF(fs_data, nrf_fstorage_t);
 		
 		
 static bool addr_is_aligned32(uint32_t addr);
-static bool addr_is_page_aligned(nrf_fstorage_t const * p_fs, uint32_t addr);
-static bool addr_is_within_bounds(nrf_fstorage_t const * p_fs, uint32_t addr, uint32_t len);
+static bool addr_is_page_aligned(xinc_fstorage_t const * p_fs, uint32_t addr);
+static bool addr_is_within_bounds(xinc_fstorage_t const * p_fs, uint32_t addr, uint32_t len);
 
-ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
-                             nrf_fstorage_api_t * p_api,
+ret_code_t xinc_fstorage_init(xinc_fstorage_t     * p_fs,
+                             xinc_fstorage_api_t * p_api,
                              void               * p_param)
 {
     XINC_FSTORAGE_PARAM_CHECK(p_fs,  XINC_ERROR_NULL);
@@ -55,7 +55,7 @@ ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
 }
 
 
-ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs,
+ret_code_t xinc_fstorage_uninit(xinc_fstorage_t * p_fs,
                                void           * p_param)
 {
     ret_code_t rc;
@@ -72,7 +72,7 @@ ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs,
     return rc;
 }
 
-ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_read(xinc_fstorage_t const * p_fs,
                              uint32_t               src,
                              void                 * p_dest,
                              uint32_t               len)
@@ -90,7 +90,7 @@ ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
 }
 
 
-ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_write(xinc_fstorage_t const * p_fs,
                               uint32_t               dest,
                               void           const * p_src,
                               uint32_t               len,
@@ -113,7 +113,7 @@ ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
 }
 
 
-ret_code_t nrf_fstorage_erase(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_erase(xinc_fstorage_t const * p_fs,
                               uint32_t               page_addr,
                               uint32_t               len,
                               void                 * p_context)
@@ -135,7 +135,7 @@ ret_code_t nrf_fstorage_erase(nrf_fstorage_t const * p_fs,
 
 
 
-uint8_t const * nrf_fstorage_rmap(nrf_fstorage_t const * p_fs, uint32_t addr)
+uint8_t const * xinc_fstorage_rmap(xinc_fstorage_t const * p_fs, uint32_t addr)
 {
     if ((p_fs == NULL) || (p_fs->p_api == NULL))
     {
@@ -146,7 +146,7 @@ uint8_t const * nrf_fstorage_rmap(nrf_fstorage_t const * p_fs, uint32_t addr)
 }
 
 
-uint8_t * nrf_fstorage_wmap(nrf_fstorage_t const * p_fs, uint32_t addr)
+uint8_t * xinc_fstorage_wmap(xinc_fstorage_t const * p_fs, uint32_t addr)
 {
     if ((p_fs == NULL) || (p_fs->p_api == NULL))
     {
@@ -156,7 +156,7 @@ uint8_t * nrf_fstorage_wmap(nrf_fstorage_t const * p_fs, uint32_t addr)
     return (p_fs->p_api)->wmap(p_fs, addr);
 }
 
-bool nrf_fstorage_is_busy(nrf_fstorage_t const * p_fs)
+bool xinc_fstorage_is_busy(xinc_fstorage_t const * p_fs)
 {
     /* If a NULL instance is provided, return true if any instance is busy.
      * Uninitialized instances are considered not busy. */
@@ -182,7 +182,7 @@ bool nrf_fstorage_is_busy(nrf_fstorage_t const * p_fs)
 }
 
 
-static bool addr_is_within_bounds(nrf_fstorage_t const * p_fs,
+static bool addr_is_within_bounds(xinc_fstorage_t const * p_fs,
                                   uint32_t               addr,
                                   uint32_t               len)
 {
@@ -197,7 +197,7 @@ static bool addr_is_aligned32(uint32_t addr)
 }
 
 
-static bool addr_is_page_aligned(nrf_fstorage_t const * p_fs,
+static bool addr_is_page_aligned(xinc_fstorage_t const * p_fs,
                                  uint32_t               addr)
 {
     return (addr & (p_fs->p_flash_info->erase_unit - 1)) == 0;

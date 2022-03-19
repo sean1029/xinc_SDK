@@ -23,7 +23,7 @@
 #include <stddef.h>
 #include "compiler_abstraction.h"
 #include "xinchip_common.h"
-#include "nrf.h"
+#include "xinc.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -99,7 +99,7 @@ extern uint32_t __etext;
 /* lint -restore */
 
 #if defined(MBR_PRESENT) || defined(SOFTDEVICE_PRESENT)
-#include "nrf_mbr.h"
+#include "xinc_mbr.h"
 #define BOOTLOADER_ADDRESS      ((*(uint32_t *)MBR_BOOTLOADER_ADDR) == 0xFFFFFFFF ? *MBR_UICR_BOOTLOADER_ADDR : *(uint32_t *)MBR_BOOTLOADER_ADDR) /**< The currently configured start address of the bootloader. If 0xFFFFFFFF, no bootloader start address is configured. */
 #define MBR_PARAMS_PAGE_ADDRESS ((*(uint32_t *)MBR_PARAM_PAGE_ADDR) == 0xFFFFFFFF ? *MBR_UICR_PARAM_PAGE_ADDR : *(uint32_t *)MBR_PARAM_PAGE_ADDR) /**< The currently configured address of the MBR params page. If 0xFFFFFFFF, no MBR params page address is configured. */
 #else

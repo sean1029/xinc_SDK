@@ -15,7 +15,7 @@
 #include "xinchip_common.h"
 
 #if defined(BOARD_XINC6310)
-  #include "nrf6310.h"
+  #include "xinc6310.h"
 #elif defined(BOARD_PCA10000)
   #include "pca10000.h"
 #elif defined(BOARD_PCA10001)

@@ -11,21 +11,21 @@
 #define XINCX_IRQS_H__
 
 #if defined(XINC51)
-    #include <soc/xincx_irqs_nrf51.h>
+    #include <soc/xincx_irqs_xinc51.h>
 #elif defined(XINC52810_XXAA)
-    #include <soc/xincx_irqs_nrf52810.h>
+    #include <soc/xincx_irqs_xinc52810.h>
 #elif defined(XINC52811_XXAA)
-    #include <soc/xincx_irqs_nrf52811.h>
+    #include <soc/xincx_irqs_xinc52811.h>
 #elif defined(XINC52820_XXAA)
-    #include <soc/xincx_irqs_nrf52820.h>
+    #include <soc/xincx_irqs_xinc52820.h>
 #elif defined(XINC52832_XXAA) || defined (XINC52832_XXAB)
-    #include <soc/xincx_irqs_nrf52832.h>
+    #include <soc/xincx_irqs_xinc52832.h>
 #elif defined(XINC52833_XXAA)
-    #include <soc/xincx_irqs_nrf52833.h>
+    #include <soc/xincx_irqs_xinc52833.h>
 #elif defined(XINC52840_XXAA)
-    #include <soc/xincx_irqs_nrf52840.h>
+    #include <soc/xincx_irqs_xinc52840.h>
 #elif defined(XINC9160_XXAA)
-    #include <soc/xincx_irqs_nrf9160.h>
+    #include <soc/xincx_irqs_xinc9160.h>
 #else
     #error "Unknown device."
 #endif

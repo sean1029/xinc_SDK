@@ -1306,13 +1306,13 @@
 
 // <h> Backend - Backend configuration
 
-// <i> Configure which nrf_fstorage backend is used by FDS to write to flash.
+// <i> Configure which xinc_fstorage backend is used by FDS to write to flash.
 //==========================================================
 // <o> FDS_BACKEND  - FDS flash backend.
  
 
-// <i> XINC_FSTORAGE_SD uses the nrf_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
-// <i> XINC_FSTORAGE_NVMC uses the nrf_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
+// <i> XINC_FSTORAGE_SD uses the xinc_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
+// <i> XINC_FSTORAGE_NVMC uses the xinc_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
 // <1=> XINC_FSTORAGE_NVMC 
 // <2=> XINC_FSTORAGE_SD 
 
@@ -1380,19 +1380,19 @@
 
 // </e>
 
-// <q> XINC_CLI_UART_ENABLED  - nrf_cli_uart - UART command line interface transport
+// <q> XINC_CLI_UART_ENABLED  - xinc_cli_uart - UART command line interface transport
  
 
 #ifndef XINC_CLI_UART_ENABLED
 #define XINC_CLI_UART_ENABLED 1
 #endif
 
-// <e> XINC_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
+// <e> XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 //==========================================================
 #ifndef XINC_FSTORAGE_ENABLED
 #define XINC_FSTORAGE_ENABLED 0
 #endif
-// <h> nrf_fstorage - Common settings
+// <h> xinc_fstorage - Common settings
 
 // <i> Common settings to all fstorage implementations
 //==========================================================
@@ -1407,11 +1407,11 @@
 #define XINC_FSTORAGE_PARAM_CHECK_DISABLED 0
 #endif
 // </h> 
-// </e>  XINC_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
+// </e>  XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 
 
 
-// <e> XINC_BALLOC_ENABLED - nrf_balloc - Block allocator module
+// <e> XINC_BALLOC_ENABLED - xinc_balloc - Block allocator module
 //==========================================================
 #ifndef XINC_BALLOC_ENABLED
 #define XINC_BALLOC_ENABLED 1
@@ -1469,7 +1469,7 @@
 
 // </e>
 
-// <e> XINC_QUEUE_ENABLED - nrf_queue - Queue module
+// <e> XINC_QUEUE_ENABLED - xinc_queue - Queue module
 
 #ifndef XINC_QUEUE_ENABLED
 #define XINC_QUEUE_ENABLED 1
@@ -1484,7 +1484,7 @@
 // </e>
 
 
-// <q> XINC_STRERROR_ENABLED  - nrf_strerror - Library for converting error code to string.
+// <q> XINC_STRERROR_ENABLED  - xinc_strerror - Library for converting error code to string.
 
 #ifndef XINC_STRERROR_ENABLED
 #define XINC_STRERROR_ENABLED 1
@@ -1513,7 +1513,7 @@
 
 
 
-// <h> nrf_cli - Command line interface
+// <h> xinc_cli - Command line interface
 
 //==========================================================
 // <q> XINC_CLI_ENABLED  - Enable/disable the CLI module.
@@ -1610,10 +1610,10 @@
 #endif
 // </h> 
 
-//===============nrf_cli===================================
+//===============xinc_cli===================================
 
 
-// <h> nrf_fprintf - fprintf function.
+// <h> xinc_fprintf - fprintf function.
 
 //==========================================================
 // <q> XINC_FPRINTF_ENABLED  - Enable/disable fprintf module.
@@ -1648,7 +1648,7 @@
 
 // <h> Xinc_Log 
 
-// <e> XINC_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
+// <e> XINC_LOG_BACKEND_UART_ENABLED - xinc_log_backend_uart - Log UART backend
 //==========================================================
 #ifndef XINC_LOG_BACKEND_UART_ENABLED
 #define XINC_LOG_BACKEND_UART_ENABLED 0
@@ -1693,7 +1693,7 @@
 // </e>
 
 //==========================================================
-// <e> XINC_LOG_ENABLED - nrf_log - Logger
+// <e> XINC_LOG_ENABLED - xinc_log - Logger
 //==========================================================
 #ifndef XINC_LOG_ENABLED
 #define XINC_LOG_ENABLED 0
@@ -1899,25 +1899,25 @@
 
 // </e>
 
-// <h> nrf_log module configuration 
+// <h> xinc_log module configuration 
 //==========================================================
 
 
-// <h> nrf_log in nRF_Core 
+// <h> xinc_log in nRF_Core 
 //==========================================================
 
-// </h> nrf_log in nRF_Core 
+// </h> xinc_log in nRF_Core 
 //==========================================================
 
 
-// <h> nrf_log in nRF_Drivers 
+// <h> xinc_log in nRF_Drivers 
 //==========================================================
 
 // </h>
 //==========================================================
 
 
-// <h> nrf_log in nRF_Libraries 
+// <h> xinc_log in nRF_Libraries 
 //==========================================================
 
 // <e> XINC_ATFIFO_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -2113,7 +2113,7 @@
  
  // </e>
  
-// <q> XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - nrf_log_str_formatter - Log string formatter
+// <q> XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - xinc_log_str_formatter - Log string formatter
  
 
 #ifndef XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED

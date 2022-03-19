@@ -22,7 +22,7 @@ static inline void wait_for_flash_ready(void)
   //  while (XINC_NVMC->READY == NVMC_READY_READY_Busy) {;}
 }
 
-void nrf_nvmc_page_erase(uint32_t address)
+void xinc_nvmc_page_erase(uint32_t address)
 {
 
 		spi_flash_page_erase(address);
@@ -30,7 +30,7 @@ void nrf_nvmc_page_erase(uint32_t address)
 }
 
 
-void nrf_nvmc_write_byte(uint32_t address, uint8_t value)
+void xinc_nvmc_write_byte(uint32_t address, uint8_t value)
 {
 
     spi_flash_write(address,(uint8_t *)&value,1);
@@ -40,7 +40,7 @@ void nrf_nvmc_write_byte(uint32_t address, uint8_t value)
  //   __DSB();
 }
 
-void nrf_nvmc_write_word(uint32_t address, uint32_t value)
+void xinc_nvmc_write_word(uint32_t address, uint32_t value)
 {
 
     spi_flash_write(address,(uint8_t *)&value,4);
@@ -48,14 +48,14 @@ void nrf_nvmc_write_word(uint32_t address, uint32_t value)
 
 }
 
-void nrf_nvmc_write_bytes(uint32_t address, const uint8_t * src, uint32_t num_bytes)
+void xinc_nvmc_write_bytes(uint32_t address, const uint8_t * src, uint32_t num_bytes)
 {
 	printf("%s\r\n",__func__);
 	//uint8_t *txBuff = src;
   spi_flash_write(address,src,num_bytes);
 }
 
-void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_words)
+void xinc_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_words)
 {
 		printf("%s\r\n",__func__);
 //    uint32_t i;

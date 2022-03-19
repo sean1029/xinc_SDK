@@ -12,7 +12,7 @@
 #if XINCX_CHECK(XINCX_GPIO_ENABLED)
 
 #include <xincx_gpio.h>
-#include "nrf_bitmask.h"
+#include "xinc_bitmask.h"
 #include <string.h>
 
 
@@ -82,17 +82,17 @@ __STATIC_INLINE void pin_in_use_clear(uint32_t pin)
 
 __STATIC_INLINE void pin_configured_set(uint32_t pin)
 {
-    nrf_bitmask_bit_set(pin, m_cb.configured_pins);
+    xinc_bitmask_bit_set(pin, m_cb.configured_pins);
 }
 
 __STATIC_INLINE void pin_configured_clear(uint32_t pin)
 {
-    nrf_bitmask_bit_clear(pin, m_cb.configured_pins);
+    xinc_bitmask_bit_clear(pin, m_cb.configured_pins);
 }
 
 __STATIC_INLINE bool pin_configured_check(uint32_t pin)
 {
-    return 0 != nrf_bitmask_bit_is_set(pin, m_cb.configured_pins);
+    return 0 != xinc_bitmask_bit_is_set(pin, m_cb.configured_pins);
 }
 
 __STATIC_INLINE int8_t pin_handler_id_get(uint32_t pin)

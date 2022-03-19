@@ -14,13 +14,13 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
-#include "nrf_error.h"
-#include "nrf_atomic.h"
-#include "nrf_atfifo.h"
+#include "xinc_error.h"
+#include "xinc_atomic.h"
+#include "xinc_atfifo.h"
 
 #include "xinc_fstorage.h"
 #if (FDS_BACKEND == XINC_FSTORAGE_SD)
-#include "nrf_fstorage_sd.h"
+#include "xinc_fstorage_sd.h"
 #elif (FDS_BACKEND == XINC_FSTORAGE_NVMC)
 #include "xinc_fstorage_flash.h"
 #else
@@ -32,9 +32,9 @@
 #endif
 
 
-static void fs_event_handler(nrf_fstorage_evt_t * evt);
+static void fs_event_handler(xinc_fstorage_evt_t * evt);
 
-XINC_FSTORAGE_DEF(nrf_fstorage_t m_fs) =
+XINC_FSTORAGE_DEF(xinc_fstorage_t m_fs) =
 {
     // The flash area boundaries are set in fds_init().
     .evt_handler = fs_event_handler,
@@ -44,19 +44,19 @@ XINC_FSTORAGE_DEF(nrf_fstorage_t m_fs) =
 static struct
 {
     bool volatile     initialized;
-    nrf_atomic_flag_t initializing;
+    xinc_atomic_flag_t initializing;
 } m_flags;
 
 // The number of queued operations.
 // Incremented by queue_start() and decremented by queue_has_next().
-static nrf_atomic_u32_t  m_queued_op_cnt;
+static xinc_atomic_u32_t  m_queued_op_cnt;
 
 // The number of registered users and their callback functions.
-static nrf_atomic_u32_t     m_users;
+static xinc_atomic_u32_t     m_users;
 static fds_cb_t             m_cb_table[FDS_MAX_USERS];
 
 // The latest (largest) record ID written so far.
-static nrf_atomic_u32_t     m_latest_rec_id;
+static xinc_atomic_u32_t     m_latest_rec_id;
 
 // Queue of fds operations.
 XINC_ATFIFO_DEF(m_queue, fds_op_t, FDS_OP_QUEUE_SIZE);
@@ -340,7 +340,7 @@ static ret_code_t page_tag_write_swap(void)
 {
     // The tag needs to be statically allocated since it is not buffered by fstorage.
     static uint32_t const page_tag_swap[] = {FDS_PAGE_TAG_MAGIC, FDS_PAGE_TAG_SWAP};
-    return nrf_fstorage_write(&m_fs, (uint32_t)m_swap_page.p_addr, page_tag_swap, FDS_PAGE_TAG_SIZE * sizeof(uint32_t), NULL);
+    return xinc_fstorage_write(&m_fs, (uint32_t)m_swap_page.p_addr, page_tag_swap, FDS_PAGE_TAG_SIZE * sizeof(uint32_t), NULL);
 }
 
 
@@ -349,7 +349,7 @@ static ret_code_t page_tag_write_data(uint32_t const * const p_page_addr)
 {
     // The tag needs to be statically allocated since it is not buffered by fstorage.
     static uint32_t const page_tag_data[] = {FDS_PAGE_TAG_MAGIC, FDS_PAGE_TAG_DATA};
-    return nrf_fstorage_write(&m_fs, (uint32_t)p_page_addr, page_tag_data, FDS_PAGE_TAG_SIZE * sizeof(uint32_t), NULL);
+    return xinc_fstorage_write(&m_fs, (uint32_t)p_page_addr, page_tag_data, FDS_PAGE_TAG_SIZE * sizeof(uint32_t), NULL);
 }
 
 
@@ -394,7 +394,7 @@ static void write_space_free(uint16_t length_words, uint16_t page)
 
 static uint32_t record_id_new(void)
 {
-    return nrf_atomic_u32_add(&m_latest_rec_id, 1);
+    return xinc_atomic_u32_add(&m_latest_rec_id, 1);
 }
 
 
@@ -590,9 +590,9 @@ static void records_stat(uint16_t   page,
 
 
 // Get a buffer on the queue of operations.
-static fds_op_t * queue_buf_get(nrf_atfifo_item_put_t * p_iput_ctx)
+static fds_op_t * queue_buf_get(xinc_atfifo_item_put_t * p_iput_ctx)
 {
-    fds_op_t * const p_op = (fds_op_t*) nrf_atfifo_item_alloc(m_queue, p_iput_ctx);
+    fds_op_t * const p_op = (fds_op_t*) xinc_atfifo_item_alloc(m_queue, p_iput_ctx);
 		if(p_op ==NULL)
 		{
 			printf("queue_buf_get fail\r\n");
@@ -603,24 +603,24 @@ static fds_op_t * queue_buf_get(nrf_atfifo_item_put_t * p_iput_ctx)
 
 
 // Commit a buffer to the queue of operations.
-static void queue_buf_store(nrf_atfifo_item_put_t * p_iput_ctx)
+static void queue_buf_store(xinc_atfifo_item_put_t * p_iput_ctx)
 {
-    (void) nrf_atfifo_item_put(m_queue, p_iput_ctx);
+    (void) xinc_atfifo_item_put(m_queue, p_iput_ctx);
 }
 
 
 // Load the next operation from the queue.
-static fds_op_t * queue_load(nrf_atfifo_item_get_t * p_iget_ctx)
+static fds_op_t * queue_load(xinc_atfifo_item_get_t * p_iget_ctx)
 {
-    return (fds_op_t*) nrf_atfifo_item_get(m_queue, p_iget_ctx);
+    return (fds_op_t*) xinc_atfifo_item_get(m_queue, p_iget_ctx);
 }
 
 
 // Free the currently loaded operation.
-static void queue_free(nrf_atfifo_item_get_t * p_iget_ctx)
+static void queue_free(xinc_atfifo_item_get_t * p_iget_ctx)
 {
     // Free the current queue element.
-    (void) nrf_atfifo_item_free(m_queue, p_iget_ctx);
+    (void) xinc_atfifo_item_free(m_queue, p_iget_ctx);
 }
 
 
@@ -628,7 +628,7 @@ static bool queue_has_next(void)
 {
     // Decrement the number of queued operations.
     ASSERT(m_queued_op_cnt != 0);
-    return nrf_atomic_u32_sub(&m_queued_op_cnt, 1);
+    return xinc_atomic_u32_sub(&m_queued_op_cnt, 1);
 }
 
 
@@ -747,7 +747,7 @@ static ret_code_t record_header_write_begin(fds_op_t * const p_op, uint32_t * co
     // Write the record ID next.
     p_op->write.step = FDS_OP_WRITE_RECORD_ID;
 
-    ret = nrf_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_TL),
+    ret = xinc_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_TL),
         &p_op->write.header.record_key, FDS_HEADER_SIZE_TL * sizeof(uint32_t), NULL);
 
     return (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_BUSY;
@@ -763,7 +763,7 @@ static ret_code_t record_header_write_id(fds_op_t * const p_op, uint32_t * const
     p_op->write.step = (p_op->write.p_data != NULL) ?
                         FDS_OP_WRITE_DATA : FDS_OP_WRITE_HEADER_FINALIZE;
 
-    ret = nrf_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_ID),
+    ret = xinc_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_ID),
         &p_op->write.header.record_id, FDS_HEADER_SIZE_ID * sizeof(uint32_t), NULL);
 
     return (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_BUSY;
@@ -779,7 +779,7 @@ static ret_code_t record_header_write_finalize(fds_op_t * const p_op, uint32_t *
     p_op->write.step = (p_op->op_code == FDS_OP_UPDATE) ?
                         FDS_OP_WRITE_FLAG_DIRTY : FDS_OP_WRITE_DONE;
 
-    ret = nrf_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_IC),
+    ret = xinc_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_IC),
         &p_op->write.header.file_id, FDS_HEADER_SIZE_IC * sizeof(uint32_t), NULL);
 
     return (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_BUSY;
@@ -795,7 +795,7 @@ static ret_code_t record_header_flag_dirty(uint32_t * const p_record, uint16_t p
     // Flag the record as dirty.
     ret_code_t ret;
 
-    ret = nrf_fstorage_write(&m_fs, (uint32_t)p_record,
+    ret = xinc_fstorage_write(&m_fs, (uint32_t)p_record,
         &dirty_header, FDS_HEADER_SIZE_TL * sizeof(uint32_t), NULL);
 
     if (ret != XINC_SUCCESS)
@@ -876,7 +876,7 @@ static ret_code_t record_write_data(fds_op_t * const p_op, uint32_t * const p_ad
 
     p_op->write.step = FDS_OP_WRITE_HEADER_FINALIZE;
 
-    ret = nrf_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_DATA),
+    ret = xinc_fstorage_write(&m_fs, (uint32_t)(p_addr + FDS_OFFSET_DATA),
         p_op->write.p_data,  p_op->write.header.length_words * sizeof(uint32_t), NULL);
 
     return (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_BUSY;
@@ -949,7 +949,7 @@ static ret_code_t gc_swap_erase(void)
     m_gc.state               = GC_DISCARD_SWAP;
     m_swap_page.write_offset = FDS_PAGE_TAG_SIZE;
 
-    return nrf_fstorage_erase(&m_fs, (uint32_t)m_swap_page.p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
+    return xinc_fstorage_erase(&m_fs, (uint32_t)m_swap_page.p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
 }
 
 
@@ -964,7 +964,7 @@ static ret_code_t gc_page_erase(void)
     {
         m_gc.state = GC_ERASE_PAGE;
 
-        ret = nrf_fstorage_erase(&m_fs, (uint32_t)m_pages[gc].p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
+        ret = xinc_fstorage_erase(&m_fs, (uint32_t)m_pages[gc].p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
     }
     else
     {
@@ -988,7 +988,7 @@ static ret_code_t gc_record_copy(void)
 
     // Copy the record to swap; it is guaranteed to fit in the destination page,
     // so there is no need to check its size. This will either succeed or timeout.
-    return nrf_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
+    return xinc_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
                               record_len * sizeof(uint32_t),
                               NULL);
 }
@@ -1163,7 +1163,7 @@ static ret_code_t init_execute(uint32_t prev_ret, fds_op_t * const p_op)
             p_op->init.step          = FDS_OP_INIT_TAG_SWAP;
             m_swap_page.write_offset = FDS_PAGE_TAG_SIZE;
 
-            ret = nrf_fstorage_erase(&m_fs, (uint32_t)m_swap_page.p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
+            ret = xinc_fstorage_erase(&m_fs, (uint32_t)m_swap_page.p_addr, FDS_PHY_PAGES_IN_VPAGE, NULL);
         } break;
 
         case FDS_OP_INIT_PROMOTE_SWAP:
@@ -1394,7 +1394,7 @@ static ret_code_t gc_execute(uint32_t prev_ret)
 static void queue_process(ret_code_t result)
 {
     static fds_op_t              * m_p_cur_op;  // Current fds operation.
-    static nrf_atfifo_item_get_t   m_iget_ctx;  // Queue context for the current operation.
+    static xinc_atfifo_item_get_t   m_iget_ctx;  // Queue context for the current operation.
 
     while (true)
     {
@@ -1484,14 +1484,14 @@ static void queue_process(ret_code_t result)
 
 static void queue_start(void)
 {
-    if (!nrf_atomic_u32_fetch_add(&m_queued_op_cnt, 1))
+    if (!xinc_atomic_u32_fetch_add(&m_queued_op_cnt, 1))
     {
         queue_process(XINC_SUCCESS);
     }
 }
 
 
-static void fs_event_handler(nrf_fstorage_evt_t * p_evt)
+static void fs_event_handler(xinc_fstorage_evt_t * p_evt)
 {
     queue_process(p_evt->result);
 }
@@ -1508,7 +1508,7 @@ static ret_code_t write_enqueue(fds_record_desc_t         * const p_desc,
     uint16_t                crc          = 0;
     uint16_t                length_words = 0;
     fds_op_t              * p_op;
-    nrf_atfifo_item_put_t   iput_ctx;
+    xinc_atfifo_item_put_t   iput_ctx;
 
     if (!m_flags.initialized)
     {
@@ -1621,7 +1621,7 @@ ret_code_t fds_register(fds_cb_t cb)
     else
     {
         m_cb_table[m_users] = cb;
-        (void) nrf_atomic_u32_add(&m_users, 1);
+        (void) xinc_atomic_u32_add(&m_users, 1);
 
         ret = XINC_SUCCESS;
     }
@@ -1663,9 +1663,9 @@ static ret_code_t flash_subsystem_init(void)
     flash_bounds_set();
 
     #if   (FDS_BACKEND == XINC_FSTORAGE_SD)
-        return nrf_fstorage_init(&m_fs, &nrf_fstorage_sd, NULL);
+        return xinc_fstorage_init(&m_fs, &xinc_fstorage_sd, NULL);
     #elif (FDS_BACKEND == XINC_FSTORAGE_NVMC)
-        return nrf_fstorage_init(&m_fs, &nrf_fstorage_nvmc, NULL);
+        return xinc_fstorage_init(&m_fs, &xinc_fstorage_nvmc, NULL);
     #else
         #error Invalid FDS_BACKEND.
     #endif
@@ -1695,7 +1695,7 @@ ret_code_t fds_init(void)
         return XINC_SUCCESS;
     }
 
-    if (nrf_atomic_flag_set_fetch(&m_flags.initializing))
+    if (xinc_atomic_flag_set_fetch(&m_flags.initializing))
     {
         // If we were already initializing, return.
         return XINC_SUCCESS;
@@ -1743,7 +1743,7 @@ ret_code_t fds_init(void)
 
     // A write operation is necessary to initialize the fileystem.
 
-    nrf_atfifo_item_put_t iput_ctx;
+    xinc_atfifo_item_put_t iput_ctx;
 
     fds_op_t * p_op = queue_buf_get(&iput_ctx);
 		printf("queue_buf_get %p\n",p_op);
@@ -1812,7 +1812,7 @@ ret_code_t fds_record_open(fds_record_desc_t  * const p_desc,
         }
 #endif
 
-        (void) nrf_atomic_u32_add(&m_pages[page].records_open, 1);
+        (void) xinc_atomic_u32_add(&m_pages[page].records_open, 1);
 
         // Initialize p_flash_rec.
         p_flash_rec->p_header = p_header;
@@ -1975,7 +1975,7 @@ ret_code_t fds_record_update(fds_record_desc_t       * const p_desc,
 ret_code_t fds_record_delete(fds_record_desc_t * const p_desc)
 {
     fds_op_t * p_op;
-    nrf_atfifo_item_put_t iput_ctx;
+    xinc_atfifo_item_put_t iput_ctx;
 
     if (!m_flags.initialized)
     {
@@ -2007,7 +2007,7 @@ ret_code_t fds_record_delete(fds_record_desc_t * const p_desc)
 ret_code_t fds_file_delete(uint16_t file_id)
 {
     fds_op_t * p_op;
-    nrf_atfifo_item_put_t iput_ctx;
+    xinc_atfifo_item_put_t iput_ctx;
 
     if (!m_flags.initialized)
     {
@@ -2039,7 +2039,7 @@ ret_code_t fds_file_delete(uint16_t file_id)
 ret_code_t fds_gc(void)
 {
     fds_op_t * p_op;
-    nrf_atfifo_item_put_t iput_ctx;
+    xinc_atfifo_item_put_t iput_ctx;
 
     if (!m_flags.initialized)
     {

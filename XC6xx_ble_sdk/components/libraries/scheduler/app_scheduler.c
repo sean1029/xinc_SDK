@@ -12,8 +12,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-//#include "nrf_soc.h"
-#include "nrf_assert.h"
+//#include "xinc_soc.h"
+#include "xinc_assert.h"
 #include "app_util_platform.h"
 
 /**@brief Structure for holding a scheduled event header. */

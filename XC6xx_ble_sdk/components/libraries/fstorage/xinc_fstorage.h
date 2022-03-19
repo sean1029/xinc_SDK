@@ -19,8 +19,8 @@
  * @brief   Flash abstraction library that provides basic read, write, and erase operations.
  *
  * @details The fstorage library can be implemented in different ways. Two implementations are provided:
- * - The @ref nrf_fstorage_sd implements flash access through the SoftDevice.
- * - The @ref nrf_fstorage_nvmc implements flash access through the non-volatile memory controller.
+ * - The @ref xinc_fstorage_sd implements flash access through the SoftDevice.
+ * - The @ref xinc_fstorage_nvmc implements flash access through the non-volatile memory controller.
  *
  * You can select the implementation that should be used independently for each instance of fstorage.
  */
@@ -28,7 +28,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "sdk_errors.h"
-#include "nrf_section.h"
+#include "xinc_section.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,43 +43,43 @@ typedef uint32_t ret_code_t;
  * as the program and erase units for the target flash peripheral.
  * Instance variables are placed in the "fs_data" section of the binary.
  *
- * @param[in]   inst    A definition of an @ref nrf_fstorage_t variable.
+ * @param[in]   inst    A definition of an @ref xinc_fstorage_t variable.
  */
 #define XINC_FSTORAGE_DEF(inst)          XINC_SECTION_ITEM_REGISTER(fs_data, inst)
 
 /**@brief   Macro for retrieving an fstorage instance. */
-#define XINC_FSTORAGE_INSTANCE_GET(i)    XINC_SECTION_ITEM_GET(fs_data, nrf_fstorage_t, (i))
+#define XINC_FSTORAGE_INSTANCE_GET(i)    XINC_SECTION_ITEM_GET(fs_data, xinc_fstorage_t, (i))
 
 /**@brief   Macro for retrieving the total number of fstorage instances. */
-#define XINC_FSTORAGE_INSTANCE_CNT       XINC_SECTION_ITEM_COUNT(fs_data, nrf_fstorage_t)
+#define XINC_FSTORAGE_INSTANCE_CNT       XINC_SECTION_ITEM_COUNT(fs_data, xinc_fstorage_t)
 
 
 /**@brief   Event IDs. */
 typedef enum
 {
     XINC_FSTORAGE_EVT_READ_RESULT,   //!< Unused event reserved for a possible future feature.
-    XINC_FSTORAGE_EVT_WRITE_RESULT,  //!< Event for @ref nrf_fstorage_write.
-    XINC_FSTORAGE_EVT_ERASE_RESULT   //!< Event for @ref nrf_fstorage_erase.
-} nrf_fstorage_evt_id_t;
+    XINC_FSTORAGE_EVT_WRITE_RESULT,  //!< Event for @ref xinc_fstorage_write.
+    XINC_FSTORAGE_EVT_ERASE_RESULT   //!< Event for @ref xinc_fstorage_erase.
+} xinc_fstorage_evt_id_t;
 
 
 /**@brief   An fstorage event. */
 typedef struct
 {
-    nrf_fstorage_evt_id_t   id;         //!< The event ID.
+    xinc_fstorage_evt_id_t   id;         //!< The event ID.
     ret_code_t              result;     //!< Result of the operation.
     uint32_t                addr;       //!< Address at which the operation was performed.
     void            const * p_src;      //!< Buffer written to flash.
     uint32_t                len;        //!< Length of the operation.
     void                  * p_param;    //!< User-defined parameter passed to the event handler.
-} nrf_fstorage_evt_t;
+} xinc_fstorage_evt_t;
 
 
 /**@brief   Event handler function prototype.
  *
  * @param[in]   p_evt   The event.
  */
-typedef void (*nrf_fstorage_evt_handler_t)(nrf_fstorage_evt_t * p_evt);
+typedef void (*xinc_fstorage_evt_handler_t)(xinc_fstorage_evt_t * p_evt);
 
 
 /**@brief   Information about the implementation and the flash peripheral. */
@@ -89,11 +89,11 @@ typedef struct
     uint32_t program_unit;      //!< Size of the smallest programmable unit (in bytes).
     bool     rmap;              //!< The device address space is memory mapped to the MCU address space.
     bool     wmap;              //!< The device address space is memory mapped to a writable MCU address space.
-} const nrf_fstorage_info_t;
+} const xinc_fstorage_info_t;
 
 
 /* Necessary forward declaration. */
-struct nrf_fstorage_api_s;
+struct xinc_fstorage_api_s;
 
 
 /**@brief   An fstorage instance.
@@ -106,16 +106,16 @@ struct nrf_fstorage_api_s;
 typedef struct
 {
     /**@brief   The API implementation used by this instance. */
-    struct nrf_fstorage_api_s const * p_api;
+    struct xinc_fstorage_api_s const * p_api;
 
     /**@brief   Information about the implementation functionality and the flash peripheral. */
-    nrf_fstorage_info_t * p_flash_info;
+    xinc_fstorage_info_t * p_flash_info;
 
     /**@brief   The event handler function.
      *
      * If set to NULL, no events will be sent.
      */
-    nrf_fstorage_evt_handler_t evt_handler;
+    xinc_fstorage_evt_handler_t evt_handler;
 
     /**@brief   The beginning of the flash space on which this fstorage instance should operate.
      *          All flash operations must be within the address specified in
@@ -132,29 +132,29 @@ typedef struct
      * This field must be set manually.
      */
     uint32_t end_addr;
-} nrf_fstorage_t;
+} xinc_fstorage_t;
 
 
 /**@brief Functions provided by the API implementation. */
-typedef struct nrf_fstorage_api_s
+typedef struct xinc_fstorage_api_s
 {
     /**@brief Initialize the flash peripheral. */
-    ret_code_t (*init)(nrf_fstorage_t * p_fs, void * p_param);
+    ret_code_t (*init)(xinc_fstorage_t * p_fs, void * p_param);
     /**@brief Uninitialize the flash peripheral. */
-    ret_code_t (*uninit)(nrf_fstorage_t * p_fs, void * p_param);
+    ret_code_t (*uninit)(xinc_fstorage_t * p_fs, void * p_param);
     /**@brief Read data from flash. */
-    ret_code_t (*read)(nrf_fstorage_t const * p_fs, uint32_t src, void * p_dest, uint32_t len);
+    ret_code_t (*read)(xinc_fstorage_t const * p_fs, uint32_t src, void * p_dest, uint32_t len);
     /**@brief Write bytes to flash. */
-    ret_code_t (*write)(nrf_fstorage_t const * p_fs, uint32_t dest, void const * p_src, uint32_t len, void * p_param);
+    ret_code_t (*write)(xinc_fstorage_t const * p_fs, uint32_t dest, void const * p_src, uint32_t len, void * p_param);
     /**@brief Erase flash pages. */
-    ret_code_t (*erase)(nrf_fstorage_t const * p_fs, uint32_t addr, uint32_t len, void * p_param);
+    ret_code_t (*erase)(xinc_fstorage_t const * p_fs, uint32_t addr, uint32_t len, void * p_param);
     /**@brief Map a device address to a readable address within the MCU address space. */
-    uint8_t const * (*rmap)(nrf_fstorage_t const * p_fs, uint32_t addr);
+    uint8_t const * (*rmap)(xinc_fstorage_t const * p_fs, uint32_t addr);
     /**@brief Map a device address to a writable address within the MCU address space. */
-    uint8_t * (*wmap)(nrf_fstorage_t const * p_fs, uint32_t addr);
+    uint8_t * (*wmap)(xinc_fstorage_t const * p_fs, uint32_t addr);
     /**@brief Check if there are any pending flash operations. */
-    bool (*is_busy)(nrf_fstorage_t const * p_fs);
-} const nrf_fstorage_api_t;
+    bool (*is_busy)(xinc_fstorage_t const * p_fs);
+} const xinc_fstorage_api_t;
 
 
 /**@brief   Function for initializing fstorage.
@@ -167,8 +167,8 @@ typedef struct nrf_fstorage_api_s
  * @retval  XINC_ERROR_NULL      If @p p_fs or @p p_api field in @p p_fs is NULL.
  * @retval  XINC_ERROR_INTERNAL  If another error occurred.
  */
-ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
-                             nrf_fstorage_api_t * p_api,
+ret_code_t xinc_fstorage_init(xinc_fstorage_t     * p_fs,
+                             xinc_fstorage_api_t * p_api,
                              void               * p_param);
 
 
@@ -182,7 +182,7 @@ ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
  * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
  * @retval  XINC_ERROR_INTERNAL          If another error occurred.
  */
-ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs, void * p_param);
+ret_code_t xinc_fstorage_uninit(xinc_fstorage_t * p_fs, void * p_param);
 
 
 /**@brief   Function for reading data from flash.
@@ -201,7 +201,7 @@ ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs, void * p_param);
  * @retval  XINC_ERROR_INVALID_ADDR      If the address @p addr is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
  */
-ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_read(xinc_fstorage_t const * p_fs,
                              uint32_t               addr,
                              void                 * p_dest,
                              uint32_t               len);
@@ -211,7 +211,7 @@ ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
  *
  * Write @p len bytes from @p p_src to @p dest.
  *
- * When using @ref nrf_fstorage_sd, the data is written by several calls to @ref sd_flash_write if
+ * When using @ref xinc_fstorage_sd, the data is written by several calls to @ref sd_flash_write if
  * the length of the data exceeds @ref XINC_FSTORAGE_SD_MAX_WRITE_SIZE bytes.
  * Only one event is sent upon completion.
  *
@@ -232,10 +232,10 @@ ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
  * @retval  XINC_ERROR_INVALID_ADDR      If the address @p dest is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
  * @retval  XINC_ERROR_NO_MEM            If no memory is available to accept the operation.
- *                                      When using the @ref nrf_fstorage_sd, this error
+ *                                      When using the @ref xinc_fstorage_sd, this error
  *                                      indicates that the internal queue of operations is full.
  */
-ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_write(xinc_fstorage_t const * p_fs,
                               uint32_t               dest,
                               void           const * p_src,
                               uint32_t               len,
@@ -259,10 +259,10 @@ ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
  * @retval  XINC_ERROR_INVALID_ADDR      If the address @p page_addr is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
  * @retval  XINC_ERROR_NO_MEM            If no memory is available to accept the operation.
- *                                      When using the @ref nrf_fstorage_sd, this error
+ *                                      When using the @ref xinc_fstorage_sd, this error
  *                                      indicates that the internal queue of operations is full.
  */
-ret_code_t nrf_fstorage_erase(nrf_fstorage_t const * p_fs,
+ret_code_t xinc_fstorage_erase(xinc_fstorage_t const * p_fs,
                               uint32_t               page_addr,
                               uint32_t               len,
                               void                 * p_param);
@@ -276,7 +276,7 @@ ret_code_t nrf_fstorage_erase(nrf_fstorage_t const * p_fs,
  * @retval  A pointer to the specified address,
  *          or @c NULL if the address cannot be mapped or if @p p_fs is @c NULL.
  */
-uint8_t const * nrf_fstorage_rmap(nrf_fstorage_t const * p_fs, uint32_t addr);
+uint8_t const * xinc_fstorage_rmap(xinc_fstorage_t const * p_fs, uint32_t addr);
 
 
 /**@brief   Map a flash address to a pointer in the MCU address space that can be written to.
@@ -287,7 +287,7 @@ uint8_t const * nrf_fstorage_rmap(nrf_fstorage_t const * p_fs, uint32_t addr);
  * @retval  A pointer to the specified address,
  *          or @c NULL if the address cannot be mapped or if @p p_fs is @c NULL.
  */
-uint8_t * nrf_fstorage_wmap(nrf_fstorage_t const * p_fs, uint32_t addr);
+uint8_t * xinc_fstorage_wmap(xinc_fstorage_t const * p_fs, uint32_t addr);
 
 
 /**@brief   Function for querying the status of fstorage.
@@ -299,7 +299,7 @@ uint8_t * nrf_fstorage_wmap(nrf_fstorage_t const * p_fs, uint32_t addr);
  * @returns If @p p_fs is @c NULL, this function returns true if any fstorage instance is busy or false otherwise.
  * @returns If @p p_fs is not @c NULL, this function returns true if the fstorage instance is busy or false otherwise.
  */
- bool nrf_fstorage_is_busy(nrf_fstorage_t const * p_fs);
+ bool xinc_fstorage_is_busy(xinc_fstorage_t const * p_fs);
 
 /** @} */
 

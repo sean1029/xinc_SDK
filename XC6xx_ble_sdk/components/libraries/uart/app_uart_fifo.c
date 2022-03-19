@@ -11,7 +11,7 @@
 #include "app_uart.h"
 #include "app_fifo.h"
 #include "xinc_drv_uart.h"
-#include "nrf_assert.h"
+#include "xinc_assert.h"
 
 static xinc_drv_uart_t app_uart_inst = XINC_DRV_UART_INSTANCE(APP_UART_DRIVER_INSTANCE);
 

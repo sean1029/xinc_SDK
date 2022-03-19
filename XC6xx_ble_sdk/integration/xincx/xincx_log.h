@@ -28,7 +28,7 @@ extern "C" {
 #endif
 #endif // defined(XINCX_LOG_MODULE)
 
-#include <nrf_log.h>
+#include <xinc_log.h>
 
 #if defined(XINCX_LOG_MODULE)
 XINC_LOG_MODULE_REGISTER();

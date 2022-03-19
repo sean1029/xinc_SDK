@@ -11,7 +11,7 @@
 #define XINCX_UARTE_H__
 
 #include <xincx.h>
-#include <hal/nrf_uarte.h>
+#include <hal/xinc_uarte.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,7 +20,7 @@ extern "C" {
 /**
  * @defgroup xincx_uarte UARTE driver
  * @{
- * @ingroup nrf_uarte
+ * @ingroup xinc_uarte
  * @brief   UARTE peripheral driver.
  */
 
@@ -72,9 +72,9 @@ typedef struct
     uint32_t             pselcts;            ///< CTS pin number.
     uint32_t             pselrts;            ///< RTS pin number.
     void *               p_context;          ///< Context passed to interrupt handler.
-    nrf_uarte_hwfc_t     hwfc;               ///< Flow control configuration.
-    nrf_uarte_parity_t   parity;             ///< Parity configuration.
-    nrf_uarte_baudrate_t baudrate;           ///< Baud rate.
+    xinc_uarte_hwfc_t     hwfc;               ///< Flow control configuration.
+    xinc_uarte_parity_t   parity;             ///< Parity configuration.
+    xinc_uarte_baudrate_t baudrate;           ///< Baud rate.
     uint8_t              interrupt_priority; ///< Interrupt priority.
 } xincx_uarte_config_t;
 
@@ -86,9 +86,9 @@ typedef struct
     .pselcts            = XINC_UARTE_PSEL_DISCONNECTED,                              \
     .pselrts            = XINC_UARTE_PSEL_DISCONNECTED,                              \
     .p_context          = NULL,                                                     \
-    .hwfc               = (nrf_uarte_hwfc_t)XINCX_UARTE_DEFAULT_CONFIG_HWFC,         \
-    .parity             = (nrf_uarte_parity_t)XINCX_UARTE_DEFAULT_CONFIG_PARITY,     \
-    .baudrate           = (nrf_uarte_baudrate_t)XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE, \
+    .hwfc               = (xinc_uarte_hwfc_t)XINCX_UARTE_DEFAULT_CONFIG_HWFC,         \
+    .parity             = (xinc_uarte_parity_t)XINCX_UARTE_DEFAULT_CONFIG_PARITY,     \
+    .baudrate           = (xinc_uarte_baudrate_t)XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE, \
     .interrupt_priority = XINCX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY,                   \
 }
 
@@ -164,7 +164,7 @@ void xincx_uarte_uninit(xincx_uarte_t const * p_instance);
  * @return Task address.
  */
 __STATIC_INLINE uint32_t xincx_uarte_task_address_get(xincx_uarte_t const * p_instance,
-                                                     nrf_uarte_task_t     task);
+                                                     xinc_uarte_task_t     task);
 
 /**
  * @brief Function for getting the address of the specified UARTE event.
@@ -175,7 +175,7 @@ __STATIC_INLINE uint32_t xincx_uarte_task_address_get(xincx_uarte_t const * p_in
  * @return Event address.
  */
 __STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_instance,
-                                                      nrf_uarte_event_t    event);
+                                                      xinc_uarte_event_t    event);
 
 /**
  * @brief Function for sending data over UARTE.
@@ -287,7 +287,7 @@ bool xincx_uarte_rx_ready(xincx_uarte_t const * p_instance);
 void xincx_uarte_rx_abort(xincx_uarte_t const * p_instance);
 
 /**
- * @brief Function for reading error source mask. Mask contains values from @ref nrf_uarte_error_mask_t.
+ * @brief Function for reading error source mask. Mask contains values from @ref xinc_uarte_error_mask_t.
  * @note Function must be used in the blocking mode only. In case of non-blocking mode, an error event is
  *       generated. Function clears error sources after reading.
  *
@@ -300,15 +300,15 @@ uint32_t xincx_uarte_errorsrc_get(xincx_uarte_t const * p_instance);
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 __STATIC_INLINE uint32_t xincx_uarte_task_address_get(xincx_uarte_t const * p_instance,
-                                                     nrf_uarte_task_t     task)
+                                                     xinc_uarte_task_t     task)
 {
-    return nrf_uarte_task_address_get(p_instance->p_reg, task);
+    return xinc_uarte_task_address_get(p_instance->p_reg, task);
 }
 
 __STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_instance,
-                                                      nrf_uarte_event_t    event)
+                                                      xinc_uarte_event_t    event)
 {
-    return nrf_uarte_event_address_get(p_instance->p_reg, event);
+    return xinc_uarte_event_address_get(p_instance->p_reg, event);
 }
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
 

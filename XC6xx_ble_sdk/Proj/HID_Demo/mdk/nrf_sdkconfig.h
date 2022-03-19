@@ -115,7 +115,7 @@
 #define BLE_RACP_ENABLED 0
 #endif
 
-// <e> XINC_BLE_QWR_ENABLED - nrf_ble_qwr - Queued writes support module (prepare/execute write)
+// <e> XINC_BLE_QWR_ENABLED - xinc_ble_qwr - Queued writes support module (prepare/execute write)
 //==========================================================
 #ifndef XINC_BLE_QWR_ENABLED
 #define XINC_BLE_QWR_ENABLED 0
@@ -175,7 +175,7 @@
 // <q> PM_LESC_ENABLED  - Enable/disable LESC support in Peer Manager.
  
 
-// <i> If set to true, you need to call nrf_ble_lesc_request_handler() in the main loop to respond to LESC-related BLE events. If LESC support is not required, set this to false to save code space.
+// <i> If set to true, you need to call xinc_ble_lesc_request_handler() in the main loop to respond to LESC-related BLE events. If LESC support is not required, set this to false to save code space.
 
 #ifndef PM_LESC_ENABLED
 #define PM_LESC_ENABLED 0
@@ -538,7 +538,7 @@
 // <h> nRF_Core 
 
 //==========================================================
-// <e> XINC_MPU_LIB_ENABLED - nrf_mpu_lib - Module for MPU
+// <e> XINC_MPU_LIB_ENABLED - xinc_mpu_lib - Module for MPU
 //==========================================================
 #ifndef XINC_MPU_LIB_ENABLED
 #define XINC_MPU_LIB_ENABLED 0
@@ -552,7 +552,7 @@
 
 // </e>
 
-// <e> XINC_STACK_GUARD_ENABLED - nrf_stack_guard - Stack guard
+// <e> XINC_STACK_GUARD_ENABLED - xinc_stack_guard - Stack guard
 //==========================================================
 #ifndef XINC_STACK_GUARD_ENABLED
 #define XINC_STACK_GUARD_ENABLED 0
@@ -580,7 +580,7 @@
 // <h> nRF_Crypto 
 
 //==========================================================
-// <e> XINC_CRYPTO_ENABLED - nrf_crypto - Cryptography library.
+// <e> XINC_CRYPTO_ENABLED - xinc_crypto - Cryptography library.
 //==========================================================
 #ifndef XINC_CRYPTO_ENABLED
 #define XINC_CRYPTO_ENABLED 1
@@ -588,12 +588,12 @@
 // <o> XINC_CRYPTO_ALLOCATOR  - Memory allocator
  
 
-// <i> Choose memory allocator used by nrf_crypto. Default is alloca if possible or nrf_malloc otherwise. If 'User macros' are selected, the user has to create 'nrf_crypto_allocator.h' file that contains XINC_CRYPTO_ALLOC, XINC_CRYPTO_FREE, and XINC_CRYPTO_ALLOC_ON_STACK.
+// <i> Choose memory allocator used by xinc_crypto. Default is alloca if possible or xinc_malloc otherwise. If 'User macros' are selected, the user has to create 'xinc_crypto_allocator.h' file that contains XINC_CRYPTO_ALLOC, XINC_CRYPTO_FREE, and XINC_CRYPTO_ALLOC_ON_STACK.
 // <0=> Default 
 // <1=> User macros 
 // <2=> On stack (alloca) 
 // <3=> C dynamic memory (malloc) 
-// <4=> SDK Memory Manager (nrf_malloc) 
+// <4=> SDK Memory Manager (xinc_malloc) 
 
 #ifndef XINC_CRYPTO_ALLOCATOR
 #define XINC_CRYPTO_ALLOCATOR 0
@@ -629,7 +629,7 @@
 #define XINC_CRYPTO_BACKEND_CC310_BL_HASH_SHA256_ENABLED 1
 #endif
 
-// <q> XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_ENABLED  - nrf_cc310_bl buffers to RAM before running hash operation
+// <q> XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_ENABLED  - xinc_cc310_bl buffers to RAM before running hash operation
  
 
 // <i> Enabling this makes hashing of addresses in FLASH range possible. Size of buffer allocated for hashing is set by XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_SIZE
@@ -638,8 +638,8 @@
 #define XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_ENABLED 0
 #endif
 
-// <o> XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_SIZE - nrf_cc310_bl hash outputs digests in little endian 
-// <i> Makes the nrf_cc310_bl hash functions output digests in little endian format. Only for use in nRF SDK DFU!
+// <o> XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_SIZE - xinc_cc310_bl hash outputs digests in little endian 
+// <i> Makes the xinc_cc310_bl hash functions output digests in little endian format. Only for use in nRF SDK DFU!
 
 #ifndef XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_SIZE
 #define XINC_CRYPTO_BACKEND_CC310_BL_HASH_AUTOMATIC_RAM_BUFFER_SIZE 4096
@@ -1243,9 +1243,9 @@
 
 // </e>
 
-// <e> XINC_CRYPTO_BACKEND_OPTIGA_ENABLED - Enable the nrf_crypto Optiga Trust X backend.
+// <e> XINC_CRYPTO_BACKEND_OPTIGA_ENABLED - Enable the xinc_crypto Optiga Trust X backend.
 
-// <i> Enables the nrf_crypto backend for Optiga Trust X devices.
+// <i> Enables the xinc_crypto backend for Optiga Trust X devices.
 //==========================================================
 #ifndef XINC_CRYPTO_BACKEND_OPTIGA_ENABLED
 #define XINC_CRYPTO_BACKEND_OPTIGA_ENABLED 0
@@ -1313,7 +1313,7 @@
 // <h> nRF_Drivers 
 
 //==========================================================
-// <e> COMP_ENABLED - nrf_drv_comp - COMP peripheral driver - legacy layer
+// <e> COMP_ENABLED - xinc_drv_comp - COMP peripheral driver - legacy layer
 //==========================================================
 #ifndef COMP_ENABLED
 #define COMP_ENABLED 0
@@ -1403,7 +1403,7 @@
 
 // </e>
 
-// <q> EGU_ENABLED  - nrf_drv_swi - SWI(EGU) peripheral driver - legacy layer
+// <q> EGU_ENABLED  - xinc_drv_swi - SWI(EGU) peripheral driver - legacy layer
  
 
 #ifndef EGU_ENABLED
@@ -1439,7 +1439,7 @@
 
 // </e>
 
-// <e> I2S_ENABLED - nrf_drv_i2s - I2S peripheral driver - legacy layer
+// <e> I2S_ENABLED - xinc_drv_i2s - I2S peripheral driver - legacy layer
 //==========================================================
 #ifndef I2S_ENABLED
 #define I2S_ENABLED 0
@@ -1636,7 +1636,7 @@
 
 // </e>
 
-// <e> LPCOMP_ENABLED - nrf_drv_lpcomp - LPCOMP peripheral driver - legacy layer
+// <e> LPCOMP_ENABLED - xinc_drv_lpcomp - LPCOMP peripheral driver - legacy layer
 //==========================================================
 #ifndef LPCOMP_ENABLED
 #define LPCOMP_ENABLED 0
@@ -4709,7 +4709,7 @@
 
 // </e>
 
-// <e> XINC_CLOCK_ENABLED - nrf_drv_clock - CLOCK peripheral driver - legacy layer
+// <e> XINC_CLOCK_ENABLED - xinc_drv_clock - CLOCK peripheral driver - legacy layer
 //==========================================================
 #ifndef XINC_CLOCK_ENABLED
 #define XINC_CLOCK_ENABLED 0
@@ -4752,7 +4752,7 @@
 
 // </e>
 
-// <e> PDM_ENABLED - nrf_drv_pdm - PDM peripheral driver - legacy layer
+// <e> PDM_ENABLED - xinc_drv_pdm - PDM peripheral driver - legacy layer
 //==========================================================
 #ifndef PDM_ENABLED
 #define PDM_ENABLED 0
@@ -4804,7 +4804,7 @@
 
 // </e>
 
-// <e> POWER_ENABLED - nrf_drv_power - POWER peripheral driver - legacy layer
+// <e> POWER_ENABLED - xinc_drv_power - POWER peripheral driver - legacy layer
 //==========================================================
 #ifndef POWER_ENABLED
 #define POWER_ENABLED 1
@@ -4846,14 +4846,14 @@
 
 // </e>
 
-// <q> PPI_ENABLED  - nrf_drv_ppi - PPI peripheral driver - legacy layer
+// <q> PPI_ENABLED  - xinc_drv_ppi - PPI peripheral driver - legacy layer
  
 
 #ifndef PPI_ENABLED
 #define PPI_ENABLED 0
 #endif
 
-// <e> PWM_ENABLED - nrf_drv_pwm - PWM peripheral driver - legacy layer
+// <e> PWM_ENABLED - xinc_drv_pwm - PWM peripheral driver - legacy layer
 //==========================================================
 #ifndef PWM_ENABLED
 #define PWM_ENABLED 0
@@ -4982,7 +4982,7 @@
 
 // </e>
 
-// <e> QDEC_ENABLED - nrf_drv_qdec - QDEC peripheral driver - legacy layer
+// <e> QDEC_ENABLED - xinc_drv_qdec - QDEC peripheral driver - legacy layer
 //==========================================================
 #ifndef QDEC_ENABLED
 #define QDEC_ENABLED 0
@@ -5085,7 +5085,7 @@
 
 // </e>
 
-// <e> QSPI_ENABLED - nrf_drv_qspi - QSPI peripheral driver - legacy layer
+// <e> QSPI_ENABLED - xinc_drv_qspi - QSPI peripheral driver - legacy layer
 //==========================================================
 #ifndef QSPI_ENABLED
 #define QSPI_ENABLED 0
@@ -5215,7 +5215,7 @@
 
 // </e>
 
-// <e> RNG_ENABLED - nrf_drv_rng - RNG peripheral driver - legacy layer
+// <e> RNG_ENABLED - xinc_drv_rng - RNG peripheral driver - legacy layer
 //==========================================================
 #ifndef RNG_ENABLED
 #define RNG_ENABLED 0
@@ -5251,7 +5251,7 @@
 
 // </e>
 
-// <e> RTC_ENABLED - nrf_drv_rtc - RTC peripheral driver - legacy layer
+// <e> RTC_ENABLED - xinc_drv_rtc - RTC peripheral driver - legacy layer
 //==========================================================
 #ifndef RTC_ENABLED
 #define RTC_ENABLED 0
@@ -5315,7 +5315,7 @@
 
 // </e>
 
-// <e> SAADC_ENABLED - nrf_drv_saadc - SAADC peripheral driver - legacy layer
+// <e> SAADC_ENABLED - xinc_drv_saadc - SAADC peripheral driver - legacy layer
 //==========================================================
 #ifndef SAADC_ENABLED
 #define SAADC_ENABLED 0
@@ -5373,7 +5373,7 @@
 
 // </e>
 
-// <e> SPIS_ENABLED - nrf_drv_spis - SPIS peripheral driver - legacy layer
+// <e> SPIS_ENABLED - xinc_drv_spis - SPIS peripheral driver - legacy layer
 //==========================================================
 #ifndef SPIS_ENABLED
 #define SPIS_ENABLED 0
@@ -5452,7 +5452,7 @@
 
 // </e>
 
-// <e> SPI_ENABLED - nrf_drv_spi - SPI/SPIM peripheral driver - legacy layer
+// <e> SPI_ENABLED - xinc_drv_spi - SPI/SPIM peripheral driver - legacy layer
 //==========================================================
 #ifndef SPI_ENABLED
 #define SPI_ENABLED 0
@@ -5528,7 +5528,7 @@
 
 // </e>
 
-// <e> TIMER_ENABLED - nrf_drv_timer - TIMER periperal driver - legacy layer
+// <e> TIMER_ENABLED - xinc_drv_timer - TIMER periperal driver - legacy layer
 //==========================================================
 #ifndef TIMER_ENABLED
 #define TIMER_ENABLED 0
@@ -5624,7 +5624,7 @@
 
 // </e>
 
-// <e> TWIS_ENABLED - nrf_drv_twis - TWIS peripheral driver - legacy layer
+// <e> TWIS_ENABLED - xinc_drv_twis - TWIS peripheral driver - legacy layer
 //==========================================================
 #ifndef TWIS_ENABLED
 #define TWIS_ENABLED 0
@@ -5710,7 +5710,7 @@
 
 // </e>
 
-// <e> TWI_ENABLED - nrf_drv_twi - TWI/TWIM peripheral driver - legacy layer
+// <e> TWI_ENABLED - xinc_drv_twi - TWI/TWIM peripheral driver - legacy layer
 //==========================================================
 #ifndef TWI_ENABLED
 #define TWI_ENABLED 0
@@ -5886,7 +5886,7 @@
 
 // </e>
 
-// <e> USBD_ENABLED - nrf_drv_usbd - Software Component
+// <e> USBD_ENABLED - xinc_drv_usbd - Software Component
 //==========================================================
 #ifndef USBD_ENABLED
 #define USBD_ENABLED 0
@@ -5943,7 +5943,7 @@
 
 // </e>
 
-// <e> WDT_ENABLED - nrf_drv_wdt - WDT peripheral driver - legacy layer
+// <e> WDT_ENABLED - xinc_drv_wdt - WDT peripheral driver - legacy layer
 //==========================================================
 #ifndef WDT_ENABLED
 #define WDT_ENABLED 0
@@ -5991,7 +5991,7 @@
 // <h> nRF_Drivers_External 
 
 //==========================================================
-// <q> XINC_TWI_SENSOR_ENABLED  - nrf_twi_sensor - nRF TWI Sensor module
+// <q> XINC_TWI_SENSOR_ENABLED  - xinc_twi_sensor - nRF TWI Sensor module
  
 
 #ifndef XINC_TWI_SENSOR_ENABLED
@@ -6579,13 +6579,13 @@
 
 // <h> Backend - Backend configuration
 
-// <i> Configure which nrf_fstorage backend is used by FDS to write to flash.
+// <i> Configure which xinc_fstorage backend is used by FDS to write to flash.
 //==========================================================
 // <o> FDS_BACKEND  - FDS flash backend.
  
 
-// <i> XINC_FSTORAGE_SD uses the nrf_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
-// <i> XINC_FSTORAGE_NVMC uses the nrf_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
+// <i> XINC_FSTORAGE_SD uses the xinc_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
+// <i> XINC_FSTORAGE_NVMC uses the xinc_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
 // <1=> XINC_FSTORAGE_NVMC 
 // <2=> XINC_FSTORAGE_SD 
 
@@ -6928,7 +6928,7 @@
 
 // </e>
 
-// <e> XINC_BALLOC_ENABLED - nrf_balloc - Block allocator module
+// <e> XINC_BALLOC_ENABLED - xinc_balloc - Block allocator module
 //==========================================================
 #ifndef XINC_BALLOC_ENABLED
 #define XINC_BALLOC_ENABLED 1
@@ -6984,7 +6984,7 @@
 
 // </e>
 
-// <e> XINC_CSENSE_ENABLED - nrf_csense - Capacitive sensor module
+// <e> XINC_CSENSE_ENABLED - xinc_csense - Capacitive sensor module
 //==========================================================
 #ifndef XINC_CSENSE_ENABLED
 #define XINC_CSENSE_ENABLED 0
@@ -7023,7 +7023,7 @@
 
 // </e>
 
-// <e> XINC_DRV_CSENSE_ENABLED - nrf_drv_csense - Capacitive sensor low-level module
+// <e> XINC_DRV_CSENSE_ENABLED - xinc_drv_csense - Capacitive sensor low-level module
 //==========================================================
 #ifndef XINC_DRV_CSENSE_ENABLED
 #define XINC_DRV_CSENSE_ENABLED 0
@@ -7058,12 +7058,12 @@
 
 // </e>
 
-// <e> XINC_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
+// <e> XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 //==========================================================
 #ifndef XINC_FSTORAGE_ENABLED
 #define XINC_FSTORAGE_ENABLED 0
 #endif
-// <h> nrf_fstorage - Common settings
+// <h> xinc_fstorage - Common settings
 
 // <i> Common settings to all fstorage implementations
 //==========================================================
@@ -7081,7 +7081,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_fstorage_sd - Implementation using the SoftDevice
+// <h> xinc_fstorage_sd - Implementation using the SoftDevice
 
 // <i> Configuration options for the fstorage implementation using the SoftDevice
 //==========================================================
@@ -7115,21 +7115,21 @@
 
 // </e>
 
-// <q> XINC_GFX_ENABLED  - nrf_gfx - GFX module
+// <q> XINC_GFX_ENABLED  - xinc_gfx - GFX module
  
 
 #ifndef XINC_GFX_ENABLED
 #define XINC_GFX_ENABLED 0
 #endif
 
-// <q> XINC_MEMOBJ_ENABLED  - nrf_memobj - Linked memory allocator module
+// <q> XINC_MEMOBJ_ENABLED  - xinc_memobj - Linked memory allocator module
  
 
 #ifndef XINC_MEMOBJ_ENABLED
 #define XINC_MEMOBJ_ENABLED 1
 #endif
 
-// <e> XINC_PWR_MGMT_ENABLED - nrf_pwr_mgmt - Power management module
+// <e> XINC_PWR_MGMT_ENABLED - xinc_pwr_mgmt - Power management module
 //==========================================================
 #ifndef XINC_PWR_MGMT_ENABLED
 #define XINC_PWR_MGMT_ENABLED 0
@@ -7252,7 +7252,7 @@
 
 // </e>
 
-// <e> XINC_QUEUE_ENABLED - nrf_queue - Queue module
+// <e> XINC_QUEUE_ENABLED - xinc_queue - Queue module
 //==========================================================
 #ifndef XINC_QUEUE_ENABLED
 #define XINC_QUEUE_ENABLED 0
@@ -7266,35 +7266,35 @@
 
 // </e>
 
-// <q> XINC_SECTION_ITER_ENABLED  - nrf_section_iter - Section iterator
+// <q> XINC_SECTION_ITER_ENABLED  - xinc_section_iter - Section iterator
  
 
 #ifndef XINC_SECTION_ITER_ENABLED
 #define XINC_SECTION_ITER_ENABLED 1
 #endif
 
-// <q> XINC_SORTLIST_ENABLED  - nrf_sortlist - Sorted list
+// <q> XINC_SORTLIST_ENABLED  - xinc_sortlist - Sorted list
  
 
 #ifndef XINC_SORTLIST_ENABLED
 #define XINC_SORTLIST_ENABLED 1
 #endif
 
-// <q> XINC_SPI_MNGR_ENABLED  - nrf_spi_mngr - SPI transaction manager
+// <q> XINC_SPI_MNGR_ENABLED  - xinc_spi_mngr - SPI transaction manager
  
 
 #ifndef XINC_SPI_MNGR_ENABLED
 #define XINC_SPI_MNGR_ENABLED 0
 #endif
 
-// <q> XINC_STRERROR_ENABLED  - nrf_strerror - Library for converting error code to string.
+// <q> XINC_STRERROR_ENABLED  - xinc_strerror - Library for converting error code to string.
  
 
 #ifndef XINC_STRERROR_ENABLED
 #define XINC_STRERROR_ENABLED 1
 #endif
 
-// <q> XINC_TWI_MNGR_ENABLED  - nrf_twi_mngr - TWI transaction manager
+// <q> XINC_TWI_MNGR_ENABLED  - xinc_twi_mngr - TWI transaction manager
  
 
 #ifndef XINC_TWI_MNGR_ENABLED
@@ -7395,7 +7395,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_cli - Command line interface
+// <h> xinc_cli - Command line interface
 
 //==========================================================
 // <q> XINC_CLI_ENABLED  - Enable/disable the CLI module.
@@ -7496,7 +7496,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_fprintf - fprintf function.
+// <h> xinc_fprintf - fprintf function.
 
 //==========================================================
 // <q> XINC_FPRINTF_ENABLED  - Enable/disable fprintf module.
@@ -7529,7 +7529,7 @@
 // <h> nRF_Log 
 
 //==========================================================
-// <e> XINC_LOG_ENABLED - nrf_log - Logger
+// <e> XINC_LOG_ENABLED - xinc_log - Logger
 //==========================================================
 #ifndef XINC_LOG_ENABLED
 #define XINC_LOG_ENABLED 0
@@ -7731,10 +7731,10 @@
 
 // </e>
 
-// <h> nrf_log module configuration 
+// <h> xinc_log module configuration 
 
 //==========================================================
-// <h> nrf_log in nRF_Core 
+// <h> xinc_log in nRF_Core 
 
 //==========================================================
 // <e> XINC_MPU_LIB_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -7893,7 +7893,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_log in nRF_Drivers 
+// <h> xinc_log in nRF_Drivers 
 
 //==========================================================
 // <e> CLOCK_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -8977,7 +8977,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_log in nRF_Libraries 
+// <h> xinc_log in nRF_Libraries 
 
 //==========================================================
 // <e> APP_BUTTON_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -10417,7 +10417,7 @@
 // </h> 
 //==========================================================
 
-// <h> nrf_log in nRF_Serialization 
+// <h> xinc_log in nRF_Serialization 
 
 //==========================================================
 // <e> SER_HAL_TRANSPORT_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -10479,7 +10479,7 @@
 
 // </e>
 
-// <q> XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - nrf_log_str_formatter - Log string formatter
+// <q> XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - xinc_log_str_formatter - Log string formatter
  
 
 #ifndef XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED
@@ -11132,15 +11132,15 @@
 // <h> nRF_SoftDevice 
 
 //==========================================================
-// <e> XINC_SDH_BLE_ENABLED - nrf_sdh_ble - SoftDevice BLE event handler
+// <e> XINC_SDH_BLE_ENABLED - xinc_sdh_ble - SoftDevice BLE event handler
 //==========================================================
 #ifndef XINC_SDH_BLE_ENABLED
 #define XINC_SDH_BLE_ENABLED 0
 #endif
 // <h> BLE Stack configuration - Stack configuration parameters
 
-// <i> The SoftDevice handler will configure the stack with these parameters when calling @ref nrf_sdh_ble_default_cfg_set.
-// <i> Other libraries might depend on these values; keep them up-to-date even if you are not explicitely calling @ref nrf_sdh_ble_default_cfg_set.
+// <i> The SoftDevice handler will configure the stack with these parameters when calling @ref xinc_sdh_ble_default_cfg_set.
+// <i> Other libraries might depend on these values; keep them up-to-date even if you are not explicitely calling @ref xinc_sdh_ble_default_cfg_set.
 //==========================================================
 // <o> XINC_SDH_BLE_GAP_DATA_LENGTH   <27-251> 
 
@@ -11529,7 +11529,7 @@
 
 // </e>
 
-// <e> XINC_SDH_ENABLED - nrf_sdh - SoftDevice handler
+// <e> XINC_SDH_ENABLED - xinc_sdh - SoftDevice handler
 //==========================================================
 #ifndef XINC_SDH_ENABLED
 #define XINC_SDH_ENABLED 0
@@ -11697,7 +11697,7 @@
 
 // </e>
 
-// <e> XINC_SDH_SOC_ENABLED - nrf_sdh_soc - SoftDevice SoC event handler
+// <e> XINC_SDH_SOC_ENABLED - xinc_sdh_soc - SoftDevice SoC event handler
 //==========================================================
 #ifndef XINC_SDH_SOC_ENABLED
 #define XINC_SDH_SOC_ENABLED 0

@@ -56,7 +56,7 @@ typedef enum
 {
     XINC_SAADC_MODE_SINGLE_ENDED = SAADC_CH_CONFIG_MODE_SE,  ///< Single-ended mode. PSELN will be ignored, negative input to ADC shorted to GND.
     XINC_SAADC_MODE_DIFFERENTIAL = SAADC_CH_CONFIG_MODE_Diff ///< Differential mode.
-} nrf_saadc_mode_t;
+} xinc_saadc_mode_t;
 
 
 /** @brief Analog-to-digital converter value limit type. */
@@ -73,7 +73,7 @@ typedef int16_t xinc_saadc_value_t;
 /** @brief Analog-to-digital converter channel configuration structure. */
 typedef struct
 {     
-    nrf_saadc_mode_t      mode;///< SAADC mode. Single-ended or differential.
+    xinc_saadc_mode_t      mode;///< SAADC mode. Single-ended or differential.
     uint8_t        	      adc_fifo_len; 
 } xinc_saadc_channel_config_t;
 

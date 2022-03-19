@@ -7,7 +7,7 @@
  *
  */
 #include "bsp_btn_ble.h"
-#include "nrf_sdh_ble.h"
+#include "xinc_sdh_ble.h"
 #include "bsp.h"
 
 #define BTN_ID_WAKEUP             0  /**< ID of button used to wake up the application. */

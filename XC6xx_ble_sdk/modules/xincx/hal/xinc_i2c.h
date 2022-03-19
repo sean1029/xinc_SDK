@@ -17,9 +17,9 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_i2c_hal I2C HAL
+ * @defgroup xinc_i2c_hal I2C HAL
  * @{
- * @ingroup nrf_i2c
+ * @ingroup xinc_i2c
  * @brief   Hardware access layer for managing the I2C peripheral.
  */
 

@@ -34,7 +34,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "nrf.h"
+#include "xinc.h"
 #include "app_error.h"
 #include "xinc_gpio.h"
 

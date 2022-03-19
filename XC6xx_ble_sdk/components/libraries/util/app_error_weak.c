@@ -8,13 +8,13 @@
  */
 #include "app_error.h"
 
-#include "nrf_log.h"
-//#include "nrf_log_ctrl.h"
+#include "xinc_log.h"
+//#include "xinc_log_ctrl.h"
 #include "app_util_platform.h"
-#include "nrf_strerror.h"
+#include "xinc_strerror.h"
 
 #if defined(SOFTDEVICE_PRESENT) && SOFTDEVICE_PRESENT
-#include "nrf_sdm.h"
+#include "xinc_sdm.h"
 #endif
 
 /*lint -save -e14 */
@@ -53,7 +53,7 @@ __WEAK void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
             error_info_t * p_info = (error_info_t *)info;
             XINC_LOG_ERROR("ERROR %u [%s] at %s:%u\r\nPC at: 0x%08x",
                           p_info->err_code,
-                          nrf_strerror_get(p_info->err_code),
+                          xinc_strerror_get(p_info->err_code),
                           p_info->p_file_name,
                           p_info->line_num,
                           pc);

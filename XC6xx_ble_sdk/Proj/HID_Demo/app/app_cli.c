@@ -37,19 +37,19 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#include "nrf_cli.h"
+#include "xinc_cli.h"
 
 #if XINC_CLI_ENABLED
-//#include "nrf_log.h"
+//#include "xinc_log.h"
 #include "xinc_gpio.h"
-static void cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_led(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     UNUSED_PARAMETER(argc);
     UNUSED_PARAMETER(argv);
 
-    if (nrf_cli_help_requested(p_cli))
+    if (xinc_cli_help_requested(p_cli))
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
 
@@ -64,7 +64,7 @@ static void cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
 #define XINC_CLI_MSG_SPECIFY_SUBCOMMAND1  "Please specify a subcommand."
 #define XINC_CLI_MSG_UNKNOWN_PARAMETER1   " unknown parameter: "
 
-static void nrf_cli_cmd_led_off(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void xinc_cli_cmd_led_off(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
    
 		for(int i = 0; i < argc;i++)
@@ -75,7 +75,7 @@ static void nrf_cli_cmd_led_off(nrf_cli_t const * p_cli, size_t argc, char **arg
 		xinc_gpio_pin_set(5);
 }
 
-static void nrf_cli_cmd_led_on(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void xinc_cli_cmd_led_on(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
 		for(int i = 0; i < argc;i++)
 		{
@@ -86,32 +86,32 @@ static void nrf_cli_cmd_led_on(nrf_cli_t const * p_cli, size_t argc, char **argv
 		xinc_gpio_pin_clear(5);
 }
 
-static void nrf_cli_cmd_xinc(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void xinc_cli_cmd_xinc(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     ASSERT(p_cli);
     ASSERT(p_cli->p_ctx && p_cli->p_iface && p_cli->p_name);
     UNUSED_PARAMETER(argv);
 		printf("cmd_xinc\r\n");
-    if ((argc == 1) || ((argc == 2) && nrf_cli_help_requested(p_cli)) )
+    if ((argc == 1) || ((argc == 2) && xinc_cli_help_requested(p_cli)) )
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     }
-    nrf_cli_error(p_cli, XINC_CLI_MSG_SPECIFY_SUBCOMMAND1);
+    xinc_cli_error(p_cli, XINC_CLI_MSG_SPECIFY_SUBCOMMAND1);
 }
 
-static void nrf_cli_cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void xinc_cli_cmd_led(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     ASSERT(p_cli);
     ASSERT(p_cli->p_ctx && p_cli->p_iface && p_cli->p_name);
 		printf("cmd_led\r\n");
     if (argc == 1)
     {
-        nrf_cli_help_print(p_cli, NULL, 0);
+        xinc_cli_help_print(p_cli, NULL, 0);
         return;
     } 
 
-    nrf_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER1, argv[1]);
+    xinc_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER1, argv[1]);
 }
 /**
  * @brief Command set array
@@ -119,29 +119,29 @@ static void nrf_cli_cmd_led(nrf_cli_t const * p_cli, size_t argc, char **argv)
 
 XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_led)
 {
-    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_LED_OFF,        nrf_cli_cmd_led_off),
-    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_LED_ON,         nrf_cli_cmd_led_on),
+    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_LED_OFF,        xinc_cli_cmd_led_off),
+    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_LED_ON,         xinc_cli_cmd_led_on),
     XINC_CLI_SUBCMD_SET_END
 };
 
 
 XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_xinc)
 {
-    XINC_CLI_CMD(led, &m_sub_led,    XINC_CLI_HELP_LED,        nrf_cli_cmd_led),
+    XINC_CLI_CMD(led, &m_sub_led,    XINC_CLI_HELP_LED,        xinc_cli_cmd_led),
 
 
     XINC_CLI_SUBCMD_SET_END
 };
 
 
-XINC_CLI_CMD_REGISTER(xinc, &m_sub_xinc, XINC_CLI_HELP_XINC, nrf_cli_cmd_xinc);
+XINC_CLI_CMD_REGISTER(xinc, &m_sub_xinc, XINC_CLI_HELP_XINC, xinc_cli_cmd_xinc);
 
 
 //#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
 //XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_colors)
 //{
-//    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_COLORS_OFF,        nrf_cli_cmd_colors_off),
-//    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_COLORS_ON,         nrf_cli_cmd_colors_on),
+//    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_COLORS_OFF,        xinc_cli_cmd_colors_off),
+//    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_COLORS_ON,         xinc_cli_cmd_colors_on),
 //    XINC_CLI_SUBCMD_SET_END
 //};
 //#endif
@@ -149,16 +149,16 @@ XINC_CLI_CMD_REGISTER(xinc, &m_sub_xinc, XINC_CLI_HELP_XINC, nrf_cli_cmd_xinc);
 //XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_cli)
 //{
 //#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
-//    XINC_CLI_CMD(colors, &m_sub_colors,      XINC_CLI_HELP_COLORS,        nrf_cli_cmd_colors),
+//    XINC_CLI_CMD(colors, &m_sub_colors,      XINC_CLI_HELP_COLORS,        xinc_cli_cmd_colors),
 //#endif
-//    XINC_CLI_CMD(echo,   &m_sub_echo,        XINC_CLI_HELP_ECHO,          nrf_cli_cmd_echo),
+//    XINC_CLI_CMD(echo,   &m_sub_echo,        XINC_CLI_HELP_ECHO,          xinc_cli_cmd_echo),
 //#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
-//    XINC_CLI_CMD(stats, &m_sub_cli_stats,    XINC_CLI_HELP_STATISTICS,    nrf_cli_cmd_cli_stats),
+//    XINC_CLI_CMD(stats, &m_sub_cli_stats,    XINC_CLI_HELP_STATISTICS,    xinc_cli_cmd_cli_stats),
 //#endif
 //    XINC_CLI_SUBCMD_SET_END
 //};
 
-//XINC_CLI_CMD_REGISTER(cli,       &m_sub_cli,     XINC_CLI_HELP_CLI,       nrf_cli_cmd_cli);
+//XINC_CLI_CMD_REGISTER(cli,       &m_sub_cli,     XINC_CLI_HELP_CLI,       xinc_cli_cmd_cli);
 
 #endif
 

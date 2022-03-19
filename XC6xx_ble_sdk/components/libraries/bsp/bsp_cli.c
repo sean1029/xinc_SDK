@@ -10,7 +10,7 @@
 
 static bsp_event_callback_t   m_bsp_cli_callback         = NULL;
 
-static void cmd_btn(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_btn(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     uint32_t id;
     ASSERT(m_bsp_cli_callback != NULL);
@@ -20,7 +20,7 @@ static void cmd_btn(nrf_cli_t const * p_cli, size_t argc, char **argv)
     m_bsp_cli_callback(ev);
 }
 
-static void cmd_evt(nrf_cli_t const * p_cli, size_t argc, char **argv)
+static void cmd_evt(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     uint32_t id;
     ASSERT(m_bsp_cli_callback != NULL);

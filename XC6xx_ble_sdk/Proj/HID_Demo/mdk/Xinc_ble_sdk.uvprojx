@@ -906,14 +906,14 @@
               <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_atfifo.c</FileName>
+              <FileName>xinc_atfifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic_fifo\nrf_atfifo.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic_fifo\xinc_atfifo.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_atomic.c</FileName>
+              <FileName>xinc_atomic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic\nrf_atomic.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
             </File>
             <File>
               <FileName>xinc_fstorage.c</FileName>
@@ -1021,39 +1021,39 @@
               <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_cli.c</FileName>
+              <FileName>xinc_cli.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\nrf_cli.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\xinc_cli.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_cli_uart.c</FileName>
+              <FileName>xinc_cli_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\nrf_cli_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\uart\xinc_cli_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_fprintf.c</FileName>
+              <FileName>xinc_fprintf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\nrf_fprintf.c</FilePath>
+              <FilePath>..\..\..\external\fprintf\xinc_fprintf.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_fprintf_format.c</FileName>
+              <FileName>xinc_fprintf_format.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\nrf_fprintf_format.c</FilePath>
+              <FilePath>..\..\..\external\fprintf\xinc_fprintf_format.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_queue.c</FileName>
+              <FileName>xinc_queue.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\queue\nrf_queue.c</FilePath>
+              <FilePath>..\..\..\components\libraries\queue\xinc_queue.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_balloc.c</FileName>
+              <FileName>xinc_balloc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\balloc\nrf_balloc.c</FilePath>
+              <FilePath>..\..\..\components\libraries\balloc\xinc_balloc.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_memobj.c</FileName>
+              <FileName>xinc_memobj.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
+              <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_uart.c</FileName>
@@ -1061,9 +1061,9 @@
               <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_ringbuf.c</FileName>
+              <FileName>xinc_ringbuf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
+              <FilePath>..\..\..\components\libraries\ringbuf\xinc_ringbuf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1091,9 +1091,9 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_strerror.c</FileName>
+              <FileName>xinc_strerror.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\strerror\nrf_strerror.c</FilePath>
+              <FilePath>..\..\..\components\libraries\strerror\xinc_strerror.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_i2c.c</FileName>
@@ -1111,29 +1111,29 @@
           <GroupName>log</GroupName>
           <Files>
             <File>
-              <FileName>nrf_log_backend_uart.c</FileName>
+              <FileName>xinc_log_backend_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_default_backends.c</FileName>
+              <FileName>xinc_log_default_backends.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_default_backends.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_frontend.c</FileName>
+              <FileName>xinc_log_frontend.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_frontend.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_str_formatter.c</FileName>
+              <FileName>xinc_log_str_formatter.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_str_formatter.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_str_formatter.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_backend_serial.c</FileName>
+              <FileName>xinc_log_backend_serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2003,14 +2003,14 @@
               <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_atfifo.c</FileName>
+              <FileName>xinc_atfifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic_fifo\nrf_atfifo.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic_fifo\xinc_atfifo.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_atomic.c</FileName>
+              <FileName>xinc_atomic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic\nrf_atomic.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
             </File>
             <File>
               <FileName>xinc_fstorage.c</FileName>
@@ -2118,39 +2118,39 @@
               <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_cli.c</FileName>
+              <FileName>xinc_cli.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\nrf_cli.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\xinc_cli.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_cli_uart.c</FileName>
+              <FileName>xinc_cli_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\nrf_cli_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\cli\uart\xinc_cli_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_fprintf.c</FileName>
+              <FileName>xinc_fprintf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\nrf_fprintf.c</FilePath>
+              <FilePath>..\..\..\external\fprintf\xinc_fprintf.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_fprintf_format.c</FileName>
+              <FileName>xinc_fprintf_format.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\nrf_fprintf_format.c</FilePath>
+              <FilePath>..\..\..\external\fprintf\xinc_fprintf_format.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_queue.c</FileName>
+              <FileName>xinc_queue.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\queue\nrf_queue.c</FilePath>
+              <FilePath>..\..\..\components\libraries\queue\xinc_queue.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_balloc.c</FileName>
+              <FileName>xinc_balloc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\balloc\nrf_balloc.c</FilePath>
+              <FilePath>..\..\..\components\libraries\balloc\xinc_balloc.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_memobj.c</FileName>
+              <FileName>xinc_memobj.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\memobj\nrf_memobj.c</FilePath>
+              <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_uart.c</FileName>
@@ -2158,9 +2158,9 @@
               <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_ringbuf.c</FileName>
+              <FileName>xinc_ringbuf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\ringbuf\nrf_ringbuf.c</FilePath>
+              <FilePath>..\..\..\components\libraries\ringbuf\xinc_ringbuf.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2188,9 +2188,9 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_strerror.c</FileName>
+              <FileName>xinc_strerror.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\strerror\nrf_strerror.c</FilePath>
+              <FilePath>..\..\..\components\libraries\strerror\xinc_strerror.c</FilePath>
             </File>
             <File>
               <FileName>xinc_drv_i2c.c</FileName>
@@ -2208,29 +2208,29 @@
           <GroupName>log</GroupName>
           <Files>
             <File>
-              <FileName>nrf_log_backend_uart.c</FileName>
+              <FileName>xinc_log_backend_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_uart.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_uart.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_default_backends.c</FileName>
+              <FileName>xinc_log_default_backends.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_default_backends.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_frontend.c</FileName>
+              <FileName>xinc_log_frontend.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_frontend.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_str_formatter.c</FileName>
+              <FileName>xinc_log_str_formatter.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_str_formatter.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_str_formatter.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_log_backend_serial.c</FileName>
+              <FileName>xinc_log_backend_serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\nrf_log_backend_serial.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
             </File>
           </Files>
         </Group>

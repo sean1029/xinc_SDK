@@ -26,11 +26,11 @@ extern "C" {
 
 /**@brief       Callback function for errors, asserts, and faults.
  *
- * @details     This function is called every time an error is raised in app_error, nrf_assert, or
+ * @details     This function is called every time an error is raised in app_error, xinc_assert, or
  *              in the SoftDevice. Information about the error can be found in the @p info
  *              parameter.
  *
- *              See also @ref nrf_fault_handler_t for more details.
+ *              See also @ref xinc_fault_handler_t for more details.
  *
  * @note        The function is implemented as weak so that it can be redefined by a custom error
  *              handler when needed.

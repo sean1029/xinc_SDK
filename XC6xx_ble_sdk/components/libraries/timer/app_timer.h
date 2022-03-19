@@ -41,8 +41,8 @@
 #include "compiler_abstraction.h"
 #include "xinchip_common.h"
 #ifdef APP_TIMER_V2
-#include "nrf_log_instance.h"
-#include "nrf_sortlist.h"
+#include "xinc_log_instance.h"
+#include "xinc_sortlist.h"
 #endif
 #include <stdint.h>
 #include <stdbool.h>
@@ -107,7 +107,7 @@ typedef void (*app_timer_timeout_handler_t)(void * p_context);
  */
 typedef struct
 {
-    nrf_sortlist_item_t         list_item;     /**< Token used by sortlist. */
+    xinc_sortlist_item_t         list_item;     /**< Token used by sortlist. */
     uint64_t                    end_val;       /**< RTC counter value when timer expires or @ref APP_TIMER_IDLE_VAL. */
     uint32_t                    repeat_period; /**< Repeat period (0 if single shot mode). */
     app_timer_timeout_handler_t handler;       /**< User handler. */

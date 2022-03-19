@@ -17,14 +17,14 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_spi_hal SPI HAL
+ * @defgroup xinc_spi_hal SPI HAL
  * @{
- * @ingroup nrf_spi
+ * @ingroup xinc_spi
  * @brief   Hardware access layer for managing the SPI peripheral.
  */
 
 /**
- * @brief This value can be used as a parameter for the @ref nrf_spi_pins_set
+ * @brief This value can be used as a parameter for the @ref xinc_spi_pins_set
  *        function to specify that a given SPI signal (SCK, MOSI, or MISO)
  *        shall not be connected to a physical pin.
  */
@@ -35,14 +35,14 @@ extern "C" {
 typedef enum
 {
     XINC_SPI_EVENT_READY = offsetof(XINC_SPI_Type, EVENTS_READY) ///< TXD byte sent and RXD byte received.
-} nrf_spi_event_t;
+} xinc_spi_event_t;
 
 /** @brief SPI interrupts. */
 typedef enum
 {
     XINC_SPI_INT_READY_MASK = SPI_INTENSET_READY_Msk, ///< Interrupt on READY event.
     XINC_SPI_ALL_INTS_MASK  = SPI_INTENSET_READY_Msk  ///< All SPI interrupts.
-} nrf_spi_int_mask_t;
+} xinc_spi_int_mask_t;
 
 /** @brief SPI data rates. */
 typedef enum
@@ -56,7 +56,7 @@ typedef enum
     // [conversion to 'int' needed to prevent compilers from complaining
     //  that the provided value (0x80000000UL) is out of range of "int"]
     XINC_SPI_FREQ_8M   = (int)SPI_FREQUENCY_FREQUENCY_M8 ///< 8 Mbps.
-} nrf_spi_frequency_t;
+} xinc_spi_frequency_t;
 
 /** @brief SPI modes. */
 typedef enum
@@ -65,14 +65,14 @@ typedef enum
     XINC_SPI_MODE_1, ///< SCK active high, sample on trailing edge of clock.
     XINC_SPI_MODE_2, ///< SCK active low, sample on leading edge of clock.
     XINC_SPI_MODE_3  ///< SCK active low, sample on trailing edge of clock.
-} nrf_spi_mode_t;
+} xinc_spi_mode_t;
 
 /** @brief SPI bit orders. */
 typedef enum
 {
     XINC_SPI_BIT_ORDER_MSB_FIRST = SPI_CONFIG_ORDER_MsbFirst, ///< Most significant bit shifted out first.
     XINC_SPI_BIT_ORDER_LSB_FIRST = SPI_CONFIG_ORDER_LsbFirst  ///< Least significant bit shifted out first.
-} nrf_spi_bit_order_t;
+} xinc_spi_bit_order_t;
 
 
 /**
@@ -81,8 +81,8 @@ typedef enum
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] event Event to be cleared.
  */
-__STATIC_INLINE void nrf_spi_event_clear(XINC_SPI_Type *  p_reg,
-                                         nrf_spi_event_t event);
+__STATIC_INLINE void xinc_spi_event_clear(XINC_SPI_Type *  p_reg,
+                                         xinc_spi_event_t event);
 
 /**
  * @brief Function for retrieving the state of the SPI event.
@@ -93,8 +93,8 @@ __STATIC_INLINE void nrf_spi_event_clear(XINC_SPI_Type *  p_reg,
  * @retval true  The event has been generated.
  * @retval false The event has not been generated.
  */
-__STATIC_INLINE bool nrf_spi_event_check(XINC_SPI_Type *  p_reg,
-                                         nrf_spi_event_t event);
+__STATIC_INLINE bool xinc_spi_event_check(XINC_SPI_Type *  p_reg,
+                                         xinc_spi_event_t event);
 
 /**
  * @brief Function for getting the address of the specified SPI event register.
@@ -104,8 +104,8 @@ __STATIC_INLINE bool nrf_spi_event_check(XINC_SPI_Type *  p_reg,
  *
  * @return Address of the specified event register.
  */
-__STATIC_INLINE uint32_t * nrf_spi_event_address_get(XINC_SPI_Type *  p_reg,
-                                                     nrf_spi_event_t event);
+__STATIC_INLINE uint32_t * xinc_spi_event_address_get(XINC_SPI_Type *  p_reg,
+                                                     xinc_spi_event_t event);
 
 /**
  * @brief Function for enabling the specified interrupts.
@@ -113,7 +113,7 @@ __STATIC_INLINE uint32_t * nrf_spi_event_address_get(XINC_SPI_Type *  p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be enabled.
  */
-__STATIC_INLINE void nrf_spi_int_enable(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_int_enable(XINC_SPI_Type * p_reg,
                                         uint32_t       mask);
 
 /**
@@ -122,7 +122,7 @@ __STATIC_INLINE void nrf_spi_int_enable(XINC_SPI_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] mask  Mask of interrupts to be disabled.
  */
-__STATIC_INLINE void nrf_spi_int_disable(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_int_disable(XINC_SPI_Type * p_reg,
                                          uint32_t       mask);
 
 /**
@@ -134,22 +134,22 @@ __STATIC_INLINE void nrf_spi_int_disable(XINC_SPI_Type * p_reg,
  * @retval true  The interrupt is enabled.
  * @retval false The interrupt is not enabled.
  */
-__STATIC_INLINE bool nrf_spi_int_enable_check(XINC_SPI_Type *     p_reg,
-                                              nrf_spi_int_mask_t spi_int);
+__STATIC_INLINE bool xinc_spi_int_enable_check(XINC_SPI_Type *     p_reg,
+                                              xinc_spi_int_mask_t spi_int);
 
 /**
  * @brief Function for enabling the SPI peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_spi_enable(XINC_SPI_Type * p_reg);
+__STATIC_INLINE void xinc_spi_enable(XINC_SPI_Type * p_reg);
 
 /**
  * @brief Function for disabling the SPI peripheral.
  *
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  */
-__STATIC_INLINE void nrf_spi_disable(XINC_SPI_Type * p_reg);
+__STATIC_INLINE void xinc_spi_disable(XINC_SPI_Type * p_reg);
 
 /**
  * @brief Function for configuring SPI pins.
@@ -162,7 +162,7 @@ __STATIC_INLINE void nrf_spi_disable(XINC_SPI_Type * p_reg);
  * @param[in] mosi_pin MOSI pin number.
  * @param[in] miso_pin MISO pin number.
  */
-__STATIC_INLINE void nrf_spi_pins_set(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_pins_set(XINC_SPI_Type * p_reg,
                                       uint32_t       sck_pin,
                                       uint32_t       mosi_pin,
                                       uint32_t       miso_pin);
@@ -173,7 +173,7 @@ __STATIC_INLINE void nrf_spi_pins_set(XINC_SPI_Type * p_reg,
  * @param[in] p_reg Pointer to the structure of registers of the peripheral.
  * @param[in] data  TX data to send.
  */
-__STATIC_INLINE void nrf_spi_txd_set(XINC_SPI_Type * p_reg, uint8_t data);
+__STATIC_INLINE void xinc_spi_txd_set(XINC_SPI_Type * p_reg, uint8_t data);
 
 /**
  * @brief Function for reading data from the SPI receiver register.
@@ -182,7 +182,7 @@ __STATIC_INLINE void nrf_spi_txd_set(XINC_SPI_Type * p_reg, uint8_t data);
  *
  * @return RX data received.
  */
-__STATIC_INLINE uint8_t nrf_spi_rxd_get(XINC_SPI_Type * p_reg);
+__STATIC_INLINE uint8_t xinc_spi_rxd_get(XINC_SPI_Type * p_reg);
 
 /**
  * @brief Function for setting the SPI master data rate.
@@ -190,8 +190,8 @@ __STATIC_INLINE uint8_t nrf_spi_rxd_get(XINC_SPI_Type * p_reg);
  * @param[in] p_reg     Pointer to the structure of registers of the peripheral.
  * @param[in] frequency SPI frequency.
  */
-__STATIC_INLINE void nrf_spi_frequency_set(XINC_SPI_Type *      p_reg,
-                                           nrf_spi_frequency_t frequency);
+__STATIC_INLINE void xinc_spi_frequency_set(XINC_SPI_Type *      p_reg,
+                                           xinc_spi_frequency_t frequency);
 
 /**
  * @brief Function for setting the SPI configuration.
@@ -200,15 +200,15 @@ __STATIC_INLINE void nrf_spi_frequency_set(XINC_SPI_Type *      p_reg,
  * @param[in] spi_mode      SPI mode.
  * @param[in] spi_bit_order SPI bit order.
  */
-__STATIC_INLINE void nrf_spi_configure(XINC_SPI_Type *      p_reg,
-                                       nrf_spi_mode_t      spi_mode,
-                                       nrf_spi_bit_order_t spi_bit_order);
+__STATIC_INLINE void xinc_spi_configure(XINC_SPI_Type *      p_reg,
+                                       xinc_spi_mode_t      spi_mode,
+                                       xinc_spi_bit_order_t spi_bit_order);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
-__STATIC_INLINE void nrf_spi_event_clear(XINC_SPI_Type *  p_reg,
-                                         nrf_spi_event_t event)
+__STATIC_INLINE void xinc_spi_event_clear(XINC_SPI_Type *  p_reg,
+                                         xinc_spi_event_t event)
 {
     *((volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event)) = 0x0UL;
 #if __CORTEX_M == 0x04
@@ -217,47 +217,47 @@ __STATIC_INLINE void nrf_spi_event_clear(XINC_SPI_Type *  p_reg,
 #endif
 }
 
-__STATIC_INLINE bool nrf_spi_event_check(XINC_SPI_Type *  p_reg,
-                                         nrf_spi_event_t event)
+__STATIC_INLINE bool xinc_spi_event_check(XINC_SPI_Type *  p_reg,
+                                         xinc_spi_event_t event)
 {
     return (bool)*(volatile uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
 }
 
-__STATIC_INLINE uint32_t * nrf_spi_event_address_get(XINC_SPI_Type *  p_reg,
-                                                     nrf_spi_event_t event)
+__STATIC_INLINE uint32_t * xinc_spi_event_address_get(XINC_SPI_Type *  p_reg,
+                                                     xinc_spi_event_t event)
 {
     return (uint32_t *)((uint8_t *)p_reg + (uint32_t)event);
 }
 
-__STATIC_INLINE void nrf_spi_int_enable(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_int_enable(XINC_SPI_Type * p_reg,
                                         uint32_t       mask)
 {
     p_reg->INTENSET = mask;
 }
 
-__STATIC_INLINE void nrf_spi_int_disable(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_int_disable(XINC_SPI_Type * p_reg,
                                          uint32_t       mask)
 {
     p_reg->INTENCLR = mask;
 }
 
-__STATIC_INLINE bool nrf_spi_int_enable_check(XINC_SPI_Type *     p_reg,
-                                              nrf_spi_int_mask_t spi_int)
+__STATIC_INLINE bool xinc_spi_int_enable_check(XINC_SPI_Type *     p_reg,
+                                              xinc_spi_int_mask_t spi_int)
 {
     return (bool)(p_reg->INTENSET & spi_int);
 }
 
-__STATIC_INLINE void nrf_spi_enable(XINC_SPI_Type * p_reg)
+__STATIC_INLINE void xinc_spi_enable(XINC_SPI_Type * p_reg)
 {
     p_reg->ENABLE = (SPI_ENABLE_ENABLE_Enabled << SPI_ENABLE_ENABLE_Pos);
 }
 
-__STATIC_INLINE void nrf_spi_disable(XINC_SPI_Type * p_reg)
+__STATIC_INLINE void xinc_spi_disable(XINC_SPI_Type * p_reg)
 {
     p_reg->ENABLE = (SPI_ENABLE_ENABLE_Disabled << SPI_ENABLE_ENABLE_Pos);
 }
 
-__STATIC_INLINE void nrf_spi_pins_set(XINC_SPI_Type * p_reg,
+__STATIC_INLINE void xinc_spi_pins_set(XINC_SPI_Type * p_reg,
                                       uint32_t       sck_pin,
                                       uint32_t       mosi_pin,
                                       uint32_t       miso_pin)
@@ -281,25 +281,25 @@ __STATIC_INLINE void nrf_spi_pins_set(XINC_SPI_Type * p_reg,
 #endif
 }
 
-__STATIC_INLINE void nrf_spi_txd_set(XINC_SPI_Type * p_reg, uint8_t data)
+__STATIC_INLINE void xinc_spi_txd_set(XINC_SPI_Type * p_reg, uint8_t data)
 {
     p_reg->TXD = data;
 }
 
-__STATIC_INLINE uint8_t nrf_spi_rxd_get(XINC_SPI_Type * p_reg)
+__STATIC_INLINE uint8_t xinc_spi_rxd_get(XINC_SPI_Type * p_reg)
 {
     return p_reg->RXD;
 }
 
-__STATIC_INLINE void nrf_spi_frequency_set(XINC_SPI_Type *      p_reg,
-                                           nrf_spi_frequency_t frequency)
+__STATIC_INLINE void xinc_spi_frequency_set(XINC_SPI_Type *      p_reg,
+                                           xinc_spi_frequency_t frequency)
 {
     p_reg->FREQUENCY = frequency;
 }
 
-__STATIC_INLINE void nrf_spi_configure(XINC_SPI_Type *      p_reg,
-                                       nrf_spi_mode_t      spi_mode,
-                                       nrf_spi_bit_order_t spi_bit_order)
+__STATIC_INLINE void xinc_spi_configure(XINC_SPI_Type *      p_reg,
+                                       xinc_spi_mode_t      spi_mode,
+                                       xinc_spi_bit_order_t spi_bit_order)
 {
     uint32_t config = (spi_bit_order == XINC_SPI_BIT_ORDER_MSB_FIRST ?
         SPI_CONFIG_ORDER_MsbFirst : SPI_CONFIG_ORDER_LsbFirst);

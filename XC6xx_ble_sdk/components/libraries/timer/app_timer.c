@@ -10,11 +10,11 @@
 #if XINC_MODULE_ENABLED(APP_TIMER)
 #include "app_timer.h"
 #include <stdlib.h>
-#include "nrf.h"
-#include "nrf_peripherals.h"
-//#include "nrf_soc.h"
+#include "xinc.h"
+#include "xinc_peripherals.h"
+//#include "xinc_soc.h"
 #include "app_error.h"
-//#include "nrf_delay.h"
+//#include "xinc_delay.h"
 #include "app_util_platform.h"
 #if APP_TIMER_CONFIG_USE_SCHEDULER
 #include "app_scheduler.h"

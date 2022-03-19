@@ -29,7 +29,7 @@ extern "C" {
 
 //------------------------------------------------------------------------------
 
-#include <nrf_assert.h>
+#include <xinc_assert.h>
 /**
  * @brief Macro for placing a runtime assertion.
  *

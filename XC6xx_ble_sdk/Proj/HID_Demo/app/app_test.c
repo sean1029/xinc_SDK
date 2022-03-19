@@ -1,8 +1,8 @@
 #include "app_test.h"
 
 
-#include "nrf_cli_uart.h"
-#include "nrf_cli.h"
+#include "xinc_cli_uart.h"
+#include "xinc_cli.h"
 #include "app_uart.h"
 
 #if CLI_TEST_EN
@@ -21,7 +21,7 @@ void cli_test(void)
     uart_config.hwfc    = XINC_UART_HWFC_DISABLED;
     uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
 
-    ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, XINC_LOG_SEVERITY_NONE);
+    ret_code_t err_code = xinc_cli_init(&m_cli_uart, &uart_config, false, false, XINC_LOG_SEVERITY_NONE);
     APP_ERROR_CHECK(err_code);
     #endif	
 }
@@ -29,7 +29,7 @@ void cli_test(void)
 void cli_processt(void)
 {
     #if XINC_MODULE_ENABLED(XINC_CLI)
-    nrf_cli_process(&m_cli_uart);
+    xinc_cli_process(&m_cli_uart);
     #endif	
 }
 		
@@ -129,9 +129,9 @@ void drv_uart_test(void)
  *@brief Function for initializing logging.
  */
 #if  LOG_TEST_EN
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
+#include "xinc_log.h"
+#include "xinc_log_ctrl.h"
+#include "xinc_log_default_backends.h"
  void log_test(void)
 {
     #if XINC_MODULE_ENABLED(XINC_LOG)

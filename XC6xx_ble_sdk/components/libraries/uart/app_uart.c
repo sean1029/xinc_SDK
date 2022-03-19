@@ -10,7 +10,7 @@
 #if XINC_MODULE_ENABLED(APP_UART) && !XINC_MODULE_ENABLED(APP_FIFO)
 #include "app_uart.h"
 #include "xinc_drv_uart.h"
-#include "nrf_assert.h"
+#include "xinc_assert.h"
 
 static uint8_t tx_buffer[1];
 static uint8_t rx_buffer[1];

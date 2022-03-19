@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrf_drv_saadc SAADC driver - legacy layer
+ * @defgroup xinc_drv_saadc SAADC driver - legacy layer
  * @{
  * @ingroup  xinc_saadc
  *

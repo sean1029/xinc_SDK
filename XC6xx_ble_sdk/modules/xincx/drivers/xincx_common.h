@@ -14,8 +14,8 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include <nrf.h>
-#include <nrf_peripherals.h>
+#include <xinc.h>
+#include <xinc_peripherals.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -244,7 +244,7 @@ __STATIC_INLINE IRQn_Type xincx_get_irq_number(void const * p_reg);
  *
  * The event identifier is the offset between the event register address and
  * the peripheral base address, and is equal (thus, can be directly cast) to
- * the corresponding value of the enumerated type from HAL (nrf_*_event_t).
+ * the corresponding value of the enumerated type from HAL (xinc_*_event_t).
  *
  * @param[in] bit INTEN register bit position.
  *
@@ -260,7 +260,7 @@ __STATIC_INLINE uint32_t xincx_bitpos_to_event(uint32_t bit);
  *
  * The event identifier is the offset between the event register address and
  * the peripheral base address, and is equal (thus, can be directly cast) to
- * the corresponding value of the enumerated type from HAL (nrf_*_event_t).
+ * the corresponding value of the enumerated type from HAL (xinc_*_event_t).
  *
  * @param[in] event Event identifier.
  *

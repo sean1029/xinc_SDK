@@ -10,7 +10,7 @@
 #include "xinc_drv_i2c.h"
 
 #if XINCX_CHECK(XINCX_I2C_ENABLED)
-//#include <nrf_delay.h>
+//#include <xinc_delay.h>
 #include <hal/xinc_gpio.h>
 
 #ifdef I2CM_PRESENT
@@ -60,7 +60,7 @@ static void i2c_clear_bus(xinc_drv_i2c_config_t const * p_config)
 //    XINC_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF_CLR;
 //    XINC_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF_CLR;
 
-//    nrf_delay_us(4);
+//    xinc_delay_us(4);
 
 //    for (int i = 0; i < 9; i++)
 //    {
@@ -76,12 +76,12 @@ static void i2c_clear_bus(xinc_drv_i2c_config_t const * p_config)
 //            }
 //        }
 //        xinc_gpio_pin_clear(p_config->scl);
-//        nrf_delay_us(4);
+//        xinc_delay_us(4);
 //        xinc_gpio_pin_set(p_config->scl);
-//        nrf_delay_us(4);
+//        xinc_delay_us(4);
 //    }
 //    xinc_gpio_pin_clear(p_config->sda);
-//    nrf_delay_us(4);
+//    xinc_delay_us(4);
 //    xinc_gpio_pin_set(p_config->sda);
 }
 

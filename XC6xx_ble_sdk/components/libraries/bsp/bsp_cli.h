@@ -25,7 +25,7 @@
 #define BSP_CLI_H__
 
 #include <stdint.h>
-#include "nrf_cli.h"
+#include "xinc_cli.h"
 #include "bsp.h"
 
 #ifdef __cplusplus

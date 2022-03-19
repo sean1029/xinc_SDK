@@ -56,7 +56,7 @@ extern "C" {
 /**
  * @defgroup xinc_drv_i2c I2C driver - legacy layer
  * @{
- * @ingroup  nrf_i2c
+ * @ingroup  xinc_i2c
  * @brief    Layer providing compatibility with the former API.
  */
 

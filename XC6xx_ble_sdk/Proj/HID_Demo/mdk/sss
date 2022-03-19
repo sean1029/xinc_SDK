@@ -53,7 +53,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "nrf.h"
+#include "xinc.h"
 #include "sdk_errors.h"
 #include "cfc_common.h"
 #include "app_error_weak.h"
@@ -72,7 +72,7 @@ extern "C" {
 /**@defgroup APP_ERROR_FAULT_IDS Fault ID types
  * @{ */
 #define XINC_FAULT_ID_SDK_ERROR       (XINC_FAULT_ID_SDK_RANGE_START + 1) /**< An error stemming from a call to @ref APP_ERROR_CHECK or @ref APP_ERROR_CHECK_BOOL. The info parameter is a pointer to an @ref error_info_t variable. */
-#define XINC_FAULT_ID_SDK_ASSERT      (XINC_FAULT_ID_SDK_RANGE_START + 2) /**< An error stemming from a call to ASSERT (nrf_assert.h). The info parameter is a pointer to an @ref assert_info_t variable. */
+#define XINC_FAULT_ID_SDK_ASSERT      (XINC_FAULT_ID_SDK_RANGE_START + 2) /**< An error stemming from a call to ASSERT (xinc_assert.h). The info parameter is a pointer to an @ref assert_info_t variable. */
 /**@} */
 
 /**@brief Structure containing info about an error of the type @ref XINC_FAULT_ID_SDK_ERROR.

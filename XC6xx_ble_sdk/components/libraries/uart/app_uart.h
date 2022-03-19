@@ -85,9 +85,9 @@ typedef struct
     app_uart_evt_type_t evt_type; /**< Type of event. */
     union
     {
-        uint32_t error_communication; /**< Field used if evt_type is: APP_UART_COMMUNICATION_ERROR. This field contains the value in the ERRORSRC register for the UART peripheral. The UART_ERRORSRC_x defines from nrf5x_bitfields.h can be used to parse the error code. See also the \nRFXX Series Reference Manual for specification. */
-        uint32_t error_code;          /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
-        uint8_t  value;               /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
+        uint32_t error_communication; /**< Field used if evt_type is: APP_UART_COMMUNICATION_ERROR. This field contains the value in the ERRORSRC register for the UART peripheral. The UART_ERRORSRC_x defines from xinc5x_bitfields.h can be used to parse the error code. See also the \nRFXX Series Reference Manual for specification. */
+        uint32_t error_code;          /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in xinc_error.h. */
+        uint8_t  value;               /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in xinc_error.h. */
     } data;
 } app_uart_evt_t;
 

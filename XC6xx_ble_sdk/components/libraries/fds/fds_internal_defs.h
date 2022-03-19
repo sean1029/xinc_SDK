@@ -13,7 +13,7 @@
 #include <stdbool.h>
 
 #if defined (FDS_THREADS)
-    #include "nrf_soc.h"
+    #include "xinc_soc.h"
     #include "app_util_platform.h"
 #endif
 

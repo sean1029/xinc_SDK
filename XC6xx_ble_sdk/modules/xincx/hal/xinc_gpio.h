@@ -11,7 +11,7 @@
 #define XINC_GPIO_H__
 
 #include <xincx.h>
-#include "nrf_52840_bitfields.h"
+#include "xinc_52840_bitfields.h"
 #include "XC620610.h"
 #include "bsp_gpio.h"
 #ifdef __cplusplus
@@ -31,7 +31,7 @@ extern "C" {
 #endif
 
 #if defined(XINC52820_XXAA)
-#include <nrf_erratas.h>
+#include <xinc_erratas.h>
 #endif
 
 /**

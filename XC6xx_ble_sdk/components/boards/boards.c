@@ -8,7 +8,7 @@
  */
 #include "boards.h"
 #if defined(BOARDS_WITH_USB_DFU_TRIGGER) && defined(BOARD_PCA10059)
-#include "nrf_dfu_trigger_usb.h"
+#include "xinc_dfu_trigger_usb.h"
 #endif
 #include <stdint.h>
 #include <stdbool.h>
@@ -193,7 +193,7 @@ xincx_err_t bsp_board_init(uint32_t init_flags)
 {
     xincx_err_t err_code;
     #if defined(BOARDS_WITH_USB_DFU_TRIGGER) && defined(BOARD_PCA10059)
-    (void) nrf_dfu_trigger_usb_init();
+    (void) xinc_dfu_trigger_usb_init();
     #endif
 
     #if LEDS_NUMBER > 0
