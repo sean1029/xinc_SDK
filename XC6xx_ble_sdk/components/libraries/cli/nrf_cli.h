@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_CLI_H__
-#define NRF_CLI_H__
+#ifndef XINC_CLI_H__
+#define XINC_CLI_H__
 
 #include "sdk_common.h"
 #include "nrf_cli_types.h"
@@ -18,7 +18,7 @@
 #include "app_util_platform.h"
 #include "nrf_memobj.h"
 
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
 #include "task_manager.h"
 #endif
 
@@ -29,20 +29,20 @@
 extern "C" {
 #endif
 
-#define NRF_CLI_RX_BUFF_SIZE 16
+#define XINC_CLI_RX_BUFF_SIZE 16
 
 /* CLI reserves top task manager flags, bits 0...18 are available for application. */
-#define NRF_CLI_TRANSPORT_TX_RDY_TASK_EVT      (1UL << 19)
-#define NRF_CLI_TRANSPORT_RX_RDY_TASK_EVT      (1UL << 20)
-#define NRF_CLI_LOG_PENDING_TASK_EVT           (1UL << 21)
-#define NRF_CLI_CMD_EXECUTE_EVT                (1UL << 22)
-#define NRF_CLI_KILL_TASK_EVT                  (1UL << 23)
+#define XINC_CLI_TRANSPORT_TX_RDY_TASK_EVT      (1UL << 19)
+#define XINC_CLI_TRANSPORT_RX_RDY_TASK_EVT      (1UL << 20)
+#define XINC_CLI_LOG_PENDING_TASK_EVT           (1UL << 21)
+#define XINC_CLI_CMD_EXECUTE_EVT                (1UL << 22)
+#define XINC_CLI_KILL_TASK_EVT                  (1UL << 23)
 
-#define NRF_CLI_TASK_EVTS (NRF_CLI_TRANSPORT_TX_RDY_TASK_EVT | \
-                           NRF_CLI_TRANSPORT_RX_RDY_TASK_EVT | \
-                           NRF_CLI_LOG_PENDING_TASK_EVT      | \
-                           NRF_CLI_CMD_EXECUTE_EVT           | \
-                           NRF_CLI_KILL_TASK_EVT)
+#define XINC_CLI_TASK_EVTS (XINC_CLI_TRANSPORT_TX_RDY_TASK_EVT | \
+                           XINC_CLI_TRANSPORT_RX_RDY_TASK_EVT | \
+                           XINC_CLI_LOG_PENDING_TASK_EVT      | \
+                           XINC_CLI_CMD_EXECUTE_EVT           | \
+                           XINC_CLI_KILL_TASK_EVT)
 /**
  * @defgroup nrf_cli Command Line Interface
  * @ingroup app_common
@@ -113,22 +113,22 @@ struct nrf_cli_static_entry
  * @param[in] p_help    Pointer to a command help string.
  * @param[in] p_handler Pointer to a function handler.
  */
-#define NRF_CLI_CMD_REGISTER(p_syntax, p_subcmd, p_help, p_handler)     \
+#define XINC_CLI_CMD_REGISTER(p_syntax, p_subcmd, p_help, p_handler)     \
     nrf_cli_static_entry_t const CONCAT_3(nrf_cli_, p_syntax, _raw) =   \
-        NRF_CLI_CMD(p_syntax, p_subcmd, p_help, p_handler);             \
-    NRF_SECTION_ITEM_REGISTER(cli_command,                              \
+        XINC_CLI_CMD(p_syntax, p_subcmd, p_help, p_handler);             \
+    XINC_SECTION_ITEM_REGISTER(cli_command,                              \
                               nrf_cli_cmd_entry_t const CONCAT_3(nrf_cli_, p_syntax, _const)) = { \
                                 .is_dynamic = false,                    \
                                 .u = {.p_static = &CONCAT_3(nrf_cli_, p_syntax, _raw)} \
     }; \
-    NRF_SECTION_ITEM_REGISTER(cli_sorted_cmd_ptrs, char const * CONCAT_2(p_syntax, _str_ptr))
+    XINC_SECTION_ITEM_REGISTER(cli_sorted_cmd_ptrs, char const * CONCAT_2(p_syntax, _str_ptr))
 
 /**
  * @brief Macro for creating a subcommand set. It must be used outside of any function body.
  *
  * @param[in] name  Name of the subcommand set.
  */
-#define NRF_CLI_CREATE_STATIC_SUBCMD_SET(name)                  \
+#define XINC_CLI_CREATE_STATIC_SUBCMD_SET(name)                  \
     /*lint -save -e85 -e31*/                                    \
     static nrf_cli_static_entry_t const CONCAT_2(name, _raw)[]; \
     static nrf_cli_cmd_entry_t const name = {                   \
@@ -141,7 +141,7 @@ struct nrf_cli_static_entry
  * @brief Define ending subcommands set.
  *
  */
-#define NRF_CLI_SUBCMD_SET_END {NULL}
+#define XINC_CLI_SUBCMD_SET_END {NULL}
 
 /**
  * @brief Macro for creating a dynamic entry.
@@ -149,7 +149,7 @@ struct nrf_cli_static_entry
  * @param[in] name  Name of the dynamic entry.
  * @param[in] p_get Pointer to the function returning dynamic commands array @ref nrf_cli_dynamic_get.
  */
-#define NRF_CLI_CREATE_DYNAMIC_CMD(name, p_get) \
+#define XINC_CLI_CREATE_DYNAMIC_CMD(name, p_get) \
     /*lint -save -e19*/                         \
     static nrf_cli_cmd_entry_t const name = {   \
         .is_dynamic  = true,                    \
@@ -160,14 +160,14 @@ struct nrf_cli_static_entry
  *
  * Example usage:
  * @code
- * NRF_CLI_CPP_CREATE_STATIC_SUBCMD_SET(cmd_syntax,
- * NRF_CLI_CMD(abc, ...),
- * NRF_CLI_CMD(def, ...),
- * NRF_CLI_SUBCMD_SET_END
+ * XINC_CLI_CPP_CREATE_STATIC_SUBCMD_SET(cmd_syntax,
+ * XINC_CLI_CMD(abc, ...),
+ * XINC_CLI_CMD(def, ...),
+ * XINC_CLI_SUBCMD_SET_END
  * );
  * @endcode
  */
-#define NRF_CLI_CPP_CREATE_STATIC_SUBCMD_SET(name, ...)             \
+#define XINC_CLI_CPP_CREATE_STATIC_SUBCMD_SET(name, ...)             \
     static nrf_cli_static_entry_t const CONCAT_2(name, _raw)[] = {  \
         __VA_ARGS__                                                 \
     };                                                              \
@@ -184,7 +184,7 @@ struct nrf_cli_static_entry
  * @param[in] _p_help    Pointer to a command help string.
  * @param[in] _p_handler Pointer to a function handler.
  */
-#define NRF_CLI_CMD(_p_syntax, _p_subcmd, _p_help, _p_handler) { \
+#define XINC_CLI_CMD(_p_syntax, _p_subcmd, _p_help, _p_handler) { \
     .p_syntax = (const char *)  STRINGIFY(_p_syntax), \
     .p_help  = (const char *)   _p_help,    \
     .p_subcmd =                 _p_subcmd,  \
@@ -196,10 +196,10 @@ struct nrf_cli_static_entry
  */
 typedef enum
 {
-    NRF_CLI_RECEIVE_DEFAULT,
-    NRF_CLI_RECEIVE_ESC,
-    NRF_CLI_RECEIVE_ESC_SEQ,
-    NRF_CLI_RECEIVE_TILDE_EXP
+    XINC_CLI_RECEIVE_DEFAULT,
+    XINC_CLI_RECEIVE_ESC,
+    XINC_CLI_RECEIVE_ESC_SEQ,
+    XINC_CLI_RECEIVE_TILDE_EXP
 } nrf_cli_receive_t;
 
 
@@ -208,11 +208,11 @@ typedef enum
  */
 typedef enum
 {
-    NRF_CLI_STATE_UNINITIALIZED,      //!< State uninitialized.
-    NRF_CLI_STATE_INITIALIZED,        //!< State initialized but not active.
-    NRF_CLI_STATE_ACTIVE,             //!< State active.
-    NRF_CLI_STATE_PANIC_MODE_ACTIVE,  //!< State panic mode activated.
-    NRF_CLI_STATE_PANIC_MODE_INACTIVE //!< State panic mode requested but not supported.
+    XINC_CLI_STATE_UNINITIALIZED,      //!< State uninitialized.
+    XINC_CLI_STATE_INITIALIZED,        //!< State initialized but not active.
+    XINC_CLI_STATE_ACTIVE,             //!< State active.
+    XINC_CLI_STATE_PANIC_MODE_ACTIVE,  //!< State panic mode activated.
+    XINC_CLI_STATE_PANIC_MODE_INACTIVE //!< State panic mode requested but not supported.
 } nrf_cli_state_t;
 
 /**
@@ -220,8 +220,8 @@ typedef enum
  */
 typedef enum
 {
-    NRF_CLI_TRANSPORT_EVT_RX_RDY,
-    NRF_CLI_TRANSPORT_EVT_TX_RDY
+    XINC_CLI_TRANSPORT_EVT_RX_RDY,
+    XINC_CLI_TRANSPORT_EVT_TX_RDY
 } nrf_cli_transport_evt_t;
 
 typedef void (*nrf_cli_transport_handler_t)(nrf_cli_transport_evt_t evt_type, void * p_context);
@@ -263,7 +263,7 @@ typedef struct
      * @param p_transport  Pointer to the transfer instance.
      * @param blocking     If true, the transport is enabled in blocking mode.
      *
-     * @return NRF_SUCCESS on successful enabling, error otherwise (also if not supported).
+     * @return XINC_SUCCESS on successful enabling, error otherwise (also if not supported).
      */
     ret_code_t (*enable)(nrf_cli_transport_t const * p_transport,
                          bool                        blocking);
@@ -305,7 +305,7 @@ struct nrf_cli_transport_s
     nrf_cli_transport_api_t const * p_api;
 };
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 /**
  * @brief CLI history object header.
  */
@@ -317,7 +317,7 @@ typedef PACKED_STRUCT
 } nrf_cli_memobj_header_t;
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
 typedef struct
 {
     uint32_t log_lost_cnt;  //!< Lost log counter.
@@ -363,23 +363,23 @@ typedef struct
     nrf_cli_cmd_len_t cmd_buff_len;         //!< Command length.
     nrf_cli_cmd_len_t cmd_buff_pos;         //!< Command buffer cursor position.
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
     nrf_cli_cmd_len_t cmd_tmp_buff_len;     //!< Command length in tmp buffer
 #endif
 
-    char cmd_buff[NRF_CLI_CMD_BUFF_SIZE];       //!< Command input buffer.
-    char temp_buff[NRF_CLI_CMD_BUFF_SIZE];      //!< Temporary buffer used by various functions.
-    char printf_buff[NRF_CLI_PRINTF_BUFF_SIZE]; //!< Printf buffer size.
+    char cmd_buff[XINC_CLI_CMD_BUFF_SIZE];       //!< Command input buffer.
+    char temp_buff[XINC_CLI_CMD_BUFF_SIZE];      //!< Temporary buffer used by various functions.
+    char printf_buff[XINC_CLI_PRINTF_BUFF_SIZE]; //!< Printf buffer size.
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
     nrf_cli_statistics_t statistics;            //!< CLI statistics.
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
     task_id_t     task_id;
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
     nrf_memobj_t * p_cmd_list_head;     //!< Pointer to the head of history list.
     nrf_memobj_t * p_cmd_list_tail;     //!< Pointer to the tail of history list.
     nrf_memobj_t * p_cmd_list_element;  //!< Pointer to an element of history list.
@@ -396,35 +396,35 @@ typedef struct
     nrf_cli_t const *   p_cli;
 } nrf_cli_log_backend_t;
 
-#if NRF_CLI_LOG_BACKEND && NRF_MODULE_ENABLED(NRF_LOG)
-#define NRF_LOG_BACKEND_CLI_DEF(_name_, _queue_size_)                                          \
-        NRF_QUEUE_DEF(nrf_log_entry_t,                                                         \
-                      CONCAT_2(_name_, _queue),_queue_size_, NRF_QUEUE_MODE_NO_OVERFLOW);      \
+#if XINC_CLI_LOG_BACKEND && XINC_MODULE_ENABLED(XINC_LOG)
+#define XINC_LOG_BACKEND_CLI_DEF(_name_, _queue_size_)                                          \
+        XINC_QUEUE_DEF(nrf_log_entry_t,                                                         \
+                      CONCAT_2(_name_, _queue),_queue_size_, XINC_QUEUE_MODE_NO_OVERFLOW);      \
         static nrf_cli_log_backend_t CONCAT_2(cli_log_backend,_name_) = {                      \
                 .p_queue = &CONCAT_2(_name_, _queue),                                          \
         };                                                                                     \
-        NRF_LOG_BACKEND_DEF(_name_, nrf_log_backend_cli_api, &CONCAT_2(cli_log_backend,_name_))
+        XINC_LOG_BACKEND_DEF(_name_, nrf_log_backend_cli_api, &CONCAT_2(cli_log_backend,_name_))
 
-#define NRF_CLI_BACKEND_PTR(_name_) &CONCAT_2(_name_, _log_backend)
+#define XINC_CLI_BACKEND_PTR(_name_) &CONCAT_2(_name_, _log_backend)
 #else
-#define NRF_LOG_BACKEND_CLI_DEF(_name_, _queue_sz_)
-#define NRF_CLI_BACKEND_PTR(_name_) NULL
+#define XINC_LOG_BACKEND_CLI_DEF(_name_, _queue_sz_)
+#define XINC_CLI_BACKEND_PTR(_name_) NULL
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 /* Header consists memory for cmd length and pointer to: prev and next element. */
-#define NRF_CLI_HISTORY_HEADER_SIZE (sizeof(nrf_cli_memobj_header_t))
+#define XINC_CLI_HISTORY_HEADER_SIZE (sizeof(nrf_cli_memobj_header_t))
 
-#define NRF_CLI_HISTORY_MEM_OBJ(name)                       \
-    NRF_MEMOBJ_POOL_DEF(CONCAT_2(name, _cmd_hist_memobj),   \
-                    NRF_CLI_HISTORY_HEADER_SIZE +           \
-                    NRF_CLI_HISTORY_ELEMENT_SIZE,           \
-                    NRF_CLI_HISTORY_ELEMENT_COUNT)
+#define XINC_CLI_HISTORY_MEM_OBJ(name)                       \
+    XINC_MEMOBJ_POOL_DEF(CONCAT_2(name, _cmd_hist_memobj),   \
+                    XINC_CLI_HISTORY_HEADER_SIZE +           \
+                    XINC_CLI_HISTORY_ELEMENT_SIZE,           \
+                    XINC_CLI_HISTORY_ELEMENT_COUNT)
 
-#define NRF_CLI_MEMOBJ_PTR(_name_) &CONCAT_2(_name_, _cmd_hist_memobj)
+#define XINC_CLI_MEMOBJ_PTR(_name_) &CONCAT_2(_name_, _cmd_hist_memobj)
 #else
-#define NRF_CLI_MEMOBJ_PTR(_name_) NULL
-#define NRF_CLI_HISTORY_MEM_OBJ(name)
+#define XINC_CLI_MEMOBJ_PTR(_name_) NULL
+#define XINC_CLI_HISTORY_MEM_OBJ(name)
 #endif
 
 /**
@@ -452,25 +452,25 @@ struct nrf_cli
  * @param[in] newline_ch        Deprecated parameter, not used any more. Any uint8_t value can be used.
  * @param[in] log_queue_size    Logger processing queue size.
  */
-#define NRF_CLI_DEF(name, cli_prefix, p_transport_iface, newline_ch, log_queue_size)    \
+#define XINC_CLI_DEF(name, cli_prefix, p_transport_iface, newline_ch, log_queue_size)    \
         static nrf_cli_t const name;                                            \
         static nrf_cli_ctx_t CONCAT_2(name, _ctx);                              \
-        NRF_FPRINTF_DEF(CONCAT_2(name, _fprintf_ctx),                           \
+        XINC_FPRINTF_DEF(CONCAT_2(name, _fprintf_ctx),                           \
                         &name,                                                  \
                         CONCAT_2(name, _ctx).printf_buff,                       \
-                        NRF_CLI_PRINTF_BUFF_SIZE,                               \
+                        XINC_CLI_PRINTF_BUFF_SIZE,                               \
                         false,                                                  \
                         nrf_cli_print_stream);                                  \
-        NRF_LOG_BACKEND_CLI_DEF(CONCAT_2(name, _log_backend), log_queue_size);  \
-        NRF_CLI_HISTORY_MEM_OBJ(name);                                          \
+        XINC_LOG_BACKEND_CLI_DEF(CONCAT_2(name, _log_backend), log_queue_size);  \
+        XINC_CLI_HISTORY_MEM_OBJ(name);                                          \
         /*lint -save -e31*/                                                     \
         static nrf_cli_t const name = {                                         \
             .p_name = cli_prefix,                                               \
             .p_iface = p_transport_iface,                                       \
             .p_ctx = &CONCAT_2(name, _ctx),                                     \
-            .p_log_backend = NRF_CLI_BACKEND_PTR(name),                         \
+            .p_log_backend = XINC_CLI_BACKEND_PTR(name),                         \
             .p_fprintf_ctx = &CONCAT_2(name, _fprintf_ctx),                     \
-            .p_cmd_hist_mempool = NRF_CLI_MEMOBJ_PTR(name),                     \
+            .p_cmd_hist_mempool = XINC_CLI_MEMOBJ_PTR(name),                     \
         } /*lint -restore*/
 
 /**
@@ -494,7 +494,7 @@ ret_code_t nrf_cli_task_create(nrf_cli_t const * p_cli);
 
 /**
  * @brief Function for uninitializing a transport layer and internal CLI state.
- *        If function returns NRF_ERROR_BUSY, you must call @ref nrf_cli_process before calling
+ *        If function returns XINC_ERROR_BUSY, you must call @ref nrf_cli_process before calling
  *        nrf_cli_uninit again.
  *
  * @param p_cli Pointer to CLI instance.
@@ -524,12 +524,12 @@ ret_code_t nrf_cli_stop(nrf_cli_t const * p_cli);
 /**
  * @brief CLI colors for @ref nrf_cli_fprintf function.
  */
-#define NRF_CLI_DEFAULT  NRF_CLI_VT100_COLOR_DEFAULT    /**< Turn off character attributes. */
-#define NRF_CLI_NORMAL   NRF_CLI_VT100_COLOR_WHITE      /**< Normal color printf.           */
-#define NRF_CLI_INFO     NRF_CLI_VT100_COLOR_GREEN      /**< Info color printf.             */
-#define NRF_CLI_OPTION   NRF_CLI_VT100_COLOR_CYAN       /**< Option color printf.           */
-#define NRF_CLI_WARNING  NRF_CLI_VT100_COLOR_YELLOW     /**< Warning color printf.          */
-#define NRF_CLI_ERROR    NRF_CLI_VT100_COLOR_RED        /**< Error color printf.            */
+#define XINC_CLI_DEFAULT  XINC_CLI_VT100_COLOR_DEFAULT    /**< Turn off character attributes. */
+#define XINC_CLI_NORMAL   XINC_CLI_VT100_COLOR_WHITE      /**< Normal color printf.           */
+#define XINC_CLI_INFO     XINC_CLI_VT100_COLOR_GREEN      /**< Info color printf.             */
+#define XINC_CLI_OPTION   XINC_CLI_VT100_COLOR_CYAN       /**< Option color printf.           */
+#define XINC_CLI_WARNING  XINC_CLI_VT100_COLOR_YELLOW     /**< Warning color printf.          */
+#define XINC_CLI_ERROR    XINC_CLI_VT100_COLOR_RED        /**< Error color printf.            */
 
 /**
  * @brief   Printf-like function which sends formatted data stream to the CLI.
@@ -555,7 +555,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
  * @param[in] ...       List of parameters to print.
  */
 #define nrf_cli_info(_p_cli, _ft, ...) \
-        nrf_cli_fprintf(_p_cli, NRF_CLI_INFO, _ft "\n", ##__VA_ARGS__)
+        nrf_cli_fprintf(_p_cli, XINC_CLI_INFO, _ft "\n", ##__VA_ARGS__)
 
 /**
  * @brief Print a normal message to the CLI.
@@ -567,7 +567,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
  * @param[in] ...       List of parameters to print.
  */
 #define nrf_cli_print(_p_cli, _ft, ...) \
-        nrf_cli_fprintf(_p_cli, NRF_CLI_DEFAULT, _ft "\n", ##__VA_ARGS__)
+        nrf_cli_fprintf(_p_cli, XINC_CLI_DEFAULT, _ft "\n", ##__VA_ARGS__)
 
 /**
  * @brief Print a warning message to the CLI.
@@ -579,7 +579,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
  * @param[in] ...       List of parameters to print.
  */
 #define nrf_cli_warn(_p_cli, _ft, ...) \
-        nrf_cli_fprintf(_p_cli, NRF_CLI_WARNING, _ft "\n", ##__VA_ARGS__)
+        nrf_cli_fprintf(_p_cli, XINC_CLI_WARNING, _ft "\n", ##__VA_ARGS__)
 
 /**
  * @brief Print an error message to the CLI.
@@ -591,7 +591,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
  * @param[in] ...       List of parameters to print.
  */
 #define nrf_cli_error(_p_cli, _ft, ...) \
-        nrf_cli_fprintf(_p_cli, NRF_CLI_ERROR, _ft "\n", ##__VA_ARGS__)
+        nrf_cli_fprintf(_p_cli, XINC_CLI_ERROR, _ft "\n", ##__VA_ARGS__)
 
 /**
  * @brief Process function, which should be executed when data is ready in the transport interface.
@@ -619,7 +619,7 @@ typedef struct nrf_cli_getopt_option
  * @param[in] _p_shortname  Option name short.
  * @param[in] _p_help       Option help string.
  */
-#define NRF_CLI_OPT(_p_optname, _p_shortname, _p_help) { \
+#define XINC_CLI_OPT(_p_optname, _p_shortname, _p_help) { \
         .p_optname       = _p_optname,   \
         .p_optname_short = _p_shortname, \
         .p_optname_help  = _p_help,      \
@@ -670,4 +670,4 @@ void nrf_cli_print_stream(void const * p_user_ctx, char const * p_data, size_t d
 }
 #endif
 
-#endif /* NRF_CLI_H__ */
+#endif /* XINC_CLI_H__ */

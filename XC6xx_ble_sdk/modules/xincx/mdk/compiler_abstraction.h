@@ -12,15 +12,15 @@
 
 /*lint ++flb "Enter library region" */
 
-#ifndef NRF_STRING_CONCATENATE_IMPL
-    #define NRF_STRING_CONCATENATE_IMPL(lhs, rhs) lhs ## rhs
+#ifndef XINC_STRING_CONCATENATE_IMPL
+    #define XINC_STRING_CONCATENATE_IMPL(lhs, rhs) lhs ## rhs
 #endif
-#ifndef NRF_STRING_CONCATENATE
-    #define NRF_STRING_CONCATENATE(lhs, rhs) NRF_STRING_CONCATENATE_IMPL(lhs, rhs)
+#ifndef XINC_STRING_CONCATENATE
+    #define XINC_STRING_CONCATENATE(lhs, rhs) XINC_STRING_CONCATENATE_IMPL(lhs, rhs)
 #endif
 #if  __LINT__ == 1
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg)
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg)
     #endif
 #endif
 
@@ -56,9 +56,9 @@
 
     #define GET_SP()                __current_sp()
 
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg) \
-            ;enum { NRF_STRING_CONCATENATE(static_assert_on_line_, __LINE__) = 1 / (!!(cond)) }
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg) \
+            ;enum { XINC_STRING_CONCATENATE(static_assert_on_line_, __LINE__) = 1 / (!!(cond)) }
     #endif
     
 #elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
@@ -89,8 +89,8 @@
 
     #define GET_SP()                __current_sp()
 
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
     #endif
 
 #elif defined ( __ICCARM__ )
@@ -122,8 +122,8 @@
     
     #define GET_SP()                __get_SP()
 
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg) static_assert(cond, msg)
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg) static_assert(cond, msg)
     #endif
 
 #elif defined   ( __GNUC__ ) ||  defined   ( __clang__ )
@@ -161,8 +161,8 @@
         return stack_pointer;
     }
 
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
     #endif
 
 #elif defined   ( __TASKING__ )
@@ -194,22 +194,22 @@
 
     #define GET_SP()                __get_MSP()
 
-    #ifndef NRF_STATIC_ASSERT
-        #define NRF_STATIC_ASSERT(cond, msg) static_assert(cond, msg)
+    #ifndef XINC_STATIC_ASSERT
+        #define XINC_STATIC_ASSERT(cond, msg) static_assert(cond, msg)
     #endif
 
 #endif
 
-#define NRF_MDK_VERSION_ASSERT_AT_LEAST(major, minor, micro) \
-    NRF_STATIC_ASSERT( \
+#define XINC_MDK_VERSION_ASSERT_AT_LEAST(major, minor, micro) \
+    XINC_STATIC_ASSERT( \
         ( \
             (major < MDK_MAJOR_VERSION) || \
             (major == MDK_MAJOR_VERSION && minor < MDK_MINOR_VERSION) || \
             (major == MDK_MAJOR_VERSION && minor == MDK_MINOR_VERSION && micro < MDK_MICRO_VERSION) \
         ), "MDK version mismatch.")
 
-#define NRF_MDK_VERSION_ASSERT_EXACT(major, minor, micro) \
-    NRF_STATIC_ASSERT( \
+#define XINC_MDK_VERSION_ASSERT_EXACT(major, minor, micro) \
+    XINC_STATIC_ASSERT( \
         ( \
             (major != MDK_MAJOR_VERSION) || \
             (major != MDK_MAJOR_VERSION) || \

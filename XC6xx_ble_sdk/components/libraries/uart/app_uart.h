@@ -86,8 +86,8 @@ typedef struct
     union
     {
         uint32_t error_communication; /**< Field used if evt_type is: APP_UART_COMMUNICATION_ERROR. This field contains the value in the ERRORSRC register for the UART peripheral. The UART_ERRORSRC_x defines from nrf5x_bitfields.h can be used to parse the error code. See also the \nRFXX Series Reference Manual for specification. */
-        uint32_t error_code;          /**< Field used if evt_type is: NRF_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
-        uint8_t  value;               /**< Field used if evt_type is: NRF_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
+        uint32_t error_code;          /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
+        uint8_t  value;               /**< Field used if evt_type is: XINC_ERROR_x. Additional status/error code if the error event type is APP_UART_FIFO_ERROR. This error code refer to errors defined in nrf_error.h. */
     } data;
 } app_uart_evt_t;
 
@@ -161,19 +161,19 @@ typedef void (* app_uart_event_handler_t) (app_uart_evt_t * p_app_uart_event);
  * @param[in]     error_handler     Function to be called in case of an error.
  * @param[in]     irq_priority      Interrupt priority level.
  *
- * @retval      NRF_SUCCESS               If successful initialization.
- * @retval      NRF_ERROR_INVALID_LENGTH  If a provided buffer is not a power of two.
- * @retval      NRF_ERROR_NULL            If one of the provided buffers is a NULL pointer.
+ * @retval      XINC_SUCCESS               If successful initialization.
+ * @retval      XINC_ERROR_INVALID_LENGTH  If a provided buffer is not a power of two.
+ * @retval      XINC_ERROR_NULL            If one of the provided buffers is a NULL pointer.
  *
  * The below errors are propagated by the UART module to the caller upon registration when Hardware
  * Flow Control is enabled. When Hardware Flow Control is not used, these errors cannot occur.
- * @retval      NRF_ERROR_INVALID_STATE   The GPIOTE module is not in a valid state when registering
+ * @retval      XINC_ERROR_INVALID_STATE   The GPIOTE module is not in a valid state when registering
  *                                        the UART module as a user.
- * @retval      NRF_ERROR_INVALID_PARAM   The UART module provides an invalid callback function when
+ * @retval      XINC_ERROR_INVALID_PARAM   The UART module provides an invalid callback function when
  *                                        registering the UART module as a user.
  *                                        Or the value pointed to by *p_uart_uid is not a valid
  *                                        GPIOTE number.
- * @retval      NRF_ERROR_NO_MEM          GPIOTE module has reached the maximum number of users.
+ * @retval      XINC_ERROR_NO_MEM          GPIOTE module has reached the maximum number of users.
  */
 uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
                        app_uart_buffers_t *           p_buffers,
@@ -188,8 +188,8 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
  *
  * @param[out] p_byte    Pointer to an address where next byte received on the UART will be copied.
  *
- * @retval NRF_SUCCESS          If a byte has been received and pushed to the pointer provided.
- * @retval NRF_ERROR_NOT_FOUND  If no byte is available in the RX buffer of the app_uart module.
+ * @retval XINC_SUCCESS          If a byte has been received and pushed to the pointer provided.
+ * @retval XINC_ERROR_NOT_FOUND  If no byte is available in the RX buffer of the app_uart module.
  */
 uint32_t app_uart_get(uint8_t * p_byte);
 
@@ -199,25 +199,25 @@ uint32_t app_uart_get(uint8_t * p_byte);
  *
  * @param[in] byte   Byte to be transmitted on the UART.
  *
- * @retval NRF_SUCCESS        If the byte was successfully put on the TX buffer for transmission.
- * @retval NRF_ERROR_NO_MEM   If no more space is available in the TX buffer.
- *                            NRF_ERROR_NO_MEM may occur if flow control is enabled and CTS signal
+ * @retval XINC_SUCCESS        If the byte was successfully put on the TX buffer for transmission.
+ * @retval XINC_ERROR_NO_MEM   If no more space is available in the TX buffer.
+ *                            XINC_ERROR_NO_MEM may occur if flow control is enabled and CTS signal
  *                            is high for a long period and the buffer fills up.
- * @retval NRF_ERROR_INTERNAL If UART driver reported error.
+ * @retval XINC_ERROR_INTERNAL If UART driver reported error.
  */
 uint32_t app_uart_put(uint8_t byte);
 
 /**@brief Function for flushing the RX and TX buffers (Only valid if FIFO is used).
  *        This function does nothing if FIFO is not used.
  *
- * @retval  NRF_SUCCESS  Flushing completed (Current implementation will always succeed).
+ * @retval  XINC_SUCCESS  Flushing completed (Current implementation will always succeed).
  */
 uint32_t app_uart_flush(void);
 
 /**@brief Function for closing the UART module.
  *
- * @retval  NRF_SUCCESS             If successfully closed.
- * @retval  NRF_ERROR_INVALID_PARAM If an invalid user id is provided or the user id differs from
+ * @retval  XINC_SUCCESS             If successfully closed.
+ * @retval  XINC_ERROR_INVALID_PARAM If an invalid user id is provided or the user id differs from
  *                                  the current active user.
  */
 uint32_t app_uart_close(void);

@@ -69,7 +69,7 @@ void i2c_event_handler(xinc_drv_i2c_evt_t const *p_event,void *p_context)
 	switch (p_event->type)
 	{
 		//传输完成事件
-	case NRF_DRV_I2C_EVT_DONE:
+	case XINC_DRV_I2C_EVT_DONE:
 		m_xfer_done = true; //置位传输完成标志
 		break;
 	
@@ -86,7 +86,7 @@ void i2c_at24c02_init(void)
 	const xinc_drv_i2c_config_t i2c_24c02_config = {
 		.scl = I2C_SCL_M, // 定义 scl 引脚
 		.sda = I2C_SDA_M, // 定义 sda 引脚
-		.frequency = NRF_DRV_I2C_FREQ_400K,//
+		.frequency = XINC_DRV_I2C_FREQ_400K,//
 		.interrupt_priority = 0,
 		.clear_bus_init = false //初始化期间不发送9个scl 时钟
 	};
@@ -103,7 +103,7 @@ void i2c_at24c02_init(void)
  * 功能 ：向AT24C02 指定的地址写入一个字节数据
  * 参数 ：WriteAddr[in]:地址
  * 		：dat[in]:写入的数据
- * 返回值：NRF_SUCCESS:写数据成功
+ * 返回值：XINC_SUCCESS:写数据成功
  * ***********************************************************/
 ret_code_t AT24Cxx_write_byte(uint16_t WriteAddr,uint8_t dat)
 {
@@ -115,7 +115,7 @@ ret_code_t AT24Cxx_write_byte(uint16_t WriteAddr,uint8_t dat)
 	//检查写入数据的地址是否合法
 	if (WriteAddr > AT24Cxx_ENDADDR)
 	{
-		return NRF_ERROR_INVALID_ADDR;
+		return XINC_ERROR_INVALID_ADDR;
 	}
 	
 	PAGE = WriteAddr / 256;
@@ -147,7 +147,7 @@ ret_code_t AT24Cxx_write_byte(uint16_t WriteAddr,uint8_t dat)
  * 参数 ：page[in]:页面，1-32
  * 		：pdata[in]:指定待写入的数据缓存
  * 		size[in]:写入的数据长度，不能超过一个页面的大小8个字节
- * 返回值：NRF_SUCCESS:写数据成功
+ * 返回值：XINC_SUCCESS:写数据成功
  * ***********************************************************/
 ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 {
@@ -159,13 +159,13 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 	//检查写入数据的地址是否合法,写入的长度不能超过页面的大小
 	if (size > AT24Cxx_PAGESIZE)
 	{
-		return NRF_ERROR_INVALID_LENGTH;
+		return XINC_ERROR_INVALID_LENGTH;
 	}
 	
 	//检查写入的页面是否需合法，页面定义为 1~128，不在这个范围内判定为无效
 	if ((page == 0) || (page > AT24Cxx_PAGENUM))
 	{
-		return NRF_ERROR_INVALID_ADDR;
+		return XINC_ERROR_INVALID_ADDR;
 	}
 
 	//准备写入的数据
@@ -199,7 +199,7 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
  * 参数 ：WriteAddr[in]:写入数据的起始地址
  * 		：p_buf[in]:指定待写入的数据缓存
  * 		size[in]:写入的数据长度
- * 返回值：NRF_SUCCESS:写数据成功
+ * 返回值：XINC_SUCCESS:写数据成功
  * ***********************************************************/
 ret_code_t AT24Cxx_write_buf(uint16_t WriteAddr,uint8_t  *p_buf,uint16_t size)
 {
@@ -215,7 +215,7 @@ ret_code_t AT24Cxx_write_buf(uint16_t WriteAddr,uint8_t  *p_buf,uint16_t size)
 	//检查AT24C02 剩余空间能否存放写入的数据
 	if ((AT24Cxx_ENDADDR - WriteAddr) < size)
 	{
-		return NRF_ERROR_INVALID_LENGTH;
+		return XINC_ERROR_INVALID_LENGTH;
 	}
 
 	//连续写入数据，如果跨页，重新启动写流程
@@ -296,7 +296,7 @@ ret_code_t AT24Cxx_write_buf(uint16_t WriteAddr,uint8_t  *p_buf,uint16_t size)
  * 参数 ：ReadAddr[in]:读出数据的起始地址
  * 		：p_buf[in]:指定保存读出的数据缓存
  * 		size[in]:读出的数据长度
- * 返回值：NRF_SUCCESS:读数据成功
+ * 返回值：XINC_SUCCESS:读数据成功
  * ***********************************************************/
 ret_code_t AT24Cxx_read_buf(uint16_t ReadAddr,uint8_t  *p_buf,uint16_t size)
 {
@@ -306,7 +306,7 @@ ret_code_t AT24Cxx_read_buf(uint16_t ReadAddr,uint8_t  *p_buf,uint16_t size)
 	//读数据的长度已经超出了AT24Cxx的地址范围
 	if ((AT24Cxx_ENDADDR - ReadAddr) < size)
 	{
-		return NRF_ERROR_INVALID_LENGTH;
+		return XINC_ERROR_INVALID_LENGTH;
 	}
 
 	uint8_t tx_buf[AT24Cxx_ADDRESS_LEN];

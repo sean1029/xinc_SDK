@@ -35,12 +35,12 @@ extern "C" {
  * @note        The function is implemented as weak so that it can be redefined by a custom error
  *              handler when needed.
  *
- * @param[in] id    Fault identifier. See @ref NRF_FAULT_IDS.
+ * @param[in] id    Fault identifier. See @ref XINC_FAULT_IDS.
  * @param[in] pc    The program counter of the instruction that triggered the fault, or 0 if
  *                  unavailable.
  * @param[in] info  Optional additional information regarding the fault. The value of the @p id
  *                  parameter dictates how to interpret this parameter. Refer to the documentation
- *                  for each fault identifier (@ref NRF_FAULT_IDS and @ref APP_ERROR_FAULT_IDS) for
+ *                  for each fault identifier (@ref XINC_FAULT_IDS and @ref APP_ERROR_FAULT_IDS) for
  *                  details about interpreting @p info.
  */
 void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info);

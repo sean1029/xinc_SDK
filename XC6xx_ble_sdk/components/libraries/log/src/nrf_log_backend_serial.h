@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_BACKEND_SERIAL_H
-#define NRF_LOG_BACKEND_SERIAL_H
+#ifndef XINC_LOG_BACKEND_SERIAL_H
+#define XINC_LOG_BACKEND_SERIAL_H
 /**@file
  * @addtogroup nrf_log Logger module
  * @ingroup    app_common
@@ -37,7 +37,7 @@ void nrf_log_backend_serial_put(nrf_log_backend_t const * p_backend,
                                uint32_t  length,
                                nrf_fprintf_fwrite tx_func);
 
-#endif //NRF_LOG_BACKEND_SERIAL_H
+#endif //XINC_LOG_BACKEND_SERIAL_H
 
 #ifdef __cplusplus
 }

@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_RINGBUF_H
-#define NRF_RINGBUF_H
+#ifndef XINC_RINGBUF_H
+#define XINC_RINGBUF_H
 
 /**
 * @defgroup nrf_ringbuf Ring buffer
@@ -52,7 +52,7 @@ typedef struct
  * @param _name Instance name.
  * @param _size Size of the ring buffer (must be a power of 2).
  * */
-#define NRF_RINGBUF_DEF(_name, _size)                                         \
+#define XINC_RINGBUF_DEF(_name, _size)                                         \
     STATIC_ASSERT(IS_POWER_OF_TWO(_size));                                    \
     static uint8_t CONCAT_2(_name,_buf)[_size];                               \
     static nrf_ringbuf_cb_t CONCAT_2(_name,_cb);                              \
@@ -84,8 +84,8 @@ void nrf_ringbuf_init(nrf_ringbuf_t const * p_ringbuf);
  *                           by the function with actually allocated amount.
  * @param[in] start          Set to true if exclusive access should be controlled.
  *
- * @retval NRF_SUCCESS       Successful allocation (can be smaller amount than requested).
- *         NRF_ERROR_BUSY    Ring buffer allocation process (alloc-put) is ongoing.
+ * @retval XINC_SUCCESS       Successful allocation (can be smaller amount than requested).
+ *         XINC_ERROR_BUSY    Ring buffer allocation process (alloc-put) is ongoing.
  *
  * */
 ret_code_t nrf_ringbuf_alloc(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data, size_t * p_length, bool start);
@@ -100,7 +100,7 @@ ret_code_t nrf_ringbuf_alloc(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_dat
  * @param[in] p_ringbuf          Pointer to the ring buffer instance.
  * @param[in] length             Amount of bytes to put.
 
- * @return  NRF_SUCCESS on successful put or error.
+ * @return  XINC_SUCCESS on successful put or error.
  * */
 ret_code_t nrf_ringbuf_put(nrf_ringbuf_t const * p_ringbuf, size_t length);
 
@@ -113,7 +113,7 @@ ret_code_t nrf_ringbuf_put(nrf_ringbuf_t const * p_ringbuf, size_t length);
  * @param[in] p_data          Pointer to the input buffer.
  * @param[in, out] p_length   Amount of bytes to copy. Amount of bytes copied.
 
- * @return  NRF_SUCCESS on successful put or error.
+ * @return  XINC_SUCCESS on successful put or error.
  * */
 ret_code_t nrf_ringbuf_cpy_put(nrf_ringbuf_t const * p_ringbuf,
                                uint8_t const* p_data,
@@ -134,8 +134,8 @@ ret_code_t nrf_ringbuf_cpy_put(nrf_ringbuf_t const * p_ringbuf,
  *                          by the function with the actual amount.
  * @param[in] start         Set to true if exclusive access should be controlled.
  *
- * @retval NRF_SUCCESS            Successful getting (can be smaller amount than requested).
- *         NRF_ERROR_BUSY         Ring buffer getting process (get-free) is ongoing.
+ * @retval XINC_SUCCESS            Successful getting (can be smaller amount than requested).
+ *         XINC_ERROR_BUSY         Ring buffer getting process (get-free) is ongoing.
  */
 ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data, size_t * p_length, bool start);
 
@@ -149,7 +149,7 @@ ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data,
  * @param[in] p_ringbuf          Pointer to the ring buffer instance.
  * @param[in] length             Amount of bytes to free.
 
- * @return  NRF_SUCCESS on successful put or error.
+ * @return  XINC_SUCCESS on successful put or error.
  * */
 ret_code_t nrf_ringbuf_free(nrf_ringbuf_t const * p_ringbuf, size_t length);
 
@@ -162,7 +162,7 @@ ret_code_t nrf_ringbuf_free(nrf_ringbuf_t const * p_ringbuf, size_t length);
  * @param[in]      p_data       Pointer to the input buffer.
  * @param[in, out] p_length     Amount of bytes to copy. Amount of bytes copied.
 
- * @return  NRF_SUCCESS on successful put or error.
+ * @return  XINC_SUCCESS on successful put or error.
  * */
 ret_code_t nrf_ringbuf_cpy_get(nrf_ringbuf_t const * p_ringbuf,
                                uint8_t * p_data,
@@ -171,5 +171,5 @@ ret_code_t nrf_ringbuf_cpy_get(nrf_ringbuf_t const * p_ringbuf,
 }
 #endif
 
-#endif //NRF_RINGBUF_H
+#endif //XINC_RINGBUF_H
 /** @} */

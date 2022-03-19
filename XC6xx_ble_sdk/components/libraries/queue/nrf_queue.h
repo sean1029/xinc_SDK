@@ -13,8 +13,8 @@
 * @brief Functions that handle the queue instances.
 */
 
-#ifndef NRF_QUEUE_H__
-#define NRF_QUEUE_H__
+#ifndef XINC_QUEUE_H__
+#define XINC_QUEUE_H__
 
 #include <stdint.h>
 #include <stdint.h>
@@ -32,7 +32,7 @@ extern "C" {
 
 /** @brief Name of the module used for logger messaging.
  */
-#define NRF_QUEUE_LOG_NAME queue
+#define XINC_QUEUE_LOG_NAME queue
 
 /**@brief Queue control block. */
 typedef struct
@@ -45,8 +45,8 @@ typedef struct
 /**@brief Supported queue modes. */
 typedef enum
 {
-    NRF_QUEUE_MODE_OVERFLOW,        //!< If the queue is full, new element will overwrite the oldest.
-    NRF_QUEUE_MODE_NO_OVERFLOW,     //!< If the queue is full, new element will not be accepted.
+    XINC_QUEUE_MODE_OVERFLOW,        //!< If the queue is full, new element will overwrite the oldest.
+    XINC_QUEUE_MODE_NO_OVERFLOW,     //!< If the queue is full, new element will not be accepted.
 } nrf_queue_mode_t;
 
 /**@brief Instance of the queue. */
@@ -57,16 +57,16 @@ typedef struct
     size_t           size;              //!< Size of the queue.
     size_t           element_size;      //!< Size of one element.
     nrf_queue_mode_t mode;              //!< Mode of the queue.
-#if NRF_QUEUE_CLI_CMDS
+#if XINC_QUEUE_CLI_CMDS
     const char      * p_name;           //!< Pointer to string with queue name.
 #endif
-    NRF_LOG_INSTANCE_PTR_DECLARE(p_log) //!< Pointer to instance of the logger object (Conditionally compiled).
+    XINC_LOG_INSTANCE_PTR_DECLARE(p_log) //!< Pointer to instance of the logger object (Conditionally compiled).
 } nrf_queue_t;
 
-#if NRF_QUEUE_CLI_CMDS
-#define __NRF_QUEUE_ASSIGN_POOL_NAME(_name)            .p_name = STRINGIFY(_name),
+#if XINC_QUEUE_CLI_CMDS
+#define __XINC_QUEUE_ASSIGN_POOL_NAME(_name)            .p_name = STRINGIFY(_name),
 #else
-#define __NRF_QUEUE_ASSIGN_POOL_NAME(_name)
+#define __XINC_QUEUE_ASSIGN_POOL_NAME(_name)
 #endif
 /**@brief Create a queue instance.
  *
@@ -77,24 +77,24 @@ typedef struct
  * @param[in]   _size       Size of the queue.
  * @param[in]   _mode       Mode of the queue.
  */
-#define NRF_QUEUE_DEF(_type, _name, _size, _mode)                                        \
+#define XINC_QUEUE_DEF(_type, _name, _size, _mode)                                        \
     static _type             CONCAT_2(_name, _nrf_queue_buffer[(_size) + 1]);            \
     static nrf_queue_cb_t    CONCAT_2(_name, _nrf_queue_cb);                             \
-    NRF_LOG_INSTANCE_REGISTER(NRF_QUEUE_LOG_NAME, _name,                                 \
-                                  NRF_QUEUE_CONFIG_INFO_COLOR,                           \
-                                  NRF_QUEUE_CONFIG_DEBUG_COLOR,                          \
-                                  NRF_QUEUE_CONFIG_LOG_INIT_FILTER_LEVEL,                \
-                                  NRF_QUEUE_CONFIG_LOG_ENABLED ?                         \
-                                    NRF_QUEUE_CONFIG_LOG_LEVEL : NRF_LOG_SEVERITY_NONE); \
-     NRF_SECTION_ITEM_REGISTER(nrf_queue, const nrf_queue_t  _name) =                    \
+    XINC_LOG_INSTANCE_REGISTER(XINC_QUEUE_LOG_NAME, _name,                                 \
+                                  XINC_QUEUE_CONFIG_INFO_COLOR,                           \
+                                  XINC_QUEUE_CONFIG_DEBUG_COLOR,                          \
+                                  XINC_QUEUE_CONFIG_LOG_INIT_FILTER_LEVEL,                \
+                                  XINC_QUEUE_CONFIG_LOG_ENABLED ?                         \
+                                    XINC_QUEUE_CONFIG_LOG_LEVEL : XINC_LOG_SEVERITY_NONE); \
+     XINC_SECTION_ITEM_REGISTER(nrf_queue, const nrf_queue_t  _name) =                    \
         {                                                                                \
             .p_cb           = &CONCAT_2(_name, _nrf_queue_cb),                           \
             .p_buffer       = CONCAT_2(_name,_nrf_queue_buffer),                         \
             .size           = (_size),                                                   \
             .element_size   = sizeof(_type),                                             \
             .mode           = _mode,                                                     \
-            __NRF_QUEUE_ASSIGN_POOL_NAME(_name)                                          \
-            NRF_LOG_INSTANCE_PTR_INIT(p_log, NRF_QUEUE_LOG_NAME, _name)                  \
+            __XINC_QUEUE_ASSIGN_POOL_NAME(_name)                                          \
+            XINC_LOG_INSTANCE_PTR_INIT(p_log, XINC_QUEUE_LOG_NAME, _name)                  \
         }
 
 #if !(defined(__LINT__))
@@ -108,29 +108,29 @@ typedef struct
  * @param[in]   _mode       Mode of single queue instance.
  * @param[in]   _num        Number of queue instances within array.
  */
-#define NRF_QUEUE_ARRAY_DEF(_type, _name, _size, _mode, _num)                                 \
-    MACRO_REPEAT_FOR(_num, NRF_QUEUE_ARRAY_INSTANCE_ELEMS_DEC, _type, _name, _size, _mode)    \
+#define XINC_QUEUE_ARRAY_DEF(_type, _name, _size, _mode, _num)                                 \
+    MACRO_REPEAT_FOR(_num, XINC_QUEUE_ARRAY_INSTANCE_ELEMS_DEC, _type, _name, _size, _mode)    \
     static const nrf_queue_t _name[] =                                                        \
         {                                                                                     \
-            MACRO_REPEAT_FOR(_num, NRF_QUEUE_ARRAY_INSTANCE_INIT, _type, _name, _size, _mode) \
+            MACRO_REPEAT_FOR(_num, XINC_QUEUE_ARRAY_INSTANCE_INIT, _type, _name, _size, _mode) \
         };                                                                                    \
     STATIC_ASSERT(ARRAY_SIZE(_name) == _num)
 #else
-#define NRF_QUEUE_ARRAY_DEF(_type, _name, _size, _mode, _num) \
+#define XINC_QUEUE_ARRAY_DEF(_type, _name, _size, _mode, _num) \
     static const nrf_queue_t _name[_num];
 #endif // !(defined(__LINT__))
 
 /**@brief Helping macro used to declare elements for nrf_queue_t instance.
- *        Used in @ref NRF_QUEUE_ARRAY_DEF.
+ *        Used in @ref XINC_QUEUE_ARRAY_DEF.
  */
-#define NRF_QUEUE_ARRAY_INSTANCE_ELEMS_DEC(_num, _type, _name, _size, _mode)     \
+#define XINC_QUEUE_ARRAY_INSTANCE_ELEMS_DEC(_num, _type, _name, _size, _mode)     \
     static _type          CONCAT_3(_name, _num, _nrf_queue_buffer[(_size) + 1]); \
     static nrf_queue_cb_t CONCAT_3(_name, _num, _nrf_queue_cb);
 
 /**@brief Helping macro used to initialize nrf_queue_t instance in an array fashion.
- *        Used in @ref NRF_QUEUE_ARRAY_DEF.
+ *        Used in @ref XINC_QUEUE_ARRAY_DEF.
  */
-#define NRF_QUEUE_ARRAY_INSTANCE_INIT(_num, _type, _name, _size, _mode) \
+#define XINC_QUEUE_ARRAY_INSTANCE_INIT(_num, _type, _name, _size, _mode) \
     {                                                                   \
         .p_cb           = &CONCAT_3(_name, _num, _nrf_queue_cb),        \
         .p_buffer       = CONCAT_3(_name, _num, _nrf_queue_buffer),     \
@@ -144,7 +144,7 @@ typedef struct
  * @param[in]   _type    Type which is stored.
  * @param[in]   _name    Name of the queue.
  */
-#define NRF_QUEUE_INTERFACE_DEC(_type, _name)               \
+#define XINC_QUEUE_INTERFACE_DEC(_type, _name)               \
     ret_code_t  _name##_push(_type const * p_element);      \
     ret_code_t  _name##_pop(_type * p_element);             \
     ret_code_t  _name##_peek(_type * p_element);            \
@@ -169,7 +169,7 @@ typedef struct
  * @param[in]   _name    Name of the queue.
  * @param[in]   _p_queue Queue instance.
  */
-#define NRF_QUEUE_INTERFACE_DEF(_type, _name, _p_queue)                 \
+#define XINC_QUEUE_INTERFACE_DEF(_type, _name, _p_queue)                 \
     ret_code_t _name##_push(_type const * p_element)                    \
     {                                                                   \
         GCC_PRAGMA("GCC diagnostic push")                               \
@@ -291,8 +291,8 @@ typedef struct
  * @param[in]   p_queue             Pointer to the nrf_queue_t instance.
  * @param[in]   p_element           Pointer to the element that will be stored in the queue.
  *
- * @return      NRF_SUCCESS         If an element has been successfully added.
- * @return      NRF_ERROR_NO_MEM    If the queue is full (only in @ref NRF_QUEUE_MODE_NO_OVERFLOW).
+ * @return      XINC_SUCCESS         If an element has been successfully added.
+ * @return      XINC_ERROR_NO_MEM    If the queue is full (only in @ref XINC_QUEUE_MODE_NO_OVERFLOW).
  */
 ret_code_t nrf_queue_push(nrf_queue_t const * p_queue, void const * p_element);
 
@@ -302,8 +302,8 @@ ret_code_t nrf_queue_push(nrf_queue_t const * p_queue, void const * p_element);
  * @param[out]  p_element           Pointer where the element will be copied.
  * @param[out]  just_peek           If true, the returned element will not be removed from queue.
  *
- * @return      NRF_SUCCESS         If an element was returned.
- * @return      NRF_ERROR_NOT_FOUND If there are no more elements in the queue.
+ * @return      XINC_SUCCESS         If an element was returned.
+ * @return      XINC_ERROR_NOT_FOUND If there are no more elements in the queue.
  */
 ret_code_t nrf_queue_generic_pop(nrf_queue_t const * p_queue,
                                  void              * p_element,
@@ -314,8 +314,8 @@ ret_code_t nrf_queue_generic_pop(nrf_queue_t const * p_queue,
  * @param[in]   _p_queue            Pointer to the nrf_queue_t instance.
  * @param[out]  _p_element          Pointer where the element will be copied.
  *
- * @return      NRF_SUCCESS         If an element was returned.
- * @return      NRF_ERROR_NOT_FOUND If there are no more elements in the queue.
+ * @return      XINC_SUCCESS         If an element was returned.
+ * @return      XINC_ERROR_NOT_FOUND If there are no more elements in the queue.
  */
 #define nrf_queue_pop(_p_queue, _p_element) nrf_queue_generic_pop((_p_queue), (_p_element), false)
 
@@ -324,8 +324,8 @@ ret_code_t nrf_queue_generic_pop(nrf_queue_t const * p_queue,
  * @param[in]   _p_queue            Pointer to the nrf_queue_t instance.
  * @param[out]  _p_element          Pointer where the element will be copied.
  *
- * @return      NRF_SUCCESS         If an element was returned.
- * @return      NRF_ERROR_NOT_FOUND If there are no more elements in the queue.
+ * @return      XINC_SUCCESS         If an element was returned.
+ * @return      XINC_ERROR_NOT_FOUND If there are no more elements in the queue.
  */
 #define nrf_queue_peek(_p_queue, _p_element) nrf_queue_generic_pop((_p_queue), (_p_element), true)
 
@@ -335,8 +335,8 @@ ret_code_t nrf_queue_generic_pop(nrf_queue_t const * p_queue,
  * @param[in]   p_data              Pointer to the buffer with elements to write.
  * @param[in]   element_count       Number of elements to write.
  *
- * @return      NRF_SUCCESS         If an element was written.
- * @return      NRF_ERROR_NO_MEM    There is not enough space in the queue. No element was written.
+ * @return      XINC_SUCCESS         If an element was written.
+ * @return      XINC_ERROR_NO_MEM    There is not enough space in the queue. No element was written.
  */
 ret_code_t nrf_queue_write(nrf_queue_t const * p_queue,
                            void const        * p_data,
@@ -360,8 +360,8 @@ size_t nrf_queue_in(nrf_queue_t const * p_queue,
  * @param[out]  p_data              Pointer to the buffer where elements will be copied.
  * @param[in]   element_count       Number of elements to read.
  *
- * @return      NRF_SUCCESS         If an element was returned.
- * @return      NRF_ERROR_NOT_FOUND There is not enough elements in the queue.
+ * @return      XINC_SUCCESS         If an element was returned.
+ * @return      XINC_ERROR_NOT_FOUND There is not enough elements in the queue.
  */
 ret_code_t nrf_queue_read(nrf_queue_t const * p_queue,
                           void              * p_data,
@@ -436,5 +436,5 @@ void nrf_queue_reset(nrf_queue_t const * p_queue);
 }
 #endif
 
-#endif // NRF_QUEUE_H__
+#endif // XINC_QUEUE_H__
 /** @} */

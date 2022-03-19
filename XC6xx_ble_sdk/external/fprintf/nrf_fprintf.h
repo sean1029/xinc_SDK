@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_FPRINTF_H__
-#define NRF_FPRINTF_H__
+#ifndef XINC_FPRINTF_H__
+#define XINC_FPRINTF_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -44,7 +44,7 @@ typedef struct nrf_fprintf_ctx
  * @param _auto_flush       Indicator if IO buffer shall be automatically flush.
  * @param _fwrite           Pointer to function sending data stream.
  * */
-#define NRF_FPRINTF_DEF(name, _p_user_ctx, _p_io_buffer, _io_buffer_size, _auto_flush, _fwrite) \
+#define XINC_FPRINTF_DEF(name, _p_user_ctx, _p_io_buffer, _io_buffer_size, _auto_flush, _fwrite) \
     static nrf_fprintf_ctx_t name =                                                             \
     {                                                                                           \
         .p_io_buffer = _p_io_buffer,                                                            \
@@ -79,5 +79,5 @@ void nrf_fprintf_buffer_flush(nrf_fprintf_ctx_t * const p_ctx);
 }
 #endif
 
-#endif /* NRF_FPRINTF_H__ */
+#endif /* XINC_FPRINTF_H__ */
 

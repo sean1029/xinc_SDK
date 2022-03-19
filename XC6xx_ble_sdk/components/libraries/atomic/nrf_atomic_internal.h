@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_ATOMIC_INTERNAL_H__
-#define NRF_ATOMIC_INTERNAL_H__
+#ifndef XINC_ATOMIC_INTERNAL_H__
+#define XINC_ATOMIC_INTERNAL_H__
 
 #include "sdk_common.h"
 #include <stdbool.h>
@@ -215,7 +215,7 @@ loop_sub_ge
 }
 
 
-#define NRF_ATOMIC_OP(asm_op, old_val, new_val, ptr, value)          \
+#define XINC_ATOMIC_OP(asm_op, old_val, new_val, ptr, value)          \
         old_val = nrf_atomic_internal_##asm_op(ptr, value, &new_val)
 
 #elif defined ( __ICCARM__ ) || defined ( __GNUC__ )
@@ -227,12 +227,12 @@ loop_sub_ge
  * @param[out] new_val atomic object output (uint32_t), value after operation
  * @param[in] value atomic operation operand
  * */
-#define NRF_ATOMIC_OP(asm_op, old_val, new_val, ptr, value)                 \
+#define XINC_ATOMIC_OP(asm_op, old_val, new_val, ptr, value)                 \
 {                                                                           \
     uint32_t str_res;                                                       \
             __ASM volatile(                                                 \
     "1:     ldrex   %["#old_val"], [%["#ptr"]]\n"                           \
-    NRF_ATOMIC_OP_##asm_op(new_val, old_val, value)                         \
+    XINC_ATOMIC_OP_##asm_op(new_val, old_val, value)                         \
     "       strex   %[str_res], %["#new_val"], [%["#ptr"]]\n"               \
     "       teq     %[str_res], #0\n"                                       \
     "       bne.n     1b"                                                   \
@@ -247,13 +247,13 @@ loop_sub_ge
     UNUSED_PARAMETER(str_res);                                              \
 }
 
-#define NRF_ATOMIC_OP_mov(new_val, old_val, value) "mov %["#new_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_orr(new_val, old_val, value) "orr %["#new_val"], %["#old_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_and(new_val, old_val, value) "and %["#new_val"], %["#old_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_eor(new_val, old_val, value) "eor %["#new_val"], %["#old_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_add(new_val, old_val, value) "add %["#new_val"], %["#old_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_sub(new_val, old_val, value) "sub %["#new_val"], %["#old_val"], %["#value"]\n"
-#define NRF_ATOMIC_OP_sub_hs(new_val, old_val, value)                                              \
+#define XINC_ATOMIC_OP_mov(new_val, old_val, value) "mov %["#new_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_orr(new_val, old_val, value) "orr %["#new_val"], %["#old_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_and(new_val, old_val, value) "and %["#new_val"], %["#old_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_eor(new_val, old_val, value) "eor %["#new_val"], %["#old_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_add(new_val, old_val, value) "add %["#new_val"], %["#old_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_sub(new_val, old_val, value) "sub %["#new_val"], %["#old_val"], %["#value"]\n"
+#define XINC_ATOMIC_OP_sub_hs(new_val, old_val, value)                                              \
     "cmp %["#old_val"], %["#value"]\n "                                                            \
     "ite hs\n"                                                                                     \
     "subhs %["#new_val"], %["#old_val"], %["#value"]\n"                                            \
@@ -307,6 +307,6 @@ static inline bool nrf_atomic_internal_cmp_exch(nrf_atomic_u32_t * p_data,
 }
 #endif
 
-#endif /* NRF_ATOMIC_INTERNAL_H__ */
+#endif /* XINC_ATOMIC_INTERNAL_H__ */
 
 /** @} */

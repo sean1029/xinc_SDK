@@ -47,7 +47,7 @@ extern "C" {
 
 //------------------------------------------------------------------------------
 
-#ifdef NRF51
+#ifdef XINC51
 #ifdef SOFTDEVICE_PRESENT
 #define INTERRUPT_PRIORITY_IS_VALID(pri) (((pri) == 1) || ((pri) == 3))
 #else
@@ -60,7 +60,7 @@ extern "C" {
 #else
 #define INTERRUPT_PRIORITY_IS_VALID(pri) ((pri) < 8)
 #endif //SOFTDEVICE_PRESENT
-#endif //NRF52
+#endif //XINC52
 
 /**
  * @brief Macro for setting the priority of a specific IRQ.
@@ -256,23 +256,23 @@ static inline bool _XINCX_IRQ_IS_PENDING(IRQn_Type irq_number)
 
 typedef ret_code_t xincx_err_t;
 
-#define XINCX_SUCCESS                    NRF_SUCCESS
-#define XINCX_ERROR_INTERNAL             NRF_ERROR_INTERNAL
-#define XINCX_ERROR_NO_MEM               NRF_ERROR_NO_MEM
-#define XINCX_ERROR_NOT_SUPPORTED        NRF_ERROR_NOT_SUPPORTED
-#define XINCX_ERROR_INVALID_PARAM        NRF_ERROR_INVALID_PARAM
-#define XINCX_ERROR_INVALID_STATE        NRF_ERROR_INVALID_STATE
-#define XINCX_ERROR_INVALID_LENGTH       NRF_ERROR_INVALID_LENGTH
-#define XINCX_ERROR_TIMEOUT              NRF_ERROR_TIMEOUT
-#define XINCX_ERROR_FORBIDDEN            NRF_ERROR_FORBIDDEN
-#define XINCX_ERROR_NULL                 NRF_ERROR_NULL
-#define XINCX_ERROR_INVALID_ADDR         NRF_ERROR_INVALID_ADDR
-#define XINCX_ERROR_BUSY                 NRF_ERROR_BUSY
-#define XINCX_ERROR_ALREADY_INITIALIZED  NRF_ERROR_MODULE_ALREADY_INITIALIZED
+#define XINCX_SUCCESS                    XINC_SUCCESS
+#define XINCX_ERROR_INTERNAL             XINC_ERROR_INTERNAL
+#define XINCX_ERROR_NO_MEM               XINC_ERROR_NO_MEM
+#define XINCX_ERROR_NOT_SUPPORTED        XINC_ERROR_NOT_SUPPORTED
+#define XINCX_ERROR_INVALID_PARAM        XINC_ERROR_INVALID_PARAM
+#define XINCX_ERROR_INVALID_STATE        XINC_ERROR_INVALID_STATE
+#define XINCX_ERROR_INVALID_LENGTH       XINC_ERROR_INVALID_LENGTH
+#define XINCX_ERROR_TIMEOUT              XINC_ERROR_TIMEOUT
+#define XINCX_ERROR_FORBIDDEN            XINC_ERROR_FORBIDDEN
+#define XINCX_ERROR_NULL                 XINC_ERROR_NULL
+#define XINCX_ERROR_INVALID_ADDR         XINC_ERROR_INVALID_ADDR
+#define XINCX_ERROR_BUSY                 XINC_ERROR_BUSY
+#define XINCX_ERROR_ALREADY_INITIALIZED  XINC_ERROR_MODULE_ALREADY_INITIALIZED
 
-#define XINCX_ERROR_DRV_I2C_ERR_OVERRUN  NRF_ERROR_DRV_I2C_ERR_OVERRUN
-#define XINCX_ERROR_DRV_I2C_ERR_ANACK    NRF_ERROR_DRV_I2C_ERR_ANACK
-#define XINCX_ERROR_DRV_I2C_ERR_DNACK    NRF_ERROR_DRV_I2C_ERR_DNACK
+#define XINCX_ERROR_DRV_I2C_ERR_OVERRUN  XINC_ERROR_DRV_I2C_ERR_OVERRUN
+#define XINCX_ERROR_DRV_I2C_ERR_ANACK    XINC_ERROR_DRV_I2C_ERR_ANACK
+#define XINCX_ERROR_DRV_I2C_ERR_DNACK    XINC_ERROR_DRV_I2C_ERR_DNACK
 
 #endif // XINCX_CUSTOM_ERROR_CODES
 //------------------------------------------------------------------------------
@@ -281,17 +281,17 @@ typedef ret_code_t xincx_err_t;
 /**
  * @brief Bitmask defining PPI channels reserved to be used outside of xincx.
  */
-#define XINCX_PPI_CHANNELS_USED  NRF_PPI_CHANNELS_USED
+#define XINCX_PPI_CHANNELS_USED  XINC_PPI_CHANNELS_USED
 
 /**
  * @brief Bitmask defining PPI groups reserved to be used outside of xincx.
  */
-#define XINCX_PPI_GROUPS_USED    NRF_PPI_GROUPS_USED
+#define XINCX_PPI_GROUPS_USED    XINC_PPI_GROUPS_USED
 
 /**
  * @brief Bitmask defining SWI instances reserved to be used outside of xincx.
  */
-#define XINCX_SWI_USED           NRF_SWI_USED
+#define XINCX_SWI_USED           XINC_SWI_USED
 
 /**
  * @brief Bitmask defining TIMER instances reserved to be used outside of xincx.

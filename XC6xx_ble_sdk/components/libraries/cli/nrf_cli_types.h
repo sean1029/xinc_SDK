@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_CLI_TYPES_H__
-#define NRF_CLI_TYPES_H__
+#ifndef XINC_CLI_TYPES_H__
+#define XINC_CLI_TYPES_H__
 
 #include <inttypes.h>
 #include "sdk_config.h"
@@ -16,9 +16,9 @@
 extern "C" {
 #endif
 
-#if (NRF_CLI_CMD_BUFF_SIZE > 65535)
+#if (XINC_CLI_CMD_BUFF_SIZE > 65535)
     typedef uint32_t nrf_cli_cmd_len_t;
-#elif (NRF_CLI_CMD_BUFF_SIZE > 255)
+#elif (XINC_CLI_CMD_BUFF_SIZE > 255)
     typedef uint16_t nrf_cli_cmd_len_t;
 #else
     typedef uint8_t nrf_cli_cmd_len_t;
@@ -26,15 +26,15 @@ extern "C" {
 
 typedef enum
 {
-    NRF_CLI_VT100_COLOR_DEFAULT,
-    NRF_CLI_VT100_COLOR_BLACK,
-    NRF_CLI_VT100_COLOR_RED,
-    NRF_CLI_VT100_COLOR_GREEN,
-    NRF_CLI_VT100_COLOR_YELLOW,
-    NRF_CLI_VT100_COLOR_BLUE,
-    NRF_CLI_VT100_COLOR_MAGENTA,
-    NRF_CLI_VT100_COLOR_CYAN,
-    NRF_CLI_VT100_COLOR_WHITE,
+    XINC_CLI_VT100_COLOR_DEFAULT,
+    XINC_CLI_VT100_COLOR_BLACK,
+    XINC_CLI_VT100_COLOR_RED,
+    XINC_CLI_VT100_COLOR_GREEN,
+    XINC_CLI_VT100_COLOR_YELLOW,
+    XINC_CLI_VT100_COLOR_BLUE,
+    XINC_CLI_VT100_COLOR_MAGENTA,
+    XINC_CLI_VT100_COLOR_CYAN,
+    XINC_CLI_VT100_COLOR_WHITE,
 
     VT100_COLOR_END
 } nrf_cli_vt100_color_t;
@@ -67,5 +67,5 @@ typedef struct
 }
 #endif
 
-#endif /* NRF_CLI_TYPES_H__ */
+#endif /* XINC_CLI_TYPES_H__ */
 

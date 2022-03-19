@@ -43,10 +43,10 @@ extern "C" {
  *
  * @hideinitializer
  */
-/*lint -esym(666, NRF_PARAM_CHECK*) : Expression with side effects passed to macro */
+/*lint -esym(666, XINC_PARAM_CHECK*) : Expression with side effects passed to macro */
 
 #if 0
-#define NRF_PARAM_CHECK(_module, _cond, _err, _printfn)                                             \
+#define XINC_PARAM_CHECK(_module, _cond, _err, _printfn)                                             \
     do                                                                                              \
     {                                                                                               \
         if ((_cond))                                                                                \
@@ -64,7 +64,7 @@ extern "C" {
         }                                                                                           \
     } while (0);
 #else		
-		#define NRF_PARAM_CHECK(_module, _cond, _err, _printfn)                                             \
+		#define XINC_PARAM_CHECK(_module, _cond, _err, _printfn)                                             \
     do                                                                                              \
     {                                                                                               \
         if ((_cond))                                                                                \
@@ -136,37 +136,37 @@ do                                          \
 #define VERIFY_FALSE_VOID(statement) VERIFY_FALSE((statement), )
 
 
-/**@brief Macro for verifying that a function returned NRF_SUCCESS. It will cause the exterior
- *        function to return error code of statement if it is not @ref NRF_SUCCESS.
+/**@brief Macro for verifying that a function returned XINC_SUCCESS. It will cause the exterior
+ *        function to return error code of statement if it is not @ref XINC_SUCCESS.
  *
- * @param[in] statement     Statement to check against NRF_SUCCESS.
+ * @param[in] statement     Statement to check against XINC_SUCCESS.
  */
 #define VERIFY_SUCCESS(statement)                       \
 do                                                      \
 {                                                       \
     uint32_t _err_code = (uint32_t) (statement);        \
-    if (_err_code != NRF_SUCCESS)                       \
+    if (_err_code != XINC_SUCCESS)                       \
     {                                                   \
         return _err_code;                               \
     }                                                   \
 } while(0)
 
 
-/**@brief Macro for verifying that a function returned NRF_SUCCESS. It will cause the exterior
- *        function to return if the err_code is not @ref NRF_SUCCESS.
+/**@brief Macro for verifying that a function returned XINC_SUCCESS. It will cause the exterior
+ *        function to return if the err_code is not @ref XINC_SUCCESS.
  *
  * @param[in] err_code The error code to check.
  */
-#define VERIFY_SUCCESS_VOID(err_code) VERIFY_TRUE_VOID((err_code) == NRF_SUCCESS)
+#define VERIFY_SUCCESS_VOID(err_code) VERIFY_TRUE_VOID((err_code) == XINC_SUCCESS)
 
 
 /**@brief Macro for verifying that the module is initialized. It will cause the exterior function to
- *        return @ref NRF_ERROR_INVALID_STATE if not.
+ *        return @ref XINC_ERROR_INVALID_STATE if not.
  *
  * @note MODULE_INITIALIZED must be defined in each module using this macro. MODULE_INITIALIZED
  *       should be true if the module is initialized, false if not.
  */
-#define VERIFY_MODULE_INITIALIZED() VERIFY_TRUE((MODULE_INITIALIZED), NRF_ERROR_INVALID_STATE)
+#define VERIFY_MODULE_INITIALIZED() VERIFY_TRUE((MODULE_INITIALIZED), XINC_ERROR_INVALID_STATE)
 
 
 /**@brief Macro for verifying that the module is initialized. It will cause the exterior function to
@@ -192,7 +192,7 @@ do                                                      \
  *
  * @param[in] param  The variable to check if is NULL.
  */
-#define VERIFY_PARAM_NOT_NULL(param) VERIFY_FALSE(((param) == NULL), NRF_ERROR_NULL)
+#define VERIFY_PARAM_NOT_NULL(param) VERIFY_FALSE(((param) == NULL), XINC_ERROR_NULL)
 
 
 /**@brief Macro for verifying that the module is initialized. It will cause the exterior function to

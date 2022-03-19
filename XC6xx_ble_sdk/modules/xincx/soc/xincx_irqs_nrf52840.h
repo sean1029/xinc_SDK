@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef XINCX_IRQS_NRF52840_H__
-#define XINCX_IRQS_NRF52840_H__
+#ifndef XINCX_IRQS_XINC52840_H__
+#define XINCX_IRQS_XINC52840_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -177,4 +177,4 @@ extern "C" {
 }
 #endif
 
-#endif // XINCX_IRQS_NRF52840_H__
+#endif // XINCX_IRQS_XINC52840_H__

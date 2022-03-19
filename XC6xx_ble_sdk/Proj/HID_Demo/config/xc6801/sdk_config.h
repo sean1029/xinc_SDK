@@ -1311,10 +1311,10 @@
 // <o> FDS_BACKEND  - FDS flash backend.
  
 
-// <i> NRF_FSTORAGE_SD uses the nrf_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
-// <i> NRF_FSTORAGE_NVMC uses the nrf_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
-// <1=> NRF_FSTORAGE_NVMC 
-// <2=> NRF_FSTORAGE_SD 
+// <i> XINC_FSTORAGE_SD uses the nrf_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
+// <i> XINC_FSTORAGE_NVMC uses the nrf_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
+// <1=> XINC_FSTORAGE_NVMC 
+// <2=> XINC_FSTORAGE_SD 
 
 #ifndef FDS_BACKEND
 #define FDS_BACKEND 1
@@ -1380,87 +1380,87 @@
 
 // </e>
 
-// <q> NRF_CLI_UART_ENABLED  - nrf_cli_uart - UART command line interface transport
+// <q> XINC_CLI_UART_ENABLED  - nrf_cli_uart - UART command line interface transport
  
 
-#ifndef NRF_CLI_UART_ENABLED
-#define NRF_CLI_UART_ENABLED 1
+#ifndef XINC_CLI_UART_ENABLED
+#define XINC_CLI_UART_ENABLED 1
 #endif
 
-// <e> NRF_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
+// <e> XINC_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
 //==========================================================
-#ifndef NRF_FSTORAGE_ENABLED
-#define NRF_FSTORAGE_ENABLED 0
+#ifndef XINC_FSTORAGE_ENABLED
+#define XINC_FSTORAGE_ENABLED 0
 #endif
 // <h> nrf_fstorage - Common settings
 
 // <i> Common settings to all fstorage implementations
 //==========================================================
-// <q> NRF_FSTORAGE_PARAM_CHECK_DISABLED  - Disable user input validation
+// <q> XINC_FSTORAGE_PARAM_CHECK_DISABLED  - Disable user input validation
  
 
 // <i> If selected, use ASSERT to validate user input.
 // <i> This effectively removes user input validation in production code.
 // <i> Recommended setting: OFF, only enable this setting if size is a major concern.
 
-#ifndef NRF_FSTORAGE_PARAM_CHECK_DISABLED
-#define NRF_FSTORAGE_PARAM_CHECK_DISABLED 0
+#ifndef XINC_FSTORAGE_PARAM_CHECK_DISABLED
+#define XINC_FSTORAGE_PARAM_CHECK_DISABLED 0
 #endif
 // </h> 
-// </e>  NRF_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
+// </e>  XINC_FSTORAGE_ENABLED - nrf_fstorage - Flash abstraction library
 
 
 
-// <e> NRF_BALLOC_ENABLED - nrf_balloc - Block allocator module
+// <e> XINC_BALLOC_ENABLED - nrf_balloc - Block allocator module
 //==========================================================
-#ifndef NRF_BALLOC_ENABLED
-#define NRF_BALLOC_ENABLED 1
+#ifndef XINC_BALLOC_ENABLED
+#define XINC_BALLOC_ENABLED 1
 #endif
-// <e> NRF_BALLOC_CONFIG_DEBUG_ENABLED - Enables debug mode in the module.
+// <e> XINC_BALLOC_CONFIG_DEBUG_ENABLED - Enables debug mode in the module.
 //==========================================================
-#ifndef NRF_BALLOC_CONFIG_DEBUG_ENABLED
-#define NRF_BALLOC_CONFIG_DEBUG_ENABLED 1
+#ifndef XINC_BALLOC_CONFIG_DEBUG_ENABLED
+#define XINC_BALLOC_CONFIG_DEBUG_ENABLED 1
 #endif
-// <o> NRF_BALLOC_CONFIG_HEAD_GUARD_WORDS - Number of words used as head guard.  <0-255> 
+// <o> XINC_BALLOC_CONFIG_HEAD_GUARD_WORDS - Number of words used as head guard.  <0-255> 
 
 
-#ifndef NRF_BALLOC_CONFIG_HEAD_GUARD_WORDS
-#define NRF_BALLOC_CONFIG_HEAD_GUARD_WORDS 1
-#endif
-
-// <o> NRF_BALLOC_CONFIG_TAIL_GUARD_WORDS - Number of words used as tail guard.  <0-255> 
-
-
-#ifndef NRF_BALLOC_CONFIG_TAIL_GUARD_WORDS
-#define NRF_BALLOC_CONFIG_TAIL_GUARD_WORDS 1
+#ifndef XINC_BALLOC_CONFIG_HEAD_GUARD_WORDS
+#define XINC_BALLOC_CONFIG_HEAD_GUARD_WORDS 1
 #endif
 
-// <q> NRF_BALLOC_CONFIG_BASIC_CHECKS_ENABLED  - Enables basic checks in this module.
+// <o> XINC_BALLOC_CONFIG_TAIL_GUARD_WORDS - Number of words used as tail guard.  <0-255> 
+
+
+#ifndef XINC_BALLOC_CONFIG_TAIL_GUARD_WORDS
+#define XINC_BALLOC_CONFIG_TAIL_GUARD_WORDS 1
+#endif
+
+// <q> XINC_BALLOC_CONFIG_BASIC_CHECKS_ENABLED  - Enables basic checks in this module.
  
 
-#ifndef NRF_BALLOC_CONFIG_BASIC_CHECKS_ENABLED
-#define NRF_BALLOC_CONFIG_BASIC_CHECKS_ENABLED 0
+#ifndef XINC_BALLOC_CONFIG_BASIC_CHECKS_ENABLED
+#define XINC_BALLOC_CONFIG_BASIC_CHECKS_ENABLED 0
 #endif
 
-// <q> NRF_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED  - Enables double memory free check in this module.
+// <q> XINC_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED  - Enables double memory free check in this module.
  
 
-#ifndef NRF_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED
-#define NRF_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED 0
+#ifndef XINC_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED
+#define XINC_BALLOC_CONFIG_DOUBLE_FREE_CHECK_ENABLED 0
 #endif
 
-// <q> NRF_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED  - Enables free memory corruption check in this module.
+// <q> XINC_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED  - Enables free memory corruption check in this module.
  
 
-#ifndef NRF_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED
-#define NRF_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED 0
+#ifndef XINC_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED
+#define XINC_BALLOC_CONFIG_DATA_TRASHING_CHECK_ENABLED 0
 #endif
 
-// <q> NRF_BALLOC_CLI_CMDS  - Enable CLI commands specific to the module
+// <q> XINC_BALLOC_CLI_CMDS  - Enable CLI commands specific to the module
  
 
-#ifndef NRF_BALLOC_CLI_CMDS
-#define NRF_BALLOC_CLI_CMDS 0
+#ifndef XINC_BALLOC_CLI_CMDS
+#define XINC_BALLOC_CLI_CMDS 0
 #endif
 
 // </e>
@@ -1469,25 +1469,25 @@
 
 // </e>
 
-// <e> NRF_QUEUE_ENABLED - nrf_queue - Queue module
+// <e> XINC_QUEUE_ENABLED - nrf_queue - Queue module
 
-#ifndef NRF_QUEUE_ENABLED
-#define NRF_QUEUE_ENABLED 1
+#ifndef XINC_QUEUE_ENABLED
+#define XINC_QUEUE_ENABLED 1
 #endif
-// <q> NRF_QUEUE_CLI_CMDS  - Enable CLI commands specific to the module
+// <q> XINC_QUEUE_CLI_CMDS  - Enable CLI commands specific to the module
  
 
-#ifndef NRF_QUEUE_CLI_CMDS
-#define NRF_QUEUE_CLI_CMDS 0
+#ifndef XINC_QUEUE_CLI_CMDS
+#define XINC_QUEUE_CLI_CMDS 0
 #endif
 
 // </e>
 
 
-// <q> NRF_STRERROR_ENABLED  - nrf_strerror - Library for converting error code to string.
+// <q> XINC_STRERROR_ENABLED  - nrf_strerror - Library for converting error code to string.
 
-#ifndef NRF_STRERROR_ENABLED
-#define NRF_STRERROR_ENABLED 1
+#ifndef XINC_STRERROR_ENABLED
+#define XINC_STRERROR_ENABLED 1
 #endif
 
 
@@ -1516,97 +1516,97 @@
 // <h> nrf_cli - Command line interface
 
 //==========================================================
-// <q> NRF_CLI_ENABLED  - Enable/disable the CLI module.
+// <q> XINC_CLI_ENABLED  - Enable/disable the CLI module.
  
 
-#ifndef NRF_CLI_ENABLED
-#define NRF_CLI_ENABLED 0
+#ifndef XINC_CLI_ENABLED
+#define XINC_CLI_ENABLED 0
 #endif
 
-// <o> NRF_CLI_ARGC_MAX - Maximum number of parameters passed to the command handler. 
-#ifndef NRF_CLI_ARGC_MAX
-#define NRF_CLI_ARGC_MAX 12
+// <o> XINC_CLI_ARGC_MAX - Maximum number of parameters passed to the command handler. 
+#ifndef XINC_CLI_ARGC_MAX
+#define XINC_CLI_ARGC_MAX 12
 #endif
 
-// <q> NRF_CLI_BUILD_IN_CMDS_ENABLED  - CLI built-in commands.
+// <q> XINC_CLI_BUILD_IN_CMDS_ENABLED  - CLI built-in commands.
  
-#ifndef NRF_CLI_BUILD_IN_CMDS_ENABLED
-#define NRF_CLI_BUILD_IN_CMDS_ENABLED 0
+#ifndef XINC_CLI_BUILD_IN_CMDS_ENABLED
+#define XINC_CLI_BUILD_IN_CMDS_ENABLED 0
 #endif
 
-// <o> NRF_CLI_CMD_BUFF_SIZE - Maximum buffer size for a single command. 
-#ifndef NRF_CLI_CMD_BUFF_SIZE
-#define NRF_CLI_CMD_BUFF_SIZE 128
+// <o> XINC_CLI_CMD_BUFF_SIZE - Maximum buffer size for a single command. 
+#ifndef XINC_CLI_CMD_BUFF_SIZE
+#define XINC_CLI_CMD_BUFF_SIZE 128
 #endif
 
-// <q> NRF_CLI_ECHO_STATUS  - CLI echo status. If set, echo is ON.
+// <q> XINC_CLI_ECHO_STATUS  - CLI echo status. If set, echo is ON.
  
-#ifndef NRF_CLI_ECHO_STATUS
-#define NRF_CLI_ECHO_STATUS 1
+#ifndef XINC_CLI_ECHO_STATUS
+#define XINC_CLI_ECHO_STATUS 1
 #endif
 
-// <q> NRF_CLI_WILDCARD_ENABLED  - Enable wildcard functionality for CLI commands.
+// <q> XINC_CLI_WILDCARD_ENABLED  - Enable wildcard functionality for CLI commands.
  
-#ifndef NRF_CLI_WILDCARD_ENABLED
-#define NRF_CLI_WILDCARD_ENABLED 0
+#ifndef XINC_CLI_WILDCARD_ENABLED
+#define XINC_CLI_WILDCARD_ENABLED 0
 #endif
 
-// <q> NRF_CLI_METAKEYS_ENABLED  - Enable additional control keys for CLI commands like ctrl+a, ctrl+e, ctrl+w, ctrl+u
+// <q> XINC_CLI_METAKEYS_ENABLED  - Enable additional control keys for CLI commands like ctrl+a, ctrl+e, ctrl+w, ctrl+u
  
 
-#ifndef NRF_CLI_METAKEYS_ENABLED
-#define NRF_CLI_METAKEYS_ENABLED 0
+#ifndef XINC_CLI_METAKEYS_ENABLED
+#define XINC_CLI_METAKEYS_ENABLED 0
 #endif
 
-// <o> NRF_CLI_PRINTF_BUFF_SIZE - Maximum print buffer size. 
-#ifndef NRF_CLI_PRINTF_BUFF_SIZE
-#define NRF_CLI_PRINTF_BUFF_SIZE 23
+// <o> XINC_CLI_PRINTF_BUFF_SIZE - Maximum print buffer size. 
+#ifndef XINC_CLI_PRINTF_BUFF_SIZE
+#define XINC_CLI_PRINTF_BUFF_SIZE 23
 #endif
 
-// <e> NRF_CLI_HISTORY_ENABLED - Enable CLI history mode.
+// <e> XINC_CLI_HISTORY_ENABLED - Enable CLI history mode.
 //==========================================================
-#ifndef NRF_CLI_HISTORY_ENABLED
-#define NRF_CLI_HISTORY_ENABLED 0
+#ifndef XINC_CLI_HISTORY_ENABLED
+#define XINC_CLI_HISTORY_ENABLED 0
 #endif
-// <o> NRF_CLI_HISTORY_ELEMENT_SIZE - Size of one memory object reserved for CLI history. 
-#ifndef NRF_CLI_HISTORY_ELEMENT_SIZE
-#define NRF_CLI_HISTORY_ELEMENT_SIZE 32
+// <o> XINC_CLI_HISTORY_ELEMENT_SIZE - Size of one memory object reserved for CLI history. 
+#ifndef XINC_CLI_HISTORY_ELEMENT_SIZE
+#define XINC_CLI_HISTORY_ELEMENT_SIZE 32
 #endif
 
-// <o> NRF_CLI_HISTORY_ELEMENT_COUNT - Number of history memory objects. 
-#ifndef NRF_CLI_HISTORY_ELEMENT_COUNT
-#define NRF_CLI_HISTORY_ELEMENT_COUNT 8
+// <o> XINC_CLI_HISTORY_ELEMENT_COUNT - Number of history memory objects. 
+#ifndef XINC_CLI_HISTORY_ELEMENT_COUNT
+#define XINC_CLI_HISTORY_ELEMENT_COUNT 8
 #endif
 
 // </e>
 
-// <q> NRF_CLI_VT100_COLORS_ENABLED  - CLI VT100 colors.
+// <q> XINC_CLI_VT100_COLORS_ENABLED  - CLI VT100 colors.
  
 
-#ifndef NRF_CLI_VT100_COLORS_ENABLED
-#define NRF_CLI_VT100_COLORS_ENABLED 0
+#ifndef XINC_CLI_VT100_COLORS_ENABLED
+#define XINC_CLI_VT100_COLORS_ENABLED 0
 #endif
 
 
-// <q> NRF_CLI_STATISTICS_ENABLED  - Enable CLI statistics.
+// <q> XINC_CLI_STATISTICS_ENABLED  - Enable CLI statistics.
  
 
-#ifndef NRF_CLI_STATISTICS_ENABLED
-#define NRF_CLI_STATISTICS_ENABLED 0
+#ifndef XINC_CLI_STATISTICS_ENABLED
+#define XINC_CLI_STATISTICS_ENABLED 0
 #endif
 
-// <q> NRF_CLI_LOG_BACKEND  - Enable logger backend interface.
+// <q> XINC_CLI_LOG_BACKEND  - Enable logger backend interface.
  
 
-#ifndef NRF_CLI_LOG_BACKEND
-#define NRF_CLI_LOG_BACKEND 0
+#ifndef XINC_CLI_LOG_BACKEND
+#define XINC_CLI_LOG_BACKEND 0
 #endif
 
-// <q> NRF_CLI_USES_TASK_MANAGER_ENABLED  - Enable CLI to use task_manager
+// <q> XINC_CLI_USES_TASK_MANAGER_ENABLED  - Enable CLI to use task_manager
  
 
-#ifndef NRF_CLI_USES_TASK_MANAGER_ENABLED
-#define NRF_CLI_USES_TASK_MANAGER_ENABLED 0
+#ifndef XINC_CLI_USES_TASK_MANAGER_ENABLED
+#define XINC_CLI_USES_TASK_MANAGER_ENABLED 0
 #endif
 // </h> 
 
@@ -1616,25 +1616,25 @@
 // <h> nrf_fprintf - fprintf function.
 
 //==========================================================
-// <q> NRF_FPRINTF_ENABLED  - Enable/disable fprintf module.
+// <q> XINC_FPRINTF_ENABLED  - Enable/disable fprintf module.
  
 
-#ifndef NRF_FPRINTF_ENABLED
-#define NRF_FPRINTF_ENABLED 0
+#ifndef XINC_FPRINTF_ENABLED
+#define XINC_FPRINTF_ENABLED 0
 #endif
 
-// <q> NRF_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED  - For each printed LF, function will add CR.
+// <q> XINC_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED  - For each printed LF, function will add CR.
  
 
-#ifndef NRF_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED
-#define NRF_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED 0
+#ifndef XINC_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED
+#define XINC_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF_ENABLED 0
 #endif
 
-// <q> NRF_FPRINTF_DOUBLE_ENABLED  - Enable IEEE-754 double precision formatting.
+// <q> XINC_FPRINTF_DOUBLE_ENABLED  - Enable IEEE-754 double precision formatting.
  
 
-#ifndef NRF_FPRINTF_DOUBLE_ENABLED
-#define NRF_FPRINTF_DOUBLE_ENABLED 0
+#ifndef XINC_FPRINTF_DOUBLE_ENABLED
+#define XINC_FPRINTF_DOUBLE_ENABLED 0
 #endif
 
 // </h> 
@@ -1648,18 +1648,18 @@
 
 // <h> Xinc_Log 
 
-// <e> NRF_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
+// <e> XINC_LOG_BACKEND_UART_ENABLED - nrf_log_backend_uart - Log UART backend
 //==========================================================
-#ifndef NRF_LOG_BACKEND_UART_ENABLED
-#define NRF_LOG_BACKEND_UART_ENABLED 0
+#ifndef XINC_LOG_BACKEND_UART_ENABLED
+#define XINC_LOG_BACKEND_UART_ENABLED 0
 #endif
 
-// <o> NRF_LOG_BACKEND_UART_TX_PIN - UART TX pin 
-#ifndef NRF_LOG_BACKEND_UART_TX_PIN
-#define NRF_LOG_BACKEND_UART_TX_PIN 22
+// <o> XINC_LOG_BACKEND_UART_TX_PIN - UART TX pin 
+#ifndef XINC_LOG_BACKEND_UART_TX_PIN
+#define XINC_LOG_BACKEND_UART_TX_PIN 22
 #endif
 
-// <o> NRF_LOG_BACKEND_UART_BAUDRATE  - Default Baudrate
+// <o> XINC_LOG_BACKEND_UART_BAUDRATE  - Default Baudrate
 // <323584=> 1200 baud 
 // <643072=> 2400 baud 
 // <1290240=> 4800 baud 
@@ -1677,26 +1677,26 @@
 // <251658240=> 921600 baud 
 // <268435456=> 1000000 baud 
 
-#ifndef NRF_LOG_BACKEND_UART_BAUDRATE
-#define NRF_LOG_BACKEND_UART_BAUDRATE 30801920
+#ifndef XINC_LOG_BACKEND_UART_BAUDRATE
+#define XINC_LOG_BACKEND_UART_BAUDRATE 30801920
 #endif
-// <o> NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE - Size of buffer for partially processed strings. 
+// <o> XINC_LOG_BACKEND_UART_TEMP_BUFFER_SIZE - Size of buffer for partially processed strings. 
 // <i> Size of the buffer is a trade-off between RAM usage and processing.
 // <i> if buffer is smaller then strings will often be fragmented.
 // <i> It is recommended to use size which will fit typical log and only the
 // <i> longer one will be fragmented.
 
-#ifndef NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE
-#define NRF_LOG_BACKEND_UART_TEMP_BUFFER_SIZE 164
+#ifndef XINC_LOG_BACKEND_UART_TEMP_BUFFER_SIZE
+#define XINC_LOG_BACKEND_UART_TEMP_BUFFER_SIZE 164
 #endif
 
 // </e>
 
 //==========================================================
-// <e> NRF_LOG_ENABLED - nrf_log - Logger
+// <e> XINC_LOG_ENABLED - nrf_log - Logger
 //==========================================================
-#ifndef NRF_LOG_ENABLED
-#define NRF_LOG_ENABLED 0
+#ifndef XINC_LOG_ENABLED
+#define XINC_LOG_ENABLED 0
 #endif
 
 
@@ -1704,44 +1704,44 @@
 // <h> Log message pool - Configuration of log message pool
 
 //==========================================================
-// <o> NRF_LOG_MSGPOOL_ELEMENT_SIZE - Size of a single element in the pool of memory objects. 
+// <o> XINC_LOG_MSGPOOL_ELEMENT_SIZE - Size of a single element in the pool of memory objects. 
 // <i> If a small value is set, then performance of logs processing
 // <i> is degraded because data is fragmented. Bigger value impacts
 // <i> RAM memory utilization. The size is set to fit a message with
 // <i> a timestamp and up to 2 arguments in a single memory object.
 
-#ifndef NRF_LOG_MSGPOOL_ELEMENT_SIZE
-#define NRF_LOG_MSGPOOL_ELEMENT_SIZE 20
+#ifndef XINC_LOG_MSGPOOL_ELEMENT_SIZE
+#define XINC_LOG_MSGPOOL_ELEMENT_SIZE 20
 #endif
 
-// <o> NRF_LOG_MSGPOOL_ELEMENT_COUNT - Number of elements in the pool of memory objects 
+// <o> XINC_LOG_MSGPOOL_ELEMENT_COUNT - Number of elements in the pool of memory objects 
 // <i> If a small value is set, then it may lead to a deadlock
 // <i> in certain cases if backend has high latency and holds
 // <i> multiple messages for long time. Bigger value impacts
 // <i> RAM memory usage.
 
-#ifndef NRF_LOG_MSGPOOL_ELEMENT_COUNT
-#define NRF_LOG_MSGPOOL_ELEMENT_COUNT 8
+#ifndef XINC_LOG_MSGPOOL_ELEMENT_COUNT
+#define XINC_LOG_MSGPOOL_ELEMENT_COUNT 8
 #endif
 
 // </h> 
 //==========================================================
 
-// <q> NRF_LOG_ALLOW_OVERFLOW  - Configures behavior when circular buffer is full.
+// <q> XINC_LOG_ALLOW_OVERFLOW  - Configures behavior when circular buffer is full.
  
 
 // <i> If set then oldest logs are overwritten. Otherwise a 
 // <i> marker is injected informing about overflow.
 
-#ifndef NRF_LOG_ALLOW_OVERFLOW
-#define NRF_LOG_ALLOW_OVERFLOW 1
+#ifndef XINC_LOG_ALLOW_OVERFLOW
+#define XINC_LOG_ALLOW_OVERFLOW 1
 #endif
 
-// <o> NRF_LOG_BUFSIZE  - Size of the buffer for storing logs (in bytes).
+// <o> XINC_LOG_BUFSIZE  - Size of the buffer for storing logs (in bytes).
  
 
 // <i> Must be power of 2 and multiple of 4.
-// <i> If NRF_LOG_DEFERRED = 0 then buffer size can be reduced to minimum.
+// <i> If XINC_LOG_DEFERRED = 0 then buffer size can be reduced to minimum.
 // <128=> 128 
 // <256=> 256 
 // <512=> 512 
@@ -1751,18 +1751,18 @@
 // <8192=> 8192 
 // <16384=> 16384 
 
-#ifndef NRF_LOG_BUFSIZE
-#define NRF_LOG_BUFSIZE 1024
+#ifndef XINC_LOG_BUFSIZE
+#define XINC_LOG_BUFSIZE 1024
 #endif
 
-// <q> NRF_LOG_CLI_CMDS  - Enable CLI commands for the module.
+// <q> XINC_LOG_CLI_CMDS  - Enable CLI commands for the module.
  
 
-#ifndef NRF_LOG_CLI_CMDS
-#define NRF_LOG_CLI_CMDS 0
+#ifndef XINC_LOG_CLI_CMDS
+#define XINC_LOG_CLI_CMDS 0
 #endif
 
-// <o> NRF_LOG_DEFAULT_LEVEL  - Default Severity level
+// <o> XINC_LOG_DEFAULT_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -1770,38 +1770,38 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_LOG_DEFAULT_LEVEL
-#define NRF_LOG_DEFAULT_LEVEL 3
+#ifndef XINC_LOG_DEFAULT_LEVEL
+#define XINC_LOG_DEFAULT_LEVEL 3
 #endif
 
-// <q> NRF_LOG_DEFERRED  - Enable deffered logger.
+// <q> XINC_LOG_DEFERRED  - Enable deffered logger.
  
 
 // <i> Log data is buffered and can be processed in idle.
 
-#ifndef NRF_LOG_DEFERRED
-#define NRF_LOG_DEFERRED 1
+#ifndef XINC_LOG_DEFERRED
+#define XINC_LOG_DEFERRED 1
 #endif
 
-// <q> NRF_LOG_FILTERS_ENABLED  - Enable dynamic filtering of logs.
+// <q> XINC_LOG_FILTERS_ENABLED  - Enable dynamic filtering of logs.
  
 
-#ifndef NRF_LOG_FILTERS_ENABLED
-#define NRF_LOG_FILTERS_ENABLED 0
+#ifndef XINC_LOG_FILTERS_ENABLED
+#define XINC_LOG_FILTERS_ENABLED 0
 #endif
 
-// <q> NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED  - Enable use of critical region for non deffered mode when flushing logs.
+// <q> XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED  - Enable use of critical region for non deffered mode when flushing logs.
  
 
-// <i> When enabled NRF_LOG_FLUSH is called from critical section when non deffered mode is used.
+// <i> When enabled XINC_LOG_FLUSH is called from critical section when non deffered mode is used.
 // <i> Log output will never be corrupted as access to the log backend is exclusive
 // <i> but system will spend significant amount of time in critical section
 
-#ifndef NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
-#define NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED 0
+#ifndef XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#define XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED 0
 #endif
 
-// <o> NRF_LOG_STR_PUSH_BUFFER_SIZE  - Size of the buffer dedicated for strings stored using @ref NRF_LOG_PUSH.
+// <o> XINC_LOG_STR_PUSH_BUFFER_SIZE  - Size of the buffer dedicated for strings stored using @ref XINC_LOG_PUSH.
  
 // <16=> 16 
 // <32=> 32 
@@ -1811,11 +1811,11 @@
 // <512=> 512 
 // <1024=> 1024 
 
-#ifndef NRF_LOG_STR_PUSH_BUFFER_SIZE
-#define NRF_LOG_STR_PUSH_BUFFER_SIZE 256
+#ifndef XINC_LOG_STR_PUSH_BUFFER_SIZE
+#define XINC_LOG_STR_PUSH_BUFFER_SIZE 256
 #endif
 
-// <o> NRF_LOG_STR_PUSH_BUFFER_SIZE  - Size of the buffer dedicated for strings stored using @ref NRF_LOG_PUSH.
+// <o> XINC_LOG_STR_PUSH_BUFFER_SIZE  - Size of the buffer dedicated for strings stored using @ref XINC_LOG_PUSH.
  
 // <16=> 16 
 // <32=> 32 
@@ -1825,17 +1825,17 @@
 // <512=> 512 
 // <1024=> 1024 
 
-#ifndef NRF_LOG_STR_PUSH_BUFFER_SIZE
-#define NRF_LOG_STR_PUSH_BUFFER_SIZE 256
+#ifndef XINC_LOG_STR_PUSH_BUFFER_SIZE
+#define XINC_LOG_STR_PUSH_BUFFER_SIZE 256
 #endif
 
-// <e> NRF_LOG_USES_COLORS - If enabled then ANSI escape code for colors is prefixed to every string
+// <e> XINC_LOG_USES_COLORS - If enabled then ANSI escape code for colors is prefixed to every string
 //==========================================================
-#ifndef NRF_LOG_USES_COLORS
-#define NRF_LOG_USES_COLORS 0
+#ifndef XINC_LOG_USES_COLORS
+#define XINC_LOG_USES_COLORS 0
 #endif
 
-// <o> NRF_LOG_COLOR_DEFAULT  - ANSI escape code prefix.
+// <o> XINC_LOG_COLOR_DEFAULT  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1847,11 +1847,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_LOG_COLOR_DEFAULT
-#define NRF_LOG_COLOR_DEFAULT 0
+#ifndef XINC_LOG_COLOR_DEFAULT
+#define XINC_LOG_COLOR_DEFAULT 0
 #endif
 
-// <o> NRF_LOG_ERROR_COLOR  - ANSI escape code prefix.
+// <o> XINC_LOG_ERROR_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1863,11 +1863,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_LOG_ERROR_COLOR
-#define NRF_LOG_ERROR_COLOR 2
+#ifndef XINC_LOG_ERROR_COLOR
+#define XINC_LOG_ERROR_COLOR 2
 #endif
 
-// <o> NRF_LOG_WARNING_COLOR  - ANSI escape code prefix.
+// <o> XINC_LOG_WARNING_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1879,22 +1879,22 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_LOG_WARNING_COLOR
-#define NRF_LOG_WARNING_COLOR 4
+#ifndef XINC_LOG_WARNING_COLOR
+#define XINC_LOG_WARNING_COLOR 4
 #endif
 
 // </e>
 
-// <e> NRF_LOG_USES_TIMESTAMP - Enable timestamping
+// <e> XINC_LOG_USES_TIMESTAMP - Enable timestamping
 
 // <i> Function for getting the timestamp is provided by the user
 //==========================================================
-#ifndef NRF_LOG_USES_TIMESTAMP
-#define NRF_LOG_USES_TIMESTAMP 0
+#ifndef XINC_LOG_USES_TIMESTAMP
+#define XINC_LOG_USES_TIMESTAMP 0
 #endif
-// <o> NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY - Default frequency of the timestamp (in Hz) or 0 to use app_timer frequency. 
-#ifndef NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY
-#define NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY 0
+// <o> XINC_LOG_TIMESTAMP_DEFAULT_FREQUENCY - Default frequency of the timestamp (in Hz) or 0 to use app_timer frequency. 
+#ifndef XINC_LOG_TIMESTAMP_DEFAULT_FREQUENCY
+#define XINC_LOG_TIMESTAMP_DEFAULT_FREQUENCY 0
 #endif
 
 // </e>
@@ -1920,12 +1920,12 @@
 // <h> nrf_log in nRF_Libraries 
 //==========================================================
 
-// <e> NRF_ATFIFO_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINC_ATFIFO_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRF_ATFIFO_CONFIG_LOG_ENABLED
-#define NRF_ATFIFO_CONFIG_LOG_ENABLED 0
+#ifndef XINC_ATFIFO_CONFIG_LOG_ENABLED
+#define XINC_ATFIFO_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRF_ATFIFO_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINC_ATFIFO_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -1933,12 +1933,12 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_ATFIFO_CONFIG_LOG_LEVEL
-#define NRF_ATFIFO_CONFIG_LOG_LEVEL 3
+#ifndef XINC_ATFIFO_CONFIG_LOG_LEVEL
+#define XINC_ATFIFO_CONFIG_LOG_LEVEL 3
 #endif
 
 
-// <o> NRF_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL  - Initial severity level if dynamic filtering is enabled
+// <o> XINC_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL  - Initial severity level if dynamic filtering is enabled
  
 // <0=> Off 
 // <1=> Error 
@@ -1946,11 +1946,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL
-#define NRF_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL 3
+#ifndef XINC_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL
+#define XINC_ATFIFO_CONFIG_LOG_INIT_FILTER_LEVEL 3
 #endif
 
-// <o> NRF_ATFIFO_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINC_ATFIFO_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1962,11 +1962,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_ATFIFO_CONFIG_INFO_COLOR
-#define NRF_ATFIFO_CONFIG_INFO_COLOR 0
+#ifndef XINC_ATFIFO_CONFIG_INFO_COLOR
+#define XINC_ATFIFO_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRF_ATFIFO_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINC_ATFIFO_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1978,17 +1978,17 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_ATFIFO_CONFIG_DEBUG_COLOR
-#define NRF_ATFIFO_CONFIG_DEBUG_COLOR 0
+#ifndef XINC_ATFIFO_CONFIG_DEBUG_COLOR
+#define XINC_ATFIFO_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
-// <e> NRF_BALLOC_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINC_BALLOC_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRF_BALLOC_CONFIG_LOG_ENABLED
-#define NRF_BALLOC_CONFIG_LOG_ENABLED 0
+#ifndef XINC_BALLOC_CONFIG_LOG_ENABLED
+#define XINC_BALLOC_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRF_BALLOC_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINC_BALLOC_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -1996,11 +1996,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_BALLOC_CONFIG_LOG_LEVEL
-#define NRF_BALLOC_CONFIG_LOG_LEVEL 0
+#ifndef XINC_BALLOC_CONFIG_LOG_LEVEL
+#define XINC_BALLOC_CONFIG_LOG_LEVEL 0
 #endif
 
-// <o> NRF_BALLOC_CONFIG_INITIAL_LOG_LEVEL  - Initial severity level if dynamic filtering is enabled.
+// <o> XINC_BALLOC_CONFIG_INITIAL_LOG_LEVEL  - Initial severity level if dynamic filtering is enabled.
  
 
 // <i> If module generates a lot of logs, initial log level can
@@ -2012,11 +2012,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_BALLOC_CONFIG_INITIAL_LOG_LEVEL
-#define NRF_BALLOC_CONFIG_INITIAL_LOG_LEVEL 0
+#ifndef XINC_BALLOC_CONFIG_INITIAL_LOG_LEVEL
+#define XINC_BALLOC_CONFIG_INITIAL_LOG_LEVEL 0
 #endif
 
-// <o> NRF_BALLOC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINC_BALLOC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2028,11 +2028,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_BALLOC_CONFIG_INFO_COLOR
-#define NRF_BALLOC_CONFIG_INFO_COLOR 0
+#ifndef XINC_BALLOC_CONFIG_INFO_COLOR
+#define XINC_BALLOC_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRF_BALLOC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINC_BALLOC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2044,18 +2044,18 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_BALLOC_CONFIG_DEBUG_COLOR
-#define NRF_BALLOC_CONFIG_DEBUG_COLOR 0
+#ifndef XINC_BALLOC_CONFIG_DEBUG_COLOR
+#define XINC_BALLOC_CONFIG_DEBUG_COLOR 0
 #endif
 
 //</e>
 
-// <e> NRF_CLI_UART_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINC_CLI_UART_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRF_CLI_UART_CONFIG_LOG_ENABLED
-#define NRF_CLI_UART_CONFIG_LOG_ENABLED 1
+#ifndef XINC_CLI_UART_CONFIG_LOG_ENABLED
+#define XINC_CLI_UART_CONFIG_LOG_ENABLED 1
 #endif
-// <o> NRF_CLI_UART_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINC_CLI_UART_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2063,11 +2063,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRF_CLI_UART_CONFIG_LOG_LEVEL
-#define NRF_CLI_UART_CONFIG_LOG_LEVEL 3
+#ifndef XINC_CLI_UART_CONFIG_LOG_LEVEL
+#define XINC_CLI_UART_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRF_CLI_UART_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINC_CLI_UART_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2079,11 +2079,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_CLI_UART_CONFIG_INFO_COLOR
-#define NRF_CLI_UART_CONFIG_INFO_COLOR 0
+#ifndef XINC_CLI_UART_CONFIG_INFO_COLOR
+#define XINC_CLI_UART_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRF_CLI_UART_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINC_CLI_UART_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2095,8 +2095,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRF_CLI_UART_CONFIG_DEBUG_COLOR
-#define NRF_CLI_UART_CONFIG_DEBUG_COLOR 0
+#ifndef XINC_CLI_UART_CONFIG_DEBUG_COLOR
+#define XINC_CLI_UART_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
@@ -2113,11 +2113,11 @@
  
  // </e>
  
-// <q> NRF_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - nrf_log_str_formatter - Log string formatter
+// <q> XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED  - nrf_log_str_formatter - Log string formatter
  
 
-#ifndef NRF_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED
-#define NRF_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED 1
+#ifndef XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED
+#define XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED 1
 #endif
 // </h>
 //==========================================================

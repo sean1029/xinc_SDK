@@ -207,4 +207,4 @@ __STATIC_INLINE void xinc_i2c_txd_set(XINC_I2C_Type * p_reg, uint16_t data)
 }
 #endif
 
-#endif // NRF_I2C_H__
+#endif // XINC_I2C_H__

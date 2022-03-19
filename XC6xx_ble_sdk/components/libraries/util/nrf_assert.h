@@ -10,8 +10,8 @@
  * @brief Utilities for verifying program logic
  */
 
-#ifndef NRF_ASSERT_H_
-#define NRF_ASSERT_H_
+#ifndef XINC_ASSERT_H_
+#define XINC_ASSERT_H_
 
 #include <stdint.h>
 //#include "nrf.h"
@@ -44,13 +44,13 @@ extern "C" {
 void assert_nrf_callback(uint16_t line_num, const uint8_t *file_name);
 //lint -restore
 
-#if (defined(DEBUG_NRF) || defined(DEBUG_NRF_USER))
-#define NRF_ASSERT_PRESENT 1
+#if (defined(DEBUG_XINC) || defined(DEBUG_XINC_USER))
+#define XINC_ASSERT_PRESENT 1
 #else
-#define NRF_ASSERT_PRESENT 0
+#define XINC_ASSERT_PRESENT 0
 #endif
 
-//#if defined(DEBUG_NRF) || defined(DEBUG_NRF_USER)
+//#if defined(DEBUG_XINC) || defined(DEBUG_XINC_USER)
 
 /*lint -emacro(506, ASSERT) */ /* Suppress "Constant value Boolean */
 /*lint -emacro(774, ASSERT) */ /* Suppress "Boolean within 'if' always evaluates to True" */ \
@@ -70,7 +70,7 @@ else                                                                          \
 }
 #else //_lint
 #define ASSERT(expr)                                                          \
-if (NRF_ASSERT_PRESENT)                                                       \
+if (XINC_ASSERT_PRESENT)                                                       \
 {                                                                             \
     if (expr)                                                                 \
     {                                                                         \
@@ -88,4 +88,4 @@ if (NRF_ASSERT_PRESENT)                                                       \
 }
 #endif
 
-#endif /* NRF_ASSERT_H_ */
+#endif /* XINC_ASSERT_H_ */

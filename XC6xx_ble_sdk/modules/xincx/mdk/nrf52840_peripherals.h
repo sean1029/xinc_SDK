@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef _NRF52840_PERIPHERALS_H
-#define _NRF52840_PERIPHERALS_H
+#ifndef _XINC52840_PERIPHERALS_H
+#define _XINC52840_PERIPHERALS_H
 
 
 /* Clock Peripheral */
@@ -282,4 +282,4 @@
 
 #define QSPI_EASYDMA_MAXCNT_SIZE 20
 
-#endif      // _NRF52840_PERIPHERALS_H
+#endif      // _XINC52840_PERIPHERALS_H

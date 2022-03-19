@@ -347,7 +347,7 @@ bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin)
 
 ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
 {
-    ret_code_t err_code = NRF_SUCCESS; 
+    ret_code_t err_code = XINC_SUCCESS; 
 
     if (pin_in_use(pin))
     {
@@ -357,7 +357,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
     {
         if(pin > XINC_GPIO_31)
         {
-            err_code = NRF_ERROR_INVALID_PARAM;
+            err_code = XINC_ERROR_INVALID_PARAM;
         }
         else if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
         {
@@ -408,7 +408,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         }	
     }
 
-    if(err_code == NRF_SUCCESS)
+    if(err_code == XINC_SUCCESS)
     {
         pin_in_use_set(pin);
     }

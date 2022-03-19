@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_CLI_UART_H__
-#define NRF_CLI_UART_H__
+#ifndef XINC_CLI_UART_H__
+#define XINC_CLI_UART_H__
 
 #include "nrf_cli.h"
 #include "xinc_drv_uart.h"
@@ -60,12 +60,12 @@ typedef xinc_drv_uart_config_t nrf_cli_uart_config_t;
  * @param _tx_buf_sz Size of TX ring buffer.
  * @param _rx_buf_sz Size of RX ring buffer.
  */
-#define NRF_CLI_UART_DEF(_name, _uart_id, _tx_buf_sz, _rx_buf_sz)   \
+#define XINC_CLI_UART_DEF(_name, _uart_id, _tx_buf_sz, _rx_buf_sz)   \
     APP_TIMER_DEF(CONCAT_2(_name, _timer));                         \
-    NRF_RINGBUF_DEF(CONCAT_2(_name,_tx_ringbuf), _tx_buf_sz);       \
-    NRF_RINGBUF_DEF(CONCAT_2(_name,_rx_ringbuf), _rx_buf_sz);       \
+    XINC_RINGBUF_DEF(CONCAT_2(_name,_tx_ringbuf), _tx_buf_sz);       \
+    XINC_RINGBUF_DEF(CONCAT_2(_name,_rx_ringbuf), _rx_buf_sz);       \
     static const xinc_drv_uart_t CONCAT_2(_name,_uart) =             \
-                                 NRF_DRV_UART_INSTANCE(_uart_id);   \
+                                 XINC_DRV_UART_INSTANCE(_uart_id);   \
     static nrf_cli_uart_internal_cb_t CONCAT_2(_name, _cb);         \
     static const nrf_cli_uart_internal_t _name = {                  \
         .transport = {.p_api = &nrf_cli_uart_transport_api},        \
@@ -81,4 +81,4 @@ typedef xinc_drv_uart_config_t nrf_cli_uart_config_t;
 }
 #endif
 
-#endif /* NRF_CLI_UART_H__ */
+#endif /* XINC_CLI_UART_H__ */

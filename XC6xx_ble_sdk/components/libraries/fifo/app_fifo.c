@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(APP_FIFO)
+#if XINC_MODULE_ENABLED(APP_FIFO)
 #include "app_fifo.h"
 
 static __INLINE uint32_t fifo_length(app_fifo_t * p_fifo)
@@ -48,13 +48,13 @@ uint32_t app_fifo_init(app_fifo_t * p_fifo, uint8_t * p_buf, uint16_t buf_size)
     // Check buffer for null pointer.
     if (p_buf == NULL)
     {
-        return NRF_ERROR_NULL;
+        return XINC_ERROR_NULL;
     }
 
     // Check that the buffer size is a power of two.
     if (!IS_POWER_OF_TWO(buf_size))
     {
-        return NRF_ERROR_INVALID_LENGTH;
+        return XINC_ERROR_INVALID_LENGTH;
     }
 
     p_fifo->p_buf         = p_buf;
@@ -62,7 +62,7 @@ uint32_t app_fifo_init(app_fifo_t * p_fifo, uint8_t * p_buf, uint16_t buf_size)
     p_fifo->read_pos      = 0;
     p_fifo->write_pos     = 0;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -71,10 +71,10 @@ uint32_t app_fifo_put(app_fifo_t * p_fifo, uint8_t byte)
     if (FIFO_LENGTH() <= p_fifo->buf_size_mask)
     {
         fifo_put(p_fifo, byte);
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
-    return NRF_ERROR_NO_MEM;
+    return XINC_ERROR_NO_MEM;
 }
 
 
@@ -83,10 +83,10 @@ uint32_t app_fifo_get(app_fifo_t * p_fifo, uint8_t * p_byte)
     if (FIFO_LENGTH() != 0)
     {
         fifo_get(p_fifo, p_byte);
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
-    return NRF_ERROR_NOT_FOUND;
+    return XINC_ERROR_NOT_FOUND;
 
 }
 
@@ -96,17 +96,17 @@ uint32_t app_fifo_peek(app_fifo_t * p_fifo, uint16_t index, uint8_t * p_byte)
     if (FIFO_LENGTH() > index)
     {
         fifo_peek(p_fifo, index, p_byte);
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
-    return NRF_ERROR_NOT_FOUND;
+    return XINC_ERROR_NOT_FOUND;
 }
 
 
 uint32_t app_fifo_flush(app_fifo_t * p_fifo)
 {
     p_fifo->read_pos = p_fifo->write_pos;
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -125,13 +125,13 @@ uint32_t app_fifo_read(app_fifo_t * p_fifo, uint8_t * p_byte_array, uint32_t * p
     // Check if the FIFO is empty.
     if (byte_count == 0)
     {
-        return NRF_ERROR_NOT_FOUND;
+        return XINC_ERROR_NOT_FOUND;
     }
 
     // Check if application has requested only the size.
     if (p_byte_array == NULL)
     {
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
     // Fetch bytes from the FIFO.
@@ -142,7 +142,7 @@ uint32_t app_fifo_read(app_fifo_t * p_fifo, uint8_t * p_byte_array, uint32_t * p
 
     (*p_size) = read_size;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -161,13 +161,13 @@ uint32_t app_fifo_write(app_fifo_t * p_fifo, uint8_t const * p_byte_array, uint3
     // Check if the FIFO is FULL.
     if (available_count == 0)
     {
-        return NRF_ERROR_NO_MEM;
+        return XINC_ERROR_NO_MEM;
     }
 
     // Check if application has requested only the size.
     if (p_byte_array == NULL)
     {
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
     //Fetch bytes from the FIFO.
@@ -178,6 +178,6 @@ uint32_t app_fifo_write(app_fifo_t * p_fifo, uint8_t const * p_byte_array, uint3
 
     (*p_size) = write_size;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
-#endif //NRF_MODULE_ENABLED(APP_FIFO)
+#endif //XINC_MODULE_ENABLED(APP_FIFO)

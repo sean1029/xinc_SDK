@@ -17,8 +17,8 @@
  *        Atomic types are limited to @ref nrf_atomic_u32_t and @ref nrf_atomic_flag_t.
  */
 
-#ifndef NRF_ATOMIC_H__
-#define NRF_ATOMIC_H__
+#ifndef XINC_ATOMIC_H__
+#define XINC_ATOMIC_H__
 
 #include "sdk_common.h"
 
@@ -238,6 +238,6 @@ uint32_t nrf_atomic_flag_clear(nrf_atomic_flag_t * p_data);
 }
 #endif
 
-#endif /* NRF_ATOMIC_H__ */
+#endif /* XINC_ATOMIC_H__ */
 
 /** @} */

@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_INTERNAL_H__
-#define NRF_LOG_INTERNAL_H__
+#ifndef XINC_LOG_INTERNAL_H__
+#define XINC_LOG_INTERNAL_H__
 #include "sdk_common.h"
 #include "nrf.h"
 #include "nrf_error.h"
@@ -17,97 +17,97 @@
 #include "nrf_log_instance.h"
 #include "nrf_log_types.h"
 
-#ifndef NRF_LOG_ERROR_COLOR
-    #define NRF_LOG_ERROR_COLOR NRF_LOG_COLOR_DEFAULT
+#ifndef XINC_LOG_ERROR_COLOR
+    #define XINC_LOG_ERROR_COLOR XINC_LOG_COLOR_DEFAULT
 #endif
 
-#ifndef NRF_LOG_WARNING_COLOR
-    #define NRF_LOG_WARNING_COLOR NRF_LOG_COLOR_DEFAULT
+#ifndef XINC_LOG_WARNING_COLOR
+    #define XINC_LOG_WARNING_COLOR XINC_LOG_COLOR_DEFAULT
 #endif
 
-#ifndef NRF_LOG_INFO_COLOR
-    #define NRF_LOG_INFO_COLOR NRF_LOG_COLOR_DEFAULT
+#ifndef XINC_LOG_INFO_COLOR
+    #define XINC_LOG_INFO_COLOR XINC_LOG_COLOR_DEFAULT
 #endif
 
-#ifndef NRF_LOG_DEBUG_COLOR
-    #define NRF_LOG_DEBUG_COLOR NRF_LOG_COLOR_DEFAULT
+#ifndef XINC_LOG_DEBUG_COLOR
+    #define XINC_LOG_DEBUG_COLOR XINC_LOG_COLOR_DEFAULT
 #endif
 
 
-#ifndef NRF_LOG_COLOR_DEFAULT
-#define NRF_LOG_COLOR_DEFAULT 0
+#ifndef XINC_LOG_COLOR_DEFAULT
+#define XINC_LOG_COLOR_DEFAULT 0
 #endif
 
-#ifndef NRF_LOG_DEFAULT_LEVEL
-#define NRF_LOG_DEFAULT_LEVEL 0
+#ifndef XINC_LOG_DEFAULT_LEVEL
+#define XINC_LOG_DEFAULT_LEVEL 0
 #endif
 
-#ifndef NRF_LOG_USES_COLORS
-#define NRF_LOG_USES_COLORS       0
+#ifndef XINC_LOG_USES_COLORS
+#define XINC_LOG_USES_COLORS       0
 #endif
 
-#ifndef NRF_LOG_USES_TIMESTAMP
-#define NRF_LOG_USES_TIMESTAMP    0
+#ifndef XINC_LOG_USES_TIMESTAMP
+#define XINC_LOG_USES_TIMESTAMP    0
 #endif
 
-#ifndef NRF_LOG_FILTERS_ENABLED
-#define NRF_LOG_FILTERS_ENABLED   0
+#ifndef XINC_LOG_FILTERS_ENABLED
+#define XINC_LOG_FILTERS_ENABLED   0
 #endif
 
-#ifndef NRF_LOG_MODULE_NAME
-    #define NRF_LOG_MODULE_NAME app
+#ifndef XINC_LOG_MODULE_NAME
+    #define XINC_LOG_MODULE_NAME app
 #endif
 
-#define NRF_LOG_LEVEL_BITS         3
-#define NRF_LOG_LEVEL_MASK         ((1UL << NRF_LOG_LEVEL_BITS) - 1)
-#define NRF_LOG_MODULE_ID_BITS     16
-#define NRF_LOG_MODULE_ID_POS      16
+#define XINC_LOG_LEVEL_BITS         3
+#define XINC_LOG_LEVEL_MASK         ((1UL << XINC_LOG_LEVEL_BITS) - 1)
+#define XINC_LOG_MODULE_ID_BITS     16
+#define XINC_LOG_MODULE_ID_POS      16
 
 
-#define NRF_LOG_MAX_NUM_OF_ARGS         6
+#define XINC_LOG_MAX_NUM_OF_ARGS         6
 
 
-#if NRF_LOG_FILTERS_ENABLED && NRF_LOG_ENABLED
-    #define NRF_LOG_FILTER              NRF_LOG_ITEM_DATA_DYNAMIC(NRF_LOG_MODULE_NAME).filter
-    #define NRF_LOG_INST_FILTER(p_inst) (p_inst)->filter
+#if XINC_LOG_FILTERS_ENABLED && XINC_LOG_ENABLED
+    #define XINC_LOG_FILTER              XINC_LOG_ITEM_DATA_DYNAMIC(XINC_LOG_MODULE_NAME).filter
+    #define XINC_LOG_INST_FILTER(p_inst) (p_inst)->filter
 #else
-    #undef NRF_LOG_FILTER
-    #define NRF_LOG_FILTER              NRF_LOG_SEVERITY_DEBUG
-    #define NRF_LOG_INST_FILTER(p_inst) NRF_LOG_SEVERITY_DEBUG
+    #undef XINC_LOG_FILTER
+    #define XINC_LOG_FILTER              XINC_LOG_SEVERITY_DEBUG
+    #define XINC_LOG_INST_FILTER(p_inst) XINC_LOG_SEVERITY_DEBUG
 #endif
 
 /**
  * @brief Macro for calculating module id based on address and section start address
  */
-#define NRF_LOG_MODULE_ID_GET_CONST(addr) (((uint32_t)(addr) -                                     \
-                                   (uint32_t)NRF_SECTION_START_ADDR(log_const_data)) /             \
+#define XINC_LOG_MODULE_ID_GET_CONST(addr) (((uint32_t)(addr) -                                     \
+                                   (uint32_t)XINC_SECTION_START_ADDR(log_const_data)) /             \
                                     sizeof(nrf_log_module_const_data_t))
 /**
  * @brief Macro for calculating module id based on address and section start address
  */
-#define NRF_LOG_MODULE_ID_GET_DYNAMIC(addr) (((uint32_t)(addr) -                                   \
-                                   (uint32_t)NRF_SECTION_START_ADDR(log_dynamic_data)) /           \
+#define XINC_LOG_MODULE_ID_GET_DYNAMIC(addr) (((uint32_t)(addr) -                                   \
+                                   (uint32_t)XINC_SECTION_START_ADDR(log_dynamic_data)) /           \
                                     sizeof(nrf_log_module_dynamic_data_t))
 
 
-#if NRF_LOG_ENABLED
-#define NRF_LOG_MODULE_ID        NRF_LOG_MODULE_ID_GET_CONST(&NRF_LOG_ITEM_DATA_CONST(NRF_LOG_MODULE_NAME))
-#if NRF_LOG_FILTERS_ENABLED
-#define NRF_LOG_INST_ID(p_inst)  NRF_LOG_MODULE_ID_GET_DYNAMIC(p_inst)
+#if XINC_LOG_ENABLED
+#define XINC_LOG_MODULE_ID        XINC_LOG_MODULE_ID_GET_CONST(&XINC_LOG_ITEM_DATA_CONST(XINC_LOG_MODULE_NAME))
+#if XINC_LOG_FILTERS_ENABLED
+#define XINC_LOG_INST_ID(p_inst)  XINC_LOG_MODULE_ID_GET_DYNAMIC(p_inst)
 #else
-#define NRF_LOG_INST_ID(p_inst)  NRF_LOG_MODULE_ID
+#define XINC_LOG_INST_ID(p_inst)  XINC_LOG_MODULE_ID
 #endif
 #else
-#define NRF_LOG_MODULE_ID       0
-#define NRF_LOG_INST_ID(p_inst) 0
+#define XINC_LOG_MODULE_ID       0
+#define XINC_LOG_INST_ID(p_inst) 0
 #endif
 
 
 #define LOG_INTERNAL_X(N, ...)          CONCAT_2(LOG_INTERNAL_, N) (__VA_ARGS__)
 #define LOG_INTERNAL(type, ...) LOG_INTERNAL_X(NUM_VA_ARGS_LESS_1( \
                                                            __VA_ARGS__), type, __VA_ARGS__)
-#if NRF_LOG_ENABLED
-#define NRF_LOG_INTERNAL_LOG_PUSH(_str) nrf_log_push(_str)
+#if XINC_LOG_ENABLED
+#define XINC_LOG_INTERNAL_LOG_PUSH(_str) nrf_log_push(_str)
 #define LOG_INTERNAL_0(type, str) \
     nrf_log_frontend_std_0(type, str)
 #define LOG_INTERNAL_1(type, str, arg0) \
@@ -129,8 +129,8 @@
             (uint32_t)(arg1), (uint32_t)(arg2), (uint32_t)(arg3), (uint32_t)(arg4), (uint32_t)(arg5))/*lint -restore*/
 
 
-#else //NRF_LOG_ENABLED
-#define NRF_LOG_INTERNAL_LOG_PUSH(_str) (void)(_str)
+#else //XINC_LOG_ENABLED
+#define XINC_LOG_INTERNAL_LOG_PUSH(_str) (void)(_str)
 #define LOG_INTERNAL_0(_type, _str) \
                (void)(_type); (void)(_str)
 #define LOG_INTERNAL_1(_type, _str, _arg0) \
@@ -145,12 +145,12 @@
                (void)(_type); (void)(_str); (void)(_arg0); (void)(_arg1); (void)(_arg2); (void)(_arg3); (void)(_arg4)
 #define LOG_INTERNAL_6(_type, _str, _arg0, _arg1, _arg2, _arg3, _arg4, _arg5) \
                (void)(_type); (void)(_str); (void)(_arg0); (void)(_arg1); (void)(_arg2); (void)(_arg3); (void)(_arg4); (void)(_arg5)
-#endif //NRF_LOG_ENABLED
+#endif //XINC_LOG_ENABLED
 
-#define LOG_SEVERITY_MOD_ID(severity) ((severity) | NRF_LOG_MODULE_ID << NRF_LOG_MODULE_ID_POS)
-#define LOG_SEVERITY_INST_ID(severity,p_inst) ((severity) | NRF_LOG_INST_ID(p_inst) << NRF_LOG_MODULE_ID_POS)
+#define LOG_SEVERITY_MOD_ID(severity) ((severity) | XINC_LOG_MODULE_ID << XINC_LOG_MODULE_ID_POS)
+#define LOG_SEVERITY_INST_ID(severity,p_inst) ((severity) | XINC_LOG_INST_ID(p_inst) << XINC_LOG_MODULE_ID_POS)
 
-#if NRF_LOG_ENABLED
+#if XINC_LOG_ENABLED
 #define LOG_HEXDUMP(_severity, _p_data, _length) \
             nrf_log_frontend_hexdump((_severity), (_p_data), (_length))
 #else
@@ -158,126 +158,126 @@
              (void)(_severity); (void)(_p_data); (void)_length
 #endif
 
-#define NRF_LOG_INTERNAL_INST(level, level_id, p_inst, ...)                              \
-    if (NRF_LOG_ENABLED && (NRF_LOG_LEVEL >= level) &&                                   \
-        (level <= NRF_LOG_DEFAULT_LEVEL))                                                \
+#define XINC_LOG_INTERNAL_INST(level, level_id, p_inst, ...)                              \
+    if (XINC_LOG_ENABLED && (XINC_LOG_LEVEL >= level) &&                                   \
+        (level <= XINC_LOG_DEFAULT_LEVEL))                                                \
     {                                                                                    \
-        if (NRF_LOG_INST_FILTER(p_inst) >= level)                                        \
+        if (XINC_LOG_INST_FILTER(p_inst) >= level)                                        \
         {                                                                                \
             LOG_INTERNAL(LOG_SEVERITY_INST_ID(level_id, p_inst), __VA_ARGS__);           \
         }                                                                                \
     }
 
-#define NRF_LOG_INTERNAL_MODULE(level, level_id, ...)                                    \
-    if (NRF_LOG_ENABLED && (NRF_LOG_LEVEL >= level) &&                                   \
-        (level <= NRF_LOG_DEFAULT_LEVEL))                                                \
+#define XINC_LOG_INTERNAL_MODULE(level, level_id, ...)                                    \
+    if (XINC_LOG_ENABLED && (XINC_LOG_LEVEL >= level) &&                                   \
+        (level <= XINC_LOG_DEFAULT_LEVEL))                                                \
     {                                                                                    \
-        if (NRF_LOG_FILTER >= level)                                                     \
+        if (XINC_LOG_FILTER >= level)                                                     \
         {                                                                                \
             LOG_INTERNAL(LOG_SEVERITY_MOD_ID(level_id), __VA_ARGS__);                    \
         }                                                                                \
     }
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INST(level, level_id, p_inst, p_data, len)        \
-    if (NRF_LOG_ENABLED && (NRF_LOG_LEVEL >= level) &&                             \
-        (level <= NRF_LOG_DEFAULT_LEVEL))                                          \
+#define XINC_LOG_INTERNAL_HEXDUMP_INST(level, level_id, p_inst, p_data, len)        \
+    if (XINC_LOG_ENABLED && (XINC_LOG_LEVEL >= level) &&                             \
+        (level <= XINC_LOG_DEFAULT_LEVEL))                                          \
     {                                                                              \
-        if (NRF_LOG_INST_FILTER(p_inst) >= level)                                  \
+        if (XINC_LOG_INST_FILTER(p_inst) >= level)                                  \
         {                                                                          \
             LOG_HEXDUMP(LOG_SEVERITY_INST_ID(level_id, p_inst),                    \
                                      (p_data), (len));                             \
         }                                                                          \
     }
 
-#define NRF_LOG_INTERNAL_HEXDUMP_MODULE(level, level_id, p_data, len)              \
-    if (NRF_LOG_ENABLED && (NRF_LOG_LEVEL >= level) &&                             \
-        (level <= NRF_LOG_DEFAULT_LEVEL))                                          \
+#define XINC_LOG_INTERNAL_HEXDUMP_MODULE(level, level_id, p_data, len)              \
+    if (XINC_LOG_ENABLED && (XINC_LOG_LEVEL >= level) &&                             \
+        (level <= XINC_LOG_DEFAULT_LEVEL))                                          \
     {                                                                              \
-        if (NRF_LOG_FILTER >= level)                                               \
+        if (XINC_LOG_FILTER >= level)                                               \
         {                                                                          \
             LOG_HEXDUMP(LOG_SEVERITY_MOD_ID(level_id),                             \
                                      (p_data), (len));                             \
         }                                                                          \
     }																																							\
 
-#define NRF_LOG_INTERNAL_INST_ERROR(p_inst, ...) \
-                NRF_LOG_INTERNAL_INST(NRF_LOG_SEVERITY_ERROR, NRF_LOG_SEVERITY_ERROR, p_inst, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_INST_ERROR(p_inst, ...) \
+                XINC_LOG_INTERNAL_INST(XINC_LOG_SEVERITY_ERROR, XINC_LOG_SEVERITY_ERROR, p_inst, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_ERROR(...) \
-                NRF_LOG_INTERNAL_MODULE(NRF_LOG_SEVERITY_ERROR, NRF_LOG_SEVERITY_ERROR,__VA_ARGS__)
+#define XINC_LOG_INTERNAL_ERROR(...) \
+                XINC_LOG_INTERNAL_MODULE(XINC_LOG_SEVERITY_ERROR, XINC_LOG_SEVERITY_ERROR,__VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INST_ERROR(p_inst, p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_INST(NRF_LOG_SEVERITY_ERROR, NRF_LOG_SEVERITY_ERROR, p_inst, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_INST_ERROR(p_inst, p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_INST(XINC_LOG_SEVERITY_ERROR, XINC_LOG_SEVERITY_ERROR, p_inst, p_data, len)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_ERROR(p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_MODULE(NRF_LOG_SEVERITY_ERROR, NRF_LOG_SEVERITY_ERROR, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_ERROR(p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_MODULE(XINC_LOG_SEVERITY_ERROR, XINC_LOG_SEVERITY_ERROR, p_data, len)
 
-#define NRF_LOG_INTERNAL_INST_WARNING(p_inst, ...) \
-            NRF_LOG_INTERNAL_INST(NRF_LOG_SEVERITY_WARNING, NRF_LOG_SEVERITY_WARNING, p_inst, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_INST_WARNING(p_inst, ...) \
+            XINC_LOG_INTERNAL_INST(XINC_LOG_SEVERITY_WARNING, XINC_LOG_SEVERITY_WARNING, p_inst, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_WARNING(...) \
-            NRF_LOG_INTERNAL_MODULE(NRF_LOG_SEVERITY_WARNING, NRF_LOG_SEVERITY_WARNING,__VA_ARGS__)
+#define XINC_LOG_INTERNAL_WARNING(...) \
+            XINC_LOG_INTERNAL_MODULE(XINC_LOG_SEVERITY_WARNING, XINC_LOG_SEVERITY_WARNING,__VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INST_WARNING(p_inst, p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_INST(NRF_LOG_SEVERITY_WARNING, NRF_LOG_SEVERITY_WARNING, p_inst, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_INST_WARNING(p_inst, p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_INST(XINC_LOG_SEVERITY_WARNING, XINC_LOG_SEVERITY_WARNING, p_inst, p_data, len)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_WARNING(p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_MODULE(NRF_LOG_SEVERITY_WARNING, NRF_LOG_SEVERITY_WARNING, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_WARNING(p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_MODULE(XINC_LOG_SEVERITY_WARNING, XINC_LOG_SEVERITY_WARNING, p_data, len)
 
-#define NRF_LOG_INTERNAL_INST_INFO(p_inst, ...) \
-        NRF_LOG_INTERNAL_INST(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO, p_inst, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_INST_INFO(p_inst, ...) \
+        XINC_LOG_INTERNAL_INST(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO, p_inst, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_INFO(...) \
-        NRF_LOG_INTERNAL_MODULE(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_INFO(...) \
+        XINC_LOG_INTERNAL_MODULE(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INST_INFO(p_inst, p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_INST(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO, p_inst, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_INST_INFO(p_inst, p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_INST(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO, p_inst, p_data, len)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INFO(p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_MODULE(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_INFO(p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_MODULE(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO, p_data, len)
 
-#define NRF_LOG_INTERNAL_RAW_INFO(...) \
-        NRF_LOG_INTERNAL_MODULE(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO_RAW, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_RAW_INFO(...) \
+        XINC_LOG_INTERNAL_MODULE(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO_RAW, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_RAW_HEXDUMP_INFO(p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_MODULE(NRF_LOG_SEVERITY_INFO, NRF_LOG_SEVERITY_INFO_RAW, p_data, len)
+#define XINC_LOG_INTERNAL_RAW_HEXDUMP_INFO(p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_MODULE(XINC_LOG_SEVERITY_INFO, XINC_LOG_SEVERITY_INFO_RAW, p_data, len)
 
-#define NRF_LOG_INTERNAL_INST_DEBUG(p_inst, ...) \
-        NRF_LOG_INTERNAL_INST(NRF_LOG_SEVERITY_DEBUG, NRF_LOG_SEVERITY_DEBUG, p_inst, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_INST_DEBUG(p_inst, ...) \
+        XINC_LOG_INTERNAL_INST(XINC_LOG_SEVERITY_DEBUG, XINC_LOG_SEVERITY_DEBUG, p_inst, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_DEBUG(...) \
-        NRF_LOG_INTERNAL_MODULE(NRF_LOG_SEVERITY_DEBUG, NRF_LOG_SEVERITY_DEBUG, __VA_ARGS__)
+#define XINC_LOG_INTERNAL_DEBUG(...) \
+        XINC_LOG_INTERNAL_MODULE(XINC_LOG_SEVERITY_DEBUG, XINC_LOG_SEVERITY_DEBUG, __VA_ARGS__)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_INST_DEBUG(p_inst, p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_INST(NRF_LOG_SEVERITY_DEBUG, NRF_LOG_SEVERITY_DEBUG, p_inst, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_INST_DEBUG(p_inst, p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_INST(XINC_LOG_SEVERITY_DEBUG, XINC_LOG_SEVERITY_DEBUG, p_inst, p_data, len)
 
-#define NRF_LOG_INTERNAL_HEXDUMP_DEBUG(p_data, len) \
-        NRF_LOG_INTERNAL_HEXDUMP_MODULE(NRF_LOG_SEVERITY_DEBUG, NRF_LOG_SEVERITY_DEBUG, p_data, len)
+#define XINC_LOG_INTERNAL_HEXDUMP_DEBUG(p_data, len) \
+        XINC_LOG_INTERNAL_HEXDUMP_MODULE(XINC_LOG_SEVERITY_DEBUG, XINC_LOG_SEVERITY_DEBUG, p_data, len)
 
 
-#if NRF_LOG_ENABLED
+#if XINC_LOG_ENABLED
 
 #ifdef UNIT_TEST
 #define COMPILED_LOG_LEVEL 4
 #else
-#define COMPILED_LOG_LEVEL NRF_LOG_LEVEL
+#define COMPILED_LOG_LEVEL XINC_LOG_LEVEL
 #endif
 
 
-#define NRF_LOG_INTERNAL_MODULE_REGISTER() \
-                   NRF_LOG_INTERNAL_ITEM_REGISTER(NRF_LOG_MODULE_NAME,                 \
-                                                  STRINGIFY(NRF_LOG_MODULE_NAME),      \
-                                                  NRF_LOG_INFO_COLOR,                  \
-                                                  NRF_LOG_DEBUG_COLOR,                 \
-                                                  NRF_LOG_INITIAL_LEVEL,               \
+#define XINC_LOG_INTERNAL_MODULE_REGISTER() \
+                   XINC_LOG_INTERNAL_ITEM_REGISTER(XINC_LOG_MODULE_NAME,                 \
+                                                  STRINGIFY(XINC_LOG_MODULE_NAME),      \
+                                                  XINC_LOG_INFO_COLOR,                  \
+                                                  XINC_LOG_DEBUG_COLOR,                 \
+                                                  XINC_LOG_INITIAL_LEVEL,               \
                                                   COMPILED_LOG_LEVEL)
 
 #else
-#define NRF_LOG_INTERNAL_MODULE_REGISTER() /*lint -save -e19*/ /*lint -restore*/
+#define XINC_LOG_INTERNAL_MODULE_REGISTER() /*lint -save -e19*/ /*lint -restore*/
 #endif
 
-extern nrf_log_module_dynamic_data_t NRF_LOG_ITEM_DATA_DYNAMIC(NRF_LOG_MODULE_NAME);
-extern _CONST nrf_log_module_const_data_t NRF_LOG_ITEM_DATA_CONST(NRF_LOG_MODULE_NAME);
+extern nrf_log_module_dynamic_data_t XINC_LOG_ITEM_DATA_DYNAMIC(XINC_LOG_MODULE_NAME);
+extern _CONST nrf_log_module_const_data_t XINC_LOG_ITEM_DATA_CONST(XINC_LOG_MODULE_NAME);
 
 /**
  * Set of macros for encoding and decoding header for log entries.
@@ -399,7 +399,7 @@ typedef struct
 } nrf_log_header_t;
 
 #define HEADER_SIZE         (sizeof(nrf_log_header_t)/sizeof(uint32_t) - \
-                (NRF_LOG_USES_TIMESTAMP ? 0 : 1))
+                (XINC_LOG_USES_TIMESTAMP ? 0 : 1))
 
 /**
  * @brief A function for logging raw string.
@@ -509,4 +509,4 @@ void nrf_log_frontend_hexdump(uint32_t           severity_mid,
  * @return Byte.
  */
 uint8_t nrf_log_getchar(void);
-#endif // NRF_LOG_INTERNAL_H__
+#endif // XINC_LOG_INTERNAL_H__

@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_BACKEND_INTERFACE_H
-#define NRF_LOG_BACKEND_INTERFACE_H
+#ifndef XINC_LOG_BACKEND_INTERFACE_H
+#define XINC_LOG_BACKEND_INTERFACE_H
 
 /**@file
  * @addtogroup nrf_log Logger module
@@ -19,7 +19,7 @@
  * @brief    The nrf_log backend interface.
  */
 
-#if NRF_MODULE_ENABLED(NRF_LOG)
+#if XINC_MODULE_ENABLED(XINC_LOG)
 #include "nrf_memobj.h"
 #endif
 
@@ -34,7 +34,7 @@ extern "C" {
 /**
  * @brief nrf_log entry.
  */
-#if NRF_LOG_ENABLED
+#if XINC_LOG_ENABLED
 typedef nrf_memobj_t nrf_log_entry_t;
 #else
 typedef void nrf_log_entry_t;
@@ -86,15 +86,15 @@ struct nrf_log_backend_s
 };
 
 
-#define NRF_LOG_BACKEND_SECTION_NAME log_backends
+#define XINC_LOG_BACKEND_SECTION_NAME log_backends
 
-#define NRF_LOG_BACKEND_SUBSECTION_NAME(_name) NRF_LOG_BACKEND_SECTION_NAME
+#define XINC_LOG_BACKEND_SUBSECTION_NAME(_name) XINC_LOG_BACKEND_SECTION_NAME
 
 /** @brief Invalid ID value indicating that logger backend is not attached to the logger frontend.*/
-#define NRF_LOG_BACKEND_INVALID_ID 0xFF
+#define XINC_LOG_BACKEND_INVALID_ID 0xFF
 
 /** @brief Memory section where backends are located. */
-NRF_SECTION_DEF(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
+XINC_SECTION_DEF(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
 
 /**
  * @brief Macro for creating a logger backend instance.
@@ -103,13 +103,13 @@ NRF_SECTION_DEF(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
  * @param _api   Logger backend API.
  * @param _p_ctx Pointer to the user context.
  */
-#define NRF_LOG_BACKEND_DEF(_name, _api, _p_ctx)                           \
+#define XINC_LOG_BACKEND_DEF(_name, _api, _p_ctx)                           \
     static nrf_log_backend_cb_t CONCAT_2(log_backend_cb_, _name) = {       \
             .enabled = false,                                              \
-            .id      = NRF_LOG_BACKEND_INVALID_ID,                         \
+            .id      = XINC_LOG_BACKEND_INVALID_ID,                         \
             .p_next  = NULL                                                \
     };                                                                     \
-    NRF_SECTION_ITEM_REGISTER(NRF_LOG_BACKEND_SUBSECTION_NAME(_name),      \
+    XINC_SECTION_ITEM_REGISTER(XINC_LOG_BACKEND_SUBSECTION_NAME(_name),      \
           static const nrf_log_backend_t _name) = {                        \
             .p_api = &_api,                                                \
             .p_ctx = _p_ctx,                                               \
@@ -235,6 +235,6 @@ __STATIC_INLINE bool nrf_log_backend_is_enabled(nrf_log_backend_t const * const 
 }
 #endif
 
-#endif //NRF_LOG_BACKEND_INTERFACE_H
+#endif //XINC_LOG_BACKEND_INTERFACE_H
 
 /** @} */

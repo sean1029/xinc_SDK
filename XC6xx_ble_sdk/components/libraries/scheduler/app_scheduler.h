@@ -106,8 +106,8 @@ typedef void (*app_sched_event_handler_t)(void * p_event_data, uint16_t event_si
  * @note Normally initialization should be done using the APP_SCHED_INIT() macro, as that will both
  *       allocate the scheduler buffer, and also align the buffer correctly.
  *
- * @retval      NRF_SUCCESS               Successful initialization.
- * @retval      NRF_ERROR_INVALID_PARAM   Invalid parameter (buffer not aligned to a 4 byte
+ * @retval      XINC_SUCCESS               Successful initialization.
+ * @retval      XINC_ERROR_INVALID_PARAM   Invalid parameter (buffer not aligned to a 4 byte
  *                                        boundary).
  */
 uint32_t app_sched_init(uint16_t max_event_size, uint16_t queue_size, void * p_evt_buffer);
@@ -127,7 +127,7 @@ void app_sched_execute(void);
  * @param[in]   event_size     Size of event data to be scheduled.
  * @param[in]   handler        Event handler to receive the event.
  *
- * @return      NRF_SUCCESS on success, otherwise an error code.
+ * @return      XINC_SUCCESS on success, otherwise an error code.
  */
 uint32_t app_sched_event_put(void const *              p_event_data,
                              uint16_t                  event_size,

@@ -7,28 +7,28 @@
 
 #if CLI_TEST_EN
 
-#if NRF_MODULE_ENABLED(NRF_CLI)
+#if XINC_MODULE_ENABLED(XINC_CLI)
 
-NRF_CLI_UART_DEF(cli_uart, 1, 64, 64);
-NRF_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
+XINC_CLI_UART_DEF(cli_uart, 1, 64, 64);
+XINC_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
 #endif
 void cli_test(void)
 {
-    #if NRF_MODULE_ENABLED(NRF_CLI)
+    #if XINC_MODULE_ENABLED(XINC_CLI)
     xinc_drv_uart_config_t uart_config;
     uart_config.pseltxd = CLI_TX_PIN_NUMBER;
     uart_config.pselrxd = CLI_RX_PIN_NUMBER;
     uart_config.hwfc    = XINC_UART_HWFC_DISABLED;
     uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
 
-    ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, NRF_LOG_SEVERITY_NONE);
+    ret_code_t err_code = nrf_cli_init(&m_cli_uart, &uart_config, false, false, XINC_LOG_SEVERITY_NONE);
     APP_ERROR_CHECK(err_code);
     #endif	
 }
 
 void cli_processt(void)
 {
-    #if NRF_MODULE_ENABLED(NRF_CLI)
+    #if XINC_MODULE_ENABLED(XINC_CLI)
     nrf_cli_process(&m_cli_uart);
     #endif	
 }
@@ -134,18 +134,18 @@ void drv_uart_test(void)
 #include "nrf_log_default_backends.h"
  void log_test(void)
 {
-    #if NRF_MODULE_ENABLED(NRF_LOG)
-    ret_code_t err_code = NRF_LOG_INIT(NULL);
+    #if XINC_MODULE_ENABLED(XINC_LOG)
+    ret_code_t err_code = XINC_LOG_INIT(NULL);
     APP_ERROR_CHECK(err_code);
     printf("%s err_code:%d\r\n",__func__,err_code);
-    NRF_LOG_DEFAULT_BACKENDS_INIT();
+    XINC_LOG_DEFAULT_BACKENDS_INIT();
     #endif
 }
 
 void log_flush(void)
 {
-    #if NRF_MODULE_ENABLED(NRF_LOG)
-    NRF_LOG_FLUSH();
+    #if XINC_MODULE_ENABLED(XINC_LOG)
+    XINC_LOG_FLUSH();
     #endif
 }
 	 
@@ -383,7 +383,7 @@ void drv_timer_test(void)
 #if XINCX_CHECK(XINCX_TIMER_ENABLED)
     uint32_t time_ms = 3000; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
     //Configure TIMER_LED for generating simple light effect - leds on board will invert his state one after the other.
     xinc_drv_timer_config_t timer_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;

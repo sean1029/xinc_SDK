@@ -47,14 +47,14 @@ typedef void (*bsp_btn_ble_error_handler_t) (uint32_t nrf_error);
  *                                to wake up the device, *p_startup_bsp_evt is set to
  *                                @ref BSP_EVENT_CLEAR_BONDING_DATA.
  *
- * @retval NRF_SUCCESS  If initialization was successful. Otherwise, a propagated error code is
+ * @retval XINC_SUCCESS  If initialization was successful. Otherwise, a propagated error code is
  *                      returned.
  */
 uint32_t bsp_btn_ble_init(bsp_btn_ble_error_handler_t error_handler, bsp_event_t * p_startup_bsp_evt);
 
 /**@brief Function for setting up wakeup buttons before going into sleep mode.
  *
- * @retval NRF_SUCCESS  If the buttons were prepared successfully. Otherwise, a propagated error
+ * @retval XINC_SUCCESS  If the buttons were prepared successfully. Otherwise, a propagated error
  *                      code is returned.
  */
 uint32_t bsp_btn_ble_sleep_mode_prepare(void);

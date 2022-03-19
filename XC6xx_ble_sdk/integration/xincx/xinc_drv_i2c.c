@@ -145,14 +145,14 @@ ret_code_t xinc_drv_i2c_init(xinc_drv_i2c_t const *        p_instance,
     }
 
     ret_code_t result = 0;
-    if (NRF_DRV_I2C_USE_I2CM)
+    if (XINC_DRV_I2C_USE_I2CM)
     {
         result = xincx_i2cm_init(&p_instance->u.i2cm,
                                 (xincx_i2cm_config_t const *)p_config,
                                 event_handler ? i2cm_evt_handler : NULL,
                                 (void *)inst_idx);
     }
-    else if (NRF_DRV_I2C_USE_I2C)
+    else if (XINC_DRV_I2C_USE_I2C)
     {
         result = xincx_i2c_init(&p_instance->u.i2c,
                                (xincx_i2c_config_t const *)p_config,

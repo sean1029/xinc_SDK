@@ -15,8 +15,8 @@
  * @brief Log UART backend.
  */
 
-#ifndef NRF_LOG_BACKEND_UART_H
-#define NRF_LOG_BACKEND_UART_H
+#ifndef XINC_LOG_BACKEND_UART_H
+#define XINC_LOG_BACKEND_UART_H
 
 #include "nrf_log_backend_interface.h"
 
@@ -30,8 +30,8 @@ typedef struct {
     nrf_log_backend_t               backend;
 } nrf_log_backend_uart_t;
 
-#define NRF_LOG_BACKEND_UART_DEF(_name)                         \
-    NRF_LOG_BACKEND_DEF(_name, nrf_log_backend_uart_api, NULL)
+#define XINC_LOG_BACKEND_UART_DEF(_name)                         \
+    XINC_LOG_BACKEND_DEF(_name, nrf_log_backend_uart_api, NULL)
 
 void nrf_log_backend_uart_init(void);
 
@@ -39,6 +39,6 @@ void nrf_log_backend_uart_init(void);
 }
 #endif
 
-#endif //NRF_LOG_BACKEND_UART_H
+#endif //XINC_LOG_BACKEND_UART_H
 
 /** @} */

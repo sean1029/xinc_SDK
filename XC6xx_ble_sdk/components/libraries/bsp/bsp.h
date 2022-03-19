@@ -167,11 +167,11 @@ typedef void (* bsp_event_callback_t)(bsp_event_t);
  * @param[in]   type               Type of peripherals used.
  * @param[in]   callback           Function to be called when button press/event is detected.
  *
- * @retval      NRF_SUCCESS               If the BSP module was successfully initialized.
- * @retval      NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized.
- * @retval      NRF_ERROR_NO_MEM          If the maximum number of timers has already been reached.
- * @retval      NRF_ERROR_INVALID_PARAM   If GPIOTE has too many users.
- * @retval      NRF_ERROR_INVALID_STATE   If button or GPIOTE has not been initialized.
+ * @retval      XINC_SUCCESS               If the BSP module was successfully initialized.
+ * @retval      XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized.
+ * @retval      XINC_ERROR_NO_MEM          If the maximum number of timers has already been reached.
+ * @retval      XINC_ERROR_INVALID_PARAM   If GPIOTE has too many users.
+ * @retval      XINC_ERROR_INVALID_STATE   If button or GPIOTE has not been initialized.
  */
 uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback);
 
@@ -198,8 +198,8 @@ bool bsp_button_is_pressed(uint32_t button);
  * @param[in]   action                   Button action to assign event to.
  * @param[in]   event                    Event to be assigned to button.
  *
- * @retval      NRF_SUCCESS              If the event was successfully assigned to button.
- * @retval      NRF_ERROR_INVALID_PARAM  If the button ID or button action was invalid.
+ * @retval      XINC_SUCCESS              If the event was successfully assigned to button.
+ * @retval      XINC_ERROR_INVALID_PARAM  If the button ID or button action was invalid.
  */
 uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t action, bsp_event_t event);
 
@@ -212,9 +212,9 @@ uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t 
  *
  * @param[in]   indicate   State to be indicated.
  *
- * @retval      NRF_SUCCESS               If the state was successfully indicated.
- * @retval      NRF_ERROR_NO_MEM          If the internal timer operations queue was full.
- * @retval      NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized,
+ * @retval      XINC_SUCCESS               If the state was successfully indicated.
+ * @retval      XINC_ERROR_NO_MEM          If the internal timer operations queue was full.
+ * @retval      XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized,
  *                                        or internal timer has not been created.
  */
 uint32_t bsp_indication_set(bsp_indication_t indicate);
@@ -225,8 +225,8 @@ uint32_t bsp_indication_set(bsp_indication_t indicate);
  * @details     After calling this function, all buttons will generate events when pressed, and
  *              all buttons will be able to wake the system up from sleep mode.
  *
- * @retval      NRF_SUCCESS              If the buttons were successfully enabled.
- * @retval      NRF_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
+ * @retval      XINC_SUCCESS              If the buttons were successfully enabled.
+ * @retval      XINC_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
  * @return      A propagated error.
  */
 uint32_t bsp_buttons_enable(void);
@@ -237,8 +237,8 @@ uint32_t bsp_buttons_enable(void);
  * @details     After calling this function, no buttons will generate events when pressed, and
  *              no buttons will be able to wake the system up from sleep mode.
  *
- * @retval      NRF_SUCCESS              If the buttons were successfully disabled.
- * @retval      NRF_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
+ * @retval      XINC_SUCCESS              If the buttons were successfully disabled.
+ * @retval      XINC_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
  * @return      A propagated error.
  */
 uint32_t bsp_buttons_disable(void);
@@ -251,8 +251,8 @@ uint32_t bsp_buttons_disable(void);
  *
  * @param[in]   button_idx  Index of the button.
  *
- * @retval      NRF_SUCCESS              If the button was successfully enabled.
- * @retval      NRF_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
+ * @retval      XINC_SUCCESS              If the button was successfully enabled.
+ * @retval      XINC_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
  */
 uint32_t bsp_wakeup_button_enable(uint32_t button_idx);
 
@@ -261,8 +261,8 @@ uint32_t bsp_wakeup_button_enable(uint32_t button_idx);
  *
  * @param[in]   button_idx  index of the button.
  *
- * @retval      NRF_SUCCESS              If the button was successfully disabled.
- * @retval      NRF_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
+ * @retval      XINC_SUCCESS              If the button was successfully disabled.
+ * @retval      XINC_ERROR_NOT_SUPPORTED  If the board has no buttons or BSP_SIMPLE is defined.
  */
 uint32_t bsp_wakeup_button_disable(uint32_t button_idx);
 

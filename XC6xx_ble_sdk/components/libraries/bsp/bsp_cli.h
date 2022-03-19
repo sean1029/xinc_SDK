@@ -38,7 +38,7 @@ extern "C" {
  *
  * @param[in]  callback           Function to be called when event is recevied.
  *
- * @retval NRF_SUCCESS  If initialization was successful.
+ * @retval XINC_SUCCESS  If initialization was successful.
  */
 
 ret_code_t bsp_cli_init(bsp_event_callback_t callback);

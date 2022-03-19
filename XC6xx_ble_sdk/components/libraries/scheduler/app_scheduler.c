@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(APP_SCHEDULER)
+#if XINC_MODULE_ENABLED(APP_SCHEDULER)
 #include "app_scheduler.h"
 #include <stdlib.h>
 #include <stdint.h>
@@ -80,7 +80,7 @@ uint32_t app_sched_init(uint16_t event_size, uint16_t queue_size, void * p_event
     // Check that buffer is correctly aligned
     if (!is_word_aligned(p_event_buffer))
     {
-        return NRF_ERROR_INVALID_PARAM;
+        return XINC_ERROR_INVALID_PARAM;
     }
 
     // Initialize event scheduler
@@ -95,7 +95,7 @@ uint32_t app_sched_init(uint16_t event_size, uint16_t queue_size, void * p_event
     m_max_queue_utilization = 0;
 #endif
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -173,16 +173,16 @@ uint32_t app_sched_event_put(void const              * p_event_data,
                 m_queue_event_headers[event_index].event_data_size = 0;
             }
 
-            err_code = NRF_SUCCESS;
+            err_code = XINC_SUCCESS;
         }
         else
         {
-            err_code = NRF_ERROR_NO_MEM;
+            err_code = XINC_ERROR_NO_MEM;
         }
     }
     else
     {
-        err_code = NRF_ERROR_INVALID_LENGTH;
+        err_code = XINC_ERROR_INVALID_LENGTH;
     }
 
     return err_code;
@@ -254,4 +254,4 @@ void app_sched_execute(void)
         m_queue_start_index = next_index(m_queue_start_index);
     }
 }
-#endif //NRF_MODULE_ENABLED(APP_SCHEDULER)
+#endif //XINC_MODULE_ENABLED(APP_SCHEDULER)

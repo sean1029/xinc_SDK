@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(APP_TIMER)
+#if XINC_MODULE_ENABLED(APP_TIMER)
 #include "app_timer.h"
 #include <stdlib.h>
 #include "nrf.h"
@@ -825,7 +825,7 @@ static timer_user_op_t * user_op_alloc( uint8_t * p_last_index)
  * @param[in]  timeout_periodic  Time (in ticks) between periodic expiries.
  * @param[in]  p_context         General purpose pointer. Will be passed to the timeout handler when
  *                               the timer expires.
- * @return     NRF_SUCCESS on success, otherwise an error code.
+ * @return     XINC_SUCCESS on success, otherwise an error code.
  */
 
 static uint32_t timer_start_op_schedule(timer_node_t * p_node,
@@ -834,13 +834,13 @@ static uint32_t timer_start_op_schedule(timer_node_t * p_node,
                                         void *          p_context)
 {
     uint8_t last_index;
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
     CRITICAL_REGION_ENTER();
     timer_user_op_t * p_user_op = user_op_alloc(&last_index);
     if (p_user_op == NULL)
     {
-        err_code = NRF_ERROR_NO_MEM;
+        err_code = XINC_ERROR_NO_MEM;
     }
     else
     {
@@ -855,7 +855,7 @@ static uint32_t timer_start_op_schedule(timer_node_t * p_node,
     }
     CRITICAL_REGION_EXIT();
 
-    if (err_code == NRF_SUCCESS)
+    if (err_code == XINC_SUCCESS)
     {
         timer_list_handler_sched();
     }
@@ -869,20 +869,20 @@ static uint32_t timer_start_op_schedule(timer_node_t * p_node,
  * @param[in]  timer_id   Id of timer to stop.
  * @param[in]  op_type    Type of stop operation
  *
- * @return NRF_SUCCESS on successful scheduling a timer stop operation. NRF_ERROR_NO_MEM when there
+ * @return XINC_SUCCESS on successful scheduling a timer stop operation. XINC_ERROR_NO_MEM when there
  *         is no memory left to schedule the timer stop operation.
  */
 static uint32_t timer_stop_op_schedule(timer_node_t * p_node,
                                        timer_user_op_type_t op_type)
 {
     uint8_t last_index;
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
     CRITICAL_REGION_ENTER();
     timer_user_op_t * p_user_op = user_op_alloc(&last_index);
     if (p_user_op == NULL)
     {
-        err_code = NRF_ERROR_NO_MEM;
+        err_code = XINC_ERROR_NO_MEM;
     }
     else
     {
@@ -893,7 +893,7 @@ static uint32_t timer_stop_op_schedule(timer_node_t * p_node,
     }
     CRITICAL_REGION_EXIT();
 
-    if (err_code == NRF_SUCCESS)
+    if (err_code == XINC_SUCCESS)
     {
         timer_list_handler_sched();
     }
@@ -926,7 +926,7 @@ ret_code_t app_timer_init(void)
     m_ticks_latest = systick_counter_get();
 		
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -939,22 +939,22 @@ ret_code_t app_timer_create(app_timer_id_t const *      p_timer_id,
 
     if (timeout_handler == NULL)
     {
-        return NRF_ERROR_INVALID_PARAM;
+        return XINC_ERROR_INVALID_PARAM;
     }
     if (p_timer_id == NULL)
     {
-        return NRF_ERROR_INVALID_PARAM;
+        return XINC_ERROR_INVALID_PARAM;
     }
     if (((timer_node_t*)*p_timer_id)->is_running)
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
 
     timer_node_t * p_node     = (timer_node_t *)*p_timer_id;
     p_node->is_running        = false;
     p_node->mode              = mode;
     p_node->p_timeout_handler = timeout_handler;
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t app_timer_start(app_timer_id_t timer_id, uint32_t timeout_ticks, void * p_context)
@@ -967,15 +967,15 @@ ret_code_t app_timer_start(app_timer_id_t timer_id, uint32_t timeout_ticks, void
 
     if (timer_id == 0)
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
     if ((timeout_ticks < APP_TIMER_MIN_TIMEOUT_TICKS) || (timeout_ticks > MAX_TIMER_COUNTER_VAL))
     {
-      //  return NRF_ERROR_INVALID_PARAM;
+      //  return XINC_ERROR_INVALID_PARAM;
     }
     if (p_node->p_timeout_handler == NULL)
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
 
     // Schedule timer start operation
@@ -996,7 +996,7 @@ ret_code_t app_timer_stop(app_timer_id_t timer_id)
 
     if ((timer_id == NULL) || (p_node->p_timeout_handler == NULL))
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
 
     p_node->is_running = false;
@@ -1046,4 +1046,4 @@ void app_timer_resume(void)
 
 
 
-#endif //NRF_MODULE_ENABLED(APP_TIMER)
+#endif //XINC_MODULE_ENABLED(APP_TIMER)

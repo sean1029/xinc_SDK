@@ -22,7 +22,7 @@ static void *                   m_contexts[INSTANCE_COUNT];
 uint8_t xinc_drv_uart_use_easy_dma[INSTANCE_COUNT];
 #endif
 
-#if defined(NRF_DRV_UART_WITH_UARTE)
+#if defined(XINC_DRV_UART_WITH_UARTE)
 static void uarte_evt_handler(xincx_uarte_event_t const * p_event,
                               void *                     p_context)
 {
@@ -45,9 +45,9 @@ static void uarte_evt_handler(xincx_uarte_event_t const * p_event,
     };
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
 }
-#endif // defined(NRF_DRV_UART_WITH_UARTE)
+#endif // defined(XINC_DRV_UART_WITH_UARTE)
 
-#if defined(NRF_DRV_UART_WITH_UART)
+#if defined(XINC_DRV_UART_WITH_UART)
 static void uart_evt_handler(xincx_uart_event_t const * p_event,
                              void *                    p_context)
 {
@@ -70,7 +70,7 @@ static void uart_evt_handler(xincx_uart_event_t const * p_event,
     };
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
 }
-#endif // defined(NRF_DRV_UART_WITH_UART)
+#endif // defined(XINC_DRV_UART_WITH_UART)
 
 ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
                              xinc_drv_uart_config_t const * p_config,
@@ -80,8 +80,8 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
     m_handlers[inst_idx] = event_handler;
     m_contexts[inst_idx] = p_config->p_context;
 
-#if defined(NRF_DRV_UART_WITH_UARTE) && defined(NRF_DRV_UART_WITH_UART)
-#ifdef NRF52840_XXAA
+#if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
+#ifdef XINC52840_XXAA
     if (inst_idx == 1)
     {
         ASSERT(p_config->use_easy_dma);
@@ -97,14 +97,14 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
 
     ret_code_t result = 0;
 	
-		printf("%s,USE_UARTE:%d\r\n",__func__,NRF_DRV_UART_USE_UARTE);
-    if (NRF_DRV_UART_USE_UARTE)
+		printf("%s,USE_UARTE:%d\r\n",__func__,XINC_DRV_UART_USE_UARTE);
+    if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_init(&p_instance->uarte,
                                  (xincx_uarte_config_t const *)&config,
                                  event_handler ? uarte_evt_handler : NULL);
     }
-    else if (NRF_DRV_UART_USE_UART)
+    else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_init(&p_instance->uart,
                                 (xincx_uart_config_t const *)&config,

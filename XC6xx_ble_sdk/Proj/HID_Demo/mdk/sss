@@ -67,15 +67,15 @@
 extern "C" {
 #endif
 
-#define NRF_FAULT_ID_SDK_RANGE_START (0x00004000) /**< The start of the range of error IDs defined in the SDK. */
+#define XINC_FAULT_ID_SDK_RANGE_START (0x00004000) /**< The start of the range of error IDs defined in the SDK. */
 
 /**@defgroup APP_ERROR_FAULT_IDS Fault ID types
  * @{ */
-#define NRF_FAULT_ID_SDK_ERROR       (NRF_FAULT_ID_SDK_RANGE_START + 1) /**< An error stemming from a call to @ref APP_ERROR_CHECK or @ref APP_ERROR_CHECK_BOOL. The info parameter is a pointer to an @ref error_info_t variable. */
-#define NRF_FAULT_ID_SDK_ASSERT      (NRF_FAULT_ID_SDK_RANGE_START + 2) /**< An error stemming from a call to ASSERT (nrf_assert.h). The info parameter is a pointer to an @ref assert_info_t variable. */
+#define XINC_FAULT_ID_SDK_ERROR       (XINC_FAULT_ID_SDK_RANGE_START + 1) /**< An error stemming from a call to @ref APP_ERROR_CHECK or @ref APP_ERROR_CHECK_BOOL. The info parameter is a pointer to an @ref error_info_t variable. */
+#define XINC_FAULT_ID_SDK_ASSERT      (XINC_FAULT_ID_SDK_RANGE_START + 2) /**< An error stemming from a call to ASSERT (nrf_assert.h). The info parameter is a pointer to an @ref assert_info_t variable. */
 /**@} */
 
-/**@brief Structure containing info about an error of the type @ref NRF_FAULT_ID_SDK_ERROR.
+/**@brief Structure containing info about an error of the type @ref XINC_FAULT_ID_SDK_ERROR.
  */
 typedef struct
 {
@@ -84,7 +84,7 @@ typedef struct
     uint32_t        err_code;    /**< The error code representing the error that occurred. */
 } error_info_t;
 
-/**@brief Structure containing info about an error of the type @ref NRF_FAULT_ID_SDK_ASSERT.
+/**@brief Structure containing info about an error of the type @ref XINC_FAULT_ID_SDK_ASSERT.
  */
 typedef struct
 {
@@ -118,7 +118,7 @@ void app_error_handler_bare(ret_code_t error_code);
 
 /**@brief       Function for saving the parameters and entering an eternal loop, for debug purposes.
  *
- * @param[in] id    Fault identifier. See @ref NRF_FAULT_IDS.
+ * @param[in] id    Fault identifier. See @ref XINC_FAULT_IDS.
  * @param[in] pc    The program counter of the instruction that triggered the fault, or 0 if
  *                  unavailable.
  * @param[in] info  Optional additional information regarding the fault. Refer to each fault
@@ -128,7 +128,7 @@ void app_error_save_and_stop(uint32_t id, uint32_t pc, uint32_t info);
 
 /**@brief       Function for logging details of error and flushing logs.
  *
- * @param[in] id    Fault identifier. See @ref NRF_FAULT_IDS.
+ * @param[in] id    Fault identifier. See @ref XINC_FAULT_IDS.
  * @param[in] pc    The program counter of the instruction that triggered the fault, or 0 if
  *                  unavailable.
  * @param[in] info  Optional additional information regarding the fault. Refer to each fault
@@ -154,7 +154,7 @@ void app_error_log_handle(uint32_t id, uint32_t pc, uint32_t info);
         app_error_handler_bare((ERR_CODE));                            \
     } while (0)
 #endif
-/**@brief Macro for calling error handler function if supplied error code any other than NRF_SUCCESS.
+/**@brief Macro for calling error handler function if supplied error code any other than XINC_SUCCESS.
  *
  * @param[in] ERR_CODE Error code supplied to the error handler.
  */
@@ -162,7 +162,7 @@ void app_error_log_handle(uint32_t id, uint32_t pc, uint32_t info);
     do                                                      \
     {                                                       \
         const uint32_t LOCAL_ERR_CODE = (ERR_CODE);         \
-        if (LOCAL_ERR_CODE != NRF_SUCCESS)                  \
+        if (LOCAL_ERR_CODE != XINC_SUCCESS)                  \
         {                                                   \
             APP_ERROR_HANDLER(LOCAL_ERR_CODE);              \
         }                                                   \

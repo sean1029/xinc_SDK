@@ -15,20 +15,20 @@
     #include <xincx_spim.h>
 		    // This part is for old modules that use directly SPI HAL definitions
     // (to make them compilable for chips that have only SPIM).
-    #define NRF_SPI_FREQ_125K           XINC_SPIM_FREQ_125K
-    #define NRF_SPI_FREQ_250K           XINC_SPIM_FREQ_250K
-    #define NRF_SPI_FREQ_500K           XINC_SPIM_FREQ_500K
-    #define NRF_SPI_FREQ_1M             XINC_SPIM_FREQ_1M
-    #define NRF_SPI_FREQ_2M             XINC_SPIM_FREQ_2M
-    #define NRF_SPI_FREQ_4M             XINC_SPIM_FREQ_4M
-    #define NRF_SPI_FREQ_8M             XINC_SPIM_FREQ_8M
-		#define NRF_SPI_FREQ_16M            XINC_SPIM_FREQ_16M
-    #define NRF_SPI_MODE_0              XINC_SPIM_MODE_0
-    #define NRF_SPI_MODE_1              XINC_SPIM_MODE_1
-    #define NRF_SPI_MODE_2              XINC_SPIM_MODE_2
-    #define NRF_SPI_MODE_3              XINC_SPIM_MODE_3
-    #define NRF_SPI_BIT_ORDER_MSB_FIRST XINC_SPIM_BIT_ORDER_MSB_FIRST
-    #define NRF_SPI_BIT_ORDER_LSB_FIRST XINC_SPIM_BIT_ORDER_LSB_FIRST
+    #define XINC_SPI_FREQ_125K           XINC_SPIM_FREQ_125K
+    #define XINC_SPI_FREQ_250K           XINC_SPIM_FREQ_250K
+    #define XINC_SPI_FREQ_500K           XINC_SPIM_FREQ_500K
+    #define XINC_SPI_FREQ_1M             XINC_SPIM_FREQ_1M
+    #define XINC_SPI_FREQ_2M             XINC_SPIM_FREQ_2M
+    #define XINC_SPI_FREQ_4M             XINC_SPIM_FREQ_4M
+    #define XINC_SPI_FREQ_8M             XINC_SPIM_FREQ_8M
+		#define XINC_SPI_FREQ_16M            XINC_SPIM_FREQ_16M
+    #define XINC_SPI_MODE_0              XINC_SPIM_MODE_0
+    #define XINC_SPI_MODE_1              XINC_SPIM_MODE_1
+    #define XINC_SPI_MODE_2              XINC_SPIM_MODE_2
+    #define XINC_SPI_MODE_3              XINC_SPIM_MODE_3
+    #define XINC_SPI_BIT_ORDER_MSB_FIRST XINC_SPIM_BIT_ORDER_MSB_FIRST
+    #define XINC_SPI_BIT_ORDER_LSB_FIRST XINC_SPIM_BIT_ORDER_LSB_FIRST
 #else
     // Compilers (at least the smart ones) will remove the SPIM related code
     // (blocks starting with "if (XINC_DRV_SPI_USE_SPIM)") when it is not used,
@@ -105,14 +105,14 @@ typedef struct
  */
 typedef enum
 {
-    XINC_DRV_SPI_FREQ_125K = NRF_SPI_FREQ_125K, ///< 125 kbps.
-    XINC_DRV_SPI_FREQ_250K = NRF_SPI_FREQ_250K, ///< 250 kbps.
-    XINC_DRV_SPI_FREQ_500K = NRF_SPI_FREQ_500K, ///< 500 kbps.
-    XINC_DRV_SPI_FREQ_1M   = NRF_SPI_FREQ_1M,   ///< 1 Mbps.
-    XINC_DRV_SPI_FREQ_2M   = NRF_SPI_FREQ_2M,   ///< 2 Mbps.
-    XINC_DRV_SPI_FREQ_4M   = NRF_SPI_FREQ_4M,   ///< 4 Mbps.
-    XINC_DRV_SPI_FREQ_8M   = NRF_SPI_FREQ_8M,    ///< 8 Mbps.
-		XINC_DRV_SPI_FREQ_16M  = NRF_SPI_FREQ_16M
+    XINC_DRV_SPI_FREQ_125K = XINC_SPI_FREQ_125K, ///< 125 kbps.
+    XINC_DRV_SPI_FREQ_250K = XINC_SPI_FREQ_250K, ///< 250 kbps.
+    XINC_DRV_SPI_FREQ_500K = XINC_SPI_FREQ_500K, ///< 500 kbps.
+    XINC_DRV_SPI_FREQ_1M   = XINC_SPI_FREQ_1M,   ///< 1 Mbps.
+    XINC_DRV_SPI_FREQ_2M   = XINC_SPI_FREQ_2M,   ///< 2 Mbps.
+    XINC_DRV_SPI_FREQ_4M   = XINC_SPI_FREQ_4M,   ///< 4 Mbps.
+    XINC_DRV_SPI_FREQ_8M   = XINC_SPI_FREQ_8M,    ///< 8 Mbps.
+		XINC_DRV_SPI_FREQ_16M  = XINC_SPI_FREQ_16M
 } xinc_drv_spi_frequency_t;
 
 /**
@@ -120,10 +120,10 @@ typedef enum
  */
 typedef enum
 {
-    XINC_DRV_SPI_MODE_0 = NRF_SPI_MODE_0, ///< SCK active high, sample on leading edge of clock.
-    XINC_DRV_SPI_MODE_1 = NRF_SPI_MODE_1, ///< SCK active high, sample on trailing edge of clock.
-    XINC_DRV_SPI_MODE_2 = NRF_SPI_MODE_2, ///< SCK active low, sample on leading edge of clock.
-    XINC_DRV_SPI_MODE_3 = NRF_SPI_MODE_3  ///< SCK active low, sample on trailing edge of clock.
+    XINC_DRV_SPI_MODE_0 = XINC_SPI_MODE_0, ///< SCK active high, sample on leading edge of clock.
+    XINC_DRV_SPI_MODE_1 = XINC_SPI_MODE_1, ///< SCK active high, sample on trailing edge of clock.
+    XINC_DRV_SPI_MODE_2 = XINC_SPI_MODE_2, ///< SCK active low, sample on leading edge of clock.
+    XINC_DRV_SPI_MODE_3 = XINC_SPI_MODE_3  ///< SCK active low, sample on trailing edge of clock.
 } xinc_drv_spi_mode_t;
 
 /**
@@ -131,8 +131,8 @@ typedef enum
  */
 typedef enum
 {
-    XINC_DRV_SPI_BIT_ORDER_MSB_FIRST = NRF_SPI_BIT_ORDER_MSB_FIRST, ///< Most significant bit shifted out first.
-    XINC_DRV_SPI_BIT_ORDER_LSB_FIRST = NRF_SPI_BIT_ORDER_LSB_FIRST  ///< Least significant bit shifted out first.
+    XINC_DRV_SPI_BIT_ORDER_MSB_FIRST = XINC_SPI_BIT_ORDER_MSB_FIRST, ///< Most significant bit shifted out first.
+    XINC_DRV_SPI_BIT_ORDER_LSB_FIRST = XINC_SPI_BIT_ORDER_LSB_FIRST  ///< Least significant bit shifted out first.
 } xinc_drv_spi_bit_order_t;
 
 /**
@@ -265,9 +265,9 @@ typedef void (* xinc_drv_spi_evt_handler_t)(xinc_drv_spi_evt_t   const * p_event
  *                       will be performed in blocking mode.
  * @param      p_context Context passed to event handler.
  *
- * @retval NRF_SUCCESS             If initialization was successful.
- * @retval NRF_ERROR_INVALID_STATE If the driver was already initialized.
- * @retval NRF_ERROR_BUSY          If some other peripheral with the same
+ * @retval XINC_SUCCESS             If initialization was successful.
+ * @retval XINC_ERROR_INVALID_STATE If the driver was already initialized.
+ * @retval XINC_ERROR_BUSY          If some other peripheral with the same
  *                                 instance ID is already in use. This is
  *                                 possible only if PERIPHERAL_RESOURCE_SHARING_ENABLED
  *                                 is set to a value other than zero.
@@ -297,7 +297,7 @@ void xinc_drv_spi_uninit(xinc_drv_spi_t const * const p_instance);
  *
  * @note Peripherals using EasyDMA (for example, SPIM) require the transfer buffers
  *       to be placed in the Data RAM region. If they are not and an SPIM instance is
- *       used, this function will fail with the error code NRF_ERROR_INVALID_ADDR.
+ *       used, this function will fail with the error code XINC_ERROR_INVALID_ADDR.
  *
  * @param[in] p_instance       Pointer to the driver instance structure.
  * @param[in] p_tx_buffer      Pointer to the transmit buffer. Can be NULL
@@ -307,10 +307,10 @@ void xinc_drv_spi_uninit(xinc_drv_spi_t const * const p_instance);
  *                             if there is nothing to receive.
  * @param     rx_buffer_length Length of the receive buffer.
  *
- * @retval NRF_SUCCESS            If the operation was successful.
- * @retval NRF_ERROR_BUSY         If a previously started transfer has not finished
+ * @retval XINC_SUCCESS            If the operation was successful.
+ * @retval XINC_ERROR_BUSY         If a previously started transfer has not finished
  *                                yet.
- * @retval NRF_ERROR_INVALID_ADDR If the provided buffers are not placed in the Data
+ * @retval XINC_ERROR_INVALID_ADDR If the provided buffers are not placed in the Data
  *                                RAM region.
  */
 __STATIC_INLINE
@@ -355,10 +355,10 @@ ret_code_t xinc_drv_spi_transfer(xinc_drv_spi_t const * const p_instance,
  * @param p_xfer_desc Pointer to the transfer descriptor.
  * @param flags       Transfer options (0 for default settings).
  *
- * @retval NRF_SUCCESS             If the procedure was successful.
- * @retval NRF_ERROR_BUSY          If the driver is not ready for a new transfer.
- * @retval NRF_ERROR_NOT_SUPPORTED If the provided parameters are not supported.
- * @retval NRF_ERROR_INVALID_ADDR  If the provided buffers are not placed in the Data
+ * @retval XINC_SUCCESS             If the procedure was successful.
+ * @retval XINC_ERROR_BUSY          If the driver is not ready for a new transfer.
+ * @retval XINC_ERROR_NOT_SUPPORTED If the provided parameters are not supported.
+ * @retval XINC_ERROR_INVALID_ADDR  If the provided buffers are not placed in the Data
  *                                 RAM region.
  */
 __STATIC_INLINE

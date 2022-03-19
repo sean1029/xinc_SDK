@@ -32,7 +32,7 @@ ret_code_t nrf_ringbuf_alloc(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_dat
     {
         if (nrf_atomic_flag_set_fetch(&p_ringbuf->p_cb->wr_flag))
         {
-            return NRF_ERROR_BUSY;
+            return XINC_ERROR_BUSY;
         }
     }
 
@@ -44,7 +44,7 @@ ret_code_t nrf_ringbuf_alloc(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_dat
         {
             UNUSED_RETURN_VALUE(nrf_atomic_flag_clear(&p_ringbuf->p_cb->wr_flag));
         }
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
     uint32_t wr_idx = p_ringbuf->p_cb->tmp_wr_idx & p_ringbuf->bufsize_mask;
@@ -55,7 +55,7 @@ ret_code_t nrf_ringbuf_alloc(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_dat
     *pp_data = &p_ringbuf->p_buffer[wr_idx];
     p_ringbuf->p_cb->tmp_wr_idx += *p_length;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_ringbuf_put(nrf_ringbuf_t const * p_ringbuf, size_t length)
@@ -64,7 +64,7 @@ ret_code_t nrf_ringbuf_put(nrf_ringbuf_t const * p_ringbuf, size_t length)
             (p_ringbuf->p_cb->wr_idx -  p_ringbuf->p_cb->rd_idx);
     if (length > available)
     {
-        return NRF_ERROR_NO_MEM;
+        return XINC_ERROR_NO_MEM;
     }
 
     p_ringbuf->p_cb->wr_idx    += length;
@@ -72,9 +72,9 @@ ret_code_t nrf_ringbuf_put(nrf_ringbuf_t const * p_ringbuf, size_t length)
     if (nrf_atomic_flag_clear_fetch(&p_ringbuf->p_cb->wr_flag) == 0)
     {
         /* Flag was already cleared. Suggests misuse. */
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_ringbuf_cpy_put(nrf_ringbuf_t const * p_ringbuf,
@@ -86,7 +86,7 @@ ret_code_t nrf_ringbuf_cpy_put(nrf_ringbuf_t const * p_ringbuf,
 
     if (nrf_atomic_flag_set_fetch(&p_ringbuf->p_cb->wr_flag))
     {
-        return NRF_ERROR_BUSY;
+        return XINC_ERROR_BUSY;
     }
 
     uint32_t available = p_ringbuf->bufsize_mask + 1 -
@@ -109,7 +109,7 @@ ret_code_t nrf_ringbuf_cpy_put(nrf_ringbuf_t const * p_ringbuf,
 
     UNUSED_RETURN_VALUE(nrf_atomic_flag_clear(&p_ringbuf->p_cb->wr_flag));
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data, size_t * p_length, bool start)
@@ -121,7 +121,7 @@ ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data,
     {
         if (nrf_atomic_flag_set_fetch(&p_ringbuf->p_cb->rd_flag))
         {
-            return NRF_ERROR_BUSY;
+            return XINC_ERROR_BUSY;
         }
     }
 
@@ -133,7 +133,7 @@ ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data,
         {
             UNUSED_RETURN_VALUE(nrf_atomic_flag_clear(&p_ringbuf->p_cb->rd_flag));
         }
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 
     uint32_t masked_tmp_rd_idx = p_ringbuf->p_cb->tmp_rd_idx & p_ringbuf->bufsize_mask;
@@ -154,7 +154,7 @@ ret_code_t nrf_ringbuf_get(nrf_ringbuf_t const * p_ringbuf, uint8_t * * pp_data,
     *pp_data = &p_ringbuf->p_buffer[masked_tmp_rd_idx];
     p_ringbuf->p_cb->tmp_rd_idx += *p_length;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_ringbuf_cpy_get(nrf_ringbuf_t const * p_ringbuf,
@@ -166,7 +166,7 @@ ret_code_t nrf_ringbuf_cpy_get(nrf_ringbuf_t const * p_ringbuf,
 
     if (nrf_atomic_flag_set_fetch(&p_ringbuf->p_cb->rd_flag))
     {
-       return NRF_ERROR_BUSY;
+       return XINC_ERROR_BUSY;
     }
 
     uint32_t available = p_ringbuf->p_cb->wr_idx -  p_ringbuf->p_cb->rd_idx;
@@ -190,7 +190,7 @@ ret_code_t nrf_ringbuf_cpy_get(nrf_ringbuf_t const * p_ringbuf,
 
     UNUSED_RETURN_VALUE(nrf_atomic_flag_clear(&p_ringbuf->p_cb->rd_flag));
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_ringbuf_free(nrf_ringbuf_t const * p_ringbuf, size_t length)
@@ -198,12 +198,12 @@ ret_code_t nrf_ringbuf_free(nrf_ringbuf_t const * p_ringbuf, size_t length)
     uint32_t available = (p_ringbuf->p_cb->wr_idx -  p_ringbuf->p_cb->rd_idx);
     if (length > available)
     {
-        return NRF_ERROR_NO_MEM;
+        return XINC_ERROR_NO_MEM;
     }
 
     p_ringbuf->p_cb->rd_idx    += length;
     p_ringbuf->p_cb->tmp_rd_idx = p_ringbuf->p_cb->rd_idx;
     UNUSED_RETURN_VALUE(nrf_atomic_flag_clear(&p_ringbuf->p_cb->rd_flag));
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }

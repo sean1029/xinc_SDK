@@ -21,12 +21,12 @@
 #define BTN_ACTION_WHITELIST_OFF  BSP_BUTTON_ACTION_LONG_PUSH  /**< Button action used to turn off usage of the whitelist. */
 
 /**@brief This macro will return from the current function if err_code
- *        is not NRF_SUCCESS or NRF_ERROR_INVALID_PARAM.
+ *        is not XINC_SUCCESS or XINC_ERROR_INVALID_PARAM.
  */
 #define RETURN_ON_ERROR_NOT_INVALID_PARAM(err_code)                             \
 do                                                                              \
 {                                                                               \
-    if (((err_code) != NRF_SUCCESS) && ((err_code) != NRF_ERROR_INVALID_PARAM)) \
+    if (((err_code) != XINC_SUCCESS) && ((err_code) != XINC_ERROR_INVALID_PARAM)) \
     {                                                                           \
         return err_code;                                                        \
     }                                                                           \
@@ -35,12 +35,12 @@ while (0)
 
 
 /**@brief This macro will return from the current function if err_code
- *        is not NRF_SUCCESS or NRF_ERROR_NOT_SUPPORTED.
+ *        is not XINC_SUCCESS or XINC_ERROR_NOT_SUPPORTED.
  */
 #define RETURN_ON_ERROR_NOT_NOT_SUPPORTED(err_code)                             \
 do                                                                              \
 {                                                                               \
-    if (((err_code) != NRF_SUCCESS) && ((err_code) != NRF_ERROR_NOT_SUPPORTED)) \
+    if (((err_code) != XINC_SUCCESS) && ((err_code) != XINC_ERROR_NOT_SUPPORTED)) \
     {                                                                           \
         return err_code;                                                        \
     }                                                                           \
@@ -49,12 +49,12 @@ while (0)
 
 
 /**@brief This macro will call the registered error handler if err_code
- *        is not NRF_SUCCESS and the error handler is not NULL.
+ *        is not XINC_SUCCESS and the error handler is not NULL.
  */
 #define CALL_HANDLER_ON_ERROR(err_code)                           \
 do                                                                \
 {                                                                 \
-    if (((err_code) != NRF_SUCCESS) && (m_error_handler != NULL)) \
+    if (((err_code) != XINC_SUCCESS) && (m_error_handler != NULL)) \
     {                                                             \
         m_error_handler(err_code);                                \
     }                                                             \
@@ -68,7 +68,7 @@ static uint32_t                    m_num_connections = 0;  /**< Number of connec
 
 /**@brief Function for configuring the buttons for connection.
  *
- * @retval NRF_SUCCESS  Configured successfully.
+ * @retval XINC_SUCCESS  Configured successfully.
  * @return A propagated error code.
  */
 static uint32_t connection_buttons_configure()
@@ -91,13 +91,13 @@ static uint32_t connection_buttons_configure()
                                                  BSP_EVENT_DISCONNECT);
     RETURN_ON_ERROR_NOT_INVALID_PARAM(err_code);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
 /**@brief Function for configuring the buttons for advertisement.
  *
- * @retval NRF_SUCCESS  Configured successfully.
+ * @retval XINC_SUCCESS  Configured successfully.
  * @return A propagated error code.
  */
 static uint32_t advertising_buttons_configure()
@@ -119,7 +119,7 @@ static uint32_t advertising_buttons_configure()
                                                  BSP_EVENT_SLEEP);
     RETURN_ON_ERROR_NOT_INVALID_PARAM(err_code);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -159,7 +159,7 @@ uint32_t bsp_btn_ble_sleep_mode_prepare(void)
     err_code = bsp_wakeup_button_enable(BTN_ID_WAKEUP_BOND_DELETE);
     RETURN_ON_ERROR_NOT_NOT_SUPPORTED(err_code);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -200,12 +200,12 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
     }
 }
 
-NRF_SDH_BLE_OBSERVER(m_ble_observer, BSP_BTN_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
+XINC_SDH_BLE_OBSERVER(m_ble_observer, BSP_BTN_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
 
 
 uint32_t bsp_btn_ble_init(bsp_btn_ble_error_handler_t error_handler, bsp_event_t * p_startup_bsp_evt)
 {
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
     m_error_handler = error_handler;
 

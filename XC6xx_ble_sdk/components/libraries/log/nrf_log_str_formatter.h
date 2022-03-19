@@ -14,8 +14,8 @@
  * @ingroup nrf_log
  */
 
-#ifndef NRF_LOG_STR_FORMATTER_H
-#define NRF_LOG_STR_FORMATTER_H
+#ifndef XINC_LOG_STR_FORMATTER_H
+#define XINC_LOG_STR_FORMATTER_H
 
 #include <stdint.h>
 #include "nrf_fprintf.h"
@@ -51,5 +51,5 @@ void nrf_log_str_formatter_timestamp_freq_set(uint32_t freq);
 }
 #endif
 
-#endif //NRF_LOG_STR_FORMATTER_H
+#endif //XINC_LOG_STR_FORMATTER_H
 /** @} */

@@ -73,17 +73,17 @@ void bsp_board_led_invert(uint32_t led_idx)
 static void gpio_output_voltage_setup(void)
 {
     // Configure UICR_REGOUT0 register only if it is set to default value.
-    if ((NRF_UICR->REGOUT0 & UICR_REGOUT0_VOUT_Msk) ==
+    if ((XINC_UICR->REGOUT0 & UICR_REGOUT0_VOUT_Msk) ==
         (UICR_REGOUT0_VOUT_DEFAULT << UICR_REGOUT0_VOUT_Pos))
     {
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
+        XINC_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen;
+        while (XINC_NVMC->READY == NVMC_READY_READY_Busy){}
 
-        NRF_UICR->REGOUT0 = (NRF_UICR->REGOUT0 & ~((uint32_t)UICR_REGOUT0_VOUT_Msk)) |
+        XINC_UICR->REGOUT0 = (XINC_UICR->REGOUT0 & ~((uint32_t)UICR_REGOUT0_VOUT_Msk)) |
                             (UICR_REGOUT0_VOUT_3V0 << UICR_REGOUT0_VOUT_Pos);
 
-        NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
-        while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
+        XINC_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren;
+        while (XINC_NVMC->READY == NVMC_READY_READY_Busy){}
 
         // System reset is needed to update UICR registers.
         NVIC_SystemReset();
@@ -99,7 +99,7 @@ static xincx_err_t bsp_board_leds_init(void)
     // GPIO output voltage is set to 1.8 V by default, which is not
     // enough to turn on green and blue LEDs. Therefore, GPIO voltage
     // needs to be increased to 3.0 V by configuring the UICR register.
-    if (NRF_POWER->MAINREGSTATUS &
+    if (XINC_POWER->MAINREGSTATUS &
        (POWER_MAINREGSTATUS_MAINREGSTATUS_High << POWER_MAINREGSTATUS_MAINREGSTATUS_Pos))
     {
         gpio_output_voltage_setup();

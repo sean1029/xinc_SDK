@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_CTRL_H
-#define NRF_LOG_CTRL_H
+#ifndef XINC_LOG_CTRL_H
+#define XINC_LOG_CTRL_H
 
 /**@file
  * @addtogroup nrf_log Logger module
@@ -42,12 +42,12 @@ typedef uint32_t (*nrf_log_timestamp_func_t)(void);
  *
  * Macro has one or two parameters. First parameter (obligatory) is the timestamp function (@ref nrf_log_timestamp_func_t).
  * Additionally, as the second parameter timestamp frequency in Hz can be provided. If not provided then default
- * frequency is used (@ref  NRF_LOG_TIMESTAMP_DEFAULT_FREQUENCY). Frequency is used to format timestamp prefix if
- * @ref NRF_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED is set.
+ * frequency is used (@ref  XINC_LOG_TIMESTAMP_DEFAULT_FREQUENCY). Frequency is used to format timestamp prefix if
+ * @ref XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED is set.
  *
- * @return  NRF_SUCCESS after successful initialization, otherwise an error code.
+ * @return  XINC_SUCCESS after successful initialization, otherwise an error code.
  */
-#define NRF_LOG_INIT(...) NRF_LOG_INTERNAL_INIT(__VA_ARGS__)
+#define XINC_LOG_INIT(...) XINC_LOG_INTERNAL_INIT(__VA_ARGS__)
 
 
 /**@brief Macro for processing a single log entry from a queue of deferred logs.
@@ -60,14 +60,14 @@ typedef uint32_t (*nrf_log_timestamp_func_t)(void);
  * @retval true    There are more logs to process in the buffer.
  * @retval false   No more logs in the buffer.
  */
-#define NRF_LOG_PROCESS()    NRF_LOG_INTERNAL_PROCESS()
+#define XINC_LOG_PROCESS()    XINC_LOG_INTERNAL_PROCESS()
 
 /** @brief Macro for processing all log entries from the buffer.
  * It blocks until all buffered entries are processed by the backend.
  *
  * @note If logs are not deferred, this call has no use and is empty.
  */
-#define NRF_LOG_FLUSH()      NRF_LOG_INTERNAL_FLUSH()
+#define XINC_LOG_FLUSH()      XINC_LOG_INTERNAL_FLUSH()
 
 /** @brief Macro for flushing log data before reset.
  *
@@ -75,13 +75,13 @@ typedef uint32_t (*nrf_log_timestamp_func_t)(void);
  *
  * @note If RTT is used, then a breakpoint is hit once flushed.
  */
-#define NRF_LOG_FINAL_FLUSH() NRF_LOG_INTERNAL_FINAL_FLUSH()
+#define XINC_LOG_FINAL_FLUSH() XINC_LOG_INTERNAL_FINAL_FLUSH()
 
 /**
  * @brief Function for initializing the frontend and the default backend.
  *
- * @ref NRF_LOG_INIT calls this function to initialize the frontend and the backend.
- * If custom backend is used, then @ref NRF_LOG_INIT should not be called.
+ * @ref XINC_LOG_INIT calls this function to initialize the frontend and the backend.
+ * If custom backend is used, then @ref XINC_LOG_INIT should not be called.
  * Instead, frontend and user backend should be verbosely initialized.
  *
  * @param timestamp_func Function for getting a 32-bit timestamp.
@@ -97,7 +97,7 @@ ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timest
  *
  * @param p_backend Pointer to the backend interface.
  * @param severity  Initial value of severity level for each module forwarded to the backend. This
- *                  option is only applicable if @ref NRF_LOG_FILTERS_ENABLED is set.
+ *                  option is only applicable if @ref XINC_LOG_FILTERS_ENABLED is set.
  * @return -1 if backend cannot be added or positive number (backend ID).
  */
 int32_t nrf_log_backend_add(nrf_log_backend_t const * p_backend, nrf_log_severity_t severity);
@@ -188,16 +188,16 @@ nrf_log_severity_t nrf_log_module_filter_get(uint32_t backend_id,
 /**
  * @brief Function stores current filtering configuration into non-volatile memory using @ref fds module.
  *
- * @return NRF_SUCCESS or @ref fds error code.
+ * @return XINC_SUCCESS or @ref fds error code.
  */
 ret_code_t nrf_log_config_store(void);
 
 /**
  * @brief Function loads configuration from non-volatile memory using @ref fds module.
  *
- * @retval NRF_SUCCESS         On successful loading.
- * @retval NRF_ERROR_NOT_FOUND Configuration file not found.
- * @retval NRF_ERROR_INTERNAL  Other @ref fds error on reading configuration file.
+ * @retval XINC_SUCCESS         On successful loading.
+ * @retval XINC_ERROR_NOT_FOUND Configuration file not found.
+ * @retval XINC_ERROR_INTERNAL  Other @ref fds error on reading configuration file.
  */
 ret_code_t nrf_log_config_load(void);
 
@@ -205,7 +205,7 @@ ret_code_t nrf_log_config_load(void);
 }
 #endif
 
-#endif // NRF_LOG_CTRL_H
+#endif // XINC_LOG_CTRL_H
 
 /**
  *@}

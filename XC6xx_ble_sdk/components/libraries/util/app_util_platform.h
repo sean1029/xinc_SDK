@@ -92,9 +92,9 @@ typedef enum
 /**@brief Macro for setting a breakpoint.
  */
 #if defined(__GNUC__)
-#define NRF_BREAKPOINT __asm__("BKPT 0");
+#define XINC_BREAKPOINT __asm__("BKPT 0");
 #else
-#define NRF_BREAKPOINT __BKPT(0)
+#define XINC_BREAKPOINT __BKPT(0)
 #endif
 
 /** @brief Macro for setting a breakpoint.
@@ -103,16 +103,16 @@ typedef enum
  *
  */
 #if __CORTEX_M == 0x04
-#define NRF_BREAKPOINT_COND do {                            \
+#define XINC_BREAKPOINT_COND do {                            \
     /* C_DEBUGEN == 1 -> Debugger Connected */              \
     if (CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk)   \
     {                                                       \
        /* Generate breakpoint if debugger is connected */   \
-            NRF_BREAKPOINT;                                 \
+            XINC_BREAKPOINT;                                 \
     } \
     }while (0)
 #else
-#define NRF_BREAKPOINT_COND NRF_BREAKPOINT
+#define XINC_BREAKPOINT_COND XINC_BREAKPOINT
 #endif // __CORTEX_M == 0x04
 
 #if defined ( __CC_ARM )

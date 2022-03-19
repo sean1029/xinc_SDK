@@ -45,7 +45,7 @@ typedef struct
     uint8_t              data[1];     ///< Data.
 } memobj_head_t;
 
-STATIC_ASSERT(sizeof(memobj_header_t) == NRF_MEMOBJ_STD_HEADER_SIZE);
+STATIC_ASSERT(sizeof(memobj_header_t) == XINC_MEMOBJ_STD_HEADER_SIZE);
 
 /** @brief Standard chunk structure. */
 struct memobj_elem_s
@@ -62,7 +62,7 @@ ret_code_t nrf_memobj_pool_init(nrf_memobj_pool_t const * p_pool)
 nrf_memobj_t * nrf_memobj_alloc(nrf_memobj_pool_t const * p_pool,
                                 size_t size)
 {
-    uint32_t bsize = (uint32_t)NRF_BALLOC_ELEMENT_SIZE((nrf_balloc_t const *)p_pool) - sizeof(memobj_header_t);
+    uint32_t bsize = (uint32_t)XINC_BALLOC_ELEMENT_SIZE((nrf_balloc_t const *)p_pool) - sizeof(memobj_header_t);
     uint8_t num_of_chunks = (uint8_t)CEIL_DIV(size + sizeof(memobj_head_header_t), bsize);
 
     memobj_head_t * p_head = nrf_balloc_alloc((nrf_balloc_t const *)p_pool);

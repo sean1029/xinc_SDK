@@ -42,14 +42,14 @@ extern "C" {
 #define FDS_HEADER_SIZE_ID      (1) // Size of the record ID in the header, in 4-byte words.
 #define FDS_HEADER_SIZE         (3) // Size of the whole header, in 4-byte words.
 
-#define FDS_OP_EXECUTING        (NRF_SUCCESS)
+#define FDS_OP_EXECUTING        (XINC_SUCCESS)
 #define FDS_OP_COMPLETED        (0x1D1D)
 
-#define NRF_FSTORAGE_NVMC       1
-#define NRF_FSTORAGE_SD         2
+#define XINC_FSTORAGE_NVMC       1
+#define XINC_FSTORAGE_SD         2
 
 // The size of a physical page, in 4-byte words.
-#if defined(NRF51)
+#if defined(XINC51)
     #define FDS_PHY_PAGE_SIZE   (256)
 #else
     #define FDS_PHY_PAGE_SIZE   (128)//(1024)

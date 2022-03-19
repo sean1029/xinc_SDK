@@ -25,7 +25,7 @@ extern "C" {
  *
  * Usage:
  * @code
-   #if NRF_MODULE_ENABLED(UART)
+   #if XINC_MODULE_ENABLED(UART)
    ...
    #endif
  * @endcode
@@ -41,12 +41,12 @@ extern "C" {
  * And given parameter would be connected with @c _ENABLED postfix directly
  * without evaluating its value.
  */
-//lint -emacro(491,NRF_MODULE_ENABLED) // Suppers warning 491 "non-standard use of 'defined' preprocessor operator"
-#ifdef NRF_MODULE_ENABLE_ALL
-#warning "Do not use NRF_MODULE_ENABLE_ALL for real builds."
-#define NRF_MODULE_ENABLED(module) 1
+//lint -emacro(491,XINC_MODULE_ENABLED) // Suppers warning 491 "non-standard use of 'defined' preprocessor operator"
+#ifdef XINC_MODULE_ENABLE_ALL
+#warning "Do not use XINC_MODULE_ENABLE_ALL for real builds."
+#define XINC_MODULE_ENABLED(module) 1
 #else
-#define NRF_MODULE_ENABLED(module) \
+#define XINC_MODULE_ENABLED(module) \
     ((defined(module ## _ENABLED) && (module ## _ENABLED)) ? 1 : 0)
 #endif
 /** The upper 8 bits of a 32 bit value */

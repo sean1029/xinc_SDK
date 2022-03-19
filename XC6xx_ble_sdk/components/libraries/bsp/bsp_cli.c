@@ -34,13 +34,13 @@ ret_code_t bsp_cli_init(bsp_event_callback_t callback)
 {
     m_bsp_cli_callback = callback;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_bsp)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_bsp)
 {
-    NRF_CLI_CMD(btn, NULL, "BSP button event key", cmd_btn),
-    NRF_CLI_CMD(evt, NULL, "BSP event id", cmd_evt),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(btn, NULL, "BSP button event key", cmd_btn),
+    XINC_CLI_CMD(evt, NULL, "BSP event id", cmd_evt),
+    XINC_CLI_SUBCMD_SET_END
 };
-NRF_CLI_CMD_REGISTER(bsp, &m_sub_bsp, "bsp", NULL);
+XINC_CLI_CMD_REGISTER(bsp, &m_sub_bsp, "bsp", NULL);

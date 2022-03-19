@@ -112,7 +112,7 @@ typedef struct
     uint32_t                    repeat_period; /**< Repeat period (0 if single shot mode). */
     app_timer_timeout_handler_t handler;       /**< User handler. */
     void *                      p_context;     /**< User context. */
-    NRF_LOG_INSTANCE_PTR_DECLARE(p_log)        /**< Pointer to instance of the logger object (Conditionally compiled). */
+    XINC_LOG_INSTANCE_PTR_DECLARE(p_log)        /**< Pointer to instance of the logger object (Conditionally compiled). */
 } app_timer_t;
 
 /**@brief Timer ID type.
@@ -120,15 +120,15 @@ typedef struct
 typedef app_timer_t * app_timer_id_t;
 
 #define _APP_TIMER_DEF(timer_id)                                                              \
-    NRF_LOG_INSTANCE_REGISTER(APP_TIMER_LOG_NAME, timer_id,                                   \
+    XINC_LOG_INSTANCE_REGISTER(APP_TIMER_LOG_NAME, timer_id,                                   \
                               APP_TIMER_CONFIG_INFO_COLOR,                                    \
                               APP_TIMER_CONFIG_DEBUG_COLOR,                                   \
                               APP_TIMER_CONFIG_INITIAL_LOG_LEVEL,                             \
                               APP_TIMER_CONFIG_LOG_ENABLED ?                                  \
-                                         APP_TIMER_CONFIG_LOG_LEVEL : NRF_LOG_SEVERITY_NONE); \
+                                         APP_TIMER_CONFIG_LOG_LEVEL : XINC_LOG_SEVERITY_NONE); \
     static app_timer_t CONCAT_2(timer_id,_data) = {                                           \
             .end_val = APP_TIMER_IDLE_VAL,                                                    \
-            NRF_LOG_INSTANCE_PTR_INIT(p_log, APP_TIMER_LOG_NAME, timer_id)                    \
+            XINC_LOG_INSTANCE_PTR_INIT(p_log, APP_TIMER_LOG_NAME, timer_id)                    \
     };                                                                                        \
     static const app_timer_id_t timer_id = &CONCAT_2(timer_id,_data)
 
@@ -162,7 +162,7 @@ typedef enum
 
 /**@brief Function for initializing the timer module.
  *
- * @retval     NRF_SUCCESS               If the module was initialized successfully.
+ * @retval     XINC_SUCCESS               If the module was initialized successfully.
  */
 ret_code_t app_timer_init(void);
 
@@ -172,9 +172,9 @@ ret_code_t app_timer_init(void);
  * @param[in]  mode              Timer mode.
  * @param[in]  timeout_handler   Function to be executed when the timer expires.
  *
- * @retval     NRF_SUCCESS               If the timer was successfully created.
- * @retval     NRF_ERROR_INVALID_PARAM   If a parameter was invalid.
- * @retval     NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized or
+ * @retval     XINC_SUCCESS               If the timer was successfully created.
+ * @retval     XINC_ERROR_INVALID_PARAM   If a parameter was invalid.
+ * @retval     XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized or
  *                                       the timer is running.
  *
  * @note This function does the timer allocation in the caller's context. It is also not protected
@@ -197,11 +197,11 @@ ret_code_t app_timer_create(app_timer_id_t const *      p_timer_id,
  * @param[in]       p_context     General purpose pointer. Will be passed to the time-out handler when
  *                                the timer expires.
  *
- * @retval     NRF_SUCCESS               If the timer was successfully started.
- * @retval     NRF_ERROR_INVALID_PARAM   If a parameter was invalid.
- * @retval     NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized or the timer
+ * @retval     XINC_SUCCESS               If the timer was successfully started.
+ * @retval     XINC_ERROR_INVALID_PARAM   If a parameter was invalid.
+ * @retval     XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized or the timer
  *                                       has not been created.
- * @retval     NRF_ERROR_NO_MEM          If the timer operations queue was full.
+ * @retval     XINC_ERROR_NO_MEM          If the timer operations queue was full.
  *
  * @note The minimum timeout_ticks value is 5.
  * @note For multiple active timers, time-outs occurring in close proximity to each other (in the
@@ -221,19 +221,19 @@ ret_code_t app_timer_start(app_timer_id_t timer_id, uint32_t timeout_ticks, void
  *
  * @param[in]  timer_id                  Timer identifier.
  *
- * @retval     NRF_SUCCESS               If the timer was successfully stopped.
- * @retval     NRF_ERROR_INVALID_PARAM   If a parameter was invalid.
- * @retval     NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized or the timer
+ * @retval     XINC_SUCCESS               If the timer was successfully stopped.
+ * @retval     XINC_ERROR_INVALID_PARAM   If a parameter was invalid.
+ * @retval     XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized or the timer
  *                                       has not been created.
- * @retval     NRF_ERROR_NO_MEM          If the timer operations queue was full.
+ * @retval     XINC_ERROR_NO_MEM          If the timer operations queue was full.
  */
 ret_code_t app_timer_stop(app_timer_id_t timer_id);
 
 /**@brief Function for stopping all running timers.
  *
- * @retval     NRF_SUCCESS               If all timers were successfully stopped.
- * @retval     NRF_ERROR_INVALID_STATE   If the application timer module has not been initialized.
- * @retval     NRF_ERROR_NO_MEM          If the timer operations queue was full.
+ * @retval     XINC_SUCCESS               If all timers were successfully stopped.
+ * @retval     XINC_ERROR_INVALID_STATE   If the application timer module has not been initialized.
+ * @retval     XINC_ERROR_NO_MEM          If the timer operations queue was full.
  */
 ret_code_t app_timer_stop_all(void);
 

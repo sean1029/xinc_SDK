@@ -7,35 +7,35 @@
  *
  */
 
-#ifndef NRF_PERIPHERALS_H__
-#define NRF_PERIPHERALS_H__
+#ifndef XINC_PERIPHERALS_H__
+#define XINC_PERIPHERALS_H__
 
 /*lint ++flb "Enter library region */
 
-#if defined(NRF51)
+#if defined(XINC51)
     #include "nrf51_peripherals.h"
 
-#elif defined (NRF52805_XXAA)
+#elif defined (XINC52805_XXAA)
     #include "nrf52805_peripherals.h"
-#elif defined(NRF52810_XXAA)
+#elif defined(XINC52810_XXAA)
     #include "nrf52810_peripherals.h"
-#elif defined(NRF52811_XXAA)
+#elif defined(XINC52811_XXAA)
     #include "nrf52811_peripherals.h"
-#elif defined(NRF52820_XXAA)
+#elif defined(XINC52820_XXAA)
     #include "nrf52820_peripherals.h"
-#elif defined(NRF52832_XXAA) || defined(NRF52832_XXAB)
+#elif defined(XINC52832_XXAA) || defined(XINC52832_XXAB)
     #include "nrf52832_peripherals.h"
-#elif defined (NRF52833_XXAA)
+#elif defined (XINC52833_XXAA)
     #include "nrf52833_peripherals.h"
-#elif defined(NRF52840_XXAA)
+#elif defined(XINC52840_XXAA)
     #include "nrf52840_peripherals.h"
 
-#elif defined (NRF5340_XXAA_APPLICATION)
+#elif defined (XINC5340_XXAA_APPLICATION)
     #include "nrf5340_application_peripherals.h"
-#elif defined (NRF5340_XXAA_NETWORK)
+#elif defined (XINC5340_XXAA_NETWORK)
     #include "nrf5340_network_peripherals.h"
 
-#elif defined(NRF9160_XXAA)
+#elif defined(XINC9160_XXAA)
     #include "nrf9160_peripherals.h"
 
 #else
@@ -44,4 +44,4 @@
 
 /*lint --flb "Leave library region" */
 
-#endif // NRF_PERIPHERALS_H__
+#endif // XINC_PERIPHERALS_H__

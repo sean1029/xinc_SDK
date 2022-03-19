@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(BUTTON)
+#if XINC_MODULE_ENABLED(BUTTON)
 #include "app_button.h"
 #include "app_timer.h"
 #include "app_error.h"
@@ -16,16 +16,16 @@
 #include "xincx_gpio.h"
 #include "app_util_platform.h"
 
-#define NRF_LOG_MODULE_NAME app_button
+#define XINC_LOG_MODULE_NAME app_button
 #if APP_BUTTON_CONFIG_LOG_ENABLED
-#define NRF_LOG_LEVEL       APP_BUTTON_CONFIG_LOG_LEVEL
-#define NRF_LOG_INFO_COLOR  APP_BUTTON_CONFIG_INFO_COLOR
-#define NRF_LOG_DEBUG_COLOR APP_BUTTON_CONFIG_DEBUG_COLOR
+#define XINC_LOG_LEVEL       APP_BUTTON_CONFIG_LOG_LEVEL
+#define XINC_LOG_INFO_COLOR  APP_BUTTON_CONFIG_INFO_COLOR
+#define XINC_LOG_DEBUG_COLOR APP_BUTTON_CONFIG_DEBUG_COLOR
 #else //APP_BUTTON_CONFIG_LOG_ENABLED
-#define NRF_LOG_LEVEL       0
+#define XINC_LOG_LEVEL       0
 #endif //APP_BUTTON_CONFIG_LOG_ENABLED
 #include "nrf_log.h"
-NRF_LOG_MODULE_REGISTER();
+XINC_LOG_MODULE_REGISTER();
 
 /*
  * For each pin state machine is used. Since GPIOTE PORT event is common for all pin is might be
@@ -114,7 +114,7 @@ static void usr_event(uint8_t pin, uint8_t type)
 
     if (p_btn && p_btn->button_handler)
     {
-        NRF_LOG_DEBUG("Pin %d %s", pin, (type == APP_BUTTON_PUSH) ? "pressed" : "released");
+        XINC_LOG_DEBUG("Pin %d %s", pin, (type == APP_BUTTON_PUSH) ? "pressed" : "released");
         p_btn->button_handler(pin, type);
     }
 }
@@ -128,7 +128,7 @@ void evt_handle(uint8_t pin, uint8_t value)
     case BTN_IDLE:
         if (value)
         {
-            NRF_LOG_DEBUG("Pin %d idle->armed", pin);
+            XINC_LOG_DEBUG("Pin %d idle->armed", pin);
             state_set(pin, BTN_PRESS_ARMED);
             CRITICAL_REGION_ENTER();
             m_pin_active |= 1ULL << pin;
@@ -148,7 +148,7 @@ void evt_handle(uint8_t pin, uint8_t value)
         break;
     case BTN_PRESS_ARMED:
         state_set(pin, value ? BTN_PRESS_DETECTED : BTN_IDLE);
-        NRF_LOG_DEBUG("Pin %d armed->%s", pin, value ? "detected" : "idle");
+        XINC_LOG_DEBUG("Pin %d armed->%s", pin, value ? "detected" : "idle");
 			
         break;
     case BTN_PRESS_DETECTED:
@@ -161,12 +161,12 @@ void evt_handle(uint8_t pin, uint8_t value)
         {
             state_set(pin, BTN_PRESS_ARMED);
         }
-        NRF_LOG_DEBUG("Pin %d detected->%s", pin, value ? "pressed" : "armed");
+        XINC_LOG_DEBUG("Pin %d detected->%s", pin, value ? "pressed" : "armed");
         break;
     case BTN_PRESSED:
         if (value == 0)
         {
-            NRF_LOG_DEBUG("Pin %d pressed->release_detected", pin);
+            XINC_LOG_DEBUG("Pin %d pressed->release_detected", pin);
             state_set(pin, BTN_RELEASE_DETECTED);
         }
         else
@@ -187,7 +187,7 @@ void evt_handle(uint8_t pin, uint8_t value)
             m_pin_active &= ~(1ULL << pin);
             CRITICAL_REGION_EXIT();
         }
-        NRF_LOG_DEBUG("Pin %d release_detected->%s", pin, value ? "pressed" : "idle");
+        XINC_LOG_DEBUG("Pin %d release_detected->%s", pin, value ? "pressed" : "idle");
         break;
     }
 }
@@ -196,9 +196,9 @@ static void timer_start(void)
 {
 		
     uint32_t err_code = app_timer_start(m_detection_delay_timer_id, m_detection_delay/2, NULL);
-    if (err_code != NRF_SUCCESS)
+    if (err_code != XINC_SUCCESS)
     {
-        NRF_LOG_WARNING("Failed to start app_timer (err:%d)", err_code);
+        XINC_LOG_WARNING("Failed to start app_timer (err:%d)", err_code);
     }
 }
 
@@ -222,7 +222,7 @@ static void detection_delay_timeout_handler(void * p_context)
     }
     else
     {
-        NRF_LOG_DEBUG("No active buttons, stopping timer");
+        XINC_LOG_DEBUG("No active buttons, stopping timer");
     }
 }
 
@@ -238,7 +238,7 @@ static void gpiote_event_handler(xinc_drv_gpio_pin_t pin, xinc_gpio_polarity_t a
      */
     if (is_active && (m_pin_active == 0))
     {
-        NRF_LOG_DEBUG("First active button, starting periodic timer");
+        XINC_LOG_DEBUG("First active button, starting periodic timer");
 			//	printf("First active button, starting periodic timer\r\n");
         timer_start();
 			
@@ -254,7 +254,7 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
 
     if (detection_delay < 2*APP_TIMER_MIN_TIMEOUT_TICKS)
     {
-      //  return NRF_ERROR_INVALID_PARAM;
+      //  return XINC_ERROR_INVALID_PARAM;
     }
 		printf("%s\r\n",__func__);
     if (!xinc_drv_gpio_is_init())
@@ -299,7 +299,7 @@ uint32_t app_button_enable(void)
       //  xinc_drv_gpio_in_event_enable(mp_buttons[i].pin_no, true);
     }
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -331,4 +331,4 @@ bool app_button_is_pushed(uint8_t button_id)
 
     return !(is_set ^ (p_btn->active_state == APP_BUTTON_ACTIVE_HIGH));
 }
-#endif //NRF_MODULE_ENABLED(BUTTON)
+#endif //XINC_MODULE_ENABLED(BUTTON)

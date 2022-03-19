@@ -14,12 +14,12 @@
  * This file should be included only by nrf_atfifo internally.
  * Needs nrf_atfifo.h included first.
  */
-#ifndef NRF_ATFIFO_H__
+#ifndef XINC_ATFIFO_H__
 #error This is internal file. Do not include this file in your program.
 #endif
 
-#ifndef NRF_ATFIFO_INTERNAL_H__
-#define NRF_ATFIFO_INTERNAL_H__
+#ifndef XINC_ATFIFO_INTERNAL_H__
+#define XINC_ATFIFO_INTERNAL_H__
 #include <stddef.h>
 #include "nrf.h"
 #include "app_util.h"
@@ -639,4 +639,4 @@ bool nrf_atfifo_space_clear(nrf_atfifo_t * const p_fifo)
 #endif
 
 
-#endif /* NRF_ATFIFO_INTERNAL_H__ */
+#endif /* XINC_ATFIFO_INTERNAL_H__ */

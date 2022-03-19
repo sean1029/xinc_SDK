@@ -16,8 +16,8 @@
   */
 
 
-#ifndef NRF52840_H
-#define NRF52840_H
+#ifndef XINC52840_H
+#define XINC52840_H
 
 #include <stdint.h>
 #ifdef __cplusplus
@@ -79,7 +79,7 @@ typedef struct {                                /*!< (@ 0x4001E000) NVMC Structu
   __IM  uint32_t  RESERVED4;
   __IOM uint32_t  IHIT;                         /*!< (@ 0x00000548) I-code cache hit counter.                                  */
   __IOM uint32_t  IMISS;                        /*!< (@ 0x0000054C) I-code cache miss counter.                                 */
-} NRF_NVMC_Type;                                /*!< Size = 1360 (0x550)                                                       */
+} XINC_NVMC_Type;                                /*!< Size = 1360 (0x550)                                                       */
 
 
 
@@ -423,7 +423,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
-#define NRF_P0_BASE                 0x40001000UL
+#define XINC_P0_BASE                 0x40001000UL
 #define XINC_CPR_BASE               0x40000000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
 #define XINC_GPIOTE_BASE             0x40006000UL
@@ -460,10 +460,10 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 /** @addtogroup Device_Peripheral_declaration
   * @{
   */
-#define NRF_P0                       ((XINC_GPIO_Type*)            NRF_P0_BASE)
+#define XINC_P0                       ((XINC_GPIO_Type*)            XINC_P0_BASE)
 #define XINC_CPR                     ((XINC_CPR_CTL_Type*)    XINC_CPR_BASE)
 
-#define NRF_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
+#define XINC_CPR_AO               		 ((XINC_CPRA_AO_Type*)        XINC_CPR_AO_BASE)
 #define XINC_GPIO                   ((XINC_GPIO_Type*)          XINC_GPIOTE_BASE)
 #define XINC_UART0                    ((XINC_UART_Type*)            XINC_UART0_BASE)
 #define XINC_UART1                    ((XINC_UART_Type*)            XINC_UART1_BASE)
@@ -479,10 +479,10 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #define XINC_TIMER2                  ((XINC_TIMER_Type*)         XINC_TIMER2_BASE)
 #define XINC_TIMER3                  ((XINC_TIMER_Type*)         XINC_TIMER3_BASE)
 #define XINC_TIMER_GLOBAL            ((XINC_TIMER_GLOBAL_Type*)  XINC_TIMER_GLOBAL_BASE)
-#define NRF_CLKCTL_TIMER0            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER0_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER1            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER1_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER2            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER2_CLKCTL_BASE)
-#define NRF_CLKCTL_TIMER3            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER3_CLKCTL_BASE)
+#define XINC_CLKCTL_TIMER0            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER0_CLKCTL_BASE)
+#define XINC_CLKCTL_TIMER1            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER1_CLKCTL_BASE)
+#define XINC_CLKCTL_TIMER2            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER2_CLKCTL_BASE)
+#define XINC_CLKCTL_TIMER3            ((XINC_TIMER_CLKCTL_Type*)  XINC_TIMER3_CLKCTL_BASE)
 
 
 #define XINC_PWM0                    ((XINC_PWM_Type*)           XINC_PWM0_BASE)
@@ -495,7 +495,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 }
 #endif
 
-#endif /* NRF52840_H */
+#endif /* XINC52840_H */
 
 
 /** @} */ /* End of group XC620610 */

@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_ATOMIC_SANITY_CHECK_H__
-#define NRF_ATOMIC_SANITY_CHECK_H__
+#ifndef XINC_ATOMIC_SANITY_CHECK_H__
+#define XINC_ATOMIC_SANITY_CHECK_H__
 
 #include "nrf_atomic.h"
 
@@ -20,7 +20,7 @@ extern "C" {
  * */
 static inline void nrf_atomic_sanity_check(void)
 {
-#if defined(DEBUG_NRF) || defined(DEBUG_NRF_USER)
+#if defined(DEBUG_XINC) || defined(DEBUG_XINC_USER)
     nrf_atomic_u32_t val;
     nrf_atomic_u32_t flag;
 
@@ -119,4 +119,4 @@ static inline void nrf_atomic_sanity_check(void)
 }
 #endif
 
-#endif /* NRF_ATOMIC_SANITY_CHECK_H__ */
+#endif /* XINC_ATOMIC_SANITY_CHECK_H__ */

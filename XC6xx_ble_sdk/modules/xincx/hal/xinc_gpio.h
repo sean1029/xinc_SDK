@@ -19,18 +19,18 @@ extern "C" {
 #endif
 
 
-#ifndef NRF_P0
-#define NRF_P0 XINC_GPIO
+#ifndef XINC_P0
+#define XINC_P0 XINC_GPIO
 #endif
 
 #if (GPIO_COUNT == 1)
 #define NUMBER_OF_PINS (P0_PIN_NUM)
-#define GPIO_REG_LIST  {NRF_P0}
+#define GPIO_REG_LIST  {XINC_P0}
 #else
 #error "Not supported."
 #endif
 
-#if defined(NRF52820_XXAA)
+#if defined(XINC52820_XXAA)
 #include <nrf_erratas.h>
 #endif
 
@@ -463,16 +463,16 @@ __STATIC_INLINE XINC_GPIO_Type * xinc_gpio_pin_port_decode(uint32_t * p_pin)
 {
 //    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 #if (GPIO_COUNT == 1)
-    return NRF_P0;
+    return XINC_P0;
 #else
     if (*p_pin < P0_PIN_NUM)
     {
-        return NRF_P0;
+        return XINC_P0;
     }
     else
     {
         *p_pin = *p_pin & 0x1F;
-        return NRF_P1;
+        return XINC_P1;
     }
 #endif
 }
@@ -481,7 +481,7 @@ __STATIC_INLINE XINC_CPRA_AO_Type * xinc_gpio_pin_pull_decode(uint32_t * p_pin)
 {
 //    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 
-      return NRF_CPR_AO;
+      return XINC_CPR_AO;
 }
 
 __STATIC_INLINE void xinc_gpio_range_cfg_output(uint32_t pin_range_start, uint32_t pin_range_end)

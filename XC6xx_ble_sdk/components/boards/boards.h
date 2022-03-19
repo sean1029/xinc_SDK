@@ -14,7 +14,7 @@
 #include "xincx_gpio.h"
 #include "xinchip_common.h"
 
-#if defined(BOARD_NRF6310)
+#if defined(BOARD_XINC6310)
   #include "nrf6310.h"
 #elif defined(BOARD_PCA10000)
   #include "pca10000.h"
@@ -184,7 +184,7 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx);
                         (1u << (uint32_t)((_pin) & (~P0_PIN_NUM))) \
                         /*lint -restore    */
 
-#define PIN_PORT(_pin) (((_pin) >= P0_PIN_NUM) ? NRF_P1 : XINC_GPIO)
+#define PIN_PORT(_pin) (((_pin) >= P0_PIN_NUM) ? XINC_P1 : XINC_GPIO)
 
 #ifdef BSP_LED_0
 #define BSP_LED_0_MASK PIN_MASK(BSP_LED_0)

@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_DRV_GPIOTE_H__
-#define NRF_DRV_GPIOTE_H__
+#ifndef XINC_DRV_GPIOTE_H__
+#define XINC_DRV_GPIOTE_H__
 
 #include <xincx_gpio.h>
 
@@ -61,4 +61,4 @@ typedef xincx_gpio_evt_handler_t xinc_drv_gpio_evt_handler_t;
 }
 #endif
 
-#endif //NRF_DRV_GPIOTE_H__
+#endif //XINC_DRV_GPIOTE_H__

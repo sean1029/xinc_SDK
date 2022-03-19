@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
+#if XINC_MODULE_ENABLED(XINC_FPRINTF)
 #include <stdarg.h>
 
 #include "nrf_assert.h"
@@ -51,5 +51,5 @@ void nrf_fprintf(nrf_fprintf_ctx_t * const p_ctx,
     va_end(args);
 }
 
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
+#endif // XINC_MODULE_ENABLED(XINC_FPRINTF)
 

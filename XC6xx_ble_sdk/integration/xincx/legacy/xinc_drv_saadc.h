@@ -78,9 +78,9 @@ typedef xincx_saadc_config_t xinc_drv_saadc_config_t;
  *                          If NULL, the default one is used.
  * @param[in] event_handler Event handler provided by the user.
  *
- * @retval NRF_SUCCESS If initialization was successful.
- * @retval NRF_ERROR_INVALID_STATE If the driver is already initialized.
- * @retval NRF_ERROR_INVALID_PARAM If event_handler is NULL.
+ * @retval XINC_SUCCESS If initialization was successful.
+ * @retval XINC_ERROR_INVALID_STATE If the driver is already initialized.
+ * @retval XINC_ERROR_INVALID_PARAM If event_handler is NULL.
  */
 __STATIC_INLINE ret_code_t xinc_drv_saadc_init(xincx_saadc_t const * const  p_instance,xinc_drv_saadc_config_t const * p_config,
                                               xinc_drv_saadc_event_handler_t  event_handler)

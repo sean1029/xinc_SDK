@@ -39,7 +39,7 @@ void app_error_handler_bare(ret_code_t error_code)
         .err_code    = error_code,
     };
 
-    app_error_fault_handler(NRF_FAULT_ID_SDK_ERROR, 0, (uint32_t)(&error_info));
+    app_error_fault_handler(XINC_FAULT_ID_SDK_ERROR, 0, (uint32_t)(&error_info));
 
     UNUSED_VARIABLE(error_info);
 }
@@ -70,13 +70,13 @@ void app_error_save_and_stop(uint32_t id, uint32_t pc, uint32_t info)
 
     switch (id)
     {
-        case NRF_FAULT_ID_SDK_ASSERT:
+        case XINC_FAULT_ID_SDK_ASSERT:
             m_error_data.p_assert_info = (assert_info_t *)info;
             m_error_data.line_num      = m_error_data.p_assert_info->line_num;
             m_error_data.p_file_name   = m_error_data.p_assert_info->p_file_name;
             break;
 
-        case NRF_FAULT_ID_SDK_ERROR:
+        case XINC_FAULT_ID_SDK_ERROR:
             m_error_data.p_error_info = (error_info_t *)info;
             m_error_data.err_code     = m_error_data.p_error_info->err_code;
             m_error_data.line_num     = m_error_data.p_error_info->line_num;

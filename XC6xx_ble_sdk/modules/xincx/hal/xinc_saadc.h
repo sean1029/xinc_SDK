@@ -24,7 +24,7 @@ extern "C" {
  */
 
 /** @brief Number of available SAADC channels. */
-#define NRF_SAADC_CHANNEL_COUNT 9
+#define XINC_SAADC_CHANNEL_COUNT 9
 
 #define XINCX_SAADC_FIFOLEN          SAADC_GPADC_FIFO_FIFO_DOUT_LEN
 
@@ -32,17 +32,17 @@ extern "C" {
 /** @brief Resolution of the analog-to-digital converter. */
 typedef enum
 {	
-	NRF_SAADC_FREQ_8M=1,
-	NRF_SAADC_FREQ_4M=2,
-	NRF_SAADC_FREQ_2M=4,
-	NRF_SAADC_FREQ_1M=8,
-	NRF_SAADC_FREQ_500K=16,
+	XINC_SAADC_FREQ_8M=1,
+	XINC_SAADC_FREQ_4M=2,
+	XINC_SAADC_FREQ_2M=4,
+	XINC_SAADC_FREQ_1M=8,
+	XINC_SAADC_FREQ_500K=16,
 } xinc_saadc_freq_t;
 
 typedef enum
 {	
-	NRF_SAADC_CHANNEL_REFVOL_2_47=0,
-	NRF_SAADC_CHANNEL_REFVOL_3_3=1,
+	XINC_SAADC_CHANNEL_REFVOL_2_47=0,
+	XINC_SAADC_CHANNEL_REFVOL_3_3=1,
 } xinc_saadc_refvol_t;
 
 
@@ -54,16 +54,16 @@ typedef enum
 /** @brief Analog-to-digital converter channel mode. */
 typedef enum
 {
-    NRF_SAADC_MODE_SINGLE_ENDED = SAADC_CH_CONFIG_MODE_SE,  ///< Single-ended mode. PSELN will be ignored, negative input to ADC shorted to GND.
-    NRF_SAADC_MODE_DIFFERENTIAL = SAADC_CH_CONFIG_MODE_Diff ///< Differential mode.
+    XINC_SAADC_MODE_SINGLE_ENDED = SAADC_CH_CONFIG_MODE_SE,  ///< Single-ended mode. PSELN will be ignored, negative input to ADC shorted to GND.
+    XINC_SAADC_MODE_DIFFERENTIAL = SAADC_CH_CONFIG_MODE_Diff ///< Differential mode.
 } nrf_saadc_mode_t;
 
 
 /** @brief Analog-to-digital converter value limit type. */
 typedef enum
 {
-    NRF_SAADC_LIMIT_LOW  = 0, ///< Low limit type.
-    NRF_SAADC_LIMIT_HIGH = 1  ///< High limit type.
+    XINC_SAADC_LIMIT_LOW  = 0, ///< Low limit type.
+    XINC_SAADC_LIMIT_HIGH = 1  ///< High limit type.
 } xinc_saadc_limit_t;
 
 /** @brief Type of a single ADC conversion result. */
@@ -96,7 +96,7 @@ __STATIC_INLINE void xinc_saadc_channel_init(uint8_t                            
  __STATIC_INLINE void xinc_saadc_channel_init(uint8_t                                  channel,
                                             xinc_saadc_channel_config_t const * const config)
 {
-    if(config->mode == NRF_SAADC_MODE_SINGLE_ENDED)
+    if(config->mode == XINC_SAADC_MODE_SINGLE_ENDED)
     {
         switch(channel)
         {
@@ -193,4 +193,4 @@ __STATIC_INLINE void xinc_saadc_fifo_clear(XINC_SAADC_Type * p_reg)
 }
 #endif
 
-#endif // NRF_SAADC_H_
+#endif // XINC_SAADC_H_

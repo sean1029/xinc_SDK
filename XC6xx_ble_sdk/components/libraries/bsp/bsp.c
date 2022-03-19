@@ -214,7 +214,7 @@ static void bsp_button_event_handler(uint8_t pin_no, uint8_t button_action)
                     }
 
 									 
-                    if (err_code == NRF_SUCCESS)
+                    if (err_code == XINC_SUCCESS)
                     {
                         current_long_push_pin_no[button] = pin_no;
                     }
@@ -346,7 +346,7 @@ static void leds_off(void)
  */
 static uint32_t bsp_led_indication(bsp_indication_t indicate)
 {
-    uint32_t err_code   = NRF_SUCCESS;
+    uint32_t err_code   = XINC_SUCCESS;
     uint32_t next_delay = 0;
 
     if (m_leds_clear)
@@ -506,7 +506,7 @@ static uint32_t bsp_led_indication(bsp_indication_t indicate)
             next_delay = (uint32_t)BSP_INDICATE_ALERT_OFF - (uint32_t)indicate;
 
             // a little trick to find out that if it did not fall through ALERT_OFF
-            if (next_delay && (err_code == NRF_SUCCESS))
+            if (next_delay && (err_code == XINC_SUCCESS))
             {
                 if (next_delay > 1)
                 {
@@ -598,7 +598,7 @@ static void alert_timer_handler(void * p_context)
  */
 uint32_t bsp_indication_set(bsp_indication_t indicate)
 {
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
 #if LEDS_NUMBER > 0 && !(defined BSP_SIMPLE)
 
@@ -614,7 +614,7 @@ uint32_t bsp_indication_set(bsp_indication_t indicate)
 
 uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 {
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
 #if LEDS_NUMBER > 0 && !(defined BSP_SIMPLE)
     m_indication_type     = type;
@@ -628,7 +628,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
     {
         uint32_t num;
 
-        for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == NRF_SUCCESS)); num++)
+        for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == XINC_SUCCESS)); num++)
         {
             err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 + num * 3));
 					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 + num * 3));
@@ -636,19 +636,19 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 					  
         }
 
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_button_init((app_button_cfg_t *)app_buttons,
                                        BUTTONS_NUMBER,
                                        APP_TIMER_TICKS(10));
         }
 
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_button_enable();
         }
 #ifdef BSP_BUTTON_0
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -657,7 +657,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #endif
 				
 #ifdef BSP_BUTTON_1
-				 if (err_code == NRF_SUCCESS)
+				 if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr1,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -666,7 +666,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #endif
 				
 #ifdef BSP_BUTTON_2
-				 if (err_code == NRF_SUCCESS)
+				 if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr2,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -675,7 +675,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #endif
 				
 #ifdef BSP_BUTTON_3
-				 if (err_code == NRF_SUCCESS)
+				 if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr3,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -694,13 +694,13 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
       err_code = bsp_board_init(BSP_INIT_LEDS);
 
       // timers module must be already initialized!
-      if (err_code == NRF_SUCCESS)
+      if (err_code == XINC_SUCCESS)
       {
           err_code =
               app_timer_create(&m_bsp_leds_tmr, APP_TIMER_MODE_SINGLE_SHOT, leds_timer_handler);
       }
 
-      if (err_code == NRF_SUCCESS)
+      if (err_code == XINC_SUCCESS)
       {
           err_code =
               app_timer_create(&m_bsp_alert_tmr, APP_TIMER_MODE_REPEATED, alert_timer_handler);
@@ -717,7 +717,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
  */
 uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t action, bsp_event_t event)
 {
-    uint32_t err_code = NRF_SUCCESS;
+    uint32_t err_code = XINC_SUCCESS;
 
 #if BUTTONS_NUMBER > 0
     if (button < BUTTONS_NUMBER)
@@ -739,16 +739,16 @@ uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t 
                 m_events_list[button].release_event = event;
                 break;
             default:
-                err_code = NRF_ERROR_INVALID_PARAM;
+                err_code = XINC_ERROR_INVALID_PARAM;
                 break;
         }
     }
     else
     {
-        err_code = NRF_ERROR_INVALID_PARAM;
+        err_code = XINC_ERROR_INVALID_PARAM;
     }
 #else
-    err_code = NRF_ERROR_INVALID_PARAM;
+    err_code = XINC_ERROR_INVALID_PARAM;
 #endif // BUTTONS_NUMBER > 0
 
     return err_code;
@@ -762,7 +762,7 @@ uint32_t bsp_buttons_enable()
 #if (BUTTONS_NUMBER > 0) && !defined(BSP_SIMPLE)
     return app_button_enable();
 #else
-    return NRF_ERROR_NOT_SUPPORTED;
+    return XINC_ERROR_NOT_SUPPORTED;
 #endif
 }
 
@@ -771,7 +771,7 @@ uint32_t bsp_buttons_disable()
 #if (BUTTONS_NUMBER > 0) && !defined(BSP_SIMPLE)
     return app_button_disable();
 #else
-    return NRF_ERROR_NOT_SUPPORTED;
+    return XINC_ERROR_NOT_SUPPORTED;
 #endif
 }
 static uint32_t wakeup_button_cfg(uint32_t button_idx, bool enable)
@@ -780,13 +780,13 @@ static uint32_t wakeup_button_cfg(uint32_t button_idx, bool enable)
     if (button_idx <  BUTTONS_NUMBER)
     {
 
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 #else
     UNUSED_PARAMETER(button_idx);
     UNUSED_PARAMETER(enable);
 #endif
-    return NRF_ERROR_NOT_SUPPORTED;
+    return XINC_ERROR_NOT_SUPPORTED;
 
 }
 uint32_t bsp_wakeup_button_enable(uint32_t button_idx)

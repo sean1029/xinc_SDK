@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_BITMASK_H
-#define NRF_BITMASK_H
+#ifndef XINC_BITMASK_H
+#define XINC_BITMASK_H
 
 #include "compiler_abstraction.h"
 #include <stdint.h>
@@ -113,4 +113,4 @@ __STATIC_INLINE void nrf_bitmask_masks_and(void const *   p_mask1,
 }
 #endif
 
-#endif //NRF_BITMASK_H
+#endif //XINC_BITMASK_H

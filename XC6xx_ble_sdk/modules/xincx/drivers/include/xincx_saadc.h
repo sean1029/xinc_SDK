@@ -66,8 +66,8 @@ enum {
 #define XINCX_SAADC_DEFAULT_CONFIG                                               \
 {                                                                               \
     .interrupt_priority = XINCX_SAADC_CONFIG_IRQ_PRIORITY,                       \
-    .refvol             = (xinc_saadc_refvol_t)NRF_SAADC_CHANNEL_REFVOL_2_47,      \
-    .freq               = (xinc_saadc_freq_t)NRF_SAADC_FREQ_8M,                    \
+    .refvol             = (xinc_saadc_refvol_t)XINC_SAADC_CHANNEL_REFVOL_2_47,      \
+    .freq               = (xinc_saadc_freq_t)XINC_SAADC_FREQ_8M,                    \
     .waite_time         = 4,														\
 }
 /**
@@ -80,7 +80,7 @@ enum {
 
 #define XINCX_SAADC_DEFAULT_CHANNEL_CONFIG                                         \
 {                                                                                 \
-    .mode               =  NRF_SAADC_MODE_SINGLE_ENDED,                              \
+    .mode               =  XINC_SAADC_MODE_SINGLE_ENDED,                              \
 	.adc_fifo_len       = XINCX_SAADC_CONFIG_FIFO_LEN                             \
 }
 
@@ -214,7 +214,7 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
  * handler. Conversion will be done on all enabled channels. If the SAADC is in idle state, the
  * function will set up EasyDMA for the conversion. The SAADC will be ready for sampling and wait
  * for the SAMPLE task. It can be triggered manually by the @ref xinc_saadc_sample function
- * or by PPI using the @ref NRF_SAADC_TASK_SAMPLE task. If one buffer is already set and the
+ * or by PPI using the @ref XINC_SAADC_TASK_SAMPLE task. If one buffer is already set and the
  * conversion is ongoing, calling this function will result in queuing the given buffer.
  * The driver will start filling the issued buffer when the first one is completed.
  * If the function is called again before the first buffer is filled or calibration

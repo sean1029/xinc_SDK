@@ -57,7 +57,7 @@
 *********************************************************************/
 
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_FPRINTF)
+#if XINC_MODULE_ENABLED(XINC_FPRINTF)
 
 #include <stdarg.h>
 
@@ -65,26 +65,26 @@
 #include "nrf_fprintf.h"
 #include "nrf_fprintf_format.h"
 
-#define NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY        (1u << 0)
-#define NRF_CLI_FORMAT_FLAG_PAD_ZERO            (1u << 1)
-#define NRF_CLI_FORMAT_FLAG_PRINT_SIGN          (1u << 2)
+#define XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY        (1u << 0)
+#define XINC_CLI_FORMAT_FLAG_PAD_ZERO            (1u << 1)
+#define XINC_CLI_FORMAT_FLAG_PRINT_SIGN          (1u << 2)
 
-#define NRF_CLI_FORMAT_DOUBLE_DEF_PRECISION     6
+#define XINC_CLI_FORMAT_DOUBLE_DEF_PRECISION     6
 
-#define NRF_CLI_FORMAT_DOUBLE_SIGN_POSITION     63U
-#define NRF_CLI_FORMAT_DOUBLE_SIGN_MASK         1ULL
-#define NRF_CLI_FORMAT_DOUBLE_SIGN              (NRF_CLI_FORMAT_DOUBLE_SIGN_MASK << NRF_CLI_FORMAT_DOUBLE_SIGN_POSITION)
-#define NRF_CLI_FORMAT_DOUBLE_EXP_POSITION      52U
-#define NRF_CLI_FORMAT_DOUBLE_EXP_MASK          0x7FFULL
-#define NRF_CLI_FORMAT_DOUBLE_EXP               (NRF_CLI_FORMAT_DOUBLE_EXP_MASK << NRF_CLI_FORMAT_DOUBLE_EXP_POSITION)
-#define NRF_CLI_FORMAT_DOUBLE_MANT_POSITION     0U
-#define NRF_CLI_FORMAT_DOUBLE_MANT_MASK         0xFFFFFFFFFFFFF
-#define NRF_CLI_FORMAT_DOUBLE_MANT              (NRF_CLI_FORMAT_DOUBLE_MANT_MASK << NRF_CLI_FORMAT_DOUBLE_MANT_POSITION)
+#define XINC_CLI_FORMAT_DOUBLE_SIGN_POSITION     63U
+#define XINC_CLI_FORMAT_DOUBLE_SIGN_MASK         1ULL
+#define XINC_CLI_FORMAT_DOUBLE_SIGN              (XINC_CLI_FORMAT_DOUBLE_SIGN_MASK << XINC_CLI_FORMAT_DOUBLE_SIGN_POSITION)
+#define XINC_CLI_FORMAT_DOUBLE_EXP_POSITION      52U
+#define XINC_CLI_FORMAT_DOUBLE_EXP_MASK          0x7FFULL
+#define XINC_CLI_FORMAT_DOUBLE_EXP               (XINC_CLI_FORMAT_DOUBLE_EXP_MASK << XINC_CLI_FORMAT_DOUBLE_EXP_POSITION)
+#define XINC_CLI_FORMAT_DOUBLE_MANT_POSITION     0U
+#define XINC_CLI_FORMAT_DOUBLE_MANT_MASK         0xFFFFFFFFFFFFF
+#define XINC_CLI_FORMAT_DOUBLE_MANT              (XINC_CLI_FORMAT_DOUBLE_MANT_MASK << XINC_CLI_FORMAT_DOUBLE_MANT_POSITION)
 
-#define NRF_CLI_FORMAT_DOUBLE_SIGN_GET(v)       (!!((v) & NRF_CLI_FORMAT_DOUBLE_SIGN))
-#define NRF_CLI_FORMAT_DOUBLE_EXP_GET(v)        (((v) & NRF_CLI_FORMAT_DOUBLE_EXP) >> NRF_CLI_FORMAT_DOUBLE_EXP_POSITION)
-#define NRF_CLI_FORMAT_DOUBLE_MANT_GET(v)       (((v) & NRF_CLI_FORMAT_DOUBLE_MANT) >> NRF_CLI_FORMAT_DOUBLE_MANT_POSITION)
-#define NRF_CLI_FORMAT_REQ_SIGN_SPACE(s, f)     ((s) | (!!((f) & NRF_CLI_FORMAT_FLAG_PRINT_SIGN)))
+#define XINC_CLI_FORMAT_DOUBLE_SIGN_GET(v)       (!!((v) & XINC_CLI_FORMAT_DOUBLE_SIGN))
+#define XINC_CLI_FORMAT_DOUBLE_EXP_GET(v)        (((v) & XINC_CLI_FORMAT_DOUBLE_EXP) >> XINC_CLI_FORMAT_DOUBLE_EXP_POSITION)
+#define XINC_CLI_FORMAT_DOUBLE_MANT_GET(v)       (((v) & XINC_CLI_FORMAT_DOUBLE_MANT) >> XINC_CLI_FORMAT_DOUBLE_MANT_POSITION)
+#define XINC_CLI_FORMAT_REQ_SIGN_SPACE(s, f)     ((s) | (!!((f) & XINC_CLI_FORMAT_FLAG_PRINT_SIGN)))
 
 #define HIGH_32(v)                              ((v) >> 32)
 #define LOW_32(v)                               (((1ULL << 32) - 1) & v)
@@ -92,7 +92,7 @@
 
 static void buffer_add(nrf_fprintf_ctx_t * const p_ctx, char c)
 {
-#if NRF_MODULE_ENABLED(NRF_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF)
+#if XINC_MODULE_ENABLED(XINC_FPRINTF_FLAG_AUTOMATIC_CR_ON_LF)
     if (c == '\n')
     {
         buffer_add(p_ctx, '\r');
@@ -114,7 +114,7 @@ static void string_print(nrf_fprintf_ctx_t * const p_ctx,
     uint32_t Width = 0;
     char c;
 
-    if ((FormatFlags & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY)
+    if ((FormatFlags & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY)
     {
         while ((c = *p_str) != '\0')
         {
@@ -182,11 +182,11 @@ static void unsigned_print(nrf_fprintf_ctx_t * const p_ctx,
     //
     // Print leading chars if necessary
     //
-    if ((FormatFlags & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u)
+    if ((FormatFlags & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u)
     {
         if (FieldWidth != 0u)
         {
-            if (((FormatFlags & NRF_CLI_FORMAT_FLAG_PAD_ZERO) == NRF_CLI_FORMAT_FLAG_PAD_ZERO) &&
+            if (((FormatFlags & XINC_CLI_FORMAT_FLAG_PAD_ZERO) == XINC_CLI_FORMAT_FLAG_PAD_ZERO) &&
                 (NumDigits == 0u))
             {
                 c = '0';
@@ -243,7 +243,7 @@ static void unsigned_print(nrf_fprintf_ctx_t * const p_ctx,
     //
     // Print trailing spaces if necessary
     //
-    if ((FormatFlags & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY)
+    if ((FormatFlags & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY)
     {
         if (FieldWidth != 0u)
         {
@@ -282,15 +282,15 @@ static void int_print(nrf_fprintf_ctx_t * const p_ctx,
         Width = NumDigits;
     }
     if ((FieldWidth > 0u) && ((v < 0) ||
-        ((FormatFlags & NRF_CLI_FORMAT_FLAG_PRINT_SIGN) == NRF_CLI_FORMAT_FLAG_PRINT_SIGN)))
+        ((FormatFlags & XINC_CLI_FORMAT_FLAG_PRINT_SIGN) == XINC_CLI_FORMAT_FLAG_PRINT_SIGN)))
     {
         FieldWidth--;
     }
     //
     // Print leading spaces if necessary
     //
-    if ((((FormatFlags & NRF_CLI_FORMAT_FLAG_PAD_ZERO) == 0u) || (NumDigits != 0u)) &&
-        ((FormatFlags & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u))
+    if ((((FormatFlags & XINC_CLI_FORMAT_FLAG_PAD_ZERO) == 0u) || (NumDigits != 0u)) &&
+        ((FormatFlags & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u))
     {
         if (FieldWidth != 0u)
         {
@@ -309,7 +309,7 @@ static void int_print(nrf_fprintf_ctx_t * const p_ctx,
         v = -v;
         buffer_add(p_ctx, '-');
     }
-    else if ((FormatFlags & NRF_CLI_FORMAT_FLAG_PRINT_SIGN) == NRF_CLI_FORMAT_FLAG_PRINT_SIGN)
+    else if ((FormatFlags & XINC_CLI_FORMAT_FLAG_PRINT_SIGN) == XINC_CLI_FORMAT_FLAG_PRINT_SIGN)
     {
         buffer_add(p_ctx, '+');
     }
@@ -320,8 +320,8 @@ static void int_print(nrf_fprintf_ctx_t * const p_ctx,
     //
     // Print leading zeros if necessary
     //
-    if (((FormatFlags & NRF_CLI_FORMAT_FLAG_PAD_ZERO) == NRF_CLI_FORMAT_FLAG_PAD_ZERO) &&
-        ((FormatFlags & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u) && (NumDigits == 0u))
+    if (((FormatFlags & XINC_CLI_FORMAT_FLAG_PAD_ZERO) == XINC_CLI_FORMAT_FLAG_PAD_ZERO) &&
+        ((FormatFlags & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY) == 0u) && (NumDigits == 0u))
     {
         if (FieldWidth != 0u)
         {
@@ -338,7 +338,7 @@ static void int_print(nrf_fprintf_ctx_t * const p_ctx,
     unsigned_print(p_ctx, (uint32_t)v, Base, NumDigits, FieldWidth, FormatFlags);
 }
 
-#if NRF_MODULE_ENABLED(NRF_FPRINTF_DOUBLE)
+#if XINC_MODULE_ENABLED(XINC_FPRINTF_DOUBLE)
 
 static void fill_space(nrf_fprintf_ctx_t * const p_ctx,
                        uint8_t len,
@@ -368,7 +368,7 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
     uint64_t num, mant, lead, low, base, res, carry, x, s0, s1, s2, s3, fr;
     int32_t exp;
     uint8_t highest, offset, lead_len = 0, skipped = 0;
-    uint8_t precision = digits ? digits + 1 : NRF_CLI_FORMAT_DOUBLE_DEF_PRECISION + 1;
+    uint8_t precision = digits ? digits + 1 : XINC_CLI_FORMAT_DOUBLE_DEF_PRECISION + 1;
     /* Default digits should be -1, because 0 could be a requirement, not the default.
      * This should be changed for the whole library.
      */
@@ -385,23 +385,23 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
     }
 
     memcpy(&num, &v, sizeof(num));
-    sign = NRF_CLI_FORMAT_DOUBLE_SIGN_GET(num);
-    exp = NRF_CLI_FORMAT_DOUBLE_EXP_GET(num);
-    mant = NRF_CLI_FORMAT_DOUBLE_MANT_GET(num);
+    sign = XINC_CLI_FORMAT_DOUBLE_SIGN_GET(num);
+    exp = XINC_CLI_FORMAT_DOUBLE_EXP_GET(num);
+    mant = XINC_CLI_FORMAT_DOUBLE_MANT_GET(num);
 
     /* Special cases */
-    if (exp == NRF_CLI_FORMAT_DOUBLE_EXP_MASK)
+    if (exp == XINC_CLI_FORMAT_DOUBLE_EXP_MASK)
     {
-        if (width && (!(format & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY)))
+        if (width && (!(format & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY)))
         {
-            fill_space(p_ctx, width - 3 - NRF_CLI_FORMAT_REQ_SIGN_SPACE(sign, format), false);
+            fill_space(p_ctx, width - 3 - XINC_CLI_FORMAT_REQ_SIGN_SPACE(sign, format), false);
         }
 
         if (sign)
         {
             buffer_add(p_ctx, '-');
         }
-        else if (format & NRF_CLI_FORMAT_FLAG_PRINT_SIGN)
+        else if (format & XINC_CLI_FORMAT_FLAG_PRINT_SIGN)
         {
             buffer_add(p_ctx, '+');
         }
@@ -543,12 +543,12 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
         lead_len = 1;
     }
 
-    if (width && (!(format & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY)))
+    if (width && (!(format & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY)))
     {
-        int32_t space = width - lead_len - precision - NRF_CLI_FORMAT_REQ_SIGN_SPACE(sign, format) - 1;
+        int32_t space = width - lead_len - precision - XINC_CLI_FORMAT_REQ_SIGN_SPACE(sign, format) - 1;
         if (space > 0)
         {
-            fill_space(p_ctx, space, format & NRF_CLI_FORMAT_FLAG_PAD_ZERO);
+            fill_space(p_ctx, space, format & XINC_CLI_FORMAT_FLAG_PAD_ZERO);
         }
     }
 
@@ -556,7 +556,7 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
     {
         buffer_add(p_ctx, '-');
     }
-    else if (format & NRF_CLI_FORMAT_FLAG_PRINT_SIGN)
+    else if (format & XINC_CLI_FORMAT_FLAG_PRINT_SIGN)
     {
         buffer_add(p_ctx, '+');
     }
@@ -575,9 +575,9 @@ static void float_print(nrf_fprintf_ctx_t * const p_ctx,
               0,
               0);
 
-    if (width && (format & NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY))
+    if (width && (format & XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY))
     {
-        int32_t space = width - lead_len - precision - NRF_CLI_FORMAT_REQ_SIGN_SPACE(sign, format) - 1;
+        int32_t space = width - lead_len - precision - XINC_CLI_FORMAT_REQ_SIGN_SPACE(sign, format) - 1;
         if (space > 0)
         {
             fill_space(p_ctx, space, false);
@@ -632,15 +632,15 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
                 switch (c)
                 {
                     case '-':
-                        FormatFlags |= NRF_CLI_FORMAT_FLAG_LEFT_JUSTIFY;
+                        FormatFlags |= XINC_CLI_FORMAT_FLAG_LEFT_JUSTIFY;
                         p_fmt++;
                         break;
                     case '0':
-                        FormatFlags |= NRF_CLI_FORMAT_FLAG_PAD_ZERO;
+                        FormatFlags |= XINC_CLI_FORMAT_FLAG_PAD_ZERO;
                         p_fmt++;
                         break;
                     case '+':
-                        FormatFlags |= NRF_CLI_FORMAT_FLAG_PRINT_SIGN;
+                        FormatFlags |= XINC_CLI_FORMAT_FLAG_PRINT_SIGN;
                         p_fmt++;
                         break;
                     default:
@@ -765,7 +765,7 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
                 case '%':
                     buffer_add(p_ctx, '%');
                     break;
-#if NRF_MODULE_ENABLED(NRF_FPRINTF_DOUBLE)
+#if XINC_MODULE_ENABLED(XINC_FPRINTF_DOUBLE)
                 case 'f':
                 {
                     double dbl = va_arg(*p_args, double);
@@ -807,5 +807,5 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
     }
 }
 
-#endif // NRF_MODULE_ENABLED(NRF_FPRINTF)
+#endif // XINC_MODULE_ENABLED(XINC_FPRINTF)
 

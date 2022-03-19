@@ -56,8 +56,8 @@
 *                                                                    *
 *********************************************************************/
 
-#ifndef NRF_FPRINTF_FORMAT_H__
-#define NRF_FPRINTF_FORMAT_H__
+#ifndef XINC_FPRINTF_FORMAT_H__
+#define XINC_FPRINTF_FORMAT_H__
 
 #include <stdarg.h>
 #include "nrf_fprintf.h"
@@ -82,5 +82,5 @@ void nrf_fprintf_fmt(nrf_fprintf_ctx_t * const p_ctx,
 }
 #endif
 
-#endif /* NRF_FPRINTF_FORMAT_H__ */
+#endif /* XINC_FPRINTF_FORMAT_H__ */
 

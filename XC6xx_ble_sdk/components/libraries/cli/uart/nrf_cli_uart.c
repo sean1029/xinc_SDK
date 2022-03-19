@@ -7,19 +7,19 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_CLI_UART)
+#if XINC_MODULE_ENABLED(XINC_CLI_UART)
 #include "nrf_cli_uart.h"
 #include "xinc_drv_uart.h"
 #include "nrf_assert.h"
 
-#define NRF_LOG_MODULE_NAME cli_uart
+#define XINC_LOG_MODULE_NAME cli_uart
 
-#define NRF_LOG_LEVEL       (NRF_CLI_UART_CONFIG_LOG_ENABLED ? NRF_CLI_UART_CONFIG_LOG_LEVEL : 0)
-#define NRF_LOG_INFO_COLOR  NRF_CLI_UART_CONFIG_INFO_COLOR
-#define NRF_LOG_DEBUG_COLOR NRF_CLI_UART_CONFIG_DEBUG_COLOR
+#define XINC_LOG_LEVEL       (XINC_CLI_UART_CONFIG_LOG_ENABLED ? XINC_CLI_UART_CONFIG_LOG_LEVEL : 0)
+#define XINC_LOG_INFO_COLOR  XINC_CLI_UART_CONFIG_INFO_COLOR
+#define XINC_LOG_DEBUG_COLOR XINC_CLI_UART_CONFIG_DEBUG_COLOR
 
 #include "nrf_log.h"
-NRF_LOG_MODULE_REGISTER();
+XINC_LOG_MODULE_REGISTER();
 
 #define CLI_UART_RX_TIMEOUT 100
 
@@ -31,13 +31,13 @@ static ret_code_t rx_try(nrf_cli_uart_internal_t * p_internal)
 //		printf("rx_try\r\n ");
     err_code = nrf_ringbuf_alloc(p_internal->p_rx_ringbuf, &p_data, &len, true);
 
-    ASSERT(err_code == NRF_SUCCESS);
+    ASSERT(err_code == XINC_SUCCESS);
 		
-    if ((err_code == NRF_SUCCESS) && len)
+    if ((err_code == XINC_SUCCESS) && len)
     {
         err_code = xinc_drv_uart_rx(p_internal->p_uart, p_data, len);
 			
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_start(*p_internal->p_timer,
                                         APP_TIMER_TICKS(CLI_UART_RX_TIMEOUT),
@@ -51,63 +51,63 @@ static ret_code_t rx_try(nrf_cli_uart_internal_t * p_internal)
 static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context)
 {
     nrf_cli_uart_internal_t * p_internal = (nrf_cli_uart_internal_t *)p_context;
-    ret_code_t err_code = NRF_SUCCESS;
+    ret_code_t err_code = XINC_SUCCESS;
     UNUSED_VARIABLE(err_code);
     uint8_t * p_data;
     size_t len = 255;
 //		printf("uart_event_handler type:%d\r\n ",p_event->type);
     switch (p_event->type)
     {
-        case NRF_DRV_UART_EVT_ERROR:
-            NRF_LOG_WARNING("id:%d, evt: ERROR:%d",
+        case XINC_DRV_UART_EVT_ERROR:
+            XINC_LOG_WARNING("id:%d, evt: ERROR:%d",
                             p_internal->p_uart->inst_idx,
                             p_event->data.error.error_mask);
             err_code = nrf_ringbuf_put(p_internal->p_rx_ringbuf, p_event->data.error.rxtx.bytes);
-            ASSERT((err_code == NRF_SUCCESS) || (err_code == NRF_ERROR_NO_MEM));
+            ASSERT((err_code == XINC_SUCCESS) || (err_code == XINC_ERROR_NO_MEM));
             err_code = rx_try(p_internal);
-            ASSERT(err_code == NRF_SUCCESS);
+            ASSERT(err_code == XINC_SUCCESS);
 
             break;
 
-        case NRF_DRV_UART_EVT_RX_DONE:
+        case XINC_DRV_UART_EVT_RX_DONE:
 //						printf("R:%d\r\n",p_event->data.rxtx.bytes);
             err_code = nrf_ringbuf_put(p_internal->p_rx_ringbuf, p_event->data.rxtx.bytes);
-            ASSERT((err_code == NRF_SUCCESS) || (err_code == NRF_ERROR_NO_MEM));
+            ASSERT((err_code == XINC_SUCCESS) || (err_code == XINC_ERROR_NO_MEM));
 
             if (p_event->data.rxtx.bytes)
             {
-//                NRF_LOG_INFO("id:%d, evt: RXRDY len:%d",
+//                XINC_LOG_INFO("id:%d, evt: RXRDY len:%d",
 //                             p_internal->p_uart->inst_idx,
 //                             p_event->data.rxtx.bytes);
-            //    NRF_LOG_HEXDUMP_DEBUG(p_event->data.rxtx.p_data, p_event->data.rxtx.bytes);
-                p_internal->p_cb->handler(NRF_CLI_TRANSPORT_EVT_RX_RDY,
+            //    XINC_LOG_HEXDUMP_DEBUG(p_event->data.rxtx.p_data, p_event->data.rxtx.bytes);
+                p_internal->p_cb->handler(XINC_CLI_TRANSPORT_EVT_RX_RDY,
                                           p_internal->p_cb->p_context);
             }
             err_code = rx_try(p_internal);
-            ASSERT(err_code == NRF_SUCCESS);
+            ASSERT(err_code == XINC_SUCCESS);
 
             break;
 
-        case NRF_DRV_UART_EVT_TX_DONE:
+        case XINC_DRV_UART_EVT_TX_DONE:
             err_code = nrf_ringbuf_free(p_internal->p_tx_ringbuf, p_event->data.rxtx.bytes);
-            ASSERT(err_code == NRF_SUCCESS);
+            ASSERT(err_code == XINC_SUCCESS);
             len = 255;
             err_code = nrf_ringbuf_get(p_internal->p_tx_ringbuf, &p_data, &len, true);
-            ASSERT(err_code == NRF_SUCCESS);
+            ASSERT(err_code == XINC_SUCCESS);
             if (len)
             {
-            //    NRF_LOG_INFO("id:%d, evt uart_tx, len:%d", p_internal->p_uart->inst_idx, len);
+            //    XINC_LOG_INFO("id:%d, evt uart_tx, len:%d", p_internal->p_uart->inst_idx, len);
                 err_code = xinc_drv_uart_tx(p_internal->p_uart, p_data, len);
-            ASSERT(err_code == NRF_SUCCESS);
+            ASSERT(err_code == XINC_SUCCESS);
             }
-            p_internal->p_cb->handler(NRF_CLI_TRANSPORT_EVT_TX_RDY, p_internal->p_cb->p_context);
-//            NRF_LOG_INFO("id:%d, evt: TXRDY, len:%d",
+            p_internal->p_cb->handler(XINC_CLI_TRANSPORT_EVT_TX_RDY, p_internal->p_cb->p_context);
+//            XINC_LOG_INFO("id:%d, evt: TXRDY, len:%d",
 //                         p_internal->p_uart->inst_idx,
 //                         p_event->data.rxtx.bytes);
             break;
 
         default:
-        //    NRF_LOG_ERROR("Unknown event");
+        //    XINC_LOG_ERROR("Unknown event");
             ASSERT(false);
     }
 }
@@ -115,7 +115,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context
 static void timer_handler(void * p_context)
 {
     nrf_cli_uart_internal_t * p_internal = (nrf_cli_uart_internal_t *)p_context;
-  //  NRF_LOG_DEBUG("id:%d, evt: Timeout", p_internal->p_uart->inst_idx);
+  //  XINC_LOG_DEBUG("id:%d, evt: Timeout", p_internal->p_uart->inst_idx);
     xinc_drv_uart_rx_abort(p_internal->p_uart);
 }
 
@@ -126,7 +126,7 @@ static ret_code_t cli_uart_init(nrf_cli_transport_t const * p_transport,
 {
 	
 		printf("%s\r\n",__func__);
-		NRF_LOG_INFO("cli_uart_init");
+		XINC_LOG_INFO("cli_uart_init");
     nrf_cli_uart_internal_t * p_internal =
                                        CONTAINER_OF(p_transport,
                                                     nrf_cli_uart_internal_t,
@@ -142,7 +142,7 @@ static ret_code_t cli_uart_init(nrf_cli_transport_t const * p_transport,
     ret_code_t err_code = xinc_drv_uart_init(p_internal->p_uart,
                                             p_uart_config,
                                             uart_event_handler);
-    if (err_code == NRF_SUCCESS)
+    if (err_code == XINC_SUCCESS)
     {
         nrf_ringbuf_init(p_internal->p_rx_ringbuf);
         nrf_ringbuf_init(p_internal->p_tx_ringbuf);
@@ -169,18 +169,18 @@ static ret_code_t cli_uart_enable(nrf_cli_transport_t const * p_transport,
                                        CONTAINER_OF(p_transport,
                                                     nrf_cli_uart_internal_t,
                                                     transport);
-    ret_code_t err_code = NRF_SUCCESS;
+    ret_code_t err_code = XINC_SUCCESS;
 
     if (p_internal->p_cb->timer_created)
     {
         err_code = app_timer_stop(*p_internal->p_timer); //Timer may be running or inactive
-        if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_INVALID_STATE))
+        if ((err_code != XINC_SUCCESS) && (err_code != XINC_ERROR_INVALID_STATE))
         {
             return err_code;
         }
         else
         {
-            err_code = NRF_SUCCESS;
+            err_code = XINC_SUCCESS;
         }
     }
 
@@ -188,14 +188,14 @@ static ret_code_t cli_uart_enable(nrf_cli_transport_t const * p_transport,
     {
         xinc_drv_uart_uninit(p_internal->p_uart);
         err_code = xinc_drv_uart_init(p_internal->p_uart, &p_internal->p_cb->uart_config, NULL);
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             p_internal->p_cb->blocking = true;
-            return NRF_SUCCESS;
+            return XINC_SUCCESS;
         }
         else
         {
-            return NRF_ERROR_NOT_SUPPORTED;
+            return XINC_ERROR_NOT_SUPPORTED;
         }
     }
     else
@@ -208,7 +208,7 @@ static ret_code_t cli_uart_enable(nrf_cli_transport_t const * p_transport,
             p_internal->p_cb->timer_created = true;
 					printf("app_timer_create:%d\r\n",err_code);
         }
-        if (err_code == NRF_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = rx_try(p_internal);
         }
@@ -235,7 +235,7 @@ static ret_code_t cli_uart_read(nrf_cli_transport_t const * p_transport,
 //		ret_code_t err_code = nrf_ringbuf_get(p_instance->p_rx_ringbuf, p_data, p_cnt,true);
     if (*p_cnt)
     {
-     //   NRF_LOG_INFO("id:%d, read:%d", p_instance->p_uart->inst_idx, *p_cnt);
+     //   XINC_LOG_INFO("id:%d, read:%d", p_instance->p_uart->inst_idx, *p_cnt);
 			//	printf("id:%d, read:%d\r\n", p_instance->p_uart->inst_idx, *p_cnt);
     }
 
@@ -254,9 +254,9 @@ static ret_code_t cli_uart_write(nrf_cli_transport_t const * p_transport,
     ret_code_t err_code;
     *p_cnt = length;
     err_code = nrf_ringbuf_cpy_put(p_instance->p_tx_ringbuf, p_data, p_cnt);
-    if (err_code == NRF_SUCCESS)
+    if (err_code == XINC_SUCCESS)
     {
-//        NRF_LOG_INFO("id:%d, write, req:%d, done:%d",
+//        XINC_LOG_INFO("id:%d, write, req:%d, done:%d",
 //                     p_instance->p_uart->inst_idx,
 //                     length,
 //                     *p_cnt);
@@ -265,12 +265,12 @@ static ret_code_t cli_uart_write(nrf_cli_transport_t const * p_transport,
         {
             uint8_t * p_buf;
             size_t len = 255;
-            if (nrf_ringbuf_get(p_instance->p_tx_ringbuf, &p_buf, &len, true) == NRF_SUCCESS)
+            if (nrf_ringbuf_get(p_instance->p_tx_ringbuf, &p_buf, &len, true) == XINC_SUCCESS)
             {
-            //    NRF_LOG_INFO("id:%d, uart_tx, len:%d", p_instance->p_uart->inst_idx, len);
+            //    XINC_LOG_INFO("id:%d, uart_tx, len:%d", p_instance->p_uart->inst_idx, len);
 
                 err_code = xinc_drv_uart_tx(p_instance->p_uart, p_buf, len);
-                if (p_instance->p_cb->blocking && (err_code == NRF_SUCCESS))
+                if (p_instance->p_cb->blocking && (err_code == XINC_SUCCESS))
                 {
                     (void)nrf_ringbuf_free(p_instance->p_tx_ringbuf, len);
                 }

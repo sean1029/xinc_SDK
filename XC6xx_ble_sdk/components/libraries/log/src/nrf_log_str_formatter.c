@@ -7,24 +7,24 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_LOG)
+#if XINC_MODULE_ENABLED(XINC_LOG)
 #include "nrf_log_str_formatter.h"
 #include "nrf_log_internal.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_fprintf.h"
 #include <ctype.h>
 
-#define NRF_LOG_COLOR_CODE_DEFAULT "\x1B[0m"
-#define NRF_LOG_COLOR_CODE_BLACK   "\x1B[1;30m"
-#define NRF_LOG_COLOR_CODE_RED     "\x1B[1;31m"
-#define NRF_LOG_COLOR_CODE_GREEN   "\x1B[1;32m"
-#define NRF_LOG_COLOR_CODE_YELLOW  "\x1B[1;33m"
-#define NRF_LOG_COLOR_CODE_BLUE    "\x1B[1;34m"
-#define NRF_LOG_COLOR_CODE_MAGENTA "\x1B[1;35m"
-#define NRF_LOG_COLOR_CODE_CYAN    "\x1B[1;36m"
-#define NRF_LOG_COLOR_CODE_WHITE   "\x1B[1;37m"
+#define XINC_LOG_COLOR_CODE_DEFAULT "\x1B[0m"
+#define XINC_LOG_COLOR_CODE_BLACK   "\x1B[1;30m"
+#define XINC_LOG_COLOR_CODE_RED     "\x1B[1;31m"
+#define XINC_LOG_COLOR_CODE_GREEN   "\x1B[1;32m"
+#define XINC_LOG_COLOR_CODE_YELLOW  "\x1B[1;33m"
+#define XINC_LOG_COLOR_CODE_BLUE    "\x1B[1;34m"
+#define XINC_LOG_COLOR_CODE_MAGENTA "\x1B[1;35m"
+#define XINC_LOG_COLOR_CODE_CYAN    "\x1B[1;36m"
+#define XINC_LOG_COLOR_CODE_WHITE   "\x1B[1;37m"
 
-#define NRF_LOG_CHAR_CODE_MAX      0x7E
+#define XINC_LOG_CHAR_CODE_MAX      0x7E
 
 static const char * severity_names[] = {
         NULL,
@@ -35,15 +35,15 @@ static const char * severity_names[] = {
 };
 
 static const char * m_colors[] = {
-        NRF_LOG_COLOR_CODE_DEFAULT,
-        NRF_LOG_COLOR_CODE_BLACK,
-        NRF_LOG_COLOR_CODE_RED,
-        NRF_LOG_COLOR_CODE_GREEN,
-        NRF_LOG_COLOR_CODE_YELLOW,
-        NRF_LOG_COLOR_CODE_BLUE,
-        NRF_LOG_COLOR_CODE_MAGENTA,
-        NRF_LOG_COLOR_CODE_CYAN,
-        NRF_LOG_COLOR_CODE_WHITE,
+        XINC_LOG_COLOR_CODE_DEFAULT,
+        XINC_LOG_COLOR_CODE_BLACK,
+        XINC_LOG_COLOR_CODE_RED,
+        XINC_LOG_COLOR_CODE_GREEN,
+        XINC_LOG_COLOR_CODE_YELLOW,
+        XINC_LOG_COLOR_CODE_BLUE,
+        XINC_LOG_COLOR_CODE_MAGENTA,
+        XINC_LOG_COLOR_CODE_CYAN,
+        XINC_LOG_COLOR_CODE_WHITE,
 };
 
 static uint32_t m_freq;
@@ -51,9 +51,9 @@ static uint32_t m_timestamp_div;
 
 static void timestamp_print(nrf_fprintf_ctx_t * p_ctx, uint32_t timestamp)
 {
-    if (NRF_LOG_USES_TIMESTAMP)
+    if (XINC_LOG_USES_TIMESTAMP)
     {
-        if (NRF_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED)
+        if (XINC_LOG_STR_FORMATTER_TIMESTAMP_FORMAT_ENABLED)
         {
             timestamp        /= m_timestamp_div;
             uint32_t seconds  = timestamp/m_freq;
@@ -81,12 +81,12 @@ static void prefix_process(nrf_log_str_formatter_entry_params_t * p_params,
     {
         nrf_fprintf(p_ctx,
                     "%sLogs dropped (%d)%s\r\n",
-                    NRF_LOG_COLOR_CODE_RED,
+                    XINC_LOG_COLOR_CODE_RED,
                     p_params->dropped,
-                    NRF_LOG_COLOR_CODE_DEFAULT);
+                    XINC_LOG_COLOR_CODE_DEFAULT);
     }
 
-    if (!(p_params->severity == NRF_LOG_SEVERITY_INFO_RAW))
+    if (!(p_params->severity == XINC_LOG_SEVERITY_INFO_RAW))
     {
         if (p_params->use_colors)
         {
@@ -104,7 +104,7 @@ static void postfix_process(nrf_log_str_formatter_entry_params_t * p_params,
                             nrf_fprintf_ctx_t * p_ctx,
                             bool newline)
 {
-    if (!(p_params->severity == NRF_LOG_SEVERITY_INFO_RAW))
+    if (!(p_params->severity == XINC_LOG_SEVERITY_INFO_RAW))
     {
         if (p_params->use_colors)
         {
@@ -197,7 +197,7 @@ void nrf_log_hexdump_entry_process(uint8_t * p_data,
         if (i < data_len)
         {
             char c = (char)p_data[i];
-            nrf_fprintf(p_ctx, "%c", ((c <= NRF_LOG_CHAR_CODE_MAX) && isprint((int)c)) ? c :'.');
+            nrf_fprintf(p_ctx, "%c", ((c <= XINC_LOG_CHAR_CODE_MAX) && isprint((int)c)) ? c :'.');
         }
         else
         {
@@ -223,4 +223,4 @@ void nrf_log_str_formatter_timestamp_freq_set(uint32_t freq)
     }
     m_freq = freq;
 }
-#endif //NRF_LOG_ENABLED
+#endif //XINC_LOG_ENABLED

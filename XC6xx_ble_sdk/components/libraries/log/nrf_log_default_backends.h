@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_DEFAULT_BACKENDS_H__
-#define NRF_LOG_DEFAULT_BACKENDS_H__
+#ifndef XINC_LOG_DEFAULT_BACKENDS_H__
+#define XINC_LOG_DEFAULT_BACKENDS_H__
 
 /**@file
  * @addtogroup nrf_log Logger module
@@ -28,15 +28,15 @@ extern "C" {
 #endif
 
 /**
- * @def NRF_LOG_DEFAULT_BACKENDS_INIT
+ * @def XINC_LOG_DEFAULT_BACKENDS_INIT
  * @brief Macro for initializing default backends.
  *
  * Each backend enabled in configuration is initialized and added as a backend to the logger.
  */
-#if NRF_LOG_ENABLED
-#define NRF_LOG_DEFAULT_BACKENDS_INIT() nrf_log_default_backends_init()
+#if XINC_LOG_ENABLED
+#define XINC_LOG_DEFAULT_BACKENDS_INIT() nrf_log_default_backends_init()
 #else
-#define NRF_LOG_DEFAULT_BACKENDS_INIT()
+#define XINC_LOG_DEFAULT_BACKENDS_INIT()
 #endif
 
 void nrf_log_default_backends_init(void);
@@ -47,4 +47,4 @@ void nrf_log_default_backends_init(void);
 
 /** @} */
 
-#endif // NRF_LOG_DEFAULT_BACKENDS_H__
+#endif // XINC_LOG_DEFAULT_BACKENDS_H__

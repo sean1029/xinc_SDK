@@ -51,7 +51,7 @@ typedef xincx_wdt_config_t xinc_drv_wdt_config_t;
  *
  * @note Function asserts if wdt_event_handler is NULL.
  *
- * @return NRF_SUCCESS on success, otherwise an error code.
+ * @return XINC_SUCCESS on success, otherwise an error code.
  */
 __STATIC_INLINE ret_code_t xinc_drv_wdt_init(xinc_drv_wdt_config_t const * p_config,
                                             xinc_wdt_event_handler_t      wdt_event_handler)

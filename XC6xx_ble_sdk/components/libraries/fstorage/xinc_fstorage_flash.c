@@ -51,7 +51,7 @@ static void event_send(nrf_fstorage_t        const * p_fs,
 
     nrf_fstorage_evt_t evt =
     {
-        .result  = NRF_SUCCESS,
+        .result  = XINC_SUCCESS,
         .id      = evt_id,
         .addr    = addr,
         .p_src   = p_src,
@@ -70,7 +70,7 @@ static ret_code_t init(nrf_fstorage_t * p_fs, void * p_param)
 	
 		printf("m_fstroage_flash init\n");
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 static ret_code_t uninit(nrf_fstorage_t * p_fs, void * p_param)
@@ -80,7 +80,7 @@ static ret_code_t uninit(nrf_fstorage_t * p_fs, void * p_param)
 
     (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -91,7 +91,7 @@ static ret_code_t read(nrf_fstorage_t const * p_fs, uint32_t src, void * p_dest,
 		printf("flash %s\n",__func__);
     memcpy(p_dest, (uint32_t*)src, len);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -104,7 +104,7 @@ static ret_code_t write(nrf_fstorage_t const * p_fs,
 		printf("flash %s\n",__func__);
     if (nrf_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
-        return NRF_ERROR_BUSY;
+        return XINC_ERROR_BUSY;
     }
 
     nrf_nvmc_write_words(dest, (uint32_t*)p_src, (len / m_flash_info.program_unit));
@@ -112,9 +112,9 @@ static ret_code_t write(nrf_fstorage_t const * p_fs,
     /* Clear the flag before sending the event, to allow API calls in the event context. */
     (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
 
-    event_send(p_fs, NRF_FSTORAGE_EVT_WRITE_RESULT, p_src, dest, len, p_param);
+    event_send(p_fs, XINC_FSTORAGE_EVT_WRITE_RESULT, p_src, dest, len, p_param);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -127,7 +127,7 @@ static ret_code_t erase(nrf_fstorage_t const * p_fs,
 		printf("flash %s\n",__func__);
     if (nrf_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
-        return NRF_ERROR_BUSY;
+        return XINC_ERROR_BUSY;
     }
 
     while (progress != len)
@@ -139,9 +139,9 @@ static ret_code_t erase(nrf_fstorage_t const * p_fs,
     /* Clear the flag before sending the event, to allow API calls in the event context. */
     (void) nrf_atomic_flag_clear(&m_flash_operation_ongoing);
 
-    event_send(p_fs, NRF_FSTORAGE_EVT_ERASE_RESULT, NULL, page_addr, len, p_param);
+    event_send(p_fs, XINC_FSTORAGE_EVT_ERASE_RESULT, NULL, page_addr, len, p_param);
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 static uint8_t const * rmap(nrf_fstorage_t const * p_fs, uint32_t addr)

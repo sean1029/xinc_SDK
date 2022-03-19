@@ -75,7 +75,7 @@ uint32_t app_sched_init(uint16_t event_size, uint16_t queue_size, void * p_event
     //Check that buffer is correctly aligned
     if (!is_word_aligned(p_event_buffer))
     {
-        return NRF_ERROR_INVALID_PARAM;
+        return XINC_ERROR_INVALID_PARAM;
     }
 
     //Initialize event scheduler
@@ -90,7 +90,7 @@ uint32_t app_sched_init(uint16_t event_size, uint16_t queue_size, void * p_event
     m_max_queue_utilization = 0;
 #endif
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 
@@ -167,16 +167,16 @@ uint32_t app_sched_event_put(void *                    p_event_data,
             check_queue_utilization();
         #endif
 
-            err_code = NRF_SUCCESS;
+            err_code = XINC_SUCCESS;
         }
         else
         {
-            err_code = NRF_ERROR_NO_MEM;
+            err_code = XINC_ERROR_NO_MEM;
         }
     }
     else
     {
-        err_code = NRF_ERROR_INVALID_LENGTH;
+        err_code = XINC_ERROR_INVALID_LENGTH;
     }
 
     return err_code;
@@ -189,13 +189,13 @@ uint32_t app_sched_event_put(void *                    p_event_data,
  * @param[out]  p_event_data_size   Pointer to size of event data.
  * @param[out]  p_event_handler     Pointer to event handler function pointer.
  *
- * @return      NRF_SUCCESS if new event, NRF_ERROR_NOT_FOUND if event queue is empty.
+ * @return      XINC_SUCCESS if new event, XINC_ERROR_NOT_FOUND if event queue is empty.
  */
 static uint32_t app_sched_event_get(void * *                    pp_event_data,
                                     uint16_t *                  p_event_data_size,
                                     app_sched_event_handler_t * p_event_handler)
 {
-    uint32_t err_code = NRF_ERROR_NOT_FOUND;
+    uint32_t err_code = XINC_ERROR_NOT_FOUND;
 
     if (!APP_SCHED_QUEUE_EMPTY())
     {
@@ -212,7 +212,7 @@ static uint32_t app_sched_event_get(void * *                    pp_event_data,
         *p_event_data_size = m_queue_event_headers[event_index].event_data_size;
         *p_event_handler   = m_queue_event_headers[event_index].handler;
 
-        err_code = NRF_SUCCESS;
+        err_code = XINC_SUCCESS;
     }
 
     return err_code;
@@ -260,7 +260,7 @@ void app_sched_execute(void)
 
     //Get next event (if any), and execute handler
     while ((!is_app_sched_paused()) &&
-           (app_sched_event_get(&p_event_data, &event_data_size, &event_handler) == NRF_SUCCESS))
+           (app_sched_event_get(&p_event_data, &event_data_size, &event_handler) == XINC_SUCCESS))
     {
         event_handler(p_event_data, event_data_size);
     }

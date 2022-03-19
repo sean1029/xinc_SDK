@@ -73,7 +73,7 @@ typedef struct
  * @param[in]  button_count        Number of buttons.
  * @param[in]  detection_delay     Delay from a GPIOTE event until a button is reported as pushed.
  *
- * @return   NRF_SUCCESS on success, otherwise an error code.
+ * @return   XINC_SUCCESS on success, otherwise an error code.
  */
 uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
                          uint8_t                        button_count,
@@ -81,13 +81,13 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
 
 /**@brief Function for enabling button detection.
  *
- * @retval NRF_SUCCESS Module successfully enabled.
+ * @retval XINC_SUCCESS Module successfully enabled.
  */
 uint32_t app_button_enable(void);
 
 /**@brief Function for disabling button detection.
  *
- * @retval  NRF_SUCCESS               Button detection successfully disabled. Error code otherwise.
+ * @retval  XINC_SUCCESS               Button detection successfully disabled. Error code otherwise.
  */
 uint32_t app_button_disable(void);
 

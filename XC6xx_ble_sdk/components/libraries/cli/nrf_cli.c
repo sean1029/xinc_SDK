@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_CLI)
+#if XINC_MODULE_ENABLED(XINC_CLI)
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -19,83 +19,83 @@
 //#include "nrf_pwr_mgmt.h"
 #include "nrf_atomic.h"
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 #include "fnmatch.h"
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
-    #if NRF_CLI_HISTORY_ELEMENT_SIZE * NRF_CLI_HISTORY_ELEMENT_COUNT == 0
-        #error Not proper memory size allocated for NRF_CLI_HISTORY
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
+    #if XINC_CLI_HISTORY_ELEMENT_SIZE * XINC_CLI_HISTORY_ELEMENT_COUNT == 0
+        #error Not proper memory size allocated for XINC_CLI_HISTORY
     #endif
 #endif
 
 /* 2 == 1 char for cmd + 1 char for '\0' */
-#if NRF_CLI_CMD_BUFF_SIZE < 2
-    #error too small NRF_CLI_CMD_BUFF_SIZE
+#if XINC_CLI_CMD_BUFF_SIZE < 2
+    #error too small XINC_CLI_CMD_BUFF_SIZE
 #endif
 
-#if NRF_CLI_PRINTF_BUFF_SIZE < 1
-    #error too small NRF_CLI_PRINTF_BUFF_SIZE
+#if XINC_CLI_PRINTF_BUFF_SIZE < 1
+    #error too small XINC_CLI_PRINTF_BUFF_SIZE
 #endif
 
-#define NRF_CLI_HELP_CLEAR              "Clear screen."
-#define NRF_CLI_HELP_COLORS             "Toggle colored syntax."
-#define NRF_CLI_HELP_COLORS_OFF         "Disable colored syntax."
-#define NRF_CLI_HELP_COLORS_ON          "Enable colored syntax."
-#define NRF_CLI_HELP_STATISTICS         "CLI statistics."
-#define NRF_CLI_HELP_STATISTICS_SHOW    "Get CLI statistics for the Logger module."
-#define NRF_CLI_HELP_STATISTICS_RESET   "Reset CLI statistics for the Logger module."
-#define NRF_CLI_HELP_RESIZE             "Console gets terminal screen size or assumes 80 in case " \
+#define XINC_CLI_HELP_CLEAR              "Clear screen."
+#define XINC_CLI_HELP_COLORS             "Toggle colored syntax."
+#define XINC_CLI_HELP_COLORS_OFF         "Disable colored syntax."
+#define XINC_CLI_HELP_COLORS_ON          "Enable colored syntax."
+#define XINC_CLI_HELP_STATISTICS         "CLI statistics."
+#define XINC_CLI_HELP_STATISTICS_SHOW    "Get CLI statistics for the Logger module."
+#define XINC_CLI_HELP_STATISTICS_RESET   "Reset CLI statistics for the Logger module."
+#define XINC_CLI_HELP_RESIZE             "Console gets terminal screen size or assumes 80 in case " \
                                         "the readout fails. It must be executed after each terminal " \
                                         "width change to ensure correct text display."
-#define NRF_CLI_HELP_RESIZE_DEFAULT     "Assume 80 chars screen width and send this setting "     \
+#define XINC_CLI_HELP_RESIZE_DEFAULT     "Assume 80 chars screen width and send this setting "     \
                                         "to the terminal."
-#define NRF_CLI_HELP_HISTORY            "Command history."
-#define NRF_CLI_HELP_ECHO               "Toggle CLI echo."
-#define NRF_CLI_HELP_ECHO_ON            "Enable CLI echo."
-#define NRF_CLI_HELP_ECHO_OFF           "Disable CLI echo. Arrows and buttons: Backspace, "       \
+#define XINC_CLI_HELP_HISTORY            "Command history."
+#define XINC_CLI_HELP_ECHO               "Toggle CLI echo."
+#define XINC_CLI_HELP_ECHO_ON            "Enable CLI echo."
+#define XINC_CLI_HELP_ECHO_OFF           "Disable CLI echo. Arrows and buttons: Backspace, "       \
                                         "Delete, End, Home, Insert are not handled."
-#define NRF_CLI_HELP_CLI                "Useful, not Unix-like CLI commands."
+#define XINC_CLI_HELP_CLI                "Useful, not Unix-like CLI commands."
 
-#define NRF_CLI_MSG_SPECIFY_SUBCOMMAND  "Please specify a subcommand."
-#define NRF_CLI_MSG_UNKNOWN_PARAMETER   " unknown parameter: "
-#define NRF_CLI_MSG_COMMAND_NOT_FOUND   ": command not found"
-#define NRF_CLI_MSG_TAB_OVERFLOWED      "Tab function: commands counter overflowed."
+#define XINC_CLI_MSG_SPECIFY_SUBCOMMAND  "Please specify a subcommand."
+#define XINC_CLI_MSG_UNKNOWN_PARAMETER   " unknown parameter: "
+#define XINC_CLI_MSG_COMMAND_NOT_FOUND   ": command not found"
+#define XINC_CLI_MSG_TAB_OVERFLOWED      "Tab function: commands counter overflowed."
 
 /*lint -save -esym(526,cli_command*) -esym(526,cli_sorted_cmd_ptrs*)*/
-NRF_SECTION_DEF(cli_command, nrf_cli_cmd_entry_t);
-#define CLI_DATA_SECTION_ITEM_GET(i) NRF_SECTION_ITEM_GET(cli_command, nrf_cli_cmd_entry_t, (i))
-#define CLI_DATA_SECTION_ITEM_COUNT  NRF_SECTION_ITEM_COUNT(cli_command, nrf_cli_cmd_entry_t)
+XINC_SECTION_DEF(cli_command, nrf_cli_cmd_entry_t);
+#define CLI_DATA_SECTION_ITEM_GET(i) XINC_SECTION_ITEM_GET(cli_command, nrf_cli_cmd_entry_t, (i))
+#define CLI_DATA_SECTION_ITEM_COUNT  XINC_SECTION_ITEM_COUNT(cli_command, nrf_cli_cmd_entry_t)
 
-NRF_SECTION_DEF(cli_sorted_cmd_ptrs, const char *);
+XINC_SECTION_DEF(cli_sorted_cmd_ptrs, const char *);
 /*lint -restore*/
-#define CLI_SORTED_CMD_PTRS_ITEM_GET(i) NRF_SECTION_ITEM_GET(cli_sorted_cmd_ptrs, const char *, (i))
-#define CLI_SORTED_CMD_PTRS_START_ADDR_GET NRF_SECTION_START_ADDR(cli_sorted_cmd_ptrs)
+#define CLI_SORTED_CMD_PTRS_ITEM_GET(i) XINC_SECTION_ITEM_GET(cli_sorted_cmd_ptrs, const char *, (i))
+#define CLI_SORTED_CMD_PTRS_START_ADDR_GET XINC_SECTION_START_ADDR(cli_sorted_cmd_ptrs)
 
-#if defined(NRF_CLI_LOG_BACKEND) && NRF_CLI_LOG_BACKEND
+#if defined(XINC_CLI_LOG_BACKEND) && XINC_CLI_LOG_BACKEND
 #include "nrf_log_str_formatter.h"
 #include "nrf_log_internal.h"
 #endif
 
-#define NRF_CLI_INIT_OPTION_PRINTER                  (NULL)
+#define XINC_CLI_INIT_OPTION_PRINTER                  (NULL)
 
-#define NRF_CLI_MAX_TERMINAL_SIZE       (250u)
-#define NRF_CLI_CURSOR_POSITION_BUFFER  (10u)   /* 10 == {esc, [, 2, 5, 0, ;, 2, 5, 0, '\0'} */
-#define NRF_CLI_DEFAULT_TERMINAL_WIDTH  (80u)   /* Default PuTTY width. */
-#define NRF_CLI_DEFAULT_TERMINAL_HEIGHT (24u)   /* Default PuTTY height. */
-#define NRF_CLI_INITIAL_CURS_POS        (1u)    /* Initial cursor position is: (1, 1). */
+#define XINC_CLI_MAX_TERMINAL_SIZE       (250u)
+#define XINC_CLI_CURSOR_POSITION_BUFFER  (10u)   /* 10 == {esc, [, 2, 5, 0, ;, 2, 5, 0, '\0'} */
+#define XINC_CLI_DEFAULT_TERMINAL_WIDTH  (80u)   /* Default PuTTY width. */
+#define XINC_CLI_DEFAULT_TERMINAL_HEIGHT (24u)   /* Default PuTTY height. */
+#define XINC_CLI_INITIAL_CURS_POS        (1u)    /* Initial cursor position is: (1, 1). */
 
-#define NRF_CLI_CMD_ROOT_LVL            (0u)
+#define XINC_CLI_CMD_ROOT_LVL            (0u)
 
 /* Macro to send VT100 commands. */
-#define NRF_CLI_VT100_CMD(_p_cli_, _cmd_)   {       \
+#define XINC_CLI_VT100_CMD(_p_cli_, _cmd_)   {       \
     ASSERT(_p_cli_);                                \
     ASSERT(_p_cli_->p_fprintf_ctx);                 \
     static char const cmd[] = _cmd_;                \
     nrf_fprintf(_p_cli_->p_fprintf_ctx, "%s", cmd); \
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 typedef enum
 {
     WILDCARD_CMD_ADDED,
@@ -123,7 +123,7 @@ static inline void cli_flag_help_clear(nrf_cli_t const * p_cli)
     p_cli->p_ctx->internal.flag.show_help = 0;
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS)
+#if XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS)
 static inline void cli_flag_echo_set(nrf_cli_t const * p_cli)
 {
     p_cli->p_ctx->internal.flag.echo = 1;
@@ -133,7 +133,7 @@ static inline void cli_flag_echo_clear(nrf_cli_t const * p_cli)
 {
     p_cli->p_ctx->internal.flag.echo = 0;
 }
-#endif /* NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS) */
+#endif /* XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS) */
 
 static inline bool cli_flag_echo_is_set(nrf_cli_t const * p_cli)
 {
@@ -186,7 +186,7 @@ static inline bool full_line_cmd(nrf_cli_t const * p_cli)
             p_cli->p_ctx->vt100_ctx.cons.terminal_wid == 0);
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 /* Function returns true if string contains wildcard character: '?' or '*'. */
 static bool wildcard_character_exist(char * p_str)
 {
@@ -221,14 +221,14 @@ static void cli_write(nrf_cli_t const * p_cli,
                                                       length,
                                                       &cnt);
         UNUSED_VARIABLE(ret);
-        ASSERT(ret == NRF_SUCCESS);
+        ASSERT(ret == XINC_SUCCESS);
         ASSERT(length >= cnt);
         offset += cnt;
         length -= cnt;
-        if (cnt == 0 && (p_cli->p_ctx->state != NRF_CLI_STATE_PANIC_MODE_ACTIVE))
+        if (cnt == 0 && (p_cli->p_ctx->state != XINC_CLI_STATE_PANIC_MODE_ACTIVE))
         {
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
-            (void)task_events_wait(NRF_CLI_TRANSPORT_TX_RDY_TASK_EVT);
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
+            (void)task_events_wait(XINC_CLI_TRANSPORT_TX_RDY_TASK_EVT);
 #else
             while (p_cli->p_ctx->internal.flag.tx_rdy == 0)
             {
@@ -281,7 +281,7 @@ static void cmd_get(nrf_cli_cmd_entry_t const *     p_command,
     ASSERT (pp_entry != NULL);
     ASSERT (p_st_entry != NULL);
 
-    if (lvl == NRF_CLI_CMD_ROOT_LVL)
+    if (lvl == XINC_CLI_CMD_ROOT_LVL)
     {
         if (idx < CLI_DATA_SECTION_ITEM_COUNT)
         {
@@ -377,7 +377,7 @@ static nrf_cli_multiline_cons_t const * multiline_console_data_check(nrf_cli_t c
 }
 
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* Calculates relative line number of given position in buffer */
 static uint32_t cli_line_num_with_buffer_offset_get(nrf_cli_t const * p_cli,
                                                     nrf_cli_cmd_len_t buffer_pos)
@@ -392,7 +392,7 @@ static uint32_t cli_line_num_with_buffer_offset_get(nrf_cli_t const * p_cli,
 #endif
 
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* Calculates column number of given position in buffer */
 static uint32_t cli_col_num_with_buffer_offset_get(nrf_cli_t const * p_cli,
                                                    nrf_cli_cmd_len_t buffer_pos)
@@ -408,7 +408,7 @@ static uint32_t cli_col_num_with_buffer_offset_get(nrf_cli_t const * p_cli,
 #endif
 
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* For the given buffer, calculates row span between position2 and position1 */
 static int32_t cli_row_span_with_buffer_offsets_get(nrf_cli_t const * p_cli,
                                                     nrf_cli_cmd_len_t offset1,
@@ -419,7 +419,7 @@ static int32_t cli_row_span_with_buffer_offsets_get(nrf_cli_t const * p_cli,
 }
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* For the given buffer, calculates column span between position2 and position 1 */
 static int32_t cli_column_span_with_buffer_offsets_get(nrf_cli_t const * p_cli,
                                                        nrf_cli_cmd_len_t offset1,
@@ -434,19 +434,19 @@ static int32_t cli_column_span_with_buffer_offsets_get(nrf_cli_t const * p_cli,
 /* Function sends VT100 command to clear the screen from cursor position to end of the screen. */
 static inline void cli_clear_eos(nrf_cli_t const * p_cli)
 {
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CLEAREOS);
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CLEAREOS);
 }
 
 /* Function sends VT100 command to save cursor position. */
 static inline void cli_cursor_save(nrf_cli_t const * p_cli)
 {
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_SAVECURSOR);
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_SAVECURSOR);
 }
 
 /* Function sends VT100 command to restore saved cursor position. */
 static inline void cli_cursor_restore(nrf_cli_t const * p_cli)
 {
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_RESTORECURSOR);
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_RESTORECURSOR);
 }
 
 /* Function forcing new line - cannot be replaced with function cursor_down_move. */
@@ -473,7 +473,7 @@ static inline void cursor_right_move(nrf_cli_t const * p_cli, nrf_cli_cmd_len_t 
     }
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* Moves cursor horizontally by a number. Positive is right */
 static void cursor_horiz_move(nrf_cli_t const * p_cli, int32_t delta)
 {
@@ -508,7 +508,7 @@ static inline void cursor_down_move(nrf_cli_t const * p_cli, nrf_cli_cmd_len_t n
     }
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* Moves cursor vertically by a number. Positive is down */
 static void cursor_vert_move(nrf_cli_t const * p_cli, int32_t delta)
 {
@@ -579,7 +579,7 @@ static void cursor_position_synchronize(nrf_cli_t const * p_cli)
     }
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /**
  *  Removes the "word" to the left of the cursor:
  *  - if there are spaces at the cursor position, remove all spaces to the left
@@ -632,7 +632,7 @@ static void cli_cmd_word_remove(nrf_cli_t const * p_cli)
     cursor_vert_move(p_cli, row_span);
     cli_cursor_save(p_cli);
     nrf_cli_fprintf(p_cli,
-            NRF_CLI_NORMAL,
+            XINC_CLI_NORMAL,
             "%s",
             &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
     cli_clear_eos(p_cli);
@@ -640,30 +640,30 @@ static void cli_cmd_word_remove(nrf_cli_t const * p_cli)
 }
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY) || NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY) || XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
 /* Function moves cursor to begin of command position, just after console name. */
 static void cursor_home_position_move(nrf_cli_t const * p_cli)
 {
     nrf_cli_multiline_cons_t const * p_cons = multiline_console_data_check(p_cli);
 
-    if ((p_cons->cur_x == p_cons->name_len + NRF_CLI_INITIAL_CURS_POS) &&
-        (p_cons->cur_y == NRF_CLI_INITIAL_CURS_POS))
+    if ((p_cons->cur_x == p_cons->name_len + XINC_CLI_INITIAL_CURS_POS) &&
+        (p_cons->cur_y == XINC_CLI_INITIAL_CURS_POS))
     {
         return; /* nothing to handle because cursor is in start position */
     }
 
-    if (p_cons->cur_y > NRF_CLI_INITIAL_CURS_POS)
+    if (p_cons->cur_y > XINC_CLI_INITIAL_CURS_POS)
     {
-        cursor_up_move(p_cli, p_cons->cur_y - NRF_CLI_INITIAL_CURS_POS);
+        cursor_up_move(p_cli, p_cons->cur_y - XINC_CLI_INITIAL_CURS_POS);
     }
 
     if (p_cons->cur_x > p_cons->name_len)
     {
-        cursor_left_move(p_cli, p_cons->cur_x - NRF_CLI_INITIAL_CURS_POS - p_cons->name_len);
+        cursor_left_move(p_cli, p_cons->cur_x - XINC_CLI_INITIAL_CURS_POS - p_cons->name_len);
     }
     else
     {
-        cursor_right_move(p_cli, p_cons->name_len + NRF_CLI_INITIAL_CURS_POS - p_cons->cur_x);
+        cursor_right_move(p_cli, p_cons->name_len + XINC_CLI_INITIAL_CURS_POS - p_cons->cur_x);
     }
     /* align data buffer pointer with cursor position */
     p_cli->p_ctx->cmd_buff_pos = 0;
@@ -697,7 +697,7 @@ static void cursor_end_position_move(nrf_cli_t const * p_cli)
     p_cli->p_ctx->cmd_buff_pos = p_cli->p_ctx->cmd_buff_len;
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS)
+#if XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS)
 /* Function reads cursor position from terminal. */
 static ret_code_t cursor_position_get(nrf_cli_t const * p_cli)
 {
@@ -730,8 +730,8 @@ static ret_code_t cursor_position_get(nrf_cli_t const * p_cli)
                 continue;
             }
 						printf("r:%c\r\n",c);
-            if ((c != NRF_CLI_VT100_ASCII_ESC) &&
-                (p_cli->p_ctx->temp_buff[0] != NRF_CLI_VT100_ASCII_ESC))
+            if ((c != XINC_CLI_VT100_ASCII_ESC) &&
+                (p_cli->p_ctx->temp_buff[0] != XINC_CLI_VT100_ASCII_ESC))
             {
                 continue;
             }
@@ -742,65 +742,65 @@ static ret_code_t cursor_position_get(nrf_cli_t const * p_cli)
                 if (p_cli->p_ctx->temp_buff[1] != '[')
                 {
                     p_cli->p_ctx->temp_buff[0] = 0;
-                    return NRF_ERROR_INVALID_DATA;
+                    return XINC_ERROR_INVALID_DATA;
                 }
                 buff_idx = 2;  /* index start position in the buffer where 'y' is stored */
                 while (p_cli->p_ctx->temp_buff[buff_idx] != ';')
                 {
                     y = y * 10 + (p_cli->p_ctx->temp_buff[buff_idx++] - '0');
-                    if (buff_idx >= NRF_CLI_CMD_BUFF_SIZE)
+                    if (buff_idx >= XINC_CLI_CMD_BUFF_SIZE)
                     {
-                        return NRF_ERROR_DATA_SIZE;
+                        return XINC_ERROR_DATA_SIZE;
                     }
                 }
-                if (++buff_idx >= NRF_CLI_CMD_BUFF_SIZE)
+                if (++buff_idx >= XINC_CLI_CMD_BUFF_SIZE)
                 {
-                    return NRF_ERROR_DATA_SIZE;
+                    return XINC_ERROR_DATA_SIZE;
                 }
                 while (p_cli->p_ctx->temp_buff[buff_idx] != '\0')
                 {
                     x = x * 10 + (p_cli->p_ctx->temp_buff[buff_idx++] - '0');
-                    if (buff_idx >= NRF_CLI_CMD_BUFF_SIZE)
+                    if (buff_idx >= XINC_CLI_CMD_BUFF_SIZE)
                     {
-                        return NRF_ERROR_DATA_SIZE;
+                        return XINC_ERROR_DATA_SIZE;
                     }
                 }
                 /* horizontal cursor position */
-                if (x > NRF_CLI_MAX_TERMINAL_SIZE)
+                if (x > XINC_CLI_MAX_TERMINAL_SIZE)
                 {
-                    p_cli->p_ctx->vt100_ctx.cons.cur_x = NRF_CLI_MAX_TERMINAL_SIZE;
+                    p_cli->p_ctx->vt100_ctx.cons.cur_x = XINC_CLI_MAX_TERMINAL_SIZE;
                 }
                 else
                 {
                     p_cli->p_ctx->vt100_ctx.cons.cur_x = (nrf_cli_cmd_len_t)x;
                 }
                 /* vertical cursor position */
-                if (y > NRF_CLI_MAX_TERMINAL_SIZE)
+                if (y > XINC_CLI_MAX_TERMINAL_SIZE)
                 {
-                    p_cli->p_ctx->vt100_ctx.cons.cur_y = NRF_CLI_MAX_TERMINAL_SIZE;
+                    p_cli->p_ctx->vt100_ctx.cons.cur_y = XINC_CLI_MAX_TERMINAL_SIZE;
                 }
                 else
                 {
                     p_cli->p_ctx->vt100_ctx.cons.cur_y = (nrf_cli_cmd_len_t)y;
                 }
                 p_cli->p_ctx->temp_buff[0] = 0;
-                return NRF_SUCCESS;
+                return XINC_SUCCESS;
             }
             else
             {
                 p_cli->p_ctx->temp_buff[buff_idx] = c;
             }
 
-            if (++buff_idx > NRF_CLI_CURSOR_POSITION_BUFFER - 1)
+            if (++buff_idx > XINC_CLI_CURSOR_POSITION_BUFFER - 1)
             {
                 p_cli->p_ctx->temp_buff[0] = 0;
-                /* data_buf[NRF_CLI_CURSOR_POSITION_BUFFER - 1] is reserved for '\0' */
-                return NRF_ERROR_NO_MEM;
+                /* data_buf[XINC_CLI_CURSOR_POSITION_BUFFER - 1] is reserved for '\0' */
+                return XINC_ERROR_NO_MEM;
             }
 
         } while (cnt > 0);
     }
-    return NRF_ERROR_TIMEOUT;
+    return XINC_ERROR_TIMEOUT;
 }
 
 /* Function gets terminal width and height. */
@@ -814,50 +814,50 @@ static ret_code_t terminal_size_get(nrf_cli_t const *   p_cli,
     uint16_t x;
     uint16_t y;
 
-    if (cursor_position_get(p_cli) == NRF_SUCCESS)
+    if (cursor_position_get(p_cli) == XINC_SUCCESS)
     {
         x = p_cli->p_ctx->vt100_ctx.cons.cur_x;
         y = p_cli->p_ctx->vt100_ctx.cons.cur_y;
         /* assumption: terminal widht and height < 999 */
-        cursor_right_move(p_cli, NRF_CLI_MAX_TERMINAL_SIZE); /* move to last column */
-        cursor_down_move(p_cli,  NRF_CLI_MAX_TERMINAL_SIZE); /* move to last row */
+        cursor_right_move(p_cli, XINC_CLI_MAX_TERMINAL_SIZE); /* move to last column */
+        cursor_down_move(p_cli,  XINC_CLI_MAX_TERMINAL_SIZE); /* move to last row */
     }
     else
     {
-        return NRF_ERROR_NOT_SUPPORTED;
+        return XINC_ERROR_NOT_SUPPORTED;
     }
 
-    if (cursor_position_get(p_cli) == NRF_SUCCESS)
+    if (cursor_position_get(p_cli) == XINC_SUCCESS)
     {
         *p_length = p_cli->p_ctx->vt100_ctx.cons.cur_x;
         *p_height = p_cli->p_ctx->vt100_ctx.cons.cur_y;
         cursor_left_move(p_cli, *p_length - x);
         cursor_up_move(p_cli, *p_height - y);
 
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
-    return NRF_ERROR_NOT_SUPPORTED;
+    return XINC_ERROR_NOT_SUPPORTED;
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS)
 
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
 static void vt100_color_set(nrf_cli_t const * p_cli, nrf_cli_vt100_color_t color)
 {
-    if (color != NRF_CLI_DEFAULT)
+    if (color != XINC_CLI_DEFAULT)
     {
         if (p_cli->p_ctx->vt100_ctx.col.col == color)
         {
             return;
         }
 
-        uint8_t cmd[] = NRF_CLI_VT100_COLOR(color - 1);
+        uint8_t cmd[] = XINC_CLI_VT100_COLOR(color - 1);
 
         p_cli->p_ctx->vt100_ctx.col.col = color;
         nrf_fprintf(p_cli->p_fprintf_ctx, "%s", cmd);
     }
     else
     {
-        static uint8_t const cmd[] = NRF_CLI_VT100_MODESOFF;
+        static uint8_t const cmd[] = XINC_CLI_VT100_MODESOFF;
 
         p_cli->p_ctx->vt100_ctx.col.col = color;
         nrf_fprintf(p_cli->p_fprintf_ctx, "%s", cmd);
@@ -866,14 +866,14 @@ static void vt100_color_set(nrf_cli_t const * p_cli, nrf_cli_vt100_color_t color
 
 static void vt100_bgcolor_set(nrf_cli_t const * p_cli, nrf_cli_vt100_color_t bgcolor)
 {
-    if (bgcolor != NRF_CLI_DEFAULT)
+    if (bgcolor != XINC_CLI_DEFAULT)
     {
         if (p_cli->p_ctx->vt100_ctx.col.bgcol == bgcolor)
         {
             return;
         }
          /* -1 because default value is first in enum */
-        uint8_t cmd[] = NRF_CLI_VT100_BGCOLOR(bgcolor - 1);
+        uint8_t cmd[] = XINC_CLI_VT100_BGCOLOR(bgcolor - 1);
 
         p_cli->p_ctx->vt100_ctx.col.bgcol = bgcolor;
         nrf_fprintf(p_cli->p_fprintf_ctx, "%s", cmd);
@@ -892,19 +892,19 @@ static void vt100_colors_restore(nrf_cli_t const *              p_cli,
     vt100_color_set(p_cli, p_color->col);
     vt100_bgcolor_set(p_cli, p_color->bgcol);
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
 
 static void left_arrow_handle(nrf_cli_t const * p_cli)
 {
     nrf_cli_multiline_cons_t const * p_cons = multiline_console_data_check(p_cli);
 
-    if ((p_cons->cur_x == p_cons->name_len + NRF_CLI_INITIAL_CURS_POS) &&
-        (p_cons->cur_y == NRF_CLI_INITIAL_CURS_POS))
+    if ((p_cons->cur_x == p_cons->name_len + XINC_CLI_INITIAL_CURS_POS) &&
+        (p_cons->cur_y == XINC_CLI_INITIAL_CURS_POS))
     {
         return; /* nothing to handle because cursor is in start position */
     }
 
-    if (p_cons->cur_x == NRF_CLI_INITIAL_CURS_POS)
+    if (p_cons->cur_x == XINC_CLI_INITIAL_CURS_POS)
     {   /* go to previous line */
         cursor_up_move(p_cli, 1);
         cursor_right_move(p_cli, p_cons->terminal_wid);
@@ -942,7 +942,7 @@ static void right_arrow_handle(nrf_cli_t const * p_cli)
 
 static inline void  char_insert_echo_off(nrf_cli_t const * p_cli, char data)
 {
-    if (p_cli->p_ctx->cmd_buff_len >= (NRF_CLI_CMD_BUFF_SIZE - 1))
+    if (p_cli->p_ctx->cmd_buff_len >= (XINC_CLI_CMD_BUFF_SIZE - 1))
     {
         return;
     }
@@ -961,7 +961,7 @@ static void char_insert(nrf_cli_t const * p_cli, char data)
 
     if (!ins_mode)
     {
-        if (p_cli->p_ctx->cmd_buff_len >= (NRF_CLI_CMD_BUFF_SIZE - 1))
+        if (p_cli->p_ctx->cmd_buff_len >= (XINC_CLI_CMD_BUFF_SIZE - 1))
         {
             return;
         }
@@ -974,7 +974,7 @@ static void char_insert(nrf_cli_t const * p_cli, char data)
     }
     else
     {
-        if ((p_cli->p_ctx->cmd_buff_len >= (NRF_CLI_CMD_BUFF_SIZE - 1)) &&
+        if ((p_cli->p_ctx->cmd_buff_len >= (XINC_CLI_CMD_BUFF_SIZE - 1)) &&
             (diff == 0))
         {
             /* If cmd buffer is full, it is possible to replace chars but adding new
@@ -999,7 +999,7 @@ static void char_insert(nrf_cli_t const * p_cli, char data)
         if (last_line)
         {
             nrf_cli_fprintf(p_cli,
-                            NRF_CLI_NORMAL,
+                            XINC_CLI_NORMAL,
                             "%s",
                             &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
             /* Move cursor one position left less in case of insert mode. */
@@ -1010,7 +1010,7 @@ static void char_insert(nrf_cli_t const * p_cli, char data)
             /* Save the current cursor position in order to get back after fprintf function. */
             cli_cursor_save(p_cli);
             nrf_cli_fprintf(p_cli,
-                            NRF_CLI_NORMAL,
+                            XINC_CLI_NORMAL,
                             "%s",
                             &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
             cli_cursor_restore(p_cli);
@@ -1072,7 +1072,7 @@ static void char_backspace(nrf_cli_t const * p_cli)
 
     if (diff > 0)
     {
-        cli_putc(p_cli, NRF_CLI_VT100_ASCII_BSPACE);
+        cli_putc(p_cli, XINC_CLI_VT100_ASCII_BSPACE);
 
         nrf_cli_multiline_cons_t const * p_cons = multiline_console_data_check(p_cli);
         bool last_line = p_cons->cur_y == p_cons->cur_y_end ? true : false;
@@ -1080,7 +1080,7 @@ static void char_backspace(nrf_cli_t const * p_cli)
         if (last_line)
         {
             nrf_cli_fprintf(p_cli,
-                            NRF_CLI_NORMAL,
+                            XINC_CLI_NORMAL,
                             "%s",
                             &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
             cli_clear_eos(p_cli);
@@ -1093,7 +1093,7 @@ static void char_backspace(nrf_cli_t const * p_cli)
             cli_cursor_save(p_cli);
             cli_clear_eos(p_cli);
             nrf_cli_fprintf(p_cli,
-                            NRF_CLI_NORMAL,
+                            XINC_CLI_NORMAL,
                             "%s",
                             &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
             cli_cursor_restore(p_cli);
@@ -1102,7 +1102,7 @@ static void char_backspace(nrf_cli_t const * p_cli)
     else
     {
         static char const cmd_bspace[] = {
-            NRF_CLI_VT100_ASCII_BSPACE, ' ', NRF_CLI_VT100_ASCII_BSPACE, '\0'};
+            XINC_CLI_VT100_ASCII_BSPACE, ' ', XINC_CLI_VT100_ASCII_BSPACE, '\0'};
         nrf_fprintf(p_cli->p_fprintf_ctx, "%s", cmd_bspace);
     }
 }
@@ -1131,10 +1131,10 @@ static void char_delete(nrf_cli_t const * p_cli)
     if (last_line)
     {
         nrf_cli_fprintf(p_cli,
-                        NRF_CLI_NORMAL,
+                        XINC_CLI_NORMAL,
                         "%s",
                         &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
-        NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CLEAREOL);
+        XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CLEAREOL);
         cursor_left_move(p_cli, --diff);
     }
     else
@@ -1142,7 +1142,7 @@ static void char_delete(nrf_cli_t const * p_cli)
         cli_cursor_save(p_cli);
         cli_clear_eos(p_cli);
         nrf_cli_fprintf(p_cli,
-                        NRF_CLI_NORMAL,
+                        XINC_CLI_NORMAL,
                         "%s",
                         &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
         cli_cursor_restore(p_cli);
@@ -1289,7 +1289,7 @@ static char make_argv(size_t * p_argc, char ** pp_argv, char * p_cmd, uint8_t ma
         }
     } while (*p_argc < max_argc);
 
-    ASSERT(*p_argc <= NRF_CLI_ARGC_MAX);
+    ASSERT(*p_argc <= XINC_CLI_ARGC_MAX);
     pp_argv[*p_argc] = 0;
 
     return quote;
@@ -1299,14 +1299,14 @@ static void cli_state_set(nrf_cli_t const * p_cli, nrf_cli_state_t state)
 {
     p_cli->p_ctx->state = state;
 
-    if (state == NRF_CLI_STATE_ACTIVE)
+    if (state == XINC_CLI_STATE_ACTIVE)
     {
             cli_cmd_buffer_clear(p_cli);
-            nrf_cli_fprintf(p_cli, NRF_CLI_INFO, "%s", p_cli->p_name);
+            nrf_cli_fprintf(p_cli, XINC_CLI_INFO, "%s", p_cli->p_name);
     }
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 static inline void history_mode_exit(nrf_cli_t const * p_cli)
 {
     p_cli->p_ctx->p_cmd_list_element = NULL;
@@ -1332,7 +1332,7 @@ static void history_handle(nrf_cli_t const * p_cli, bool up)
 
         nrf_memobj_read(p_cli->p_ctx->p_cmd_list_element,
                         &header,
-                        NRF_CLI_HISTORY_HEADER_SIZE,
+                        XINC_CLI_HISTORY_HEADER_SIZE,
                         0);
 
         p_cli->p_ctx->p_cmd_list_element = header.p_next;
@@ -1381,7 +1381,7 @@ static void history_handle(nrf_cli_t const * p_cli, bool up)
         {
             nrf_memobj_read(p_cli->p_ctx->p_cmd_list_element,
                             &header,
-                            NRF_CLI_HISTORY_HEADER_SIZE,
+                            XINC_CLI_HISTORY_HEADER_SIZE,
                             0);
             current_cmd_len = header.cmd_len;
             p_cli->p_ctx->p_cmd_list_element = header.p_prev;
@@ -1391,13 +1391,13 @@ static void history_handle(nrf_cli_t const * p_cli, bool up)
     {
         nrf_memobj_read(p_cli->p_ctx->p_cmd_list_element,
                         &header,
-                        NRF_CLI_HISTORY_HEADER_SIZE,
+                        XINC_CLI_HISTORY_HEADER_SIZE,
                         0);
 
         nrf_memobj_read(p_cli->p_ctx->p_cmd_list_element,
                         p_cli->p_ctx->cmd_buff,
                         header.cmd_len + 1, /* +1 for '\0' */
-                        NRF_CLI_HISTORY_HEADER_SIZE);
+                        XINC_CLI_HISTORY_HEADER_SIZE);
     }
 
     p_cli->p_ctx->cmd_buff_pos = header.cmd_len;
@@ -1408,7 +1408,7 @@ static void history_handle(nrf_cli_t const * p_cli, bool up)
         cli_clear_eos(p_cli);
     }
 
-    nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
+    nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
     if (cursor_in_empty_line(p_cli) || full_line_cmd(p_cli))
     {
         cursor_next_line_move(p_cli);
@@ -1433,14 +1433,14 @@ static void history_list_element_add(nrf_cli_t const * p_cli, nrf_memobj_t * p_m
     {
         nrf_memobj_read(p_cli->p_ctx->p_cmd_list_head,
                         &header,
-                        NRF_CLI_HISTORY_HEADER_SIZE,
+                        XINC_CLI_HISTORY_HEADER_SIZE,
                         0);
 
         header.p_next = p_memobj;
 
         nrf_memobj_write(p_cli->p_ctx->p_cmd_list_head,
                          &header,
-                         NRF_CLI_HISTORY_HEADER_SIZE,
+                         XINC_CLI_HISTORY_HEADER_SIZE,
                          0);
 
         header.p_next = NULL;
@@ -1452,13 +1452,13 @@ static void history_list_element_add(nrf_cli_t const * p_cli, nrf_memobj_t * p_m
 
     nrf_memobj_write(p_memobj,
                      &header,
-                     NRF_CLI_HISTORY_HEADER_SIZE,
+                     XINC_CLI_HISTORY_HEADER_SIZE,
                      0);
 
     nrf_memobj_write(p_memobj,
                      p_cli->p_ctx->cmd_buff,
                      p_cli->p_ctx->cmd_buff_len + 1, /* +1 for '\0' */
-                     NRF_CLI_HISTORY_HEADER_SIZE);
+                     XINC_CLI_HISTORY_HEADER_SIZE);
 }
 
 static void history_list_element_oldest_remove(nrf_cli_t const * p_cli)
@@ -1473,12 +1473,12 @@ static void history_list_element_oldest_remove(nrf_cli_t const * p_cli)
 
     nrf_memobj_read(p_memobj,
                     &header,
-                    NRF_CLI_HISTORY_HEADER_SIZE,
+                    XINC_CLI_HISTORY_HEADER_SIZE,
                     0);
 
     p_cli->p_ctx->p_cmd_list_tail = header.p_next;
     memset(&header, 0, sizeof(nrf_cli_memobj_header_t));
-    nrf_memobj_write(p_memobj, &header, NRF_CLI_HISTORY_HEADER_SIZE, 0);
+    nrf_memobj_write(p_memobj, &header, XINC_CLI_HISTORY_HEADER_SIZE, 0);
     nrf_memobj_free(p_memobj);
 
     /* Checking if memory objects list is empty. */
@@ -1490,11 +1490,11 @@ static void history_list_element_oldest_remove(nrf_cli_t const * p_cli)
 
     nrf_memobj_read(p_cli->p_ctx->p_cmd_list_tail,
                     &header,
-                    NRF_CLI_HISTORY_HEADER_SIZE,
+                    XINC_CLI_HISTORY_HEADER_SIZE,
                     0);
 
     header.p_prev = NULL;
-    nrf_memobj_write(p_cli->p_ctx->p_cmd_list_tail, &header, NRF_CLI_HISTORY_HEADER_SIZE, 0);
+    nrf_memobj_write(p_cli->p_ctx->p_cmd_list_tail, &header, XINC_CLI_HISTORY_HEADER_SIZE, 0);
 }
 
 static void history_list_free_memory(nrf_cli_t const * p_cli)
@@ -1523,14 +1523,14 @@ static void history_save(nrf_cli_t const * p_cli)
 
         nrf_memobj_read(p_cli->p_ctx->p_cmd_list_head,
                         &header,
-                        NRF_CLI_HISTORY_HEADER_SIZE,
+                        XINC_CLI_HISTORY_HEADER_SIZE,
                         0);
         if (cmd_new_len == header.cmd_len)
         {
             nrf_memobj_read(p_cli->p_ctx->p_cmd_list_head,
                             p_cli->p_ctx->temp_buff,
                             header.cmd_len + 1, /* +1 for '\0' */
-                            NRF_CLI_HISTORY_HEADER_SIZE);
+                            XINC_CLI_HISTORY_HEADER_SIZE);
 
             if (strcmp(p_cli->p_ctx->cmd_buff, p_cli->p_ctx->temp_buff) == 0)
             {
@@ -1542,12 +1542,12 @@ static void history_save(nrf_cli_t const * p_cli)
         }
     }
 
-    for (size_t idx = 0; idx < NRF_CLI_HISTORY_ELEMENT_COUNT; idx++)
+    for (size_t idx = 0; idx < XINC_CLI_HISTORY_ELEMENT_COUNT; idx++)
     {
         nrf_memobj_t * p_memobj;
 
         p_memobj = nrf_memobj_alloc(p_cli->p_cmd_hist_mempool,
-                                    ((size_t)NRF_CLI_HISTORY_HEADER_SIZE + cmd_new_len + 1));
+                                    ((size_t)XINC_CLI_HISTORY_HEADER_SIZE + cmd_new_len + 1));
         if (p_memobj != NULL)
         {
             history_list_element_add(p_cli, p_memobj);
@@ -1560,7 +1560,7 @@ static void history_save(nrf_cli_t const * p_cli)
     }
     return;
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 
 /* Function checks how many identical characters have two strings starting from the first character. */
 static nrf_cli_cmd_len_t str_similarity_check(char const * str_a, char const * str_b)
@@ -1590,7 +1590,7 @@ static void completion_insert(nrf_cli_t const * p_cli,
 
     nrf_cli_cmd_len_t diff = p_cli->p_ctx->cmd_buff_len - p_cli->p_ctx->cmd_buff_pos;
 
-    if ((p_cli->p_ctx->cmd_buff_len + compl_len > NRF_CLI_CMD_BUFF_SIZE - 1) ||
+    if ((p_cli->p_ctx->cmd_buff_len + compl_len > XINC_CLI_CMD_BUFF_SIZE - 1) ||
         (compl_len == 0))
     {
         return;
@@ -1608,7 +1608,7 @@ static void completion_insert(nrf_cli_t const * p_cli,
 
     p_cli->p_ctx->cmd_buff_len = cli_strlen(p_cli->p_ctx->cmd_buff);
     nrf_cli_fprintf(p_cli,
-                    NRF_CLI_NORMAL,
+                    XINC_CLI_NORMAL,
                     "%s",
                     &p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos]);
     p_cli->p_ctx->cmd_buff_pos += compl_len;
@@ -1644,11 +1644,11 @@ static void option_print(nrf_cli_t const * p_cli,
 
     if (p_cli->p_ctx->vt100_ctx.printed_cmd++ % columns == 0)
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_OPTION, "\n%s%s", tab, p_option);
+        nrf_cli_fprintf(p_cli, XINC_CLI_OPTION, "\n%s%s", tab, p_option);
     }
     else
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_OPTION, "%s", p_option);
+        nrf_cli_fprintf(p_cli, XINC_CLI_OPTION, "%s", p_option);
     }
     cursor_right_move(p_cli, diff);
 }
@@ -1668,13 +1668,13 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
     size_t cmd_cnt = 0;
 
     size_t argc;
-    char * argv[NRF_CLI_ARGC_MAX + 1]; /* +1 reserved for NULL in function make_argv */
+    char * argv[XINC_CLI_ARGC_MAX + 1]; /* +1 reserved for NULL in function make_argv */
 
-    nrf_cli_cmd_len_t cmd_lvl = NRF_CLI_CMD_ROOT_LVL;
+    nrf_cli_cmd_len_t cmd_lvl = XINC_CLI_CMD_ROOT_LVL;
     nrf_cli_cmd_len_t cmd_longest = 0; /* longest matching command */
 
     /* Calculating the longest possible completion length. -1 for '\0'. */
-    nrf_cli_cmd_len_t compl_len = (NRF_CLI_CMD_BUFF_SIZE - 1) - p_cli->p_ctx->cmd_buff_len;
+    nrf_cli_cmd_len_t compl_len = (XINC_CLI_CMD_BUFF_SIZE - 1) - p_cli->p_ctx->cmd_buff_len;
 
     if (compl_len == 0)
     {
@@ -1691,7 +1691,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
     /* Check if the current cursor position points to the 'space' character. */
     bool space = isspace((int)p_cli->p_ctx->cmd_buff[p_cli->p_ctx->cmd_buff_pos - 1]);
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
     /* If the Tab key is pressed, "history mode" must be terminated because tab and history handlers
        are sharing the same array: temp_buff. */
     history_mode_exit(p_cli);
@@ -1701,7 +1701,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
     (void)make_argv(&argc,
                     &argv[0],
                     p_cli->p_ctx->temp_buff,
-                    NRF_CLI_ARGC_MAX);
+                    XINC_CLI_ARGC_MAX);
 
     nrf_cli_cmd_len_t arg_len = cli_strlen(argv[cmd_lvl]);
 
@@ -1783,7 +1783,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
 
                 if (cmd_idx == 0) /* Too many possibilities */
                 {
-                    nrf_cli_warn(p_cli, NRF_CLI_MSG_TAB_OVERFLOWED);
+                    nrf_cli_warn(p_cli, XINC_CLI_MSG_TAB_OVERFLOWED);
                     break;
                 }
             }
@@ -1799,7 +1799,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
                 if (cmd_idx == 0)
                 {
                     /* No match found and commands counter overflowed. */
-                    nrf_cli_warn(p_cli, NRF_CLI_MSG_TAB_OVERFLOWED);
+                    nrf_cli_warn(p_cli, XINC_CLI_MSG_TAB_OVERFLOWED);
                     return;
                 }
 
@@ -1808,7 +1808,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
                     return;
                 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
                 /* Ignore wildcard character arguments if they are "standalone". Example:
                     1. log enable info b*<tab>  -> "b*"  is treated as a command so no match found
                     2. log enable info b* <tab> -> "b* " is ignored, <tab> will prompt all available
@@ -1884,7 +1884,7 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
     }
 
     /* Printing all matching commands (options). */
-    option_print(p_cli, NRF_CLI_INIT_OPTION_PRINTER, cmd_longest);
+    option_print(p_cli, XINC_CLI_INIT_OPTION_PRINTER, cmd_longest);
     cmd_idx = cmd_first;
     while (cmd_cnt)
     {
@@ -1899,8 +1899,8 @@ static void cli_tab_handle(nrf_cli_t const * p_cli)
         option_print(p_cli, p_st_cmd->p_syntax, cmd_longest);
     }
 
-    nrf_cli_fprintf(p_cli, NRF_CLI_INFO, "\n%s", p_cli->p_name);
-    nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
+    nrf_cli_fprintf(p_cli, XINC_CLI_INFO, "\n%s", p_cli->p_name);
+    nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
 
     cursor_position_synchronize(p_cli);
     completion_insert(p_cli, p_st_cmd_last->p_syntax + arg_len, compl_len);
@@ -1925,10 +1925,10 @@ static bool process_nl(nrf_cli_t const * p_cli, uint8_t data)
     return false;
 }
 
-#define NRF_CLI_ASCII_MAX_CHAR (127u)
+#define XINC_CLI_ASCII_MAX_CHAR (127u)
 static inline ret_code_t ascii_filter(char const data)
 {
-    return (uint8_t)data > NRF_CLI_ASCII_MAX_CHAR ? NRF_ERROR_INVALID_DATA : NRF_SUCCESS;
+    return (uint8_t)data > XINC_CLI_ASCII_MAX_CHAR ? XINC_ERROR_INVALID_DATA : XINC_SUCCESS;
 }
 
 static void cli_state_collect(nrf_cli_t const * p_cli)
@@ -1944,23 +1944,23 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
             return;
         }
 //				printf("r1:%c\r\n",data);
-        if (ascii_filter(data) != NRF_SUCCESS)
+        if (ascii_filter(data) != XINC_SUCCESS)
         {
             continue;
         }
 
-#if NRF_MODULE_ENABLED(NRF_PWR_MGMT)
+#if XINC_MODULE_ENABLED(XINC_PWR_MGMT)
         nrf_pwr_mgmt_feed();
 #endif
 
         switch (p_cli->p_ctx->receive_state)
         {
-            case NRF_CLI_RECEIVE_DEFAULT:
+            case XINC_CLI_RECEIVE_DEFAULT:
                 if (process_nl(p_cli, data))
                 {
                     if (p_cli->p_ctx->cmd_buff_len == 0)
                     {
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
                         history_mode_exit(p_cli);
 #endif
                         cursor_next_line_move(p_cli);
@@ -1971,47 +1971,47 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
                         cli_execute(p_cli);
                     }
 
-                    cli_state_set(p_cli, NRF_CLI_STATE_ACTIVE);
+                    cli_state_set(p_cli, XINC_CLI_STATE_ACTIVE);
                     return;
                 }
                 switch (data)
                 {
-                    case NRF_CLI_VT100_ASCII_ESC:       /* ESCAPE */
-                        receive_state_change(p_cli, NRF_CLI_RECEIVE_ESC);
+                    case XINC_CLI_VT100_ASCII_ESC:       /* ESCAPE */
+                        receive_state_change(p_cli, XINC_CLI_RECEIVE_ESC);
                         break;
                     case '\0':
                         break;
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
-                    case NRF_CLI_VT100_ASCII_CTRL_A:    /* CTRL + A */
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
+                    case XINC_CLI_VT100_ASCII_CTRL_A:    /* CTRL + A */
                         cursor_home_position_move(p_cli);
                         break;
-                    case NRF_CLI_VT100_ASCII_CTRL_C:    /* CTRL + C */
+                    case XINC_CLI_VT100_ASCII_CTRL_C:    /* CTRL + C */
                         cursor_end_position_move(p_cli);
                         if (!cursor_in_empty_line(p_cli))
                         {
                             cursor_next_line_move(p_cli);
                         }
-                        cli_state_set(p_cli, NRF_CLI_STATE_ACTIVE);
+                        cli_state_set(p_cli, XINC_CLI_STATE_ACTIVE);
                         break;
-                    case NRF_CLI_VT100_ASCII_CTRL_E:    /* CTRL + E */
+                    case XINC_CLI_VT100_ASCII_CTRL_E:    /* CTRL + E */
                         cursor_end_position_move(p_cli);
                         break;
-                    case NRF_CLI_VT100_ASCII_CTRL_L:    /* CTRL + L */
-                        NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CURSORHOME);
-                        NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CLEARSCREEN);
-                        nrf_cli_fprintf(p_cli, NRF_CLI_INFO, "%s", p_cli->p_name);
+                    case XINC_CLI_VT100_ASCII_CTRL_L:    /* CTRL + L */
+                        XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CURSORHOME);
+                        XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CLEARSCREEN);
+                        nrf_cli_fprintf(p_cli, XINC_CLI_INFO, "%s", p_cli->p_name);
                         if (cli_flag_echo_is_set(p_cli))
                         {
-                            nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
+                            nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
                             cursor_position_synchronize(p_cli);
                         }
                         break;
-                    case NRF_CLI_VT100_ASCII_CTRL_U:    /* CTRL + U */
+                    case XINC_CLI_VT100_ASCII_CTRL_U:    /* CTRL + U */
                         cursor_home_position_move(p_cli);
                         cli_cmd_buffer_clear(p_cli);
                         cli_clear_eos(p_cli);
                         break;
-                    case NRF_CLI_VT100_ASCII_CTRL_W:    /* CTRL + W */
+                    case XINC_CLI_VT100_ASCII_CTRL_W:    /* CTRL + W */
                         cli_cmd_word_remove(p_cli);
                         break;
 #endif
@@ -2021,13 +2021,13 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
                             cli_tab_handle(p_cli);
                         }
                         break;
-                    case NRF_CLI_VT100_ASCII_BSPACE:    /* BACKSPACE */
+                    case XINC_CLI_VT100_ASCII_BSPACE:    /* BACKSPACE */
                         if (cli_flag_echo_is_set(p_cli))
                         {
                             char_backspace(p_cli);
                         }
                         break;
-                    case NRF_CLI_VT100_ASCII_DEL:       /* DELETE */
+                    case XINC_CLI_VT100_ASCII_DEL:       /* DELETE */
                         if (cli_flag_echo_is_set(p_cli))
                         {
                             char_delete(p_cli);
@@ -2048,18 +2048,18 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
                         break;
                 }
                 break;
-            case NRF_CLI_RECEIVE_ESC:
+            case XINC_CLI_RECEIVE_ESC:
                 if (data == '[')
                 {
-                    receive_state_change(p_cli, NRF_CLI_RECEIVE_ESC_SEQ);
+                    receive_state_change(p_cli, XINC_CLI_RECEIVE_ESC_SEQ);
                 }
                 else
                 {
-                    receive_state_change(p_cli, NRF_CLI_RECEIVE_DEFAULT);
+                    receive_state_change(p_cli, XINC_CLI_RECEIVE_DEFAULT);
                 }
                 break;
-            case NRF_CLI_RECEIVE_ESC_SEQ:
-                receive_state_change(p_cli, NRF_CLI_RECEIVE_DEFAULT);
+            case XINC_CLI_RECEIVE_ESC_SEQ:
+                receive_state_change(p_cli, XINC_CLI_RECEIVE_DEFAULT);
 
                 if (!cli_flag_echo_is_set(p_cli))
                 {
@@ -2068,7 +2068,7 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
 
                 switch (data)
                 {
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
                     case 'A': /* UP arrow */
                         history_handle(p_cli, true);
                         break;
@@ -2083,27 +2083,27 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
                         left_arrow_handle(p_cli);
                         break;
                     case '4': /* END Button in ESC[n~ mode */
-                        receive_state_change(p_cli, NRF_CLI_RECEIVE_TILDE_EXP);
+                        receive_state_change(p_cli, XINC_CLI_RECEIVE_TILDE_EXP);
                         /* fall through */
                     case 'F': /* END Button in VT100 mode */
                         cursor_end_position_move(p_cli);
                         break;
                     case '1': /* HOME Button in ESC[n~ mode */
-                        receive_state_change(p_cli, NRF_CLI_RECEIVE_TILDE_EXP);
+                        receive_state_change(p_cli, XINC_CLI_RECEIVE_TILDE_EXP);
                         /* fall through */
-#if NRF_MODULE_ENABLED(NRF_CLI_METAKEYS)
+#if XINC_MODULE_ENABLED(XINC_CLI_METAKEYS)
                     case 'H': /* HOME Button in VT100 mode */
                         cursor_home_position_move(p_cli);
                         break;
 #endif
                     case '2': /* INSERT Button in ESC[n~ mode */
-                        receive_state_change(p_cli, NRF_CLI_RECEIVE_TILDE_EXP);
+                        receive_state_change(p_cli, XINC_CLI_RECEIVE_TILDE_EXP);
                         /* fall through */
                     case 'L': /* INSERT Button in VT100 mode */
                         p_cli->p_ctx->internal.flag.insert_mode ^= 1;
                         break;
                     case '3':/* DELETE Button in ESC[n~ mode */
-                        receive_state_change(p_cli, NRF_CLI_RECEIVE_TILDE_EXP);
+                        receive_state_change(p_cli, XINC_CLI_RECEIVE_TILDE_EXP);
                         if (cli_flag_echo_is_set(p_cli))
                         {
                             char_delete(p_cli);
@@ -2113,11 +2113,11 @@ static void cli_state_collect(nrf_cli_t const * p_cli)
                         break;
                 }
                 break;
-            case NRF_CLI_RECEIVE_TILDE_EXP:
-                receive_state_change(p_cli, NRF_CLI_RECEIVE_DEFAULT);
+            case XINC_CLI_RECEIVE_TILDE_EXP:
+                receive_state_change(p_cli, XINC_CLI_RECEIVE_DEFAULT);
                 break;
             default:
-                receive_state_change(p_cli, NRF_CLI_RECEIVE_DEFAULT);
+                receive_state_change(p_cli, XINC_CLI_RECEIVE_DEFAULT);
                 break;
         }
     }
@@ -2171,7 +2171,7 @@ static void cmd_trim(nrf_cli_t const * p_cli)
     }
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 static void spaces_trim(char * p_char)
 {
     nrf_cli_cmd_len_t shift = 0;
@@ -2215,7 +2215,7 @@ static bool command_to_tmp_buffer_add(nrf_cli_t const * p_cli,
     char *            p_cmd_source_addr;
 
     /* +1 for space */
-    if (((size_t)p_cli->p_ctx->cmd_tmp_buff_len + cmd_len + 1) > NRF_CLI_CMD_BUFF_SIZE)
+    if (((size_t)p_cli->p_ctx->cmd_tmp_buff_len + cmd_len + 1) > XINC_CLI_CMD_BUFF_SIZE)
     {
         nrf_cli_warn(p_cli,
                      "Command buffer is too short to expand all commands matching "
@@ -2284,7 +2284,7 @@ static void pattern_from_tmp_buffer_remove(nrf_cli_t const * p_cli,
  *
  * @retval WILDCARD_CMD_ADDED                   All matching commands added to the buffer.
  * @retval WILDCARD_CMD_ADDED_MISSING_SPACE     Not all matching commands added because
- *                                              NRF_CLI_CMD_BUFF_SIZE is too small.
+ *                                              XINC_CLI_CMD_BUFF_SIZE is too small.
  * @retval WILDCARD_CMD_NO_MATCH_FOUND          No matching command found.
  */
 static wildcard_cmd_status_t commands_expand(nrf_cli_t const *           p_cli,
@@ -2345,7 +2345,7 @@ static wildcard_cmd_status_t commands_expand(nrf_cli_t const *           p_cli,
 
     return ret_val;
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 
 /* Function is analyzing the command buffer to find matching commands. Next, it invokes the  last recognized
  * command which has a handler and passes the rest of command buffer as arguments. */
@@ -2353,21 +2353,21 @@ static void cli_execute(nrf_cli_t const * p_cli)
 {
     char quote;
     size_t argc;
-    char * argv[NRF_CLI_ARGC_MAX + 1]; /* +1 reserved for NULL added by function make_argv */
+    char * argv[XINC_CLI_ARGC_MAX + 1]; /* +1 reserved for NULL added by function make_argv */
 
     size_t cmd_idx;             /* currently analyzed command in cmd_level */
-    size_t cmd_lvl = NRF_CLI_CMD_ROOT_LVL; /* currently analyzed command level */
+    size_t cmd_lvl = XINC_CLI_CMD_ROOT_LVL; /* currently analyzed command level */
     size_t cmd_handler_lvl = 0; /* last command level for which a handler has been found */
 
     nrf_cli_cmd_entry_t const * p_cmd = NULL;
 
     cmd_trim(p_cli);
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
     history_save(p_cli);
 #endif
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
 /* Wildcard can be correctly handled under following conditions:
      - wildcard command does not have a handler
      - wildcard command is on the deepest commands level
@@ -2406,7 +2406,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
     quote = make_argv(&argc,
                       &argv[0],
                       p_cli->p_ctx->cmd_buff,
-                      NRF_CLI_ARGC_MAX);
+                      XINC_CLI_ARGC_MAX);
 
     if (!argc)
     {
@@ -2425,7 +2425,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
     {
         if (cmd_idx >= CLI_DATA_SECTION_ITEM_COUNT)
         {
-            nrf_cli_error(p_cli, "%s%s", argv[0], NRF_CLI_MSG_COMMAND_NOT_FOUND);
+            nrf_cli_error(p_cli, "%s%s", argv[0], XINC_CLI_MSG_COMMAND_NOT_FOUND);
             return;
         }
 
@@ -2468,7 +2468,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
             break;
         }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
         /* Wildcard character is found */
         if (wildcard_character_exist(argv[cmd_lvl]))
         {
@@ -2507,7 +2507,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
             /* checking if command has a handler */
             if (p_static_entry->handler != NULL)
             {
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
                 if (commands_expanded > 0)
                 {
                     cursor_end_position_move(p_cli);
@@ -2533,7 +2533,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
             p_cmd = p_static_entry->p_subcmd;
         }
     }
-#if NRF_MODULE_ENABLED(NRF_CLI_WILDCARD)
+#if XINC_MODULE_ENABLED(XINC_CLI_WILDCARD)
     if (commands_expanded > 0)
     {
         /* Copy temp_buff to cmd_buff */
@@ -2546,7 +2546,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
         (void)make_argv(&argc,
                         &argv[0],
                         p_cli->p_ctx->cmd_buff,
-                        NRF_CLI_ARGC_MAX);
+                        XINC_CLI_ARGC_MAX);
     }
  #endif
 
@@ -2558,7 +2558,7 @@ static void cli_execute(nrf_cli_t const * p_cli)
     }
     else
     {
-        nrf_cli_error(p_cli, NRF_CLI_MSG_SPECIFY_SUBCOMMAND);
+        nrf_cli_error(p_cli, XINC_CLI_MSG_SPECIFY_SUBCOMMAND);
     }
     cli_flag_help_clear(p_cli);
 }
@@ -2579,12 +2579,12 @@ static void cli_transport_evt_handler(nrf_cli_transport_evt_t evt_type, void * p
 {
     nrf_cli_t * p_cli = (nrf_cli_t *)p_context;
     ASSERT(p_cli);
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
-    task_events_set(p_cli->p_ctx->task_id, evt_type == NRF_CLI_TRANSPORT_EVT_RX_RDY ?
-            NRF_CLI_TRANSPORT_RX_RDY_TASK_EVT : NRF_CLI_TRANSPORT_TX_RDY_TASK_EVT);
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
+    task_events_set(p_cli->p_ctx->task_id, evt_type == XINC_CLI_TRANSPORT_EVT_RX_RDY ?
+            XINC_CLI_TRANSPORT_RX_RDY_TASK_EVT : XINC_CLI_TRANSPORT_TX_RDY_TASK_EVT);
 #else
 
-    if (evt_type == NRF_CLI_TRANSPORT_EVT_RX_RDY)
+    if (evt_type == XINC_CLI_TRANSPORT_EVT_RX_RDY)
     {
 //			printf("cli_transport_evt_handler EVT_RX_RDY\r\n");
     }
@@ -2603,22 +2603,22 @@ static ret_code_t nrf_cli_instance_init(nrf_cli_t const * p_cli,
     ASSERT(p_cli);
     ASSERT(p_cli->p_ctx && p_cli->p_iface && p_cli->p_name);
 
-#if defined(NRF_CLI_LOG_BACKEND) && NRF_CLI_LOG_BACKEND
+#if defined(XINC_CLI_LOG_BACKEND) && XINC_CLI_LOG_BACKEND
     ((nrf_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_cli = p_cli;
 #endif
     ret_code_t ret = p_cli->p_iface->p_api->init(p_cli->p_iface,
                                                  p_config,
                                                  cli_transport_evt_handler,
                                                  (void *)p_cli);
-    if (ret != NRF_SUCCESS)
+    if (ret != XINC_SUCCESS)
     {
         return ret;
     }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
     ASSERT(p_cli->p_cmd_hist_mempool);
     ret = nrf_memobj_pool_init(p_cli->p_cmd_hist_mempool);
-    if (ret != NRF_SUCCESS)
+    if (ret != XINC_SUCCESS)
     {
         return ret;
     }
@@ -2629,13 +2629,13 @@ static ret_code_t nrf_cli_instance_init(nrf_cli_t const * p_cli,
     memset(p_cli->p_ctx, 0, sizeof(nrf_cli_ctx_t));
     p_cli->p_ctx->internal.flag.tx_rdy = 1;
 
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
     p_cli->p_ctx->internal.flag.use_colors = use_colors;
 #endif
-    p_cli->p_ctx->internal.flag.echo = NRF_CLI_ECHO_STATUS;
-    p_cli->p_ctx->state = NRF_CLI_STATE_INITIALIZED;
-    p_cli->p_ctx->vt100_ctx.cons.terminal_wid = NRF_CLI_DEFAULT_TERMINAL_WIDTH;
-    p_cli->p_ctx->vt100_ctx.cons.terminal_hei = NRF_CLI_DEFAULT_TERMINAL_HEIGHT;
+    p_cli->p_ctx->internal.flag.echo = XINC_CLI_ECHO_STATUS;
+    p_cli->p_ctx->state = XINC_CLI_STATE_INITIALIZED;
+    p_cli->p_ctx->vt100_ctx.cons.terminal_wid = XINC_CLI_DEFAULT_TERMINAL_WIDTH;
+    p_cli->p_ctx->vt100_ctx.cons.terminal_hei = XINC_CLI_DEFAULT_TERMINAL_HEIGHT;
 
     const char * * pp_sorted_cmds = (const char * *)CLI_SORTED_CMD_PTRS_START_ADDR_GET;
     for (size_t i = 0; i < CLI_DATA_SECTION_ITEM_COUNT; i++)
@@ -2658,10 +2658,10 @@ static ret_code_t nrf_cli_instance_init(nrf_cli_t const * p_cli,
               string_cmp);
     }
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
 static ret_code_t nrf_cli_instance_uninit(nrf_cli_t const * p_cli);
 void console_task(void * p_context)
 {
@@ -2672,9 +2672,9 @@ void console_task(void * p_context)
 
     while (1)
     {
-        uint32_t evts = task_events_wait(NRF_CLI_TASK_EVTS);
+        uint32_t evts = task_events_wait(XINC_CLI_TASK_EVTS);
 
-        if (evts & NRF_CLI_KILL_TASK_EVT)
+        if (evts & XINC_CLI_KILL_TASK_EVT)
         {
             (void)nrf_cli_instance_uninit(p_cli);
             task_exit();
@@ -2697,13 +2697,13 @@ ret_code_t nrf_cli_init(nrf_cli_t const *  p_cli,
 		printf("%s\r\n",__func__);
     ret_code_t err_code = nrf_cli_instance_init(p_cli, p_config, use_colors);
 
-#if NRF_CLI_LOG_BACKEND && NRF_MODULE_ENABLED(NRF_LOG)
-    if ((err_code == NRF_SUCCESS) && log_backend && NRF_CLI_LOG_BACKEND)
+#if XINC_CLI_LOG_BACKEND && XINC_MODULE_ENABLED(XINC_LOG)
+    if ((err_code == XINC_SUCCESS) && log_backend && XINC_CLI_LOG_BACKEND)
     {
         int32_t id = nrf_log_backend_add(p_cli->p_log_backend, init_lvl);
         if (id < 0)
         {
-            return NRF_ERROR_NO_MEM;
+            return XINC_ERROR_NO_MEM;
         }
 
         nrf_log_backend_enable(p_cli->p_log_backend);
@@ -2714,18 +2714,18 @@ ret_code_t nrf_cli_init(nrf_cli_t const *  p_cli,
 
 ret_code_t nrf_cli_task_create(nrf_cli_t const * p_cli)
 {
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
     p_cli->p_ctx->task_id = task_create(console_task, p_cli->p_name,(void *)p_cli);
     if (p_cli->p_ctx->task_id == TASK_ID_INVALID)
     {
-        return NRF_ERROR_NO_MEM;
+        return XINC_ERROR_NO_MEM;
     }
     else
     {
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 #else
-    return NRF_ERROR_NOT_SUPPORTED;
+    return XINC_ERROR_NOT_SUPPORTED;
 #endif
 }
 
@@ -2736,10 +2736,10 @@ static ret_code_t nrf_cli_instance_uninit(nrf_cli_t const * p_cli)
 
     if (cli_flag_processing_is_set(p_cli))
     {
-        return NRF_ERROR_BUSY;
+        return XINC_ERROR_BUSY;
     }
 
-#if NRF_CLI_LOG_BACKEND && NRF_MODULE_ENABLED(NRF_LOG)
+#if XINC_CLI_LOG_BACKEND && XINC_MODULE_ENABLED(XINC_LOG)
     if (p_cli->p_log_backend != NULL)
     {
         nrf_log_backend_disable(p_cli->p_log_backend);
@@ -2748,30 +2748,30 @@ static ret_code_t nrf_cli_instance_uninit(nrf_cli_t const * p_cli)
 #endif
 
     ret_code_t ret = p_cli->p_iface->p_api->uninit(p_cli->p_iface);
-    if (ret != NRF_SUCCESS)
+    if (ret != XINC_SUCCESS)
     {
         return ret;
     }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
     history_list_free_memory(p_cli);
 #endif
 
     memset(p_cli->p_ctx, 0, sizeof(nrf_cli_ctx_t));
-    p_cli->p_ctx->state = NRF_CLI_STATE_UNINITIALIZED;
+    p_cli->p_ctx->state = XINC_CLI_STATE_UNINITIALIZED;
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 ret_code_t nrf_cli_uninit(nrf_cli_t const * p_cli)
 {
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
     if (cli_flag_processing_is_set(p_cli))
     {
-        return NRF_ERROR_BUSY;
+        return XINC_ERROR_BUSY;
     }
-    task_events_set(p_cli->p_ctx->task_id, NRF_CLI_KILL_TASK_EVT);
-    return NRF_SUCCESS;
+    task_events_set(p_cli->p_ctx->task_id, XINC_CLI_KILL_TASK_EVT);
+    return XINC_SUCCESS;
 #else
     return nrf_cli_instance_uninit(p_cli);
 #endif
@@ -2782,30 +2782,30 @@ ret_code_t nrf_cli_start(nrf_cli_t const * p_cli)
     ASSERT(p_cli);
     ASSERT(p_cli->p_ctx && p_cli->p_iface && p_cli->p_name);
 
-    if (p_cli->p_ctx->state != NRF_CLI_STATE_INITIALIZED)
+    if (p_cli->p_ctx->state != XINC_CLI_STATE_INITIALIZED)
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
     void * p_context = (void *)((uint32_t)task_id_get());
     ((nrf_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_context = p_context;
 #endif
 
     ret_code_t err_code = p_cli->p_iface->p_api->enable(p_cli->p_iface, false);
 
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
-    task_events_set(task_id_get(), NRF_CLI_TRANSPORT_RX_RDY_TASK_EVT);
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
+    task_events_set(task_id_get(), XINC_CLI_TRANSPORT_RX_RDY_TASK_EVT);
 #endif
 
-    if (err_code == NRF_SUCCESS)
+    if (err_code == XINC_SUCCESS)
     {
-#if NRF_CLI_VT100_COLORS_ENABLED
-        vt100_color_set(p_cli, NRF_CLI_NORMAL);
-        vt100_bgcolor_set(p_cli, NRF_CLI_VT100_COLOR_BLACK);
+#if XINC_CLI_VT100_COLORS_ENABLED
+        vt100_color_set(p_cli, XINC_CLI_NORMAL);
+        vt100_bgcolor_set(p_cli, XINC_CLI_VT100_COLOR_BLACK);
 #endif
         nrf_fprintf(p_cli->p_fprintf_ctx, "\n\n");
-        cli_state_set(p_cli, NRF_CLI_STATE_ACTIVE);
+        cli_state_set(p_cli, XINC_CLI_STATE_ACTIVE);
     }
     return err_code;
 }
@@ -2815,14 +2815,14 @@ ret_code_t nrf_cli_stop(nrf_cli_t const * p_cli)
     ASSERT(p_cli);
     ASSERT(p_cli->p_ctx && p_cli->p_iface && p_cli->p_name);
 
-    if (p_cli->p_ctx->state == NRF_CLI_STATE_INITIALIZED ||
-        p_cli->p_ctx->state == NRF_CLI_STATE_UNINITIALIZED)
+    if (p_cli->p_ctx->state == XINC_CLI_STATE_INITIALIZED ||
+        p_cli->p_ctx->state == XINC_CLI_STATE_UNINITIALIZED)
     {
-        return NRF_ERROR_INVALID_STATE;
+        return XINC_ERROR_INVALID_STATE;
     }
 
-    cli_state_set(p_cli, NRF_CLI_STATE_INITIALIZED);
-    return NRF_SUCCESS;
+    cli_state_set(p_cli, XINC_CLI_STATE_INITIALIZED);
+    return XINC_SUCCESS;
 }
 
 void nrf_cli_process(nrf_cli_t const * p_cli)
@@ -2843,20 +2843,20 @@ void nrf_cli_process(nrf_cli_t const * p_cli)
 		state = p_cli->p_ctx->state;
     switch (p_cli->p_ctx->state)
     {
-        case NRF_CLI_STATE_UNINITIALIZED:
-        case NRF_CLI_STATE_INITIALIZED:
+        case XINC_CLI_STATE_UNINITIALIZED:
+        case XINC_CLI_STATE_INITIALIZED:
             /* Console initialized but not started. */
             break;
-        case NRF_CLI_STATE_ACTIVE:
+        case XINC_CLI_STATE_ACTIVE:
         {
             cli_state_collect(p_cli);
             bool log_processed = cli_log_entry_process(p_cli, false);
             if (log_processed)
             {
-                nrf_cli_fprintf(p_cli, NRF_CLI_INFO, "%s", p_cli->p_name);
+                nrf_cli_fprintf(p_cli, XINC_CLI_INFO, "%s", p_cli->p_name);
                 if (cli_flag_echo_is_set(p_cli))
                 {
-                    nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
+                    nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%s", p_cli->p_ctx->cmd_buff);
                     cursor_position_synchronize(p_cli);
                 }
             }
@@ -2893,7 +2893,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
     va_list args = {0};
     va_start(args, p_fmt);
 
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
     if ((p_cli->p_ctx->internal.flag.use_colors) &&
         (color != p_cli->p_ctx->vt100_ctx.col.col))
     {
@@ -2907,7 +2907,7 @@ void nrf_cli_fprintf(nrf_cli_t const *      p_cli,
         vt100_colors_restore(p_cli, &col);
     }
     else
-#endif // NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
     {
         nrf_fprintf_fmt(p_cli->p_fprintf_ctx, p_fmt, &args);
     }
@@ -3027,7 +3027,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
 
     /* Printing help string for command. */
     nrf_cli_fprintf(p_cli,
-                    NRF_CLI_NORMAL,
+                    XINC_CLI_NORMAL,
                     "%s%s",
                     p_cli->p_ctx->active_cmd.p_syntax,
                     cmd_sep);
@@ -3053,7 +3053,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
     longest_string += cli_strlen(opt_sep) + tab_len;
 
     nrf_cli_fprintf(p_cli,
-                    NRF_CLI_NORMAL,
+                    XINC_CLI_NORMAL,
                     "  %-*s:",
                     longest_string,
                     help);
@@ -3070,7 +3070,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
             if ((p_opt[i].p_optname_short != NULL) && (p_opt[i].p_optname != NULL))
             {
                 nrf_cli_fprintf(p_cli,
-                                NRF_CLI_NORMAL,
+                                XINC_CLI_NORMAL,
                                 "  %s%s%s",
                                 p_opt[i].p_optname_short,
                                 opt_sep,
@@ -3087,7 +3087,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
             else if (p_opt[i].p_optname_short != NULL)
             {
                 nrf_cli_fprintf(p_cli,
-                                NRF_CLI_NORMAL,
+                                XINC_CLI_NORMAL,
                                 "  %-*s:",
                                 longest_string,
                                 p_opt[i].p_optname_short);
@@ -3097,7 +3097,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
             else if (p_opt[i].p_optname != NULL)
             {
                 nrf_cli_fprintf(p_cli,
-                                NRF_CLI_NORMAL,
+                                XINC_CLI_NORMAL,
                                 "  %-*s:",
                                 longest_string,
                                 p_opt[i].p_optname);
@@ -3139,7 +3139,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
     /* Searching for the longest subcommand to print. */
     while (1)
     {
-        cmd_get(p_cmd, !NRF_CLI_CMD_ROOT_LVL, cmd_idx++, &p_st_cmd, &static_entry);
+        cmd_get(p_cmd, !XINC_CLI_CMD_ROOT_LVL, cmd_idx++, &p_st_cmd, &static_entry);
 
         if (p_st_cmd == NULL)
         {
@@ -3164,7 +3164,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
     cmd_idx = 0;
     while (1)
     {
-        cmd_get(p_cmd, !NRF_CLI_CMD_ROOT_LVL, cmd_idx++, &p_st_cmd, &static_entry);
+        cmd_get(p_cmd, !XINC_CLI_CMD_ROOT_LVL, cmd_idx++, &p_st_cmd, &static_entry);
 
         if (p_st_cmd == NULL)
         {
@@ -3172,7 +3172,7 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
         }
 
         field_width = longest_string + tab_len;
-        nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL,"  %-*s:", field_width, p_st_cmd->p_syntax);
+        nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL,"  %-*s:", field_width, p_st_cmd->p_syntax);
         field_width += tab_len + 1; /* tab_len + 1 == "  " and ':' from: "  %-*s:" */
 
         if (p_st_cmd->p_help != NULL)
@@ -3186,19 +3186,19 @@ void nrf_cli_help_print(nrf_cli_t const *               p_cli,
     }
 }
 
-#if NRF_CLI_LOG_BACKEND && NRF_MODULE_ENABLED(NRF_LOG)
+#if XINC_CLI_LOG_BACKEND && XINC_MODULE_ENABLED(XINC_LOG)
 
-#define NRF_CLI_LOG_MSG_OVERFLOW_MSK ((uint32_t)7)
+#define XINC_CLI_LOG_MSG_OVERFLOW_MSK ((uint32_t)7)
 static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
 {
     nrf_log_entry_t entry;
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
     bool print_msg = false;
 #endif
 
     if (nrf_queue_pop(((nrf_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_queue, &entry) !=
-                                                                                      NRF_SUCCESS)
+                                                                                      XINC_SUCCESS)
     {
         return false;
     }
@@ -3206,9 +3206,9 @@ static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
     if (skip)
     {
         nrf_memobj_put(entry);
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
         ++p_cli->p_ctx->statistics.log_lost_cnt;
-        if ((p_cli->p_ctx->statistics.log_lost_cnt & NRF_CLI_LOG_MSG_OVERFLOW_MSK) == 1)
+        if ((p_cli->p_ctx->statistics.log_lost_cnt & XINC_CLI_LOG_MSG_OVERFLOW_MSK) == 1)
         {
             /* Set flag to print a message after clearing the currently entered command. */
             print_msg = true;
@@ -3223,19 +3223,19 @@ static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
         /* Erasing the currently displayed command and console name. */
         nrf_cli_multiline_cons_t const * p_cons = multiline_console_data_check(p_cli);
 
-        if (p_cons->cur_y > NRF_CLI_INITIAL_CURS_POS)
+        if (p_cons->cur_y > XINC_CLI_INITIAL_CURS_POS)
         {
-            cursor_up_move(p_cli, p_cons->cur_y - NRF_CLI_INITIAL_CURS_POS);
+            cursor_up_move(p_cli, p_cons->cur_y - XINC_CLI_INITIAL_CURS_POS);
         }
 
-        if (p_cons->cur_x > NRF_CLI_INITIAL_CURS_POS)
+        if (p_cons->cur_x > XINC_CLI_INITIAL_CURS_POS)
         {
-            cursor_left_move(p_cli, p_cons->cur_x - NRF_CLI_INITIAL_CURS_POS);
+            cursor_left_move(p_cli, p_cons->cur_x - XINC_CLI_INITIAL_CURS_POS);
         }
         cli_clear_eos(p_cli);
     }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
     if (print_msg)
     {
         /* Print the requested string and exit function. */
@@ -3258,7 +3258,7 @@ static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
         params.timestamp  = header.timestamp;
         params.module_id  = header.module_id;
         params.dropped    = header.dropped;
-        params.use_colors = NRF_LOG_USES_COLORS; /* Color will be provided by the console application. */
+        params.use_colors = XINC_LOG_USES_COLORS; /* Color will be provided by the console application. */
 
         if (header.base.generic.type == HEADER_TYPE_STD)
         {
@@ -3295,7 +3295,7 @@ static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
 
         nrf_memobj_put(entry);
     } while (nrf_queue_pop(((nrf_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_queue, &entry)
-                                                                                    == NRF_SUCCESS);
+                                                                                    == XINC_SUCCESS);
     return true;
 }
 
@@ -3305,12 +3305,12 @@ static void nrf_log_backend_cli_put(nrf_log_backend_t const * p_backend, nrf_log
     nrf_cli_t const * p_cli = p_backend_cli->p_cli;
 
     //If panic mode cannot be handled, stop handling new requests.
-    if (p_cli->p_ctx->state != NRF_CLI_STATE_PANIC_MODE_INACTIVE)
+    if (p_cli->p_ctx->state != XINC_CLI_STATE_PANIC_MODE_INACTIVE)
     {
-        bool panic_mode = (p_cli->p_ctx->state == NRF_CLI_STATE_PANIC_MODE_ACTIVE);
+        bool panic_mode = (p_cli->p_ctx->state == XINC_CLI_STATE_PANIC_MODE_ACTIVE);
         //If there is no place for a new log entry, remove the oldest one.
         ret_code_t err_code = nrf_queue_push(p_backend_cli->p_queue, &p_msg);
-        while (err_code != NRF_SUCCESS)
+        while (err_code != XINC_SUCCESS)
         {
             (void)cli_log_entry_process(p_cli, panic_mode ? false : true);
 
@@ -3322,11 +3322,11 @@ static void nrf_log_backend_cli_put(nrf_log_backend_t const * p_backend, nrf_log
         {
             (void)cli_log_entry_process(p_cli, false);
         }
-#if NRF_MODULE_ENABLED(NRF_CLI_USES_TASK_MANAGER)
+#if XINC_MODULE_ENABLED(XINC_CLI_USES_TASK_MANAGER)
         else
         {
             task_events_set((task_id_t)((uint32_t)p_backend_cli->p_context & 0x000000FF),
-                            NRF_CLI_LOG_PENDING_TASK_EVT);
+                            XINC_CLI_LOG_PENDING_TASK_EVT);
         }
 #endif
     }
@@ -3347,13 +3347,13 @@ static void nrf_log_backend_cli_panic_set(nrf_log_backend_t const * p_backend)
     nrf_cli_log_backend_t * p_backend_cli = (nrf_cli_log_backend_t *)p_backend->p_ctx;
     nrf_cli_t const * p_cli = p_backend_cli->p_cli;
 
-    if (p_cli->p_iface->p_api->enable(p_cli->p_iface, true) == NRF_SUCCESS)
+    if (p_cli->p_iface->p_api->enable(p_cli->p_iface, true) == XINC_SUCCESS)
     {
-        p_cli->p_ctx->state = NRF_CLI_STATE_PANIC_MODE_ACTIVE;
+        p_cli->p_ctx->state = XINC_CLI_STATE_PANIC_MODE_ACTIVE;
     }
     else
     {
-        p_cli->p_ctx->state = NRF_CLI_STATE_PANIC_MODE_INACTIVE;
+        p_cli->p_ctx->state = XINC_CLI_STATE_PANIC_MODE_INACTIVE;
     }
 }
 
@@ -3369,10 +3369,10 @@ static bool cli_log_entry_process(nrf_cli_t const * p_cli, bool skip)
     UNUSED_PARAMETER(skip);
     return false;
 }
-#endif // NRF_CLI_LOG_BACKEND
+#endif // XINC_CLI_LOG_BACKEND
 
 /* ============ built-in commands ============ */
-#if NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS)
+#if XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS)
 
 static bool nrf_cli_build_in_cmd_common_executed(nrf_cli_t const *               p_cli,
                                                  bool                            arg_cnt_nok,
@@ -3405,8 +3405,8 @@ static void nrf_cli_cmd_clear(nrf_cli_t const * p_cli, size_t argc, char **argv)
         nrf_cli_help_print(p_cli, NULL, 0);
         return;
     }
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CURSORHOME);
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_CLEARSCREEN);
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CURSORHOME);
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_CLEARSCREEN);
 		printf("clear\r\n");
 }
 
@@ -3421,10 +3421,10 @@ static void nrf_cli_cmd_cli(nrf_cli_t const * p_cli, size_t argc, char **argv)
         nrf_cli_help_print(p_cli, NULL, 0);
         return;
     }
-    nrf_cli_error(p_cli, NRF_CLI_MSG_SPECIFY_SUBCOMMAND);
+    nrf_cli_error(p_cli, XINC_CLI_MSG_SPECIFY_SUBCOMMAND);
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
 static void nrf_cli_cmd_colors_off(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
     if (nrf_cli_build_in_cmd_common_executed(p_cli, (argc != 1), NULL, 0))
@@ -3459,9 +3459,9 @@ static void nrf_cli_cmd_colors(nrf_cli_t const * p_cli, size_t argc, char **argv
         return;
     }
 
-    nrf_cli_error(p_cli, "%s:%s%s", argv[0], NRF_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
+    nrf_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
 
 static void nrf_cli_cmd_echo(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
@@ -3472,7 +3472,7 @@ static void nrf_cli_cmd_echo(nrf_cli_t const * p_cli, size_t argc, char **argv)
 
     if (argc == 2)
     {
-        nrf_cli_error(p_cli, "%s:%s%s", argv[0], NRF_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
+        nrf_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
         return;
     }
     nrf_cli_print(p_cli, "Echo status: %s", cli_flag_echo_is_set(p_cli) ? "on" : "off");
@@ -3498,7 +3498,7 @@ static void nrf_cli_cmd_echo_on(nrf_cli_t const * p_cli, size_t argc, char **arg
     cli_flag_echo_set(p_cli);
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 static void nrf_cli_cmd_history(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
     ASSERT(p_cli);
@@ -3515,26 +3515,26 @@ static void nrf_cli_cmd_history(nrf_cli_t const * p_cli, size_t argc, char **arg
 
     while (1)
     {
-        if ((p_cmd_list == NULL) || (i >= NRF_CLI_HISTORY_ELEMENT_COUNT))
+        if ((p_cmd_list == NULL) || (i >= XINC_CLI_HISTORY_ELEMENT_COUNT))
         {
             break;
         }
         nrf_memobj_read((nrf_memobj_t * )p_cmd_list,
                         &header,
-                        NRF_CLI_HISTORY_HEADER_SIZE,
+                        XINC_CLI_HISTORY_HEADER_SIZE,
                         0);
         nrf_memobj_read((nrf_memobj_t * )p_cmd_list,
                         p_cli->p_ctx->temp_buff,
                         header.cmd_len + 1,
-                        NRF_CLI_HISTORY_HEADER_SIZE);
+                        XINC_CLI_HISTORY_HEADER_SIZE);
         p_cmd_list = header.p_next;
         nrf_cli_print(p_cli, "[%3d] %s", i++, p_cli->p_ctx->temp_buff);
     }
     p_cli->p_ctx->temp_buff[0] = '\0';
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
 void nrf_cli_cmd_cli_stats(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
     if (argc == 1)
@@ -3545,7 +3545,7 @@ void nrf_cli_cmd_cli_stats(nrf_cli_t const * p_cli, size_t argc, char **argv)
 
     if (argc == 2)
     {
-        nrf_cli_error(p_cli, "%s:%s%s", argv[0], NRF_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
+        nrf_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
         return;
     }
 
@@ -3582,7 +3582,7 @@ void nrf_cli_cmd_cli_stats_reset(nrf_cli_t const * p_cli, size_t argc, char **ar
     nrf_queue_max_utilization_reset(
                                ((nrf_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_queue);
 }
-#endif // NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
 
 static void nrf_cli_cmd_resize_default(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
@@ -3591,9 +3591,9 @@ static void nrf_cli_cmd_resize_default(nrf_cli_t const * p_cli, size_t argc, cha
         return;
     }
 
-    NRF_CLI_VT100_CMD(p_cli, NRF_CLI_VT100_SETCOL_80);
-    p_cli->p_ctx->vt100_ctx.cons.terminal_wid = NRF_CLI_DEFAULT_TERMINAL_WIDTH;
-    p_cli->p_ctx->vt100_ctx.cons.terminal_hei = NRF_CLI_DEFAULT_TERMINAL_HEIGHT;
+    XINC_CLI_VT100_CMD(p_cli, XINC_CLI_VT100_SETCOL_80);
+    p_cli->p_ctx->vt100_ctx.cons.terminal_wid = XINC_CLI_DEFAULT_TERMINAL_WIDTH;
+    p_cli->p_ctx->vt100_ctx.cons.terminal_hei = XINC_CLI_DEFAULT_TERMINAL_HEIGHT;
 }
 
 static void nrf_cli_cmd_resize(nrf_cli_t const * p_cli, size_t argc, char **argv)
@@ -3605,10 +3605,10 @@ static void nrf_cli_cmd_resize(nrf_cli_t const * p_cli, size_t argc, char **argv
     {
         if (terminal_size_get(p_cli,
                               &p_cli->p_ctx->vt100_ctx.cons.terminal_wid,
-                              &p_cli->p_ctx->vt100_ctx.cons.terminal_hei) != NRF_SUCCESS)
+                              &p_cli->p_ctx->vt100_ctx.cons.terminal_hei) != XINC_SUCCESS)
         {
-            p_cli->p_ctx->vt100_ctx.cons.terminal_wid = NRF_CLI_DEFAULT_TERMINAL_WIDTH;
-            p_cli->p_ctx->vt100_ctx.cons.terminal_hei = NRF_CLI_DEFAULT_TERMINAL_HEIGHT;
+            p_cli->p_ctx->vt100_ctx.cons.terminal_wid = XINC_CLI_DEFAULT_TERMINAL_WIDTH;
+            p_cli->p_ctx->vt100_ctx.cons.terminal_hei = XINC_CLI_DEFAULT_TERMINAL_HEIGHT;
             nrf_cli_warn(p_cli, "No response from the terminal, assumed 80x24 screen size");
         }
         return;
@@ -3618,60 +3618,60 @@ static void nrf_cli_cmd_resize(nrf_cli_t const * p_cli, size_t argc, char **argv
     {
         return;
     }
-    nrf_cli_error(p_cli, "%s:%s%s", argv[0], NRF_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
+    nrf_cli_error(p_cli, "%s:%s%s", argv[0], XINC_CLI_MSG_UNKNOWN_PARAMETER, argv[1]);
 }
 
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_colors)
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_colors)
 {
-    NRF_CLI_CMD(off,    NULL,   NRF_CLI_HELP_COLORS_OFF,        nrf_cli_cmd_colors_off),
-    NRF_CLI_CMD(on,     NULL,   NRF_CLI_HELP_COLORS_ON,         nrf_cli_cmd_colors_on),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_COLORS_OFF,        nrf_cli_cmd_colors_off),
+    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_COLORS_ON,         nrf_cli_cmd_colors_on),
+    XINC_CLI_SUBCMD_SET_END
 };
 #endif
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_echo)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_echo)
 {
-    NRF_CLI_CMD(off,    NULL,   NRF_CLI_HELP_ECHO_OFF,          nrf_cli_cmd_echo_off),
-    NRF_CLI_CMD(on,     NULL,   NRF_CLI_HELP_ECHO_ON,           nrf_cli_cmd_echo_on),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(off,    NULL,   XINC_CLI_HELP_ECHO_OFF,          nrf_cli_cmd_echo_off),
+    XINC_CLI_CMD(on,     NULL,   XINC_CLI_HELP_ECHO_ON,           nrf_cli_cmd_echo_on),
+    XINC_CLI_SUBCMD_SET_END
 };
 
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_cli_stats)
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_cli_stats)
 {
-    NRF_CLI_CMD(reset,  NULL,   NRF_CLI_HELP_STATISTICS_RESET,  nrf_cli_cmd_cli_stats_reset),
-    NRF_CLI_CMD(show,   NULL,   NRF_CLI_HELP_STATISTICS_SHOW,   nrf_cli_cmd_cli_stats_show),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(reset,  NULL,   XINC_CLI_HELP_STATISTICS_RESET,  nrf_cli_cmd_cli_stats_reset),
+    XINC_CLI_CMD(show,   NULL,   XINC_CLI_HELP_STATISTICS_SHOW,   nrf_cli_cmd_cli_stats_show),
+    XINC_CLI_SUBCMD_SET_END
 };
-#endif // NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_cli)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_cli)
 {
-#if NRF_MODULE_ENABLED(NRF_CLI_VT100_COLORS)
-    NRF_CLI_CMD(colors, &m_sub_colors,      NRF_CLI_HELP_COLORS,        nrf_cli_cmd_colors),
+#if XINC_MODULE_ENABLED(XINC_CLI_VT100_COLORS)
+    XINC_CLI_CMD(colors, &m_sub_colors,      XINC_CLI_HELP_COLORS,        nrf_cli_cmd_colors),
 #endif
-    NRF_CLI_CMD(echo,   &m_sub_echo,        NRF_CLI_HELP_ECHO,          nrf_cli_cmd_echo),
-#if NRF_MODULE_ENABLED(NRF_CLI_STATISTICS)
-    NRF_CLI_CMD(stats, &m_sub_cli_stats,    NRF_CLI_HELP_STATISTICS,    nrf_cli_cmd_cli_stats),
+    XINC_CLI_CMD(echo,   &m_sub_echo,        XINC_CLI_HELP_ECHO,          nrf_cli_cmd_echo),
+#if XINC_MODULE_ENABLED(XINC_CLI_STATISTICS)
+    XINC_CLI_CMD(stats, &m_sub_cli_stats,    XINC_CLI_HELP_STATISTICS,    nrf_cli_cmd_cli_stats),
 #endif
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_SUBCMD_SET_END
 };
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_resize)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_resize)
 {
-    NRF_CLI_CMD(default, NULL, NRF_CLI_HELP_RESIZE_DEFAULT, nrf_cli_cmd_resize_default),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(default, NULL, XINC_CLI_HELP_RESIZE_DEFAULT, nrf_cli_cmd_resize_default),
+    XINC_CLI_SUBCMD_SET_END
 };
 
-NRF_CLI_CMD_REGISTER(clear,     NULL,           NRF_CLI_HELP_CLEAR,     nrf_cli_cmd_clear);
-NRF_CLI_CMD_REGISTER(cli,       &m_sub_cli,     NRF_CLI_HELP_CLI,       nrf_cli_cmd_cli);
-#if NRF_MODULE_ENABLED(NRF_CLI_HISTORY)
-NRF_CLI_CMD_REGISTER(history,   NULL,           NRF_CLI_HELP_HISTORY,   nrf_cli_cmd_history);
+XINC_CLI_CMD_REGISTER(clear,     NULL,           XINC_CLI_HELP_CLEAR,     nrf_cli_cmd_clear);
+XINC_CLI_CMD_REGISTER(cli,       &m_sub_cli,     XINC_CLI_HELP_CLI,       nrf_cli_cmd_cli);
+#if XINC_MODULE_ENABLED(XINC_CLI_HISTORY)
+XINC_CLI_CMD_REGISTER(history,   NULL,           XINC_CLI_HELP_HISTORY,   nrf_cli_cmd_history);
 #endif
-NRF_CLI_CMD_REGISTER(resize,    &m_sub_resize,  NRF_CLI_HELP_RESIZE,    nrf_cli_cmd_resize);
+XINC_CLI_CMD_REGISTER(resize,    &m_sub_resize,  XINC_CLI_HELP_RESIZE,    nrf_cli_cmd_resize);
 
-#endif // NRF_MODULE_ENABLED(NRF_CLI_BUILD_IN_CMDS)
+#endif // XINC_MODULE_ENABLED(XINC_CLI_BUILD_IN_CMDS)
 
-#endif // NRF_MODULE_ENABLED(NRF_CLI)
+#endif // XINC_MODULE_ENABLED(XINC_CLI)
 

@@ -14,8 +14,8 @@
  * @brief Module for converting error code into a printable string.
  * @{
  */
-#ifndef NRF_STRERROR_H__
-#define NRF_STRERROR_H__
+#ifndef XINC_STRERROR_H__
+#define XINC_STRERROR_H__
 
 #include "sdk_errors.h"
 
@@ -55,4 +55,4 @@ char const * nrf_strerror_find(ret_code_t code);
 }
 #endif
 
-#endif /* NRF_STRERROR_H__ */
+#endif /* XINC_STRERROR_H__ */

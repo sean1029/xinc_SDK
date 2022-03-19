@@ -45,21 +45,21 @@ typedef uint32_t ret_code_t;
  *
  * @param[in]   inst    A definition of an @ref nrf_fstorage_t variable.
  */
-#define NRF_FSTORAGE_DEF(inst)          NRF_SECTION_ITEM_REGISTER(fs_data, inst)
+#define XINC_FSTORAGE_DEF(inst)          XINC_SECTION_ITEM_REGISTER(fs_data, inst)
 
 /**@brief   Macro for retrieving an fstorage instance. */
-#define NRF_FSTORAGE_INSTANCE_GET(i)    NRF_SECTION_ITEM_GET(fs_data, nrf_fstorage_t, (i))
+#define XINC_FSTORAGE_INSTANCE_GET(i)    XINC_SECTION_ITEM_GET(fs_data, nrf_fstorage_t, (i))
 
 /**@brief   Macro for retrieving the total number of fstorage instances. */
-#define NRF_FSTORAGE_INSTANCE_CNT       NRF_SECTION_ITEM_COUNT(fs_data, nrf_fstorage_t)
+#define XINC_FSTORAGE_INSTANCE_CNT       XINC_SECTION_ITEM_COUNT(fs_data, nrf_fstorage_t)
 
 
 /**@brief   Event IDs. */
 typedef enum
 {
-    NRF_FSTORAGE_EVT_READ_RESULT,   //!< Unused event reserved for a possible future feature.
-    NRF_FSTORAGE_EVT_WRITE_RESULT,  //!< Event for @ref nrf_fstorage_write.
-    NRF_FSTORAGE_EVT_ERASE_RESULT   //!< Event for @ref nrf_fstorage_erase.
+    XINC_FSTORAGE_EVT_READ_RESULT,   //!< Unused event reserved for a possible future feature.
+    XINC_FSTORAGE_EVT_WRITE_RESULT,  //!< Event for @ref nrf_fstorage_write.
+    XINC_FSTORAGE_EVT_ERASE_RESULT   //!< Event for @ref nrf_fstorage_erase.
 } nrf_fstorage_evt_id_t;
 
 
@@ -98,7 +98,7 @@ struct nrf_fstorage_api_s;
 
 /**@brief   An fstorage instance.
  *
- * @details Use the @ref NRF_FSTORAGE_DEF macro to define an fstorage instance.
+ * @details Use the @ref XINC_FSTORAGE_DEF macro to define an fstorage instance.
  *
  * An instance is tied to an API implementation and contains information about the flash device,
  * such as the program and erase units as well and implementation-specific functionality.
@@ -163,9 +163,9 @@ typedef struct nrf_fstorage_api_s
  * @param[in]   p_api       The API implementation to use.
  * @param[in]   p_param     An optional parameter to pass to the implementation-specific API call.
  *
- * @retval  NRF_SUCCESS         If initialization was successful.
- * @retval  NRF_ERROR_NULL      If @p p_fs or @p p_api field in @p p_fs is NULL.
- * @retval  NRF_ERROR_INTERNAL  If another error occurred.
+ * @retval  XINC_SUCCESS         If initialization was successful.
+ * @retval  XINC_ERROR_NULL      If @p p_fs or @p p_api field in @p p_fs is NULL.
+ * @retval  XINC_ERROR_INTERNAL  If another error occurred.
  */
 ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
                              nrf_fstorage_api_t * p_api,
@@ -177,10 +177,10 @@ ret_code_t nrf_fstorage_init(nrf_fstorage_t     * p_fs,
  * @param[in]   p_fs        The fstorage instance to uninitialize.
  * @param[in]   p_param     An optional parameter to pass to the implementation-specific API call.
  *
- * @retval  NRF_SUCCESS                 If uninitialization was successful.
- * @retval  NRF_ERROR_NULL              If @p p_fs is NULL.
- * @retval  NRF_ERROR_INVALID_STATE     If the module is not initialized.
- * @retval  NRF_ERROR_INTERNAL          If another error occurred.
+ * @retval  XINC_SUCCESS                 If uninitialization was successful.
+ * @retval  XINC_ERROR_NULL              If @p p_fs is NULL.
+ * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
+ * @retval  XINC_ERROR_INTERNAL          If another error occurred.
  */
 ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs, void * p_param);
 
@@ -194,11 +194,11 @@ ret_code_t nrf_fstorage_uninit(nrf_fstorage_t * p_fs, void * p_param);
  * @param[in]   p_dest  Buffer where the data should be copied.
  * @param[in]   len     Length of the data to be copied (in bytes).
  *
- * @retval  NRF_SUCCESS                 If the operation was successful.
- * @retval  NRF_ERROR_NULL              If @p p_fs or @p p_dest is NULL.
- * @retval  NRF_ERROR_INVALID_STATE     If the module is not initialized.
- * @retval  NRF_ERROR_INVALID_LENGTH    If @p len is zero or otherwise invalid.
- * @retval  NRF_ERROR_INVALID_ADDR      If the address @p addr is outside the flash memory
+ * @retval  XINC_SUCCESS                 If the operation was successful.
+ * @retval  XINC_ERROR_NULL              If @p p_fs or @p p_dest is NULL.
+ * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
+ * @retval  XINC_ERROR_INVALID_LENGTH    If @p len is zero or otherwise invalid.
+ * @retval  XINC_ERROR_INVALID_ADDR      If the address @p addr is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
  */
 ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
@@ -212,7 +212,7 @@ ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
  * Write @p len bytes from @p p_src to @p dest.
  *
  * When using @ref nrf_fstorage_sd, the data is written by several calls to @ref sd_flash_write if
- * the length of the data exceeds @ref NRF_FSTORAGE_SD_MAX_WRITE_SIZE bytes.
+ * the length of the data exceeds @ref XINC_FSTORAGE_SD_MAX_WRITE_SIZE bytes.
  * Only one event is sent upon completion.
  *
  * @note The data to be written to flash must be kept in memory until the operation has
@@ -224,14 +224,14 @@ ret_code_t nrf_fstorage_read(nrf_fstorage_t const * p_fs,
  * @param[in]   len         Length of the data (in bytes).
  * @param[in]   p_param     User-defined parameter passed to the event handler (may be NULL).
  *
- * @retval  NRF_SUCCESS                 If the operation was accepted.
- * @retval  NRF_ERROR_NULL              If @p p_fs or @p p_src is NULL.
- * @retval  NRF_ERROR_INVALID_STATE     If the module is not initialized.
- * @retval  NRF_ERROR_INVALID_LENGTH    If @p len is zero or not a multiple of the program unit,
+ * @retval  XINC_SUCCESS                 If the operation was accepted.
+ * @retval  XINC_ERROR_NULL              If @p p_fs or @p p_src is NULL.
+ * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
+ * @retval  XINC_ERROR_INVALID_LENGTH    If @p len is zero or not a multiple of the program unit,
  *                                      or if it is otherwise invalid.
- * @retval  NRF_ERROR_INVALID_ADDR      If the address @p dest is outside the flash memory
+ * @retval  XINC_ERROR_INVALID_ADDR      If the address @p dest is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
- * @retval  NRF_ERROR_NO_MEM            If no memory is available to accept the operation.
+ * @retval  XINC_ERROR_NO_MEM            If no memory is available to accept the operation.
  *                                      When using the @ref nrf_fstorage_sd, this error
  *                                      indicates that the internal queue of operations is full.
  */
@@ -252,13 +252,13 @@ ret_code_t nrf_fstorage_write(nrf_fstorage_t const * p_fs,
  * @param[in]   len         Number of pages to erase.
  * @param[in]   p_param     User-defined parameter passed to the event handler (may be NULL).
  *
- * @retval  NRF_SUCCESS                 If the operation was accepted.
- * @retval  NRF_ERROR_NULL              If @p p_fs is NULL.
- * @retval  NRF_ERROR_INVALID_STATE     If the module is not initialized.
- * @retval  NRF_ERROR_INVALID_LENGTH    If @p len is zero.
- * @retval  NRF_ERROR_INVALID_ADDR      If the address @p page_addr is outside the flash memory
+ * @retval  XINC_SUCCESS                 If the operation was accepted.
+ * @retval  XINC_ERROR_NULL              If @p p_fs is NULL.
+ * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
+ * @retval  XINC_ERROR_INVALID_LENGTH    If @p len is zero.
+ * @retval  XINC_ERROR_INVALID_ADDR      If the address @p page_addr is outside the flash memory
  *                                      boundaries specified in @p p_fs, or if it is unaligned.
- * @retval  NRF_ERROR_NO_MEM            If no memory is available to accept the operation.
+ * @retval  XINC_ERROR_NO_MEM            If no memory is available to accept the operation.
  *                                      When using the @ref nrf_fstorage_sd, this error
  *                                      indicates that the internal queue of operations is full.
  */
@@ -308,4 +308,4 @@ uint8_t * nrf_fstorage_wmap(nrf_fstorage_t const * p_fs, uint32_t addr);
 }
 #endif
 
-#endif // NRF_FSTORAGE_H__
+#endif // XINC_FSTORAGE_H__

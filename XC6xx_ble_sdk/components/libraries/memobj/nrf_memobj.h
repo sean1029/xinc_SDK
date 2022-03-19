@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRF_MEMOBJ_H
-#define NRF_MEMOBJ_H
+#ifndef XINC_MEMOBJ_H
+#define XINC_MEMOBJ_H
 
 /**
 * @defgroup nrf_memobj Memory Object module
@@ -47,7 +47,7 @@ extern "C" {
 @endverbatim
  *
  */
-#define NRF_MEMOBJ_STD_HEADER_SIZE sizeof(uint32_t)
+#define XINC_MEMOBJ_STD_HEADER_SIZE sizeof(uint32_t)
 
 /**
  * @brief Macro for creating an nrf_memobj pool.
@@ -59,9 +59,9 @@ extern "C" {
  * @param _chunk_size Size of a single chunk.
  * @param _pool_size  Number of chunks in the pool.
  */
-#define NRF_MEMOBJ_POOL_DEF(_name, _chunk_size, _pool_size)                           \
+#define XINC_MEMOBJ_POOL_DEF(_name, _chunk_size, _pool_size)                           \
     STATIC_ASSERT((_chunk_size) > sizeof(uint32_t));                                  \
-    NRF_BALLOC_DEF(_name, ((_chunk_size)+NRF_MEMOBJ_STD_HEADER_SIZE), (_pool_size))
+    XINC_BALLOC_DEF(_name, ((_chunk_size)+XINC_MEMOBJ_STD_HEADER_SIZE), (_pool_size))
 
 /**
  * @brief Pool of memory objects.
@@ -80,7 +80,7 @@ typedef void * nrf_memobj_t;
  *
  * @param[in] p_pool     Pointer to the memobj pool instance structure.
  *
- * @return  NRF_SUCCESS on success, otherwise an error code.
+ * @return  XINC_SUCCESS on success, otherwise an error code.
  */
 ret_code_t nrf_memobj_pool_init(nrf_memobj_pool_t const * p_pool);
 
@@ -167,6 +167,6 @@ void nrf_memobj_read(nrf_memobj_t * p_obj,
 }
 #endif
 
-#endif //NRF_MEMOBJ_H
+#endif //XINC_MEMOBJ_H
 
 /** @} */

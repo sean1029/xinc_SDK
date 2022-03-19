@@ -9,7 +9,7 @@
 
 #include "sdk_common.h"
 
-#if NRF_MODULE_ENABLED(NRF_SECTION_ITER)
+#if XINC_MODULE_ENABLED(XINC_SECTION_ITER)
 
 #include "nrf_section_iter.h"
 
@@ -91,4 +91,4 @@ void nrf_section_iter_next(nrf_section_iter_t * p_iter)
 #endif
 }
 
-#endif // NRF_MODULE_ENABLED(NRF_SECTION_ITER)
+#endif // XINC_MODULE_ENABLED(XINC_SECTION_ITER)

@@ -27,7 +27,7 @@ extern "C" {
 /** @brief Structure for the UARTE driver instance. */
 typedef struct
 {
-    NRF_UARTE_Type * p_reg;        ///< Pointer to a structure with UARTE registers.
+    XINC_UARTE_Type * p_reg;        ///< Pointer to a structure with UARTE registers.
     uint8_t          drv_inst_idx; ///< Index of the driver instance. For internal use only.
 } xincx_uarte_t;
 
@@ -52,7 +52,7 @@ enum {
 /** @brief Macro for creating a UARTE driver instance. */
 #define XINCX_UARTE_INSTANCE(id)                               \
 {                                                             \
-    .p_reg        = XINCX_CONCAT_2(NRF_UARTE, id),             \
+    .p_reg        = XINCX_CONCAT_2(XINC_UARTE, id),             \
     .drv_inst_idx = XINCX_CONCAT_3(XINCX_UARTE, id, _INST_IDX), \
 }
 
@@ -81,10 +81,10 @@ typedef struct
 /** @brief UARTE default configuration. */
 #define XINCX_UARTE_DEFAULT_CONFIG                                                   \
 {                                                                                   \
-    .pseltxd            = NRF_UARTE_PSEL_DISCONNECTED,                              \
-    .pselrxd            = NRF_UARTE_PSEL_DISCONNECTED,                              \
-    .pselcts            = NRF_UARTE_PSEL_DISCONNECTED,                              \
-    .pselrts            = NRF_UARTE_PSEL_DISCONNECTED,                              \
+    .pseltxd            = XINC_UARTE_PSEL_DISCONNECTED,                              \
+    .pselrxd            = XINC_UARTE_PSEL_DISCONNECTED,                              \
+    .pselcts            = XINC_UARTE_PSEL_DISCONNECTED,                              \
+    .pselrts            = XINC_UARTE_PSEL_DISCONNECTED,                              \
     .p_context          = NULL,                                                     \
     .hwfc               = (nrf_uarte_hwfc_t)XINCX_UARTE_DEFAULT_CONFIG_HWFC,         \
     .parity             = (nrf_uarte_parity_t)XINCX_UARTE_DEFAULT_CONFIG_PARITY,     \

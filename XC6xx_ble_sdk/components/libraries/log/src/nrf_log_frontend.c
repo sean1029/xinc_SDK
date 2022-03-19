@@ -7,7 +7,7 @@
  *
  */
 #include "sdk_common.h"
-#if NRF_MODULE_ENABLED(NRF_LOG)
+#if XINC_MODULE_ENABLED(XINC_LOG)
 #include "app_util.h"
 #include "app_util_platform.h"
 #include "nrf_log.h"
@@ -21,36 +21,36 @@
 #include "nrf_atomic.h"
 #include <string.h>
 
-STATIC_ASSERT((NRF_LOG_BUFSIZE % 4) == 0);
-STATIC_ASSERT(IS_POWER_OF_TWO(NRF_LOG_BUFSIZE));
+STATIC_ASSERT((XINC_LOG_BUFSIZE % 4) == 0);
+STATIC_ASSERT(IS_POWER_OF_TWO(XINC_LOG_BUFSIZE));
 
-#define NRF_LOG_BUF_WORDS (NRF_LOG_BUFSIZE/4)
+#define XINC_LOG_BUF_WORDS (XINC_LOG_BUFSIZE/4)
 
-#if NRF_MODULE_ENABLED(FDS) && NRF_LOG_FILTERS_ENABLED
+#if XINC_MODULE_ENABLED(FDS) && XINC_LOG_FILTERS_ENABLED
 #define LOG_CONFIG_LOAD_STORE_ENABLED 1
 #else
 #define LOG_CONFIG_LOAD_STORE_ENABLED 0
 #endif
 
-#if NRF_LOG_BUF_WORDS < 32
-#warning "NRF_LOG_BUFSIZE too small, significant number of logs may be lost."
+#if XINC_LOG_BUF_WORDS < 32
+#warning "XINC_LOG_BUFSIZE too small, significant number of logs may be lost."
 #endif
 
-NRF_MEMOBJ_POOL_DEF(log_mempool, NRF_LOG_MSGPOOL_ELEMENT_SIZE, NRF_LOG_MSGPOOL_ELEMENT_COUNT);
-NRF_RINGBUF_DEF(m_log_push_ringbuf, NRF_LOG_STR_PUSH_BUFFER_SIZE);
+XINC_MEMOBJ_POOL_DEF(log_mempool, XINC_LOG_MSGPOOL_ELEMENT_SIZE, XINC_LOG_MSGPOOL_ELEMENT_COUNT);
+XINC_RINGBUF_DEF(m_log_push_ringbuf, XINC_LOG_STR_PUSH_BUFFER_SIZE);
 
-#define NRF_LOG_BACKENDS_FULL           0xFF
-#define NRF_LOG_FILTER_BITS_PER_BACKEND 3
-#define NRF_LOG_MAX_BACKENDS           (32/NRF_LOG_FILTER_BITS_PER_BACKEND)
-#define NRF_LOG_MAX_HEXDUMP            (NRF_LOG_MSGPOOL_ELEMENT_SIZE*NRF_LOG_MSGPOOL_ELEMENT_COUNT/2)
-#define NRF_LOG_INVALID_BACKEND_U32    0xFFFFFFFF
+#define XINC_LOG_BACKENDS_FULL           0xFF
+#define XINC_LOG_FILTER_BITS_PER_BACKEND 3
+#define XINC_LOG_MAX_BACKENDS           (32/XINC_LOG_FILTER_BITS_PER_BACKEND)
+#define XINC_LOG_MAX_HEXDUMP            (XINC_LOG_MSGPOOL_ELEMENT_SIZE*XINC_LOG_MSGPOOL_ELEMENT_COUNT/2)
+#define XINC_LOG_INVALID_BACKEND_U32    0xFFFFFFFF
 
 /* Mask is extracted from the structure log_data_t to allow compile time initialization which
  * is needed to allow usage of the logger (logging) before logger is initialized.
  * It cannot be part of the log_data_t because some compilers would put whole log_data_t structure
  * into flash (including buffer) just because one field is initilized.
  */
-static uint32_t m_buffer_mask =  NRF_LOG_BUF_WORDS - 1; // Size of buffer (must be power of 2) presented as mask
+static uint32_t m_buffer_mask =  XINC_LOG_BUF_WORDS - 1; // Size of buffer (must be power of 2) presented as mask
 
 /**
  * brief An internal control block of the logger
@@ -65,7 +65,7 @@ typedef struct
     bool                      autoflush;
     uint32_t                  wr_idx;          // Current write index (never reset)
     uint32_t                  rd_idx;          // Current read index  (never_reset)
-    uint32_t                  buffer[NRF_LOG_BUF_WORDS];
+    uint32_t                  buffer[XINC_LOG_BUF_WORDS];
     nrf_log_timestamp_func_t  timestamp_func;  // A pointer to function that returns timestamp
     nrf_log_backend_t const * p_backend_head;
     nrf_atomic_flag_t         log_skipping;
@@ -75,53 +75,53 @@ typedef struct
 
 static log_data_t   m_log_data;
 
-NRF_LOG_MODULE_REGISTER();
+XINC_LOG_MODULE_REGISTER();
 
 // Helper macros for section variables.
-#define NRF_LOG_DYNAMIC_SECTION_VARS_GET(i)        NRF_SECTION_ITEM_GET(log_dynamic_data, nrf_log_module_dynamic_data_t, (i))
-#define NRF_LOG_FILTER_SECTION_VARS_GET(i)         NRF_SECTION_ITEM_GET(log_filter_data, nrf_log_module_filter_data_t, (i))
+#define XINC_LOG_DYNAMIC_SECTION_VARS_GET(i)        XINC_SECTION_ITEM_GET(log_dynamic_data, nrf_log_module_dynamic_data_t, (i))
+#define XINC_LOG_FILTER_SECTION_VARS_GET(i)         XINC_SECTION_ITEM_GET(log_filter_data, nrf_log_module_filter_data_t, (i))
 
-#define NRF_LOG_CONST_SECTION_VARS_GET(i)          NRF_SECTION_ITEM_GET(log_const_data, nrf_log_module_const_data_t, (i))
-#define NRF_LOG_CONST_SECTION_VARS_COUNT           NRF_SECTION_ITEM_COUNT(log_const_data, nrf_log_module_const_data_t)
+#define XINC_LOG_CONST_SECTION_VARS_GET(i)          XINC_SECTION_ITEM_GET(log_const_data, nrf_log_module_const_data_t, (i))
+#define XINC_LOG_CONST_SECTION_VARS_COUNT           XINC_SECTION_ITEM_COUNT(log_const_data, nrf_log_module_const_data_t)
 
 //  _name, _str_name, _info_color, _debug_color, _initial_lvl, _compiled_lvl) 
-//NRF_LOG_INTERNAL_ITEM_REGISTER(NRF_LOG_CONST_SECTION_NAME(_module_name),STRINGIFY(NRF_LOG_CONST_SECTION_NAME(_module_name)),0,0,3,4);
+//XINC_LOG_INTERNAL_ITEM_REGISTER(XINC_LOG_CONST_SECTION_NAME(_module_name),STRINGIFY(XINC_LOG_CONST_SECTION_NAME(_module_name)),0,0,3,4);
 
 ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timestamp_freq)
 {
-    (void)NRF_LOG_ITEM_DATA_CONST(app);
+    (void)XINC_LOG_ITEM_DATA_CONST(app);
 
-    if (NRF_LOG_USES_TIMESTAMP && (timestamp_func == NULL))
+    if (XINC_LOG_USES_TIMESTAMP && (timestamp_func == NULL))
     {
-        return NRF_ERROR_INVALID_PARAM;
+        return XINC_ERROR_INVALID_PARAM;
     }
 
-    m_log_data.autoflush    = true;// NRF_LOG_DEFERRED ? false : true;
+    m_log_data.autoflush    = true;// XINC_LOG_DEFERRED ? false : true;
 
-    if (NRF_LOG_USES_TIMESTAMP)
+    if (XINC_LOG_USES_TIMESTAMP)
     {
         nrf_log_str_formatter_timestamp_freq_set(timestamp_freq);
         m_log_data.timestamp_func = timestamp_func;
     }
 
 #ifdef UNIT_TEST
-    m_buffer_mask = NRF_LOG_BUF_WORDS - 1;
+    m_buffer_mask = XINC_LOG_BUF_WORDS - 1;
 #endif
 
     ret_code_t err_code = nrf_memobj_pool_init(&log_mempool);
-    if (err_code != NRF_SUCCESS)
+    if (err_code != XINC_SUCCESS)
     {
         return err_code;
     }
 
     nrf_ringbuf_init(&m_log_push_ringbuf);
 
-    uint32_t modules_cnt = NRF_LOG_CONST_SECTION_VARS_COUNT;
+    uint32_t modules_cnt = XINC_LOG_CONST_SECTION_VARS_COUNT;
     uint32_t i;
-		printf("modules_cnt :%d\r\n",NRF_LOG_CONST_SECTION_VARS_COUNT);
-	//	printf("NRF_LOG_CONST:%s\r\n",STRINGIFY(NRF_LOG_CONST_SECTION_NAME(_module_name)));
+		printf("modules_cnt :%d\r\n",XINC_LOG_CONST_SECTION_VARS_COUNT);
+	//	printf("XINC_LOG_CONST:%s\r\n",STRINGIFY(XINC_LOG_CONST_SECTION_NAME(_module_name)));
 		
-    if (NRF_LOG_FILTERS_ENABLED)
+    if (XINC_LOG_FILTERS_ENABLED)
     {
         uint32_t j;
         //sort modules by name
@@ -133,8 +133,8 @@ ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timest
             {
                 if  (i != j)
                 {
-                    char const * p_name0 = NRF_LOG_CONST_SECTION_VARS_GET(i)->p_module_name;
-                    char const * p_name1 = NRF_LOG_CONST_SECTION_VARS_GET(j)->p_module_name;
+                    char const * p_name0 = XINC_LOG_CONST_SECTION_VARS_GET(i)->p_module_name;
+                    char const * p_name1 = XINC_LOG_CONST_SECTION_VARS_GET(j)->p_module_name;
 									  printf("p_name0 :%s,p_name1:%s\r\n",p_name0,p_name1);
                     if (strncmp(p_name0, p_name1, 20) > 0)
                     {
@@ -143,26 +143,26 @@ ret_code_t nrf_log_init(nrf_log_timestamp_func_t timestamp_func, uint32_t timest
                 }
 
             }
-            nrf_log_module_dynamic_data_t * p_module_ddata = NRF_LOG_DYNAMIC_SECTION_VARS_GET(i);
+            nrf_log_module_dynamic_data_t * p_module_ddata = XINC_LOG_DYNAMIC_SECTION_VARS_GET(i);
             p_module_ddata->order_idx = idx;
         }
 
         /* Initialize filters */
         for (i = 0; i < modules_cnt; i++)
         {
-            nrf_log_module_dynamic_data_t * p_module_ddata = NRF_LOG_DYNAMIC_SECTION_VARS_GET(i);
-            nrf_log_module_filter_data_t * p_module_filter = NRF_LOG_FILTER_SECTION_VARS_GET(i);
+            nrf_log_module_dynamic_data_t * p_module_ddata = XINC_LOG_DYNAMIC_SECTION_VARS_GET(i);
+            nrf_log_module_filter_data_t * p_module_filter = XINC_LOG_FILTER_SECTION_VARS_GET(i);
             p_module_ddata->filter = 0;
             p_module_filter->filter_lvls = 0;
         }
     }
 
-    return NRF_SUCCESS;
+    return XINC_SUCCESS;
 }
 
 uint32_t nrf_log_module_cnt_get(void)
 {
-    return NRF_LOG_CONST_SECTION_VARS_COUNT;
+    return XINC_LOG_CONST_SECTION_VARS_COUNT;
 }
 
 static ret_code_t module_idx_get(uint32_t * p_idx, bool ordered_idx)
@@ -173,25 +173,25 @@ static ret_code_t module_idx_get(uint32_t * p_idx, bool ordered_idx)
         uint32_t i;
         for (i = 0; i < module_cnt; i++)
         {
-            nrf_log_module_dynamic_data_t * p_module_data = NRF_LOG_DYNAMIC_SECTION_VARS_GET(i);
+            nrf_log_module_dynamic_data_t * p_module_data = XINC_LOG_DYNAMIC_SECTION_VARS_GET(i);
             if (p_module_data->order_idx == *p_idx)
             {
                 *p_idx = i;
-                return NRF_SUCCESS;
+                return XINC_SUCCESS;
             }
         }
-        return NRF_ERROR_NOT_FOUND;
+        return XINC_ERROR_NOT_FOUND;
     }
     else
     {
-        return NRF_SUCCESS;
+        return XINC_SUCCESS;
     }
 }
 const char * nrf_log_module_name_get(uint32_t module_id, bool ordered_idx)
 {
-    if (module_idx_get(&module_id, ordered_idx) == NRF_SUCCESS)
+    if (module_idx_get(&module_id, ordered_idx) == XINC_SUCCESS)
     {
-        nrf_log_module_const_data_t * p_module_data = NRF_LOG_CONST_SECTION_VARS_GET(module_id);
+        nrf_log_module_const_data_t * p_module_data = XINC_LOG_CONST_SECTION_VARS_GET(module_id);
         return p_module_data->p_module_name;
     }
     else
@@ -202,20 +202,20 @@ const char * nrf_log_module_name_get(uint32_t module_id, bool ordered_idx)
 
 uint8_t nrf_log_color_id_get(uint32_t module_id, nrf_log_severity_t severity)
 {
-    nrf_log_module_const_data_t * p_module_data = NRF_LOG_CONST_SECTION_VARS_GET(module_id);
+    nrf_log_module_const_data_t * p_module_data = XINC_LOG_CONST_SECTION_VARS_GET(module_id);
     uint8_t color_id;
     switch (severity)
     {
-    case NRF_LOG_SEVERITY_ERROR:
-        color_id = NRF_LOG_ERROR_COLOR;
+    case XINC_LOG_SEVERITY_ERROR:
+        color_id = XINC_LOG_ERROR_COLOR;
         break;
-    case NRF_LOG_SEVERITY_WARNING:
-        color_id = NRF_LOG_WARNING_COLOR;
+    case XINC_LOG_SEVERITY_WARNING:
+        color_id = XINC_LOG_WARNING_COLOR;
         break;
-    case NRF_LOG_SEVERITY_INFO:
+    case XINC_LOG_SEVERITY_INFO:
         color_id = p_module_data->info_color_id;
         break;
-    case NRF_LOG_SEVERITY_DEBUG:
+    case XINC_LOG_SEVERITY_DEBUG:
         color_id = p_module_data->debug_color_id;
         break;
     default:
@@ -232,9 +232,9 @@ static uint16_t higher_lvl_get(uint32_t lvls)
     uint32_t i;
 
     //Find highest level enabled by backends
-    for (i = 0; i < (32/NRF_LOG_LEVEL_BITS); i+=NRF_LOG_LEVEL_BITS)
+    for (i = 0; i < (32/XINC_LOG_LEVEL_BITS); i+=XINC_LOG_LEVEL_BITS)
     {
-        tmp_lvl = (uint16_t)BF_GET(lvls,NRF_LOG_LEVEL_BITS, i);
+        tmp_lvl = (uint16_t)BF_GET(lvls,XINC_LOG_LEVEL_BITS, i);
         if (tmp_lvl > top_lvl)
         {
             top_lvl = tmp_lvl;
@@ -245,13 +245,13 @@ static uint16_t higher_lvl_get(uint32_t lvls)
 
 void nrf_log_module_filter_set(uint32_t backend_id, uint32_t module_id, nrf_log_severity_t severity)
 {
-    if (NRF_LOG_FILTERS_ENABLED)
+    if (XINC_LOG_FILTERS_ENABLED)
     {
-        nrf_log_module_dynamic_data_t * p_module_data = NRF_LOG_DYNAMIC_SECTION_VARS_GET(module_id);
-        nrf_log_module_filter_data_t *  p_filter      = NRF_LOG_FILTER_SECTION_VARS_GET(module_id);
+        nrf_log_module_dynamic_data_t * p_module_data = XINC_LOG_DYNAMIC_SECTION_VARS_GET(module_id);
+        nrf_log_module_filter_data_t *  p_filter      = XINC_LOG_FILTER_SECTION_VARS_GET(module_id);
 
-        p_filter->filter_lvls &= ~BF_MASK(NRF_LOG_LEVEL_BITS, (NRF_LOG_LEVEL_BITS * backend_id));
-        p_filter->filter_lvls |= BF_VAL(severity, NRF_LOG_LEVEL_BITS, (NRF_LOG_LEVEL_BITS * backend_id));
+        p_filter->filter_lvls &= ~BF_MASK(XINC_LOG_LEVEL_BITS, (XINC_LOG_LEVEL_BITS * backend_id));
+        p_filter->filter_lvls |= BF_VAL(severity, XINC_LOG_LEVEL_BITS, (XINC_LOG_LEVEL_BITS * backend_id));
 
         p_module_data->filter = higher_lvl_get(p_filter->filter_lvls);
     }
@@ -260,8 +260,8 @@ void nrf_log_module_filter_set(uint32_t backend_id, uint32_t module_id, nrf_log_
 static nrf_log_severity_t nrf_log_module_init_filter_get(uint32_t module_id)
 {
     nrf_log_module_const_data_t * p_module_data =
-                                        NRF_LOG_CONST_SECTION_VARS_GET(module_id);
-    return NRF_LOG_FILTERS_ENABLED ? p_module_data->initial_lvl : p_module_data->compiled_lvl;
+                                        XINC_LOG_CONST_SECTION_VARS_GET(module_id);
+    return XINC_LOG_FILTERS_ENABLED ? p_module_data->initial_lvl : p_module_data->compiled_lvl;
 }
 
 nrf_log_severity_t nrf_log_module_filter_get(uint32_t backend_id,
@@ -269,23 +269,23 @@ nrf_log_severity_t nrf_log_module_filter_get(uint32_t backend_id,
                                              bool ordered_idx,
                                              bool dynamic)
 {
-    nrf_log_severity_t severity = NRF_LOG_SEVERITY_NONE;
-    if (NRF_LOG_FILTERS_ENABLED && dynamic)
+    nrf_log_severity_t severity = XINC_LOG_SEVERITY_NONE;
+    if (XINC_LOG_FILTERS_ENABLED && dynamic)
     {
-        if (module_idx_get(&module_id, ordered_idx) == NRF_SUCCESS)
+        if (module_idx_get(&module_id, ordered_idx) == XINC_SUCCESS)
         {
-            nrf_log_module_filter_data_t * p_filter = NRF_LOG_FILTER_SECTION_VARS_GET(module_id);
+            nrf_log_module_filter_data_t * p_filter = XINC_LOG_FILTER_SECTION_VARS_GET(module_id);
             severity = (nrf_log_severity_t)BF_GET(p_filter->filter_lvls,
-                                                  NRF_LOG_LEVEL_BITS,
-                                                  (backend_id*NRF_LOG_LEVEL_BITS));
+                                                  XINC_LOG_LEVEL_BITS,
+                                                  (backend_id*XINC_LOG_LEVEL_BITS));
         }
     }
     else if (!dynamic)
     {
-        if (module_idx_get(&module_id, ordered_idx) == NRF_SUCCESS)
+        if (module_idx_get(&module_id, ordered_idx) == XINC_SUCCESS)
         {
             nrf_log_module_const_data_t * p_module_data =
-                                                NRF_LOG_CONST_SECTION_VARS_GET(module_id);
+                                                XINC_LOG_CONST_SECTION_VARS_GET(module_id);
             severity = (nrf_log_severity_t)p_module_data->compiled_lvl;
         }
     }
@@ -413,18 +413,18 @@ static inline void std_header_set(uint32_t severity_mid,
 
 
     //Prepare header - in reverse order to ensure that packet type is validated (set to STD as last action)
-    uint32_t module_id = severity_mid >> NRF_LOG_MODULE_ID_POS;
+    uint32_t module_id = severity_mid >> XINC_LOG_MODULE_ID_POS;
     uint32_t dropped   = dropped_sat16_get();
     ASSERT(module_id < nrf_log_module_cnt_get());
     m_log_data.buffer[(wr_idx + 1) & mask] = module_id | (dropped << 16);
 
-    if (NRF_LOG_USES_TIMESTAMP)
+    if (XINC_LOG_USES_TIMESTAMP)
     {
         m_log_data.buffer[(wr_idx + 2) & mask] = m_log_data.timestamp_func();
     }
 
     nrf_log_header_t * p_header    = (nrf_log_header_t *)&m_log_data.buffer[wr_idx & mask];
-    p_header->base.std.severity    = severity_mid & NRF_LOG_LEVEL_MASK;
+    p_header->base.std.severity    = severity_mid & XINC_LOG_LEVEL_MASK;
     p_header->base.std.nargs       = nargs;
     p_header->base.std.addr        = ((uint32_t)(p_str) /*& STD_ADDR_MASK*/);
 	//	printf("p_str:%p\r\n",p_str);
@@ -432,7 +432,7 @@ static inline void std_header_set(uint32_t severity_mid,
     p_header->base.std.in_progress = 0;
 }
 
-#if NRF_LOG_DEFERRED
+#if XINC_LOG_DEFERRED
 /**
  * When using RTOS, application can overide this function so that it could unblock 
  * the task that is responsible for flushing the logs.
@@ -463,7 +463,7 @@ static inline bool buf_prealloc(uint32_t content_len, uint32_t * p_wr_idx, bool 
     while (req_len > available_words)
     {
         UNUSED_RETURN_VALUE(nrf_atomic_u32_add(&m_log_data.log_dropped_cnt, 1));
-        if (NRF_LOG_ALLOW_OVERFLOW)
+        if (XINC_LOG_ALLOW_OVERFLOW)
         {
             uint32_t dropped_in_skip = log_skip();
             UNUSED_RETURN_VALUE(nrf_atomic_u32_add(&m_log_data.log_dropped_cnt, dropped_in_skip));
@@ -519,7 +519,7 @@ char const * nrf_log_push(char * const p_str)
     // Once the string is copied into the buffer, the space is immediately freed. The string is kept in the buffer but can be overwritten.
     // It is done that way because there is no other place where space could be freed since string processing happens in
     // the logger backends, often by modules which are generic and not aware of internals of the logger.
-    if (nrf_ringbuf_alloc(&m_log_push_ringbuf, &p_dst, &ssize, true) == NRF_SUCCESS)
+    if (nrf_ringbuf_alloc(&m_log_push_ringbuf, &p_dst, &ssize, true) == XINC_SUCCESS)
     {
         ret_code_t err;
 
@@ -529,11 +529,11 @@ char const * nrf_log_push(char * const p_str)
         p_dst[ssize - 1] = '\0';
 
         err = nrf_ringbuf_put(&m_log_push_ringbuf, ssize);
-        ASSERT(err == NRF_SUCCESS);
+        ASSERT(err == XINC_SUCCESS);
 
         //Immediately free the space where string was put.
         err = nrf_ringbuf_free(&m_log_push_ringbuf, ssize);
-        ASSERT(err == NRF_SUCCESS);
+        ASSERT(err == XINC_SUCCESS);
 
         return (char const *)p_dst;
     }
@@ -566,18 +566,18 @@ static inline void std_n(uint32_t           severity_mid,
 
     if (m_log_data.autoflush)
     {
-#if NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#if XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
         CRITICAL_REGION_ENTER();
-#endif // NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#endif // XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
 
-        NRF_LOG_FLUSH();
+        XINC_LOG_FLUSH();
 
-#if NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#if XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
         CRITICAL_REGION_EXIT();
-#endif // NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#endif // XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
     }
 
-#if (NRF_LOG_DEFERRED == 1)
+#if (XINC_LOG_DEFERRED == 1)
     log_pending_hook();
 #endif
 
@@ -682,17 +682,17 @@ void nrf_log_frontend_hexdump(uint32_t           severity_mid,
         }
 
         //Prepare header - in reverse order to ensure that packet type is validated (set to HEXDUMP as last action)
-        if (NRF_LOG_USES_TIMESTAMP)
+        if (XINC_LOG_USES_TIMESTAMP)
         {
            m_log_data.buffer[(header_wr_idx + 2) & mask] = m_log_data.timestamp_func();
         }
 
-        uint32_t module_id = severity_mid >> NRF_LOG_MODULE_ID_POS;
+        uint32_t module_id = severity_mid >> XINC_LOG_MODULE_ID_POS;
         uint32_t dropped   = dropped_sat16_get();
         m_log_data.buffer[(header_wr_idx + 1) & mask] = module_id | (dropped << 16);
         //Header prepare
         nrf_log_header_t * p_header = (nrf_log_header_t *)&m_log_data.buffer[header_wr_idx & mask];
-        p_header->base.hexdump.severity    = severity_mid & NRF_LOG_LEVEL_MASK;
+        p_header->base.hexdump.severity    = severity_mid & XINC_LOG_LEVEL_MASK;
         p_header->base.hexdump.offset      = 0;
         p_header->base.hexdump.len         = length;
         p_header->base.hexdump.type        = HEADER_TYPE_HEXDUMP;
@@ -701,18 +701,18 @@ void nrf_log_frontend_hexdump(uint32_t           severity_mid,
 
     if (m_log_data.autoflush)
     {
-#if NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#if XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
         CRITICAL_REGION_ENTER();
-#endif // NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#endif // XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
 
-        NRF_LOG_FLUSH();
+        XINC_LOG_FLUSH();
 
-#if NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#if XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
         CRITICAL_REGION_EXIT();
-#endif // NRF_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
+#endif // XINC_LOG_NON_DEFFERED_CRITICAL_REGION_ENABLED
     }
 
-#if (NRF_LOG_DEFERRED == 1)
+#if (XINC_LOG_DEFERRED == 1)
     log_pending_hook();
 #endif
 }
@@ -769,7 +769,7 @@ bool nrf_log_frontend_dequeue(void)
     if (header.base.generic.type == HEADER_TYPE_HEXDUMP)
     {
         uint32_t orig_data_len  = header.base.hexdump.len;
-        uint32_t data_len       = MIN(header.base.hexdump.len, NRF_LOG_MAX_HEXDUMP); //limit the data
+        uint32_t data_len       = MIN(header.base.hexdump.len, XINC_LOG_MAX_HEXDUMP); //limit the data
         header.base.hexdump.len = data_len;
         uint32_t msg_buf_size8  = sizeof(uint32_t)*HEADER_SIZE + data_len;
         severity = header.base.hexdump.severity;
@@ -809,7 +809,7 @@ bool nrf_log_frontend_dequeue(void)
     }
     else if (header.base.generic.type == HEADER_TYPE_STD) // standard entry
     {
-        header.base.std.nargs = MIN(header.base.std.nargs, NRF_LOG_MAX_NUM_OF_ARGS);
+        header.base.std.nargs = MIN(header.base.std.nargs, XINC_LOG_MAX_NUM_OF_ARGS);
         uint32_t msg_buf_size32 = HEADER_SIZE + header.base.std.nargs;
         severity = header.base.std.severity;
 
@@ -836,7 +836,7 @@ bool nrf_log_frontend_dequeue(void)
     if (p_msg_buf)
     {
         nrf_log_backend_t const * p_backend = m_log_data.p_backend_head;
-        if (NRF_LOG_ALLOW_OVERFLOW && m_log_data.log_skipped)
+        if (XINC_LOG_ALLOW_OVERFLOW && m_log_data.log_skipped)
         {
             // Check if any log was skipped during log processing. Do not forward log if skipping 
             // occured because data may be invalid.
@@ -850,18 +850,18 @@ bool nrf_log_frontend_dequeue(void)
                 bool entry_accepted = false;
                 if (nrf_log_backend_is_enabled(p_backend) == true)
                 {
-                    if (NRF_LOG_FILTERS_ENABLED)
+                    if (XINC_LOG_FILTERS_ENABLED)
                     {
                         uint8_t backend_id = nrf_log_backend_id_get(p_backend);
                         nrf_log_module_filter_data_t * p_module_filter =
-                                                 NRF_LOG_FILTER_SECTION_VARS_GET(header.module_id);
+                                                 XINC_LOG_FILTER_SECTION_VARS_GET(header.module_id);
                         uint32_t backend_lvl = BF_GET(p_module_filter->filter_lvls,
-                                                      NRF_LOG_LEVEL_BITS,
-                                                      (backend_id*NRF_LOG_LEVEL_BITS));
+                                                      XINC_LOG_LEVEL_BITS,
+                                                      (backend_id*XINC_LOG_LEVEL_BITS));
 
                         //Degrade INFO_RAW level to INFO.
-                        severity = (severity == NRF_LOG_SEVERITY_INFO_RAW) ?
-                                                                 NRF_LOG_SEVERITY_INFO : severity;
+                        severity = (severity == XINC_LOG_SEVERITY_INFO_RAW) ?
+                                                                 XINC_LOG_SEVERITY_INFO : severity;
                         if (backend_lvl >= severity)
                         {
                             entry_accepted = true;
@@ -882,10 +882,10 @@ bool nrf_log_frontend_dequeue(void)
 
             nrf_memobj_put(p_msg_buf);
 
-            if (NRF_LOG_ALLOW_OVERFLOW)
+            if (XINC_LOG_ALLOW_OVERFLOW)
             {
                 // Read index can be moved forward only if dequeueing process was not interrupt by
-                // skipping procedure. If NRF_LOG_ALLOW_OVERFLOW is set then in case of buffer gets full
+                // skipping procedure. If XINC_LOG_ALLOW_OVERFLOW is set then in case of buffer gets full
                 // and new logger entry occurs, oldest entry is removed. In that case read index is
                 // changed and updating it here would corrupt the internal circular buffer.
                 CRITICAL_REGION_ENTER();
@@ -911,7 +911,7 @@ bool nrf_log_frontend_dequeue(void)
             nrf_log_backend_flush(p_backend);
             p_backend = p_backend->p_cb->p_next;
         }
-        NRF_LOG_WARNING("Backends flushed");
+        XINC_LOG_WARNING("Backends flushed");
     }
 
     return buffer_is_empty() ? false : true;
@@ -922,7 +922,7 @@ static int32_t backend_id_assign(void)
     int32_t candidate_id;
     nrf_log_backend_t const * p_backend;
     bool id_available;
-    for (candidate_id = 0; candidate_id < NRF_LOG_MAX_BACKENDS; candidate_id++)
+    for (candidate_id = 0; candidate_id < XINC_LOG_MAX_BACKENDS; candidate_id++)
     {
         p_backend = m_log_data.p_backend_head;
         id_available = true;
@@ -964,7 +964,7 @@ int32_t nrf_log_backend_add(nrf_log_backend_t const * p_backend, nrf_log_severit
         m_log_data.p_backend_head->p_cb->p_next = p_backend;
     }
 
-    if (NRF_LOG_FILTERS_ENABLED)
+    if (XINC_LOG_FILTERS_ENABLED)
     {
         uint32_t i;
         for (i = 0; i < nrf_log_module_cnt_get(); i++)
@@ -997,7 +997,7 @@ void nrf_log_backend_remove(nrf_log_backend_t const * p_backend)
         m_log_data.p_backend_head = NULL;
     }
 
-    p_backend->p_cb->id = NRF_LOG_BACKEND_INVALID_ID;
+    p_backend->p_cb->id = XINC_LOG_BACKEND_INVALID_ID;
 }
 
 void nrf_log_panic(void)
@@ -1012,7 +1012,7 @@ void nrf_log_panic(void)
     }
 }
 
-#if NRF_MODULE_ENABLED(LOG_CONFIG_LOAD_STORE)
+#if XINC_MODULE_ENABLED(LOG_CONFIG_LOAD_STORE)
 #include "fds.h"
 #define LOG_CONFIG_FILE_ID   0x106E
 #define LOG_CONFIG_RECORD_ID 0x3427
@@ -1025,24 +1025,24 @@ ret_code_t nrf_log_config_store(void)
             .file_id = LOG_CONFIG_FILE_ID,
             .key     = LOG_CONFIG_RECORD_ID,
             .data = {
-                    .p_data       = NRF_LOG_FILTER_SECTION_VARS_GET(0),
-                    .length_words = NRF_SECTION_LENGTH(log_filter_data)/sizeof(uint32_t)
+                    .p_data       = XINC_LOG_FILTER_SECTION_VARS_GET(0),
+                    .length_words = XINC_SECTION_LENGTH(log_filter_data)/sizeof(uint32_t)
             }
     };
     ret_code_t ret = fds_record_find(LOG_CONFIG_FILE_ID, LOG_CONFIG_RECORD_ID, &desc, &token);
-    if (ret == NRF_SUCCESS)
+    if (ret == XINC_SUCCESS)
     {
         ret = fds_record_update(&desc, &record);
-        NRF_LOG_INFO("Logger configuration file updated with result:%d", ret);
+        XINC_LOG_INFO("Logger configuration file updated with result:%d", ret);
     }
     else if (ret == FDS_ERR_NOT_FOUND)
     {
         ret = fds_record_write(&desc, &record);
-        NRF_LOG_INFO("Logger configuration file written with result:%d", ret);
+        XINC_LOG_INFO("Logger configuration file written with result:%d", ret);
     }
     else
     {
-        ret = NRF_ERROR_INTERNAL;
+        ret = XINC_ERROR_INTERNAL;
     }
     return ret;
 }
@@ -1053,33 +1053,33 @@ ret_code_t nrf_log_config_load(void)
     fds_find_token_t  token = {0};
 
     ret_code_t ret = fds_record_find(LOG_CONFIG_FILE_ID, LOG_CONFIG_RECORD_ID, &desc, &token);
-    if (ret == NRF_SUCCESS)
+    if (ret == XINC_SUCCESS)
     {
         fds_flash_record_t record = {0};
         ret = fds_record_open(&desc, &record);
-        if (ret == NRF_SUCCESS)
+        if (ret == XINC_SUCCESS)
         {
-            void * p_dest = (void *)NRF_LOG_FILTER_SECTION_VARS_GET(0);
-            uint32_t length   = NRF_SECTION_LENGTH(log_filter_data);
+            void * p_dest = (void *)XINC_LOG_FILTER_SECTION_VARS_GET(0);
+            uint32_t length   = XINC_SECTION_LENGTH(log_filter_data);
             memcpy(p_dest, record.p_data, length);
             ret = fds_record_close(&desc);
         }
     }
     else if (ret == FDS_ERR_NOT_FOUND)
     {
-        NRF_LOG_WARNING("Logger configuration file not found.");
-        ret = NRF_ERROR_NOT_FOUND;
+        XINC_LOG_WARNING("Logger configuration file not found.");
+        ret = XINC_ERROR_NOT_FOUND;
     }
     else
     {
-        ret = NRF_ERROR_INTERNAL;
+        ret = XINC_ERROR_INTERNAL;
     }
 
     return ret;
 }
 #endif //LOG_CONFIG_LOAD_STORE_ENABLED
 
-#if NRF_LOG_CLI_CMDS && NRF_CLI_ENABLED
+#if XINC_LOG_CLI_CMDS && XINC_CLI_ENABLED
 #include "nrf_cli.h"
 
 typedef void (*nrf_log_cli_backend_cmd_t)(nrf_cli_t const *         p_cli,
@@ -1116,10 +1116,10 @@ static nrf_log_backend_t const * backend_find(char const * p_name)
     size_t num_of_backends;
     nrf_log_backend_t const * p_backend;
 
-    num_of_backends = NRF_SECTION_ITEM_COUNT(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
+    num_of_backends = XINC_SECTION_ITEM_COUNT(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
     for (size_t i = 0; i < num_of_backends; i++)
     {
-        p_backend = NRF_SECTION_ITEM_GET(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
+        p_backend = XINC_SECTION_ITEM_GET(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
         if (strcmp(p_name, p_backend->p_name) == 0)
         {
             return p_backend;
@@ -1147,7 +1147,7 @@ static void nrf_cli_backend_cmd_execute(nrf_cli_t const *         p_cli,
     }
     else
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Invalid backend: %s\r\n", p_backend_name);
+        nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Invalid backend: %s\r\n", p_backend_name);
     }
 }
 
@@ -1166,10 +1166,10 @@ static void log_status(nrf_cli_t const *         p_cli,
 
     if (!nrf_log_backend_is_enabled(p_backend))
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Logs are halted!\r\n");
+        nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Logs are halted!\r\n");
     }
-    nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%-40s | current | built-in \r\n", "module_name");
-    nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "----------------------------------------------------------\r\n");
+    nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%-40s | current | built-in \r\n", "module_name");
+    nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "----------------------------------------------------------\r\n");
     for (i = 0; i < modules_cnt; i++)
     {
         uint32_t backend_id = p_backend->p_cb->id;
@@ -1178,9 +1178,9 @@ static void log_status(nrf_cli_t const *         p_cli,
         nrf_log_severity_t module_compiled_lvl =
                               nrf_log_module_filter_get(backend_id, i, true, false);
         nrf_log_severity_t actual_compiled_lvl =
-                              MIN(module_compiled_lvl, (nrf_log_severity_t)NRF_LOG_DEFAULT_LEVEL);
+                              MIN(module_compiled_lvl, (nrf_log_severity_t)XINC_LOG_DEFAULT_LEVEL);
 
-        nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "%-40s | %-7s | %s%s\r\n",
+        nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "%-40s | %-7s | %s%s\r\n",
                                   nrf_log_module_name_get(i, true),
                                   m_severity_lvls[module_dynamic_lvl],
                                   m_severity_lvls[actual_compiled_lvl],
@@ -1253,7 +1253,7 @@ static void log_ctrl(nrf_cli_t const *         p_cli,
         {
             if (argc == 1)
             {
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Bad parameter count.\r\n");
+                nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Bad parameter count.\r\n");
                 return;
             }
 
@@ -1272,7 +1272,7 @@ static void log_ctrl(nrf_cli_t const *         p_cli,
 
             if (i == ARRAY_SIZE(m_severity_lvls))
             {
-                nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Unknown severity level: %s\r\n", argv[1]);
+                nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Unknown severity level: %s\r\n", argv[1]);
                 return;
             }
 
@@ -1286,12 +1286,12 @@ static void log_ctrl(nrf_cli_t const *         p_cli,
             {
                 all_modules = true;
             }
-            lvl = NRF_LOG_SEVERITY_NONE;
+            lvl = XINC_LOG_SEVERITY_NONE;
             first_m_name_idx = 1;
         }
         else
         {
-            nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Unknown option: %s\r\n", argv[0]);
+            nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Unknown option: %s\r\n", argv[0]);
             return;
         }
 
@@ -1301,7 +1301,7 @@ static void log_ctrl(nrf_cli_t const *         p_cli,
             {
                 if (module_id_filter_set(backend_id, i, lvl) == false)
                 {
-                    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR,
                                     "Level unavailable for module: %s\r\n",
                                     nrf_log_module_name_get(i, false));
                 }
@@ -1314,11 +1314,11 @@ static void log_ctrl(nrf_cli_t const *         p_cli,
                 uint32_t module_id = 0;
                 if (module_id_get(argv[i], &module_id) == false)
                 {
-                    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Unknown module:%s\r\n", argv[i]);
+                    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Unknown module:%s\r\n", argv[i]);
                 }
                 else if (module_id_filter_set(backend_id, module_id, lvl) == false)
                 {
-                    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR,
+                    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR,
                                     "Level unavailable for module: %s\r\n",
                                     nrf_log_module_name_get(module_id, false));
                 }
@@ -1345,7 +1345,7 @@ static void log_backend_ctrl(nrf_cli_t const * p_cli, size_t argc, char **argv)
 
 static void module_name_get(size_t idx, nrf_cli_static_entry_t * p_static);
 
-NRF_CLI_CREATE_DYNAMIC_CMD(m_module_name, module_name_get);
+XINC_CLI_CREATE_DYNAMIC_CMD(m_module_name, module_name_get);
 
 static void module_name_get(size_t idx, nrf_cli_static_entry_t * p_static)
 {
@@ -1365,7 +1365,7 @@ static void severity_lvl_get(size_t idx, nrf_cli_static_entry_t * p_static)
                                                     m_severity_lvls_sorted[idx] : NULL;
 }
 
-NRF_CLI_CREATE_DYNAMIC_CMD(m_severity_lvl, severity_lvl_get);
+XINC_CLI_CREATE_DYNAMIC_CMD(m_severity_lvl, severity_lvl_get);
 
 
 static void log_halt(nrf_cli_t const *         p_cli,
@@ -1425,22 +1425,22 @@ static void log_cmd_backends_list(nrf_cli_t const * p_cli, size_t argc, char **a
     }
     size_t num_of_backends;
 
-    num_of_backends = NRF_SECTION_ITEM_COUNT(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
+    num_of_backends = XINC_SECTION_ITEM_COUNT(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t);
     for (size_t i = 0; i < num_of_backends; i++)
     {
         nrf_log_backend_t const * p_backend =
-                           NRF_SECTION_ITEM_GET(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
+                           XINC_SECTION_ITEM_GET(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
 
-        if (p_backend->p_cb->id == NRF_LOG_BACKEND_INVALID_ID)
+        if (p_backend->p_cb->id == XINC_LOG_BACKEND_INVALID_ID)
         {
-            nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL,
+            nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL,
                             "%s\r\n"
                             "\t- Status: deactivated\r\n\r\n",
                             p_backend->p_name);
         }
         else
         {
-            nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL,
+            nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL,
                             "%s\r\n"
                             "\t- Status: %s\r\n"
                             "\t- ID: %d\r\n\r\n",
@@ -1452,20 +1452,20 @@ static void log_cmd_backends_list(nrf_cli_t const * p_cli, size_t argc, char **a
 }
 
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_backend)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_backend)
 {
-    NRF_CLI_CMD(disable, &m_module_name,
+    XINC_CLI_CMD(disable, &m_module_name,
         "'log disable <module_0> .. <module_n>' disables logs in specified "
         "modules (all if no modules specified).",
         log_backend_ctrl),
-    NRF_CLI_CMD(enable, &m_severity_lvl,
+    XINC_CLI_CMD(enable, &m_severity_lvl,
         "'log enable <level> <module_0> ...  <module_n>' enables logs up to given level in "
         "specified modules (all if no modules specified).",
         log_backend_ctrl),
-    NRF_CLI_CMD(go, NULL, "Resume logging", log_backend_go),
-    NRF_CLI_CMD(halt, NULL, "Halt logging", log_backend_halt),
-    NRF_CLI_CMD(status, NULL, "Logger status", log_backend_status),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(go, NULL, "Resume logging", log_backend_go),
+    XINC_CLI_CMD(halt, NULL, "Halt logging", log_backend_halt),
+    XINC_CLI_CMD(status, NULL, "Logger status", log_backend_status),
+    XINC_CLI_SUBCMD_SET_END
 };
 
 static void backend_name_get(size_t idx, nrf_cli_static_entry_t * p_static)
@@ -1479,10 +1479,10 @@ static void backend_name_get(size_t idx, nrf_cli_static_entry_t * p_static)
     size_t                    active_idx = 0;
     uint32_t                  i;
 
-    for (i = 0; i < NRF_SECTION_ITEM_COUNT(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t); i++)
+    for (i = 0; i < XINC_SECTION_ITEM_COUNT(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t); i++)
     {
-        p_backend = NRF_SECTION_ITEM_GET(NRF_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
-        if (p_backend->p_cb->id != NRF_LOG_BACKEND_INVALID_ID)
+        p_backend = XINC_SECTION_ITEM_GET(XINC_LOG_BACKEND_SECTION_NAME, nrf_log_backend_t, i);
+        if (p_backend->p_cb->id != XINC_LOG_BACKEND_INVALID_ID)
         {
             if (idx == active_idx)
             {
@@ -1497,7 +1497,7 @@ static void backend_name_get(size_t idx, nrf_cli_static_entry_t * p_static)
     }
 }
 
-NRF_CLI_CREATE_DYNAMIC_CMD(m_backend_name_dynamic, backend_name_get);
+XINC_CLI_CREATE_DYNAMIC_CMD(m_backend_name_dynamic, backend_name_get);
 
 static void log_config_load_cmd(nrf_cli_t const * p_cli, size_t argc, char **argv)
 {
@@ -1511,16 +1511,16 @@ static void log_config_load_cmd(nrf_cli_t const * p_cli, size_t argc, char **arg
     }
 
 #if LOG_CONFIG_LOAD_STORE_ENABLED
-    if (nrf_log_config_load() == NRF_SUCCESS)
+    if (nrf_log_config_load() == XINC_SUCCESS)
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "Configuration loaded.\r\n");
+        nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "Configuration loaded.\r\n");
     }
     else
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Failed to load the configuration.\r\n");
+        nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Failed to load the configuration.\r\n");
     }
 #else
-    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Not supported.\r\n");
+    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Not supported.\r\n");
 #endif
 }
 
@@ -1536,43 +1536,43 @@ static void log_config_store_cmd(nrf_cli_t const * p_cli, size_t argc, char **ar
     }
 
 #if LOG_CONFIG_LOAD_STORE_ENABLED
-    if (nrf_log_config_store() == NRF_SUCCESS)
+    if (nrf_log_config_store() == XINC_SUCCESS)
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_NORMAL, "Configuration stored.\r\n");
+        nrf_cli_fprintf(p_cli, XINC_CLI_NORMAL, "Configuration stored.\r\n");
     }
     else
     {
-        nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Failed to store the configuration.\r\n");
+        nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Failed to store the configuration.\r\n");
     }
 #else
-    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "Not supported.\r\n");
+    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "Not supported.\r\n");
 #endif
 }
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_config)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_config)
 {
-    NRF_CLI_CMD(load, NULL, "Load configuration stored in non-volatile memory.", log_config_load_cmd),
-    NRF_CLI_CMD(store, NULL, "Store current configuration in non-volatile memory.", log_config_store_cmd),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(load, NULL, "Load configuration stored in non-volatile memory.", log_config_load_cmd),
+    XINC_CLI_CMD(store, NULL, "Store current configuration in non-volatile memory.", log_config_store_cmd),
+    XINC_CLI_SUBCMD_SET_END
 };
 
-NRF_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_stat)
+XINC_CLI_CREATE_STATIC_SUBCMD_SET(m_sub_log_stat)
 {
-    NRF_CLI_CMD(backend, &m_backend_name_dynamic, "Logger backends commands.", NULL),
-    NRF_CLI_CMD(config, &m_sub_log_config, "Manage logger configuration", NULL),
-    NRF_CLI_CMD(disable, &m_module_name,
+    XINC_CLI_CMD(backend, &m_backend_name_dynamic, "Logger backends commands.", NULL),
+    XINC_CLI_CMD(config, &m_sub_log_config, "Manage logger configuration", NULL),
+    XINC_CLI_CMD(disable, &m_module_name,
         "'log disable <module_0> .. <module_n>' disables logs in specified "
         "modules (all if no modules specified).",
         log_self_ctrl),
-    NRF_CLI_CMD(enable, &m_severity_lvl,
+    XINC_CLI_CMD(enable, &m_severity_lvl,
         "'log enable <level> <module_0> ...  <module_n>' enables logs up to given level in "
         "specified modules (all if no modules specified).",
         log_self_ctrl),
-    NRF_CLI_CMD(go, NULL, "Resume logging", log_self_go),
-    NRF_CLI_CMD(halt, NULL, "Halt logging", log_self_halt),
-    NRF_CLI_CMD(list_backends, NULL, "Lists logger backends.", log_cmd_backends_list),
-    NRF_CLI_CMD(status, NULL, "Logger status", log_self_status),
-    NRF_CLI_SUBCMD_SET_END
+    XINC_CLI_CMD(go, NULL, "Resume logging", log_self_go),
+    XINC_CLI_CMD(halt, NULL, "Halt logging", log_self_halt),
+    XINC_CLI_CMD(list_backends, NULL, "Lists logger backends.", log_cmd_backends_list),
+    XINC_CLI_CMD(status, NULL, "Logger status", log_self_status),
+    XINC_CLI_SUBCMD_SET_END
 };
 
 static void log_cmd(nrf_cli_t const * p_cli, size_t argc, char **argv)
@@ -1583,11 +1583,11 @@ static void log_cmd(nrf_cli_t const * p_cli, size_t argc, char **argv)
         return;
     }
 
-    nrf_cli_fprintf(p_cli, NRF_CLI_ERROR, "%s:%s%s\r\n", argv[0], " unknown parameter: ", argv[1]);
+    nrf_cli_fprintf(p_cli, XINC_CLI_ERROR, "%s:%s%s\r\n", argv[0], " unknown parameter: ", argv[1]);
 }
 
-NRF_CLI_CMD_REGISTER(log, &m_sub_log_stat, "Commands for controlling logger", log_cmd);
+XINC_CLI_CMD_REGISTER(log, &m_sub_log_stat, "Commands for controlling logger", log_cmd);
 
-#endif //NRF_LOG_CLI_CMDS
+#endif //XINC_LOG_CLI_CMDS
 
-#endif // NRF_MODULE_ENABLED(NRF_LOG)
+#endif // XINC_MODULE_ENABLED(XINC_LOG)

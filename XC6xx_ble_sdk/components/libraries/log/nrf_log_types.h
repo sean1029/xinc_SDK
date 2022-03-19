@@ -6,8 +6,8 @@
  * Author :sean cheng
  *
  */
-#ifndef NRF_LOG_TYPES_H
-#define NRF_LOG_TYPES_H
+#ifndef XINC_LOG_TYPES_H
+#define XINC_LOG_TYPES_H
 
 #include <stdint.h>
 
@@ -16,18 +16,18 @@
  */
 typedef enum
 {
-    NRF_LOG_SEVERITY_NONE,
-    NRF_LOG_SEVERITY_ERROR,
-    NRF_LOG_SEVERITY_WARNING,
-    NRF_LOG_SEVERITY_INFO,
-    NRF_LOG_SEVERITY_DEBUG,
-    NRF_LOG_SEVERITY_INFO_RAW, /* Artificial level to pass information about skipping string postprocessing.*/
+    XINC_LOG_SEVERITY_NONE,
+    XINC_LOG_SEVERITY_ERROR,
+    XINC_LOG_SEVERITY_WARNING,
+    XINC_LOG_SEVERITY_INFO,
+    XINC_LOG_SEVERITY_DEBUG,
+    XINC_LOG_SEVERITY_INFO_RAW, /* Artificial level to pass information about skipping string postprocessing.*/
 } nrf_log_severity_t;
 
 /**
  * @brief Structure holding dynamic data associated with a module.
  *
- * See @ref NRF_LOG_MODULE_REGISTER and @ref NRF_LOG_INSTANCE_REGISTER.
+ * See @ref XINC_LOG_MODULE_REGISTER and @ref XINC_LOG_INSTANCE_REGISTER.
  */
 typedef struct
 {
@@ -36,7 +36,7 @@ typedef struct
 } nrf_log_module_dynamic_data_t;
 
 /**
- * @brief Structure holding dynamic filters associated with a module or instance if filtering is enabled (@ref NRF_LOG_FILTERS_ENABLED).
+ * @brief Structure holding dynamic filters associated with a module or instance if filtering is enabled (@ref XINC_LOG_FILTERS_ENABLED).
  *
  * @note Backend filters logically are part of @ref nrf_log_module_dynamic_data_t but they are kept separated to enable storing them in non-volatile memory.
  */
@@ -48,7 +48,7 @@ typedef struct
 /**
  * @brief Structure holding constant data associated with a module or instance.
  *
- * See @ref NRF_LOG_MODULE_REGISTER and @ref NRF_LOG_INSTANCE_REGISTER.
+ * See @ref XINC_LOG_MODULE_REGISTER and @ref XINC_LOG_INSTANCE_REGISTER.
  */
 typedef struct
 {
@@ -59,4 +59,4 @@ typedef struct
     nrf_log_severity_t initial_lvl;      ///< Severity level for given module or instance set on backend initialization.
 } nrf_log_module_const_data_t;
 
-#endif //NRF_LOG_TYPES_H
+#endif //XINC_LOG_TYPES_H

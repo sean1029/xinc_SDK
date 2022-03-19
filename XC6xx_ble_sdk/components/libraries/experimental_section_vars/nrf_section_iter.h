@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRF_SECTION_ITER_H__
-#define NRF_SECTION_ITER_H__
+#ifndef XINC_SECTION_ITER_H__
+#define XINC_SECTION_ITER_H__
 
 #include <stddef.h>
 #include "nrf_section.h"
@@ -81,27 +81,27 @@ typedef struct
  */
 #if defined(__GNUC__)
 
-#define NRF_SECTION_SET_DEF(_name, _type, _count)                                                   \
+#define XINC_SECTION_SET_DEF(_name, _type, _count)                                                   \
                                                                                                     \
-    NRF_SECTION_DEF(_name, _type);                                                                  \
+    XINC_SECTION_DEF(_name, _type);                                                                  \
     static nrf_section_set_t const _name =                                                          \
     {                                                                                               \
         .section =                                                                                  \
         {                                                                                           \
-            .p_start = NRF_SECTION_START_ADDR(_name),                                               \
-            .p_end   = NRF_SECTION_END_ADDR(_name),                                                 \
+            .p_start = XINC_SECTION_START_ADDR(_name),                                               \
+            .p_end   = XINC_SECTION_END_ADDR(_name),                                                 \
         },                                                                                          \
         .item_size  = sizeof(_type),                                                                \
     }
 
 #else
 
-#define NRF_SECTION_SET_DEF(_name, _type, _count)                                                   \
+#define XINC_SECTION_SET_DEF(_name, _type, _count)                                                   \
 /*lint -save -emacro(14, MACRO_REPEAT_FOR*)  */                                                     \
-MACRO_REPEAT_FOR(_count, NRF_SECTION_DEF_, _name, _type)                                            \
+MACRO_REPEAT_FOR(_count, XINC_SECTION_DEF_, _name, _type)                                            \
 static nrf_section_t const CONCAT_2(_name, _array)[] =                                              \
 {                                                                                                   \
-    MACRO_REPEAT_FOR(_count, NRF_SECTION_SET_DEF_, _name)                                           \
+    MACRO_REPEAT_FOR(_count, XINC_SECTION_SET_DEF_, _name)                                           \
 };                                                                                                  \
 /*lint -restore */                                                                                  \
 static nrf_section_set_t const _name =                                                              \
@@ -112,13 +112,13 @@ static nrf_section_set_t const _name =                                          
 }
 
 #ifndef DOXYGEN
-#define NRF_SECTION_DEF_(_priority, _name, _type)                                                   \
-NRF_SECTION_DEF(CONCAT_2(_name, _priority), _type);
+#define XINC_SECTION_DEF_(_priority, _name, _type)                                                   \
+XINC_SECTION_DEF(CONCAT_2(_name, _priority), _type);
 
-#define NRF_SECTION_SET_DEF_(_priority, _name)                                                      \
+#define XINC_SECTION_SET_DEF_(_priority, _name)                                                      \
 {                                                                                                   \
-    .p_start = NRF_SECTION_START_ADDR(CONCAT_2(_name, _priority)),                                  \
-    .p_end   = NRF_SECTION_END_ADDR(CONCAT_2(_name, _priority)),                                    \
+    .p_start = XINC_SECTION_START_ADDR(CONCAT_2(_name, _priority)),                                  \
+    .p_end   = XINC_SECTION_END_ADDR(CONCAT_2(_name, _priority)),                                    \
 },
 #endif // DOXYGEN
 #endif // __GNUC__
@@ -135,8 +135,8 @@ NRF_SECTION_DEF(CONCAT_2(_name, _priority), _type);
  * @param[in]   _var        The variable to register in the given section.
  * @hideinitializer
  */
-#define NRF_SECTION_SET_ITEM_REGISTER(_name, _priority, _var)                                       \
-    NRF_SECTION_ITEM_REGISTER(CONCAT_2(_name, _priority), _var)
+#define XINC_SECTION_SET_ITEM_REGISTER(_name, _priority, _var)                                       \
+    XINC_SECTION_ITEM_REGISTER(CONCAT_2(_name, _priority), _var)
 
 
 /**@brief Function for initializing the section set iterator.
@@ -172,4 +172,4 @@ static inline void * nrf_section_iter_get(nrf_section_iter_t const * p_iter)
 }
 #endif
 
-#endif // NRF_SECTION_ITER_H__
+#endif // XINC_SECTION_ITER_H__

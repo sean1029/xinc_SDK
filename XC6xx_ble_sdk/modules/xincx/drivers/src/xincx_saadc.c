@@ -18,20 +18,20 @@
 #if !defined(XINCX_SAADC_API_V2)
 
 #define EVT_TO_STR(event)                                                       \
-    (event == NRF_SAADC_EVENT_STARTED       ? "NRF_SAADC_EVENT_STARTED"       : \
-    (event == NRF_SAADC_EVENT_END           ? "NRF_SAADC_EVENT_END"           : \
-    (event == NRF_SAADC_EVENT_DONE          ? "NRF_SAADC_EVENT_DONE"          : \
-    (event == NRF_SAADC_EVENT_RESULTDONE    ? "NRF_SAADC_EVENT_RESULTDONE"    : \
-    (event == NRF_SAADC_EVENT_CALIBRATEDONE ? "NRF_SAADC_EVENT_CALIBRATEDONE" : \
-    (event == NRF_SAADC_EVENT_STOPPED       ? "NRF_SAADC_EVENT_STOPPED"       : \
+    (event == XINC_SAADC_EVENT_STARTED       ? "XINC_SAADC_EVENT_STARTED"       : \
+    (event == XINC_SAADC_EVENT_END           ? "XINC_SAADC_EVENT_END"           : \
+    (event == XINC_SAADC_EVENT_DONE          ? "XINC_SAADC_EVENT_DONE"          : \
+    (event == XINC_SAADC_EVENT_RESULTDONE    ? "XINC_SAADC_EVENT_RESULTDONE"    : \
+    (event == XINC_SAADC_EVENT_CALIBRATEDONE ? "XINC_SAADC_EVENT_CALIBRATEDONE" : \
+    (event == XINC_SAADC_EVENT_STOPPED       ? "XINC_SAADC_EVENT_STOPPED"       : \
                                               "UNKNOWN EVENT"))))))
 
 
 typedef enum
 {
-    NRF_SAADC_STATE_IDLE        = 0,
-    NRF_SAADC_STATE_BUSY        = 1,
-    NRF_SAADC_STATE_CALIBRATION = 2
+    XINC_SAADC_STATE_IDLE        = 0,
+    XINC_SAADC_STATE_BUSY        = 1,
+    XINC_SAADC_STATE_CALIBRATION = 2
 } xinc_saadc_state_t;
 
 
@@ -57,9 +57,9 @@ typedef struct
     uint16_t                      buffer_size_left;              ///< When low power mode is active indicates how many samples left to convert on current buffer.
     xincx_drv_state_t              state;                         ///< Driver initialization state.
     uint8_t                       active_channels;               ///< Number of enabled SAADC channels.
-    uint8_t                       channel_state[NRF_SAADC_CHANNEL_COUNT];                  ///< Indicates if channel is active.
+    uint8_t                       channel_state[XINC_SAADC_CHANNEL_COUNT];                  ///< Indicates if channel is active.
     bool                          conversions_end;               ///
-    xinc_saadc_channel_config_t   channel_config[NRF_SAADC_CHANNEL_COUNT];
+    xinc_saadc_channel_config_t   channel_config[XINC_SAADC_CHANNEL_COUNT];
 } xincx_saadc_cb_t;
 
 
@@ -113,7 +113,7 @@ static void xincx_saadc_irq_handler(XINC_SAADC_Type * p_reg,xincx_saadc_cb_t * p
     {
         return;
     }
-    p_cb->adc_state            = NRF_SAADC_STATE_IDLE;
+    p_cb->adc_state            = XINC_SAADC_STATE_IDLE;
 
     p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
 
@@ -193,7 +193,7 @@ xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
     p_cb->event_handler = event_handler;
 
     p_cb->state                = XINCX_DRV_STATE_INITIALIZED;
-    p_cb->adc_state            = NRF_SAADC_STATE_IDLE;
+    p_cb->adc_state            = XINC_SAADC_STATE_IDLE;
 
     p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
 
@@ -215,7 +215,7 @@ xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
 void xincx_saadc_uninit(xincx_saadc_t const * const p_instance)
 {
     m_cb[p_instance->drv_inst_idx].state = XINCX_DRV_STATE_UNINITIALIZED;
-    for(uint8_t i = 0; i < NRF_SAADC_CHANNEL_COUNT;i ++)
+    for(uint8_t i = 0; i < XINC_SAADC_CHANNEL_COUNT;i ++)
     {
         m_cb[p_instance->drv_inst_idx].channel_state[i] = XINCX_DRV_STATE_UNINITIALIZED;
     }   
@@ -230,7 +230,7 @@ void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,
 
     reg_val = p_reg->RF_CTL;
 
-    if(p_config->refvol ==  NRF_SAADC_CHANNEL_REFVOL_2_47)
+    if(p_config->refvol ==  XINC_SAADC_CHANNEL_REFVOL_2_47)
     {
         reg_val = (p_config->freq << 8) | 0x10;
     }
@@ -262,7 +262,7 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
                                             XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-    if (channel >  NRF_SAADC_CHANNEL_COUNT)
+    if (channel >  XINC_SAADC_CHANNEL_COUNT)
     {     
         err_code = XINCX_ERROR_INVALID_PARAM;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -321,7 +321,7 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
     
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
      
-    if(channel > NRF_SAADC_CHANNEL_COUNT)
+    if(channel > XINC_SAADC_CHANNEL_COUNT)
     {
          err_code = XINCX_ERROR_INVALID_PARAM;
         
@@ -335,12 +335,12 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
          return err_code;
     }
     
-    if (p_cb->adc_state != NRF_SAADC_STATE_IDLE)
+    if (p_cb->adc_state != XINC_SAADC_STATE_IDLE)
 	{
 		err_code = XINCX_ERROR_INVALID_STATE;
         return err_code;
 	}
-    p_cb->adc_state = NRF_SAADC_STATE_BUSY;
+    p_cb->adc_state = XINC_SAADC_STATE_BUSY;
     tmp = (xinc_saadc_fifo_t*)&val;
 
     p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
@@ -369,7 +369,7 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
         time_out--;
     }
 
-    p_cb->adc_state            = NRF_SAADC_STATE_IDLE;
+    p_cb->adc_state            = XINC_SAADC_STATE_IDLE;
 
     if(time_out == 0)
     {
@@ -432,7 +432,7 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
 {
 	xincx_err_t err_code;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-	if (p_cb->adc_state == NRF_SAADC_STATE_BUSY)
+	if (p_cb->adc_state == XINC_SAADC_STATE_BUSY)
   {
         if ( p_cb->p_secondary_buffer)
         {
@@ -455,7 +455,7 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
         }
   }
 		
-//	p_cb->adc_state = NRF_SAADC_STATE_BUSY;
+//	p_cb->adc_state = XINC_SAADC_STATE_BUSY;
 
 	p_cb->p_buffer           = p_buffer;
 	p_cb->buffer_size        = size;
@@ -475,7 +475,7 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
     XINC_SAADC_Type     *p_reg = p_instance->p_reg; 
     reg = p_reg->INT;
 
-    if (channel > NRF_SAADC_CHANNEL_COUNT)
+    if (channel > XINC_SAADC_CHANNEL_COUNT)
     {
         err_code = XINCX_ERROR_INVALID_PARAM;
         return err_code;
@@ -489,13 +489,13 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
             return err_code;
     }
         
-    if (p_cb->adc_state != NRF_SAADC_STATE_IDLE)
+    if (p_cb->adc_state != XINC_SAADC_STATE_IDLE)
     {
         err_code = XINCX_ERROR_INVALID_STATE;
         return err_code;
     }
 
-    p_cb->adc_state = NRF_SAADC_STATE_BUSY;
+    p_cb->adc_state = XINC_SAADC_STATE_BUSY;
 
     p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
 
@@ -527,7 +527,7 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
 bool xincx_saadc_is_busy(xincx_saadc_t const * const p_instance)
 {
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    return (p_cb->adc_state != NRF_SAADC_STATE_IDLE);
+    return (p_cb->adc_state != XINC_SAADC_STATE_IDLE);
 }
 
 

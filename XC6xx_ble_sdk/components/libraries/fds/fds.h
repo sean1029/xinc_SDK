@@ -51,7 +51,7 @@ extern "C" {
  */
 enum
 {
-    FDS_ERR_OPERATION_TIMEOUT = NRF_ERROR_FDS_ERR_BASE,  //!< Error. The operation timed out.
+    FDS_ERR_OPERATION_TIMEOUT = XINC_ERROR_FDS_ERR_BASE,  //!< Error. The operation timed out.
     FDS_ERR_NOT_INITIALIZED,                             //!< Error. The module has not been initialized.
     FDS_ERR_UNALIGNED_ADDR,                              //!< Error. The input data is not aligned to a word boundary.
     FDS_ERR_INVALID_ARG,                                 //!< Error. The parameter contains invalid data.
@@ -243,7 +243,7 @@ typedef void (*fds_cb_t)(fds_evt_t const * p_evt);
  *
  * @param[in]   cb  The event handler function.
  *
- * @retval  NRF_SUCCESS                 If the event handler was registered successfully.
+ * @retval  XINC_SUCCESS                 If the event handler was registered successfully.
  * @retval  FDS_ERR_USER_LIMIT_REACHED  If the maximum number of registered callbacks is reached.
  */
 ret_code_t fds_register(fds_cb_t cb);
@@ -258,7 +258,7 @@ ret_code_t fds_register(fds_cb_t cb);
  * Make sure to call @ref fds_register before calling @ref fds_init so that you receive
  * @ref FDS_EVT_INIT.
  *
- * @retval  NRF_SUCCESS         If the operation was queued successfully.
+ * @retval  XINC_SUCCESS         If the operation was queued successfully.
  * @retval  FDS_ERR_NO_PAGES    If there is no space available in flash memory to install the
  *                              file system.
  */
@@ -290,7 +290,7 @@ ret_code_t fds_init(void);
  * @param[in]   p_record    The record to be written to flash. The record is required to be word
  *                          aligned.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_record is NULL.
  * @retval  FDS_ERR_INVALID_ARG         If the file ID or the record key is invalid.
@@ -317,7 +317,7 @@ ret_code_t fds_record_write(fds_record_desc_t       * p_desc,
  *                              cancel the reservation.
  * @param[in]   length_words    The length of the record data (in 4-byte words).
  *
- * @retval  NRF_SUCCESS                 If the flash space was reserved successfully.
+ * @retval  XINC_SUCCESS                 If the flash space was reserved successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_token is NULL instead of a valid token address.
  * @retval  FDS_ERR_RECORD_TOO_LARGE    If the record length exceeds the maximum length.
@@ -331,7 +331,7 @@ ret_code_t fds_reserve(fds_reserve_token_t * p_token, uint16_t length_words);
  *
  * @param[in]   p_token     The token that identifies the reservation, produced by @ref fds_reserve.
  *
- * @retval  NRF_SUCCESS             If the reservation was canceled.
+ * @retval  XINC_SUCCESS             If the reservation was canceled.
  * @retval  FDS_ERR_NOT_INITIALIZED If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG        If @p p_token is NULL instead of a valid token address.
  * @retval  FDS_ERR_INVALID_ARG     If @p p_token contains invalid data.
@@ -367,7 +367,7 @@ ret_code_t fds_reserve_cancel(fds_reserve_token_t * p_token);
  *                          to be word aligned.
  * @param[in]   p_token     The token that identifies the space reserved in flash.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_token is NULL instead of a valid token address.
  * @retval  FDS_ERR_INVALID_ARG         If the file ID or the record key is invalid.
@@ -395,7 +395,7 @@ ret_code_t fds_record_write_reserved(fds_record_desc_t         * p_desc,
  *
  * @param[in]   p_desc      The descriptor of the record that should be deleted.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If the specified record descriptor @p p_desc is NULL.
  * @retval  FDS_ERR_NO_SPACE_IN_QUEUES  If the operation queue is full.
@@ -417,7 +417,7 @@ ret_code_t fds_record_delete(fds_record_desc_t * p_desc);
  *
  * @param[in]   file_id     The ID of the file to be deleted.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_INVALID_ARG         If the specified @p file_id is invalid.
  * @retval  FDS_ERR_NO_SPACE_IN_QUEUES  If the operation queue is full.
@@ -446,12 +446,12 @@ ret_code_t fds_file_delete(uint16_t file_id);
  * that is sent to the registered event handler function.
  *
  * @param[in, out]  p_desc      The descriptor of the record to update. When the function
- *                              returns with NRF_SUCCESS, this parameter contains the
+ *                              returns with XINC_SUCCESS, this parameter contains the
  *                              descriptor of the newly written record.
  * @param[in]       p_record    The updated record to be written to flash. The record is required
  *                              to be word aligned.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_INVALID_ARG         If the file ID or the record key is invalid.
  * @retval  FDS_ERR_UNALIGNED_ADDR      If the record data is not aligned to a 4 byte boundary.
@@ -475,7 +475,7 @@ ret_code_t fds_record_update(fds_record_desc_t       * p_desc,
  * @param[out]  p_desc      The descriptor of the record that was found.
  * @param[out]  p_token     A token containing information about the progress of the operation.
  *
- * @retval  NRF_SUCCESS                 If a record was found.
+ * @retval  XINC_SUCCESS                 If a record was found.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_desc or @p p_token is NULL.
  * @retval  FDS_ERR_NOT_FOUND           If no matching record was found.
@@ -495,7 +495,7 @@ ret_code_t fds_record_iterate(fds_record_desc_t * p_desc,
  * @param[out]  p_desc      The descriptor of the record that was found.
  * @param[out]  p_token     A token containing information about the progress of the operation.
  *
- * @retval  NRF_SUCCESS                 If a record was found.
+ * @retval  XINC_SUCCESS                 If a record was found.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_desc or @p p_token is NULL.
  * @retval  FDS_ERR_NOT_FOUND           If no matching record was found.
@@ -516,7 +516,7 @@ ret_code_t fds_record_find(uint16_t            file_id,
  * @param[out]  p_desc      The descriptor of the record that was found.
  * @param[out]  p_token     A token containing information about the progress of the operation.
  *
- * @retval  NRF_SUCCESS                 If a record was found.
+ * @retval  XINC_SUCCESS                 If a record was found.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_desc or @p p_token is NULL.
  * @retval  FDS_ERR_NOT_FOUND           If no record with the given key was found.
@@ -536,7 +536,7 @@ ret_code_t fds_record_find_by_key(uint16_t            record_key,
  * @param[out]  p_desc      The descriptor of the record that was found.
  * @param[out]  p_token     A token containing information about the progress of the operation.
  *
- * @retval  NRF_SUCCESS                 If a record was found.
+ * @retval  XINC_SUCCESS                 If a record was found.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_desc or @p p_token is NULL.
  * @retval  FDS_ERR_NOT_FOUND           If no matching record was found.
@@ -564,7 +564,7 @@ ret_code_t fds_record_find_in_file(uint16_t            file_id,
  * @param[in]   p_desc          The descriptor of the record to open.
  * @param[out]  p_flash_record  The record, as stored in flash.
  *
- * @retval  NRF_SUCCESS                 If the record was opened successfully.
+ * @retval  XINC_SUCCESS                 If the record was opened successfully.
  * @retval  FDS_ERR_NULL_ARG            If @p p_desc or @p p_flash_record is NULL.
  * @retval  FDS_ERR_NOT_FOUND           If the record was not found. It might have been deleted, or
  *                                      it might not have been written yet.
@@ -585,7 +585,7 @@ ret_code_t fds_record_open(fds_record_desc_t  * p_desc,
  *
  * @param[in]   p_desc  The descriptor of the record to close.
  *
- * @retval  NRF_SUCCESS             If the record was closed successfully.
+ * @retval  XINC_SUCCESS             If the record was closed successfully.
  * @retval  FDS_ERR_NULL_ARG        If @p p_desc is NULL.
  * @retval  FDS_ERR_NO_OPEN_RECORDS If the record is not open.
  * @retval  FDS_ERR_NOT_FOUND       If the record could not be found.
@@ -601,7 +601,7 @@ ret_code_t fds_record_close(fds_record_desc_t * p_desc);
  * This function is asynchronous. Completion is reported through the @ref FDS_EVT_GC event that
  * is sent to the registered event handler function.
  *
- * @retval  NRF_SUCCESS                 If the operation was queued successfully.
+ * @retval  XINC_SUCCESS                 If the operation was queued successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NO_SPACE_IN_QUEUES  If the operation queue is full.
  */
@@ -621,7 +621,7 @@ ret_code_t fds_gc(void);
  * @param[out]  p_desc      The descriptor of the record with the given record ID.
  * @param[in]   record_id   The record ID for which a descriptor should be returned.
  *
- * @retval  NRF_SUCCESS         If a descriptor was returned.
+ * @retval  XINC_SUCCESS         If a descriptor was returned.
  * @retval  FDS_ERR_NULL_ARG    If @p p_desc is NULL.
  */
 ret_code_t fds_descriptor_from_rec_id(fds_record_desc_t * p_desc,
@@ -641,7 +641,7 @@ ret_code_t fds_descriptor_from_rec_id(fds_record_desc_t * p_desc,
  * @param[in]   p_desc          The descriptor from which the record ID should be extracted.
  * @param[out]  p_record_id     The record ID that is contained in the given descriptor.
  *
- * @retval  NRF_SUCCESS         If a record ID was returned.
+ * @retval  XINC_SUCCESS         If a record ID was returned.
  * @retval  FDS_ERR_NULL_ARG    If @p p_desc or @p p_record_id is NULL.
  */
 ret_code_t fds_record_id_from_desc(fds_record_desc_t const * p_desc,
@@ -655,7 +655,7 @@ ret_code_t fds_record_id_from_desc(fds_record_desc_t const * p_desc,
  *
  * @param[out]  p_stat      File system statistics.
  *
- * @retval  NRF_SUCCESS                 If the statistics were returned successfully.
+ * @retval  XINC_SUCCESS                 If the statistics were returned successfully.
  * @retval  FDS_ERR_NOT_INITIALIZED     If the module is not initialized.
  * @retval  FDS_ERR_NULL_ARG            If @p p_stat is NULL.
  */
