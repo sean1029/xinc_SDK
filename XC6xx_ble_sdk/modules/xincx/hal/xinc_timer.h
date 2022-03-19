@@ -400,7 +400,7 @@ __STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
     if(ticks < 4) ticks = 4;
 
     printf("%s,frequency:%x,clk_src:%d,time_us:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_us,ticks ,prescaler);
-    NRFX_ASSERT(ticks <= UINT32_MAX);
+    XINCX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }
 
@@ -443,7 +443,7 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
     if(ticks < TIMERx_MIN_TICKS) ticks = TIMERx_MIN_TICKS;
 
     printf("%s,frequency:%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
-    NRFX_ASSERT(ticks <= UINT32_MAX);
+    XINCX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }
 

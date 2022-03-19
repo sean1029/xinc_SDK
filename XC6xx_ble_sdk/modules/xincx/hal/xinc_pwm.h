@@ -140,7 +140,7 @@ __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
 																			 uint8_t  duty_cycle)
 {
-    //NRFX_ASSERT(top_value <= PWM_COUNTERTOP_COUNTERTOP_Msk);
+    //XINCX_ASSERT(top_value <= PWM_COUNTERTOP_COUNTERTOP_Msk);
     p_reg->OCPY = (duty_cycle << PWM_OCPY_OCPY_RATIO_Pos) & PWM_OCPY_OCPY_RATIO_Msk ;
     p_reg->PERIOD = (period << PWM_P_PERIOD_Pos) & PWM_P_PERIOD_Msk;
     p_reg->UP = (PWM_UP_UPDATE_Enable < PWM_UP_UPDATE_Pos) & PWM_UP_UPDATE_Msk;

@@ -9,14 +9,14 @@
 
 #include <xincx.h>
 
-#if NRFX_CHECK(XINCX_GPIO_ENABLED)
+#if XINCX_CHECK(XINCX_GPIO_ENABLED)
 
 #include <xincx_gpio.h>
 #include "nrf_bitmask.h"
 #include <string.h>
 
 
-#define NRFX_LOG_MODULE GPIOTE
+#define XINCX_LOG_MODULE GPIOTE
 #include <xincx_log.h>
 
 #if (GPIO_COUNT == 1)
@@ -142,12 +142,12 @@ xincx_err_t xincx_gpio_init(void)
 {
     xincx_err_t err_code;
 
-    if (m_cb.state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (m_cb.state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
+                         XINCX_LOG_ERROR_STRING_GET(err_code));
         printf("Function: %s,error code:0x%x\r\n ", __func__,err_code);
         return err_code;
     }
@@ -168,23 +168,23 @@ xincx_err_t xincx_gpio_init(void)
     NVIC_EnableIRQ(GPIO_IRQn);
     NVIC_EnableIRQ(PendSV_IRQn);
 
-    m_cb.state = NRFX_DRV_STATE_INITIALIZED;
+    m_cb.state = XINCX_DRV_STATE_INITIALIZED;
 
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
 
 bool xincx_gpio_is_init(void)
 {
-    return (m_cb.state != NRFX_DRV_STATE_UNINITIALIZED) ? true : false;
+    return (m_cb.state != XINCX_DRV_STATE_UNINITIALIZED) ? true : false;
 }
 
 
 void xincx_gpio_uninit(void)
 {
-    NRFX_ASSERT(m_cb.state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(m_cb.state != XINCX_DRV_STATE_UNINITIALIZED);
 
     uint32_t i;
 
@@ -202,30 +202,30 @@ void xincx_gpio_uninit(void)
             }
         }
     }
-    m_cb.state = NRFX_DRV_STATE_UNINITIALIZED;
-    NRFX_LOG_INFO("Uninitialized.");
+    m_cb.state = XINCX_DRV_STATE_UNINITIALIZED;
+    XINCX_LOG_INFO("Uninitialized.");
 }
 
 
 xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
                                 xincx_gpio_out_config_t const * p_config)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(m_cb.state == NRFX_DRV_STATE_INITIALIZED);
-    NRFX_ASSERT(p_config);
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(m_cb.state == XINCX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(p_config);
 
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
 
     if (pin_in_use(pin))
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
+        err_code = XINCX_ERROR_INVALID_STATE;
     }
     else
     {
            
         pin_in_use_set(pin);
         
-        if (err_code == NRFX_SUCCESS)
+        if (err_code == XINCX_SUCCESS)
         {
             xinc_gpio_cfg_output(pin);
             pin_configured_set(pin);
@@ -241,15 +241,15 @@ xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
         }
     }
 
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
 
 void xincx_gpio_out_uninit(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(pin_in_use(pin));
 
     pin_in_use_clear(pin);
 
@@ -263,8 +263,8 @@ void xincx_gpio_out_uninit(xincx_gpio_pin_t pin)
 
 void xincx_gpio_out_set(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(pin_in_use(pin));
 
     xinc_gpio_pin_set(pin);
 }
@@ -272,8 +272,8 @@ void xincx_gpio_out_set(xincx_gpio_pin_t pin)
 
 void xincx_gpio_out_clear(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(pin_in_use(pin));
 
     xinc_gpio_pin_clear(pin);
 }
@@ -281,8 +281,8 @@ void xincx_gpio_out_clear(xincx_gpio_pin_t pin)
 
 void xincx_gpio_out_toggle(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(pin_in_use(pin));
 
     xinc_gpio_pin_toggle(pin);
 }
@@ -292,11 +292,11 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
                                xincx_gpio_in_config_t const * p_config,
                                xincx_gpio_evt_handler_t       evt_handler)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    xincx_err_t err_code = NRFX_SUCCESS;
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    xincx_err_t err_code = XINCX_SUCCESS;
     if (pin_in_use_by_gpio_handler(pin))
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
+        err_code = XINCX_ERROR_INVALID_STATE;
     }
     else
     {
@@ -310,12 +310,12 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
         }
         else
         {
-         err_code = NRFX_ERROR_NO_MEM;
+         err_code = XINCX_ERROR_NO_MEM;
         }
 
     }
 
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
@@ -323,8 +323,8 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
 
 void xincx_gpio_in_uninit(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    NRFX_ASSERT(pin_in_use_by_gpio_handler(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(pin_in_use_by_gpio_handler(pin));
    
     if (pin_configured_check(pin))
     {
@@ -340,7 +340,7 @@ void xincx_gpio_in_uninit(xincx_gpio_pin_t pin)
 
 bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin)
 {
-    NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
+    XINCX_ASSERT(xinc_gpio_pin_present_check(pin));
     return xinc_gpio_pin_read(pin) ? true : false;
 }
 
@@ -351,7 +351,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
 
     if (pin_in_use(pin))
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
+        err_code = XINCX_ERROR_INVALID_STATE;
     }
     else
     {
@@ -384,7 +384,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
             { 
                 if(fun > XINC_GPIO_PIN_PWM1_INV)
                 {
-                    err_code = NRFX_ERROR_INVALID_PARAM;
+                    err_code = XINCX_ERROR_INVALID_PARAM;
                 }else
                 {
                     gpio_mux_ctl(pin,1);
@@ -396,7 +396,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
             {                
                 if(fun > XINC_GPIO_PIN_PWM1_INV)
                 {
-                    err_code = NRFX_ERROR_INVALID_PARAM;
+                    err_code = XINCX_ERROR_INVALID_PARAM;
                 }else
                 {
                     gpio_mux_ctl(pin,0);
@@ -456,4 +456,4 @@ void xincx_gpio_irq_handler(void)
 
 
 /*lint -restore*/
-#endif // NRFX_CHECK(XINCX_GPIO_ENABLED)
+#endif // XINCX_CHECK(XINCX_GPIO_ENABLED)

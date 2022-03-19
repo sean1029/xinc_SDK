@@ -7,10 +7,10 @@
  *
  */
 
-#ifndef NRFX_CONFIG_H__
-#define NRFX_CONFIG_H__
+#ifndef XINCX_CONFIG_H__
+#define XINCX_CONFIG_H__
 
 // TODO - temporary redirection
 #include <sdk_config.h>
 
-#endif // NRFX_CONFIG_H__
+#endif // XINCX_CONFIG_H__

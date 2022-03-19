@@ -46,15 +46,15 @@ typedef struct
 
 #define XINCX_SAADC_INSTANCE(Id)                                            \
 {                                                                           \
-    .p_reg          =   NRFX_CONCAT_2(XINC_SAADC,Id),                       \
+    .p_reg          =   XINCX_CONCAT_2(XINC_SAADC,Id),                       \
     .p_cpr          =   XINC_CPR,                                           \
     .id 		    =   Id,                                                 \
-    .drv_inst_idx   =   NRFX_CONCAT_3(XINCX_SAADC, Id, _INST_IDX),          \
+    .drv_inst_idx   =   XINCX_CONCAT_3(XINCX_SAADC, Id, _INST_IDX),          \
 };
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_SAADC_ENABLED)
+#if XINCX_CHECK(XINCX_SAADC_ENABLED)
     XINCX_SAADC0_INST_IDX,
 #endif
     XINCX_SAADC_ENABLED_COUNT
@@ -139,8 +139,8 @@ typedef void (* xincx_saadc_event_handler_t)(xincx_saadc_evt_t const * p_event);
  * @param[in] event_handler Event handler provided by the user.
  *                          Must not be NULL.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver is already initialized.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver is already initialized.
  */
 xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
                             xincx_saadc_config_t const * p_config,
@@ -165,9 +165,9 @@ void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,
  * @param[in] channel  Channel index.
  * @param[in] p_config Pointer to the structure with the initial configuration.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The SAADC was not initialized.
- * @retval NRFX_ERROR_NO_MEM        The specified channel was already allocated.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The SAADC was not initialized.
+ * @retval XINCX_ERROR_NO_MEM        The specified channel was already allocated.
  */
 xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
                                     uint8_t     channel,
@@ -178,16 +178,16 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
  *
  * @param[in] channel Channel index.
  *
- * @retval NRFX_SUCCESS    Uninitialization was successful.
- * @retval NRFX_ERROR_BUSY The SAADC is busy.
+ * @retval XINCX_SUCCESS    Uninitialization was successful.
+ * @retval XINCX_ERROR_BUSY The SAADC is busy.
  */
 xincx_err_t xincx_saadc_channel_uninit(xincx_saadc_t const * const p_instance,uint8_t channel);
 
 /**
  * @brief Function for starting the SAADC sampling.
  *
- * @retval NRFX_SUCCESS             The SAADC sampling was triggered.
- * @retval NRFX_ERROR_INVALID_STATE The SAADC is in idle state.
+ * @retval XINCX_SUCCESS             The SAADC sampling was triggered.
+ * @retval XINCX_ERROR_INVALID_STATE The SAADC is in idle state.
  */
 xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel);
 
@@ -202,8 +202,8 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
  * @param[in]  channel Channel.
  * @param[out] p_value Pointer to the location where the result is to be placed.
  *
- * @retval NRFX_SUCCESS    The conversion was successful.
- * @retval NRFX_ERROR_BUSY The SAADC driver is busy.
+ * @retval XINCX_SUCCESS    The conversion was successful.
+ * @retval XINCX_ERROR_BUSY The SAADC driver is busy.
  */
 xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value);
 
@@ -223,8 +223,8 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
  * @param[in] buffer Result buffer.
  * @param[in] size   Buffer size in words.
  *
- * @retval NRFX_SUCCESS    The conversion was successful.
- * @retval NRFX_ERROR_BUSY The driver already has two buffers set or the calibration is in progress.
+ * @retval XINCX_SUCCESS    The conversion was successful.
+ * @retval XINCX_ERROR_BUSY The driver already has two buffers set or the calibration is in progress.
  */
 xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xinc_saadc_value_t * buffer, uint16_t size);
 

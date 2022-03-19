@@ -8,7 +8,7 @@
  */
 
 #include "xinc_drv_spi.h"
-#if NRFX_CHECK(XINCX_SPIM_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_ENABLED)
 #ifdef SPIM_PRESENT
 #define INSTANCE_COUNT   SPIM_COUNT
 #endif

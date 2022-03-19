@@ -7,9 +7,9 @@
  *
  */
 #include <xincx.h>
-#if NRFX_CHECK(XINCX_I2C_ENABLED)
+#if XINCX_CHECK(XINCX_I2C_ENABLED)
 
-#if !(NRFX_CHECK(XINCX_I2C0_ENABLED))
+#if !(XINCX_CHECK(XINCX_I2C0_ENABLED))
 #error "No enabled I2C instances. Check <xincx_config.h>."
 #endif
 
@@ -75,7 +75,7 @@ static i2c_control_block_t m_cb[XINCX_I2C_ENABLED_COUNT];
 
 static xincx_err_t i2c_process_error(uint32_t errorsrc)
 {
-    xincx_err_t ret = NRFX_ERROR_INTERNAL;
+    xincx_err_t ret = XINCX_ERROR_INTERNAL;
 
     return ret;
 }
@@ -105,18 +105,18 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
                          xincx_i2c_evt_handler_t    event_handler,
                          void *                    p_context)
 {
-    NRFX_ASSERT(p_config);
-    NRFX_ASSERT(p_config->scl != p_config->sda);
+    XINCX_ASSERT(p_config);
+    XINCX_ASSERT(p_config->scl != p_config->sda);
     i2c_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     xincx_err_t err_code;
     printf("%s\r\n",__func__);
-    NRFX_LOG_INFO("Function: xincx_i2c_init");
-    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    XINCX_LOG_INFO("Function: xincx_i2c_init");
+    if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
-                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 
@@ -152,12 +152,12 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     xinc_i2c_int_disable(p_i2c,XINC_I2C_INT_DIS_MASK_ALL);//不使能所有中断 0x
 
     err_code = xinc_gpio_secfun_config(p_config->scl,XINC_GPIO_PIN_I2C_SCL);
-    if(err_code != NRFX_SUCCESS)
+    if(err_code != XINCX_SUCCESS)
     {
         return err_code;
     }
     err_code = xinc_gpio_secfun_config(p_config->sda,XINC_GPIO_PIN_I2C_SDA);
-    if(err_code != NRFX_SUCCESS)
+    if(err_code != XINCX_SUCCESS)
     {
         return err_code;
     }
@@ -178,10 +178,10 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     }
     else
     {
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_PARAM;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                         __func__,
-                        NRFX_LOG_ERROR_STRING_GET(err_code));
+                        XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 
@@ -192,25 +192,25 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
 
     }
 
-    p_cb->state = NRFX_DRV_STATE_INITIALIZED;
+    p_cb->state = XINCX_DRV_STATE_INITIALIZED;
 
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
 void xincx_i2c_uninit(xincx_i2c_t const * p_instance)
 {
     i2c_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
 
     if (p_cb->handler)
     {
-        NRFX_IRQ_DISABLE(I2C_IRQn);
+        XINCX_IRQ_DISABLE(I2C_IRQn);
     }
     xincx_i2c_disable(p_instance);
 
-#if NRFX_CHECK(NRFX_PRS_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED)
     xincx_prs_release(p_instance->p_i2c);
 #endif
 
@@ -219,35 +219,35 @@ void xincx_i2c_uninit(xincx_i2c_t const * p_instance)
 
     }
 
-    p_cb->state = NRFX_DRV_STATE_UNINITIALIZED;
-    NRFX_LOG_INFO("Instance uninitialized: %d.", p_instance->drv_inst_idx);
+    p_cb->state = XINCX_DRV_STATE_UNINITIALIZED;
+    XINCX_LOG_INFO("Instance uninitialized: %d.", p_instance->drv_inst_idx);
 }
 
 void xincx_i2c_enable(xincx_i2c_t const * p_instance)
 {
     i2c_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state == NRFX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(p_cb->state == XINCX_DRV_STATE_INITIALIZED);
 
     XINC_I2C_Type * p_i2c = p_instance->p_i2c;
 	
     xinc_i2c_enable(p_i2c);
 	
-    p_cb->state = NRFX_DRV_STATE_POWERED_ON;
-    NRFX_LOG_INFO("Instance enabled: %d.", p_instance->drv_inst_idx);
+    p_cb->state = XINCX_DRV_STATE_POWERED_ON;
+    XINCX_LOG_INFO("Instance enabled: %d.", p_instance->drv_inst_idx);
 }
 
 void xincx_i2c_disable(xincx_i2c_t const * p_instance)
 {
     i2c_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
 
     XINC_I2C_Type * p_i2c = p_instance->p_i2c;
     
     xinc_i2c_int_disable(p_i2c, XINC_I2C_INT_DIS_MASK_ALL);
     xinc_i2c_disable(p_i2c);
     
-    p_cb->state = NRFX_DRV_STATE_INITIALIZED;
-    NRFX_LOG_INFO("Instance disabled: %d.", p_instance->drv_inst_idx);
+    p_cb->state = XINCX_DRV_STATE_INITIALIZED;
+    XINCX_LOG_INFO("Instance disabled: %d.", p_instance->drv_inst_idx);
 }
 
 static bool i2c_send_byte(XINC_I2C_Type          * p_i2c,
@@ -387,7 +387,7 @@ static bool i2c_transfer(XINC_I2C_Type           * p_i2c,
         if (p_cb->xfer_desc.type == XINCX_I2C_XFER_TX)
         {
             ++(p_cb->bytes_transferred);
-            NRFX_LOG_DEBUG("I2C: Type: %s.", TRANSFER_TO_STR(XINCX_I2C_XFER_TX));
+            XINCX_LOG_DEBUG("I2C: Type: %s.", TRANSFER_TO_STR(XINCX_I2C_XFER_TX));
     
             if (!i2c_send_byte(p_i2c, p_cb))
             {
@@ -398,7 +398,7 @@ static bool i2c_transfer(XINC_I2C_Type           * p_i2c,
         }
 		else if (p_cb->xfer_desc.type == XINCX_I2C_XFER_RX)
         {
-            NRFX_LOG_DEBUG("I2C: Type: %s.", TRANSFER_TO_STR(XINCX_I2C_XFER_RX));
+            XINCX_LOG_DEBUG("I2C: Type: %s.", TRANSFER_TO_STR(XINCX_I2C_XFER_RX));
              
             if (!i2c_receive_byte(p_i2c, p_cb))
             {
@@ -428,7 +428,7 @@ static bool i2c_transfer(XINC_I2C_Type           * p_i2c,
 static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
                                         i2c_control_block_t * p_cb)
 {
-    xincx_err_t ret_code = NRFX_SUCCESS;
+    xincx_err_t ret_code = XINCX_SUCCESS;
     volatile int32_t hw_timeout;
     bool contiu_send_flag = true;
 
@@ -459,7 +459,7 @@ static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
         p_cb->int_mask = XINC_I2C_INT_EN_MASK_TX_EMPTY;
 
         xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
-        NRFX_IRQ_ENABLE(I2C_IRQn);
+        XINCX_IRQ_ENABLE(I2C_IRQn);
         xinc_i2c_enable(p_i2c);
 			
     }
@@ -483,14 +483,14 @@ static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
             }
             else
             {
-                ret_code = NRFX_ERROR_INTERNAL;
+                ret_code = XINCX_ERROR_INTERNAL;
             }
         }
         if (hw_timeout <= 0)
         {
             xinc_i2c_disable(p_i2c);
             xinc_i2c_enable(p_i2c);
-            ret_code = NRFX_ERROR_INTERNAL;
+            ret_code = XINCX_ERROR_INTERNAL;
         }
     }
     return ret_code;
@@ -499,7 +499,7 @@ static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
 static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
                                         i2c_control_block_t * p_cb)
 {
-    xincx_err_t ret_code = NRFX_SUCCESS;
+    xincx_err_t ret_code = XINCX_SUCCESS;
     volatile int32_t hw_timeout;
 
     hw_timeout = HW_TIMEOUT;
@@ -522,7 +522,7 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
         p_cb->int_mask = XINC_I2C_INT_EN_MASK_RX_FULL|XINC_I2C_INT_EN_MASK_TX_EMPTY;
 
         xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
-        NRFX_IRQ_ENABLE(I2C_IRQn);
+        XINCX_IRQ_ENABLE(I2C_IRQn);
         xinc_i2c_enable(p_i2c);
     }
     else
@@ -542,7 +542,7 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
             }
             else
             {
-                ret_code = NRFX_ERROR_INTERNAL;
+                ret_code = XINCX_ERROR_INTERNAL;
             }
         }
         if (hw_timeout <= 0)
@@ -550,7 +550,7 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
            
             xinc_i2c_disable(p_i2c);
             xinc_i2c_enable(p_i2c);
-            ret_code = NRFX_ERROR_INTERNAL;
+            ret_code = XINCX_ERROR_INTERNAL;
         }
     }
     return ret_code;
@@ -562,17 +562,17 @@ __STATIC_INLINE xincx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
                                     uint32_t                     flags)
 {
 
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
 
     if ((p_cb->prev_suspend == I2C_SUSPEND_TX) && (p_xfer_desc->type == XINCX_I2C_XFER_RX))
     {
         /* RX is invalid after TX suspend */
-        return NRFX_ERROR_INVALID_STATE;
+        return XINCX_ERROR_INVALID_STATE;
     }
     else if ((p_cb->prev_suspend == I2C_SUSPEND_RX) && (p_xfer_desc->type != XINCX_I2C_XFER_RX))
     {
         /* TX, TXRX and TXTX are invalid after RX suspend */
-        return NRFX_ERROR_INVALID_STATE;
+        return XINCX_ERROR_INVALID_STATE;
     }
 
     /* Block I2C interrupts to ensure that function is not interrupted by I2C interrupt. */
@@ -583,10 +583,10 @@ __STATIC_INLINE xincx_err_t i2c_xfer(XINC_I2C_Type               * p_i2c,
     
     if (p_cb->busy)
     {
-        err_code = NRFX_ERROR_BUSY;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_BUSY;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
+                         XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
     else
@@ -630,27 +630,27 @@ xincx_err_t xincx_i2c_xfer(xincx_i2c_t           const * p_instance,
                          uint32_t                     flags)
 {
 
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     i2c_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     // TXRX and TXTX transfers are supported only in non-blocking mode.
-    NRFX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXRX)));
-    NRFX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXTX)));
+    XINCX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXRX)));
+    XINCX_ASSERT( !((p_cb->handler == NULL) && (p_xfer_desc->type == XINCX_I2C_XFER_TXTX)));
 
-    NRFX_LOG_INFO("Transfer Type: %s.", TRANSFER_TO_STR(p_xfer_desc->type));
-    NRFX_LOG_INFO("Transfer buffers length: primary: %d, secondary: %d.",
+    XINCX_LOG_INFO("Transfer Type: %s.", TRANSFER_TO_STR(p_xfer_desc->type));
+    XINCX_LOG_INFO("Transfer buffers length: primary: %d, secondary: %d.",
                   p_xfer_desc->primary_length,
                   p_xfer_desc->secondary_length);
-    NRFX_LOG_DEBUG("Primary buffer data:");
-    NRFX_LOG_HEXDUMP_DEBUG(p_xfer_desc->p_primary_buf,
+    XINCX_LOG_DEBUG("Primary buffer data:");
+    XINCX_LOG_HEXDUMP_DEBUG(p_xfer_desc->p_primary_buf,
                            p_xfer_desc->primary_length * sizeof(p_xfer_desc->p_primary_buf[0]));
-    NRFX_LOG_DEBUG("Secondary buffer data:");
-    NRFX_LOG_HEXDUMP_DEBUG(p_xfer_desc->p_secondary_buf,
+    XINCX_LOG_DEBUG("Secondary buffer data:");
+    XINCX_LOG_HEXDUMP_DEBUG(p_xfer_desc->p_secondary_buf,
                            p_xfer_desc->secondary_length * sizeof(p_xfer_desc->p_secondary_buf[0]));
 
     err_code = i2c_xfer((XINC_I2C_Type  *)p_instance->p_i2c, p_cb, p_xfer_desc, flags);
-    NRFX_LOG_WARNING("Function: %s, error code: %s.",
+    XINCX_LOG_WARNING("Function: %s, error code: %s.",
                      __func__,
-                     NRFX_LOG_ERROR_STRING_GET(err_code));
+                     XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
@@ -681,7 +681,7 @@ size_t xincx_i2c_data_count_get(xincx_i2c_t const * const p_instance)
 
 static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 {
-    NRFX_ASSERT(p_cb->handler);
+    XINCX_ASSERT(p_cb->handler);
 
     uint32_t reg;
     if (i2c_transfer(p_i2c, p_cb))
@@ -695,7 +695,7 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
     xinc_i2c_disable(p_i2c);
     reg = p_i2c->i2c_CLR_INTR;
     xinc_i2c_int_disable(p_i2c,XINC_I2C_INT_DIS_MASK_ALL);
-    NRFX_IRQ_DISABLE(I2C_IRQn);
+    XINCX_IRQ_DISABLE(I2C_IRQn);
     
     if (!p_cb->error &&
     ((p_cb->xfer_desc.type == XINCX_I2C_XFER_TXRX) ||
@@ -746,7 +746,7 @@ static void i2c_irq_handler(XINC_I2C_Type * p_i2c, i2c_control_block_t * p_cb)
 }
 
 
-#if NRFX_CHECK(XINCX_I2C0_ENABLED)
+#if XINCX_CHECK(XINCX_I2C0_ENABLED)
 void I2C_Handler()
 {
 	xincx_i2c_0_irq_handler();
@@ -759,4 +759,4 @@ void xincx_i2c_0_irq_handler(void)
 #endif
 
 
-#endif // NRFX_CHECK(XINCX_I2C_ENABLED)
+#endif // XINCX_CHECK(XINCX_I2C_ENABLED)

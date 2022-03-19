@@ -7,10 +7,10 @@
  *
  */
 
-#ifndef NRFX_ERRORS_H__
-#define NRFX_ERRORS_H__
+#ifndef XINCX_ERRORS_H__
+#define XINCX_ERRORS_H__
 
-#if !NRFX_CHECK(NRFX_CUSTOM_ERROR_CODES)
+#if !XINCX_CHECK(XINCX_CUSTOM_ERROR_CODES)
 
 /**
  * @defgroup xincx_error_codes Global Error Codes
@@ -21,34 +21,34 @@
  */
 
 /** @brief Base number of error codes. */
-#define NRFX_ERROR_BASE_NUM         0x0BAD0000
+#define XINCX_ERROR_BASE_NUM         0x0BAD0000
 
 /** @brief Base number of driver error codes. */
-#define NRFX_ERROR_DRIVERS_BASE_NUM (NRFX_ERROR_BASE_NUM + 0x10000)
+#define XINCX_ERROR_DRIVERS_BASE_NUM (XINCX_ERROR_BASE_NUM + 0x10000)
 
 /** @brief Enumerated type for error codes. */
 typedef enum {
-    NRFX_SUCCESS                    = (NRFX_ERROR_BASE_NUM + 0),  ///< Operation performed successfully.
-    NRFX_ERROR_INTERNAL             = (NRFX_ERROR_BASE_NUM + 1),  ///< Internal error.
-    NRFX_ERROR_NO_MEM               = (NRFX_ERROR_BASE_NUM + 2),  ///< No memory for operation.
-    NRFX_ERROR_NOT_SUPPORTED        = (NRFX_ERROR_BASE_NUM + 3),  ///< Not supported.
-    NRFX_ERROR_INVALID_PARAM        = (NRFX_ERROR_BASE_NUM + 4),  ///< Invalid parameter.
-    NRFX_ERROR_INVALID_STATE        = (NRFX_ERROR_BASE_NUM + 5),  ///< Invalid state, operation disallowed in this state.
-    NRFX_ERROR_INVALID_LENGTH       = (NRFX_ERROR_BASE_NUM + 6),  ///< Invalid length.
-    NRFX_ERROR_TIMEOUT              = (NRFX_ERROR_BASE_NUM + 7),  ///< Operation timed out.
-    NRFX_ERROR_FORBIDDEN            = (NRFX_ERROR_BASE_NUM + 8),  ///< Operation is forbidden.
-    NRFX_ERROR_NULL                 = (NRFX_ERROR_BASE_NUM + 9),  ///< Null pointer.
-    NRFX_ERROR_INVALID_ADDR         = (NRFX_ERROR_BASE_NUM + 10), ///< Bad memory address.
-    NRFX_ERROR_BUSY                 = (NRFX_ERROR_BASE_NUM + 11), ///< Busy.
-    NRFX_ERROR_ALREADY_INITIALIZED  = (NRFX_ERROR_BASE_NUM + 12), ///< Module already initialized.
+    XINCX_SUCCESS                    = (XINCX_ERROR_BASE_NUM + 0),  ///< Operation performed successfully.
+    XINCX_ERROR_INTERNAL             = (XINCX_ERROR_BASE_NUM + 1),  ///< Internal error.
+    XINCX_ERROR_NO_MEM               = (XINCX_ERROR_BASE_NUM + 2),  ///< No memory for operation.
+    XINCX_ERROR_NOT_SUPPORTED        = (XINCX_ERROR_BASE_NUM + 3),  ///< Not supported.
+    XINCX_ERROR_INVALID_PARAM        = (XINCX_ERROR_BASE_NUM + 4),  ///< Invalid parameter.
+    XINCX_ERROR_INVALID_STATE        = (XINCX_ERROR_BASE_NUM + 5),  ///< Invalid state, operation disallowed in this state.
+    XINCX_ERROR_INVALID_LENGTH       = (XINCX_ERROR_BASE_NUM + 6),  ///< Invalid length.
+    XINCX_ERROR_TIMEOUT              = (XINCX_ERROR_BASE_NUM + 7),  ///< Operation timed out.
+    XINCX_ERROR_FORBIDDEN            = (XINCX_ERROR_BASE_NUM + 8),  ///< Operation is forbidden.
+    XINCX_ERROR_NULL                 = (XINCX_ERROR_BASE_NUM + 9),  ///< Null pointer.
+    XINCX_ERROR_INVALID_ADDR         = (XINCX_ERROR_BASE_NUM + 10), ///< Bad memory address.
+    XINCX_ERROR_BUSY                 = (XINCX_ERROR_BASE_NUM + 11), ///< Busy.
+    XINCX_ERROR_ALREADY_INITIALIZED  = (XINCX_ERROR_BASE_NUM + 12), ///< Module already initialized.
 
-    NRFX_ERROR_DRV_I2C_ERR_OVERRUN  = (NRFX_ERROR_DRIVERS_BASE_NUM + 0), ///< I2C error: Overrun.
-    NRFX_ERROR_DRV_I2C_ERR_ANACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 1), ///< I2C error: Address not acknowledged.
-    NRFX_ERROR_DRV_I2C_ERR_DNACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 2)  ///< I2C error: Data not acknowledged.
+    XINCX_ERROR_DRV_I2C_ERR_OVERRUN  = (XINCX_ERROR_DRIVERS_BASE_NUM + 0), ///< I2C error: Overrun.
+    XINCX_ERROR_DRV_I2C_ERR_ANACK    = (XINCX_ERROR_DRIVERS_BASE_NUM + 1), ///< I2C error: Address not acknowledged.
+    XINCX_ERROR_DRV_I2C_ERR_DNACK    = (XINCX_ERROR_DRIVERS_BASE_NUM + 2)  ///< I2C error: Data not acknowledged.
 } xincx_err_t;
 
 /** @} */
 
-#endif // !NRFX_CHECK(NRFX_CUSTOM_ERROR_CODES)
+#endif // !XINCX_CHECK(XINCX_CUSTOM_ERROR_CODES)
 
-#endif // NRFX_ERRORS_H__
+#endif // XINCX_ERRORS_H__

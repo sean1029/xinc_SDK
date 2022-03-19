@@ -93,7 +93,7 @@ static void gpio_output_voltage_setup(void)
 
 static xincx_err_t bsp_board_leds_init(void)
 {
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     #if defined(BOARD_PCA10059)
     // If nRF52 USB Dongle is powered from USB (high voltage mode),
     // GPIO output voltage is set to 1.8 V by default, which is not
@@ -109,7 +109,7 @@ static xincx_err_t bsp_board_leds_init(void)
     if (!xinc_drv_gpio_is_init())
     {
         err_code = xinc_drv_gpio_init();
-        if(err_code != NRFX_SUCCESS)
+        if(err_code != XINCX_SUCCESS)
         {
             return err_code;
         }
@@ -123,7 +123,7 @@ static xincx_err_t bsp_board_leds_init(void)
     for (i = 0; i < LEDS_NUMBER; ++i)
     {
         err_code = xincx_gpio_out_init(m_board_led_list[i],&config);
-        if(err_code != NRFX_SUCCESS)
+        if(err_code != XINCX_SUCCESS)
         {
             return err_code;
         }

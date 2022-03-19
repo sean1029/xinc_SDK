@@ -83,12 +83,12 @@ void nrf_nvmc_write_words(uint32_t address, const uint32_t * src, uint32_t num_w
  * @brief   Hardware access layer (HAL) for managing the Non-Volatile Memory Controller (NVMC) peripheral.
  */
 
-#if defined(NVMC_ICACHECNF_CACHEEN_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_ICACHECNF_CACHEEN_Msk) || defined(__XINCX_DOXYGEN__)
 /** @brief Symbol indicating whether Instruction Cache (ICache) is present. */
 #define NRF_NVMC_ICACHE_PRESENT
 #endif
 
-#if defined(NVMC_ERASEPAGEPARTIALCFG_DURATION_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_ERASEPAGEPARTIALCFG_DURATION_Msk) || defined(__XINCX_DOXYGEN__)
 /** @brief Symbol indicating whether the option of page partial erase is present. */
 #define NRF_NVMC_PARTIAL_ERASE_PRESENT
 #endif
@@ -111,7 +111,7 @@ typedef enum
 #endif
 } nrf_nvmc_mode_t;
 
-#if defined(NVMC_CONFIGNS_WEN_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_CONFIGNS_WEN_Msk) || defined(__XINCX_DOXYGEN__)
 /** @brief Non-secure NVMC modes. */
 typedef enum
 {
@@ -142,7 +142,7 @@ typedef enum
  */
 __STATIC_INLINE bool nrf_nvmc_ready_check( uint8_t * p_reg);
 
-#if defined(NVMC_READYNEXT_READYNEXT_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_READYNEXT_READYNEXT_Msk) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief Function for checking if NVMC is ready to accept the next write operation.
  *
@@ -155,7 +155,7 @@ __STATIC_INLINE bool nrf_nvmc_ready_check( uint8_t * p_reg);
  * @retval false NVMC is busy and cannot accept the next write yet.
  */
 __STATIC_INLINE bool nrf_nvmc_write_ready_check(NRF_NVMC_Type const * p_reg);
-#endif // defined(NVMC_READYNEXT_READYNEXT_Msk) || defined(__NRFX_DOXYGEN__)
+#endif // defined(NVMC_READYNEXT_READYNEXT_Msk) || defined(__XINCX_DOXYGEN__)
 
 /**
  * @brief Function for setting the NVMC mode.
@@ -170,7 +170,7 @@ __STATIC_INLINE bool nrf_nvmc_write_ready_check(NRF_NVMC_Type const * p_reg);
 __STATIC_INLINE void nrf_nvmc_mode_set(uint8_t * p_reg,
                                        nrf_nvmc_mode_t mode);
 
-#if defined(NVMC_CONFIGNS_WEN_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_CONFIGNS_WEN_Msk) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief Function for setting the NVMC mode for non-secure Flash page operations.
  *
@@ -193,7 +193,7 @@ __STATIC_INLINE void nrf_nvmc_nonsecure_mode_set(NRF_NVMC_Type *    p_reg,
 __STATIC_INLINE void nrf_nvmc_page_erase_start(uint8_t * p_reg,
                                                uint32_t        page_addr);
 
-#if defined(NVMC_ERASEUICR_ERASEUICR_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(NVMC_ERASEUICR_ERASEUICR_Msk) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief Function for starting the user information configuration registers (UICR) erase.
  *

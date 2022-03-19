@@ -71,26 +71,26 @@ typedef struct
  */
 #define XINC_DRV_SPI_INSTANCE(id)    XINC_DRV_SPI_INSTANCE_(id)
 #define XINC_DRV_SPI_INSTANCE_(id)   XINC_DRV_SPI_INSTANCE_ ## id
-#if NRFX_CHECK(XINCX_SPIM0_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM0_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_0 \
         { 0, { .spim = XINCX_SPIM_INSTANCE(0) }, true }
-#elif NRFX_CHECK(NRFX_SPI0_ENABLED)
+#elif XINCX_CHECK(XINCX_SPI0_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_0 \
-        { 0, { .spi = NRFX_SPI_INSTANCE(0) }, false }
+        { 0, { .spi = XINCX_SPI_INSTANCE(0) }, false }
 #endif
-#if NRFX_CHECK(XINCX_SPIM1_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM1_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_1 \
         { 1, { .spim = XINCX_SPIM_INSTANCE(1) }, true }
-#elif NRFX_CHECK(NRFX_SPI1_ENABLED)
+#elif XINCX_CHECK(XINCX_SPI1_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_1 \
-        { 1, { .spi = NRFX_SPI_INSTANCE(1) }, false }
+        { 1, { .spi = XINCX_SPI_INSTANCE(1) }, false }
 #endif
-#if NRFX_CHECK(XINCX_SPIM2_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM2_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spim = XINCX_SPIM_INSTANCE(2) }, true }
-#elif NRFX_CHECK(NRFX_SPI2_ENABLED)
+#elif XINCX_CHECK(XINCX_SPI2_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_2 \
-        { 2, { .spi = NRFX_SPI_INSTANCE(2) }, false }
+        { 2, { .spi = XINCX_SPI_INSTANCE(2) }, false }
 #endif
 
 /**
@@ -408,12 +408,12 @@ void xinc_drv_spi_abort(xinc_drv_spi_t const * p_instance);
 #elif !defined(SPI_PRESENT) && defined(SPIM_PRESENT)
 #define XINC_DRV_SPI_WITH_SPIM
 #else
-#if (NRFX_CHECK(SPI0_ENABLED) &&  NRFX_CHECK(SPI0_USE_EASY_DMA)) || \
-    (NRFX_CHECK(SPI1_ENABLED) &&  NRFX_CHECK(SPI1_USE_EASY_DMA))
+#if (XINCX_CHECK(SPI0_ENABLED) &&  XINCX_CHECK(SPI0_USE_EASY_DMA)) || \
+    (XINCX_CHECK(SPI1_ENABLED) &&  XINCX_CHECK(SPI1_USE_EASY_DMA))
     #define XINC_DRV_SPI_WITH_SPIM
 #endif
-#if (NRFX_CHECK(SPI0_ENABLED) && !NRFX_CHECK(SPI0_USE_EASY_DMA)) || \
-    (NRFX_CHECK(SPI1_ENABLED) && !NRFX_CHECK(SPI1_USE_EASY_DMA))
+#if (XINCX_CHECK(SPI0_ENABLED) && !XINCX_CHECK(SPI0_USE_EASY_DMA)) || \
+    (XINCX_CHECK(SPI1_ENABLED) && !XINCX_CHECK(SPI1_USE_EASY_DMA))
     #define XINC_DRV_SPI_WITH_SPI
 #endif
 #endif

@@ -9,16 +9,16 @@
 
 #include <xincx.h>
 
-#if NRFX_CHECK(XINCX_RTC_ENABLED)
+#if XINCX_CHECK(XINCX_RTC_ENABLED)
 
-#if !(NRFX_CHECK(XINCX_RTC0_ENABLED))
+#if !(XINCX_CHECK(XINCX_RTC0_ENABLED))
 #error "No enabled RTC instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_rtc.h>
 #include "bsp_clk.h"
 
-#define NRFX_LOG_MODULE RTC
+#define XINCX_LOG_MODULE RTC
 #include <xincx_log.h>
 
 
@@ -42,9 +42,9 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config,
                          xincx_rtc_handler_t        handler)
 {	
-    NRFX_ASSERT(p_config);
-    NRFX_ASSERT(handler);
-    xincx_err_t err_code = NRFX_SUCCESS;
+    XINCX_ASSERT(p_config);
+    XINCX_ASSERT(handler);
+    xincx_err_t err_code = XINCX_SUCCESS;
     uint32_t reg;
     float freq = 0.0;
     volatile int32_t hw_timeout = HW_RTC_TIMEOUT;
@@ -52,24 +52,24 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
     {              
         m_AoTimehandlers[p_instance->instance_id] = handler;
         xc_rtc_clk_init();
-        NRFX_IRQ_ENABLE(RTC_IRQn);
+        XINCX_IRQ_ENABLE(RTC_IRQn);
 
         return err_code;
     } 
 
-    if (m_cb[p_instance->instance_id].state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (m_cb[p_instance->instance_id].state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
+        err_code = XINCX_ERROR_INVALID_STATE;
         printf("Function: %s, error code",__func__);
 
         if(m_AoTimehandlers[p_instance->instance_id] != NULL)
         {
-            err_code = NRFX_SUCCESS;
+            err_code = XINCX_SUCCESS;
         }
 
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
         __func__,
-        NRFX_LOG_ERROR_STRING_GET(err_code));
+        XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 	
@@ -95,8 +95,8 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
     
     reg = p_instance->p_reg->ALL_INTR_AO;
 
-    //  NRFX_IRQ_PRIORITY_SET(p_instance->irq, p_config->interrupt_priority);
-    NRFX_IRQ_ENABLE(RTC_IRQn);
+    //  XINCX_IRQ_PRIORITY_SET(p_instance->irq, p_config->interrupt_priority);
+    XINCX_IRQ_ENABLE(RTC_IRQn);
     while((!calibration_flag) && (hw_timeout > 0))//
     {
         __nop();	
@@ -104,7 +104,7 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
     }
     if(hw_timeout < 0)
     {
-        err_code = NRFX_ERROR_TIMEOUT;
+        err_code = XINCX_ERROR_TIMEOUT;
         return err_code;
     }
     reg = p_instance->p_reg->FREQ_32K_TIMER_VAL;
@@ -134,23 +134,23 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
         
 
     m_cb[p_instance->instance_id].reliable     = p_config->reliable;
-    m_cb[p_instance->instance_id].state        = NRFX_DRV_STATE_INITIALIZED;
+    m_cb[p_instance->instance_id].state        = XINCX_DRV_STATE_INITIALIZED;
 
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
 
 void xincx_rtc_uninit(xincx_rtc_t const * const p_instance)
 {
-    m_cb[p_instance->instance_id].state        = NRFX_DRV_STATE_UNINITIALIZED;
+    m_cb[p_instance->instance_id].state        = XINCX_DRV_STATE_UNINITIALIZED;
 }
 
 
 void xincx_rtc_enable(xincx_rtc_t const * const p_instance)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_id].state == NRFX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(m_cb[p_instance->instance_id].state == XINCX_DRV_STATE_INITIALIZED);
 
     p_instance->p_reg->ICR |= RTC_ICR_CntE_Msk;
 }
@@ -286,7 +286,7 @@ xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
                            xincx_rtc_match_config_t  config ,
                            bool                     enable_irq)
 {
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     __IOM uint32_t *reg = NULL;
     uint8_t irq_idx;
     switch(channel)
@@ -310,7 +310,7 @@ xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
         }break;
         
         default:
-                err_code = NRFX_ERROR_INVALID_PARAM;
+                err_code = XINCX_ERROR_INVALID_PARAM;
         break;
     }
 		
@@ -331,7 +331,7 @@ xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
 xincx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel)
 {
     uint8_t irq_idx;
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     switch(channel)
     {
         case XINCX_RTC_MATCH_TIME_1:
@@ -351,7 +351,7 @@ xincx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_r
         }break;
         
         default:
-            err_code = NRFX_ERROR_INVALID_PARAM;
+            err_code = XINCX_ERROR_INVALID_PARAM;
         break;
     }
     xinc_rtc_int_disable(p_instance->p_reg, 0x01 << irq_idx);
@@ -394,9 +394,9 @@ static void irq_handler(XINC_RTC_Type * p_reg,
         p_reg->AO_TIMER_CTL = clr_reg;
         
         calibration_flag = 1;
-    //		if(m_cb[instance_id].state == NRFX_DRV_STATE_UNINITIALIZED)
+    //		if(m_cb[instance_id].state == XINCX_DRV_STATE_UNINITIALIZED)
     //		{
-    //			NRFX_LOG_INFO("RTC 32K  calibration ok.\r\n");
+    //			XINCX_LOG_INFO("RTC 32K  calibration ok.\r\n");
     //			calibration_flag = 1;
     //			printf("RTC 32K calibration ok.\r\n");
     //		}
@@ -414,7 +414,7 @@ static void irq_handler(XINC_RTC_Type * p_reg,
     if(reg)
     {
         p_reg->ISR_EOI = reg;
-        if(m_cb[instance_id].state == NRFX_DRV_STATE_INITIALIZED)
+        if(m_cb[instance_id].state == XINCX_DRV_STATE_INITIALIZED)
         {
             if((reg & XINC_RTC_INT_DAY_MASK) == XINC_RTC_INT_DAY_MASK)
             {
@@ -463,14 +463,14 @@ static void irq_handler(XINC_RTC_Type * p_reg,
 
 }
 
-#if NRFX_CHECK(XINCX_RTC0_ENABLED)
+#if XINCX_CHECK(XINCX_RTC0_ENABLED)
 void xincx_rtc_0_irq_handler(void)
 {
     irq_handler(XINC_RTC0, XINCX_RTC0_INST_IDX);
 }
 #endif
 
-#if NRFX_CHECK(XINCX_RTC_ENABLED)
+#if XINCX_CHECK(XINCX_RTC_ENABLED)
 void RTC_Handler(void)
 {		
     xincx_rtc_0_irq_handler();
@@ -480,4 +480,4 @@ void RTC_Handler(void)
 
 
 
-#endif // NRFX_CHECK(XINCX_RTC_ENABLED)
+#endif // XINCX_CHECK(XINCX_RTC_ENABLED)

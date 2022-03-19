@@ -1716,12 +1716,12 @@
 
 // </e>
 
-// <e> NRFX_CLOCK_ENABLED - xincx_clock - CLOCK peripheral driver
+// <e> XINCX_CLOCK_ENABLED - xincx_clock - CLOCK peripheral driver
 //==========================================================
-#ifndef NRFX_CLOCK_ENABLED
-#define NRFX_CLOCK_ENABLED 0
+#ifndef XINCX_CLOCK_ENABLED
+#define XINCX_CLOCK_ENABLED 0
 #endif
-// <o> NRFX_CLOCK_CONFIG_LF_SRC  - LF Clock Source
+// <o> XINCX_CLOCK_CONFIG_LF_SRC  - LF Clock Source
  
 // <0=> RC 
 // <1=> XTAL 
@@ -1729,11 +1729,11 @@
 // <131073=> External Low Swing 
 // <196609=> External Full Swing 
 
-#ifndef NRFX_CLOCK_CONFIG_LF_SRC
-#define NRFX_CLOCK_CONFIG_LF_SRC 1
+#ifndef XINCX_CLOCK_CONFIG_LF_SRC
+#define XINCX_CLOCK_CONFIG_LF_SRC 1
 #endif
 
-// <o> NRFX_CLOCK_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_CLOCK_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -1744,16 +1744,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_CLOCK_CONFIG_IRQ_PRIORITY
-#define NRFX_CLOCK_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_CLOCK_CONFIG_IRQ_PRIORITY
+#define XINCX_CLOCK_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_CLOCK_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_CLOCK_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_CLOCK_CONFIG_LOG_ENABLED
-#define NRFX_CLOCK_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_CLOCK_CONFIG_LOG_ENABLED
+#define XINCX_CLOCK_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_CLOCK_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_CLOCK_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -1761,11 +1761,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_CLOCK_CONFIG_LOG_LEVEL
-#define NRFX_CLOCK_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_CLOCK_CONFIG_LOG_LEVEL
+#define XINCX_CLOCK_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_CLOCK_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_CLOCK_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1777,11 +1777,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_CLOCK_CONFIG_INFO_COLOR
-#define NRFX_CLOCK_CONFIG_INFO_COLOR 0
+#ifndef XINCX_CLOCK_CONFIG_INFO_COLOR
+#define XINCX_CLOCK_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_CLOCK_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_CLOCK_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1793,20 +1793,20 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_CLOCK_CONFIG_DEBUG_COLOR
-#define NRFX_CLOCK_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_CLOCK_CONFIG_DEBUG_COLOR
+#define XINCX_CLOCK_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_COMP_ENABLED - xincx_comp - COMP peripheral driver
+// <e> XINCX_COMP_ENABLED - xincx_comp - COMP peripheral driver
 //==========================================================
-#ifndef NRFX_COMP_ENABLED
-#define NRFX_COMP_ENABLED 0
+#ifndef XINCX_COMP_ENABLED
+#define XINCX_COMP_ENABLED 0
 #endif
-// <o> NRFX_COMP_CONFIG_REF  - Reference voltage
+// <o> XINCX_COMP_CONFIG_REF  - Reference voltage
  
 // <0=> Internal 1.2V 
 // <1=> Internal 1.8V 
@@ -1814,50 +1814,50 @@
 // <4=> VDD 
 // <7=> ARef 
 
-#ifndef NRFX_COMP_CONFIG_REF
-#define NRFX_COMP_CONFIG_REF 1
+#ifndef XINCX_COMP_CONFIG_REF
+#define XINCX_COMP_CONFIG_REF 1
 #endif
 
-// <o> NRFX_COMP_CONFIG_MAIN_MODE  - Main mode
+// <o> XINCX_COMP_CONFIG_MAIN_MODE  - Main mode
  
 // <0=> Single ended 
 // <1=> Differential 
 
-#ifndef NRFX_COMP_CONFIG_MAIN_MODE
-#define NRFX_COMP_CONFIG_MAIN_MODE 0
+#ifndef XINCX_COMP_CONFIG_MAIN_MODE
+#define XINCX_COMP_CONFIG_MAIN_MODE 0
 #endif
 
-// <o> NRFX_COMP_CONFIG_SPEED_MODE  - Speed mode
+// <o> XINCX_COMP_CONFIG_SPEED_MODE  - Speed mode
  
 // <0=> Low power 
 // <1=> Normal 
 // <2=> High speed 
 
-#ifndef NRFX_COMP_CONFIG_SPEED_MODE
-#define NRFX_COMP_CONFIG_SPEED_MODE 2
+#ifndef XINCX_COMP_CONFIG_SPEED_MODE
+#define XINCX_COMP_CONFIG_SPEED_MODE 2
 #endif
 
-// <o> NRFX_COMP_CONFIG_HYST  - Hystheresis
+// <o> XINCX_COMP_CONFIG_HYST  - Hystheresis
  
 // <0=> No 
 // <1=> 50mV 
 
-#ifndef NRFX_COMP_CONFIG_HYST
-#define NRFX_COMP_CONFIG_HYST 0
+#ifndef XINCX_COMP_CONFIG_HYST
+#define XINCX_COMP_CONFIG_HYST 0
 #endif
 
-// <o> NRFX_COMP_CONFIG_ISOURCE  - Current Source
+// <o> XINCX_COMP_CONFIG_ISOURCE  - Current Source
  
 // <0=> Off 
 // <1=> 2.5 uA 
 // <2=> 5 uA 
 // <3=> 10 uA 
 
-#ifndef NRFX_COMP_CONFIG_ISOURCE
-#define NRFX_COMP_CONFIG_ISOURCE 0
+#ifndef XINCX_COMP_CONFIG_ISOURCE
+#define XINCX_COMP_CONFIG_ISOURCE 0
 #endif
 
-// <o> NRFX_COMP_CONFIG_INPUT  - Analog input
+// <o> XINCX_COMP_CONFIG_INPUT  - Analog input
  
 // <0=> 0 
 // <1=> 1 
@@ -1868,11 +1868,11 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_COMP_CONFIG_INPUT
-#define NRFX_COMP_CONFIG_INPUT 0
+#ifndef XINCX_COMP_CONFIG_INPUT
+#define XINCX_COMP_CONFIG_INPUT 0
 #endif
 
-// <o> NRFX_COMP_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_COMP_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -1883,16 +1883,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_COMP_CONFIG_IRQ_PRIORITY
-#define NRFX_COMP_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_COMP_CONFIG_IRQ_PRIORITY
+#define XINCX_COMP_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_COMP_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_COMP_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_COMP_CONFIG_LOG_ENABLED
-#define NRFX_COMP_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_COMP_CONFIG_LOG_ENABLED
+#define XINCX_COMP_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_COMP_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_COMP_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -1900,11 +1900,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_COMP_CONFIG_LOG_LEVEL
-#define NRFX_COMP_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_COMP_CONFIG_LOG_LEVEL
+#define XINCX_COMP_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_COMP_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_COMP_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1916,11 +1916,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_COMP_CONFIG_INFO_COLOR
-#define NRFX_COMP_CONFIG_INFO_COLOR 0
+#ifndef XINCX_COMP_CONFIG_INFO_COLOR
+#define XINCX_COMP_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_COMP_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_COMP_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -1932,8 +1932,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_COMP_CONFIG_DEBUG_COLOR
-#define NRFX_COMP_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_COMP_CONFIG_DEBUG_COLOR
+#define XINCX_COMP_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
@@ -2018,92 +2018,92 @@
 
 // </e>
 
-// <e> NRFX_I2S_ENABLED - xincx_i2s - I2S peripheral driver
+// <e> XINCX_I2S_ENABLED - xincx_i2s - I2S peripheral driver
 //==========================================================
-#ifndef NRFX_I2S_ENABLED
-#define NRFX_I2S_ENABLED 0
+#ifndef XINCX_I2S_ENABLED
+#define XINCX_I2S_ENABLED 0
 #endif
-// <o> NRFX_I2S_CONFIG_SCK_PIN - SCK pin  <0-31> 
+// <o> XINCX_I2S_CONFIG_SCK_PIN - SCK pin  <0-31> 
 
 
-#ifndef NRFX_I2S_CONFIG_SCK_PIN
-#define NRFX_I2S_CONFIG_SCK_PIN 31
-#endif
-
-// <o> NRFX_I2S_CONFIG_LRCK_PIN - LRCK pin  <1-31> 
-
-
-#ifndef NRFX_I2S_CONFIG_LRCK_PIN
-#define NRFX_I2S_CONFIG_LRCK_PIN 30
+#ifndef XINCX_I2S_CONFIG_SCK_PIN
+#define XINCX_I2S_CONFIG_SCK_PIN 31
 #endif
 
-// <o> NRFX_I2S_CONFIG_MCK_PIN - MCK pin 
-#ifndef NRFX_I2S_CONFIG_MCK_PIN
-#define NRFX_I2S_CONFIG_MCK_PIN 255
+// <o> XINCX_I2S_CONFIG_LRCK_PIN - LRCK pin  <1-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_LRCK_PIN
+#define XINCX_I2S_CONFIG_LRCK_PIN 30
 #endif
 
-// <o> NRFX_I2S_CONFIG_SDOUT_PIN - SDOUT pin  <0-31> 
-
-
-#ifndef NRFX_I2S_CONFIG_SDOUT_PIN
-#define NRFX_I2S_CONFIG_SDOUT_PIN 29
+// <o> XINCX_I2S_CONFIG_MCK_PIN - MCK pin 
+#ifndef XINCX_I2S_CONFIG_MCK_PIN
+#define XINCX_I2S_CONFIG_MCK_PIN 255
 #endif
 
-// <o> NRFX_I2S_CONFIG_SDIN_PIN - SDIN pin  <0-31> 
+// <o> XINCX_I2S_CONFIG_SDOUT_PIN - SDOUT pin  <0-31> 
 
 
-#ifndef NRFX_I2S_CONFIG_SDIN_PIN
-#define NRFX_I2S_CONFIG_SDIN_PIN 28
+#ifndef XINCX_I2S_CONFIG_SDOUT_PIN
+#define XINCX_I2S_CONFIG_SDOUT_PIN 29
 #endif
 
-// <o> NRFX_I2S_CONFIG_MASTER  - Mode
+// <o> XINCX_I2S_CONFIG_SDIN_PIN - SDIN pin  <0-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_SDIN_PIN
+#define XINCX_I2S_CONFIG_SDIN_PIN 28
+#endif
+
+// <o> XINCX_I2S_CONFIG_MASTER  - Mode
  
 // <0=> Master 
 // <1=> Slave 
 
-#ifndef NRFX_I2S_CONFIG_MASTER
-#define NRFX_I2S_CONFIG_MASTER 0
+#ifndef XINCX_I2S_CONFIG_MASTER
+#define XINCX_I2S_CONFIG_MASTER 0
 #endif
 
-// <o> NRFX_I2S_CONFIG_FORMAT  - Format
+// <o> XINCX_I2S_CONFIG_FORMAT  - Format
  
 // <0=> I2S 
 // <1=> Aligned 
 
-#ifndef NRFX_I2S_CONFIG_FORMAT
-#define NRFX_I2S_CONFIG_FORMAT 0
+#ifndef XINCX_I2S_CONFIG_FORMAT
+#define XINCX_I2S_CONFIG_FORMAT 0
 #endif
 
-// <o> NRFX_I2S_CONFIG_ALIGN  - Alignment
+// <o> XINCX_I2S_CONFIG_ALIGN  - Alignment
  
 // <0=> Left 
 // <1=> Right 
 
-#ifndef NRFX_I2S_CONFIG_ALIGN
-#define NRFX_I2S_CONFIG_ALIGN 0
+#ifndef XINCX_I2S_CONFIG_ALIGN
+#define XINCX_I2S_CONFIG_ALIGN 0
 #endif
 
-// <o> NRFX_I2S_CONFIG_SWIDTH  - Sample width (bits)
+// <o> XINCX_I2S_CONFIG_SWIDTH  - Sample width (bits)
  
 // <0=> 8 
 // <1=> 16 
 // <2=> 24 
 
-#ifndef NRFX_I2S_CONFIG_SWIDTH
-#define NRFX_I2S_CONFIG_SWIDTH 1
+#ifndef XINCX_I2S_CONFIG_SWIDTH
+#define XINCX_I2S_CONFIG_SWIDTH 1
 #endif
 
-// <o> NRFX_I2S_CONFIG_CHANNELS  - Channels
+// <o> XINCX_I2S_CONFIG_CHANNELS  - Channels
  
 // <0=> Stereo 
 // <1=> Left 
 // <2=> Right 
 
-#ifndef NRFX_I2S_CONFIG_CHANNELS
-#define NRFX_I2S_CONFIG_CHANNELS 1
+#ifndef XINCX_I2S_CONFIG_CHANNELS
+#define XINCX_I2S_CONFIG_CHANNELS 1
 #endif
 
-// <o> NRFX_I2S_CONFIG_MCK_SETUP  - MCK behavior
+// <o> XINCX_I2S_CONFIG_MCK_SETUP  - MCK behavior
  
 // <0=> Disabled 
 // <2147483648=> 32MHz/2 
@@ -2125,11 +2125,11 @@
 // <68157440=> 32MHz/63 
 // <34340864=> 32MHz/125 
 
-#ifndef NRFX_I2S_CONFIG_MCK_SETUP
-#define NRFX_I2S_CONFIG_MCK_SETUP 536870912
+#ifndef XINCX_I2S_CONFIG_MCK_SETUP
+#define XINCX_I2S_CONFIG_MCK_SETUP 536870912
 #endif
 
-// <o> NRFX_I2S_CONFIG_RATIO  - MCK/LRCK ratio
+// <o> XINCX_I2S_CONFIG_RATIO  - MCK/LRCK ratio
  
 // <0=> 32x 
 // <1=> 48x 
@@ -2141,11 +2141,11 @@
 // <7=> 384x 
 // <8=> 512x 
 
-#ifndef NRFX_I2S_CONFIG_RATIO
-#define NRFX_I2S_CONFIG_RATIO 2000
+#ifndef XINCX_I2S_CONFIG_RATIO
+#define XINCX_I2S_CONFIG_RATIO 2000
 #endif
 
-// <o> NRFX_I2S_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_I2S_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2156,16 +2156,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_I2S_CONFIG_IRQ_PRIORITY
-#define NRFX_I2S_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_I2S_CONFIG_IRQ_PRIORITY
+#define XINCX_I2S_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_I2S_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_I2S_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_I2S_CONFIG_LOG_ENABLED
-#define NRFX_I2S_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_I2S_CONFIG_LOG_ENABLED
+#define XINCX_I2S_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_I2S_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_I2S_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2173,11 +2173,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_I2S_CONFIG_LOG_LEVEL
-#define NRFX_I2S_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_I2S_CONFIG_LOG_LEVEL
+#define XINCX_I2S_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_I2S_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_I2S_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2189,11 +2189,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_I2S_CONFIG_INFO_COLOR
-#define NRFX_I2S_CONFIG_INFO_COLOR 0
+#ifndef XINCX_I2S_CONFIG_INFO_COLOR
+#define XINCX_I2S_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_I2S_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_I2S_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2205,20 +2205,20 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_I2S_CONFIG_DEBUG_COLOR
-#define NRFX_I2S_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_I2S_CONFIG_DEBUG_COLOR
+#define XINCX_I2S_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_LPCOMP_ENABLED - xincx_lpcomp - LPCOMP peripheral driver
+// <e> XINCX_LPCOMP_ENABLED - xincx_lpcomp - LPCOMP peripheral driver
 //==========================================================
-#ifndef NRFX_LPCOMP_ENABLED
-#define NRFX_LPCOMP_ENABLED 0
+#ifndef XINCX_LPCOMP_ENABLED
+#define XINCX_LPCOMP_ENABLED 0
 #endif
-// <o> NRFX_LPCOMP_CONFIG_REFERENCE  - Reference voltage
+// <o> XINCX_LPCOMP_CONFIG_REFERENCE  - Reference voltage
  
 // <0=> Supply 1/8 
 // <1=> Supply 2/8 
@@ -2238,21 +2238,21 @@
 // <7=> External Ref 0 
 // <65543=> External Ref 1 
 
-#ifndef NRFX_LPCOMP_CONFIG_REFERENCE
-#define NRFX_LPCOMP_CONFIG_REFERENCE 3
+#ifndef XINCX_LPCOMP_CONFIG_REFERENCE
+#define XINCX_LPCOMP_CONFIG_REFERENCE 3
 #endif
 
-// <o> NRFX_LPCOMP_CONFIG_DETECTION  - Detection
+// <o> XINCX_LPCOMP_CONFIG_DETECTION  - Detection
  
 // <0=> Crossing 
 // <1=> Up 
 // <2=> Down 
 
-#ifndef NRFX_LPCOMP_CONFIG_DETECTION
-#define NRFX_LPCOMP_CONFIG_DETECTION 2
+#ifndef XINCX_LPCOMP_CONFIG_DETECTION
+#define XINCX_LPCOMP_CONFIG_DETECTION 2
 #endif
 
-// <o> NRFX_LPCOMP_CONFIG_INPUT  - Analog input
+// <o> XINCX_LPCOMP_CONFIG_INPUT  - Analog input
  
 // <0=> 0 
 // <1=> 1 
@@ -2263,91 +2263,18 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_LPCOMP_CONFIG_INPUT
-#define NRFX_LPCOMP_CONFIG_INPUT 0
+#ifndef XINCX_LPCOMP_CONFIG_INPUT
+#define XINCX_LPCOMP_CONFIG_INPUT 0
 #endif
 
-// <q> NRFX_LPCOMP_CONFIG_HYST  - Hysteresis
+// <q> XINCX_LPCOMP_CONFIG_HYST  - Hysteresis
  
 
-#ifndef NRFX_LPCOMP_CONFIG_HYST
-#define NRFX_LPCOMP_CONFIG_HYST 0
+#ifndef XINCX_LPCOMP_CONFIG_HYST
+#define XINCX_LPCOMP_CONFIG_HYST 0
 #endif
 
-// <o> NRFX_LPCOMP_CONFIG_IRQ_PRIORITY  - Interrupt priority
- 
-// <0=> 0 (highest) 
-// <1=> 1 
-// <2=> 2 
-// <3=> 3 
-// <4=> 4 
-// <5=> 5 
-// <6=> 6 
-// <7=> 7 
-
-#ifndef NRFX_LPCOMP_CONFIG_IRQ_PRIORITY
-#define NRFX_LPCOMP_CONFIG_IRQ_PRIORITY 6
-#endif
-
-// <e> NRFX_LPCOMP_CONFIG_LOG_ENABLED - Enables logging in the module.
-//==========================================================
-#ifndef NRFX_LPCOMP_CONFIG_LOG_ENABLED
-#define NRFX_LPCOMP_CONFIG_LOG_ENABLED 0
-#endif
-// <o> NRFX_LPCOMP_CONFIG_LOG_LEVEL  - Default Severity level
- 
-// <0=> Off 
-// <1=> Error 
-// <2=> Warning 
-// <3=> Info 
-// <4=> Debug 
-
-#ifndef NRFX_LPCOMP_CONFIG_LOG_LEVEL
-#define NRFX_LPCOMP_CONFIG_LOG_LEVEL 3
-#endif
-
-// <o> NRFX_LPCOMP_CONFIG_INFO_COLOR  - ANSI escape code prefix.
- 
-// <0=> Default 
-// <1=> Black 
-// <2=> Red 
-// <3=> Green 
-// <4=> Yellow 
-// <5=> Blue 
-// <6=> Magenta 
-// <7=> Cyan 
-// <8=> White 
-
-#ifndef NRFX_LPCOMP_CONFIG_INFO_COLOR
-#define NRFX_LPCOMP_CONFIG_INFO_COLOR 0
-#endif
-
-// <o> NRFX_LPCOMP_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
- 
-// <0=> Default 
-// <1=> Black 
-// <2=> Red 
-// <3=> Green 
-// <4=> Yellow 
-// <5=> Blue 
-// <6=> Magenta 
-// <7=> Cyan 
-// <8=> White 
-
-#ifndef NRFX_LPCOMP_CONFIG_DEBUG_COLOR
-#define NRFX_LPCOMP_CONFIG_DEBUG_COLOR 0
-#endif
-
-// </e>
-
-// </e>
-
-// <e> NRFX_NFCT_ENABLED - xincx_nfct - NFCT peripheral driver
-//==========================================================
-#ifndef NRFX_NFCT_ENABLED
-#define NRFX_NFCT_ENABLED 0
-#endif
-// <o> NRFX_NFCT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_LPCOMP_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2358,16 +2285,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_NFCT_CONFIG_IRQ_PRIORITY
-#define NRFX_NFCT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_LPCOMP_CONFIG_IRQ_PRIORITY
+#define XINCX_LPCOMP_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_NFCT_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_LPCOMP_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_NFCT_CONFIG_LOG_ENABLED
-#define NRFX_NFCT_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_LPCOMP_CONFIG_LOG_ENABLED
+#define XINCX_LPCOMP_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_NFCT_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_LPCOMP_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2375,11 +2302,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_NFCT_CONFIG_LOG_LEVEL
-#define NRFX_NFCT_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_LPCOMP_CONFIG_LOG_LEVEL
+#define XINCX_LPCOMP_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_NFCT_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_LPCOMP_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2391,11 +2318,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_NFCT_CONFIG_INFO_COLOR
-#define NRFX_NFCT_CONFIG_INFO_COLOR 0
+#ifndef XINCX_LPCOMP_CONFIG_INFO_COLOR
+#define XINCX_LPCOMP_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_NFCT_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_LPCOMP_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2407,48 +2334,121 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_NFCT_CONFIG_DEBUG_COLOR
-#define NRFX_NFCT_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_LPCOMP_CONFIG_DEBUG_COLOR
+#define XINCX_LPCOMP_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_PDM_ENABLED - xincx_pdm - PDM peripheral driver
+// <e> XINCX_NFCT_ENABLED - xincx_nfct - NFCT peripheral driver
 //==========================================================
-#ifndef NRFX_PDM_ENABLED
-#define NRFX_PDM_ENABLED 0
+#ifndef XINCX_NFCT_ENABLED
+#define XINCX_NFCT_ENABLED 0
 #endif
-// <o> NRFX_PDM_CONFIG_MODE  - Mode
+// <o> XINCX_NFCT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_NFCT_CONFIG_IRQ_PRIORITY
+#define XINCX_NFCT_CONFIG_IRQ_PRIORITY 6
+#endif
+
+// <e> XINCX_NFCT_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_NFCT_CONFIG_LOG_ENABLED
+#define XINCX_NFCT_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_NFCT_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+
+#ifndef XINCX_NFCT_CONFIG_LOG_LEVEL
+#define XINCX_NFCT_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> XINCX_NFCT_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_NFCT_CONFIG_INFO_COLOR
+#define XINCX_NFCT_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_NFCT_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_NFCT_CONFIG_DEBUG_COLOR
+#define XINCX_NFCT_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
+// <e> XINCX_PDM_ENABLED - xincx_pdm - PDM peripheral driver
+//==========================================================
+#ifndef XINCX_PDM_ENABLED
+#define XINCX_PDM_ENABLED 0
+#endif
+// <o> XINCX_PDM_CONFIG_MODE  - Mode
  
 // <0=> Stereo 
 // <1=> Mono 
 
-#ifndef NRFX_PDM_CONFIG_MODE
-#define NRFX_PDM_CONFIG_MODE 1
+#ifndef XINCX_PDM_CONFIG_MODE
+#define XINCX_PDM_CONFIG_MODE 1
 #endif
 
-// <o> NRFX_PDM_CONFIG_EDGE  - Edge
+// <o> XINCX_PDM_CONFIG_EDGE  - Edge
  
 // <0=> Left falling 
 // <1=> Left rising 
 
-#ifndef NRFX_PDM_CONFIG_EDGE
-#define NRFX_PDM_CONFIG_EDGE 0
+#ifndef XINCX_PDM_CONFIG_EDGE
+#define XINCX_PDM_CONFIG_EDGE 0
 #endif
 
-// <o> NRFX_PDM_CONFIG_CLOCK_FREQ  - Clock frequency
+// <o> XINCX_PDM_CONFIG_CLOCK_FREQ  - Clock frequency
  
 // <134217728=> 1000k 
 // <138412032=> 1032k (default) 
 // <142606336=> 1067k 
 
-#ifndef NRFX_PDM_CONFIG_CLOCK_FREQ
-#define NRFX_PDM_CONFIG_CLOCK_FREQ 138412032
+#ifndef XINCX_PDM_CONFIG_CLOCK_FREQ
+#define XINCX_PDM_CONFIG_CLOCK_FREQ 138412032
 #endif
 
-// <o> NRFX_PDM_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_PDM_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2459,16 +2459,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_PDM_CONFIG_IRQ_PRIORITY
-#define NRFX_PDM_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_PDM_CONFIG_IRQ_PRIORITY
+#define XINCX_PDM_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_PDM_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_PDM_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_PDM_CONFIG_LOG_ENABLED
-#define NRFX_PDM_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_PDM_CONFIG_LOG_ENABLED
+#define XINCX_PDM_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_PDM_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_PDM_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2476,11 +2476,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_PDM_CONFIG_LOG_LEVEL
-#define NRFX_PDM_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_PDM_CONFIG_LOG_LEVEL
+#define XINCX_PDM_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_PDM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PDM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2492,11 +2492,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PDM_CONFIG_INFO_COLOR
-#define NRFX_PDM_CONFIG_INFO_COLOR 0
+#ifndef XINCX_PDM_CONFIG_INFO_COLOR
+#define XINCX_PDM_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_PDM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PDM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2508,20 +2508,20 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PDM_CONFIG_DEBUG_COLOR
-#define NRFX_PDM_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_PDM_CONFIG_DEBUG_COLOR
+#define XINCX_PDM_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_POWER_ENABLED - xincx_power - POWER peripheral driver
+// <e> XINCX_POWER_ENABLED - xincx_power - POWER peripheral driver
 //==========================================================
-#ifndef NRFX_POWER_ENABLED
-#define NRFX_POWER_ENABLED 1
+#ifndef XINCX_POWER_ENABLED
+#define XINCX_POWER_ENABLED 1
 #endif
-// <o> NRFX_POWER_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_POWER_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2532,41 +2532,41 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_POWER_CONFIG_IRQ_PRIORITY
-#define NRFX_POWER_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_POWER_CONFIG_IRQ_PRIORITY
+#define XINCX_POWER_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <q> NRFX_POWER_CONFIG_DEFAULT_DCDCEN  - The default configuration of main DCDC regulator
+// <q> XINCX_POWER_CONFIG_DEFAULT_DCDCEN  - The default configuration of main DCDC regulator
  
 
 // <i> This settings means only that components for DCDC regulator are installed and it can be enabled.
 
-#ifndef NRFX_POWER_CONFIG_DEFAULT_DCDCEN
-#define NRFX_POWER_CONFIG_DEFAULT_DCDCEN 0
+#ifndef XINCX_POWER_CONFIG_DEFAULT_DCDCEN
+#define XINCX_POWER_CONFIG_DEFAULT_DCDCEN 0
 #endif
 
-// <q> NRFX_POWER_CONFIG_DEFAULT_DCDCENHV  - The default configuration of High Voltage DCDC regulator
+// <q> XINCX_POWER_CONFIG_DEFAULT_DCDCENHV  - The default configuration of High Voltage DCDC regulator
  
 
 // <i> This settings means only that components for DCDC regulator are installed and it can be enabled.
 
-#ifndef NRFX_POWER_CONFIG_DEFAULT_DCDCENHV
-#define NRFX_POWER_CONFIG_DEFAULT_DCDCENHV 0
+#ifndef XINCX_POWER_CONFIG_DEFAULT_DCDCENHV
+#define XINCX_POWER_CONFIG_DEFAULT_DCDCENHV 0
 #endif
 
 // </e>
 
-// <e> NRFX_PPI_ENABLED - xincx_ppi - PPI peripheral allocator
+// <e> XINCX_PPI_ENABLED - xincx_ppi - PPI peripheral allocator
 //==========================================================
-#ifndef NRFX_PPI_ENABLED
-#define NRFX_PPI_ENABLED 0
+#ifndef XINCX_PPI_ENABLED
+#define XINCX_PPI_ENABLED 0
 #endif
-// <e> NRFX_PPI_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_PPI_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_PPI_CONFIG_LOG_ENABLED
-#define NRFX_PPI_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_PPI_CONFIG_LOG_ENABLED
+#define XINCX_PPI_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_PPI_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_PPI_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2574,11 +2574,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_PPI_CONFIG_LOG_LEVEL
-#define NRFX_PPI_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_PPI_CONFIG_LOG_LEVEL
+#define XINCX_PPI_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_PPI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PPI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2590,11 +2590,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PPI_CONFIG_INFO_COLOR
-#define NRFX_PPI_CONFIG_INFO_COLOR 0
+#ifndef XINCX_PPI_CONFIG_INFO_COLOR
+#define XINCX_PPI_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_PPI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PPI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2606,76 +2606,76 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PPI_CONFIG_DEBUG_COLOR
-#define NRFX_PPI_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_PPI_CONFIG_DEBUG_COLOR
+#define XINCX_PPI_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
+// <e> XINCX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
-#ifndef NRFX_PWM_ENABLED
-#define NRFX_PWM_ENABLED 0
+#ifndef XINCX_PWM_ENABLED
+#define XINCX_PWM_ENABLED 0
 #endif
-// <q> NRFX_PWM0_ENABLED  - Enable PWM0 instance
+// <q> XINCX_PWM0_ENABLED  - Enable PWM0 instance
  
 
-#ifndef NRFX_PWM0_ENABLED
-#define NRFX_PWM0_ENABLED 0
+#ifndef XINCX_PWM0_ENABLED
+#define XINCX_PWM0_ENABLED 0
 #endif
 
-// <q> NRFX_PWM1_ENABLED  - Enable PWM1 instance
+// <q> XINCX_PWM1_ENABLED  - Enable PWM1 instance
  
 
-#ifndef NRFX_PWM1_ENABLED
-#define NRFX_PWM1_ENABLED 0
+#ifndef XINCX_PWM1_ENABLED
+#define XINCX_PWM1_ENABLED 0
 #endif
 
-// <q> NRFX_PWM2_ENABLED  - Enable PWM2 instance
+// <q> XINCX_PWM2_ENABLED  - Enable PWM2 instance
  
 
-#ifndef NRFX_PWM2_ENABLED
-#define NRFX_PWM2_ENABLED 0
+#ifndef XINCX_PWM2_ENABLED
+#define XINCX_PWM2_ENABLED 0
 #endif
 
-// <q> NRFX_PWM3_ENABLED  - Enable PWM3 instance
+// <q> XINCX_PWM3_ENABLED  - Enable PWM3 instance
  
 
-#ifndef NRFX_PWM3_ENABLED
-#define NRFX_PWM3_ENABLED 0
+#ifndef XINCX_PWM3_ENABLED
+#define XINCX_PWM3_ENABLED 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN - Out0 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN - Out0 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT0_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT0_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN - Out1 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN - Out1 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT1_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN - Out2 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN - Out2 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT2_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT2_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN - Out3 pin  <0-31> 
+// <o> XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN - Out3 pin  <0-31> 
 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN
-#define NRFX_PWM_DEFAULT_CONFIG_OUT3_PIN 31
+#ifndef XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN
+#define XINCX_PWM_DEFAULT_CONFIG_OUT3_PIN 31
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_BASE_CLOCK  - Base clock
+// <o> XINCX_PWM_DEFAULT_CONFIG_BASE_CLOCK  - Base clock
  
 // <0=> 16 MHz 
 // <1=> 8 MHz 
@@ -2686,45 +2686,45 @@
 // <6=> 250 kHz 
 // <7=> 125 kHz 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_BASE_CLOCK
-#define NRFX_PWM_DEFAULT_CONFIG_BASE_CLOCK 4
+#ifndef XINCX_PWM_DEFAULT_CONFIG_BASE_CLOCK
+#define XINCX_PWM_DEFAULT_CONFIG_BASE_CLOCK 4
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE  - Count mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE  - Count mode
  
 // <0=> Up 
 // <1=> Up and Down 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_COUNT_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_COUNT_MODE 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE - Top value 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE
-#define NRFX_PWM_DEFAULT_CONFIG_TOP_VALUE 1000
+// <o> XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE - Top value 
+#ifndef XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE
+#define XINCX_PWM_DEFAULT_CONFIG_TOP_VALUE 1000
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE  - Load mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE  - Load mode
  
 // <0=> Common 
 // <1=> Grouped 
 // <2=> Individual 
 // <3=> Waveform 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_LOAD_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_LOAD_MODE 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_STEP_MODE  - Step mode
+// <o> XINCX_PWM_DEFAULT_CONFIG_STEP_MODE  - Step mode
  
 // <0=> Auto 
 // <1=> Triggered 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_STEP_MODE
-#define NRFX_PWM_DEFAULT_CONFIG_STEP_MODE 0
+#ifndef XINCX_PWM_DEFAULT_CONFIG_STEP_MODE
+#define XINCX_PWM_DEFAULT_CONFIG_STEP_MODE 0
 #endif
 
-// <o> NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2735,16 +2735,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_PWM_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_PWM_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_PWM_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_PWM_CONFIG_LOG_ENABLED
-#define NRFX_PWM_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_PWM_CONFIG_LOG_ENABLED
+#define XINCX_PWM_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_PWM_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_PWM_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2752,11 +2752,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_PWM_CONFIG_LOG_LEVEL
-#define NRFX_PWM_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_PWM_CONFIG_LOG_LEVEL
+#define XINCX_PWM_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_PWM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PWM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2768,11 +2768,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PWM_CONFIG_INFO_COLOR
-#define NRFX_PWM_CONFIG_INFO_COLOR 0
+#ifndef XINCX_PWM_CONFIG_INFO_COLOR
+#define XINCX_PWM_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_PWM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_PWM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2784,20 +2784,20 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_PWM_CONFIG_DEBUG_COLOR
-#define NRFX_PWM_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_PWM_CONFIG_DEBUG_COLOR
+#define XINCX_PWM_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_QDEC_ENABLED - xincx_qdec - QDEC peripheral driver
+// <e> XINCX_QDEC_ENABLED - xincx_qdec - QDEC peripheral driver
 //==========================================================
-#ifndef NRFX_QDEC_ENABLED
-#define NRFX_QDEC_ENABLED 0
+#ifndef XINCX_QDEC_ENABLED
+#define XINCX_QDEC_ENABLED 0
 #endif
-// <o> NRFX_QDEC_CONFIG_REPORTPER  - Report period
+// <o> XINCX_QDEC_CONFIG_REPORTPER  - Report period
  
 // <0=> 10 Samples 
 // <1=> 40 Samples 
@@ -2808,11 +2808,11 @@
 // <6=> 240 Samples 
 // <7=> 280 Samples 
 
-#ifndef NRFX_QDEC_CONFIG_REPORTPER
-#define NRFX_QDEC_CONFIG_REPORTPER 0
+#ifndef XINCX_QDEC_CONFIG_REPORTPER
+#define XINCX_QDEC_CONFIG_REPORTPER 0
 #endif
 
-// <o> NRFX_QDEC_CONFIG_SAMPLEPER  - Sample period
+// <o> XINCX_QDEC_CONFIG_SAMPLEPER  - Sample period
  
 // <0=> 128 us 
 // <1=> 256 us 
@@ -2823,60 +2823,60 @@
 // <6=> 8192 us 
 // <7=> 16384 us 
 
-#ifndef NRFX_QDEC_CONFIG_SAMPLEPER
-#define NRFX_QDEC_CONFIG_SAMPLEPER 7
+#ifndef XINCX_QDEC_CONFIG_SAMPLEPER
+#define XINCX_QDEC_CONFIG_SAMPLEPER 7
 #endif
 
-// <o> NRFX_QDEC_CONFIG_PIO_A - A pin  <0-31> 
+// <o> XINCX_QDEC_CONFIG_PIO_A - A pin  <0-31> 
 
 
-#ifndef NRFX_QDEC_CONFIG_PIO_A
-#define NRFX_QDEC_CONFIG_PIO_A 31
+#ifndef XINCX_QDEC_CONFIG_PIO_A
+#define XINCX_QDEC_CONFIG_PIO_A 31
 #endif
 
-// <o> NRFX_QDEC_CONFIG_PIO_B - B pin  <0-31> 
+// <o> XINCX_QDEC_CONFIG_PIO_B - B pin  <0-31> 
 
 
-#ifndef NRFX_QDEC_CONFIG_PIO_B
-#define NRFX_QDEC_CONFIG_PIO_B 31
+#ifndef XINCX_QDEC_CONFIG_PIO_B
+#define XINCX_QDEC_CONFIG_PIO_B 31
 #endif
 
-// <o> NRFX_QDEC_CONFIG_PIO_LED - LED pin  <0-31> 
+// <o> XINCX_QDEC_CONFIG_PIO_LED - LED pin  <0-31> 
 
 
-#ifndef NRFX_QDEC_CONFIG_PIO_LED
-#define NRFX_QDEC_CONFIG_PIO_LED 31
+#ifndef XINCX_QDEC_CONFIG_PIO_LED
+#define XINCX_QDEC_CONFIG_PIO_LED 31
 #endif
 
-// <o> NRFX_QDEC_CONFIG_LEDPRE - LED pre 
-#ifndef NRFX_QDEC_CONFIG_LEDPRE
-#define NRFX_QDEC_CONFIG_LEDPRE 511
+// <o> XINCX_QDEC_CONFIG_LEDPRE - LED pre 
+#ifndef XINCX_QDEC_CONFIG_LEDPRE
+#define XINCX_QDEC_CONFIG_LEDPRE 511
 #endif
 
-// <o> NRFX_QDEC_CONFIG_LEDPOL  - LED polarity
+// <o> XINCX_QDEC_CONFIG_LEDPOL  - LED polarity
  
 // <0=> Active low 
 // <1=> Active high 
 
-#ifndef NRFX_QDEC_CONFIG_LEDPOL
-#define NRFX_QDEC_CONFIG_LEDPOL 1
+#ifndef XINCX_QDEC_CONFIG_LEDPOL
+#define XINCX_QDEC_CONFIG_LEDPOL 1
 #endif
 
-// <q> NRFX_QDEC_CONFIG_DBFEN  - Debouncing enable
+// <q> XINCX_QDEC_CONFIG_DBFEN  - Debouncing enable
  
 
-#ifndef NRFX_QDEC_CONFIG_DBFEN
-#define NRFX_QDEC_CONFIG_DBFEN 0
+#ifndef XINCX_QDEC_CONFIG_DBFEN
+#define XINCX_QDEC_CONFIG_DBFEN 0
 #endif
 
-// <q> NRFX_QDEC_CONFIG_SAMPLE_INTEN  - Sample ready interrupt enable
+// <q> XINCX_QDEC_CONFIG_SAMPLE_INTEN  - Sample ready interrupt enable
  
 
-#ifndef NRFX_QDEC_CONFIG_SAMPLE_INTEN
-#define NRFX_QDEC_CONFIG_SAMPLE_INTEN 0
+#ifndef XINCX_QDEC_CONFIG_SAMPLE_INTEN
+#define XINCX_QDEC_CONFIG_SAMPLE_INTEN 0
 #endif
 
-// <o> NRFX_QDEC_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_QDEC_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -2887,16 +2887,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_QDEC_CONFIG_IRQ_PRIORITY
-#define NRFX_QDEC_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_QDEC_CONFIG_IRQ_PRIORITY
+#define XINCX_QDEC_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_QDEC_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_QDEC_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_QDEC_CONFIG_LOG_ENABLED
-#define NRFX_QDEC_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_QDEC_CONFIG_LOG_ENABLED
+#define XINCX_QDEC_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_QDEC_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_QDEC_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -2904,11 +2904,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_QDEC_CONFIG_LOG_LEVEL
-#define NRFX_QDEC_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_QDEC_CONFIG_LOG_LEVEL
+#define XINCX_QDEC_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_QDEC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_QDEC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2920,11 +2920,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_QDEC_CONFIG_INFO_COLOR
-#define NRFX_QDEC_CONFIG_INFO_COLOR 0
+#ifndef XINCX_QDEC_CONFIG_INFO_COLOR
+#define XINCX_QDEC_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_QDEC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_QDEC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -2936,32 +2936,32 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_QDEC_CONFIG_DEBUG_COLOR
-#define NRFX_QDEC_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_QDEC_CONFIG_DEBUG_COLOR
+#define XINCX_QDEC_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_QSPI_ENABLED - xincx_qspi - QSPI peripheral driver
+// <e> XINCX_QSPI_ENABLED - xincx_qspi - QSPI peripheral driver
 //==========================================================
-#ifndef NRFX_QSPI_ENABLED
-#define NRFX_QSPI_ENABLED 0
+#ifndef XINCX_QSPI_ENABLED
+#define XINCX_QSPI_ENABLED 0
 #endif
-// <o> NRFX_QSPI_CONFIG_SCK_DELAY - tSHSL, tWHSL and tSHWL in number of 16 MHz periods (62.5 ns).  <0-255> 
+// <o> XINCX_QSPI_CONFIG_SCK_DELAY - tSHSL, tWHSL and tSHWL in number of 16 MHz periods (62.5 ns).  <0-255> 
 
 
-#ifndef NRFX_QSPI_CONFIG_SCK_DELAY
-#define NRFX_QSPI_CONFIG_SCK_DELAY 1
-#endif
-
-// <o> NRFX_QSPI_CONFIG_XIP_OFFSET - Address offset in the external memory for Execute in Place operation. 
-#ifndef NRFX_QSPI_CONFIG_XIP_OFFSET
-#define NRFX_QSPI_CONFIG_XIP_OFFSET 0
+#ifndef XINCX_QSPI_CONFIG_SCK_DELAY
+#define XINCX_QSPI_CONFIG_SCK_DELAY 1
 #endif
 
-// <o> NRFX_QSPI_CONFIG_READOC  - Number of data lines and opcode used for reading.
+// <o> XINCX_QSPI_CONFIG_XIP_OFFSET - Address offset in the external memory for Execute in Place operation. 
+#ifndef XINCX_QSPI_CONFIG_XIP_OFFSET
+#define XINCX_QSPI_CONFIG_XIP_OFFSET 0
+#endif
+
+// <o> XINCX_QSPI_CONFIG_READOC  - Number of data lines and opcode used for reading.
  
 // <0=> FastRead 
 // <1=> Read2O 
@@ -2969,40 +2969,40 @@
 // <3=> Read4O 
 // <4=> Read4IO 
 
-#ifndef NRFX_QSPI_CONFIG_READOC
-#define NRFX_QSPI_CONFIG_READOC 0
+#ifndef XINCX_QSPI_CONFIG_READOC
+#define XINCX_QSPI_CONFIG_READOC 0
 #endif
 
-// <o> NRFX_QSPI_CONFIG_WRITEOC  - Number of data lines and opcode used for writing.
+// <o> XINCX_QSPI_CONFIG_WRITEOC  - Number of data lines and opcode used for writing.
  
 // <0=> PP 
 // <1=> PP2O 
 // <2=> PP4O 
 // <3=> PP4IO 
 
-#ifndef NRFX_QSPI_CONFIG_WRITEOC
-#define NRFX_QSPI_CONFIG_WRITEOC 0
+#ifndef XINCX_QSPI_CONFIG_WRITEOC
+#define XINCX_QSPI_CONFIG_WRITEOC 0
 #endif
 
-// <o> NRFX_QSPI_CONFIG_ADDRMODE  - Addressing mode.
+// <o> XINCX_QSPI_CONFIG_ADDRMODE  - Addressing mode.
  
 // <0=> 24bit 
 // <1=> 32bit 
 
-#ifndef NRFX_QSPI_CONFIG_ADDRMODE
-#define NRFX_QSPI_CONFIG_ADDRMODE 0
+#ifndef XINCX_QSPI_CONFIG_ADDRMODE
+#define XINCX_QSPI_CONFIG_ADDRMODE 0
 #endif
 
-// <o> NRFX_QSPI_CONFIG_MODE  - SPI mode.
+// <o> XINCX_QSPI_CONFIG_MODE  - SPI mode.
  
 // <0=> Mode 0 
 // <1=> Mode 1 
 
-#ifndef NRFX_QSPI_CONFIG_MODE
-#define NRFX_QSPI_CONFIG_MODE 0
+#ifndef XINCX_QSPI_CONFIG_MODE
+#define XINCX_QSPI_CONFIG_MODE 0
 #endif
 
-// <o> NRFX_QSPI_CONFIG_FREQUENCY  - Frequency divider.
+// <o> XINCX_QSPI_CONFIG_FREQUENCY  - Frequency divider.
  
 // <0=> 32MHz/1 
 // <1=> 32MHz/2 
@@ -3021,41 +3021,41 @@
 // <14=> 32MHz/15 
 // <15=> 32MHz/16 
 
-#ifndef NRFX_QSPI_CONFIG_FREQUENCY
-#define NRFX_QSPI_CONFIG_FREQUENCY 15
+#ifndef XINCX_QSPI_CONFIG_FREQUENCY
+#define XINCX_QSPI_CONFIG_FREQUENCY 15
 #endif
 
-// <s> NRFX_QSPI_PIN_SCK - SCK pin value.
-#ifndef NRFX_QSPI_PIN_SCK
-#define NRFX_QSPI_PIN_SCK NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_SCK - SCK pin value.
+#ifndef XINCX_QSPI_PIN_SCK
+#define XINCX_QSPI_PIN_SCK NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <s> NRFX_QSPI_PIN_CSN - CSN pin value.
-#ifndef NRFX_QSPI_PIN_CSN
-#define NRFX_QSPI_PIN_CSN NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_CSN - CSN pin value.
+#ifndef XINCX_QSPI_PIN_CSN
+#define XINCX_QSPI_PIN_CSN NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <s> NRFX_QSPI_PIN_IO0 - IO0 pin value.
-#ifndef NRFX_QSPI_PIN_IO0
-#define NRFX_QSPI_PIN_IO0 NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_IO0 - IO0 pin value.
+#ifndef XINCX_QSPI_PIN_IO0
+#define XINCX_QSPI_PIN_IO0 NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <s> NRFX_QSPI_PIN_IO1 - IO1 pin value.
-#ifndef NRFX_QSPI_PIN_IO1
-#define NRFX_QSPI_PIN_IO1 NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_IO1 - IO1 pin value.
+#ifndef XINCX_QSPI_PIN_IO1
+#define XINCX_QSPI_PIN_IO1 NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <s> NRFX_QSPI_PIN_IO2 - IO2 pin value.
-#ifndef NRFX_QSPI_PIN_IO2
-#define NRFX_QSPI_PIN_IO2 NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_IO2 - IO2 pin value.
+#ifndef XINCX_QSPI_PIN_IO2
+#define XINCX_QSPI_PIN_IO2 NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <s> NRFX_QSPI_PIN_IO3 - IO3 pin value.
-#ifndef NRFX_QSPI_PIN_IO3
-#define NRFX_QSPI_PIN_IO3 NRF_QSPI_PIN_NOT_CONNECTED
+// <s> XINCX_QSPI_PIN_IO3 - IO3 pin value.
+#ifndef XINCX_QSPI_PIN_IO3
+#define XINCX_QSPI_PIN_IO3 NRF_QSPI_PIN_NOT_CONNECTED
 #endif
 
-// <o> NRFX_QSPI_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_QSPI_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3066,25 +3066,25 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_QSPI_CONFIG_IRQ_PRIORITY
-#define NRFX_QSPI_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_QSPI_CONFIG_IRQ_PRIORITY
+#define XINCX_QSPI_CONFIG_IRQ_PRIORITY 6
 #endif
 
 // </e>
 
-// <e> NRFX_RNG_ENABLED - xincx_rng - RNG peripheral driver
+// <e> XINCX_RNG_ENABLED - xincx_rng - RNG peripheral driver
 //==========================================================
-#ifndef NRFX_RNG_ENABLED
-#define NRFX_RNG_ENABLED 0
+#ifndef XINCX_RNG_ENABLED
+#define XINCX_RNG_ENABLED 0
 #endif
-// <q> NRFX_RNG_CONFIG_ERROR_CORRECTION  - Error correction
+// <q> XINCX_RNG_CONFIG_ERROR_CORRECTION  - Error correction
  
 
-#ifndef NRFX_RNG_CONFIG_ERROR_CORRECTION
-#define NRFX_RNG_CONFIG_ERROR_CORRECTION 1
+#ifndef XINCX_RNG_CONFIG_ERROR_CORRECTION
+#define XINCX_RNG_CONFIG_ERROR_CORRECTION 1
 #endif
 
-// <o> NRFX_RNG_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_RNG_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3095,16 +3095,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_RNG_CONFIG_IRQ_PRIORITY
-#define NRFX_RNG_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_RNG_CONFIG_IRQ_PRIORITY
+#define XINCX_RNG_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_RNG_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_RNG_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_RNG_CONFIG_LOG_ENABLED
-#define NRFX_RNG_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_RNG_CONFIG_LOG_ENABLED
+#define XINCX_RNG_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_RNG_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_RNG_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3112,11 +3112,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_RNG_CONFIG_LOG_LEVEL
-#define NRFX_RNG_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_RNG_CONFIG_LOG_LEVEL
+#define XINCX_RNG_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_RNG_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_RNG_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3128,11 +3128,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_RNG_CONFIG_INFO_COLOR
-#define NRFX_RNG_CONFIG_INFO_COLOR 0
+#ifndef XINCX_RNG_CONFIG_INFO_COLOR
+#define XINCX_RNG_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_RNG_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_RNG_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3144,60 +3144,60 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_RNG_CONFIG_DEBUG_COLOR
-#define NRFX_RNG_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_RNG_CONFIG_DEBUG_COLOR
+#define XINCX_RNG_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
+// <e> XINCX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
-#ifndef NRFX_RTC_ENABLED
-#define NRFX_RTC_ENABLED 0
+#ifndef XINCX_RTC_ENABLED
+#define XINCX_RTC_ENABLED 0
 #endif
-// <q> NRFX_RTC0_ENABLED  - Enable RTC0 instance
+// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance
  
 
-#ifndef NRFX_RTC0_ENABLED
-#define NRFX_RTC0_ENABLED 0
+#ifndef XINCX_RTC0_ENABLED
+#define XINCX_RTC0_ENABLED 0
 #endif
 
-// <q> NRFX_RTC1_ENABLED  - Enable RTC1 instance
+// <q> XINCX_RTC1_ENABLED  - Enable RTC1 instance
  
 
-#ifndef NRFX_RTC1_ENABLED
-#define NRFX_RTC1_ENABLED 0
+#ifndef XINCX_RTC1_ENABLED
+#define XINCX_RTC1_ENABLED 0
 #endif
 
-// <q> NRFX_RTC2_ENABLED  - Enable RTC2 instance
+// <q> XINCX_RTC2_ENABLED  - Enable RTC2 instance
  
 
-#ifndef NRFX_RTC2_ENABLED
-#define NRFX_RTC2_ENABLED 0
+#ifndef XINCX_RTC2_ENABLED
+#define XINCX_RTC2_ENABLED 0
 #endif
 
-// <o> NRFX_RTC_MAXIMUM_LATENCY_US - Maximum possible time[us] in highest priority interrupt 
-#ifndef NRFX_RTC_MAXIMUM_LATENCY_US
-#define NRFX_RTC_MAXIMUM_LATENCY_US 2000
+// <o> XINCX_RTC_MAXIMUM_LATENCY_US - Maximum possible time[us] in highest priority interrupt 
+#ifndef XINCX_RTC_MAXIMUM_LATENCY_US
+#define XINCX_RTC_MAXIMUM_LATENCY_US 2000
 #endif
 
-// <o> NRFX_RTC_DEFAULT_CONFIG_FREQUENCY - Frequency  <16-32768> 
+// <o> XINCX_RTC_DEFAULT_CONFIG_FREQUENCY - Frequency  <16-32768> 
 
 
-#ifndef NRFX_RTC_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_RTC_DEFAULT_CONFIG_FREQUENCY 32768
+#ifndef XINCX_RTC_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_RTC_DEFAULT_CONFIG_FREQUENCY 32768
 #endif
 
-// <q> NRFX_RTC_DEFAULT_CONFIG_RELIABLE  - Ensures safe compare event triggering
+// <q> XINCX_RTC_DEFAULT_CONFIG_RELIABLE  - Ensures safe compare event triggering
  
 
-#ifndef NRFX_RTC_DEFAULT_CONFIG_RELIABLE
-#define NRFX_RTC_DEFAULT_CONFIG_RELIABLE 0
+#ifndef XINCX_RTC_DEFAULT_CONFIG_RELIABLE
+#define XINCX_RTC_DEFAULT_CONFIG_RELIABLE 0
 #endif
 
-// <o> NRFX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3208,16 +3208,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_RTC_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_RTC_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_RTC_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_RTC_CONFIG_LOG_ENABLED
-#define NRFX_RTC_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_RTC_CONFIG_LOG_ENABLED
+#define XINCX_RTC_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_RTC_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_RTC_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3225,11 +3225,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_RTC_CONFIG_LOG_LEVEL
-#define NRFX_RTC_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_RTC_CONFIG_LOG_LEVEL
+#define XINCX_RTC_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_RTC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_RTC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3241,11 +3241,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_RTC_CONFIG_INFO_COLOR
-#define NRFX_RTC_CONFIG_INFO_COLOR 0
+#ifndef XINCX_RTC_CONFIG_INFO_COLOR
+#define XINCX_RTC_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_RTC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_RTC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3257,31 +3257,31 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_RTC_CONFIG_DEBUG_COLOR
-#define NRFX_RTC_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_RTC_CONFIG_DEBUG_COLOR
+#define XINCX_RTC_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_SAADC_ENABLED - xincx_saadc - SAADC peripheral driver
+// <e> XINCX_SAADC_ENABLED - xincx_saadc - SAADC peripheral driver
 //==========================================================
-#ifndef NRFX_SAADC_ENABLED
-#define NRFX_SAADC_ENABLED 0
+#ifndef XINCX_SAADC_ENABLED
+#define XINCX_SAADC_ENABLED 0
 #endif
-// <o> NRFX_SAADC_CONFIG_RESOLUTION  - Resolution
+// <o> XINCX_SAADC_CONFIG_RESOLUTION  - Resolution
  
 // <0=> 8 bit 
 // <1=> 10 bit 
 // <2=> 12 bit 
 // <3=> 14 bit 
 
-#ifndef NRFX_SAADC_CONFIG_RESOLUTION
-#define NRFX_SAADC_CONFIG_RESOLUTION 1
+#ifndef XINCX_SAADC_CONFIG_RESOLUTION
+#define XINCX_SAADC_CONFIG_RESOLUTION 1
 #endif
 
-// <o> NRFX_SAADC_CONFIG_OVERSAMPLE  - Sample period
+// <o> XINCX_SAADC_CONFIG_OVERSAMPLE  - Sample period
  
 // <0=> Disabled 
 // <1=> 2x 
@@ -3293,18 +3293,18 @@
 // <7=> 128x 
 // <8=> 256x 
 
-#ifndef NRFX_SAADC_CONFIG_OVERSAMPLE
-#define NRFX_SAADC_CONFIG_OVERSAMPLE 0
+#ifndef XINCX_SAADC_CONFIG_OVERSAMPLE
+#define XINCX_SAADC_CONFIG_OVERSAMPLE 0
 #endif
 
-// <q> NRFX_SAADC_CONFIG_LP_MODE  - Enabling low power mode
+// <q> XINCX_SAADC_CONFIG_LP_MODE  - Enabling low power mode
  
 
-#ifndef NRFX_SAADC_CONFIG_LP_MODE
-#define NRFX_SAADC_CONFIG_LP_MODE 0
+#ifndef XINCX_SAADC_CONFIG_LP_MODE
+#define XINCX_SAADC_CONFIG_LP_MODE 0
 #endif
 
-// <o> NRFX_SAADC_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_SAADC_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3315,16 +3315,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_SAADC_CONFIG_IRQ_PRIORITY
-#define NRFX_SAADC_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_SAADC_CONFIG_IRQ_PRIORITY
+#define XINCX_SAADC_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_SAADC_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_SAADC_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_SAADC_CONFIG_LOG_ENABLED
-#define NRFX_SAADC_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_SAADC_CONFIG_LOG_ENABLED
+#define XINCX_SAADC_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_SAADC_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_SAADC_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3332,11 +3332,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_SAADC_CONFIG_LOG_LEVEL
-#define NRFX_SAADC_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_SAADC_CONFIG_LOG_LEVEL
+#define XINCX_SAADC_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_SAADC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SAADC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3348,11 +3348,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SAADC_CONFIG_INFO_COLOR
-#define NRFX_SAADC_CONFIG_INFO_COLOR 0
+#ifndef XINCX_SAADC_CONFIG_INFO_COLOR
+#define XINCX_SAADC_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_SAADC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SAADC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3364,65 +3364,65 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SAADC_CONFIG_DEBUG_COLOR
-#define NRFX_SAADC_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_SAADC_CONFIG_DEBUG_COLOR
+#define XINCX_SAADC_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
+// <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
-#ifndef NRFX_SPIM_ENABLED
-#define NRFX_SPIM_ENABLED 0
+#ifndef XINCX_SPIM_ENABLED
+#define XINCX_SPIM_ENABLED 0
 #endif
-// <q> NRFX_SPIM0_ENABLED  - Enable SPIM0 instance
+// <q> XINCX_SPIM0_ENABLED  - Enable SPIM0 instance
  
 
-#ifndef NRFX_SPIM0_ENABLED
-#define NRFX_SPIM0_ENABLED 0
+#ifndef XINCX_SPIM0_ENABLED
+#define XINCX_SPIM0_ENABLED 0
 #endif
 
-// <q> NRFX_SPIM1_ENABLED  - Enable SPIM1 instance
+// <q> XINCX_SPIM1_ENABLED  - Enable SPIM1 instance
  
 
-#ifndef NRFX_SPIM1_ENABLED
-#define NRFX_SPIM1_ENABLED 0
+#ifndef XINCX_SPIM1_ENABLED
+#define XINCX_SPIM1_ENABLED 0
 #endif
 
-// <q> NRFX_SPIM2_ENABLED  - Enable SPIM2 instance
+// <q> XINCX_SPIM2_ENABLED  - Enable SPIM2 instance
  
 
-#ifndef NRFX_SPIM2_ENABLED
-#define NRFX_SPIM2_ENABLED 0
+#ifndef XINCX_SPIM2_ENABLED
+#define XINCX_SPIM2_ENABLED 0
 #endif
 
-// <q> NRFX_SPIM3_ENABLED  - Enable SPIM3 instance
+// <q> XINCX_SPIM3_ENABLED  - Enable SPIM3 instance
  
 
-#ifndef NRFX_SPIM3_ENABLED
-#define NRFX_SPIM3_ENABLED 0
+#ifndef XINCX_SPIM3_ENABLED
+#define XINCX_SPIM3_ENABLED 0
 #endif
 
-// <q> NRFX_SPIM_EXTENDED_ENABLED  - Enable extended SPIM features
+// <q> XINCX_SPIM_EXTENDED_ENABLED  - Enable extended SPIM features
  
 
-#ifndef NRFX_SPIM_EXTENDED_ENABLED
-#define NRFX_SPIM_EXTENDED_ENABLED 0
+#ifndef XINCX_SPIM_EXTENDED_ENABLED
+#define XINCX_SPIM_EXTENDED_ENABLED 0
 #endif
 
-// <o> NRFX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
+// <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
  
 // <0=> XINC_GPIO_PIN_NOPULL 
 // <1=> XINC_GPIO_PIN_PULLDOWN 
 // <3=> XINC_GPIO_PIN_PULLUP 
 
-#ifndef NRFX_SPIM_MISO_PULL_CFG
-#define NRFX_SPIM_MISO_PULL_CFG 1
+#ifndef XINCX_SPIM_MISO_PULL_CFG
+#define XINCX_SPIM_MISO_PULL_CFG 1
 #endif
 
-// <o> NRFX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3433,16 +3433,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_SPIM_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_SPIM_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_SPIM_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_SPIM_CONFIG_LOG_ENABLED
-#define NRFX_SPIM_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_SPIM_CONFIG_LOG_ENABLED
+#define XINCX_SPIM_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_SPIM_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_SPIM_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3450,11 +3450,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_SPIM_CONFIG_LOG_LEVEL
-#define NRFX_SPIM_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_SPIM_CONFIG_LOG_LEVEL
+#define XINCX_SPIM_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_SPIM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPIM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3466,11 +3466,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPIM_CONFIG_INFO_COLOR
-#define NRFX_SPIM_CONFIG_INFO_COLOR 0
+#ifndef XINCX_SPIM_CONFIG_INFO_COLOR
+#define XINCX_SPIM_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_SPIM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPIM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3482,41 +3482,41 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPIM_CONFIG_DEBUG_COLOR
-#define NRFX_SPIM_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_SPIM_CONFIG_DEBUG_COLOR
+#define XINCX_SPIM_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_SPIS_ENABLED - xincx_spis - SPIS peripheral driver
+// <e> XINCX_SPIS_ENABLED - xincx_spis - SPIS peripheral driver
 //==========================================================
-#ifndef NRFX_SPIS_ENABLED
-#define NRFX_SPIS_ENABLED 0
+#ifndef XINCX_SPIS_ENABLED
+#define XINCX_SPIS_ENABLED 0
 #endif
-// <q> NRFX_SPIS0_ENABLED  - Enable SPIS0 instance
+// <q> XINCX_SPIS0_ENABLED  - Enable SPIS0 instance
  
 
-#ifndef NRFX_SPIS0_ENABLED
-#define NRFX_SPIS0_ENABLED 0
+#ifndef XINCX_SPIS0_ENABLED
+#define XINCX_SPIS0_ENABLED 0
 #endif
 
-// <q> NRFX_SPIS1_ENABLED  - Enable SPIS1 instance
+// <q> XINCX_SPIS1_ENABLED  - Enable SPIS1 instance
  
 
-#ifndef NRFX_SPIS1_ENABLED
-#define NRFX_SPIS1_ENABLED 0
+#ifndef XINCX_SPIS1_ENABLED
+#define XINCX_SPIS1_ENABLED 0
 #endif
 
-// <q> NRFX_SPIS2_ENABLED  - Enable SPIS2 instance
+// <q> XINCX_SPIS2_ENABLED  - Enable SPIS2 instance
  
 
-#ifndef NRFX_SPIS2_ENABLED
-#define NRFX_SPIS2_ENABLED 0
+#ifndef XINCX_SPIS2_ENABLED
+#define XINCX_SPIS2_ENABLED 0
 #endif
 
-// <o> NRFX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3527,30 +3527,30 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_SPIS_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <o> NRFX_SPIS_DEFAULT_DEF - SPIS default DEF character  <0-255> 
+// <o> XINCX_SPIS_DEFAULT_DEF - SPIS default DEF character  <0-255> 
 
 
-#ifndef NRFX_SPIS_DEFAULT_DEF
-#define NRFX_SPIS_DEFAULT_DEF 255
+#ifndef XINCX_SPIS_DEFAULT_DEF
+#define XINCX_SPIS_DEFAULT_DEF 255
 #endif
 
-// <o> NRFX_SPIS_DEFAULT_ORC - SPIS default ORC character  <0-255> 
+// <o> XINCX_SPIS_DEFAULT_ORC - SPIS default ORC character  <0-255> 
 
 
-#ifndef NRFX_SPIS_DEFAULT_ORC
-#define NRFX_SPIS_DEFAULT_ORC 255
+#ifndef XINCX_SPIS_DEFAULT_ORC
+#define XINCX_SPIS_DEFAULT_ORC 255
 #endif
 
-// <e> NRFX_SPIS_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_SPIS_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_SPIS_CONFIG_LOG_ENABLED
-#define NRFX_SPIS_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_SPIS_CONFIG_LOG_ENABLED
+#define XINCX_SPIS_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_SPIS_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_SPIS_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3558,11 +3558,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_SPIS_CONFIG_LOG_LEVEL
-#define NRFX_SPIS_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_SPIS_CONFIG_LOG_LEVEL
+#define XINCX_SPIS_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_SPIS_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPIS_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3574,11 +3574,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPIS_CONFIG_INFO_COLOR
-#define NRFX_SPIS_CONFIG_INFO_COLOR 0
+#ifndef XINCX_SPIS_CONFIG_INFO_COLOR
+#define XINCX_SPIS_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_SPIS_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPIS_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3590,51 +3590,51 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPIS_CONFIG_DEBUG_COLOR
-#define NRFX_SPIS_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_SPIS_CONFIG_DEBUG_COLOR
+#define XINCX_SPIS_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_SPI_ENABLED - xincx_spi - SPI peripheral driver
+// <e> XINCX_SPI_ENABLED - xincx_spi - SPI peripheral driver
 //==========================================================
-#ifndef NRFX_SPI_ENABLED
-#define NRFX_SPI_ENABLED 0
+#ifndef XINCX_SPI_ENABLED
+#define XINCX_SPI_ENABLED 0
 #endif
-// <q> NRFX_SPI0_ENABLED  - Enable SPI0 instance
+// <q> XINCX_SPI0_ENABLED  - Enable SPI0 instance
  
 
-#ifndef NRFX_SPI0_ENABLED
-#define NRFX_SPI0_ENABLED 0
+#ifndef XINCX_SPI0_ENABLED
+#define XINCX_SPI0_ENABLED 0
 #endif
 
-// <q> NRFX_SPI1_ENABLED  - Enable SPI1 instance
+// <q> XINCX_SPI1_ENABLED  - Enable SPI1 instance
  
 
-#ifndef NRFX_SPI1_ENABLED
-#define NRFX_SPI1_ENABLED 0
+#ifndef XINCX_SPI1_ENABLED
+#define XINCX_SPI1_ENABLED 0
 #endif
 
-// <q> NRFX_SPI2_ENABLED  - Enable SPI2 instance
+// <q> XINCX_SPI2_ENABLED  - Enable SPI2 instance
  
 
-#ifndef NRFX_SPI2_ENABLED
-#define NRFX_SPI2_ENABLED 0
+#ifndef XINCX_SPI2_ENABLED
+#define XINCX_SPI2_ENABLED 0
 #endif
 
-// <o> NRFX_SPI_MISO_PULL_CFG  - MISO pin pull configuration.
+// <o> XINCX_SPI_MISO_PULL_CFG  - MISO pin pull configuration.
  
 // <0=> XINC_GPIO_PIN_NOPULL 
 // <1=> XINC_GPIO_PIN_PULLDOWN 
 // <3=> XINC_GPIO_PIN_PULLUP 
 
-#ifndef NRFX_SPI_MISO_PULL_CFG
-#define NRFX_SPI_MISO_PULL_CFG 1
+#ifndef XINCX_SPI_MISO_PULL_CFG
+#define XINCX_SPI_MISO_PULL_CFG 1
 #endif
 
-// <o> NRFX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3645,16 +3645,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_SPI_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_SPI_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_SPI_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_SPI_CONFIG_LOG_ENABLED
-#define NRFX_SPI_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_SPI_CONFIG_LOG_ENABLED
+#define XINCX_SPI_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_SPI_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_SPI_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3662,11 +3662,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_SPI_CONFIG_LOG_LEVEL
-#define NRFX_SPI_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_SPI_CONFIG_LOG_LEVEL
+#define XINCX_SPI_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_SPI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3678,11 +3678,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPI_CONFIG_INFO_COLOR
-#define NRFX_SPI_CONFIG_INFO_COLOR 0
+#ifndef XINCX_SPI_CONFIG_INFO_COLOR
+#define XINCX_SPI_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_SPI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SPI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3694,74 +3694,74 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SPI_CONFIG_DEBUG_COLOR
-#define NRFX_SPI_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_SPI_CONFIG_DEBUG_COLOR
+#define XINCX_SPI_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_SWI_ENABLED - xincx_swi - SWI/EGU peripheral allocator
+// <e> XINCX_SWI_ENABLED - xincx_swi - SWI/EGU peripheral allocator
 //==========================================================
-#ifndef NRFX_SWI_ENABLED
-#define NRFX_SWI_ENABLED 0
+#ifndef XINCX_SWI_ENABLED
+#define XINCX_SWI_ENABLED 0
 #endif
-// <q> NRFX_EGU_ENABLED  - Enable EGU support
+// <q> XINCX_EGU_ENABLED  - Enable EGU support
  
 
-#ifndef NRFX_EGU_ENABLED
-#define NRFX_EGU_ENABLED 0
+#ifndef XINCX_EGU_ENABLED
+#define XINCX_EGU_ENABLED 0
 #endif
 
-// <q> NRFX_SWI0_DISABLED  - Exclude SWI0 from being utilized by the driver
+// <q> XINCX_SWI0_DISABLED  - Exclude SWI0 from being utilized by the driver
  
 
-#ifndef NRFX_SWI0_DISABLED
-#define NRFX_SWI0_DISABLED 0
+#ifndef XINCX_SWI0_DISABLED
+#define XINCX_SWI0_DISABLED 0
 #endif
 
-// <q> NRFX_SWI1_DISABLED  - Exclude SWI1 from being utilized by the driver
+// <q> XINCX_SWI1_DISABLED  - Exclude SWI1 from being utilized by the driver
  
 
-#ifndef NRFX_SWI1_DISABLED
-#define NRFX_SWI1_DISABLED 0
+#ifndef XINCX_SWI1_DISABLED
+#define XINCX_SWI1_DISABLED 0
 #endif
 
-// <q> NRFX_SWI2_DISABLED  - Exclude SWI2 from being utilized by the driver
+// <q> XINCX_SWI2_DISABLED  - Exclude SWI2 from being utilized by the driver
  
 
-#ifndef NRFX_SWI2_DISABLED
-#define NRFX_SWI2_DISABLED 0
+#ifndef XINCX_SWI2_DISABLED
+#define XINCX_SWI2_DISABLED 0
 #endif
 
-// <q> NRFX_SWI3_DISABLED  - Exclude SWI3 from being utilized by the driver
+// <q> XINCX_SWI3_DISABLED  - Exclude SWI3 from being utilized by the driver
  
 
-#ifndef NRFX_SWI3_DISABLED
-#define NRFX_SWI3_DISABLED 0
+#ifndef XINCX_SWI3_DISABLED
+#define XINCX_SWI3_DISABLED 0
 #endif
 
-// <q> NRFX_SWI4_DISABLED  - Exclude SWI4 from being utilized by the driver
+// <q> XINCX_SWI4_DISABLED  - Exclude SWI4 from being utilized by the driver
  
 
-#ifndef NRFX_SWI4_DISABLED
-#define NRFX_SWI4_DISABLED 0
+#ifndef XINCX_SWI4_DISABLED
+#define XINCX_SWI4_DISABLED 0
 #endif
 
-// <q> NRFX_SWI5_DISABLED  - Exclude SWI5 from being utilized by the driver
+// <q> XINCX_SWI5_DISABLED  - Exclude SWI5 from being utilized by the driver
  
 
-#ifndef NRFX_SWI5_DISABLED
-#define NRFX_SWI5_DISABLED 0
+#ifndef XINCX_SWI5_DISABLED
+#define XINCX_SWI5_DISABLED 0
 #endif
 
-// <e> NRFX_SWI_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_SWI_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_SWI_CONFIG_LOG_ENABLED
-#define NRFX_SWI_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_SWI_CONFIG_LOG_ENABLED
+#define XINCX_SWI_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_SWI_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_SWI_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3769,11 +3769,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_SWI_CONFIG_LOG_LEVEL
-#define NRFX_SWI_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_SWI_CONFIG_LOG_LEVEL
+#define XINCX_SWI_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_SWI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SWI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3785,11 +3785,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SWI_CONFIG_INFO_COLOR
-#define NRFX_SWI_CONFIG_INFO_COLOR 0
+#ifndef XINCX_SWI_CONFIG_INFO_COLOR
+#define XINCX_SWI_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_SWI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_SWI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3801,55 +3801,55 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_SWI_CONFIG_DEBUG_COLOR
-#define NRFX_SWI_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_SWI_CONFIG_DEBUG_COLOR
+#define XINCX_SWI_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
+// <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
-#ifndef NRFX_TIMER_ENABLED
-#define NRFX_TIMER_ENABLED 0
+#ifndef XINCX_TIMER_ENABLED
+#define XINCX_TIMER_ENABLED 0
 #endif
-// <q> NRFX_TIMER0_ENABLED  - Enable TIMER0 instance
+// <q> XINCX_TIMER0_ENABLED  - Enable TIMER0 instance
  
 
-#ifndef NRFX_TIMER0_ENABLED
-#define NRFX_TIMER0_ENABLED 0
+#ifndef XINCX_TIMER0_ENABLED
+#define XINCX_TIMER0_ENABLED 0
 #endif
 
-// <q> NRFX_TIMER1_ENABLED  - Enable TIMER1 instance
+// <q> XINCX_TIMER1_ENABLED  - Enable TIMER1 instance
  
 
-#ifndef NRFX_TIMER1_ENABLED
-#define NRFX_TIMER1_ENABLED 0
+#ifndef XINCX_TIMER1_ENABLED
+#define XINCX_TIMER1_ENABLED 0
 #endif
 
-// <q> NRFX_TIMER2_ENABLED  - Enable TIMER2 instance
+// <q> XINCX_TIMER2_ENABLED  - Enable TIMER2 instance
  
 
-#ifndef NRFX_TIMER2_ENABLED
-#define NRFX_TIMER2_ENABLED 0
+#ifndef XINCX_TIMER2_ENABLED
+#define XINCX_TIMER2_ENABLED 0
 #endif
 
-// <q> NRFX_TIMER3_ENABLED  - Enable TIMER3 instance
+// <q> XINCX_TIMER3_ENABLED  - Enable TIMER3 instance
  
 
-#ifndef NRFX_TIMER3_ENABLED
-#define NRFX_TIMER3_ENABLED 0
+#ifndef XINCX_TIMER3_ENABLED
+#define XINCX_TIMER3_ENABLED 0
 #endif
 
-// <q> NRFX_TIMER4_ENABLED  - Enable TIMER4 instance
+// <q> XINCX_TIMER4_ENABLED  - Enable TIMER4 instance
  
 
-#ifndef NRFX_TIMER4_ENABLED
-#define NRFX_TIMER4_ENABLED 0
+#ifndef XINCX_TIMER4_ENABLED
+#define XINCX_TIMER4_ENABLED 0
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY  - Timer frequency if in Timer mode
+// <o> XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY  - Timer frequency if in Timer mode
  
 // <0=> 16 MHz 
 // <1=> 8 MHz 
@@ -3862,31 +3862,31 @@
 // <8=> 62.5 kHz 
 // <9=> 31.25 kHz 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
+// <o> XINCX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
  
 // <0=> Timer 
 // <1=> Counter 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_MODE
-#define NRFX_TIMER_DEFAULT_CONFIG_MODE 0
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_MODE
+#define XINCX_TIMER_DEFAULT_CONFIG_MODE 0
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH  - Timer counter bit width
+// <o> XINCX_TIMER_DEFAULT_CONFIG_BIT_WIDTH  - Timer counter bit width
  
 // <0=> 16 bit 
 // <1=> 8 bit 
 // <2=> 24 bit 
 // <3=> 32 bit 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH
-#define NRFX_TIMER_DEFAULT_CONFIG_BIT_WIDTH 0
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_BIT_WIDTH
+#define XINCX_TIMER_DEFAULT_CONFIG_BIT_WIDTH 0
 #endif
 
-// <o> NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -3897,16 +3897,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_TIMER_CONFIG_LOG_ENABLED
-#define NRFX_TIMER_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_TIMER_CONFIG_LOG_ENABLED
+#define XINCX_TIMER_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_TIMER_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_TIMER_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -3914,11 +3914,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_TIMER_CONFIG_LOG_LEVEL
-#define NRFX_TIMER_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_TIMER_CONFIG_LOG_LEVEL
+#define XINCX_TIMER_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_TIMER_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TIMER_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3930,11 +3930,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TIMER_CONFIG_INFO_COLOR
-#define NRFX_TIMER_CONFIG_INFO_COLOR 0
+#ifndef XINCX_TIMER_CONFIG_INFO_COLOR
+#define XINCX_TIMER_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_TIMER_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TIMER_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -3946,51 +3946,51 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TIMER_CONFIG_DEBUG_COLOR
-#define NRFX_TIMER_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_TIMER_CONFIG_DEBUG_COLOR
+#define XINCX_TIMER_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_TWIM_ENABLED - xincx_twim - TWIM peripheral driver
+// <e> XINCX_TWIM_ENABLED - xincx_twim - TWIM peripheral driver
 //==========================================================
-#ifndef NRFX_TWIM_ENABLED
-#define NRFX_TWIM_ENABLED 0
+#ifndef XINCX_TWIM_ENABLED
+#define XINCX_TWIM_ENABLED 0
 #endif
-// <q> NRFX_TWIM0_ENABLED  - Enable TWIM0 instance
+// <q> XINCX_TWIM0_ENABLED  - Enable TWIM0 instance
  
 
-#ifndef NRFX_TWIM0_ENABLED
-#define NRFX_TWIM0_ENABLED 0
+#ifndef XINCX_TWIM0_ENABLED
+#define XINCX_TWIM0_ENABLED 0
 #endif
 
-// <q> NRFX_TWIM1_ENABLED  - Enable TWIM1 instance
+// <q> XINCX_TWIM1_ENABLED  - Enable TWIM1 instance
  
 
-#ifndef NRFX_TWIM1_ENABLED
-#define NRFX_TWIM1_ENABLED 0
+#ifndef XINCX_TWIM1_ENABLED
+#define XINCX_TWIM1_ENABLED 0
 #endif
 
-// <o> NRFX_TWIM_DEFAULT_CONFIG_FREQUENCY  - Frequency
+// <o> XINCX_TWIM_DEFAULT_CONFIG_FREQUENCY  - Frequency
  
 // <26738688=> 100k 
 // <67108864=> 250k 
 // <104857600=> 400k 
 
-#ifndef NRFX_TWIM_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_TWIM_DEFAULT_CONFIG_FREQUENCY 26738688
+#ifndef XINCX_TWIM_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_TWIM_DEFAULT_CONFIG_FREQUENCY 26738688
 #endif
 
-// <q> NRFX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
+// <q> XINCX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
  
 
-#ifndef NRFX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT
-#define NRFX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT 0
+#ifndef XINCX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT
+#define XINCX_TWIM_DEFAULT_CONFIG_HOLD_BUS_UNINIT 0
 #endif
 
-// <o> NRFX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4001,16 +4001,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_TWIM_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_TWIM_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_TWIM_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_TWIM_CONFIG_LOG_ENABLED
-#define NRFX_TWIM_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_TWIM_CONFIG_LOG_ENABLED
+#define XINCX_TWIM_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_TWIM_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_TWIM_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4018,11 +4018,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_TWIM_CONFIG_LOG_LEVEL
-#define NRFX_TWIM_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_TWIM_CONFIG_LOG_LEVEL
+#define XINCX_TWIM_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_TWIM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWIM_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4034,11 +4034,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWIM_CONFIG_INFO_COLOR
-#define NRFX_TWIM_CONFIG_INFO_COLOR 0
+#ifndef XINCX_TWIM_CONFIG_INFO_COLOR
+#define XINCX_TWIM_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_TWIM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWIM_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4050,82 +4050,82 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWIM_CONFIG_DEBUG_COLOR
-#define NRFX_TWIM_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_TWIM_CONFIG_DEBUG_COLOR
+#define XINCX_TWIM_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_TWIS_ENABLED - xincx_twis - TWIS peripheral driver
+// <e> XINCX_TWIS_ENABLED - xincx_twis - TWIS peripheral driver
 //==========================================================
-#ifndef NRFX_TWIS_ENABLED
-#define NRFX_TWIS_ENABLED 0
+#ifndef XINCX_TWIS_ENABLED
+#define XINCX_TWIS_ENABLED 0
 #endif
-// <q> NRFX_TWIS0_ENABLED  - Enable TWIS0 instance
+// <q> XINCX_TWIS0_ENABLED  - Enable TWIS0 instance
  
 
-#ifndef NRFX_TWIS0_ENABLED
-#define NRFX_TWIS0_ENABLED 0
+#ifndef XINCX_TWIS0_ENABLED
+#define XINCX_TWIS0_ENABLED 0
 #endif
 
-// <q> NRFX_TWIS1_ENABLED  - Enable TWIS1 instance
+// <q> XINCX_TWIS1_ENABLED  - Enable TWIS1 instance
  
 
-#ifndef NRFX_TWIS1_ENABLED
-#define NRFX_TWIS1_ENABLED 0
+#ifndef XINCX_TWIS1_ENABLED
+#define XINCX_TWIS1_ENABLED 0
 #endif
 
-// <q> NRFX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY  - Assume that any instance would be initialized only once
+// <q> XINCX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY  - Assume that any instance would be initialized only once
  
 
 // <i> Optimization flag. Registers used by TWIS are shared by other peripherals. Normally, during initialization driver tries to clear all registers to known state before doing the initialization itself. This gives initialization safe procedure, no matter when it would be called. If you activate TWIS only once and do never uninitialize it - set this flag to 1 what gives more optimal code.
 
-#ifndef NRFX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY
-#define NRFX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY 0
+#ifndef XINCX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY
+#define XINCX_TWIS_ASSUME_INIT_AFTER_RESET_ONLY 0
 #endif
 
-// <q> NRFX_TWIS_NO_SYNC_MODE  - Remove support for synchronous mode
+// <q> XINCX_TWIS_NO_SYNC_MODE  - Remove support for synchronous mode
  
 
 // <i> Synchronous mode would be used in specific situations. And it uses some additional code and data memory to safely process state machine by polling it in status functions. If this functionality is not required it may be disabled to free some resources.
 
-#ifndef NRFX_TWIS_NO_SYNC_MODE
-#define NRFX_TWIS_NO_SYNC_MODE 0
+#ifndef XINCX_TWIS_NO_SYNC_MODE
+#define XINCX_TWIS_NO_SYNC_MODE 0
 #endif
 
-// <o> NRFX_TWIS_DEFAULT_CONFIG_ADDR0 - Address0 
-#ifndef NRFX_TWIS_DEFAULT_CONFIG_ADDR0
-#define NRFX_TWIS_DEFAULT_CONFIG_ADDR0 0
+// <o> XINCX_TWIS_DEFAULT_CONFIG_ADDR0 - Address0 
+#ifndef XINCX_TWIS_DEFAULT_CONFIG_ADDR0
+#define XINCX_TWIS_DEFAULT_CONFIG_ADDR0 0
 #endif
 
-// <o> NRFX_TWIS_DEFAULT_CONFIG_ADDR1 - Address1 
-#ifndef NRFX_TWIS_DEFAULT_CONFIG_ADDR1
-#define NRFX_TWIS_DEFAULT_CONFIG_ADDR1 0
+// <o> XINCX_TWIS_DEFAULT_CONFIG_ADDR1 - Address1 
+#ifndef XINCX_TWIS_DEFAULT_CONFIG_ADDR1
+#define XINCX_TWIS_DEFAULT_CONFIG_ADDR1 0
 #endif
 
-// <o> NRFX_TWIS_DEFAULT_CONFIG_SCL_PULL  - SCL pin pull configuration
+// <o> XINCX_TWIS_DEFAULT_CONFIG_SCL_PULL  - SCL pin pull configuration
  
 // <0=> Disabled 
 // <1=> Pull down 
 // <3=> Pull up 
 
-#ifndef NRFX_TWIS_DEFAULT_CONFIG_SCL_PULL
-#define NRFX_TWIS_DEFAULT_CONFIG_SCL_PULL 0
+#ifndef XINCX_TWIS_DEFAULT_CONFIG_SCL_PULL
+#define XINCX_TWIS_DEFAULT_CONFIG_SCL_PULL 0
 #endif
 
-// <o> NRFX_TWIS_DEFAULT_CONFIG_SDA_PULL  - SDA pin pull configuration
+// <o> XINCX_TWIS_DEFAULT_CONFIG_SDA_PULL  - SDA pin pull configuration
  
 // <0=> Disabled 
 // <1=> Pull down 
 // <3=> Pull up 
 
-#ifndef NRFX_TWIS_DEFAULT_CONFIG_SDA_PULL
-#define NRFX_TWIS_DEFAULT_CONFIG_SDA_PULL 0
+#ifndef XINCX_TWIS_DEFAULT_CONFIG_SDA_PULL
+#define XINCX_TWIS_DEFAULT_CONFIG_SDA_PULL 0
 #endif
 
-// <o> NRFX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4136,16 +4136,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_TWIS_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_TWIS_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_TWIS_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_TWIS_CONFIG_LOG_ENABLED
-#define NRFX_TWIS_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_TWIS_CONFIG_LOG_ENABLED
+#define XINCX_TWIS_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_TWIS_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_TWIS_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4153,11 +4153,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_TWIS_CONFIG_LOG_LEVEL
-#define NRFX_TWIS_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_TWIS_CONFIG_LOG_LEVEL
+#define XINCX_TWIS_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_TWIS_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWIS_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4169,11 +4169,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWIS_CONFIG_INFO_COLOR
-#define NRFX_TWIS_CONFIG_INFO_COLOR 0
+#ifndef XINCX_TWIS_CONFIG_INFO_COLOR
+#define XINCX_TWIS_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_TWIS_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWIS_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4185,51 +4185,51 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWIS_CONFIG_DEBUG_COLOR
-#define NRFX_TWIS_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_TWIS_CONFIG_DEBUG_COLOR
+#define XINCX_TWIS_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
 
 // </e>
 
-// <e> NRFX_TWI_ENABLED - xincx_twi - TWI peripheral driver
+// <e> XINCX_TWI_ENABLED - xincx_twi - TWI peripheral driver
 //==========================================================
-#ifndef NRFX_TWI_ENABLED
-#define NRFX_TWI_ENABLED 0
+#ifndef XINCX_TWI_ENABLED
+#define XINCX_TWI_ENABLED 0
 #endif
-// <q> NRFX_TWI0_ENABLED  - Enable TWI0 instance
+// <q> XINCX_TWI0_ENABLED  - Enable TWI0 instance
  
 
-#ifndef NRFX_TWI0_ENABLED
-#define NRFX_TWI0_ENABLED 0
+#ifndef XINCX_TWI0_ENABLED
+#define XINCX_TWI0_ENABLED 0
 #endif
 
-// <q> NRFX_TWI1_ENABLED  - Enable TWI1 instance
+// <q> XINCX_TWI1_ENABLED  - Enable TWI1 instance
  
 
-#ifndef NRFX_TWI1_ENABLED
-#define NRFX_TWI1_ENABLED 0
+#ifndef XINCX_TWI1_ENABLED
+#define XINCX_TWI1_ENABLED 0
 #endif
 
-// <o> NRFX_TWI_DEFAULT_CONFIG_FREQUENCY  - Frequency
+// <o> XINCX_TWI_DEFAULT_CONFIG_FREQUENCY  - Frequency
  
 // <26738688=> 100k 
 // <67108864=> 250k 
 // <104857600=> 400k 
 
-#ifndef NRFX_TWI_DEFAULT_CONFIG_FREQUENCY
-#define NRFX_TWI_DEFAULT_CONFIG_FREQUENCY 26738688
+#ifndef XINCX_TWI_DEFAULT_CONFIG_FREQUENCY
+#define XINCX_TWI_DEFAULT_CONFIG_FREQUENCY 26738688
 #endif
 
-// <q> NRFX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
+// <q> XINCX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
  
 
-#ifndef NRFX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT
-#define NRFX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT 0
+#ifndef XINCX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT
+#define XINCX_TWI_DEFAULT_CONFIG_HOLD_BUS_UNINIT 0
 #endif
 
-// <o> NRFX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4240,16 +4240,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY
-#define NRFX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_TWI_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_TWI_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_TWI_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_TWI_CONFIG_LOG_ENABLED
-#define NRFX_TWI_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_TWI_CONFIG_LOG_ENABLED
+#define XINCX_TWI_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_TWI_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_TWI_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4257,11 +4257,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_TWI_CONFIG_LOG_LEVEL
-#define NRFX_TWI_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_TWI_CONFIG_LOG_LEVEL
+#define XINCX_TWI_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_TWI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWI_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4273,11 +4273,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWI_CONFIG_INFO_COLOR
-#define NRFX_TWI_CONFIG_INFO_COLOR 0
+#ifndef XINCX_TWI_CONFIG_INFO_COLOR
+#define XINCX_TWI_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_TWI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_TWI_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4289,8 +4289,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_TWI_CONFIG_DEBUG_COLOR
-#define NRFX_TWI_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_TWI_CONFIG_DEBUG_COLOR
+#define XINCX_TWI_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
@@ -4544,12 +4544,12 @@
 
 // </e>
 
-// <e> NRFX_USBD_ENABLED - xincx_usbd - USBD peripheral driver
+// <e> XINCX_USBD_ENABLED - xincx_usbd - USBD peripheral driver
 //==========================================================
-#ifndef NRFX_USBD_ENABLED
-#define NRFX_USBD_ENABLED 0
+#ifndef XINCX_USBD_ENABLED
+#define XINCX_USBD_ENABLED 0
 #endif
-// <o> NRFX_USBD_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_USBD_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4560,20 +4560,20 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_USBD_CONFIG_IRQ_PRIORITY
-#define NRFX_USBD_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_USBD_CONFIG_IRQ_PRIORITY
+#define XINCX_USBD_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <o> NRFX_USBD_CONFIG_DMASCHEDULER_MODE  - USBD DMA scheduler working scheme
+// <o> XINCX_USBD_CONFIG_DMASCHEDULER_MODE  - USBD DMA scheduler working scheme
  
 // <0=> Prioritized access 
 // <1=> Round Robin 
 
-#ifndef NRFX_USBD_CONFIG_DMASCHEDULER_MODE
-#define NRFX_USBD_CONFIG_DMASCHEDULER_MODE 0
+#ifndef XINCX_USBD_CONFIG_DMASCHEDULER_MODE
+#define XINCX_USBD_CONFIG_DMASCHEDULER_MODE 0
 #endif
 
-// <q> NRFX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST  - Give priority to isochronous transfers
+// <q> XINCX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST  - Give priority to isochronous transfers
  
 
 // <i> This option gives priority to isochronous transfers.
@@ -4582,66 +4582,66 @@
 // <i> Isochronous endpoints are prioritized before the usbd_dma_scheduler_algorithm
 // <i> function is called, so the option is independent of the algorithm chosen.
 
-#ifndef NRFX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST
-#define NRFX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST 1
+#ifndef XINCX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST
+#define XINCX_USBD_CONFIG_DMASCHEDULER_ISO_BOOST 1
 #endif
 
-// <q> NRFX_USBD_CONFIG_ISO_IN_ZLP  - Respond to an IN token on ISO IN endpoint with ZLP when no data is ready
+// <q> XINCX_USBD_CONFIG_ISO_IN_ZLP  - Respond to an IN token on ISO IN endpoint with ZLP when no data is ready
  
 
 // <i> If set, ISO IN endpoint will respond to an IN token with ZLP when no data is ready to be sent.
 // <i> Else, there will be no response.
 
-#ifndef NRFX_USBD_CONFIG_ISO_IN_ZLP
-#define NRFX_USBD_CONFIG_ISO_IN_ZLP 0
+#ifndef XINCX_USBD_CONFIG_ISO_IN_ZLP
+#define XINCX_USBD_CONFIG_ISO_IN_ZLP 0
 #endif
 
-// <q> NRFX_USBD_USE_WORKAROUND_FOR_ANOMALY_211  - Use workaround for anomaly 211
+// <q> XINCX_USBD_USE_WORKAROUND_FOR_ANOMALY_211  - Use workaround for anomaly 211
  
 
 // <i> If set, workaround for anomaly 211 will be enabled.
 // <i> Anomaly 211 - Device remains in SUSPEND too long when host resumes
 // <i> bus activity (sending SOF packets) without a RESUME condition.
 
-#ifndef NRFX_USBD_USE_WORKAROUND_FOR_ANOMALY_211
-#define NRFX_USBD_USE_WORKAROUND_FOR_ANOMALY_211 0
+#ifndef XINCX_USBD_USE_WORKAROUND_FOR_ANOMALY_211
+#define XINCX_USBD_USE_WORKAROUND_FOR_ANOMALY_211 0
 #endif
 
 // </e>
 
-// <e> NRFX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
+// <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
-#ifndef NRFX_WDT_ENABLED
-#define NRFX_WDT_ENABLED 0
+#ifndef XINCX_WDT_ENABLED
+#define XINCX_WDT_ENABLED 0
 #endif
-// <o> NRFX_WDT_CONFIG_BEHAVIOUR  - WDT behavior in CPU SLEEP or HALT mode
+// <o> XINCX_WDT_CONFIG_BEHAVIOUR  - WDT behavior in CPU SLEEP or HALT mode
  
 // <1=> Run in SLEEP, Pause in HALT 
 // <8=> Pause in SLEEP, Run in HALT 
 // <9=> Run in SLEEP and HALT 
 // <0=> Pause in SLEEP and HALT 
 
-#ifndef NRFX_WDT_CONFIG_BEHAVIOUR
-#define NRFX_WDT_CONFIG_BEHAVIOUR 1
+#ifndef XINCX_WDT_CONFIG_BEHAVIOUR
+#define XINCX_WDT_CONFIG_BEHAVIOUR 1
 #endif
 
-// <o> NRFX_WDT_CONFIG_RELOAD_VALUE - Reload value in ms  <1-131072000> 
+// <o> XINCX_WDT_CONFIG_RELOAD_VALUE - Reload value in ms  <1-131072000> 
 
 
-#ifndef NRFX_WDT_CONFIG_RELOAD_VALUE
-#define NRFX_WDT_CONFIG_RELOAD_VALUE 2000
+#ifndef XINCX_WDT_CONFIG_RELOAD_VALUE
+#define XINCX_WDT_CONFIG_RELOAD_VALUE 2000
 #endif
 
-// <o> NRFX_WDT_CONFIG_NO_IRQ  - Remove WDT IRQ handling from WDT driver
+// <o> XINCX_WDT_CONFIG_NO_IRQ  - Remove WDT IRQ handling from WDT driver
  
 // <0=> Include WDT IRQ handling 
 // <1=> Remove WDT IRQ handling 
 
-#ifndef NRFX_WDT_CONFIG_NO_IRQ
-#define NRFX_WDT_CONFIG_NO_IRQ 0
+#ifndef XINCX_WDT_CONFIG_NO_IRQ
+#define XINCX_WDT_CONFIG_NO_IRQ 0
 #endif
 
-// <o> NRFX_WDT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_WDT_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -4652,16 +4652,16 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef NRFX_WDT_CONFIG_IRQ_PRIORITY
-#define NRFX_WDT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_WDT_CONFIG_IRQ_PRIORITY
+#define XINCX_WDT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_WDT_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_WDT_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
-#ifndef NRFX_WDT_CONFIG_LOG_ENABLED
-#define NRFX_WDT_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_WDT_CONFIG_LOG_ENABLED
+#define XINCX_WDT_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_WDT_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_WDT_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -4669,11 +4669,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_WDT_CONFIG_LOG_LEVEL
-#define NRFX_WDT_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_WDT_CONFIG_LOG_LEVEL
+#define XINCX_WDT_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_WDT_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_WDT_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4685,11 +4685,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_WDT_CONFIG_INFO_COLOR
-#define NRFX_WDT_CONFIG_INFO_COLOR 0
+#ifndef XINCX_WDT_CONFIG_INFO_COLOR
+#define XINCX_WDT_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_WDT_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_WDT_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -4701,8 +4701,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_WDT_CONFIG_DEBUG_COLOR
-#define NRFX_WDT_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_WDT_CONFIG_DEBUG_COLOR
+#define XINCX_WDT_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>
@@ -8151,12 +8151,12 @@
 
 // </e>
 
-// <e> NRFX_USBD_CONFIG_LOG_ENABLED - Enable logging in the module
+// <e> XINCX_USBD_CONFIG_LOG_ENABLED - Enable logging in the module
 //==========================================================
-#ifndef NRFX_USBD_CONFIG_LOG_ENABLED
-#define NRFX_USBD_CONFIG_LOG_ENABLED 0
+#ifndef XINCX_USBD_CONFIG_LOG_ENABLED
+#define XINCX_USBD_CONFIG_LOG_ENABLED 0
 #endif
-// <o> NRFX_USBD_CONFIG_LOG_LEVEL  - Default Severity level
+// <o> XINCX_USBD_CONFIG_LOG_LEVEL  - Default Severity level
  
 // <0=> Off 
 // <1=> Error 
@@ -8164,11 +8164,11 @@
 // <3=> Info 
 // <4=> Debug 
 
-#ifndef NRFX_USBD_CONFIG_LOG_LEVEL
-#define NRFX_USBD_CONFIG_LOG_LEVEL 3
+#ifndef XINCX_USBD_CONFIG_LOG_LEVEL
+#define XINCX_USBD_CONFIG_LOG_LEVEL 3
 #endif
 
-// <o> NRFX_USBD_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+// <o> XINCX_USBD_CONFIG_INFO_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -8180,11 +8180,11 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_USBD_CONFIG_INFO_COLOR
-#define NRFX_USBD_CONFIG_INFO_COLOR 0
+#ifndef XINCX_USBD_CONFIG_INFO_COLOR
+#define XINCX_USBD_CONFIG_INFO_COLOR 0
 #endif
 
-// <o> NRFX_USBD_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+// <o> XINCX_USBD_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
  
 // <0=> Default 
 // <1=> Black 
@@ -8196,8 +8196,8 @@
 // <7=> Cyan 
 // <8=> White 
 
-#ifndef NRFX_USBD_CONFIG_DEBUG_COLOR
-#define NRFX_USBD_CONFIG_DEBUG_COLOR 0
+#ifndef XINCX_USBD_CONFIG_DEBUG_COLOR
+#define XINCX_USBD_CONFIG_DEBUG_COLOR 0
 #endif
 
 // </e>

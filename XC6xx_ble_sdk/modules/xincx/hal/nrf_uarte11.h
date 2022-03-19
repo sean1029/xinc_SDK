@@ -195,7 +195,7 @@ __STATIC_INLINE bool nrf_uarte_int_enable_check(NRF_UARTE_Type * p_reg, nrf_uart
  */
 __STATIC_INLINE void nrf_uarte_int_disable(NRF_UARTE_Type * p_reg, uint32_t mask);
 
-#if defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
+#if defined(DPPI_PRESENT) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief Function for setting the subscribe configuration for a given
  *        UARTE task.
@@ -239,7 +239,7 @@ __STATIC_INLINE void nrf_uarte_publish_set(NRF_UARTE_Type *  p_reg,
  */
 __STATIC_INLINE void nrf_uarte_publish_clear(NRF_UARTE_Type *  p_reg,
                                              nrf_uarte_event_t event);
-#endif // defined(DPPI_PRESENT) || defined(__NRFX_DOXYGEN__)
+#endif // defined(DPPI_PRESENT) || defined(__XINCX_DOXYGEN__)
 
 /**
  * @brief Function for getting error source mask. Function is clearing error source flags after reading.

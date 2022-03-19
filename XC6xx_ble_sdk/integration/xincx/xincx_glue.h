@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRFX_GLUE_H__
-#define NRFX_GLUE_H__
+#ifndef XINCX_GLUE_H__
+#define XINCX_GLUE_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,7 +35,7 @@ extern "C" {
  *
  * @param expression  Expression to evaluate.
  */
-#define NRFX_ASSERT(expression)     ASSERT(expression)
+#define XINCX_ASSERT(expression)     ASSERT(expression)
 
 #include <app_util.h>
 /**
@@ -43,7 +43,7 @@ extern "C" {
  *
  * @param expression  Expression to evaluate.
  */
-#define NRFX_STATIC_ASSERT(expression)  STATIC_ASSERT(expression)
+#define XINCX_STATIC_ASSERT(expression)  STATIC_ASSERT(expression)
 
 //------------------------------------------------------------------------------
 
@@ -68,9 +68,9 @@ extern "C" {
  * @param irq_number  IRQ number.
  * @param priority    Priority to set.
  */
-#define NRFX_IRQ_PRIORITY_SET(irq_number, priority) \
-    _NRFX_IRQ_PRIORITY_SET(irq_number, priority)
-static inline void _NRFX_IRQ_PRIORITY_SET(IRQn_Type irq_number,
+#define XINCX_IRQ_PRIORITY_SET(irq_number, priority) \
+    _XINCX_IRQ_PRIORITY_SET(irq_number, priority)
+static inline void _XINCX_IRQ_PRIORITY_SET(IRQn_Type irq_number,
                                           uint8_t   priority)
 {
     ASSERT(INTERRUPT_PRIORITY_IS_VALID(priority));
@@ -82,8 +82,8 @@ static inline void _NRFX_IRQ_PRIORITY_SET(IRQn_Type irq_number,
  *
  * @param irq_number  IRQ number.
  */
-#define NRFX_IRQ_ENABLE(irq_number)  _NRFX_IRQ_ENABLE(irq_number)
-static inline void _NRFX_IRQ_ENABLE(IRQn_Type irq_number)
+#define XINCX_IRQ_ENABLE(irq_number)  _XINCX_IRQ_ENABLE(irq_number)
+static inline void _XINCX_IRQ_ENABLE(IRQn_Type irq_number)
 {
     NVIC_EnableIRQ(irq_number);
 }
@@ -96,8 +96,8 @@ static inline void _NRFX_IRQ_ENABLE(IRQn_Type irq_number)
  * @retval true  If the IRQ is enabled.
  * @retval false Otherwise.
  */
-#define NRFX_IRQ_IS_ENABLED(irq_number)  _NRFX_IRQ_IS_ENABLED(irq_number)
-static inline bool _NRFX_IRQ_IS_ENABLED(IRQn_Type irq_number)
+#define XINCX_IRQ_IS_ENABLED(irq_number)  _XINCX_IRQ_IS_ENABLED(irq_number)
+static inline bool _XINCX_IRQ_IS_ENABLED(IRQn_Type irq_number)
 {
     return 0 != (NVIC->ISER[irq_number / 32] & (1UL << (irq_number % 32)));
 }
@@ -107,8 +107,8 @@ static inline bool _NRFX_IRQ_IS_ENABLED(IRQn_Type irq_number)
  *
  * @param irq_number  IRQ number.
  */
-#define NRFX_IRQ_DISABLE(irq_number)  _NRFX_IRQ_DISABLE(irq_number)
-static inline void _NRFX_IRQ_DISABLE(IRQn_Type irq_number)
+#define XINCX_IRQ_DISABLE(irq_number)  _XINCX_IRQ_DISABLE(irq_number)
+static inline void _XINCX_IRQ_DISABLE(IRQn_Type irq_number)
 {
     NVIC_DisableIRQ(irq_number);
 }
@@ -118,8 +118,8 @@ static inline void _NRFX_IRQ_DISABLE(IRQn_Type irq_number)
  *
  * @param irq_number  IRQ number.
  */
-#define NRFX_IRQ_PENDING_SET(irq_number) _NRFX_IRQ_PENDING_SET(irq_number)
-static inline void _NRFX_IRQ_PENDING_SET(IRQn_Type irq_number)
+#define XINCX_IRQ_PENDING_SET(irq_number) _XINCX_IRQ_PENDING_SET(irq_number)
+static inline void _XINCX_IRQ_PENDING_SET(IRQn_Type irq_number)
 {
     NVIC_SetPendingIRQ(irq_number);
 }
@@ -129,8 +129,8 @@ static inline void _NRFX_IRQ_PENDING_SET(IRQn_Type irq_number)
  *
  * @param irq_number  IRQ number.
  */
-#define NRFX_IRQ_PENDING_CLEAR(irq_number) _NRFX_IRQ_PENDING_CLEAR(irq_number)
-static inline void _NRFX_IRQ_PENDING_CLEAR(IRQn_Type irq_number)
+#define XINCX_IRQ_PENDING_CLEAR(irq_number) _XINCX_IRQ_PENDING_CLEAR(irq_number)
+static inline void _XINCX_IRQ_PENDING_CLEAR(IRQn_Type irq_number)
 {
     NVIC_ClearPendingIRQ(irq_number);
 }
@@ -141,8 +141,8 @@ static inline void _NRFX_IRQ_PENDING_CLEAR(IRQn_Type irq_number)
  * @retval true  If the IRQ is pending.
  * @retval false Otherwise.
  */
-#define NRFX_IRQ_IS_PENDING(irq_number) _NRFX_IRQ_IS_PENDING(irq_number)
-static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
+#define XINCX_IRQ_IS_PENDING(irq_number) _XINCX_IRQ_IS_PENDING(irq_number)
+static inline bool _XINCX_IRQ_IS_PENDING(IRQn_Type irq_number)
 {
     return (NVIC_GetPendingIRQ(irq_number) == 1);
 }
@@ -152,12 +152,12 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
 /**
  * @brief Macro for entering into a critical section.
  */
-#define NRFX_CRITICAL_SECTION_ENTER()   CRITICAL_REGION_ENTER()
+#define XINCX_CRITICAL_SECTION_ENTER()   CRITICAL_REGION_ENTER()
 
 /**
  * @brief Macro for exiting from a critical section.
  */
-#define NRFX_CRITICAL_SECTION_EXIT()    CRITICAL_REGION_EXIT()
+#define XINCX_CRITICAL_SECTION_EXIT()    CRITICAL_REGION_EXIT()
 
 //------------------------------------------------------------------------------
 
@@ -167,11 +167,11 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *        A compilation error is generated if the DWT unit is not present
  *        in the SoC used.
  */
-#define NRFX_DELAY_DWT_BASED 0
+#define XINCX_DELAY_DWT_BASED 0
 
 //#include <soc/xincx_coredep.h>
 
-#define NRFX_DELAY_US(us_time) xincx_coredep_delay_us(us_time)
+#define XINCX_DELAY_US(us_time) xincx_coredep_delay_us(us_time)
 
 //------------------------------------------------------------------------------
 
@@ -190,7 +190,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_STORE(p_data, value) xincx_atomic_u32_fetch_store(p_data, value)
+#define XINCX_ATOMIC_FETCH_STORE(p_data, value) xincx_atomic_u32_fetch_store(p_data, value)
 
 /**
  * @brief Performs logical OR operation on an atomic object and returns previously stored value.
@@ -200,7 +200,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_OR(p_data, value)   xincx_atomic_u32_fetch_or(p_data, value)
+#define XINCX_ATOMIC_FETCH_OR(p_data, value)   xincx_atomic_u32_fetch_or(p_data, value)
 
 /**
  * @brief Performs logical AND operation on an atomic object and returns previously stored value.
@@ -210,7 +210,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_AND(p_data, value)   xincx_atomic_u32_fetch_and(p_data, value)
+#define XINCX_ATOMIC_FETCH_AND(p_data, value)   xincx_atomic_u32_fetch_and(p_data, value)
 
 /**
  * @brief Performs logical XOR operation on an atomic object and returns previously stored value.
@@ -220,7 +220,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_XOR(p_data, value)   xincx_atomic_u32_fetch_xor(p_data, value)
+#define XINCX_ATOMIC_FETCH_XOR(p_data, value)   xincx_atomic_u32_fetch_xor(p_data, value)
 
 /**
  * @brief Performs logical ADD operation on an atomic object and returns previously stored value.
@@ -230,7 +230,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_ADD(p_data, value)   xincx_atomic_u32_fetch_add(p_data, value)
+#define XINCX_ATOMIC_FETCH_ADD(p_data, value)   xincx_atomic_u32_fetch_add(p_data, value)
 
 /**
  * @brief Performs logical SUB operation on an atomic object and returns previously stored value.
@@ -240,10 +240,10 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_SUB(p_data, value)   xincx_atomic_u32_fetch_sub(p_data, value)
+#define XINCX_ATOMIC_FETCH_SUB(p_data, value)   xincx_atomic_u32_fetch_sub(p_data, value)
 
 //------------------------------------------------------------------------------
-#ifndef NRFX_CUSTOM_ERROR_CODES
+#ifndef XINCX_CUSTOM_ERROR_CODES
 
 #include <sdk_errors.h>
 /**
@@ -252,46 +252,46 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *        in a customized way and the default definitions from @c <xincx_error.h>
  *        should not be used.
  */
-#define NRFX_CUSTOM_ERROR_CODES 1
+#define XINCX_CUSTOM_ERROR_CODES 1
 
 typedef ret_code_t xincx_err_t;
 
-#define NRFX_SUCCESS                    NRF_SUCCESS
-#define NRFX_ERROR_INTERNAL             NRF_ERROR_INTERNAL
-#define NRFX_ERROR_NO_MEM               NRF_ERROR_NO_MEM
-#define NRFX_ERROR_NOT_SUPPORTED        NRF_ERROR_NOT_SUPPORTED
-#define NRFX_ERROR_INVALID_PARAM        NRF_ERROR_INVALID_PARAM
-#define NRFX_ERROR_INVALID_STATE        NRF_ERROR_INVALID_STATE
-#define NRFX_ERROR_INVALID_LENGTH       NRF_ERROR_INVALID_LENGTH
-#define NRFX_ERROR_TIMEOUT              NRF_ERROR_TIMEOUT
-#define NRFX_ERROR_FORBIDDEN            NRF_ERROR_FORBIDDEN
-#define NRFX_ERROR_NULL                 NRF_ERROR_NULL
-#define NRFX_ERROR_INVALID_ADDR         NRF_ERROR_INVALID_ADDR
-#define NRFX_ERROR_BUSY                 NRF_ERROR_BUSY
-#define NRFX_ERROR_ALREADY_INITIALIZED  NRF_ERROR_MODULE_ALREADY_INITIALIZED
+#define XINCX_SUCCESS                    NRF_SUCCESS
+#define XINCX_ERROR_INTERNAL             NRF_ERROR_INTERNAL
+#define XINCX_ERROR_NO_MEM               NRF_ERROR_NO_MEM
+#define XINCX_ERROR_NOT_SUPPORTED        NRF_ERROR_NOT_SUPPORTED
+#define XINCX_ERROR_INVALID_PARAM        NRF_ERROR_INVALID_PARAM
+#define XINCX_ERROR_INVALID_STATE        NRF_ERROR_INVALID_STATE
+#define XINCX_ERROR_INVALID_LENGTH       NRF_ERROR_INVALID_LENGTH
+#define XINCX_ERROR_TIMEOUT              NRF_ERROR_TIMEOUT
+#define XINCX_ERROR_FORBIDDEN            NRF_ERROR_FORBIDDEN
+#define XINCX_ERROR_NULL                 NRF_ERROR_NULL
+#define XINCX_ERROR_INVALID_ADDR         NRF_ERROR_INVALID_ADDR
+#define XINCX_ERROR_BUSY                 NRF_ERROR_BUSY
+#define XINCX_ERROR_ALREADY_INITIALIZED  NRF_ERROR_MODULE_ALREADY_INITIALIZED
 
-#define NRFX_ERROR_DRV_I2C_ERR_OVERRUN  NRF_ERROR_DRV_I2C_ERR_OVERRUN
-#define NRFX_ERROR_DRV_I2C_ERR_ANACK    NRF_ERROR_DRV_I2C_ERR_ANACK
-#define NRFX_ERROR_DRV_I2C_ERR_DNACK    NRF_ERROR_DRV_I2C_ERR_DNACK
+#define XINCX_ERROR_DRV_I2C_ERR_OVERRUN  NRF_ERROR_DRV_I2C_ERR_OVERRUN
+#define XINCX_ERROR_DRV_I2C_ERR_ANACK    NRF_ERROR_DRV_I2C_ERR_ANACK
+#define XINCX_ERROR_DRV_I2C_ERR_DNACK    NRF_ERROR_DRV_I2C_ERR_DNACK
 
-#endif // NRFX_CUSTOM_ERROR_CODES
+#endif // XINCX_CUSTOM_ERROR_CODES
 //------------------------------------------------------------------------------
 
 //#include <sdk_resources.h>
 /**
  * @brief Bitmask defining PPI channels reserved to be used outside of xincx.
  */
-#define NRFX_PPI_CHANNELS_USED  NRF_PPI_CHANNELS_USED
+#define XINCX_PPI_CHANNELS_USED  NRF_PPI_CHANNELS_USED
 
 /**
  * @brief Bitmask defining PPI groups reserved to be used outside of xincx.
  */
-#define NRFX_PPI_GROUPS_USED    NRF_PPI_GROUPS_USED
+#define XINCX_PPI_GROUPS_USED    NRF_PPI_GROUPS_USED
 
 /**
  * @brief Bitmask defining SWI instances reserved to be used outside of xincx.
  */
-#define NRFX_SWI_USED           NRF_SWI_USED
+#define XINCX_SWI_USED           NRF_SWI_USED
 
 /**
  * @brief Bitmask defining TIMER instances reserved to be used outside of xincx.
@@ -304,4 +304,4 @@ typedef ret_code_t xincx_err_t;
 }
 #endif
 
-#endif // NRFX_GLUE_H__
+#endif // XINCX_GLUE_H__

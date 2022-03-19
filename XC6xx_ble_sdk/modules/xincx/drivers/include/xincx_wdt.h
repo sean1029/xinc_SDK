@@ -24,7 +24,7 @@ extern "C" {
  * @brief   Watchdog Timer (WDT) peripheral driver.
  */
 
-#if !NRFX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__NRFX_DOXYGEN__)
+#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__XINCX_DOXYGEN__)
 /** @brief WDT instance interrupt priority configuration. */
     #define XINCX_WDT_IRQ_CONFIG .interrupt_priority = XINCX_WDT_CONFIG_IRQ_PRIORITY
 #else
@@ -35,7 +35,7 @@ extern "C" {
 typedef struct
 {
     uint32_t               reload_value;       /**< WDT reload value in ms. */
-#if !NRFX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__NRFX_DOXYGEN__)
+#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__XINCX_DOXYGEN__)
     uint8_t                interrupt_priority; /**< WDT interrupt priority */
 #endif
 } xincx_wdt_config_t;
@@ -57,7 +57,7 @@ typedef void (*xincx_wdt_event_handler_t)(void);
  * @param[in] wdt_event_handler Event handler provided by the user. Ignored when
  *                              @ref XINCX_WDT_CONFIG_NO_IRQ option is enabled.
  *
- * @return NRFX_SUCCESS on success, otherwise an error code.
+ * @return XINCX_SUCCESS on success, otherwise an error code.
  */
 xincx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
                          xincx_wdt_event_handler_t  wdt_event_handler);

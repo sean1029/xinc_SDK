@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRFX_IRQS_NRF52840_H__
-#define NRFX_IRQS_NRF52840_H__
+#ifndef XINCX_IRQS_NRF52840_H__
+#define XINCX_IRQS_NRF52840_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,7 +21,7 @@ extern "C" {
 // RADIO_IRQn
 
 // UARTE0_UART0_IRQn
-#if NRFX_CHECK(NRFX_PRS_ENABLED) && NRFX_CHECK(NRFX_PRS_BOX_4_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED) && XINCX_CHECK(XINCX_PRS_BOX_4_ENABLED)
 #define xincx_prs_box_4_irq_handler  UARTE0_UART0_IRQHandler
 #else
 #define xincx_uarte_0_irq_handler    UARTE0_UART0_IRQHandler
@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 // SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQn
-#if NRFX_CHECK(NRFX_PRS_ENABLED) && NRFX_CHECK(NRFX_PRS_BOX_0_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED) && XINCX_CHECK(XINCX_PRS_BOX_0_ENABLED)
 #define xincx_prs_box_0_irq_handler  SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQHandler
 #else
 #define xincx_spim_0_irq_handler     SPIM0_SPIS0_TWIM0_TWIS0_SPI0_TWI0_IRQHandler
@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 // SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQn
-#if NRFX_CHECK(NRFX_PRS_ENABLED) && NRFX_CHECK(NRFX_PRS_BOX_1_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED) && XINCX_CHECK(XINCX_PRS_BOX_1_ENABLED)
 #define xincx_prs_box_1_irq_handler  SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQHandler
 #else
 #define xincx_spim_1_irq_handler     SPIM1_SPIS1_TWIM1_TWIS1_SPI1_TWI1_IRQHandler
@@ -93,7 +93,7 @@ extern "C" {
 #define xincx_qdec_irq_handler       QDEC_IRQHandler
 
 // COMP_LPCOMP_IRQn
-#if NRFX_CHECK(NRFX_PRS_ENABLED) && NRFX_CHECK(NRFX_PRS_BOX_3_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED) && XINCX_CHECK(XINCX_PRS_BOX_3_ENABLED)
 #define xincx_prs_box_3_irq_handler  COMP_LPCOMP_IRQHandler
 #else
 #define xincx_comp_irq_handler       COMP_LPCOMP_IRQHandler
@@ -139,7 +139,7 @@ extern "C" {
 #define xincx_pwm_2_irq_handler      PWM2_IRQHandler
 
 // SPIM2_SPIS2_SPI2_IRQn
-#if NRFX_CHECK(NRFX_PRS_ENABLED) && NRFX_CHECK(NRFX_PRS_BOX_2_ENABLED)
+#if XINCX_CHECK(XINCX_PRS_ENABLED) && XINCX_CHECK(XINCX_PRS_BOX_2_ENABLED)
 #define xincx_prs_box_2_irq_handler  SPIM2_SPIS2_SPI2_IRQHandler
 #else
 #define xincx_spim_2_irq_handler     SPIM2_SPIS2_SPI2_IRQHandler
@@ -177,4 +177,4 @@ extern "C" {
 }
 #endif
 
-#endif // NRFX_IRQS_NRF52840_H__
+#endif // XINCX_IRQS_NRF52840_H__

@@ -10,34 +10,34 @@
 #include <xincx.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
-#if NRFX_CHECK(XINCX_SPIM_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_ENABLED)
 
-#if !(NRFX_CHECK(XINCX_SPIM0_ENABLED) || NRFX_CHECK(XINCX_SPIM1_ENABLED) || \
-      NRFX_CHECK(XINCX_SPIM2_ENABLED) || NRFX_CHECK(XINCX_SPIM3_ENABLED))
+#if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED) || \
+      XINCX_CHECK(XINCX_SPIM2_ENABLED) || XINCX_CHECK(XINCX_SPIM3_ENABLED))
 #error "No enabled SPIM instances. Check <xincx_config.h>."
 #endif
 
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) && !NRFX_CHECK(XINCX_SPIM3_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) && !XINCX_CHECK(XINCX_SPIM3_ENABLED)
 #error "Extended options are available only in SPIM3 on the nRF52840 SoC."
 #endif
 
 #include <xincx_spim.h>
 #include <hal/xinc_gpio.h>
 
-#define NRFX_LOG_MODULE SPIM
+#define XINCX_LOG_MODULE SPIM
 #include <xincx_log.h>
 
 #define SPIMX_LENGTH_VALIDATE(peripheral, drv_inst_idx, rx_len, tx_len) \
-    (((drv_inst_idx) == NRFX_CONCAT_3(XINCX_, peripheral, _INST_IDX)) && \
-     NRFX_EASYDMA_LENGTH_VALIDATE(peripheral, rx_len, tx_len))
+    (((drv_inst_idx) == XINCX_CONCAT_3(XINCX_, peripheral, _INST_IDX)) && \
+     XINCX_EASYDMA_LENGTH_VALIDATE(peripheral, rx_len, tx_len))
 
-#if NRFX_CHECK(XINCX_SPIM0_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM0_ENABLED)
 #define SPIM0_LENGTH_VALIDATE(...)  SPIMX_LENGTH_VALIDATE(SPIM0, __VA_ARGS__)
 #else
 #define SPIM0_LENGTH_VALIDATE(...)  0
 #endif
 
-#if NRFX_CHECK(XINCX_SPIM1_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM1_ENABLED)
 #define SPIM1_LENGTH_VALIDATE(...)  SPIMX_LENGTH_VALIDATE(SPIM1, __VA_ARGS__)
 #else
 #define SPIM1_LENGTH_VALIDATE(...)  0
@@ -49,7 +49,7 @@
     (SPIM0_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len) || \
      SPIM1_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len))
 
-#if defined(NRF52840_XXAA) && (NRFX_CHECK(XINCX_SPIM3_ENABLED))
+#if defined(NRF52840_XXAA) && (XINCX_CHECK(XINCX_SPIM3_ENABLED))
 // Enable workaround for nRF52840 anomaly 195 (SPIM3 continues to draw current after disable).
 #define USE_WORKAROUND_FOR_ANOMALY_195
 #endif
@@ -63,7 +63,7 @@ typedef struct
     xincx_drv_state_t        state;
     volatile bool           transfer_in_progress;
 
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
     bool                    use_hw_ss;
 #endif
 
@@ -85,16 +85,16 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
                           xincx_spim_evt_handler_t    handler,
                           void                     * p_context)
 {
-    NRFX_ASSERT(p_config);
+    XINCX_ASSERT(p_config);
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
 
-    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
-                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 
@@ -120,7 +120,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             mosi_pin = p_config->mosi_pin;
             err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
         
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -128,10 +128,10 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         else
         {
             mosi_pin = XINC_SPIM_PIN_NOT_CONNECTED;
-            err_code = NRFX_ERROR_INVALID_PARAM;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_INVALID_PARAM;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                                XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
         // - MISO (optional) - input,
@@ -140,7 +140,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             miso_pin = p_config->miso_pin;
             err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
         
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -148,10 +148,10 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         else
         {
             miso_pin = XINC_SPIM_PIN_NOT_CONNECTED;
-            err_code = NRFX_ERROR_INVALID_PARAM;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_INVALID_PARAM;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                                XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
         
@@ -160,7 +160,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             p_cb->ss_active_high = p_config->ss_active_high;
             err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
         
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -170,7 +170,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         {
             err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
         
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -246,25 +246,25 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     if (p_cb->handler)
     {
         xinc_spim_int_enable(p_spim,XINC_SPIM_INT_TXEIE_MASK);
-        NRFX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
+        XINCX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
     }
 
     p_cb->transfer_in_progress = false;
-    p_cb->state = NRFX_DRV_STATE_INITIALIZED;
+    p_cb->state = XINCX_DRV_STATE_INITIALIZED;
 
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
 void xincx_spim_uninit(xincx_spim_t const * const p_instance)
 {
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
 
     if (p_cb->handler)
     {      
-        NRFX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->drv_inst_idx));
+        XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->drv_inst_idx));
     }
 
     XINC_SPIM_Type * p_spim = (XINC_SPIM_Type *)p_instance->p_reg;
@@ -294,7 +294,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
     }
 #endif
 
-    p_cb->state = NRFX_DRV_STATE_UNINITIALIZED;
+    p_cb->state = XINCX_DRV_STATE_UNINITIALIZED;
 }
 
 
@@ -303,7 +303,7 @@ static void finish_transfer(spim_control_block_t * p_cb)
     // If Slave Select signal is used, this is the time to deactivate it.
     if (p_cb->ss_pin != XINCX_SPIM_PIN_NOT_USED)
     {
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
         if (!p_cb->use_hw_ss)
 #endif
         {
@@ -339,10 +339,10 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
         (p_xfer_desc->p_rx_buffer != NULL && !xincx_is_in_ram(p_xfer_desc->p_rx_buffer)))
     {
         p_cb->transfer_in_progress = false;
-        err_code = NRFX_ERROR_INVALID_ADDR;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_ADDR;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
+                         XINCX_LOG_ERROR_STRING_GET(err_code));
         printf("spim_xfer error:%d\r\n",err_code);
         return err_code;
     }
@@ -369,7 +369,7 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     __write_hw_reg32(DMAS_CHx_CTL0(p_cb->rx_dma_ch) ,p_xfer_desc->rx_length);
 
 
-#if NRFX_CHECK(XINCX_SPIM3_NRF52840_ANOMALY_198_WORKAROUND_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM3_NRF52840_ANOMALY_198_WORKAROUND_ENABLED)
     if (p_spim == XINC_SPIM3)
     {
         anomaly_198_enable(p_xfer_desc->p_tx_buffer, p_xfer_desc->tx_length);
@@ -382,7 +382,7 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     {
         if (p_cb->ss_pin != XINCX_SPIM_PIN_NOT_USED)
         {
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
             if (!p_cb->use_hw_ss)
 #endif
             {
@@ -404,8 +404,8 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
         xinc_spim_enable(p_spim);
 			
     }
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
@@ -414,21 +414,21 @@ xincx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
                           uint32_t                      flags)
 {
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
-    NRFX_ASSERT(p_xfer_desc->p_tx_buffer != NULL || p_xfer_desc->tx_length == 0);
-    NRFX_ASSERT(p_xfer_desc->p_rx_buffer != NULL || p_xfer_desc->rx_length == 0);
-    NRFX_ASSERT(SPIM_LENGTH_VALIDATE(p_instance->drv_inst_idx,
+    XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(p_xfer_desc->p_tx_buffer != NULL || p_xfer_desc->tx_length == 0);
+    XINCX_ASSERT(p_xfer_desc->p_rx_buffer != NULL || p_xfer_desc->rx_length == 0);
+    XINCX_ASSERT(SPIM_LENGTH_VALIDATE(p_instance->drv_inst_idx,
                                      p_xfer_desc->rx_length,
                                      p_xfer_desc->tx_length));
 
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
 
     if (p_cb->transfer_in_progress)
     {
-        err_code = NRFX_ERROR_BUSY;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_BUSY;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
+                         XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
     else
@@ -444,7 +444,7 @@ xincx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
 
     if (p_cb->ss_pin != XINCX_SPIM_PIN_NOT_USED)
     {
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
         if (!p_cb->use_hw_ss)
 #endif
         {
@@ -465,7 +465,7 @@ xincx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
 void xincx_spim_abort(xincx_spim_t const * p_instance)
 {
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
 
     p_cb->transfer_in_progress = false;
 }
@@ -478,21 +478,21 @@ static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
 
     {
 
-        NRFX_ASSERT(p_cb->handler);
-        NRFX_LOG_DEBUG("Event: XINC_SPIM_EVENT_END.");
+        XINCX_ASSERT(p_cb->handler);
+        XINCX_LOG_DEBUG("Event: XINC_SPIM_EVENT_END.");
         xinc_spim_disable(p_spim);
         finish_transfer(p_cb);
     }
 }
 
-#if NRFX_CHECK(XINCX_SPIM0_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM0_ENABLED)
 void xincx_spim_0_irq_handler(void)
 {
     irq_handler(XINC_SPIM0, &m_cb[XINCX_SPIM0_INST_IDX]);
 }
 #endif
 
-#if NRFX_CHECK(XINCX_SPIM1_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM1_ENABLED)
 void xincx_spim_1_irq_handler(void)
 {
     irq_handler(XINC_SPIM1, &m_cb[XINCX_SPIM1_INST_IDX]);
@@ -548,4 +548,4 @@ void SPI1_Handler()
 }
 
 
-#endif // NRFX_CHECK(XINCX_SPIM_ENABLED)
+#endif // XINCX_CHECK(XINCX_SPIM_ENABLED)

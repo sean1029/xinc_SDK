@@ -461,7 +461,7 @@ __STATIC_INLINE bool xinc_gpio_pin_present_check(uint32_t pin_number);
  */
 __STATIC_INLINE XINC_GPIO_Type * xinc_gpio_pin_port_decode(uint32_t * p_pin)
 {
-//    NRFX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
+//    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 #if (GPIO_COUNT == 1)
     return NRF_P0;
 #else
@@ -479,7 +479,7 @@ __STATIC_INLINE XINC_GPIO_Type * xinc_gpio_pin_port_decode(uint32_t * p_pin)
 
 __STATIC_INLINE XINC_CPRA_AO_Type * xinc_gpio_pin_pull_decode(uint32_t * p_pin)
 {
-//    NRFX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
+//    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 
       return NRF_CPR_AO;
 }
@@ -861,7 +861,7 @@ __STATIC_INLINE void xinc_gpio_ports_read(uint32_t start_port, uint32_t length, 
 {
     XINC_GPIO_Type * gpio_regs[GPIO_COUNT] = GPIO_REG_LIST;
 
- //   NRFX_ASSERT(start_port + length <= GPIO_COUNT);
+ //   XINCX_ASSERT(start_port + length <= GPIO_COUNT);
     uint32_t i;
 	
 

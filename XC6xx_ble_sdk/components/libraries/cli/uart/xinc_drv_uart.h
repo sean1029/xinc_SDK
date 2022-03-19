@@ -12,10 +12,10 @@
 
 #include <xincx.h>
 
-#if defined(UARTE_PRESENT) && NRFX_CHECK(XINCX_UARTE_ENABLED)
+#if defined(UARTE_PRESENT) && XINCX_CHECK(XINCX_UARTE_ENABLED)
     #define NRF_DRV_UART_WITH_UARTE
 #endif
-#if defined(UART_PRESENT) && NRFX_CHECK(XINCX_UART_ENABLED)
+#if defined(UART_PRESENT) && XINCX_CHECK(XINCX_UART_ENABLED)
     #define NRF_DRV_UART_WITH_UART
 #endif
 
@@ -251,8 +251,8 @@ typedef void (*xinc_uart_event_handler_t)(xinc_drv_uart_event_t * p_event, void 
  * @param[in] event_handler Event handler provided by the user. If not provided driver works in
  *                          blocking mode.
  *
- * @retval    NRFX_SUCCESS             If initialization was successful.
- * @retval    NRFX_ERROR_INVALID_STATE If driver is already initialized.
+ * @retval    XINCX_SUCCESS             If initialization was successful.
+ * @retval    XINCX_ERROR_INVALID_STATE If driver is already initialized.
  */
 ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
                              xinc_drv_uart_config_t const * p_config,
@@ -277,17 +277,17 @@ void xinc_drv_uart_uninit(xinc_drv_uart_t const * p_instance);
  *
  * @note Peripherals using EasyDMA (i.e. UARTE) require that the transfer buffers
  *       are placed in the Data RAM region. If they are not and UARTE instance is
- *       used, this function will fail with error code NRFX_ERROR_INVALID_ADDR.
+ *       used, this function will fail with error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] p_data     Pointer to data.
  * @param[in] length     Number of bytes to send.
  *
- * @retval    NRFX_SUCCESS            If initialization was successful.
- * @retval    NRFX_ERROR_BUSY         If driver is already transferring.
- * @retval    NRFX_ERROR_FORBIDDEN    If the transfer was aborted from a different context
+ * @retval    XINCX_SUCCESS            If initialization was successful.
+ * @retval    XINCX_ERROR_BUSY         If driver is already transferring.
+ * @retval    XINCX_ERROR_FORBIDDEN    If the transfer was aborted from a different context
  *                                    (blocking mode only, also see @ref xinc_drv_uart_rx_disable).
- * @retval    NRFX_ERROR_INVALID_ADDR If p_data does not point to RAM buffer (UARTE only).
+ * @retval    XINCX_ERROR_INVALID_ADDR If p_data does not point to RAM buffer (UARTE only).
  */
 __STATIC_INLINE
 ret_code_t xinc_drv_uart_tx(xinc_drv_uart_t const * p_instance,
@@ -332,20 +332,20 @@ void xinc_drv_uart_tx_abort(xinc_drv_uart_t const * p_instance);
  *
  * @note Peripherals using EasyDMA (i.e. UARTE) require that the transfer buffers
  *       are placed in the Data RAM region. If they are not and UARTE driver instance
- *       is used, this function will fail with error code NRFX_ERROR_INVALID_ADDR.
+ *       is used, this function will fail with error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] p_data     Pointer to data.
  * @param[in] length     Number of bytes to receive.
  *
- * @retval    NRFX_SUCCESS If initialization was successful.
- * @retval    NRFX_ERROR_BUSY If the driver is already receiving
+ * @retval    XINCX_SUCCESS If initialization was successful.
+ * @retval    XINCX_ERROR_BUSY If the driver is already receiving
  *                            (and the secondary buffer has already been set
  *                            in non-blocking mode).
- * @retval    NRFX_ERROR_FORBIDDEN If the transfer was aborted from a different context
+ * @retval    XINCX_ERROR_FORBIDDEN If the transfer was aborted from a different context
  *                                (blocking mode only, also see @ref xinc_drv_uart_rx_disable).
- * @retval    NRFX_ERROR_INTERNAL If UART peripheral reported an error.
- * @retval    NRFX_ERROR_INVALID_ADDR If p_data does not point to RAM buffer (UARTE only).
+ * @retval    XINCX_ERROR_INTERNAL If UART peripheral reported an error.
+ * @retval    XINCX_ERROR_INVALID_ADDR If p_data does not point to RAM buffer (UARTE only).
  */
 __STATIC_INLINE
 ret_code_t xinc_drv_uart_rx(xinc_drv_uart_t const * p_instance,
@@ -529,7 +529,7 @@ void xinc_drv_uart_rx_enable(xinc_drv_uart_t const * p_instance)
 {
     if (NRF_DRV_UART_USE_UARTE)
     {
-        NRFX_ASSERT(false); // not supported
+        XINCX_ASSERT(false); // not supported
     }
     else if (NRF_DRV_UART_USE_UART)
     {
@@ -542,7 +542,7 @@ void xinc_drv_uart_rx_disable(xinc_drv_uart_t const * p_instance)
 {
     if (NRF_DRV_UART_USE_UARTE)
     {
-        NRFX_ASSERT(false); // not supported
+        XINCX_ASSERT(false); // not supported
     }
     else if (NRF_DRV_UART_USE_UART)
     {

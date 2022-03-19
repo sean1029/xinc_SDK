@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRFX_UARTE_H__
-#define NRFX_UARTE_H__
+#ifndef XINCX_UARTE_H__
+#define XINCX_UARTE_H__
 
 #include <xincx.h>
 #include <hal/nrf_uarte.h>
@@ -31,37 +31,37 @@ typedef struct
     uint8_t          drv_inst_idx; ///< Index of the driver instance. For internal use only.
 } xincx_uarte_t;
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-#if NRFX_CHECK(NRFX_UARTE0_ENABLED)
-    NRFX_UARTE0_INST_IDX,
+#if XINCX_CHECK(XINCX_UARTE0_ENABLED)
+    XINCX_UARTE0_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_UARTE1_ENABLED)
-    NRFX_UARTE1_INST_IDX,
+#if XINCX_CHECK(XINCX_UARTE1_ENABLED)
+    XINCX_UARTE1_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_UARTE2_ENABLED)
-    NRFX_UARTE2_INST_IDX,
+#if XINCX_CHECK(XINCX_UARTE2_ENABLED)
+    XINCX_UARTE2_INST_IDX,
 #endif
-#if NRFX_CHECK(NRFX_UARTE3_ENABLED)
-    NRFX_UARTE3_INST_IDX,
+#if XINCX_CHECK(XINCX_UARTE3_ENABLED)
+    XINCX_UARTE3_INST_IDX,
 #endif
-    NRFX_UARTE_ENABLED_COUNT
+    XINCX_UARTE_ENABLED_COUNT
 };
 #endif
 
 /** @brief Macro for creating a UARTE driver instance. */
-#define NRFX_UARTE_INSTANCE(id)                               \
+#define XINCX_UARTE_INSTANCE(id)                               \
 {                                                             \
-    .p_reg        = NRFX_CONCAT_2(NRF_UARTE, id),             \
-    .drv_inst_idx = NRFX_CONCAT_3(NRFX_UARTE, id, _INST_IDX), \
+    .p_reg        = XINCX_CONCAT_2(NRF_UARTE, id),             \
+    .drv_inst_idx = XINCX_CONCAT_3(XINCX_UARTE, id, _INST_IDX), \
 }
 
 /** @brief Types of UARTE driver events. */
 typedef enum
 {
-    NRFX_UARTE_EVT_TX_DONE, ///< Requested TX transfer completed.
-    NRFX_UARTE_EVT_RX_DONE, ///< Requested RX transfer completed.
-    NRFX_UARTE_EVT_ERROR,   ///< Error reported by UART peripheral.
+    XINCX_UARTE_EVT_TX_DONE, ///< Requested TX transfer completed.
+    XINCX_UARTE_EVT_RX_DONE, ///< Requested RX transfer completed.
+    XINCX_UARTE_EVT_ERROR,   ///< Error reported by UART peripheral.
 } xincx_uarte_evt_type_t;
 
 /** @brief Structure for the UARTE configuration. */
@@ -79,17 +79,17 @@ typedef struct
 } xincx_uarte_config_t;
 
 /** @brief UARTE default configuration. */
-#define NRFX_UARTE_DEFAULT_CONFIG                                                   \
+#define XINCX_UARTE_DEFAULT_CONFIG                                                   \
 {                                                                                   \
     .pseltxd            = NRF_UARTE_PSEL_DISCONNECTED,                              \
     .pselrxd            = NRF_UARTE_PSEL_DISCONNECTED,                              \
     .pselcts            = NRF_UARTE_PSEL_DISCONNECTED,                              \
     .pselrts            = NRF_UARTE_PSEL_DISCONNECTED,                              \
     .p_context          = NULL,                                                     \
-    .hwfc               = (nrf_uarte_hwfc_t)NRFX_UARTE_DEFAULT_CONFIG_HWFC,         \
-    .parity             = (nrf_uarte_parity_t)NRFX_UARTE_DEFAULT_CONFIG_PARITY,     \
-    .baudrate           = (nrf_uarte_baudrate_t)NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE, \
-    .interrupt_priority = NRFX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY,                   \
+    .hwfc               = (nrf_uarte_hwfc_t)XINCX_UARTE_DEFAULT_CONFIG_HWFC,         \
+    .parity             = (nrf_uarte_parity_t)XINCX_UARTE_DEFAULT_CONFIG_PARITY,     \
+    .baudrate           = (nrf_uarte_baudrate_t)XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE, \
+    .interrupt_priority = XINCX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY,                   \
 }
 
 /** @brief Structure for the UARTE transfer completion event. */
@@ -137,9 +137,9 @@ typedef void (*xincx_uarte_event_handler_t)(xincx_uarte_event_t const * p_event,
  * @param[in] event_handler Event handler provided by the user. If not provided driver works in
  *                          blocking mode.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE Driver is already initialized.
- * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE Driver is already initialized.
+ * @retval XINCX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
  *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
@@ -188,7 +188,7 @@ __STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_i
  *
  * @note Peripherals using EasyDMA (including UARTE) require the transfer buffers
  *       to be placed in the Data RAM region. If this condition is not met,
- *       this function will fail with the error code NRFX_ERROR_INVALID_ADDR.
+ *       this function will fail with the error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] p_data     Pointer to data.
@@ -197,11 +197,11 @@ __STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_i
  *                       description in the Product Specification). The driver
  *                       checks it with assertion.
  *
- * @retval NRFX_SUCCESS            Initialization was successful.
- * @retval NRFX_ERROR_BUSY         Driver is already transferring.
- * @retval NRFX_ERROR_FORBIDDEN    The transfer was aborted from a different context
+ * @retval XINCX_SUCCESS            Initialization was successful.
+ * @retval XINCX_ERROR_BUSY         Driver is already transferring.
+ * @retval XINCX_ERROR_FORBIDDEN    The transfer was aborted from a different context
  *                                 (blocking mode only).
- * @retval NRFX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
+ * @retval XINCX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
  */
 xincx_err_t xincx_uarte_tx(xincx_uarte_t const * p_instance,
                          uint8_t const *      p_data,
@@ -219,7 +219,7 @@ bool xincx_uarte_tx_in_progress(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing transmission.
- * @note @ref NRFX_UARTE_EVT_TX_DONE event will be generated in non-blocking mode.
+ * @note @ref XINCX_UARTE_EVT_TX_DONE event will be generated in non-blocking mode.
  *       It will contain number of bytes sent until the abort was called. The event
  *       handler will be called from the UARTE interrupt context.
  *
@@ -242,7 +242,7 @@ void xincx_uarte_tx_abort(xincx_uarte_t const * p_instance);
  *
  * @note Peripherals using EasyDMA (including UARTE) require the transfer buffers
  *       to be placed in the Data RAM region. If this condition is not met,
- *       this function fails with the error code NRFX_ERROR_INVALID_ADDR.
+ *       this function fails with the error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] p_data     Pointer to data.
@@ -251,14 +251,14 @@ void xincx_uarte_tx_abort(xincx_uarte_t const * p_instance);
  *                       description in the Product Specification). The driver
  *                       checks it with assertion.
  *
- * @retval NRFX_SUCCESS            Initialization is successful.
- * @retval NRFX_ERROR_BUSY         The driver is already receiving
+ * @retval XINCX_SUCCESS            Initialization is successful.
+ * @retval XINCX_ERROR_BUSY         The driver is already receiving
  *                                 (and the secondary buffer has already been set
  *                                 in non-blocking mode).
- * @retval NRFX_ERROR_FORBIDDEN    The transfer is aborted from a different context
+ * @retval XINCX_ERROR_FORBIDDEN    The transfer is aborted from a different context
  *                                 (blocking mode only).
- * @retval NRFX_ERROR_INTERNAL     The UARTE peripheral reports an error.
- * @retval NRFX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
+ * @retval XINCX_ERROR_INTERNAL     The UARTE peripheral reports an error.
+ * @retval XINCX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
  */
 xincx_err_t xincx_uarte_rx(xincx_uarte_t const * p_instance,
                          uint8_t *            p_data,
@@ -278,7 +278,7 @@ bool xincx_uarte_rx_ready(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing reception.
- * @note @ref NRFX_UARTE_EVT_RX_DONE event will be generated in non-blocking mode.
+ * @note @ref XINCX_UARTE_EVT_RX_DONE event will be generated in non-blocking mode.
  *       It will contain number of bytes received until the abort was called. The event
  *       handler will be called from the UARTE interrupt context.
  *
@@ -325,4 +325,4 @@ void xincx_uarte_3_irq_handler(void);
 }
 #endif
 
-#endif // NRFX_UARTE_H__
+#endif // XINCX_UARTE_H__

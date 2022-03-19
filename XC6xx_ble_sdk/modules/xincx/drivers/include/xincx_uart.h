@@ -32,12 +32,12 @@ typedef struct
     uint8_t         id;
 } xincx_uart_t;
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-    #if NRFX_CHECK(XINCX_UART0_ENABLED)
+    #if XINCX_CHECK(XINCX_UART0_ENABLED)
     XINCX_UART0_INST_IDX ,
     #endif
-    #if NRFX_CHECK(XINCX_UART1_ENABLED)
+    #if XINCX_CHECK(XINCX_UART1_ENABLED)
     XINCX_UART1_INST_IDX ,
     #endif
     XINCX_UART_ENABLED_COUNT,
@@ -49,9 +49,9 @@ enum {
 /** @brief Macro for creating a UART driver instance. */
 #define XINCX_UART_INSTANCE(Id)                                     \
 {                                                                   \
-    .p_reg          = NRFX_CONCAT_2(XINC_UART, Id),                 \
+    .p_reg          = XINCX_CONCAT_2(XINC_UART, Id),                 \
     .p_cpr          = XINC_CPR,                                     \
-    .drv_inst_idx   = NRFX_CONCAT_3(XINCX_UART, Id, _INST_IDX),     \
+    .drv_inst_idx   = XINCX_CONCAT_3(XINCX_UART, Id, _INST_IDX),     \
     .id             = Id,                                           \
 }
 
@@ -144,9 +144,9 @@ typedef void (*xincx_uart_event_handler_t)(xincx_uart_event_t const * p_event,
  * @param[in] event_handler Event handler provided by the user. If not provided, the driver works in
  *                          blocking mode.
  *
- * @retval NRFX_SUCCESS             Initialization is successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver is already initialized.
- * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
+ * @retval XINCX_SUCCESS             Initialization is successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver is already initialized.
+ * @retval XINCX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
  *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
@@ -176,9 +176,9 @@ void xincx_uart_uninit(xincx_uart_t const * p_instance);
  * @param[in] p_data     Pointer to data.
  * @param[in] length     Number of bytes to send.
  *
- * @retval NRFX_SUCCESS         Initialization was successful.
- * @retval NRFX_ERROR_BUSY      Driver is already transferring.
- * @retval NRFX_ERROR_FORBIDDEN The transfer was aborted from a different context
+ * @retval XINCX_SUCCESS         Initialization was successful.
+ * @retval XINCX_ERROR_BUSY      Driver is already transferring.
+ * @retval XINCX_ERROR_FORBIDDEN The transfer was aborted from a different context
  *                              (blocking mode only).
  */
 xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
@@ -231,14 +231,14 @@ void xincx_uart_tx_abort(xincx_uart_t const * p_instance);
  * @param[in] p_data     Pointer to data.
  * @param[in] length     Number of bytes to receive.
  *
- * @retval    NRFX_SUCCESS         Reception is complete (in case of blocking mode) or it is
+ * @retval    XINCX_SUCCESS         Reception is complete (in case of blocking mode) or it is
  *                                 successfully started (in case of non-blocking mode).
- * @retval    NRFX_ERROR_BUSY      The driver is already receiving
+ * @retval    XINCX_ERROR_BUSY      The driver is already receiving
  *                                 (and the secondary buffer has already been set
  *                                 in non-blocking mode).
- * @retval    NRFX_ERROR_FORBIDDEN The transfer was aborted from a different context
+ * @retval    XINCX_ERROR_FORBIDDEN The transfer was aborted from a different context
  *                                 (blocking mode only, also see @ref xincx_uart_rx_disable).
- * @retval    NRFX_ERROR_INTERNAL  The UART peripheral reported an error.
+ * @retval    XINCX_ERROR_INTERNAL  The UART peripheral reported an error.
  */
 xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
                         uint8_t *           p_data,

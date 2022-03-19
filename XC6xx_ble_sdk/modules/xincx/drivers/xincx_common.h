@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRFX_COMMON_H__
-#define NRFX_COMMON_H__
+#ifndef XINCX_COMMON_H__
+#define XINCX_COMMON_H__
 
 #include <stdint.h>
 #include <stddef.h>
@@ -38,7 +38,7 @@ extern "C" {
  * such warnings only in places where this macro is used for evaluation, not in
  * the whole analyzed code.
  */
-#define NRFX_CHECK(module_enabled)  (module_enabled)
+#define XINCX_CHECK(module_enabled)  (module_enabled)
 
 /**
  * @brief Macro for concatenating two tokens in macro expansion.
@@ -53,12 +53,12 @@ extern "C" {
  *         a valid token (in such case, the preprocessor issues a warning and
  *         does not perform the concatenation).
  *
- * @sa NRFX_CONCAT_3
+ * @sa XINCX_CONCAT_3
  */
-#define NRFX_CONCAT_2(p1, p2)       NRFX_CONCAT_2_(p1, p2)
+#define XINCX_CONCAT_2(p1, p2)       XINCX_CONCAT_2_(p1, p2)
 
-/** @brief Internal macro used by @ref NRFX_CONCAT_2 to perform the expansion in two steps. */
-#define NRFX_CONCAT_2_(p1, p2)      p1 ## p2
+/** @brief Internal macro used by @ref XINCX_CONCAT_2 to perform the expansion in two steps. */
+#define XINCX_CONCAT_2_(p1, p2)      p1 ## p2
 
 /**
  * @brief Macro for concatenating three tokens in macro expansion.
@@ -74,12 +74,12 @@ extern "C" {
  *         a valid token (in such case, the preprocessor issues a warning and
  *         does not perform the concatenation).
  *
- * @sa NRFX_CONCAT_2
+ * @sa XINCX_CONCAT_2
  */
-#define NRFX_CONCAT_3(p1, p2, p3)   NRFX_CONCAT_3_(p1, p2, p3)
+#define XINCX_CONCAT_3(p1, p2, p3)   XINCX_CONCAT_3_(p1, p2, p3)
 
-/** @brief Internal macro used by @ref NRFX_CONCAT_3 to perform the expansion in two steps. */
-#define NRFX_CONCAT_3_(p1, p2, p3)  p1 ## p2 ## p3
+/** @brief Internal macro used by @ref XINCX_CONCAT_3 to perform the expansion in two steps. */
+#define XINCX_CONCAT_3_(p1, p2, p3)  p1 ## p2 ## p3
 
 /**
  * @brief Macro for performing rounded integer division (as opposed to
@@ -90,7 +90,7 @@ extern "C" {
  *
  * @return Rounded (integer) result of dividing @c a by @c b.
  */
-#define NRFX_ROUNDED_DIV(a, b)  (((a) + ((b) / 2)) / (b))
+#define XINCX_ROUNDED_DIV(a, b)  (((a) + ((b) / 2)) / (b))
 
 /**
  * @brief Macro for performing integer division, making sure the result is rounded up.
@@ -103,7 +103,7 @@ extern "C" {
  *
  * @return Integer result of dividing @c a by @c b, rounded up.
  */
-#define NRFX_CEIL_DIV(a, b)  ((((a) - 1) / (b)) + 1)
+#define XINCX_CEIL_DIV(a, b)  ((((a) - 1) / (b)) + 1)
 
 /**
  * @brief Macro for getting the number of elements in an array.
@@ -112,7 +112,7 @@ extern "C" {
  *
  * @return Array element count.
  */
-#define NRFX_ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
+#define XINCX_ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
 
 /**
  * @brief Macro for getting the offset (in bytes) from the beginning of a structure
@@ -123,7 +123,7 @@ extern "C" {
  *
  * @return Member offset in bytes.
  */
-#define NRFX_OFFSETOF(type, member)  ((size_t)&(((type *)0)->member))
+#define XINCX_OFFSETOF(type, member)  ((size_t)&(((type *)0)->member))
 
 /**@brief Macro for checking if given lengths of EasyDMA transfers do not exceed
  *        the limit of the specified peripheral.
@@ -135,9 +135,9 @@ extern "C" {
  * @retval true  The length of buffers does not exceed the limit of the specified peripheral.
  * @retval false The length of buffers exceeds the limit of the specified peripheral.
  */
-#define NRFX_EASYDMA_LENGTH_VALIDATE(peripheral, length1, length2)            \
-    (((length1) < (1U << NRFX_CONCAT_2(peripheral, _EASYDMA_MAXCNT_SIZE))) && \
-     ((length2) < (1U << NRFX_CONCAT_2(peripheral, _EASYDMA_MAXCNT_SIZE))))
+#define XINCX_EASYDMA_LENGTH_VALIDATE(peripheral, length1, length2)            \
+    (((length1) < (1U << XINCX_CONCAT_2(peripheral, _EASYDMA_MAXCNT_SIZE))) && \
+     ((length2) < (1U << XINCX_CONCAT_2(peripheral, _EASYDMA_MAXCNT_SIZE))))
 
 /**
  * @brief Macro for waiting until condition is met.
@@ -148,7 +148,7 @@ extern "C" {
  * @param[out] result    Boolean variable to store the result of the wait process.
  *                       Set to true if the condition is met or false otherwise.
  */
-#define NRFX_WAIT_FOR(condition, attempts, delay_us, result) \
+#define XINCX_WAIT_FOR(condition, attempts, delay_us, result) \
 do {                                                         \
     result =  false;                                         \
     uint32_t remaining_attempts = (attempts);                \
@@ -158,7 +158,7 @@ do {                                                         \
                result =  true;                               \
                break;                                        \
            }                                                 \
-           NRFX_DELAY_US(delay_us);                          \
+           XINCX_DELAY_US(delay_us);                          \
     } while (--remaining_attempts);                          \
 } while(0)
 
@@ -173,7 +173,7 @@ do {                                                         \
  *
  * @return ID number associated with the specified peripheral.
  */
-#define NRFX_PERIPHERAL_ID_GET(base_addr)  (uint8_t)((uint32_t)(base_addr) >> 12)
+#define XINCX_PERIPHERAL_ID_GET(base_addr)  (uint8_t)((uint32_t)(base_addr) >> 12)
 
 /**
  * @brief Macro for getting the interrupt number assigned to a specific
@@ -187,7 +187,7 @@ do {                                                         \
  *
  * @return Interrupt number associated with the specified peripheral.
  */
-#define NRFX_IRQ_NUMBER_GET(base_addr)  NRFX_PERIPHERAL_ID_GET(base_addr)
+#define XINCX_IRQ_NUMBER_GET(base_addr)  XINCX_PERIPHERAL_ID_GET(base_addr)
 
 /** @brief IRQ handler type. */
 typedef void (* xincx_irq_handler_t)(void);
@@ -195,9 +195,9 @@ typedef void (* xincx_irq_handler_t)(void);
 /** @brief Driver state. */
 typedef enum
 {
-    NRFX_DRV_STATE_UNINITIALIZED, ///< Uninitialized.
-    NRFX_DRV_STATE_INITIALIZED,   ///< Initialized but powered off.
-    NRFX_DRV_STATE_POWERED_ON,    ///< Initialized and powered on.
+    XINCX_DRV_STATE_UNINITIALIZED, ///< Uninitialized.
+    XINCX_DRV_STATE_INITIALIZED,   ///< Initialized but powered off.
+    XINCX_DRV_STATE_POWERED_ON,    ///< Initialized and powered on.
 } xincx_drv_state_t;
 
 
@@ -286,7 +286,7 @@ __STATIC_INLINE bool xincx_is_word_aligned(void const * p_object)
 
 __STATIC_INLINE IRQn_Type xincx_get_irq_number(void const * p_reg)
 {
-    return (IRQn_Type)NRFX_IRQ_NUMBER_GET(p_reg);
+    return (IRQn_Type)XINCX_IRQ_NUMBER_GET(p_reg);
 }
 
 __STATIC_INLINE uint32_t xincx_bitpos_to_event(uint32_t bit)
@@ -309,4 +309,4 @@ __STATIC_INLINE uint32_t xincx_event_to_bitpos(uint32_t event)
 }
 #endif
 
-#endif // NRFX_COMMON_H__
+#endif // XINCX_COMMON_H__

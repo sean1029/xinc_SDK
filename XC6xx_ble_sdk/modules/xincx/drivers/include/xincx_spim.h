@@ -33,12 +33,12 @@ typedef struct
     uint8_t         id;
 } xincx_spim_t;
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_SPIM0_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM0_ENABLED)
     XINCX_SPIM0_INST_IDX ,
 #endif
-#if NRFX_CHECK(XINCX_SPIM1_ENABLED)
+#if XINCX_CHECK(XINCX_SPIM1_ENABLED)
     XINCX_SPIM1_INST_IDX ,
 #endif
     XINCX_SPIM_ENABLED_COUNT
@@ -48,9 +48,9 @@ enum {
 /** @brief Macro for creating an instance of the SPIM driver. */
 #define XINCX_SPIM_INSTANCE(Id)                                         \
 {                                                                       \
-    .p_reg          = NRFX_CONCAT_2(XINC_SPIM, Id),                     \
+    .p_reg          = XINCX_CONCAT_2(XINC_SPIM, Id),                     \
     .p_cpr          = XINC_CPR,                                         \
-    .drv_inst_idx   = NRFX_CONCAT_3(XINCX_SPIM, Id, _INST_IDX),         \
+    .drv_inst_idx   = XINCX_CONCAT_3(XINCX_SPIM, Id, _INST_IDX),         \
     .id             = Id,                                               \
 }
 
@@ -181,13 +181,13 @@ typedef void (* xincx_spim_evt_handler_t)(xincx_spim_evt_t const * p_event,
  *                       will be performed in blocking mode.
  * @param[in] p_context  Context passed to event handler.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
- * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver was already initialized.
+ * @retval XINCX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
  *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
- * @retval NRFX_ERROR_NOT_SUPPORTED Requested configuration is not supported
+ * @retval XINCX_ERROR_NOT_SUPPORTED Requested configuration is not supported
  *                                  by the SPIM instance.
  */
 xincx_err_t xincx_spim_init(xincx_spim_t const * const  p_instance,
@@ -232,23 +232,23 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance);
  *
  * @note Peripherals using EasyDMA (including SPIM) require the transfer buffers
  *       to be placed in the Data RAM region. If this condition is not met,
- *       this function will fail with the error code NRFX_ERROR_INVALID_ADDR.
+ *       this function will fail with the error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param p_instance  Pointer to the driver instance structure.
  * @param p_xfer_desc Pointer to the transfer descriptor.
  * @param flags       Transfer options (0 for default settings).
  *
- * @retval NRFX_SUCCESS             The procedure is successful.
- * @retval NRFX_ERROR_BUSY          The driver is not ready for a new transfer.
- * @retval NRFX_ERROR_NOT_SUPPORTED The provided parameters are not supported.
- * @retval NRFX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
+ * @retval XINCX_SUCCESS             The procedure is successful.
+ * @retval XINCX_ERROR_BUSY          The driver is not ready for a new transfer.
+ * @retval XINCX_ERROR_NOT_SUPPORTED The provided parameters are not supported.
+ * @retval XINCX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
  *                                  RAM region.
  */
 xincx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
                           xincx_spim_xfer_desc_t * p_xfer_desc,
                           uint32_t                      flags);
 
-#if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) || defined(__NRFX_DOXYGEN__)
+#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief Function for starting the SPIM data transfer with DCX control.
  *
@@ -257,7 +257,7 @@ xincx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
  *
  * @note Peripherals that use EasyDMA (including SPIM) require the transfer buffers
  *       to be placed in the Data RAM region. If this condition is not met,
- *       this function will fail with the error code NRFX_ERROR_INVALID_ADDR.
+ *       this function will fail with the error code XINCX_ERROR_INVALID_ADDR.
  *
  * @param p_instance  Pointer to the driver instance structure.
  * @param p_xfer_desc Pointer to the transfer descriptor.
@@ -271,10 +271,10 @@ xincx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
  *                    @c cmd_length parameter causes all transmitted bytes
  *                    to be marked as command bytes.
  *
- * @retval NRFX_SUCCESS             The procedure is successful.
- * @retval NRFX_ERROR_BUSY          The driver is not ready for a new transfer.
- * @retval NRFX_ERROR_NOT_SUPPORTED The provided parameters are not supported.
- * @retval NRFX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
+ * @retval XINCX_SUCCESS             The procedure is successful.
+ * @retval XINCX_ERROR_BUSY          The driver is not ready for a new transfer.
+ * @retval XINCX_ERROR_NOT_SUPPORTED The provided parameters are not supported.
+ * @retval XINCX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
  *                                  RAM region.
  */
 xincx_err_t xincx_spim_xfer_dcx(xincx_spim_t const * const     p_instance,

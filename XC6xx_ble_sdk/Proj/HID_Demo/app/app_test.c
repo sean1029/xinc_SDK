@@ -37,7 +37,7 @@ void cli_processt(void)
 
 #if DRV_UART_TEST_EN
 
-#if NRFX_CHECK(XINCX_UART_ENABLED)
+#if XINCX_CHECK(XINCX_UART_ENABLED)
 void uart_event_handle(app_uart_evt_t * p_event)
 {
     static uint8_t data_array[20];
@@ -99,7 +99,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
 
 void drv_uart_test(void)
 {
-    #if NRFX_CHECK(XINCX_UART_ENABLED)
+    #if XINCX_CHECK(XINCX_UART_ENABLED)
     ret_code_t err_code;
 
     app_uart_comm_params_t const comm_params =
@@ -155,7 +155,7 @@ void log_flush(void)
 
 #if DRV_SAADC_TEST_EN
 
-#if NRFX_CHECK(XINCX_SAADC_ENABLED)
+#if XINCX_CHECK(XINCX_SAADC_ENABLED)
 #define SAMPLES_IN_BUFFER 32
 
 static xinc_drv_saadc_t m_saadc = XINCX_SAADC_INSTANCE(0);
@@ -178,7 +178,7 @@ void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
 
 void saadc_init(void)
 {
-    #if NRFX_CHECK(XINCX_SAADC_ENABLED)
+    #if XINCX_CHECK(XINCX_SAADC_ENABLED)
     ret_code_t err_code;
         
 
@@ -208,7 +208,7 @@ void saadc_init(void)
 
 void drv_adc_test(void)
 {
-    #if NRFX_CHECK(XINCX_SAADC_ENABLED)
+    #if XINCX_CHECK(XINCX_SAADC_ENABLED)
     saadc_init();
     #endif
 }
@@ -216,7 +216,7 @@ void drv_adc_test(void)
 
 #if RTC_TEST_EN
 
-#if NRFX_CHECK(XINCX_RTC_ENABLED)
+#if XINCX_CHECK(XINCX_RTC_ENABLED)
 const xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance of xinc_drv_rtc for RTC0. */
 
 static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
@@ -282,7 +282,7 @@ static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
 
 void rtc_test(void)
 {
-#if NRFX_CHECK(XINCX_RTC_ENABLED)
+#if XINCX_CHECK(XINCX_RTC_ENABLED)
     uint32_t err_code;
 
     //Initialize RTC instance
@@ -334,7 +334,7 @@ void timer_test()
 
 #if DRV_TIMER_TEST_EN
 
-#if NRFX_CHECK(XINCX_TIMER_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER_ENABLED)
 const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(2);
 
 void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
@@ -380,7 +380,7 @@ void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, 
 void drv_timer_test(void)
 {
 	
-#if NRFX_CHECK(XINCX_TIMER_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER_ENABLED)
     uint32_t time_ms = 3000; //Time(in miliseconds) between consecutive compare events.
     uint32_t time_ticks;
     uint32_t err_code = NRF_SUCCESS;
@@ -406,7 +406,7 @@ void drv_timer_test(void)
 
 #if DRV_WDT_TEST_EN
 
-#if NRFX_CHECK(XINCX_WDT_ENABLED)
+#if XINCX_CHECK(XINCX_WDT_ENABLED)
 /**
  * @brief WDT events handler.
  */
@@ -420,7 +420,7 @@ void wdt_event_handler(void)
 #endif
  void drv_wdg_test(void)
 {
-    #if NRFX_CHECK(XINCX_WDT_ENABLED)
+    #if XINCX_CHECK(XINCX_WDT_ENABLED)
     uint32_t err_code;
 
     //Initialize RTC instance
@@ -523,7 +523,7 @@ void app_button_test(void)
 
 
 
-#if NRFX_CHECK(XINCX_PWM_ENABLED)
+#if XINCX_CHECK(XINCX_PWM_ENABLED)
 static xinc_drv_pwm_t m_pwm0 = XINC_DRV_PWM_INSTANCE(0);
 static xinc_drv_pwm_t m_pwm1 = XINC_DRV_PWM_INSTANCE(1);
 static xinc_drv_pwm_t m_pwm2 = XINC_DRV_PWM_INSTANCE(2);
@@ -536,7 +536,7 @@ static xinc_drv_pwm_t m_pwm5 = XINC_DRV_PWM_INSTANCE(5);
 
 void pwm_update_duty(uint8_t duty)
 {
-	#if NRFX_CHECK(XINCX_PWM_ENABLED)
+	#if XINCX_CHECK(XINCX_PWM_ENABLED)
 	printf("pwm_update_duty:%d\n",duty);
 	xinc_drv_pwm_duty_cycle_update(&m_pwm0,duty);
 	#endif
@@ -544,7 +544,7 @@ void pwm_update_duty(uint8_t duty)
 
 void drv_pwm_test(void)
 {
-#if NRFX_CHECK(XINCX_PWM_ENABLED)
+#if XINCX_CHECK(XINCX_PWM_ENABLED)
     xinc_drv_pwm_config_t const config0 =
     {
         .clk_src = XINC_PWM_CLK_SRC_32K,

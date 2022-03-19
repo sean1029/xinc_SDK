@@ -9,16 +9,16 @@
 
 #include <xincx.h>
 
-#if NRFX_CHECK(XINCX_TIMER_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER_ENABLED)
 
-#if !(NRFX_CHECK(XINCX_TIMER0_ENABLED) || NRFX_CHECK(XINCX_TIMER1_ENABLED) || \
-      NRFX_CHECK(XINCX_TIMER2_ENABLED) || NRFX_CHECK(XINCX_TIMER3_ENABLED))
+#if !(XINCX_CHECK(XINCX_TIMER0_ENABLED) || XINCX_CHECK(XINCX_TIMER1_ENABLED) || \
+      XINCX_CHECK(XINCX_TIMER2_ENABLED) || XINCX_CHECK(XINCX_TIMER3_ENABLED))
 #error "No enabled TIMER instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_timer.h>
 
-#define NRFX_LOG_MODULE TIMER
+#define XINCX_LOG_MODULE TIMER
 #include <xincx_log.h>
 
 /**@brief Timer control block. */
@@ -42,27 +42,27 @@ xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
     timer_control_block_t * p_cb = &m_cb[p_instance->instance_idx];
 
     #ifdef SOFTDEVICE_PRESENT
-    NRFX_ASSERT(p_instance->p_reg != XINC_TIMER0);
+    XINCX_ASSERT(p_instance->p_reg != XINC_TIMER0);
     #endif
-    NRFX_ASSERT(p_config);
-    NRFX_ASSERT(timer_event_handler);
+    XINCX_ASSERT(p_config);
+    XINCX_ASSERT(timer_event_handler);
 
 
-    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
     printf("p_config->ref_clk val:%d,p_config->clk_src:%d\r\n",p_config->ref_clk,p_config->clk_src);
     if(p_config->ref_clk > XINC_TIMER_REF_CLK_32000Hz)
     {
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_PARAM;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         
         return err_code;
     }
@@ -80,24 +80,24 @@ xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
     xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
 
 
-    NRFX_IRQ_PRIORITY_SET((IRQn_Type)(TIMER0_IRQn + p_instance->id),
+    XINCX_IRQ_PRIORITY_SET((IRQn_Type)(TIMER0_IRQn + p_instance->id),
         p_config->interrupt_priority);
-    NRFX_IRQ_ENABLE((IRQn_Type)(TIMER0_IRQn + p_instance->id));
+    XINCX_IRQ_ENABLE((IRQn_Type)(TIMER0_IRQn + p_instance->id));
 
 
-    p_cb->state = NRFX_DRV_STATE_INITIALIZED;
+    p_cb->state = XINCX_DRV_STATE_INITIALIZED;
 
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.",
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.",
                                 __func__,
-                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 	
 }
 
 void xincx_timer_uninit(xincx_timer_t const * const p_instance)
 {
-    NRFX_IRQ_DISABLE(xincx_get_irq_number(p_instance->p_reg));
+    XINCX_IRQ_DISABLE(xincx_get_irq_number(p_instance->p_reg));
 
     #define DISABLE_ALL UINT32_MAX
     xinc_timer_int_disable(p_instance->p_reg, DISABLE_ALL);
@@ -105,33 +105,33 @@ void xincx_timer_uninit(xincx_timer_t const * const p_instance)
 
     xincx_timer_disable(p_instance);
 
-    m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_UNINITIALIZED;
-    NRFX_LOG_INFO("Uninitialized instance: %d.", p_instance->instance_idx);
+    m_cb[p_instance->instance_idx].state = XINCX_DRV_STATE_UNINITIALIZED;
+    XINCX_LOG_INFO("Uninitialized instance: %d.", p_instance->instance_idx);
 }
 
 void xincx_timer_enable(xincx_timer_t const * const p_instance)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_idx].state == NRFX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(m_cb[p_instance->instance_idx].state == XINCX_DRV_STATE_INITIALIZED);
     xinc_timer_enable(p_instance->p_reg);
-    m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_POWERED_ON;
-    NRFX_LOG_INFO("Enabled instance: %d.", p_instance->instance_idx);
+    m_cb[p_instance->instance_idx].state = XINCX_DRV_STATE_POWERED_ON;
+    XINCX_LOG_INFO("Enabled instance: %d.", p_instance->instance_idx);
 }
 
 void xincx_timer_disable(xincx_timer_t const * const p_instance)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(m_cb[p_instance->instance_idx].state != XINCX_DRV_STATE_UNINITIALIZED);
 
     xinc_timer_disable(p_instance->p_reg);
     printf("timer TCR=[%x]\n", p_instance->p_reg->TCR);
 
-    m_cb[p_instance->instance_idx].state = NRFX_DRV_STATE_INITIALIZED;
-    NRFX_LOG_INFO("Disabled instance: %d.", p_instance->instance_idx);
+    m_cb[p_instance->instance_idx].state = XINCX_DRV_STATE_INITIALIZED;
+    XINCX_LOG_INFO("Disabled instance: %d.", p_instance->instance_idx);
 }
 
 bool xincx_timer_is_enabled(xincx_timer_t const * const p_instance)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
-    return (m_cb[p_instance->instance_idx].state == NRFX_DRV_STATE_POWERED_ON);
+    XINCX_ASSERT(m_cb[p_instance->instance_idx].state != XINCX_DRV_STATE_UNINITIALIZED);
+    return (m_cb[p_instance->instance_idx].state == XINCX_DRV_STATE_POWERED_ON);
 }
 
 
@@ -155,7 +155,7 @@ void xincx_timer_compare(xincx_timer_t const * const p_instance,
           xincx_timer_enable(p_instance);
     }
   
-    NRFX_LOG_INFO("Timer id: %d, capture value set: %lu.",
+    XINCX_LOG_INFO("Timer id: %d, capture value set: %lu.",
                     p_instance->instance_idx,
                     cc_value);
 }
@@ -164,7 +164,7 @@ void xincx_timer_compare(xincx_timer_t const * const p_instance,
 void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
                                    uint32_t                   channel)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(m_cb[p_instance->instance_idx].state != XINCX_DRV_STATE_UNINITIALIZED);
 
     xinc_timer_int_clear(p_instance->p_reg,XINC_TIMER_EVENT_TIMEOUT);
 
@@ -174,7 +174,7 @@ void xincx_timer_compare_int_enable(xincx_timer_t const * const p_instance,
 void xincx_timer_compare_int_disable(xincx_timer_t const * const p_instance,
                                     uint32_t                   channel)
 {
-    NRFX_ASSERT(m_cb[p_instance->instance_idx].state != NRFX_DRV_STATE_UNINITIALIZED);
+    XINCX_ASSERT(m_cb[p_instance->instance_idx].state != XINCX_DRV_STATE_UNINITIALIZED);
 
     xinc_timer_int_disable(p_instance->p_reg,TIMERx_TCR_TIM_Msk);
 }
@@ -200,7 +200,7 @@ static void irq_handler(XINC_TIMER_Type        * p_reg,
     }
 }
 
-#if NRFX_CHECK(XINCX_TIMER0_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER0_ENABLED)
 //void TIMER0_Handler(void)
 //{
 //	uint32_t val=0;
@@ -215,7 +215,7 @@ void xincx_timer_0_irq_handler(void)
 }
 #endif
 
-#if NRFX_CHECK(XINCX_TIMER1_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER1_ENABLED)
 //void TIMER1_Handler(void)
 //{
 
@@ -229,7 +229,7 @@ void xincx_timer_1_irq_handler(void)
 }
 #endif
 
-#if NRFX_CHECK(XINCX_TIMER2_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER2_ENABLED)
 void TIMER2_Handler(void)
 {
 
@@ -243,7 +243,7 @@ void xincx_timer_2_irq_handler(void)
 }
 #endif
 
-#if NRFX_CHECK(XINCX_TIMER3_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER3_ENABLED)
 void TIMER3_Handler(void)
 {
 
@@ -258,4 +258,4 @@ void xincx_timer_3_irq_handler(void)
 #endif
 
 
-#endif // NRFX_CHECK(XINCX_TIMER_ENABLED)
+#endif // XINCX_CHECK(XINCX_TIMER_ENABLED)

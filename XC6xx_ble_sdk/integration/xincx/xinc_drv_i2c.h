@@ -83,10 +83,10 @@ typedef struct
  */
 #define XINC_DRV_I2C_INSTANCE(id)    XINC_DRV_I2C_INSTANCE_(id)
 #define XINC_DRV_I2C_INSTANCE_(id)   XINC_DRV_I2C_INSTANCE_ ## id
-#if NRFX_CHECK(XINCX_I2CM0_ENABLED)
+#if XINCX_CHECK(XINCX_I2CM0_ENABLED)
     #define XINC_DRV_I2C_INSTANCE_0 \
         { 0, { .i2cm = XINCX_I2CM_INSTANCE(0) }, true }
-#elif NRFX_CHECK(XINCX_I2C0_ENABLED)
+#elif XINCX_CHECK(XINCX_I2C0_ENABLED)
     #define XINC_DRV_I2C_INSTANCE_0 \
         { 0, { .i2c = XINC_I2C_INSTANCE(0) }, false }
 #endif
@@ -394,7 +394,7 @@ bool xinc_drv_i2c_is_busy(xinc_drv_i2c_t const * p_instance);
 #elif !defined(I2C_PRESENT) && defined(I2CM_PRESENT)
 #define NRF_DRV_I2C_WITH_I2CM
 #else
-#if (NRFX_CHECK(I2C0_ENABLED) && !NRFX_CHECK(I2C0_USE_EASY_DMA))
+#if (XINCX_CHECK(I2C0_ENABLED) && !XINCX_CHECK(I2C0_USE_EASY_DMA))
     #define NRF_DRV_I2C_WITH_I2C
 #endif
 #endif

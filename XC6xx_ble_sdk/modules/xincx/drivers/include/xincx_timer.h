@@ -40,25 +40,25 @@ typedef struct
 /** @brief Macro for creating a timer driver instance. */
 #define XINCX_TIMER_INSTANCE(Id)                                            \
 {                                                                           \
-    .p_reg          =   NRFX_CONCAT_2(XINC_TIMER, Id),                      \
+    .p_reg          =   XINCX_CONCAT_2(XINC_TIMER, Id),                      \
     .p_Greg         =   XINC_TIMER_GLOBAL,                                  \
     .p_cpr          =   XINC_CPR,                                           \
     .id             =   Id,                                                 \
-    .instance_idx   =   NRFX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX),          \
+    .instance_idx   =   XINCX_CONCAT_3(XINCX_TIMER, Id, _INST_IDX),          \
 }
           
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_TIMER0_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER0_ENABLED)
     XINCX_TIMER0_INST_IDX ,
 #endif
-#if NRFX_CHECK(XINCX_TIMER1_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER1_ENABLED)
     XINCX_TIMER1_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_TIMER2_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER2_ENABLED)
     XINCX_TIMER2_INST_IDX ,
 #endif
-#if NRFX_CHECK(XINCX_TIMER3_ENABLED)
+#if XINCX_CHECK(XINCX_TIMER3_ENABLED)
     XINCX_TIMER3_INST_IDX ,
 #endif
     XINCX_TIMER_ENABLED_COUNT
@@ -105,8 +105,8 @@ typedef void (* xincx_timer_event_handler_t)(xinc_timer_int_event_t event_type,u
  * @param[in] timer_event_handler Event handler provided by the user.
  *                                Must not be NULL.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The instance is already initialized.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The instance is already initialized.
  */
 xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
                            xincx_timer_config_t const * p_config,
@@ -228,7 +228,7 @@ void xincx_timer_3_irq_handler(void);
 
 #ifdef __cplusplus
 }
-#endif //__NRFX_DOXYGEN_
+#endif //__XINCX_DOXYGEN_
 
 #endif // XINCX_TIMER_H__
 

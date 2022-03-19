@@ -61,8 +61,8 @@ typedef void (*xincx_gpio_evt_handler_t)(xincx_gpio_pin_t pin, xinc_gpio_polarit
  * @details Only static configuration is supported to prevent the shared
  * resource being customized by the initiator.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver was already initialized.
  */
 xincx_err_t xincx_gpio_init(void);
 
@@ -90,9 +90,9 @@ void xincx_gpio_uninit(void);
  * @param[in] pin      Pin.
  * @param[in] p_config Initial configuration.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
- * @retval NRFX_ERROR_NO_MEM        No GPIOTE channel is available.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
+ * @retval XINCX_ERROR_NO_MEM        No GPIOTE channel is available.
  */
 xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
                                 xincx_gpio_out_config_t const * p_config);
@@ -146,9 +146,9 @@ void xincx_gpio_out_toggle(xincx_gpio_pin_t pin);
  * @param[in] p_config    Initial configuration.
  * @param[in] evt_handler User function to be called when the configured transition occurs.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
- * @retval NRFX_ERROR_NO_MEM        No GPIOTE channel is available.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
+ * @retval XINCX_ERROR_NO_MEM        No GPIOTE channel is available.
  */
 xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
                                xincx_gpio_in_config_t const * p_config,

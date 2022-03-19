@@ -9,9 +9,9 @@
 
 #include <xincx.h>
 
-#if NRFX_CHECK(XINCX_UART_ENABLED)
+#if XINCX_CHECK(XINCX_UART_ENABLED)
 
-#if !NRFX_CHECK(XINCX_UART0_ENABLED) && !NRFX_CHECK(XINCX_UART1_ENABLED)
+#if !XINCX_CHECK(XINCX_UART0_ENABLED) && !XINCX_CHECK(XINCX_UART1_ENABLED)
 #error "No enabled UART instances. Check <xincx_config.h>."
 #endif
 
@@ -20,7 +20,7 @@
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
 #include "bsp_uart.h"
-#define NRFX_LOG_MODULE UART
+#define XINCX_LOG_MODULE UART
 #include <xincx_log.h>
 
 #define EVT_TO_STR(event) \
@@ -52,7 +52,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
                          xincx_uart_config_t const * p_config)
 {
     printf("%s\r\n",__func__);
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     printf("pseltxd:%d\r\n",p_config->pseltxd);
     if (p_config->pseltxd != XINC_UART_PSEL_DISCONNECTED)
     {     
@@ -60,7 +60,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         {
             err_code = xinc_gpio_secfun_config(p_config->pseltxd, XINC_GPIO_PIN_UART0_TX);
             printf("secfun_config0:%d\r\n",err_code);
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -69,7 +69,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         {
             err_code = xinc_gpio_secfun_config(p_config->pseltxd, XINC_GPIO_PIN_UART1_TX);
             printf("secfun_config1:%d\r\n",err_code);
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -81,7 +81,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         if(p_instance->id == 0)
         {
             err_code = xinc_gpio_secfun_config(p_config->pselrxd, XINC_GPIO_PIN_UART0_RX);
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -89,7 +89,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         if(p_instance->id == 1)
         {
             err_code = xinc_gpio_secfun_config(p_config->pselrxd, XINC_GPIO_PIN_UART1_RX);
-            if(err_code != NRFX_SUCCESS)
+            if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
@@ -178,7 +178,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 static void interrupts_disable(xincx_uart_t const * p_instance)
 {
     p_instance->p_reg->IER_DLH.IER = 0X00;
-    NRFX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
+    XINCX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
 
@@ -186,17 +186,17 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler)
 {
-    NRFX_ASSERT(p_config);
+    XINCX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
     // printf("XINC_UART_Type size :%d\r\n",sizeof(XINC_UART_Type));
-    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
-                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 
@@ -230,12 +230,12 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     
     err_code = apply_config(p_instance, p_config);
 
-    if(err_code != NRFX_SUCCESS)
+    if(err_code != XINCX_SUCCESS)
     {
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_PARAM;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
-                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
 
@@ -252,14 +252,14 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     p_cb->rx_secondary_buffer_length = 0;
     p_cb->rx_enabled                 = false;
     p_cb->tx_buffer_length           = 0;
-    p_cb->state                      = NRFX_DRV_STATE_INITIALIZED;
-    NRFX_LOG_WARNING("Function: %s, error code: %s.",
+    p_cb->state                      = XINCX_DRV_STATE_INITIALIZED;
+    XINCX_LOG_WARNING("Function: %s, error code: %s.",
                         __func__,
-                        NRFX_LOG_ERROR_STRING_GET(err_code));
+                        XINCX_LOG_ERROR_STRING_GET(err_code));
 
     printf("Function: %s, error code: %s.\r\n",
                         __func__,
-                        NRFX_LOG_ERROR_STRING_GET(err_code));
+                        XINCX_LOG_ERROR_STRING_GET(err_code));
 return err_code;
 }
 
@@ -275,9 +275,9 @@ void xincx_uart_uninit(xincx_uart_t const * p_instance)
     }
 
 
-    p_cb->state   = NRFX_DRV_STATE_UNINITIALIZED;
+    p_cb->state   = XINCX_DRV_STATE_UNINITIALIZED;
     p_cb->handler = NULL;
-    NRFX_LOG_INFO("Instance uninitialized: %d.", p_instance->drv_inst_idx);
+    XINCX_LOG_INFO("Instance uninitialized: %d.", p_instance->drv_inst_idx);
 }
 
 static void tx_byte(XINC_UART_Type * p_uart, uart_control_block_t * p_cb)
@@ -315,18 +315,18 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
                         size_t              length)
 {
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    NRFX_ASSERT(p_cb->state == NRFX_DRV_STATE_INITIALIZED);
-    NRFX_ASSERT(p_data);
-    NRFX_ASSERT(length > 0);
+    XINCX_ASSERT(p_cb->state == XINCX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(p_data);
+    XINCX_ASSERT(length > 0);
 
     xincx_err_t err_code;
 	//  printf("xincx_uart_tx progress:%d\r\n",xincx_uart_tx_in_progress(p_instance));
     if (xincx_uart_tx_in_progress(p_instance))
     {
-        err_code = NRFX_ERROR_BUSY;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_BUSY;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
-                         NRFX_LOG_ERROR_STRING_GET(err_code));
+                         XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
     p_cb->tx_buffer_length = length;
@@ -334,12 +334,12 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
     p_cb->tx_counter       = 0;
     p_cb->tx_abort         = false;
 
-    NRFX_LOG_INFO("Transfer tx_len: %d.", p_cb->tx_buffer_length);
-    NRFX_LOG_DEBUG("Tx data:");
-    NRFX_LOG_HEXDUMP_DEBUG(p_cb->p_tx_buffer,
+    XINCX_LOG_INFO("Transfer tx_len: %d.", p_cb->tx_buffer_length);
+    XINCX_LOG_DEBUG("Tx data:");
+    XINCX_LOG_HEXDUMP_DEBUG(p_cb->p_tx_buffer,
                            p_cb->tx_buffer_length * sizeof(p_cb->p_tx_buffer[0]));
 
-    err_code = NRFX_SUCCESS;
+    err_code = XINCX_SUCCESS;
 
     tx_byte(p_instance->p_reg, p_cb);
 
@@ -348,7 +348,7 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
         if (!tx_blocking(p_instance->p_reg, p_cb))
         {
             // The transfer has been aborted.
-            err_code = NRFX_ERROR_FORBIDDEN;
+            err_code = XINCX_ERROR_FORBIDDEN;
         }
         else
         {
@@ -360,7 +360,7 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
         p_cb->tx_buffer_length = 0;
     }
 
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
@@ -389,9 +389,9 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 {
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
-    NRFX_ASSERT(m_cb[p_instance->drv_inst_idx].state == NRFX_DRV_STATE_INITIALIZED);
-    NRFX_ASSERT(p_data);
-    NRFX_ASSERT(length > 0);
+    XINCX_ASSERT(m_cb[p_instance->drv_inst_idx].state == XINCX_DRV_STATE_INITIALIZED);
+    XINCX_ASSERT(p_data);
+    XINCX_ASSERT(length > 0);
 
     xincx_err_t err_code;
 
@@ -411,10 +411,10 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 //                xinc_uart_int_enable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
 //                                                       XINC_UART_INT_MASK_ERROR);
             }
-            err_code = NRFX_ERROR_BUSY;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_BUSY;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                              __func__,
-                             NRFX_LOG_ERROR_STRING_GET(err_code));
+                             XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
         second_buffer = true;
@@ -433,7 +433,7 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
         p_cb->rx_secondary_buffer_length = length;
     }
 
-    NRFX_LOG_INFO("Transfer rx_len: %d.", length);
+    XINCX_LOG_INFO("Transfer rx_len: %d.", length);
    
 
     if (p_cb->handler == NULL)
@@ -461,19 +461,19 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
         p_cb->rx_buffer_length = 0;
         if (error)
         {
-            err_code = NRFX_ERROR_INTERNAL;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_INTERNAL;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                              __func__,
-                             NRFX_LOG_ERROR_STRING_GET(err_code));
+                             XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
 
         if (rxto)
         {
-            err_code = NRFX_ERROR_FORBIDDEN;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_FORBIDDEN;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                              __func__,
-                             NRFX_LOG_ERROR_STRING_GET(err_code));
+                             XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
 
@@ -483,8 +483,8 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 //        xinc_uart_int_enable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
 //                                               XINC_UART_INT_MASK_ERROR);
     }
-    err_code = NRFX_SUCCESS;
-    NRFX_LOG_INFO("Function: %s, error code: %s.", __func__, NRFX_LOG_ERROR_STRING_GET(err_code));
+    err_code = XINCX_SUCCESS;
+    XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
 
@@ -550,7 +550,7 @@ void xincx_uart_tx_abort(xincx_uart_t const * p_instance)
         tx_done_event(p_cb, p_cb->tx_counter);
     }
 
-    NRFX_LOG_INFO("TX transaction aborted.");
+    XINCX_LOG_INFO("TX transaction aborted.");
     printf("xincx_uart_tx_abort\r\n");
 }
 
@@ -559,7 +559,7 @@ void xincx_uart_rx_abort(xincx_uart_t const * p_instance)
     xinc_uart_int_disable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
                                         XINC_UART_INT_MASK_ERROR);
 
-    NRFX_LOG_INFO("RX transaction aborted.");
+    XINCX_LOG_INFO("RX transaction aborted.");
 
     printf("xincx_uart_rx_abort\r\n");
 }
@@ -577,7 +577,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     {
         xincx_uart_event_t event;
 
-        NRFX_LOG_DEBUG("Event: %s.", EVT_TO_STR(XINC_UART_EVENT_ERROR));
+        XINCX_LOG_DEBUG("Event: %s.", EVT_TO_STR(XINC_UART_EVENT_ERROR));
 //        xinc_uart_int_disable(p_uart, XINC_UART_INT_MASK_RXDRDY |
 //                                     XINC_UART_INT_MASK_ERROR);
         if (!p_cb->rx_enabled)
@@ -677,7 +677,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
 }
 
 
-#if NRFX_CHECK(XINCX_UART0_ENABLED)
+#if XINCX_CHECK(XINCX_UART0_ENABLED)
 void xincx_uart_0_irq_handler(void)
 {
     uart_irq_handler(XINC_UART0, &m_cb[XINCX_UART0_INST_IDX]);
@@ -688,7 +688,7 @@ void UART0_Handler(void)
 }
 #endif
 
-#if NRFX_CHECK(XINCX_UART1_ENABLED)
+#if XINCX_CHECK(XINCX_UART1_ENABLED)
 void xincx_uart_1_irq_handler(void)
 {
     uart_irq_handler(XINC_UART1, &m_cb[XINCX_UART1_INST_IDX]);
@@ -700,4 +700,4 @@ void UART1_Handler(void)
 }
 #endif
 
-#endif // NRFX_CHECK(XINCX_UART_ENABLED)
+#endif // XINCX_CHECK(XINCX_UART_ENABLED)

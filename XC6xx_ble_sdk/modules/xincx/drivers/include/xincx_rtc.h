@@ -78,15 +78,15 @@ typedef struct
 /** @brief Macro for creating an RTC driver instance. */
 #define XINCX_RTC_INSTANCE(Id)                                  \
 {                                                               \
-    .p_reg          = NRFX_CONCAT_2(XINC_RTC, Id),              \
+    .p_reg          = XINCX_CONCAT_2(XINC_RTC, Id),              \
     .p_cpr          = XINC_CPR,                                 \
-    .instance_id    = NRFX_CONCAT_3(XINCX_RTC, Id, _INST_IDX),  \
+    .instance_id    = XINCX_CONCAT_3(XINCX_RTC, Id, _INST_IDX),  \
     .id             = Id,                                       \
 }
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-    #if NRFX_CHECK(XINCX_RTC0_ENABLED)
+    #if XINCX_CHECK(XINCX_RTC0_ENABLED)
     XINCX_RTC0_INST_IDX,
     #endif
     XINCX_RTC_ENABLED_COUNT
@@ -154,8 +154,8 @@ typedef void (*xincx_rtc_handler_t)(xincx_rtc_int_type_t int_type);
  * @param[in] handler    Event handler provided by the user.
  *                       Must not be NULL.
  *
- * @retval NRFX_SUCCESS             Successfully initialized.
- * @retval NRFX_ERROR_INVALID_STATE The instance is already initialized.
+ * @retval XINCX_SUCCESS             Successfully initialized.
+ * @retval XINCX_ERROR_INVALID_STATE The instance is already initialized.
  */
 xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config,
@@ -206,8 +206,8 @@ void xincx_rtc_disable(xincx_rtc_t const * const p_instance);
  * @param[in] val        Absolute value to be set in the compare register.
  * @param[in] enable_irq True to enable the interrupt. False to disable the interrupt.
  *
- * @retval NRFX_SUCCESS       The procedure is successful.
- * @retval NRFX_ERROR_TIMEOUT The compare is not set because the request value is behind the
+ * @retval XINCX_SUCCESS       The procedure is successful.
+ * @retval XINCX_ERROR_TIMEOUT The compare is not set because the request value is behind the
  *                            current counter value. This error can only be reported
  *                            if the reliable mode is enabled.
  */
@@ -224,8 +224,8 @@ xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
  * @param[in] p_instance Pointer to the driver instance structure.
  * @param[in] channel    One of the channels of the instance.
  *
- * @retval NRFX_SUCCESS       The procedure is successful.
- * @retval NRFX_ERROR_TIMEOUT Interrupt is pending on the requested channel.
+ * @retval XINCX_SUCCESS       The procedure is successful.
+ * @retval XINCX_ERROR_TIMEOUT Interrupt is pending on the requested channel.
  */
 xincx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel);
 						 
@@ -374,4 +374,4 @@ void xincx_rtc_date_get(xincx_rtc_t const * const p_instance,
 
 void xincx_rtc_AOtime_set(xincx_rtc_t const * const p_instance,                         
                            uint32_t  tick);
-#endif // NRFX_H__
+#endif // XINCX_H__

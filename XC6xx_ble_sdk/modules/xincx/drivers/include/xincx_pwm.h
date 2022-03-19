@@ -39,32 +39,32 @@ typedef struct
 /** @brief Macro for creating a PWM driver instance. */
 #define XINCX_PWM_INSTANCE(Id)                               \
 {                                                           \
-    .p_reg  = NRFX_CONCAT_2(XINC_PWM, Id),             \
+    .p_reg  = XINCX_CONCAT_2(XINC_PWM, Id),             \
     .p_cpr            = XINC_CPR,											\
     .id 		= Id,																				\
-    .drv_inst_idx = NRFX_CONCAT_3(XINCX_PWM, Id, _INST_IDX), \
-    .output_pin  = NRFX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_PIN),                   \
-    .output_inv_pin  = NRFX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_INV_PIN),                   \
+    .drv_inst_idx = XINCX_CONCAT_3(XINCX_PWM, Id, _INST_IDX), \
+    .output_pin  = XINCX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_PIN),                   \
+    .output_inv_pin  = XINCX_CONCAT_3(XINCX_PWM_DEFAULT_CONFIG_OUT,Id,_INV_PIN),                   \
 }
 
-#ifndef __NRFX_DOXYGEN__
+#ifndef __XINCX_DOXYGEN__
 enum {
-#if NRFX_CHECK(XINCX_PWM0_ENABLED)
+#if XINCX_CHECK(XINCX_PWM0_ENABLED)
     XINCX_PWM0_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_PWM1_ENABLED)
+#if XINCX_CHECK(XINCX_PWM1_ENABLED)
     XINCX_PWM1_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_PWM2_ENABLED)
+#if XINCX_CHECK(XINCX_PWM2_ENABLED)
     XINCX_PWM2_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_PWM3_ENABLED)
+#if XINCX_CHECK(XINCX_PWM3_ENABLED)
     XINCX_PWM3_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_PWM4_ENABLED)
+#if XINCX_CHECK(XINCX_PWM4_ENABLED)
     XINCX_PWM4_INST_IDX,
 #endif
-#if NRFX_CHECK(XINCX_PWM5_ENABLED)
+#if XINCX_CHECK(XINCX_PWM5_ENABLED)
     XINCX_PWM5_INST_IDX,
 #endif
     XINCX_PWM_ENABLED_COUNT
@@ -119,8 +119,8 @@ typedef void (* xincx_pwm_handler_t)();
  *                       instead, event notifications are not done and PWM
  *                       interrupts are disabled.
  *
- * @retval NRFX_SUCCESS             Initialization was successful.
- * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
+ * @retval XINCX_SUCCESS             Initialization was successful.
+ * @retval XINCX_ERROR_INVALID_STATE The driver was already initialized.
  */
 xincx_err_t xincx_pwm_init(xincx_pwm_t const * const  p_instance,
                          xincx_pwm_config_t const * p_config,

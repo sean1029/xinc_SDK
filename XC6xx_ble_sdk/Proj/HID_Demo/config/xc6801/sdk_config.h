@@ -560,7 +560,7 @@
 #define XINCX_I2C_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
-// <e> NRFX_I2C_CONFIG_LOG_ENABLED - Enables logging in the module.
+// <e> XINCX_I2C_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
 #ifndef XINCX_I2C_CONFIG_LOG_ENABLED
 #define XINCX_I2C_CONFIG_LOG_ENABLED 1

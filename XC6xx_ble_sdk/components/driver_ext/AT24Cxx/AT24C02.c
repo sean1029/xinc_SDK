@@ -17,7 +17,7 @@
 
 #define I2C_INSTACE_ID	0
 
-#if NRFX_CHECK(XINCX_I2C_ENABLED)
+#if XINCX_CHECK(XINCX_I2C_ENABLED)
 static const xinc_drv_i2c_t m_i2c = XINC_DRV_I2C_INSTANCE(I2C_INSTACE_ID);
 
 #define	I2C_SCL_M	2				//i2c SCL pin

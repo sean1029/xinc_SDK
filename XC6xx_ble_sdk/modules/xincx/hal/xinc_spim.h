@@ -30,7 +30,7 @@ extern "C" {
  */
 #define XINC_SPIM_PIN_NOT_CONNECTED  0xFFFFFFFF
 
-#if defined(SPIM_DCXCNT_DCXCNT_Msk) || defined(__NRFX_DOXYGEN__)
+#if defined(SPIM_DCXCNT_DCXCNT_Msk) || defined(__XINCX_DOXYGEN__)
 /**
  * @brief This value specified in the DCX line configuration causes this line
  *        to be set low during whole transmission (all transmitted bytes are
@@ -43,10 +43,10 @@ extern "C" {
 
 /** @brief Macro for checking if the hardware chip select function is available. */
 #define XINC_SPIM_HW_CSN_PRESENT                        \
-    (NRFX_CHECK(SPIM0_FEATURE_HARDWARE_CSN_PRESENT) || \
-     NRFX_CHECK(SPIM1_FEATURE_HARDWARE_CSN_PRESENT) || \
-     NRFX_CHECK(SPIM2_FEATURE_HARDWARE_CSN_PRESENT) || \
-     NRFX_CHECK(SPIM3_FEATURE_HARDWARE_CSN_PRESENT))
+    (XINCX_CHECK(SPIM0_FEATURE_HARDWARE_CSN_PRESENT) || \
+     XINCX_CHECK(SPIM1_FEATURE_HARDWARE_CSN_PRESENT) || \
+     XINCX_CHECK(SPIM2_FEATURE_HARDWARE_CSN_PRESENT) || \
+     XINCX_CHECK(SPIM3_FEATURE_HARDWARE_CSN_PRESENT))
 
 
 
@@ -98,14 +98,14 @@ typedef enum
     XINC_SPIM_BIT_ORDER_LSB_FIRST = SPIM_CONFIG_ORDER_LsbFirst  ///< Least significant bit shifted out first.
 } xinc_spim_bit_order_t;
 
-#if (XINC_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
+#if (XINC_SPIM_HW_CSN_PRESENT) || defined(__XINCX_DOXYGEN__)
 /** @brief SPI CSN pin polarity. */
 typedef enum
 {
     XINC_SPIM_CSN_POL_LOW  = SPIM_CSNPOL_CSNPOL_LOW, ///< Active low (idle state high).
     XINC_SPIM_CSN_POL_HIGH = SPIM_CSNPOL_CSNPOL_HIGH ///< Active high (idle state low).
 } xinc_spim_csn_pol_t;
-#endif // (XINC_SPIM_HW_CSN_PRESENT) || defined(__NRFX_DOXYGEN__)
+#endif // (XINC_SPIM_HW_CSN_PRESENT) || defined(__XINCX_DOXYGEN__)
 
 
 

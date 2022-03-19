@@ -9,7 +9,7 @@
 
 #include "xinc_drv_i2c.h"
 
-#if NRFX_CHECK(XINCX_I2C_ENABLED)
+#if XINCX_CHECK(XINCX_I2C_ENABLED)
 //#include <nrf_delay.h>
 #include <hal/xinc_gpio.h>
 

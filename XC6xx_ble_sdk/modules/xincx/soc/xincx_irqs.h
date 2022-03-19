@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef NRFX_IRQS_H__
-#define NRFX_IRQS_H__
+#ifndef XINCX_IRQS_H__
+#define XINCX_IRQS_H__
 
 #if defined(NRF51)
     #include <soc/xincx_irqs_nrf51.h>
@@ -30,4 +30,4 @@
     #error "Unknown device."
 #endif
 
-#endif // NRFX_IRQS_H__
+#endif // XINCX_IRQS_H__

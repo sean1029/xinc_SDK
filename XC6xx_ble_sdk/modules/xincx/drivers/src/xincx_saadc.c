@@ -8,11 +8,11 @@
  */
 #include <xincx.h>
 #include "bsp_gpio.h"
-#if NRFX_CHECK(XINCX_SAADC_ENABLED)
+#if XINCX_CHECK(XINCX_SAADC_ENABLED)
 #include <xincx_saadc.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
-//#define NRFX_LOG_MODULE SAADC
+//#define XINCX_LOG_MODULE SAADC
 #include <xincx_log.h>
 
 #if !defined(XINCX_SAADC_API_V2)
@@ -120,7 +120,7 @@ static void xincx_saadc_irq_handler(XINC_SAADC_Type * p_reg,xincx_saadc_cb_t * p
     p_reg->INT_EN = (SAADC_GPADC_INT_EN_FIFO_ERROR_EN_Disable << SAADC_GPADC_INT_EN_FIFO_ERROR_EN_Pos) 
                     | (SAADC_GPADC_INT_EN_READ_REQ_EN_Disable << SAADC_GPADC_INT_EN_READ_REQ_EN_Pos);
 
-    NRFX_IRQ_DISABLE(GADC_IRQn);
+    XINCX_IRQ_DISABLE(GADC_IRQn);
 
     p_reg->INT = INT_reg;  
 
@@ -176,23 +176,23 @@ xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
     p_cpr->RSTCTL_CTLAPB_SW = 0x10001000;
     p_cpr->CTLAPBCLKEN_GRCTL = 0x20002000;
     
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     XINC_SAADC_Type     *p_reg = p_instance->p_reg;
 
-    if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
+    if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
             
 
     p_cb->event_handler = event_handler;
 
-    p_cb->state                = NRFX_DRV_STATE_INITIALIZED;
+    p_cb->state                = XINCX_DRV_STATE_INITIALIZED;
     p_cb->adc_state            = NRF_SAADC_STATE_IDLE;
 
     p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
@@ -214,10 +214,10 @@ xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
 
 void xincx_saadc_uninit(xincx_saadc_t const * const p_instance)
 {
-    m_cb[p_instance->drv_inst_idx].state = NRFX_DRV_STATE_UNINITIALIZED;
+    m_cb[p_instance->drv_inst_idx].state = XINCX_DRV_STATE_UNINITIALIZED;
     for(uint8_t i = 0; i < NRF_SAADC_CHANNEL_COUNT;i ++)
     {
-        m_cb[p_instance->drv_inst_idx].channel_state[i] = NRFX_DRV_STATE_UNINITIALIZED;
+        m_cb[p_instance->drv_inst_idx].channel_state[i] = XINCX_DRV_STATE_UNINITIALIZED;
     }   
 }
 
@@ -250,24 +250,24 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
                                     uint8_t channel,
                                    xinc_saadc_channel_config_t const * const p_config)
 {
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
         // A channel can only be initialized if the driver is in the idle state.
-    if (p_cb->state != NRFX_DRV_STATE_INITIALIZED)
+    if (p_cb->state != XINCX_DRV_STATE_INITIALIZED)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_STATE;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
     if (channel >  NRF_SAADC_CHANNEL_COUNT)
     {     
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_PARAM;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         printf("Function 0: %s, error code: %x.\r\n",
                                             __func__,
                                             (err_code));
@@ -276,10 +276,10 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
 
     if (p_config->adc_fifo_len >  SAADC_GPADC_FIFO_CTL_READ_REQ_THRESH_LEN_15)
     {     
-        err_code = NRFX_ERROR_INVALID_PARAM;
-        NRFX_LOG_WARNING("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_INVALID_PARAM;
+        XINCX_LOG_WARNING("Function: %s, error code: %s.",
                                             __func__,
-                                            NRFX_LOG_ERROR_STRING_GET(err_code));
+                                            XINCX_LOG_ERROR_STRING_GET(err_code));
         printf("Function 1: %s, error code: %x.\r\n",
                                             __func__,
                                             (err_code));
@@ -294,24 +294,24 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
 
 
     xinc_saadc_channel_init(channel, p_config);
-    p_cb->channel_state[channel] = NRFX_DRV_STATE_INITIALIZED;
+    p_cb->channel_state[channel] = XINCX_DRV_STATE_INITIALIZED;
 
 
 
-    NRFX_LOG_INFO("Function: %s, error code: %s.",
+    XINCX_LOG_INFO("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                                XINCX_LOG_ERROR_STRING_GET(err_code));
     printf("Function: %s, error code: %x.\r\n",
                                                 __func__,
                                                 (err_code));
-    return NRFX_SUCCESS;
+    return XINCX_SUCCESS;
 }
 
 
 xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value)
 {
 
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     xinc_saadc_fifo_t *tmp = NULL;
     uint32_t time_out = HW_TIMEOUT;
     uint16_t gadc_count = 0;
@@ -323,21 +323,21 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
      
     if(channel > NRF_SAADC_CHANNEL_COUNT)
     {
-         err_code = NRFX_ERROR_INVALID_PARAM;
+         err_code = XINCX_ERROR_INVALID_PARAM;
         
          return err_code;
     }
     
-    if(p_cb->channel_state[channel] !=  NRFX_DRV_STATE_INITIALIZED)
+    if(p_cb->channel_state[channel] !=  XINCX_DRV_STATE_INITIALIZED)
     {
-         err_code = NRFX_ERROR_INVALID_STATE;
+         err_code = XINCX_ERROR_INVALID_STATE;
         
          return err_code;
     }
     
     if (p_cb->adc_state != NRF_SAADC_STATE_IDLE)
 	{
-		err_code = NRFX_ERROR_INVALID_STATE;
+		err_code = XINCX_ERROR_INVALID_STATE;
         return err_code;
 	}
     p_cb->adc_state = NRF_SAADC_STATE_BUSY;
@@ -375,10 +375,10 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
     {
         p_reg->INT = INT_reg;
         p_reg->MAIN_CTL = XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE;
-        err_code = NRFX_ERROR_TIMEOUT;
-        NRFX_LOG_ERROR("Function: %s, error code: %s.",
+        err_code = XINCX_ERROR_TIMEOUT;
+        XINCX_LOG_ERROR("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code)); 
+                                                XINCX_LOG_ERROR_STRING_GET(err_code)); 
         
         printf("sample_convert error 2 :%x\n",err_code);
         return err_code;
@@ -397,10 +397,10 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
         {
             printf("channel error 0 t:%d\n",t);
             printf("tmp->chanel_1=[%d],val_1=[%d],tmp->chanel_2=[%d],val_2=[%d]\n",tmp->chanel_1,tmp->value_1,tmp->chanel_2,tmp->value_2);	
-            err_code = NRFX_ERROR_INTERNAL;
-            NRFX_LOG_ERROR("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_INTERNAL;
+            XINCX_LOG_ERROR("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                                XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
 
@@ -408,10 +408,10 @@ xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,ui
         {
             printf("channel error 1,t:%d\n",t);
             printf("tmp->chanel_1=[%d],val_1=[%d],tmp->chanel_2=[%d],val_2=[%d]\n",tmp->chanel_1,tmp->value_1,tmp->chanel_2,tmp->value_2);
-            err_code = NRFX_ERROR_INTERNAL;
-            NRFX_LOG_ERROR("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_INTERNAL;
+            XINCX_LOG_ERROR("Function: %s, error code: %s.",
                                                 __func__,
-                                                NRFX_LOG_ERROR_STRING_GET(err_code));
+                                                XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
             
         }	
@@ -436,10 +436,10 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
   {
         if ( p_cb->p_secondary_buffer)
         {
-            err_code = NRFX_ERROR_BUSY;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_ERROR_BUSY;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                              __func__,
-                             NRFX_LOG_ERROR_STRING_GET(err_code));
+                             XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
         else
@@ -447,10 +447,10 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
             p_cb->p_secondary_buffer    = p_buffer;
             p_cb->secondary_buffer_size = size;
             
-            err_code = NRFX_SUCCESS;
-            NRFX_LOG_WARNING("Function: %s, error code: %s.",
+            err_code = XINCX_SUCCESS;
+            XINCX_LOG_WARNING("Function: %s, error code: %s.",
                              __func__,
-                             NRFX_LOG_ERROR_STRING_GET(err_code));
+                             XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
   }
@@ -461,7 +461,7 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
 	p_cb->buffer_size        = size;
 	p_cb->p_secondary_buffer = NULL;
 
-	err_code = NRFX_SUCCESS;
+	err_code = XINCX_SUCCESS;
 	
 	return err_code;
 }
@@ -469,7 +469,7 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
 
 xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel)
 {
-    xincx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = XINCX_SUCCESS;
     static uint32_t reg;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     XINC_SAADC_Type     *p_reg = p_instance->p_reg; 
@@ -477,21 +477,21 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
 
     if (channel > NRF_SAADC_CHANNEL_COUNT)
     {
-        err_code = NRFX_ERROR_INVALID_PARAM;
+        err_code = XINCX_ERROR_INVALID_PARAM;
         return err_code;
     }
 
 
-    if(p_cb->channel_state[channel] !=  NRFX_DRV_STATE_INITIALIZED)
+    if(p_cb->channel_state[channel] !=  XINCX_DRV_STATE_INITIALIZED)
     {
-            err_code = NRFX_ERROR_INVALID_STATE;
+            err_code = XINCX_ERROR_INVALID_STATE;
         printf("xincx_saadc_sample error :%x\n",err_code);
             return err_code;
     }
         
     if (p_cb->adc_state != NRF_SAADC_STATE_IDLE)
     {
-        err_code = NRFX_ERROR_INVALID_STATE;
+        err_code = XINCX_ERROR_INVALID_STATE;
         return err_code;
     }
 
@@ -515,7 +515,7 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
     p_reg->INT_EN = SAADC_GPADC_INT_EN_FIFO_ERROR_EN_Msk | SAADC_GPADC_INT_EN_READ_REQ_EN_Msk;
     p_reg->INT = reg;
 
-    NRFX_IRQ_ENABLE(GADC_IRQn);
+    XINCX_IRQ_ENABLE(GADC_IRQn);
     p_reg->MAIN_CTL = (SAADC_GPADC_MAIN_CTL_GPADC_EN_Open << SAADC_GPADC_MAIN_CTL_GPADC_EN_Pos) 
                     | (SAADC_GPADC_MAIN_CTL_EDGE_SEL_Rise << SAADC_GPADC_MAIN_CTL_EDGE_SEL_Pos);;
     return err_code;
@@ -542,4 +542,4 @@ void GADC_Handler(void)
 #endif // !defined(XINCX_SAADC_API_V2)
 
 
-#endif // NRFX_CHECK(XINCX_SAADC_ENABLED)
+#endif // XINCX_CHECK(XINCX_SAADC_ENABLED)
