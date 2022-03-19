@@ -11,7 +11,7 @@
   */
 
 
-/** @addtogroup nrf52840
+/** @addtogroup xc6801
   * @{
   */
 
@@ -498,6 +498,6 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
 #endif /* NRF52840_H */
 
 
-/** @} */ /* End of group nrf52840 */
+/** @} */ /* End of group XC620610 */
 
 /** @} */ /* End of group Nordic Semiconductor */

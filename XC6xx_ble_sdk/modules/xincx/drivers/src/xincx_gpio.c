@@ -7,7 +7,7 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_GPIO_ENABLED)
 
@@ -17,7 +17,7 @@
 
 
 #define NRFX_LOG_MODULE GPIOTE
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 #if (GPIO_COUNT == 1)
 #define MAX_PIN_NUMBER 32
@@ -41,7 +41,7 @@ typedef struct
     xincx_gpio_evt_handler_t handlers[MAX_PIN_NUMBER];
     int8_t                    pin_assignments[MAX_PIN_NUMBER];
     uint8_t                   configured_pins[((MAX_PIN_NUMBER)+7) / 8];
-    nrfx_drv_state_t          state;
+    xincx_drv_state_t          state;
 } gpiote_control_block_t;
 
 static gpiote_control_block_t m_cb;
@@ -138,9 +138,9 @@ static void pin_handler_free(uint8_t handler_id)
 }
 
 
-nrfx_err_t xincx_gpio_init(void)
+xincx_err_t xincx_gpio_init(void)
 {
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
     if (m_cb.state != NRFX_DRV_STATE_UNINITIALIZED)
     {
@@ -207,14 +207,14 @@ void xincx_gpio_uninit(void)
 }
 
 
-nrfx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
+xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
                                 xincx_gpio_out_config_t const * p_config)
 {
     NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
     NRFX_ASSERT(m_cb.state == NRFX_DRV_STATE_INITIALIZED);
     NRFX_ASSERT(p_config);
 
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
 
     if (pin_in_use(pin))
     {
@@ -288,12 +288,12 @@ void xincx_gpio_out_toggle(xincx_gpio_pin_t pin)
 }
 
 
-nrfx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
+xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
                                xincx_gpio_in_config_t const * p_config,
                                xincx_gpio_evt_handler_t       evt_handler)
 {
     NRFX_ASSERT(xinc_gpio_pin_present_check(pin));
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     if (pin_in_use_by_gpio_handler(pin))
     {
         err_code = NRFX_ERROR_INVALID_STATE;

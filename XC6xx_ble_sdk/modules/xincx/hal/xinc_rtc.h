@@ -10,7 +10,7 @@
 #ifndef XINC_RTC_H
 #define XINC_RTC_H
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #ifdef __cplusplus
 extern "C" {

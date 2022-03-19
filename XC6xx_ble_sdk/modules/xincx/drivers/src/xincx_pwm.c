@@ -6,27 +6,27 @@
  * Author :sean cheng
  *
  */
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_PWM_ENABLED)
 
 #if !(NRFX_CHECK(XINCX_PWM0_ENABLED) || NRFX_CHECK(XINCX_PWM1_ENABLED) || \
       NRFX_CHECK(XINCX_PWM2_ENABLED) || NRFX_CHECK(XINCX_PWM3_ENABLED) || \
 			NRFX_CHECK(XINCX_PWM4_ENABLED) || NRFX_CHECK(XINCX_PWM5_ENABLED))
-#error "No enabled PWM instances. Check <nrfx_config.h>."
+#error "No enabled PWM instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_pwm.h>
 #include <hal/xinc_gpio.h>
 
 #define NRFX_LOG_MODULE PWM
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 
 // Control block - driver instance local data.
 typedef struct
 {
-    nrfx_drv_state_t volatile state;
+    xincx_drv_state_t volatile state;
     uint8_t                   flags;
     xinc_pwm_clk_src_t clk_src;          ///< Bit width.
     xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
@@ -38,9 +38,9 @@ static pwm_control_block_t m_cb[XINCX_PWM_ENABLED_COUNT];
 
 static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 
-static nrfx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
+static xincx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     switch(p_instance->id)
     {
         case XINC_PWM_ID_0:      
@@ -122,13 +122,13 @@ static nrfx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_
 }
                           
 
-nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
+xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
                          xincx_pwm_config_t const * p_config,
                          xincx_pwm_handler_t        handler)
 {
     NRFX_ASSERT(p_config);
 
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
 
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
 
@@ -287,9 +287,9 @@ bool xincx_pwm_stop(xincx_pwm_t const * const p_instance)
 
 
 
-nrfx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq)
+xincx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     uint16_t period;
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
@@ -313,9 +313,9 @@ nrfx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t n
 }
 
 
-nrfx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty)
+xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     NRFX_ASSERT(new_duty <= 100);
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
 
@@ -338,9 +338,9 @@ nrfx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint
     return err_code;
 
 }
-nrfx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty)
+xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     NRFX_ASSERT(new_duty <= 100);
     uint16_t period;
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];

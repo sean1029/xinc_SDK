@@ -467,7 +467,7 @@ static void bsp_evt_handler(bsp_event_t event)
 
 void bsp_button_led_test(void)
 {
-    nrfx_err_t err_code = bsp_init(BSP_INIT_LEDS|BSP_INIT_BUTTONS,bsp_evt_handler);//
+    xincx_err_t err_code = bsp_init(BSP_INIT_LEDS|BSP_INIT_BUTTONS,bsp_evt_handler);//
     
     printf("bsp_button_led_test  err_code:0x%x\r\n",err_code);
 }

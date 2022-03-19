@@ -10,7 +10,7 @@
 #ifndef NRFX_UARTE_H__
 #define NRFX_UARTE_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/nrf_uarte.h>
 
 #ifdef __cplusplus
@@ -18,7 +18,7 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrfx_uarte UARTE driver
+ * @defgroup xincx_uarte UARTE driver
  * @{
  * @ingroup nrf_uarte
  * @brief   UARTE peripheral driver.
@@ -29,7 +29,7 @@ typedef struct
 {
     NRF_UARTE_Type * p_reg;        ///< Pointer to a structure with UARTE registers.
     uint8_t          drv_inst_idx; ///< Index of the driver instance. For internal use only.
-} nrfx_uarte_t;
+} xincx_uarte_t;
 
 #ifndef __NRFX_DOXYGEN__
 enum {
@@ -62,7 +62,7 @@ typedef enum
     NRFX_UARTE_EVT_TX_DONE, ///< Requested TX transfer completed.
     NRFX_UARTE_EVT_RX_DONE, ///< Requested RX transfer completed.
     NRFX_UARTE_EVT_ERROR,   ///< Error reported by UART peripheral.
-} nrfx_uarte_evt_type_t;
+} xincx_uarte_evt_type_t;
 
 /** @brief Structure for the UARTE configuration. */
 typedef struct
@@ -76,7 +76,7 @@ typedef struct
     nrf_uarte_parity_t   parity;             ///< Parity configuration.
     nrf_uarte_baudrate_t baudrate;           ///< Baud rate.
     uint8_t              interrupt_priority; ///< Interrupt priority.
-} nrfx_uarte_config_t;
+} xincx_uarte_config_t;
 
 /** @brief UARTE default configuration. */
 #define NRFX_UARTE_DEFAULT_CONFIG                                                   \
@@ -97,25 +97,25 @@ typedef struct
 {
     uint8_t * p_data; ///< Pointer to memory used for transfer.
     size_t    bytes;  ///< Number of bytes transfered.
-} nrfx_uarte_xfer_evt_t;
+} xincx_uarte_xfer_evt_t;
 
 /** @brief Structure for UARTE error event. */
 typedef struct
 {
-    nrfx_uarte_xfer_evt_t rxtx;       ///< Transfer details, including number of bytes transferred.
+    xincx_uarte_xfer_evt_t rxtx;       ///< Transfer details, including number of bytes transferred.
     uint32_t              error_mask; ///< Mask of error flags that generated the event.
-} nrfx_uarte_error_evt_t;
+} xincx_uarte_error_evt_t;
 
 /** @brief Structure for UARTE event. */
 typedef struct
 {
-    nrfx_uarte_evt_type_t type; ///< Event type.
+    xincx_uarte_evt_type_t type; ///< Event type.
     union
     {
-        nrfx_uarte_xfer_evt_t  rxtx;  ///< Data provided for transfer completion events.
-        nrfx_uarte_error_evt_t error; ///< Data provided for error event.
+        xincx_uarte_xfer_evt_t  rxtx;  ///< Data provided for transfer completion events.
+        xincx_uarte_error_evt_t error; ///< Data provided for error event.
     } data;                           ///< Union to store event data.
-} nrfx_uarte_event_t;
+} xincx_uarte_event_t;
 
 /**
  * @brief UARTE interrupt event handler.
@@ -124,7 +124,7 @@ typedef struct
  *                      only within the context of the event handler.
  * @param[in] p_context Context passed to the interrupt handler, set on initialization.
  */
-typedef void (*nrfx_uarte_event_handler_t)(nrfx_uarte_event_t const * p_event,
+typedef void (*xincx_uarte_event_handler_t)(xincx_uarte_event_t const * p_event,
                                            void *                     p_context);
 
 /**
@@ -141,19 +141,19 @@ typedef void (*nrfx_uarte_event_handler_t)(nrfx_uarte_event_t const * p_event,
  * @retval NRFX_ERROR_INVALID_STATE Driver is already initialized.
  * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
- *                                  possible only if @ref nrfx_prs module
+ *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
  */
-nrfx_err_t nrfx_uarte_init(nrfx_uarte_t const *        p_instance,
-                           nrfx_uarte_config_t const * p_config,
-                           nrfx_uarte_event_handler_t  event_handler);
+xincx_err_t xincx_uarte_init(xincx_uarte_t const *        p_instance,
+                           xincx_uarte_config_t const * p_config,
+                           xincx_uarte_event_handler_t  event_handler);
 
 /**
  * @brief Function for uninitializing the UARTE driver.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uarte_uninit(nrfx_uarte_t const * p_instance);
+void xincx_uarte_uninit(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for getting the address of the specified UARTE task.
@@ -163,7 +163,7 @@ void nrfx_uarte_uninit(nrfx_uarte_t const * p_instance);
  *
  * @return Task address.
  */
-__STATIC_INLINE uint32_t nrfx_uarte_task_address_get(nrfx_uarte_t const * p_instance,
+__STATIC_INLINE uint32_t xincx_uarte_task_address_get(xincx_uarte_t const * p_instance,
                                                      nrf_uarte_task_t     task);
 
 /**
@@ -174,13 +174,13 @@ __STATIC_INLINE uint32_t nrfx_uarte_task_address_get(nrfx_uarte_t const * p_inst
  *
  * @return Event address.
  */
-__STATIC_INLINE uint32_t nrfx_uarte_event_address_get(nrfx_uarte_t const * p_instance,
+__STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_instance,
                                                       nrf_uarte_event_t    event);
 
 /**
  * @brief Function for sending data over UARTE.
  *
- * If an event handler is provided in nrfx_uarte_init() call, this function
+ * If an event handler is provided in xincx_uarte_init() call, this function
  * returns immediately and the handler is called when the transfer is done.
  * Otherwise, the transfer is performed in blocking mode, that is this function
  * returns when the transfer is finished. Blocking mode is not using interrupt
@@ -203,7 +203,7 @@ __STATIC_INLINE uint32_t nrfx_uarte_event_address_get(nrfx_uarte_t const * p_ins
  *                                 (blocking mode only).
  * @retval NRFX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
  */
-nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
+xincx_err_t xincx_uarte_tx(xincx_uarte_t const * p_instance,
                          uint8_t const *      p_data,
                          size_t               length);
 
@@ -215,7 +215,7 @@ nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
  * @retval true  The UARTE is transmitting.
  * @retval false The UARTE is not transmitting.
  */
-bool nrfx_uarte_tx_in_progress(nrfx_uarte_t const * p_instance);
+bool xincx_uarte_tx_in_progress(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing transmission.
@@ -225,12 +225,12 @@ bool nrfx_uarte_tx_in_progress(nrfx_uarte_t const * p_instance);
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uarte_tx_abort(nrfx_uarte_t const * p_instance);
+void xincx_uarte_tx_abort(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for receiving data over UARTE.
  *
- * If an event handler is provided in the nrfx_uarte_init() call, this function
+ * If an event handler is provided in the xincx_uarte_init() call, this function
  * returns immediately and the handler is called when the transfer is done.
  * Otherwise, the transfer is performed in blocking mode, that is this function
  * returns when the transfer is finished. Blocking mode is not using interrupt so
@@ -260,7 +260,7 @@ void nrfx_uarte_tx_abort(nrfx_uarte_t const * p_instance);
  * @retval NRFX_ERROR_INTERNAL     The UARTE peripheral reports an error.
  * @retval NRFX_ERROR_INVALID_ADDR p_data does not point to RAM buffer.
  */
-nrfx_err_t nrfx_uarte_rx(nrfx_uarte_t const * p_instance,
+xincx_err_t xincx_uarte_rx(xincx_uarte_t const * p_instance,
                          uint8_t *            p_data,
                          size_t               length);
 
@@ -274,7 +274,7 @@ nrfx_err_t nrfx_uarte_rx(nrfx_uarte_t const * p_instance,
  * @retval true  The receiver has at least one byte of data to get.
  * @retval false The receiver is empty.
  */
-bool nrfx_uarte_rx_ready(nrfx_uarte_t const * p_instance);
+bool xincx_uarte_rx_ready(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for aborting any ongoing reception.
@@ -284,7 +284,7 @@ bool nrfx_uarte_rx_ready(nrfx_uarte_t const * p_instance);
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
-void nrfx_uarte_rx_abort(nrfx_uarte_t const * p_instance);
+void xincx_uarte_rx_abort(xincx_uarte_t const * p_instance);
 
 /**
  * @brief Function for reading error source mask. Mask contains values from @ref nrf_uarte_error_mask_t.
@@ -295,17 +295,17 @@ void nrfx_uarte_rx_abort(nrfx_uarte_t const * p_instance);
  *
  * @return Mask of reported errors.
  */
-uint32_t nrfx_uarte_errorsrc_get(nrfx_uarte_t const * p_instance);
+uint32_t xincx_uarte_errorsrc_get(xincx_uarte_t const * p_instance);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
-__STATIC_INLINE uint32_t nrfx_uarte_task_address_get(nrfx_uarte_t const * p_instance,
+__STATIC_INLINE uint32_t xincx_uarte_task_address_get(xincx_uarte_t const * p_instance,
                                                      nrf_uarte_task_t     task)
 {
     return nrf_uarte_task_address_get(p_instance->p_reg, task);
 }
 
-__STATIC_INLINE uint32_t nrfx_uarte_event_address_get(nrfx_uarte_t const * p_instance,
+__STATIC_INLINE uint32_t xincx_uarte_event_address_get(xincx_uarte_t const * p_instance,
                                                       nrf_uarte_event_t    event)
 {
     return nrf_uarte_event_address_get(p_instance->p_reg, event);
@@ -315,10 +315,10 @@ __STATIC_INLINE uint32_t nrfx_uarte_event_address_get(nrfx_uarte_t const * p_ins
 /** @} */
 
 
-void nrfx_uarte_0_irq_handler(void);
-void nrfx_uarte_1_irq_handler(void);
-void nrfx_uarte_2_irq_handler(void);
-void nrfx_uarte_3_irq_handler(void);
+void xincx_uarte_0_irq_handler(void);
+void xincx_uarte_1_irq_handler(void);
+void xincx_uarte_2_irq_handler(void);
+void xincx_uarte_3_irq_handler(void);
 
 
 #ifdef __cplusplus

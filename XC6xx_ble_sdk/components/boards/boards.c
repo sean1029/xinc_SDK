@@ -91,9 +91,9 @@ static void gpio_output_voltage_setup(void)
 }
 #endif
 
-static nrfx_err_t bsp_board_leds_init(void)
+static xincx_err_t bsp_board_leds_init(void)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     #if defined(BOARD_PCA10059)
     // If nRF52 USB Dongle is powered from USB (high voltage mode),
     // GPIO output voltage is set to 1.8 V by default, which is not
@@ -189,9 +189,9 @@ uint32_t bsp_board_button_idx_to_pin(uint32_t button_idx)
 #endif //BUTTONS_NUMBER > 0
 
 
-nrfx_err_t bsp_board_init(uint32_t init_flags)
+xincx_err_t bsp_board_init(uint32_t init_flags)
 {
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
     #if defined(BOARDS_WITH_USB_DFU_TRIGGER) && defined(BOARD_PCA10059)
     (void) nrf_dfu_trigger_usb_init();
     #endif

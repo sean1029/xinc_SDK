@@ -36,12 +36,12 @@ NRF_LOG_MODULE_REGISTER();
 
 #define TEST_MACRO_INFO(...)  NRF_LOG_INFO(__VA_ARGS__)
 /**
- * @defgroup nrfx_log nrfx_log.h
+ * @defgroup xincx_log xincx_log.h
  * @{
- * @ingroup nrfx
+ * @ingroup xincx
  *
  * @brief This file contains macros that should be implemented according to
- *        the needs of the host environment into which @em nrfx is integrated.
+ *        the needs of the host environment into which @em xincx is integrated.
  */
 
 /**

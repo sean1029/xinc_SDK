@@ -134,7 +134,7 @@
     #include "nrf52_to_nrf52833.h"
     #include "nrf51_to_nrf52.h"
 #elif defined (NRF52840_XXAA)
-    #include "nrf52840.h"
+    #include "XC620610.h"
     #include "nrf_52840_bitfields.h"
 //    #include "nrf51_to_nrf52840.h"
 //    #include "nrf52_to_nrf52840.h"

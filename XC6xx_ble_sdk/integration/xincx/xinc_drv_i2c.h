@@ -10,7 +10,7 @@
 #ifndef NRF_DRV_I2C_H__
 #define NRF_DRV_I2C_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #ifdef I2CM_PRESENT
     #include <xincx_i2cm.h>
 #else

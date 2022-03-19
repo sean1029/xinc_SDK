@@ -10,7 +10,7 @@
 #ifndef XINCX_I2C_H__
 #define XINCX_I2C_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_i2c.h>
 
 #ifdef __cplusplus
@@ -181,10 +181,10 @@ typedef void (* xincx_i2c_evt_handler_t)(xincx_i2c_evt_t const * p_event,
  * @retval NRFX_ERROR_INVALID_STATE The driver is in invalid state.
  * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
- *                                  possible only if @ref nrfx_prs module
+ *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
  */
-nrfx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
+xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
                          xincx_i2c_config_t const * p_config,
                          xincx_i2c_evt_handler_t    event_handler,
                          void *                    p_context);
@@ -235,7 +235,7 @@ void xincx_i2c_disable(xincx_i2c_t const * p_instance);
  * @retval NRFX_ERROR_DRV_I2C_ERR_DNACK Negative acknowledgement (NACK) is received after sending
  *                                      a data byte in polling mode.
  */
-nrfx_err_t xincx_i2c_tx(xincx_i2c_t const * p_instance,
+xincx_err_t xincx_i2c_tx(xincx_i2c_t const * p_instance,
                        uint8_t            address,
                        uint8_t const *    p_data,
                        size_t             length,
@@ -264,7 +264,7 @@ nrfx_err_t xincx_i2c_tx(xincx_i2c_t const * p_instance,
  * @retval NRFX_ERROR_DRV_I2C_ERR_DNACK   Negative acknowledgement (NACK) is received after sending
  *                                        a data byte in polling mode.
  */
-nrfx_err_t xincx_i2c_rx(xincx_i2c_t const * p_instance,
+xincx_err_t xincx_i2c_rx(xincx_i2c_t const * p_instance,
                        uint8_t            address,
                        uint8_t *          p_data,
                        size_t             length);
@@ -306,7 +306,7 @@ nrfx_err_t xincx_i2c_rx(xincx_i2c_t const * p_instance,
  * @retval NRFX_ERROR_DRV_I2C_ERR_DNACK   Negative acknowledgement (NACK) is received after sending
  *                                        a data byte in polling mode.
  */
-nrfx_err_t xincx_i2c_xfer(xincx_i2c_t           const * p_instance,
+xincx_err_t xincx_i2c_xfer(xincx_i2c_t           const * p_instance,
                          xincx_i2c_xfer_desc_t const * p_xfer_desc,
                          uint32_t                     flags);
 

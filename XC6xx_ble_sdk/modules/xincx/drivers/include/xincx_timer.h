@@ -10,7 +10,7 @@
 #ifndef XINCX_TIMER_H__
 #define XINCX_TIMER_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_timer.h>
 
 #ifdef __cplusplus
@@ -108,7 +108,7 @@ typedef void (* xincx_timer_event_handler_t)(xinc_timer_int_event_t event_type,u
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The instance is already initialized.
  */
-nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
+xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
                            xincx_timer_config_t const * p_config,
                            xincx_timer_event_handler_t  timer_event_handler);
 

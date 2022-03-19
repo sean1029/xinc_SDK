@@ -7,17 +7,17 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_WDT_ENABLED)
 #include <xincx_wdt.h>
 
 #define NRFX_LOG_MODULE WDT
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 
 /**@brief WDT state. */
-static nrfx_drv_state_t m_state;
+static xincx_drv_state_t m_state;
 static xinc_wdt_mode_t m_mode = XINC_WDT_MODE_RUN_0;
 /**@brief WDT alloc table. */
 static uint8_t m_alloc_index;
@@ -48,7 +48,7 @@ void xincx_wdt_irq_handler(void)
 #endif
 
 
-nrfx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
+xincx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
                          xincx_wdt_event_handler_t  wdt_event_handler)
 {
 
@@ -62,7 +62,7 @@ nrfx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
     XINC_CPR->RSTCTL_WDTRST_MASK = 0x02;//WDT ����� M0 ������λ,������ WDT �����ϵͳ������λ
     
     NRFX_ASSERT(p_config);
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
 #if !NRFX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
     NRFX_ASSERT(wdt_event_handler != NULL);

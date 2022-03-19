@@ -10,7 +10,7 @@
 #ifndef NRF_SPI_H__
 #define NRF_SPI_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #ifdef __cplusplus
 extern "C" {

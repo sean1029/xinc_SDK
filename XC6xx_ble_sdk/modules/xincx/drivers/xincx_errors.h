@@ -13,9 +13,9 @@
 #if !NRFX_CHECK(NRFX_CUSTOM_ERROR_CODES)
 
 /**
- * @defgroup nrfx_error_codes Global Error Codes
+ * @defgroup xincx_error_codes Global Error Codes
  * @{
- * @ingroup nrfx
+ * @ingroup xincx
  *
  * @brief Global error code definitions.
  */
@@ -45,7 +45,7 @@ typedef enum {
     NRFX_ERROR_DRV_I2C_ERR_OVERRUN  = (NRFX_ERROR_DRIVERS_BASE_NUM + 0), ///< I2C error: Overrun.
     NRFX_ERROR_DRV_I2C_ERR_ANACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 1), ///< I2C error: Address not acknowledged.
     NRFX_ERROR_DRV_I2C_ERR_DNACK    = (NRFX_ERROR_DRIVERS_BASE_NUM + 2)  ///< I2C error: Data not acknowledged.
-} nrfx_err_t;
+} xincx_err_t;
 
 /** @} */
 

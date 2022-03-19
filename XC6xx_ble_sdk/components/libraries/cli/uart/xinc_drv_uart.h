@@ -10,7 +10,7 @@
 #ifndef NRF_DRV_UART_H__
 #define NRF_DRV_UART_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if defined(UARTE_PRESENT) && NRFX_CHECK(XINCX_UARTE_ENABLED)
     #define NRF_DRV_UART_WITH_UARTE

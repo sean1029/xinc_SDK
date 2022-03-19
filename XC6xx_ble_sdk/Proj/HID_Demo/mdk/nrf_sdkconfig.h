@@ -1716,7 +1716,7 @@
 
 // </e>
 
-// <e> NRFX_CLOCK_ENABLED - nrfx_clock - CLOCK peripheral driver
+// <e> NRFX_CLOCK_ENABLED - xincx_clock - CLOCK peripheral driver
 //==========================================================
 #ifndef NRFX_CLOCK_ENABLED
 #define NRFX_CLOCK_ENABLED 0
@@ -1801,7 +1801,7 @@
 
 // </e>
 
-// <e> NRFX_COMP_ENABLED - nrfx_comp - COMP peripheral driver
+// <e> NRFX_COMP_ENABLED - xincx_comp - COMP peripheral driver
 //==========================================================
 #ifndef NRFX_COMP_ENABLED
 #define NRFX_COMP_ENABLED 0
@@ -2018,7 +2018,7 @@
 
 // </e>
 
-// <e> NRFX_I2S_ENABLED - nrfx_i2s - I2S peripheral driver
+// <e> NRFX_I2S_ENABLED - xincx_i2s - I2S peripheral driver
 //==========================================================
 #ifndef NRFX_I2S_ENABLED
 #define NRFX_I2S_ENABLED 0
@@ -2213,7 +2213,7 @@
 
 // </e>
 
-// <e> NRFX_LPCOMP_ENABLED - nrfx_lpcomp - LPCOMP peripheral driver
+// <e> NRFX_LPCOMP_ENABLED - xincx_lpcomp - LPCOMP peripheral driver
 //==========================================================
 #ifndef NRFX_LPCOMP_ENABLED
 #define NRFX_LPCOMP_ENABLED 0
@@ -2342,7 +2342,7 @@
 
 // </e>
 
-// <e> NRFX_NFCT_ENABLED - nrfx_nfct - NFCT peripheral driver
+// <e> NRFX_NFCT_ENABLED - xincx_nfct - NFCT peripheral driver
 //==========================================================
 #ifndef NRFX_NFCT_ENABLED
 #define NRFX_NFCT_ENABLED 0
@@ -2415,7 +2415,7 @@
 
 // </e>
 
-// <e> NRFX_PDM_ENABLED - nrfx_pdm - PDM peripheral driver
+// <e> NRFX_PDM_ENABLED - xincx_pdm - PDM peripheral driver
 //==========================================================
 #ifndef NRFX_PDM_ENABLED
 #define NRFX_PDM_ENABLED 0
@@ -2516,7 +2516,7 @@
 
 // </e>
 
-// <e> NRFX_POWER_ENABLED - nrfx_power - POWER peripheral driver
+// <e> NRFX_POWER_ENABLED - xincx_power - POWER peripheral driver
 //==========================================================
 #ifndef NRFX_POWER_ENABLED
 #define NRFX_POWER_ENABLED 1
@@ -2556,7 +2556,7 @@
 
 // </e>
 
-// <e> NRFX_PPI_ENABLED - nrfx_ppi - PPI peripheral allocator
+// <e> NRFX_PPI_ENABLED - xincx_ppi - PPI peripheral allocator
 //==========================================================
 #ifndef NRFX_PPI_ENABLED
 #define NRFX_PPI_ENABLED 0
@@ -2614,7 +2614,7 @@
 
 // </e>
 
-// <e> NRFX_PWM_ENABLED - nrfx_pwm - PWM peripheral driver
+// <e> NRFX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
 #ifndef NRFX_PWM_ENABLED
 #define NRFX_PWM_ENABLED 0
@@ -2792,7 +2792,7 @@
 
 // </e>
 
-// <e> NRFX_QDEC_ENABLED - nrfx_qdec - QDEC peripheral driver
+// <e> NRFX_QDEC_ENABLED - xincx_qdec - QDEC peripheral driver
 //==========================================================
 #ifndef NRFX_QDEC_ENABLED
 #define NRFX_QDEC_ENABLED 0
@@ -2944,7 +2944,7 @@
 
 // </e>
 
-// <e> NRFX_QSPI_ENABLED - nrfx_qspi - QSPI peripheral driver
+// <e> NRFX_QSPI_ENABLED - xincx_qspi - QSPI peripheral driver
 //==========================================================
 #ifndef NRFX_QSPI_ENABLED
 #define NRFX_QSPI_ENABLED 0
@@ -3072,7 +3072,7 @@
 
 // </e>
 
-// <e> NRFX_RNG_ENABLED - nrfx_rng - RNG peripheral driver
+// <e> NRFX_RNG_ENABLED - xincx_rng - RNG peripheral driver
 //==========================================================
 #ifndef NRFX_RNG_ENABLED
 #define NRFX_RNG_ENABLED 0
@@ -3152,7 +3152,7 @@
 
 // </e>
 
-// <e> NRFX_RTC_ENABLED - nrfx_rtc - RTC peripheral driver
+// <e> NRFX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
 #ifndef NRFX_RTC_ENABLED
 #define NRFX_RTC_ENABLED 0
@@ -3265,7 +3265,7 @@
 
 // </e>
 
-// <e> NRFX_SAADC_ENABLED - nrfx_saadc - SAADC peripheral driver
+// <e> NRFX_SAADC_ENABLED - xincx_saadc - SAADC peripheral driver
 //==========================================================
 #ifndef NRFX_SAADC_ENABLED
 #define NRFX_SAADC_ENABLED 0
@@ -3372,7 +3372,7 @@
 
 // </e>
 
-// <e> NRFX_SPIM_ENABLED - nrfx_spim - SPIM peripheral driver
+// <e> NRFX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef NRFX_SPIM_ENABLED
 #define NRFX_SPIM_ENABLED 0
@@ -3490,7 +3490,7 @@
 
 // </e>
 
-// <e> NRFX_SPIS_ENABLED - nrfx_spis - SPIS peripheral driver
+// <e> NRFX_SPIS_ENABLED - xincx_spis - SPIS peripheral driver
 //==========================================================
 #ifndef NRFX_SPIS_ENABLED
 #define NRFX_SPIS_ENABLED 0
@@ -3598,7 +3598,7 @@
 
 // </e>
 
-// <e> NRFX_SPI_ENABLED - nrfx_spi - SPI peripheral driver
+// <e> NRFX_SPI_ENABLED - xincx_spi - SPI peripheral driver
 //==========================================================
 #ifndef NRFX_SPI_ENABLED
 #define NRFX_SPI_ENABLED 0
@@ -3702,7 +3702,7 @@
 
 // </e>
 
-// <e> NRFX_SWI_ENABLED - nrfx_swi - SWI/EGU peripheral allocator
+// <e> NRFX_SWI_ENABLED - xincx_swi - SWI/EGU peripheral allocator
 //==========================================================
 #ifndef NRFX_SWI_ENABLED
 #define NRFX_SWI_ENABLED 0
@@ -3809,7 +3809,7 @@
 
 // </e>
 
-// <e> NRFX_TIMER_ENABLED - nrfx_timer - TIMER periperal driver
+// <e> NRFX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
 #ifndef NRFX_TIMER_ENABLED
 #define NRFX_TIMER_ENABLED 0
@@ -3954,7 +3954,7 @@
 
 // </e>
 
-// <e> NRFX_TWIM_ENABLED - nrfx_twim - TWIM peripheral driver
+// <e> NRFX_TWIM_ENABLED - xincx_twim - TWIM peripheral driver
 //==========================================================
 #ifndef NRFX_TWIM_ENABLED
 #define NRFX_TWIM_ENABLED 0
@@ -4058,7 +4058,7 @@
 
 // </e>
 
-// <e> NRFX_TWIS_ENABLED - nrfx_twis - TWIS peripheral driver
+// <e> NRFX_TWIS_ENABLED - xincx_twis - TWIS peripheral driver
 //==========================================================
 #ifndef NRFX_TWIS_ENABLED
 #define NRFX_TWIS_ENABLED 0
@@ -4193,7 +4193,7 @@
 
 // </e>
 
-// <e> NRFX_TWI_ENABLED - nrfx_twi - TWI peripheral driver
+// <e> NRFX_TWI_ENABLED - xincx_twi - TWI peripheral driver
 //==========================================================
 #ifndef NRFX_TWI_ENABLED
 #define NRFX_TWI_ENABLED 0
@@ -4544,7 +4544,7 @@
 
 // </e>
 
-// <e> NRFX_USBD_ENABLED - nrfx_usbd - USBD peripheral driver
+// <e> NRFX_USBD_ENABLED - xincx_usbd - USBD peripheral driver
 //==========================================================
 #ifndef NRFX_USBD_ENABLED
 #define NRFX_USBD_ENABLED 0
@@ -4609,7 +4609,7 @@
 
 // </e>
 
-// <e> NRFX_WDT_ENABLED - nrfx_wdt - WDT peripheral driver
+// <e> NRFX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef NRFX_WDT_ENABLED
 #define NRFX_WDT_ENABLED 0

@@ -6,14 +6,14 @@
  * Author :sean cheng
  *
  */
-#include <nrfx.h>
+#include <xincx.h>
 #include "bsp_gpio.h"
 #if NRFX_CHECK(XINCX_SAADC_ENABLED)
 #include <xincx_saadc.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
 //#define NRFX_LOG_MODULE SAADC
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 #if !defined(XINCX_SAADC_API_V2)
 
@@ -55,7 +55,7 @@ typedef struct
     uint32_t                      limits_enabled_flags;          ///< Enabled limits flags.
     uint16_t                      secondary_buffer_size;         ///< Size of the secondary buffer.
     uint16_t                      buffer_size_left;              ///< When low power mode is active indicates how many samples left to convert on current buffer.
-    nrfx_drv_state_t              state;                         ///< Driver initialization state.
+    xincx_drv_state_t              state;                         ///< Driver initialization state.
     uint8_t                       active_channels;               ///< Number of enabled SAADC channels.
     uint8_t                       channel_state[NRF_SAADC_CHANNEL_COUNT];                  ///< Indicates if channel is active.
     bool                          conversions_end;               ///
@@ -166,7 +166,7 @@ static void xincx_saadc_irq_handler(XINC_SAADC_Type * p_reg,xincx_saadc_cb_t * p
 }
 
 
-nrfx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
+xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
                             xincx_saadc_config_t const * p_config,
                            xincx_saadc_event_handler_t  event_handler)
 {
@@ -176,7 +176,7 @@ nrfx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
     p_cpr->RSTCTL_CTLAPB_SW = 0x10001000;
     p_cpr->CTLAPBCLKEN_GRCTL = 0x20002000;
     
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     XINC_SAADC_Type     *p_reg = p_instance->p_reg;
 
@@ -246,11 +246,11 @@ void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,
 
 }
 
-nrfx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
+xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
                                     uint8_t channel,
                                    xinc_saadc_channel_config_t const * const p_config)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
         // A channel can only be initialized if the driver is in the idle state.
@@ -308,10 +308,10 @@ nrfx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
 }
 
 
-nrfx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value)
+xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value)
 {
 
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     xinc_saadc_fifo_t *tmp = NULL;
     uint32_t time_out = HW_TIMEOUT;
     uint16_t gadc_count = 0;
@@ -428,9 +428,9 @@ nrfx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uin
 }
 
 
-nrfx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xinc_saadc_value_t * p_buffer, uint16_t size)
+xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xinc_saadc_value_t * p_buffer, uint16_t size)
 {
-	nrfx_err_t err_code;
+	xincx_err_t err_code;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 	if (p_cb->adc_state == NRF_SAADC_STATE_BUSY)
   {
@@ -467,9 +467,9 @@ nrfx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xin
 }
 
 
-nrfx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel)
+xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     static uint32_t reg;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     XINC_SAADC_Type     *p_reg = p_instance->p_reg; 

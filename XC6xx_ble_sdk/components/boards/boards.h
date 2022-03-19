@@ -123,7 +123,7 @@ void bsp_board_leds_on(void);
  * @param[in]  init_flags  Flags specifying what to initialize (LEDs/buttons).
  *                         See @ref BSP_BOARD_INIT_FLAGS.
  */
-nrfx_err_t bsp_board_init(uint32_t init_flags);
+xincx_err_t bsp_board_init(uint32_t init_flags);
 
 /**
  * Function for converting pin number to LED index.

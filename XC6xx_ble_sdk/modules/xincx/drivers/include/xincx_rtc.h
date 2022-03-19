@@ -11,10 +11,10 @@
 #define XINCX_RTC_H__
 
 
-#include <nrfx_config.h>
-#include <drivers/nrfx_common.h>
-#include <nrfx_glue.h>
-#include <drivers/nrfx_errors.h>
+#include <xincx_config.h>
+#include <drivers/xincx_common.h>
+#include <xincx_glue.h>
+#include <drivers/xincx_errors.h>
 #include <hal/xinc_rtc.h>
 
 #ifdef __cplusplus
@@ -157,7 +157,7 @@ typedef void (*xincx_rtc_handler_t)(xincx_rtc_int_type_t int_type);
  * @retval NRFX_SUCCESS             Successfully initialized.
  * @retval NRFX_ERROR_INVALID_STATE The instance is already initialized.
  */
-nrfx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
+xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config,
                          xincx_rtc_handler_t        handler);
 
@@ -211,7 +211,7 @@ void xincx_rtc_disable(xincx_rtc_t const * const p_instance);
  *                            current counter value. This error can only be reported
  *                            if the reliable mode is enabled.
  */
-nrfx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
+xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
                            xincx_rtc_match_timer_ch_t                 channel,
                            xincx_rtc_match_config_t  config ,
                            bool                     enable_irq);
@@ -227,7 +227,7 @@ nrfx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
  * @retval NRFX_SUCCESS       The procedure is successful.
  * @retval NRFX_ERROR_TIMEOUT Interrupt is pending on the requested channel.
  */
-nrfx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel);
+xincx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel);
 						 
 /**
  * @brief Function for enabling the sec event.

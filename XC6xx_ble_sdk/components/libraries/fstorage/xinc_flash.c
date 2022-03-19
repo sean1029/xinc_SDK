@@ -11,7 +11,7 @@
  *@brief NMVC driver implementation
  */
 
-//#include <nrfx.h>
+//#include <xincx.h>
 #include <string.h>
 #include <stdio.h>
 #include "xinc_flash.h"

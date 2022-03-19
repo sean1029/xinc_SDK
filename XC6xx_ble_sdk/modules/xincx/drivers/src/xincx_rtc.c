@@ -7,19 +7,19 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_RTC_ENABLED)
 
 #if !(NRFX_CHECK(XINCX_RTC0_ENABLED))
-#error "No enabled RTC instances. Check <nrfx_config.h>."
+#error "No enabled RTC instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_rtc.h>
 #include "bsp_clk.h"
 
 #define NRFX_LOG_MODULE RTC
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 
 #define HW_RTC_TIMEOUT      100000
@@ -27,7 +27,7 @@
 /**@brief RTC driver instance control block structure. */
 typedef struct
 {
-    nrfx_drv_state_t state;        /**< Instance state. */
+    xincx_drv_state_t state;        /**< Instance state. */
     bool             reliable;     /**< Reliable mode flag. */
     uint8_t          tick_latency; /**< Maximum length of interrupt handler in ticks (max 7.7 ms). */
 } xincx_rtc_cb_t;
@@ -38,13 +38,13 @@ static xincx_rtc_handler_t m_AoTimehandlers[XINCX_RTC_ENABLED_COUNT];
 static xincx_rtc_cb_t      m_cb[XINCX_RTC_ENABLED_COUNT];
 static volatile uint8_t 						calibration_flag;
 
-nrfx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
+xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config,
                          xincx_rtc_handler_t        handler)
 {	
     NRFX_ASSERT(p_config);
     NRFX_ASSERT(handler);
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     uint32_t reg;
     float freq = 0.0;
     volatile int32_t hw_timeout = HW_RTC_TIMEOUT;
@@ -281,12 +281,12 @@ void xincx_rtc_int_disable(xincx_rtc_t const * const p_instance)
     xinc_rtc_int_enable(p_instance->p_reg, mask);
 }
 
-nrfx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
+xincx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
                            xincx_rtc_match_timer_ch_t                 channel,
                            xincx_rtc_match_config_t  config ,
                            bool                     enable_irq)
 {
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     __IOM uint32_t *reg = NULL;
     uint8_t irq_idx;
     switch(channel)
@@ -328,10 +328,10 @@ nrfx_err_t xincx_rtc_time_set(xincx_rtc_t const * const p_instance,
 	return err_code ;
 }
 
-nrfx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel)
+xincx_err_t xincx_rtc_time_disable(xincx_rtc_t const * const p_instance, xincx_rtc_match_timer_ch_t channel)
 {
     uint8_t irq_idx;
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     switch(channel)
     {
         case XINCX_RTC_MATCH_TIME_1:

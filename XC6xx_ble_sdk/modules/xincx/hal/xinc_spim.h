@@ -10,7 +10,7 @@
 #ifndef XINC_SPIM_H__
 #define XINC_SPIM_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #ifdef __cplusplus
 extern "C" {

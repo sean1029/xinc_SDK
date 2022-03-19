@@ -10,7 +10,7 @@
 #ifndef NRF_UARTE_H__
 #define NRF_UARTE_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #ifdef __cplusplus
 extern "C" {

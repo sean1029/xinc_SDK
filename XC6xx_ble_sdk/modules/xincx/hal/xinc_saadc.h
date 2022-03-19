@@ -10,7 +10,7 @@
 #ifndef XINC_SAADC_H_
 #define XINC_SAADC_H_
 
-#include <nrfx.h>
+#include <xincx.h>
 #include "bsp_gpio.h"
 #ifdef __cplusplus
 extern "C" {

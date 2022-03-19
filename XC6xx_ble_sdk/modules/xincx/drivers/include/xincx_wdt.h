@@ -10,7 +10,7 @@
 #ifndef XINCX_WDT_H__
 #define XINCX_WDT_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_wdt.h>
 
 #ifdef __cplusplus
@@ -59,7 +59,7 @@ typedef void (*xincx_wdt_event_handler_t)(void);
  *
  * @return NRFX_SUCCESS on success, otherwise an error code.
  */
-nrfx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
+xincx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
                          xincx_wdt_event_handler_t  wdt_event_handler);
 
 

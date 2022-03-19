@@ -10,7 +10,7 @@
 #ifndef XINCX_SPIM_H__
 #define XINCX_SPIM_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_spim.h>
 
 #ifdef __cplusplus
@@ -185,12 +185,12 @@ typedef void (* xincx_spim_evt_handler_t)(xincx_spim_evt_t const * p_event,
  * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
  * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
- *                                  possible only if @ref nrfx_prs module
+ *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
  * @retval NRFX_ERROR_NOT_SUPPORTED Requested configuration is not supported
  *                                  by the SPIM instance.
  */
-nrfx_err_t xincx_spim_init(xincx_spim_t const * const  p_instance,
+xincx_err_t xincx_spim_init(xincx_spim_t const * const  p_instance,
                           xincx_spim_config_t const * p_config,
                           xincx_spim_evt_handler_t    handler,
                           void *                     p_context);
@@ -244,7 +244,7 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance);
  * @retval NRFX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
  *                                  RAM region.
  */
-nrfx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
+xincx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
                           xincx_spim_xfer_desc_t * p_xfer_desc,
                           uint32_t                      flags);
 
@@ -277,7 +277,7 @@ nrfx_err_t xincx_spim_xfer(xincx_spim_t const * const     p_instance,
  * @retval NRFX_ERROR_INVALID_ADDR  The provided buffers are not placed in the Data
  *                                  RAM region.
  */
-nrfx_err_t xincx_spim_xfer_dcx(xincx_spim_t const * const     p_instance,
+xincx_err_t xincx_spim_xfer_dcx(xincx_spim_t const * const     p_instance,
                               xincx_spim_xfer_desc_t  * p_xfer_desc,
                               uint32_t                      flags,
                               uint8_t                       cmd_length);

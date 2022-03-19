@@ -10,9 +10,9 @@
 #ifndef XINC_GPIO_H__
 #define XINC_GPIO_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include "nrf_52840_bitfields.h"
-#include "nrf52840.h"
+#include "XC620610.h"
 #include "bsp_gpio.h"
 #ifdef __cplusplus
 extern "C" {

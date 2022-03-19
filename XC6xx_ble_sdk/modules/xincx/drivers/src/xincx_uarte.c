@@ -7,7 +7,7 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(NRFX_UARTE_ENABLED)
 
@@ -15,15 +15,15 @@
       NRFX_CHECK(NRFX_UARTE1_ENABLED) || \
       NRFX_CHECK(NRFX_UARTE2_ENABLED) || \
       NRFX_CHECK(NRFX_UARTE3_ENABLED))
-#error "No enabled UARTE instances. Check <nrfx_config.h>."
+#error "No enabled UARTE instances. Check <xincx_config.h>."
 #endif
 
-#include <nrfx_uarte.h>
-#include "prs/nrfx_prs.h"
+#include <xincx_uarte.h>
+#include "prs/xincx_prs.h"
 #include <hal/nrf_gpio.h>
 
 #define NRFX_LOG_MODULE UARTE
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 #define EVT_TO_STR(event) \
     (event == NRF_UARTE_EVENT_ERROR ? "NRF_UARTE_EVENT_ERROR" : \
@@ -66,19 +66,19 @@
 typedef struct
 {
     void                     * p_context;
-    nrfx_uarte_event_handler_t handler;
+    xincx_uarte_event_handler_t handler;
     uint8_t            const * p_tx_buffer;
     uint8_t                  * p_rx_buffer;
     uint8_t                  * p_rx_secondary_buffer;
     volatile size_t            tx_buffer_length;
     size_t                     rx_buffer_length;
     size_t                     rx_secondary_buffer_length;
-    nrfx_drv_state_t           state;
+    xincx_drv_state_t           state;
 } uarte_control_block_t;
 static uarte_control_block_t m_cb[NRFX_UARTE_ENABLED_COUNT];
 
-static void apply_config(nrfx_uarte_t        const * p_instance,
-                         nrfx_uarte_config_t const * p_config)
+static void apply_config(xincx_uarte_t        const * p_instance,
+                         xincx_uarte_config_t const * p_config)
 {
     if (p_config->pseltxd != NRF_UARTE_PSEL_DISCONNECTED)
     {
@@ -108,7 +108,7 @@ static void apply_config(nrfx_uarte_t        const * p_instance,
     }
 }
 
-static void interrupts_enable(nrfx_uarte_t const * p_instance,
+static void interrupts_enable(xincx_uarte_t const * p_instance,
                               uint8_t              interrupt_priority)
 {
     nrf_uarte_event_clear(p_instance->p_reg, NRF_UARTE_EVENT_ENDRX);
@@ -121,22 +121,22 @@ static void interrupts_enable(nrfx_uarte_t const * p_instance,
                                             NRF_UARTE_INT_ERROR_MASK |
                                             NRF_UARTE_INT_RXTO_MASK  |
                                             NRF_UARTE_INT_TXSTOPPED_MASK);
-    NRFX_IRQ_PRIORITY_SET(nrfx_get_irq_number((void *)p_instance->p_reg),
+    NRFX_IRQ_PRIORITY_SET(xincx_get_irq_number((void *)p_instance->p_reg),
                           interrupt_priority);
-    NRFX_IRQ_ENABLE(nrfx_get_irq_number((void *)p_instance->p_reg));
+    NRFX_IRQ_ENABLE(xincx_get_irq_number((void *)p_instance->p_reg));
 }
 
-static void interrupts_disable(nrfx_uarte_t const * p_instance)
+static void interrupts_disable(xincx_uarte_t const * p_instance)
 {
     nrf_uarte_int_disable(p_instance->p_reg, NRF_UARTE_INT_ENDRX_MASK |
                                              NRF_UARTE_INT_ENDTX_MASK |
                                              NRF_UARTE_INT_ERROR_MASK |
                                              NRF_UARTE_INT_RXTO_MASK  |
                                              NRF_UARTE_INT_TXSTOPPED_MASK);
-    NRFX_IRQ_DISABLE(nrfx_get_irq_number((void *)p_instance->p_reg));
+    NRFX_IRQ_DISABLE(xincx_get_irq_number((void *)p_instance->p_reg));
 }
 
-static void pins_to_default(nrfx_uarte_t const * p_instance)
+static void pins_to_default(xincx_uarte_t const * p_instance)
 {
     /* Reset pins to default states */
     uint32_t txd;
@@ -169,13 +169,13 @@ static void pins_to_default(nrfx_uarte_t const * p_instance)
     }
 }
 
-nrfx_err_t nrfx_uarte_init(nrfx_uarte_t const *        p_instance,
-                           nrfx_uarte_config_t const * p_config,
-                           nrfx_uarte_event_handler_t  event_handler)
+xincx_err_t xincx_uarte_init(xincx_uarte_t const *        p_instance,
+                           xincx_uarte_config_t const * p_config,
+                           xincx_uarte_event_handler_t  event_handler)
 {
     NRFX_ASSERT(p_config);
     uarte_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
 
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
@@ -187,21 +187,21 @@ nrfx_err_t nrfx_uarte_init(nrfx_uarte_t const *        p_instance,
     }
 
 #if NRFX_CHECK(NRFX_PRS_ENABLED)
-    static nrfx_irq_handler_t const irq_handlers[NRFX_UARTE_ENABLED_COUNT] = {
+    static xincx_irq_handler_t const irq_handlers[NRFX_UARTE_ENABLED_COUNT] = {
         #if NRFX_CHECK(NRFX_UARTE0_ENABLED)
-        nrfx_uarte_0_irq_handler,
+        xincx_uarte_0_irq_handler,
         #endif
         #if NRFX_CHECK(NRFX_UARTE1_ENABLED)
-        nrfx_uarte_1_irq_handler,
+        xincx_uarte_1_irq_handler,
         #endif
         #if NRFX_CHECK(NRFX_UARTE2_ENABLED)
-        nrfx_uarte_2_irq_handler,
+        xincx_uarte_2_irq_handler,
         #endif
         #if NRFX_CHECK(NRFX_UARTE3_ENABLED)
-        nrfx_uarte_3_irq_handler,
+        xincx_uarte_3_irq_handler,
         #endif
     };
-    if (nrfx_prs_acquire(p_instance->p_reg,
+    if (xincx_prs_acquire(p_instance->p_reg,
             irq_handlers[p_instance->drv_inst_idx]) != NRFX_SUCCESS)
     {
         err_code = NRFX_ERROR_BUSY;
@@ -260,7 +260,7 @@ nrfx_err_t nrfx_uarte_init(nrfx_uarte_t const *        p_instance,
     return err_code;
 }
 
-void nrfx_uarte_uninit(nrfx_uarte_t const * p_instance)
+void xincx_uarte_uninit(xincx_uarte_t const * p_instance)
 {
     uarte_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     NRF_UARTE_Type * p_reg = p_instance->p_reg;
@@ -292,7 +292,7 @@ void nrfx_uarte_uninit(nrfx_uarte_t const * p_instance)
     pins_to_default(p_instance);
 
 #if NRFX_CHECK(NRFX_PRS_ENABLED)
-    nrfx_prs_release(p_reg);
+    xincx_prs_release(p_reg);
 #endif
 
     p_cb->state   = NRFX_DRV_STATE_UNINITIALIZED;
@@ -300,7 +300,7 @@ void nrfx_uarte_uninit(nrfx_uarte_t const * p_instance)
     NRFX_LOG_INFO("Instance uninitialized: %d.", p_instance->drv_inst_idx);
 }
 
-nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
+xincx_err_t xincx_uarte_tx(xincx_uarte_t const * p_instance,
                          uint8_t const *      p_data,
                          size_t               length)
 {
@@ -310,11 +310,11 @@ nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
     NRFX_ASSERT(length > 0);
     NRFX_ASSERT(UARTE_LENGTH_VALIDATE(p_instance->drv_inst_idx, length));
 
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
     // EasyDMA requires that transfer buffers are placed in DataRAM,
     // signal error if the are not.
-    if (!nrfx_is_in_ram(p_data))
+    if (!xincx_is_in_ram(p_data))
     {
         err_code = NRFX_ERROR_INVALID_ADDR;
         NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -323,7 +323,7 @@ nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
         return err_code;
     }
 
-    if (nrfx_uarte_tx_in_progress(p_instance))
+    if (xincx_uarte_tx_in_progress(p_instance))
     {
         err_code = NRFX_ERROR_BUSY;
         NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -377,12 +377,12 @@ nrfx_err_t nrfx_uarte_tx(nrfx_uarte_t const * p_instance,
     return err_code;
 }
 
-bool nrfx_uarte_tx_in_progress(nrfx_uarte_t const * p_instance)
+bool xincx_uarte_tx_in_progress(xincx_uarte_t const * p_instance)
 {
     return (m_cb[p_instance->drv_inst_idx].tx_buffer_length != 0);
 }
 
-nrfx_err_t nrfx_uarte_rx(nrfx_uarte_t const * p_instance,
+xincx_err_t xincx_uarte_rx(xincx_uarte_t const * p_instance,
                          uint8_t *            p_data,
                          size_t               length)
 {
@@ -393,11 +393,11 @@ nrfx_err_t nrfx_uarte_rx(nrfx_uarte_t const * p_instance,
     NRFX_ASSERT(length > 0);
     NRFX_ASSERT(UARTE_LENGTH_VALIDATE(p_instance->drv_inst_idx, length));
 
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
     // EasyDMA requires that transfer buffers are placed in DataRAM,
     // signal error if the are not.
-    if (!nrfx_is_in_ram(p_data))
+    if (!xincx_is_in_ram(p_data))
     {
         err_code = NRFX_ERROR_INVALID_ADDR;
         NRFX_LOG_WARNING("Function: %s, error code: %s.",
@@ -491,12 +491,12 @@ nrfx_err_t nrfx_uarte_rx(nrfx_uarte_t const * p_instance,
     return err_code;
 }
 
-bool nrfx_uarte_rx_ready(nrfx_uarte_t const * p_instance)
+bool xincx_uarte_rx_ready(xincx_uarte_t const * p_instance)
 {
     return nrf_uarte_event_check(p_instance->p_reg, NRF_UARTE_EVENT_ENDRX);
 }
 
-uint32_t nrfx_uarte_errorsrc_get(nrfx_uarte_t const * p_instance)
+uint32_t xincx_uarte_errorsrc_get(xincx_uarte_t const * p_instance)
 {
     nrf_uarte_event_clear(p_instance->p_reg, NRF_UARTE_EVENT_ERROR);
     return nrf_uarte_errorsrc_get_and_clear(p_instance->p_reg);
@@ -506,7 +506,7 @@ static void rx_done_event(uarte_control_block_t * p_cb,
                           size_t                  bytes,
                           uint8_t *               p_data)
 {
-    nrfx_uarte_event_t event;
+    xincx_uarte_event_t event;
 
     event.type             = NRFX_UARTE_EVT_RX_DONE;
     event.data.rxtx.bytes  = bytes;
@@ -518,7 +518,7 @@ static void rx_done_event(uarte_control_block_t * p_cb,
 static void tx_done_event(uarte_control_block_t * p_cb,
                           size_t                  bytes)
 {
-    nrfx_uarte_event_t event;
+    xincx_uarte_event_t event;
 
     event.type             = NRFX_UARTE_EVT_TX_DONE;
     event.data.rxtx.bytes  = bytes;
@@ -529,7 +529,7 @@ static void tx_done_event(uarte_control_block_t * p_cb,
     p_cb->handler(&event, p_cb->p_context);
 }
 
-void nrfx_uarte_tx_abort(nrfx_uarte_t const * p_instance)
+void xincx_uarte_tx_abort(xincx_uarte_t const * p_instance)
 {
     uarte_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
@@ -543,7 +543,7 @@ void nrfx_uarte_tx_abort(nrfx_uarte_t const * p_instance)
     NRFX_LOG_INFO("TX transaction aborted.");
 }
 
-void nrfx_uarte_rx_abort(nrfx_uarte_t const * p_instance)
+void xincx_uarte_rx_abort(xincx_uarte_t const * p_instance)
 {
     uarte_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
 
@@ -562,7 +562,7 @@ static void uarte_irq_handler(NRF_UARTE_Type *        p_uarte,
 {
     if (nrf_uarte_event_check(p_uarte, NRF_UARTE_EVENT_ERROR))
     {
-        nrfx_uarte_event_t event;
+        xincx_uarte_event_t event;
 
         nrf_uarte_event_clear(p_uarte, NRF_UARTE_EVENT_ERROR);
 
@@ -641,28 +641,28 @@ static void uarte_irq_handler(NRF_UARTE_Type *        p_uarte,
 }
 
 #if NRFX_CHECK(NRFX_UARTE0_ENABLED)
-void nrfx_uarte_0_irq_handler(void)
+void xincx_uarte_0_irq_handler(void)
 {
     uarte_irq_handler(NRF_UARTE0, &m_cb[NRFX_UARTE0_INST_IDX]);
 }
 #endif
 
 #if NRFX_CHECK(NRFX_UARTE1_ENABLED)
-void nrfx_uarte_1_irq_handler(void)
+void xincx_uarte_1_irq_handler(void)
 {
     uarte_irq_handler(NRF_UARTE1, &m_cb[NRFX_UARTE1_INST_IDX]);
 }
 #endif
 
 #if NRFX_CHECK(NRFX_UARTE2_ENABLED)
-void nrfx_uarte_2_irq_handler(void)
+void xincx_uarte_2_irq_handler(void)
 {
     uarte_irq_handler(NRF_UARTE2, &m_cb[NRFX_UARTE2_INST_IDX]);
 }
 #endif
 
 #if NRFX_CHECK(NRFX_UARTE3_ENABLED)
-void nrfx_uarte_3_irq_handler(void)
+void xincx_uarte_3_irq_handler(void)
 {
     uarte_irq_handler(NRF_UARTE3, &m_cb[NRFX_UARTE3_INST_IDX]);
 }

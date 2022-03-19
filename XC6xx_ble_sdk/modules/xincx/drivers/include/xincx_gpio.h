@@ -12,7 +12,7 @@
 
 #if 1
 //#define  GPIOTE_CH_NUM 8 //nrf52840_peripherals.h
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_gpio.h>
 #ifdef __cplusplus
 extern "C" {
@@ -64,7 +64,7 @@ typedef void (*xincx_gpio_evt_handler_t)(xincx_gpio_pin_t pin, xinc_gpio_polarit
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
  */
-nrfx_err_t xincx_gpio_init(void);
+xincx_err_t xincx_gpio_init(void);
 
 /**
  * @brief Function for checking if the GPIOTE module is initialized.
@@ -94,7 +94,7 @@ void xincx_gpio_uninit(void);
  * @retval NRFX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
  * @retval NRFX_ERROR_NO_MEM        No GPIOTE channel is available.
  */
-nrfx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
+xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
                                 xincx_gpio_out_config_t const * p_config);
 
 /**
@@ -150,7 +150,7 @@ void xincx_gpio_out_toggle(xincx_gpio_pin_t pin);
  * @retval NRFX_ERROR_INVALID_STATE The driver is not initialized or the pin is already used.
  * @retval NRFX_ERROR_NO_MEM        No GPIOTE channel is available.
  */
-nrfx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
+xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
                                xincx_gpio_in_config_t const * p_config,
                                xincx_gpio_evt_handler_t       evt_handler);
 

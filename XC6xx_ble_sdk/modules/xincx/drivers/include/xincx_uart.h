@@ -9,7 +9,7 @@
 #ifndef XINCX_UART_H__
 #define XINCX_UART_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_uart.h>
 
 #ifdef __cplusplus
@@ -148,10 +148,10 @@ typedef void (*xincx_uart_event_handler_t)(xincx_uart_event_t const * p_event,
  * @retval NRFX_ERROR_INVALID_STATE The driver is already initialized.
  * @retval NRFX_ERROR_BUSY          Some other peripheral with the same
  *                                  instance ID is already in use. This is
- *                                  possible only if @ref nrfx_prs module
+ *                                  possible only if @ref xincx_prs module
  *                                  is enabled.
  */
-nrfx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
+xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler);
 
@@ -181,7 +181,7 @@ void xincx_uart_uninit(xincx_uart_t const * p_instance);
  * @retval NRFX_ERROR_FORBIDDEN The transfer was aborted from a different context
  *                              (blocking mode only).
  */
-nrfx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
+xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
                         uint8_t const *     p_data,
                         size_t              length);
 
@@ -240,7 +240,7 @@ void xincx_uart_tx_abort(xincx_uart_t const * p_instance);
  *                                 (blocking mode only, also see @ref xincx_uart_rx_disable).
  * @retval    NRFX_ERROR_INTERNAL  The UART peripheral reported an error.
  */
-nrfx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
+xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
                         uint8_t *           p_data,
                         size_t              length);
 

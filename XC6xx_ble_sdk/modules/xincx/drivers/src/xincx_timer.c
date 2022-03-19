@@ -7,37 +7,37 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_TIMER_ENABLED)
 
 #if !(NRFX_CHECK(XINCX_TIMER0_ENABLED) || NRFX_CHECK(XINCX_TIMER1_ENABLED) || \
       NRFX_CHECK(XINCX_TIMER2_ENABLED) || NRFX_CHECK(XINCX_TIMER3_ENABLED))
-#error "No enabled TIMER instances. Check <nrfx_config.h>."
+#error "No enabled TIMER instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_timer.h>
 
 #define NRFX_LOG_MODULE TIMER
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 /**@brief Timer control block. */
 typedef struct
 {
     xincx_timer_event_handler_t handler;
     void *                     context;
-    nrfx_drv_state_t           state;
+    xincx_drv_state_t           state;
 } timer_control_block_t;
 
 static timer_control_block_t m_cb[XINCX_TIMER_ENABLED_COUNT];
 
 
-nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
+xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
                            xincx_timer_config_t const * p_config,
                            xincx_timer_event_handler_t  timer_event_handler)
 {
 
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
     timer_control_block_t * p_cb = &m_cb[p_instance->instance_idx];
 
@@ -97,7 +97,7 @@ nrfx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
 
 void xincx_timer_uninit(xincx_timer_t const * const p_instance)
 {
-    NRFX_IRQ_DISABLE(nrfx_get_irq_number(p_instance->p_reg));
+    NRFX_IRQ_DISABLE(xincx_get_irq_number(p_instance->p_reg));
 
     #define DISABLE_ALL UINT32_MAX
     xinc_timer_int_disable(p_instance->p_reg, DISABLE_ALL);

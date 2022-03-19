@@ -10,7 +10,7 @@
 #ifndef XINC_I2C_H__
 #define XINC_I2C_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #ifdef __cplusplus
 extern "C" {

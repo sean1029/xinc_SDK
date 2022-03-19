@@ -10,7 +10,7 @@
 #ifndef XINC_DRV_SPI_H__
 #define XINC_DRV_SPI_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #ifdef SPIM_PRESENT
     #include <xincx_spim.h>
 		    // This part is for old modules that use directly SPI HAL definitions
@@ -459,14 +459,14 @@ ret_code_t xinc_drv_spi_transfer(xinc_drv_spi_t const * const p_instance,
     else if (XINC_DRV_SPI_USE_SPI)
     {
     #ifdef SPI_PRESENT
-        nrfx_spi_xfer_desc_t const spi_xfer_desc =
+        xincx_spi_xfer_desc_t const spi_xfer_desc =
         {
             .p_tx_buffer = p_tx_buffer,
             .tx_length   = tx_buffer_length,
             .p_rx_buffer = p_rx_buffer,
             .rx_length   = rx_buffer_length,
         };
-        result = nrfx_spi_xfer(&p_instance->u.spi, &spi_xfer_desc, 0);
+        result = xincx_spi_xfer(&p_instance->u.spi, &spi_xfer_desc, 0);
     #endif
     }
     return result;

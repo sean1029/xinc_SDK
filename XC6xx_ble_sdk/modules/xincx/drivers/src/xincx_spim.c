@@ -7,14 +7,14 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
 #if NRFX_CHECK(XINCX_SPIM_ENABLED)
 
 #if !(NRFX_CHECK(XINCX_SPIM0_ENABLED) || NRFX_CHECK(XINCX_SPIM1_ENABLED) || \
       NRFX_CHECK(XINCX_SPIM2_ENABLED) || NRFX_CHECK(XINCX_SPIM3_ENABLED))
-#error "No enabled SPIM instances. Check <nrfx_config.h>."
+#error "No enabled SPIM instances. Check <xincx_config.h>."
 #endif
 
 #if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) && !NRFX_CHECK(XINCX_SPIM3_ENABLED)
@@ -25,7 +25,7 @@
 #include <hal/xinc_gpio.h>
 
 #define NRFX_LOG_MODULE SPIM
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 #define SPIMX_LENGTH_VALIDATE(peripheral, drv_inst_idx, rx_len, tx_len) \
     (((drv_inst_idx) == NRFX_CONCAT_3(XINCX_, peripheral, _INST_IDX)) && \
@@ -60,7 +60,7 @@ typedef struct
     xincx_spim_evt_handler_t handler;
     void *                  p_context;
     xincx_spim_evt_t         evt;  // Keep the struct that is ready for event handler. Less memcpy.
-    nrfx_drv_state_t        state;
+    xincx_drv_state_t        state;
     volatile bool           transfer_in_progress;
 
 #if NRFX_CHECK(XINCX_SPIM_EXTENDED_ENABLED)
@@ -80,14 +80,14 @@ typedef struct
 
 static spim_control_block_t m_cb[XINCX_SPIM_ENABLED_COUNT];
 
-nrfx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
+xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
                           xincx_spim_config_t const * p_config,
                           xincx_spim_evt_handler_t    handler,
                           void                     * p_context)
 {
     NRFX_ASSERT(p_config);
     spim_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
 
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
     {
@@ -327,16 +327,16 @@ static void finish_transfer(spim_control_block_t * p_cb)
 }
 
 
-static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
+static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
                             spim_control_block_t        * p_cb,
                             xincx_spim_xfer_desc_t  * p_xfer_desc,
                             uint32_t                      flags)
 {
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
     // EasyDMA requires that transfer buffers are placed in Data RAM region;
     // signal error if they are not.
-    if ((p_xfer_desc->p_tx_buffer != NULL && !nrfx_is_in_ram(p_xfer_desc->p_tx_buffer)) ||
-        (p_xfer_desc->p_rx_buffer != NULL && !nrfx_is_in_ram(p_xfer_desc->p_rx_buffer)))
+    if ((p_xfer_desc->p_tx_buffer != NULL && !xincx_is_in_ram(p_xfer_desc->p_tx_buffer)) ||
+        (p_xfer_desc->p_rx_buffer != NULL && !xincx_is_in_ram(p_xfer_desc->p_rx_buffer)))
     {
         p_cb->transfer_in_progress = false;
         err_code = NRFX_ERROR_INVALID_ADDR;
@@ -409,7 +409,7 @@ static nrfx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     return err_code;
 }
 
-nrfx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
+xincx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
                           xincx_spim_xfer_desc_t  * p_xfer_desc,
                           uint32_t                      flags)
 {
@@ -421,7 +421,7 @@ nrfx_err_t xincx_spim_xfer(xincx_spim_t     const * const p_instance,
                                      p_xfer_desc->rx_length,
                                      p_xfer_desc->tx_length));
 
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
 
     if (p_cb->transfer_in_progress)
     {

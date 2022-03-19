@@ -15,17 +15,17 @@ extern "C" {
 #endif
 
 /**
- * @defgroup nrfx_glue nrfx_glue.h
+ * @defgroup xincx_glue xincx_glue.h
  * @{
- * @ingroup nrfx
+ * @ingroup xincx
  *
  * @brief This file contains macros that should be implemented according to
- *        the needs of the host environment into which @em nrfx is integrated.
+ *        the needs of the host environment into which @em xincx is integrated.
  */
 
 //#include <legacy/apply_old_config.h>
 
-//#include <soc/nrfx_irqs.h>
+//#include <soc/xincx_irqs.h>
 
 //------------------------------------------------------------------------------
 
@@ -163,24 +163,24 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
 
 /**
  * @brief When set to a non-zero value, this macro specifies that
- *        @ref nrfx_coredep_delay_us uses a precise DWT-based solution.
+ *        @ref xincx_coredep_delay_us uses a precise DWT-based solution.
  *        A compilation error is generated if the DWT unit is not present
  *        in the SoC used.
  */
 #define NRFX_DELAY_DWT_BASED 0
 
-//#include <soc/nrfx_coredep.h>
+//#include <soc/xincx_coredep.h>
 
-#define NRFX_DELAY_US(us_time) nrfx_coredep_delay_us(us_time)
+#define NRFX_DELAY_US(us_time) xincx_coredep_delay_us(us_time)
 
 //------------------------------------------------------------------------------
 
-//#include <nrfx_atomic.h>
+//#include <xincx_atomic.h>
 
 /**
  * @brief Atomic 32 bit unsigned type.
  */
-#define nrfx_atomic_t               nrfx_atomic_u32_t
+#define xincx_atomic_t               xincx_atomic_u32_t
 
 /**
  * @brief Stores value to an atomic object and returns previously stored value.
@@ -190,7 +190,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_STORE(p_data, value) nrfx_atomic_u32_fetch_store(p_data, value)
+#define NRFX_ATOMIC_FETCH_STORE(p_data, value) xincx_atomic_u32_fetch_store(p_data, value)
 
 /**
  * @brief Performs logical OR operation on an atomic object and returns previously stored value.
@@ -200,7 +200,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_OR(p_data, value)   nrfx_atomic_u32_fetch_or(p_data, value)
+#define NRFX_ATOMIC_FETCH_OR(p_data, value)   xincx_atomic_u32_fetch_or(p_data, value)
 
 /**
  * @brief Performs logical AND operation on an atomic object and returns previously stored value.
@@ -210,7 +210,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_AND(p_data, value)   nrfx_atomic_u32_fetch_and(p_data, value)
+#define NRFX_ATOMIC_FETCH_AND(p_data, value)   xincx_atomic_u32_fetch_and(p_data, value)
 
 /**
  * @brief Performs logical XOR operation on an atomic object and returns previously stored value.
@@ -220,7 +220,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_XOR(p_data, value)   nrfx_atomic_u32_fetch_xor(p_data, value)
+#define NRFX_ATOMIC_FETCH_XOR(p_data, value)   xincx_atomic_u32_fetch_xor(p_data, value)
 
 /**
  * @brief Performs logical ADD operation on an atomic object and returns previously stored value.
@@ -230,7 +230,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_ADD(p_data, value)   nrfx_atomic_u32_fetch_add(p_data, value)
+#define NRFX_ATOMIC_FETCH_ADD(p_data, value)   xincx_atomic_u32_fetch_add(p_data, value)
 
 /**
  * @brief Performs logical SUB operation on an atomic object and returns previously stored value.
@@ -240,7 +240,7 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
  *
  * @return Old value stored into atomic object.
  */
-#define NRFX_ATOMIC_FETCH_SUB(p_data, value)   nrfx_atomic_u32_fetch_sub(p_data, value)
+#define NRFX_ATOMIC_FETCH_SUB(p_data, value)   xincx_atomic_u32_fetch_sub(p_data, value)
 
 //------------------------------------------------------------------------------
 #ifndef NRFX_CUSTOM_ERROR_CODES
@@ -248,13 +248,13 @@ static inline bool _NRFX_IRQ_IS_PENDING(IRQn_Type irq_number)
 #include <sdk_errors.h>
 /**
  * @brief When set to a non-zero value, this macro specifies that the
- *        @ref nrfx_error_codes and the @ref ret_code_t type itself are defined
- *        in a customized way and the default definitions from @c <nrfx_error.h>
+ *        @ref xincx_error_codes and the @ref ret_code_t type itself are defined
+ *        in a customized way and the default definitions from @c <xincx_error.h>
  *        should not be used.
  */
 #define NRFX_CUSTOM_ERROR_CODES 1
 
-typedef ret_code_t nrfx_err_t;
+typedef ret_code_t xincx_err_t;
 
 #define NRFX_SUCCESS                    NRF_SUCCESS
 #define NRFX_ERROR_INTERNAL             NRF_ERROR_INTERNAL
@@ -279,22 +279,22 @@ typedef ret_code_t nrfx_err_t;
 
 //#include <sdk_resources.h>
 /**
- * @brief Bitmask defining PPI channels reserved to be used outside of nrfx.
+ * @brief Bitmask defining PPI channels reserved to be used outside of xincx.
  */
 #define NRFX_PPI_CHANNELS_USED  NRF_PPI_CHANNELS_USED
 
 /**
- * @brief Bitmask defining PPI groups reserved to be used outside of nrfx.
+ * @brief Bitmask defining PPI groups reserved to be used outside of xincx.
  */
 #define NRFX_PPI_GROUPS_USED    NRF_PPI_GROUPS_USED
 
 /**
- * @brief Bitmask defining SWI instances reserved to be used outside of nrfx.
+ * @brief Bitmask defining SWI instances reserved to be used outside of xincx.
  */
 #define NRFX_SWI_USED           NRF_SWI_USED
 
 /**
- * @brief Bitmask defining TIMER instances reserved to be used outside of nrfx.
+ * @brief Bitmask defining TIMER instances reserved to be used outside of xincx.
  */
 #define XINCX_TIMERS_USED        XINC_TIMERS_USED
 

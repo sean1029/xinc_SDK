@@ -10,7 +10,7 @@
 #ifndef XINCX_PWM_H__
 #define XINCX_PWM_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <hal/xinc_pwm.h>
 
 #ifdef __cplusplus
@@ -122,7 +122,7 @@ typedef void (* xincx_pwm_handler_t)();
  * @retval NRFX_SUCCESS             Initialization was successful.
  * @retval NRFX_ERROR_INVALID_STATE The driver was already initialized.
  */
-nrfx_err_t xincx_pwm_init(xincx_pwm_t const * const  p_instance,
+xincx_err_t xincx_pwm_init(xincx_pwm_t const * const  p_instance,
                          xincx_pwm_config_t const * p_config,
                          xincx_pwm_handler_t        handler);
 
@@ -140,11 +140,11 @@ bool xincx_pwm_start(xincx_pwm_t const * const p_instance);
 bool xincx_pwm_stop(xincx_pwm_t const * const p_instance);
 
 
-nrfx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
+xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
 
-nrfx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty);
+xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty);
 
-nrfx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq);
+xincx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq);
 
 bool xincx_pwm_freq_valid_range_check(uint8_t clk_src,uint8_t ref_clk, uint32_t set_freq);
 

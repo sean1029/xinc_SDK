@@ -10,7 +10,7 @@
 #ifndef NRF_NVMC_H__
 #define NRF_NVMC_H__
 
-#include <nrfx.h>
+#include <xincx.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>

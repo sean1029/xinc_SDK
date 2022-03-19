@@ -7,12 +7,12 @@
  *
  */
 
-#include <nrfx.h>
+#include <xincx.h>
 
 #if NRFX_CHECK(XINCX_UART_ENABLED)
 
 #if !NRFX_CHECK(XINCX_UART0_ENABLED) && !NRFX_CHECK(XINCX_UART1_ENABLED)
-#error "No enabled UART instances. Check <nrfx_config.h>."
+#error "No enabled UART instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_uart.h>
@@ -21,7 +21,7 @@
 #include "bsp_clk.h"
 #include "bsp_uart.h"
 #define NRFX_LOG_MODULE UART
-#include <nrfx_log.h>
+#include <xincx_log.h>
 
 #define EVT_TO_STR(event) \
     (event == XINC_UART_EVENT_ERROR ? "XINC_UART_EVENT_ERROR" : \
@@ -44,15 +44,15 @@ typedef struct
     volatile size_t           rx_counter;
     volatile bool             tx_abort;
     bool                      rx_enabled;
-    nrfx_drv_state_t          state;
+    xincx_drv_state_t          state;
 } uart_control_block_t;
 static uart_control_block_t m_cb[XINCX_UART_ENABLED_COUNT];
 
-static nrfx_err_t apply_config(xincx_uart_t        const * p_instance,
+static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
                          xincx_uart_config_t const * p_config)
 {
     printf("%s\r\n",__func__);
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     printf("pseltxd:%d\r\n",p_config->pseltxd);
     if (p_config->pseltxd != XINC_UART_PSEL_DISCONNECTED)
     {     
@@ -182,13 +182,13 @@ static void interrupts_disable(xincx_uart_t const * p_instance)
 }
 
 
-nrfx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
+xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler)
 {
     NRFX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
-    nrfx_err_t err_code = NRFX_SUCCESS;
+    xincx_err_t err_code = NRFX_SUCCESS;
     printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
     // printf("XINC_UART_Type size :%d\r\n",sizeof(XINC_UART_Type));
     if (p_cb->state != NRFX_DRV_STATE_UNINITIALIZED)
@@ -310,7 +310,7 @@ static bool tx_blocking(XINC_UART_Type * p_uart, uart_control_block_t * p_cb)
     return true;
 }
 
-nrfx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
+xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
                         uint8_t const *     p_data,
                         size_t              length)
 {
@@ -319,7 +319,7 @@ nrfx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
     NRFX_ASSERT(p_data);
     NRFX_ASSERT(length > 0);
 
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 	//  printf("xincx_uart_tx progress:%d\r\n",xincx_uart_tx_in_progress(p_instance));
     if (xincx_uart_tx_in_progress(p_instance))
     {
@@ -383,7 +383,7 @@ static void rx_byte(XINC_UART_Type * p_uart, uart_control_block_t * p_cb)
     p_cb->rx_counter++;
 }
 
-nrfx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
+xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
                         uint8_t *           p_data,
                         size_t              length)
 {
@@ -393,7 +393,7 @@ nrfx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
     NRFX_ASSERT(p_data);
     NRFX_ASSERT(length > 0);
 
-    nrfx_err_t err_code;
+    xincx_err_t err_code;
 
     bool second_buffer = false;
 
