@@ -304,7 +304,7 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
         int8_t handler_id = pin_handler_use_alloc(pin, evt_handler);
         if (handler_id != NO_HANDLERS_ID)
         {     
-            xinc_gpio_cfg_input(pin, p_config->pull);
+            xinc_gpio_cfg_input(pin, p_config->input_config);
 
             pin_configured_set(pin);         
         }

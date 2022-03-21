@@ -208,7 +208,7 @@ static void detection_delay_timeout_handler(void * p_context)
     for (int i = 0; i < m_button_count; i++)
     {
         app_button_cfg_t const * p_btn = &mp_buttons[i];
-        bool is_set = !xinc_drv_gpio_in_is_set(p_btn->pin_no);
+        bool is_set = xinc_drv_gpio_in_is_set(p_btn->pin_no);
         bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);//!((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
 			
 		//	printf("p_btn->pin_no:%d,is_set:%d,is_active:%d\r\n",p_btn->pin_no,is_set,is_active);
@@ -231,8 +231,8 @@ static void gpiote_event_handler(xinc_drv_gpio_pin_t pin, xinc_gpio_polarity_t a
 {
     app_button_cfg_t const * p_btn = button_get(pin);
     bool is_set = xinc_drv_gpio_in_is_set(p_btn->pin_no);
-    bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_LOW) ^ is_set);
-//		printf("gpiote_event_handler pin : %d,is_set:%d,is_active:%d,m_pin_active:%d \r\n ",pin,is_set,is_active,m_pin_active);
+    bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
+//		printf("gpiote_event_handler pin : %d,is_set:%d,is_active:%d,m_pin_active:%ld \r\n ",pin,is_set,is_active,m_pin_active);
     /* If event indicates that pin is active and no other pin is active start the timer. All
      * action happens in timeout event.
      */
@@ -277,7 +277,15 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
 
         xinc_drv_gpio_in_config_t config;
 
-        config.pull = p_btn->pull_cfg;
+        config.input_config.pin_pulll = p_btn->pull_cfg;
+        if(p_btn->pull_cfg == XINC_GPIO_PIN_PULLUP)
+        {
+            config.input_config.input_int = XINC_GPIO_PIN_INPUT_FAIL_EDGE_INT;
+        }else
+        {
+            config.input_config.input_int = XINC_GPIO_PIN_INPUT_RIS_EDGE_INT;
+        }
+      //  
 
         err_code = xinc_drv_gpio_in_init(p_btn->pin_no, &config, gpiote_event_handler);
         VERIFY_SUCCESS(err_code);

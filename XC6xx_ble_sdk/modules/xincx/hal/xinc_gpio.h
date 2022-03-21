@@ -124,6 +124,17 @@ typedef enum
 } xinc_gpio_pin_pull_t;
 
 
+/**
+ * @brief Enumerator used for selecting the pin to be pulled down or up at the time of pin
+ * configuration.
+ */
+typedef struct
+{
+    xinc_gpio_pin_pull_t pin_pulll;
+    xinc_gpio_pin_input_int_t input_int;
+
+} xinc_gpio_pin_input_cfg_t;
+
 /** @brief Enumerator used for selecting output drive mode. */
 typedef enum
 {
@@ -193,11 +204,11 @@ __STATIC_INLINE void xinc_gpio_range_cfg_output(uint32_t pin_range_start, uint32
  *
  * @param pin_range_start  Specifies the start number (inclusive) in the range of pin numbers to be configured (allowed values 0-30).
  * @param pin_range_end    Specifies the end number (inclusive) in the range of pin numbers to be configured (allowed values 0-30).
- * @param pull_config      State of the pin range pull resistor (no pull, pulled down, or pulled high).
+ * @param input_config      State of the pin range pull resistor (no pull, pulled down, or pulled high).
  */
 __STATIC_INLINE void xinc_gpio_range_cfg_input(uint32_t            pin_range_start,
                                               uint32_t            pin_range_end,
-                                              xinc_gpio_pin_pull_t pull_config);
+                                              xinc_gpio_pin_input_cfg_t input_config);
 
 /**
  * @brief Pin configuration function.
@@ -240,7 +251,7 @@ __STATIC_INLINE void xinc_gpio_cfg_output(uint32_t pin_number);
  * @param pin_number  Specifies the pin number.
  * @param pull_config State of the pin range pull resistor (no pull, pulled down, or pulled high).
  */
-__STATIC_INLINE void xinc_gpio_cfg_input(uint32_t pin_number, xinc_gpio_pin_pull_t pull_config);
+__STATIC_INLINE void xinc_gpio_cfg_input(uint32_t pin_number, xinc_gpio_pin_input_cfg_t input_config);
 
 /**
  * @brief Function for resetting pin configuration to its default state.
@@ -495,12 +506,12 @@ __STATIC_INLINE void xinc_gpio_range_cfg_output(uint32_t pin_range_start, uint32
 
 __STATIC_INLINE void xinc_gpio_range_cfg_input(uint32_t            pin_range_start,
                                               uint32_t            pin_range_end,
-                                              xinc_gpio_pin_pull_t pull_config)
+                                              xinc_gpio_pin_input_cfg_t input_config)
 {
     /*lint -e{845} // A zero has been given as right argument to operator '|'" */
     for (; pin_range_start <= pin_range_end; pin_range_start++)
     {
-        xinc_gpio_cfg_input(pin_range_start, pull_config);
+        xinc_gpio_cfg_input(pin_range_start, input_config);
     }
 }
 /* ---------------------------------------------------------------------------------------------------
@@ -719,14 +730,14 @@ __STATIC_INLINE void xinc_gpio_cfg_output(uint32_t pin_number)
 }
 
 
-__STATIC_INLINE void xinc_gpio_cfg_input(uint32_t pin_number, xinc_gpio_pin_pull_t pull_config)
+__STATIC_INLINE void xinc_gpio_cfg_input(uint32_t pin_number, xinc_gpio_pin_input_cfg_t input_config)
 {
     printf("%s pin_number:%d\r\n",__func__,pin_number);
     xinc_gpio_cfg(
         pin_number,
         XINC_GPIO_PIN_DIR_INPUT,
-        XINC_GPIO_PIN_INPUT_RIS_EDGE_INT,
-        pull_config,
+        input_config.input_int,
+        input_config.pin_pulll,
         XINC_GPIO_PIN_GPIODx,
         XINC_GPIO_PIN_DEBOUNCE_ENABLE);
 }

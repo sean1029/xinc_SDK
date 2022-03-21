@@ -28,7 +28,7 @@ extern "C" {
 /** @brief Input pin configuration. */
 typedef struct
 {
-    xinc_gpio_pin_pull_t   pull;                /**< Pulling mode. */
+  xinc_gpio_pin_input_cfg_t input_config;
 } xincx_gpio_in_config_t;
 
 /**
