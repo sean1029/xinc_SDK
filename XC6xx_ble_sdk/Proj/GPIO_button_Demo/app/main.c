@@ -361,7 +361,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
             if(button_action == APP_BUTTON_PUSH)
             {
                 //点亮 LED 指示灯 D2
-               bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
             }    
             else//S2 按键释放
             {
@@ -399,6 +399,62 @@ void gpio_buttun_test2()
 }
 
 
+/**@brief Function for handling bsp events.
+ */
+void bsp_evt_handler(bsp_event_t evt)
+{
+    switch (evt)
+    {
+        // 按键S1 注册的按下事件的回调
+        case BSP_EVENT_LED1_ON:
+        {
+            //点亮 LED 指示灯 D1
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            
+        } break;
+        // 按键S1 注册的释放事件的回调
+        case BSP_EVENT_LED1_OFF:
+        {
+            //熄灭 LED 指示灯 D1
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+        } break;
+        // 按键S2 注册的长按事件的回调
+        case BSP_EVENT_LED2_ON:
+        {
+            //点亮 LED 指示灯 D2
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+        } break;
+        // 按键S2 注册的释放事件的回调
+        case BSP_EVENT_LED2_OFF:
+        {
+            //熄灭 LED 指示灯 D2
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+        } break;
+           
+
+        default:
+            break; // No implementation needed
+    }
+}
+void gpio_buttun_test3()
+{
+    ret_code_t err_code;
+    //注册按键S1 按下时候的事件
+    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+    //注册按键S1 释放时候的事件
+    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF));
+    //注册按键S2 长按下时候的事件
+    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
+    //注册按键S2 释放时候的事件
+    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF));
+
+    err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);
+
+    APP_ERROR_CHECK(err_code);
+}
+
+
+
 int	main(void)
 {
 
@@ -428,7 +484,7 @@ int	main(void)
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
-    gpio_buttun_test2();
+    gpio_buttun_test3();
 
     while(1) {
 

@@ -76,11 +76,11 @@ static const app_button_cfg_t app_buttons[BUTTONS_NUMBER] =
 {
 	
     #ifdef BSP_BUTTON_0
-    {BSP_BUTTON_0, false, BUTTON_PULLDOWN, bsp_button_event_handler},
+    {BSP_BUTTON_0, false, BUTTON_PULL, bsp_button_event_handler},
     #endif // BUTTON_0
 
     #ifdef BSP_BUTTON_1
-    {BSP_BUTTON_1, false, BUTTON_PULLDOWN, bsp_button_event_handler},
+    {BSP_BUTTON_1, false, BUTTON_PULL, bsp_button_event_handler},
     #endif // BUTTON_1
 
     #ifdef BSP_BUTTON_2
@@ -630,11 +630,19 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 
         for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == XINC_SUCCESS)); num++)
         {
-            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 + num * 3));
-					  err_code =  bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 + num * 3));
-					  err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_KEY_2 + num * 3));
-					  
+//            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON + num * 2));
+// 
+//            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF + num * 2));
+
         }
+//        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+// 
+//        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF));
+//        
+//        err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
+// 
+//        err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF));
+//        
 
         if (err_code == XINC_SUCCESS)
         {

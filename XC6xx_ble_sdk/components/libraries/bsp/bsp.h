@@ -135,6 +135,10 @@ typedef enum
     BSP_EVENT_KEY_5,                        /**< Default event of the push action of BSP_BUTTON_5 (only if this button is present). */
     BSP_EVENT_KEY_6,                        /**< Default event of the push action of BSP_BUTTON_6 (only if this button is present). */
     BSP_EVENT_KEY_7,                        /**< Default event of the push action of BSP_BUTTON_7 (only if this button is present). */
+    BSP_EVENT_LED1_ON,
+    BSP_EVENT_LED1_OFF,
+    BSP_EVENT_LED2_ON,
+    BSP_EVENT_LED2_OFF,
     BSP_EVENT_KEY_LAST = BSP_EVENT_KEY_7,
 } bsp_event_t;
 
