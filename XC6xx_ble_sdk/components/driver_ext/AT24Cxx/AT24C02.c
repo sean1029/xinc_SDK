@@ -13,6 +13,8 @@
 #include "AT24C02.h"
 #include "xinc_drv_i2c.h"
 #include "xinc_i2c.h"
+#include "xinc_delay.h"
+
 #include <string.h>
 
 #define I2C_INSTACE_ID	0
@@ -32,7 +34,7 @@ static const xinc_drv_i2c_t m_i2c = XINC_DRV_I2C_INSTANCE(I2C_INSTACE_ID);
 
 
 
-#define AT24Cxx_DELAY           delay_ms(10)
+#define AT24Cxx_DELAY           xinc_delay_ms(10)
 
 static volatile bool m_xfer_done = false;
 

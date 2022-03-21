@@ -170,8 +170,9 @@ static inline bool _XINCX_IRQ_IS_PENDING(IRQn_Type irq_number)
 #define XINCX_DELAY_DWT_BASED 0
 
 //#include <soc/xincx_coredep.h>
+extern void delay_us(uint32_t nus);
 
-#define XINCX_DELAY_US(us_time) xincx_coredep_delay_us(us_time)
+#define XINCX_DELAY_US(us_time) delay_us(us_time)
 
 //------------------------------------------------------------------------------
 

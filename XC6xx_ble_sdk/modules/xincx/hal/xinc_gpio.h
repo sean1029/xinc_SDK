@@ -811,7 +811,6 @@ __STATIC_INLINE void xinc_gpio_pin_toggle(uint32_t pin_number)
 
 __STATIC_INLINE void xinc_gpio_pin_write(uint32_t pin_number, uint32_t value)
 {
-    printf("pin_write pin_number:%d,value:%d\r\n",pin_number,value);
     if (value == 0)
     {
         xinc_gpio_pin_clear(pin_number);
