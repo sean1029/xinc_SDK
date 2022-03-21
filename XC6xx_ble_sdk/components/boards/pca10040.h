@@ -57,15 +57,15 @@ extern "C" {
 //#define BSP_BUTTON_2   BUTTON_3
 //#define BSP_BUTTON_3   BUTTON_4
 
-#define APP_UART_RX_PIN_NUMBER  22
-#define APP_UART_TX_PIN_NUMBER  23
+#define APP_UART_RX_PIN_NUMBER  2
+#define APP_UART_TX_PIN_NUMBER  3
 #define CTS_PIN_NUMBER 7
 #define RTS_PIN_NUMBER 5
 #define HWFC           false
 	
 
-#define CLI_RX_PIN_NUMBER  22
-#define CLI_TX_PIN_NUMBER  23
+#define CLI_RX_PIN_NUMBER  2
+#define CLI_TX_PIN_NUMBER  3
 
 
 #define SPIM0_SCK_PIN   29  // SPI clock GPIO pin number.

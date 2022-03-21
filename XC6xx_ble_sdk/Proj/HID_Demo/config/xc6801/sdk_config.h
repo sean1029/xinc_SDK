@@ -1249,7 +1249,7 @@
 // <0=> 0 
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
-#define APP_UART_DRIVER_INSTANCE 0
+#define APP_UART_DRIVER_INSTANCE 1
 #endif
 
 // </e>

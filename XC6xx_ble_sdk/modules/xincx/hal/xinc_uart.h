@@ -277,7 +277,7 @@ __STATIC_INLINE uint8_t xinc_uart_rxd_get(XINC_UART_Type * p_reg)
 __STATIC_INLINE void xinc_uart_txd_set(XINC_UART_Type * p_reg, uint8_t txd)
 {
    // printf("txd_set\r\n");
-		p_reg->RBR_THR_DLL.THR = txd;//(txd << UART_UARTx_THR_THR_Pos) & UART_UARTx_THR_THR_Msk;
+	p_reg->RBR_THR_DLL.THR = (txd << UART_UARTx_THR_THR_Pos) & UART_UARTx_THR_THR_Msk;
 }
 
 
@@ -285,7 +285,7 @@ __STATIC_INLINE void xinc_uart_txd_set(XINC_UART_Type * p_reg, uint8_t txd)
 __STATIC_INLINE void xinc_uart_baudrate_set(XINC_UART_Type   * p_reg, xinc_uart_baudrate_t baudrate)
 {
      p_reg->TCR |= (UART_UARTx_TCR_DLAB_DLLH_Enable << UART_UARTx_TCR_DLAB_Pos);
-	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f ;//& UART_UARTx_DLL_DLL_Msk;
+	 p_reg->RBR_THR_DLL.DLL = baudrate & 0x0f ;
 	 p_reg->IER_DLH.DLH = 0;
 	 p_reg->TCR &= ~(UART_UARTx_TCR_DLAB_DLLH_Enable << UART_UARTx_TCR_DLAB_Pos);
 }

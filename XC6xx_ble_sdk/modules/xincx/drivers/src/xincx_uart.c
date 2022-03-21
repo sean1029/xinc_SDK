@@ -168,7 +168,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 {
     printf("%s\r\n",__func__);
 
-    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_ETHEI_Msk | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
+    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk ;//| UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
 
     printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
             
@@ -199,8 +199,6 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                             XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-
- //   xc_uart_clk_init(p_instance->id,p_config->baudrate);
 
     XINC_CPR_CTL_Type * p_cpr = p_instance->p_cpr;
     uint8_t ch = p_instance->id;
@@ -342,6 +340,7 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
     err_code = XINCX_SUCCESS;
 
     tx_byte(p_instance->p_reg, p_cb);
+    
 
     if (p_cb->handler == NULL)
     {
@@ -358,6 +357,9 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
            
         }
         p_cb->tx_buffer_length = 0;
+    }else
+    {
+        p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_ETHEI_Msk;;
     }
 
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
@@ -572,7 +574,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
 
-    printf("IER:%x,IIR:%x\r\n",IER,IIR);
+   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;
@@ -668,6 +670,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
             }   
             if (p_cb->tx_buffer_length && (p_cb->tx_counter == tx_buffer_length))
             {
+                p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
             }
             
