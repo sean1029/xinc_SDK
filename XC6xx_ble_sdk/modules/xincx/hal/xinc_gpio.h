@@ -721,6 +721,7 @@ __STATIC_INLINE void xinc_gpio_cfg_output(uint32_t pin_number)
 
 __STATIC_INLINE void xinc_gpio_cfg_input(uint32_t pin_number, xinc_gpio_pin_pull_t pull_config)
 {
+    printf("%s pin_number:%d\r\n",__func__,pin_number);
     xinc_gpio_cfg(
         pin_number,
         XINC_GPIO_PIN_DIR_INPUT,

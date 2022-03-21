@@ -23,37 +23,11 @@ static const xinc_drv_i2c_t m_i2c = XINC_DRV_I2C_INSTANCE(I2C_INSTACE_ID);
 #define	I2C_SCL_M	2				//i2c SCL pin
 #define	I2C_SDA_M	3				//i2c SDA pin
 
-//#define  CHIP_AT24C01 1
-//#define  CHIP_AT24C02 2
-//#define  CHIP_AT24C04 4
-//#define  CHIP_AT24C08 8
-#define  CHIP_AT24C16 16
 
 #define AT24Cxx_ADDRESS		(0xA0 >> 1) // AT24C02 地址
 
 #define AT24Cxx_ADDRESS_LEN		1
 
-#if (CHIP_AT24C01)
-#define AT24Cxx_PAGESIZE        0x8
-#define AT24Cxx_ENDADDR         0x7F
-#define AT24Cxx_PAGENUM         16
-#elif (CHIP_AT24C02)
-#define AT24Cxx_PAGESIZE        0x8
-#define AT24Cxx_ENDADDR         0xFF
-#define AT24Cxx_PAGENUM         32
-#elif (CHIP_AT24C04)
-#define AT24Cxx_PAGESIZE        0x10
-#define AT24Cxx_ENDADDR         0x1FF
-#define AT24Cxx_PAGENUM         32
-#elif (CHIP_AT24C08)
-#define AT24Cxx_PAGESIZE        0x10
-#define AT24Cxx_ENDADDR         0x3FF
-#define AT24Cxx_PAGENUM         64
-#elif (CHIP_AT24C16)
-#define AT24Cxx_PAGESIZE        0x10
-#define AT24Cxx_ENDADDR         0x7FF
-#define AT24Cxx_PAGENUM         128
-#endif
 
 
 
@@ -134,7 +108,7 @@ ret_code_t AT24Cxx_write_byte(uint16_t WriteAddr,uint8_t dat)
     APP_ERROR_CHECK(err_code);
 
     //等待I2C 传输完成
-    //	while (false == m_xfer_done)
+    while (false == m_xfer_done)
     {
         __nop();
     }
@@ -184,7 +158,7 @@ ret_code_t AT24Cxx_write_page(uint8_t page,uint8_t const *pdata,uint8_t size)
 
     APP_ERROR_CHECK(err_code);
     //等待I2C 传输完成
-    //	while (false == m_xfer_done)
+    while (false == m_xfer_done)
     {
         __nop();
     }
