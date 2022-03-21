@@ -38,6 +38,16 @@ static xincx_rtc_handler_t m_AoTimehandlers[XINCX_RTC_ENABLED_COUNT];
 static xincx_rtc_cb_t      m_cb[XINCX_RTC_ENABLED_COUNT];
 static volatile uint8_t 						calibration_flag;
 
+static void xincx_rtc_clk_init(xincx_rtc_t const * const  p_instance,
+                         xincx_rtc_config_t const * p_config)
+{
+   //   	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x20002);   // RTC_PCLK 时钟使能：
+	//	__write_hw_reg32(CPR_AOCLKEN_GRCTL, 0x20002);       // RTC_CLK 时钟使能：
+    
+    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x20002;
+ //   p_instance->p_cpr->AOCLK
+}
+
 xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config,
                          xincx_rtc_handler_t        handler)

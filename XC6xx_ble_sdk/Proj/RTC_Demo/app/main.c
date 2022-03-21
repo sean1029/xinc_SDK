@@ -27,7 +27,6 @@
 #include "app_error.h"
 #include "app_timer.h"
 #include "bsp.h"
-#include "app_test.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -276,95 +275,79 @@ void stack_reset(void)
 }
 
 extern uint8_t con_flag;
-sbc_t sbc;
-#define BUF_SIZE 266
-//static unsigned char input[BUF_SIZE]; 
-//, output[BUF_SIZE + BUF_SIZE / 4];
 
-unsigned char output[57] = {
-0xad, 0x00, 0x00, 0x32, 0xfd, 0xcc, 0xbc, 0xbb, 0x7d, 0xdd, 0xad, 0x5f, 0x77, 0x6b, 0x58, 0x1d, 
-
-0xda, 0xd6, 0x16, 0x86, 0xb5, 0xaa, 0x99, 0x31, 0x6b, 0x66, 0x6b, 0x5a, 0x68, 0xdc, 0xc5, 0x10, 
-0xac, 0x92, 0x39, 0xb1, 0x8e, 0x16, 0x67, 0x6b, 0x55, 0xdd, 0xda, 0xd5, 0x97, 0x76, 0xb5, 0x6d, 
-0xdd, 0xad, 0x5d, 0x77, 0x6b, 0x57, 0xdd, 0xda, 0xd4
-};
-void sbc_enc_params_print(uint8_t *out_put,uint16_t len);
-
-uint32_t count_1,count_2,count_3;
 static btstack_timer_source_t sys_run_timer;
 
 #include "xc_kbs_event.h"
 #include "le_device_db.h"
 
+const xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance of xinc_drv_rtc for RTC0. */
 
-static void system_run_timer_handler(btstack_timer_source_t * ts){
-
-	static uint8_t on_off = 0;
-
-	static uint8_t ocpy_ratio = 10;
-   // printf("system_run_timer_handler\n");
-	ocpy_ratio++;
-//	g_sys_time++;
-	if(ocpy_ratio >= 99)
-	{
-		ocpy_ratio = 10;	
-	}
-	//xc_set_pwm(2,ocpy_ratio, 159);
-	if(on_off == 0)
-	{
-		
-		//GPIO_OUTPUT_HIGH(4);
-		bsp_board_led_on(0);
-		bsp_board_led_off(1);
-		on_off = 1;
-	//	led_value = xinc_gpio_pin_read(LED1);
-
-		
-	}else
-	{
-	
-		
-	//	GPIO_OUTPUT_LOW(4);
-		bsp_board_led_off(0);
-		bsp_board_led_on(1);
-		on_off = 0;
-	//	printf("LED1 ON\n");
-	}	
-	 btstack_run_loop_set_timer(ts, 500);
-   btstack_run_loop_add_timer(ts);
-
-}
-
-
-
-
-uint8_t buff1[320];
-uint8_t buff3[320];
-
-extern uint8_t list_handler_sched_flag;
-
-extern void extern_timer_list_handler(void);
-
-
-#include "bsp.h"
-
-
-#include "app_scheduler.h"
-// SCHEDULER CONFIGS
-#define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
-#define SCHED_QUEUE_SIZE                    10                                          //!< Size of the scheduler queue.
-
-static void scheduler_init(void)
+static void rtc_handler(xinc_drv_rtc_int_type_t int_type)
 {
-    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
+
+    xinc_rtc_time_t rtc_time_val;
+    uint8_t static led_state = 0;
+    if (int_type == XINCX_RTC_INT_SEC)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+        led_state = bsp_board_led_state_get(bsp_board_pin_to_led_idx(BSP_LED_0));
+        printf("led_state:%d\r\n",led_state);
+        bsp_board_led_invert(bsp_board_pin_to_led_idx(BSP_LED_0));
+            
+        printf("SEC:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+
+    }
+    else if (int_type == XINCX_RTC_INT_TIME1)
+    {
+        xinc_drv_rtc_date_get(&rtc,&rtc_time_val);
+            
+        printf("TIMER1:day:%d::week:%d hour:min:sec %d:%d:%d\r\n",rtc_time_val.day,rtc_time_val.week,rtc_time_val.hour,rtc_time_val.min,rtc_time_val.sec);
+    }
+
+
+}
+void rtc_test(void)
+{
+#if XINCX_CHECK(XINCX_RTC_ENABLED)
+    uint32_t err_code;
+
+    //Initialize RTC instance
+    xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
+    config.freq = 32768;
+    config.type = XINC_RTC_TYPE_RTC;
+    config.date.week = RTC_WVR_WLR_Monday;
+    config.date.day = 4;
+    config.date.hour = 18;
+    config.date.min = 34;
+    config.date.sec = 0;
+
+    err_code = xinc_drv_rtc_init(&rtc, &config, rtc_handler);
+    printf("%s,err_code:0x%x ",__func__,err_code);
+
+    xincx_rtc_match_config_t time;
+    memset(&time,0,sizeof(time));
+    time.times.sec = 20;
+    time.times.min = 0;
+    time.times.week = XINCX_RTC_WEEK_MATCH_SUNDAY | XINCX_RTC_WEEK_MATCH_MONDAY;
+    xinc_drv_rtc_time_set(&rtc,XINCX_RTC_MATCH_TIME_1,time,true);
+    //Power on RTC instance
+    xincx_rtc_enable(&rtc);
+    xinc_drv_rtc_sec_int_enable(&rtc,true);
+
+#endif
+	
 }
 
 
-
-
-
-
-void ff11_test_loop(void);
+/** @brief Function configuring gpio for pin toggling.
+ */
+static void leds_config(void)
+{
+    bsp_board_init(BSP_INIT_LEDS);
+  //  gpio_fun_sel(4,0);
+  //  gpio_direction_output(4);
+}
 
 
 
@@ -373,78 +356,13 @@ int	main(void)
 {
 
 
-	//ssize_t encoded;
-
-
-
-
 	set_bd_addr();
 
-//	printf("%s\r\n",__func__);
-	
-
-
-  ble_init((void *)&blestack_init);
+    ble_init((void *)&blestack_init);
 	key_init();
     xincx_gpio_init();
 	btstack_main();
-	scheduler_init();
-#if RTC_TEST_EN	
-	rtc_test();
-#endif	
-#if LOG_TEST_EN
-	log_test();
-#endif
-
-
-	app_timer_init();
-#if DRV_SPI_TEST_EN
- drv_spi_test();
-#endif
-
-#if DRV_I2C_TEST_EN
- drv_i2c_test();
-#endif
-//	  xincx_gpio_init();
-
-		gpio_direction_output(4);gpio_direction_output(5);
-		//log_init();
-	//app_button_init(app_buttons,2,50);
-	//	xinc_gpio_cfg_input(1, XINC_GPIO_PIN_PULLDOWN);
-  // xinc_gpio_cfg_input(0, XINC_GPIO_PIN_PULLDOWN);
-//		xinc_gpio_cfg_output(4);
-//    xinc_gpio_cfg_output(5);
-		#if BSP_BUTTON_TEST_EN
-	bsp_button_led_test();
-#endif
-#if DRV_UART_TEST_EN				
-		drv_uart_test();
-#endif
-
-#if DRV_TIMER_TEST_EN		
-		drv_timer_test();
-#endif
-
-#if DRV_WDT_TEST_EN	
-  drv_wdg_test();
-#endif
-
-
-
-#if APP_BUTTON_TEST_EN
-	app_button_test();
-#endif
-#if  DRV_PWM_TEST_EN
-	drv_pwm_test();
-#endif
-
-#if CLI_TEST_EN
-	cli_test();
-#endif
-
-#if DRV_SAADC_TEST_EN
-	drv_adc_test();
-#endif
+	//scheduler_init();
 
 
     // setup advertisements
@@ -460,105 +378,26 @@ int	main(void)
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
-	
-	
-#ifdef SBC_ENABLE
-	int codesize = 0;
-	sbc_init_msbc(&sbc, 0);
-	codesize = sbc_get_codesize(&sbc);
-#endif
+    
+    leds_config();
+    rtc_test();
 
-#if SBC_DECODER_EN
-	int framelen;
-	size_t decoded;
-	framelen = sbc_decode(&sbc, output, 57, input, 240, &decoded);
-	printf("decoded:%d,framelen:%d\n",decoded,framelen);
-	sbc_enc_params_print(input,240);
-#endif
-	sys_run_timer.process = &system_run_timer_handler;
-	btstack_run_loop_set_timer(&sys_run_timer, 100);
-	btstack_run_loop_add_timer(&sys_run_timer);
 	
     while(1) {
-			#if CLI_TEST_EN
-			cli_processt();	
-			#endif
-			
-			#if LOG_TEST_EN
-			 	log_flush();
-			#endif
+
        ble_mainloop();
 			
-			app_sched_execute();
-		//	ff11_test_loop();
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
 			 
-			 if(LastTimeGulSystickCount == 100)
-			 {
-			//	adc_config();
-			 }
-		//	 int16_t gadc_val;
-			 if(LastTimeGulSystickCount % 600 == 0)
-			 {
-			//	 xinc_drv_saadc_sample(8);
-				// xinc_saadc_sample_convert(8,&gadc_val);
-				// printf("gadc_val:%d\r\n",gadc_val);
-			 }
-			 
-			 if(LastTimeGulSystickCount % 600 == 300)
-			 {
-			//	 xinc_drv_saadc_sample(5);
-				// xinc_saadc_sample_convert(8,&gadc_val);
-				// printf("gadc_val:%d\r\n",gadc_val);
-			 }
-//			 
-//			 if(LastTimeGulSystickCount % 100 == 50)
-//			 {
-//					GPIO_OUTPUT_LOW(5);
-//			 }
-			
-		 //  key_press();
-			// xc620_kbs_scan();
 	   }		   
 
 
     }
 }
 
-#if 1
-void sbc_enc_params_print(uint8_t *out_put,uint16_t len)
-{
-	int i = 0;
-	for(i = 0;i < len; i++ )
-	{
-		printf("0x%02x, ",out_put[i]);
-		if(i % 16 == 15)
-		{
-			printf("\r\n");
-		}
-	}
-	printf("\r\n");	
-//	printf("s16SamplingFreq:%d\n",param.s16SamplingFreq);                         /* 16k, 32k, 44.1k or 48k*/
-//    printf("s16ChannelMode:%d\n",param.s16ChannelMode); ;                          /* mono, dual, streo or joint streo*/
-//    printf("s16NumOfSubBands:%d\n",param.s16NumOfSubBands) ;                        /* 4 or 8 */
-//    printf("s16NumOfChannels:%d\n",param.s16NumOfChannels) ;
-//    printf("s16NumOfBlocks:%d\n",param.s16NumOfBlocks) ;                          /* 4, 8, 12 or 16*/
-//    printf("s16AllocationMethod:%d\n",param.s16AllocationMethod) ;                     /* loudness or SNR*/
-//    printf("s16BitPool:%d\n",param.s16BitPool) ;                              /* 16*numOfSb for mono & dual;
-//                                                       32*numOfSb for stereo & joint stereo */
-//    printf("u16BitRate:%d\n",param.u16BitRate) ;
-//    printf("sbc_mode:%d\n",param.sbc_mode)  ;                                /* SBC_MODE_STD or SBC_MODE_MSBC */
-//    printf("u8NumPacketToEncode:%d\n",param.u8NumPacketToEncode)   ;                    /* number of sbc frame to encode. Default is 1 */
-
-//    printf("s16MaxBitNeed:%d\n",param.s16MaxBitNeed) ;
-//	printf("FrameHeader:0x%x\n",param.FrameHeader) ;
-	
-}
-
-#endif
 
 

@@ -31,7 +31,7 @@
 #include "app_timer.h"
 #include "bsp.h"
 
-#define CLI_TEST_EN 1
+#define CLI_TEST_EN 0
 
 #define LOG_TEST_EN 0
 

@@ -802,23 +802,15 @@ __STATIC_INLINE void xinc_gpio_pin_clear(uint32_t pin_number)
 
 __STATIC_INLINE void xinc_gpio_pin_toggle(uint32_t pin_number)
 {
-    XINC_GPIO_Type * reg        = xinc_gpio_pin_port_decode(&pin_number);
-	
-		uint8_t port = pin_number >> 4UL;
-    uint8_t reg_idx = pin_number & 0xFUL;
-
-    reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_High << GPIO_GPIO_PORT_DR_Pos) |
-													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
-	
-    reg->PORT_DR[port] = (((GPIO_GPIO_PORT_DR_Low << GPIO_GPIO_PORT_DR_Pos) |
-													(GPIO_GPIO_PORT_DR_WE_Enable << GPIO_GPIO_PORT_DR_WE_Pos)) << reg_idx);
-	
-
+    uint8_t val =  xinc_gpio_pin_out_read(pin_number);
+    xinc_gpio_pin_write(pin_number,!val);
+   
 }
 
 
 __STATIC_INLINE void xinc_gpio_pin_write(uint32_t pin_number, uint32_t value)
 {
+    printf("pin_write pin_number:%d,value:%d\r\n",pin_number,value);
     if (value == 0)
     {
         xinc_gpio_pin_clear(pin_number);

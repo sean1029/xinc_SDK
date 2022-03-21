@@ -357,6 +357,7 @@ typedef struct {                             /*!< (@ 0x40000000) CPR Structure  
   __IOM  uint32_t  CTLAPBCLKEN_GRCTL;          /*!< (@ 0x00000070) CTLAPBCLKEN_GRCTL  */ 
   __IOM  uint32_t  OTHERCLKEN_GRCTL;           /*!< (@ 0x00000074) OTHERCLKEN_GRCTL  */ 
   __IOM  uint32_t  I2C_CLK_CTL;                /*!< (@ 0x00000078) I2C_CLK_CTL  */ 
+  //CPR_AOCLKEN_GRCTL
   __IM   uint32_t  RESERVED4[17];
   __IOM  uint32_t  GPIO_FUN_SEL0;                /*!< (@ 0x000000C0) GPIO_FUNSEL0  */ 
   __IOM  uint32_t  GPIO_FUN_SEL1;                /*!< (@ 0x000000C4) GPIO_FUNSEL1  */ 
