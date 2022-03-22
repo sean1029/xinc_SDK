@@ -4,6 +4,9 @@
         "xinc_drv_twi.h": "c",
         "at24c02.h": "c",
         "xinc_drv_uart.h": "c",
-        "xc620610.h": "c"
+        "xc620610.h": "c",
+        "bsp_spi_flash.h": "c",
+        "platform.h": "c",
+        "bsp_gpio.h": "c"
     }
 }

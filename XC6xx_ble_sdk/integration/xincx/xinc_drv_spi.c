@@ -6,7 +6,7 @@
  * Author :sean cheng
  *
  */
-
+#include "bsp.h"
 #include "xinc_drv_spi.h"
 #if XINCX_CHECK(XINCX_SPIM_ENABLED)
 #ifdef SPIM_PRESENT
