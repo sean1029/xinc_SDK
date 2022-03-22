@@ -204,8 +204,9 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     uint8_t ch = p_instance->id;
     uint32_t	val;		
 
-    p_cpr->RSTCTL_CTLAPB_SW = (1<<(16+ch));
-    p_cpr->RSTCTL_CTLAPB_SW = ((1<<(16+ch))|(1<<ch));
+
+    p_cpr->RSTCTL_SUBRST_SW = (1<<(16+ch));
+    p_cpr->RSTCTL_SUBRST_SW = ((1<<(16+ch))|(1<<ch));
     
     val = p_cpr->LP_CTL;
     val &= ~(1<<(1-ch));
@@ -574,7 +575,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
 
-   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
+  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;
