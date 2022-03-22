@@ -4,6 +4,7 @@
 int main(void)
 {   
 	Init_gpio();
+    uint8_t cnt = 0;
     printf("test PWM");
     #if 0
     //参数：pwm口（0或1）,占空比设置（范围0--99），周期计数器设置影响pwm信号输出频率(输出频率=pwm_clk/((period + 1)*100))
@@ -29,24 +30,38 @@ int main(void)
     //比如要输出200HZ的频率 period=(1.6M/(200*100))-1=79
     //比如要输出(1000/6)HZ的频率 period=95
     //比如要输出100HZ的频率 period=(1.6M/(100*100))-1=159
-    gpio_fun_sel(GPIO_PIN_0,PWM0);//配置GPIO0复用成PWM0
-	gpio_fun_sel(GPIO_PIN_1,PWM1);//配置GPIO1复用成PWM1
-	xc_pwm_init(0,66,79);//初始化PWM0 -占空比百分之六十六 -输出频率200HZ
-	xc_pwm_init(1,77,79);//初始化PWM1 -占空比百分之六十六 -输出频率200HZ
+    gpio_fun_sel(GPIO_PIN_4,PWM0);//配置GPIO0复用成PWM0
+	gpio_fun_sel(GPIO_PIN_5,PWM1);//配置GPIO1复用成PWM1
+	xc_pwm_init(0,20,79);//初始化PWM0 -占空比百分之六十六 -输出频率200HZ
+	xc_pwm_init(1,80,79);//初始化PWM1 -占空比百分之六十六 -输出频率200HZ
+    uint32_t val;
+    __read_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,val);
+	printf("CPR_CTLAPBCLKEN_GRCTL val: 0x%x\r\n",val);
+    for(cnt = 1 ; cnt <= 99;cnt++)
+    {
+        for(int i=0;i<0x45500;i++);//延时1s
+        xc_pwm_init(0,(cnt)*1,79);//初始化PWM0 -占空比百分之六十六 -输出频率200HZ
+        xc_pwm_init(1,100 - (cnt)*1,79);//初始化PWM1 -占空比百分之六十六 -输出频率200HZ
+        printf("set:%d\r\n",cnt);
+        if(cnt == 99)
+        {
+            cnt = 1;
+        }            
+	
+    }
+	
+	
+//	gpio_fun_sel(GPIO_PIN_0,GPIO_Dx);//配置GPIO0复用成普通GPIO口
+//	gpio_fun_sel(GPIO_PIN_1,GPIO_Dx);//配置GPIO1复用成普通GPIO口
+//	gpio_direction_output(GPIO_PIN_0);//GPIO0配置成输出模式
+//	gpio_direction_output(GPIO_PIN_1);//GPIO1配置成输出模式
+//	gpio_output_high(GPIO_PIN_0);//GPIO0输出高电平
+//	gpio_output_high(GPIO_PIN_1);//GPIO1输出高电平
 	
 	for(int i=0;i<0x455000;i++);//延时1s
 	
-	gpio_fun_sel(GPIO_PIN_0,GPIO_Dx);//配置GPIO0复用成普通GPIO口
-	gpio_fun_sel(GPIO_PIN_1,GPIO_Dx);//配置GPIO1复用成普通GPIO口
-	gpio_direction_output(GPIO_PIN_0);//GPIO0配置成输出模式
-	gpio_direction_output(GPIO_PIN_1);//GPIO1配置成输出模式
-	gpio_output_high(GPIO_PIN_0);//GPIO0输出高电平
-	gpio_output_high(GPIO_PIN_1);//GPIO1输出高电平
-	
-	for(int i=0;i<0x455000;i++);//延时1s
-	
-	gpio_fun_sel(GPIO_PIN_0,PWM0);//配置GPIO0复用成PWM0
-	gpio_fun_sel(GPIO_PIN_1,PWM1);//配置GPIO1复用成PWM1
+//	gpio_fun_sel(GPIO_PIN_0,PWM0);//配置GPIO0复用成PWM0
+//	gpio_fun_sel(GPIO_PIN_1,PWM1);//配置GPIO1复用成PWM1
 	xc_set_pwm(GPIO_PIN_0,33,159);//-占空比百分之三十三 -输出频率100HZ
 	xc_set_pwm(GPIO_PIN_1,44,159);//-占空比百分之四十四 -输出频率100HZ
 	

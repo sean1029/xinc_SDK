@@ -192,10 +192,12 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         
         return err_code;
     }
-	
+	 printf("CTLAPBCLKEN_GRCTL 1 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
+ 
     p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x10001000;//PWM_PCLK ʱ��ʹ��
-
-    xinc_pwm_disable(p_instance->p_reg);
+     printf("CTLAPBCLKEN_GRCTL 2 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
+ 
+      xinc_pwm_disable(p_instance->p_reg);
 
     configure_pins(p_instance, p_config);
         
@@ -266,6 +268,7 @@ bool xincx_pwm_start(xincx_pwm_t const * const p_instance)
     {
         return false;
     }
+    printf("xincx_pwm_start\r\n");
     xinc_pwm_enable(p_instance->p_reg);
 
     return true;
@@ -398,7 +401,7 @@ static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq)
 	}
     period  = ((pwm_clk /  100 ) / freq ) - 1 ;
     //	period*=2;
-    printf("%s,pwm_clk:%d,period:%x,%d\r\n",__func__,pwm_clk,period,period);
+    printf("%s,pwm_clk:%d,period:0x%x,%d\r\n",__func__,pwm_clk,period,period);
 
     if(period > 0xFF)
     {

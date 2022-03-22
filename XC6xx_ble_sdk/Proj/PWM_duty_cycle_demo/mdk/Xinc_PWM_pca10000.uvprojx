@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>Xinc_ble_sdk</OutputName>
+          <OutputName>Xc6206xx_rtc</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -414,151 +414,9 @@
           <GroupName>application</GroupName>
           <Files>
             <File>
-              <FileName>battery_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\battery_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>device_information_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\device_information_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>hog_keyboard_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\hog_keyboard_demo.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>hids_device.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\hids_device.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>ble_idle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\ble_idle.c</FilePath>
-            </File>
-            <File>
-              <FileName>gatt_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\gatt_client.c</FilePath>
-            </File>
-            <File>
-              <FileName>voice_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\voice_ringbuf.c</FilePath>
-            </File>
-            <File>
-              <FileName>FF10_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\FF10_service_server.c</FilePath>
             </File>
             <File>
               <FileName>xc_kbs_event.c</FileName>
@@ -566,24 +424,9 @@
               <FilePath>..\app\xc_kbs_event.c</FilePath>
             </File>
             <File>
-              <FileName>hids_device_skyworth.c</FileName>
+              <FileName>AT24C02.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\hids_device_skyworth.c</FilePath>
-            </File>
-            <File>
-              <FileName>skyworth_RC_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\skyworth_RC_demo.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_cli.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\app_cli.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\app_test.c</FilePath>
+              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -660,6 +503,46 @@
           </GroupOption>
           <Files>
             <File>
+              <FileName>ble_idle.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\ble_idle.c</FilePath>
+            </File>
+            <File>
+              <FileName>gatt_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\gatt_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>hids_device_skyworth.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\hids_device_skyworth.c</FilePath>
+            </File>
+            <File>
+              <FileName>device_information_service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\device_information_service_server.c</FilePath>
+            </File>
+            <File>
+              <FileName>battery_service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\battery_service_server.c</FilePath>
+            </File>
+            <File>
+              <FileName>skyworth_RC_demo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\skyworth_RC_demo.c</FilePath>
+            </File>
+            <File>
+              <FileName>FF10_service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\FF10_service_server.c</FilePath>
+            </File>
+            <File>
+              <FileName>voice_ringbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\voice_ringbuf.c</FilePath>
+            </File>
+            <File>
               <FileName>rf_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\rf_driver.c</FilePath>
@@ -701,7 +584,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>bsp</GroupName>
+          <GroupName>Board Definition</GroupName>
+          <Files>
+            <File>
+              <FileName>boards.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\boards\boards.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Board Support</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\bsp\bsp.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Xinc_Drivers</GroupName>
           <Files>
             <File>
               <FileName>bsp_retarget.c</FileName>
@@ -719,231 +622,9 @@
               <FilePath>..\..\..\Bsp\bsp_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_spi_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_spi_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>test_spi0_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\test_spi0_flash.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>bsp_spi_master.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_spi_master.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <uGnu>2</uGnu>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>bsp_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_clk.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_i2c_master.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\I2C\bsp_i2c_master.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>sbc</GroupName>
-          <Files>
-            <File>
-              <FileName>sbc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_armv6.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_armv6.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_iwmmxt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_iwmmxt.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_mmx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_mmx.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_neon.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_neon.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>fds</GroupName>
-          <Files>
-            <File>
-              <FileName>app_util_poatform.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_atfifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic_fifo\xinc_atfifo.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_atomic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>fds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fds\fds.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>button</GroupName>
-          <Files>
-            <File>
-              <FileName>app_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\button\app_button.c</FilePath>
             </File>
             <File>
               <FileName>xincx_gpio.c</FileName>
@@ -951,9 +632,44 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>app_error.c</FileName>
+              <FileName>xinc_atomic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\util\app_error.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\xinc_drv_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_pwm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Xinc_Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>xinc_log_default_backends.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_util_poatform.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
               <FileName>app_error_weak.c</FileName>
@@ -961,20 +677,15 @@
               <FilePath>..\..\..\components\libraries\util\app_error_weak.c</FilePath>
             </File>
             <File>
-              <FileName>bsp.c</FileName>
+              <FileName>app_error.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\bsp\bsp.c</FilePath>
+              <FilePath>..\..\..\components\libraries\util\app_error.c</FilePath>
             </File>
             <File>
-              <FileName>boards.c</FileName>
+              <FileName>app_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\boards\boards.c</FilePath>
+              <FilePath>..\..\..\components\libraries\button\app_button.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>app_timer</GroupName>
-          <Files>
             <File>
               <FileName>app_timer.c</FileName>
               <FileType>1</FileType>
@@ -988,127 +699,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>uart</GroupName>
-          <Files>
-            <File>
-              <FileName>app_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xincx_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_uart_fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\uart\app_uart_fifo.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>cli</GroupName>
-          <Files>
-            <File>
-              <FileName>cli_utils_cmds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_cli.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\xinc_cli.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_cli_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_cli_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fprintf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\xinc_fprintf.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fprintf_format.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\xinc_fprintf_format.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\queue\xinc_queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_balloc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\balloc\xinc_balloc.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_memobj.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\ringbuf\xinc_ringbuf.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>spi</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_spim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_spim.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>i2c</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_strerror.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\strerror\xinc_strerror.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>AT24C02.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>log</GroupName>
+          <GroupName>Xinc_Log</GroupName>
           <Files>
             <File>
               <FileName>xinc_log_backend_uart.c</FileName>
@@ -1116,14 +707,9 @@
               <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_uart.c</FilePath>
             </File>
             <File>
-              <FileName>xinc_log_default_backends.c</FileName>
+              <FileName>xinc_log_backend_serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_log_frontend.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
             </File>
             <File>
               <FileName>xinc_log_str_formatter.c</FileName>
@@ -1131,59 +717,9 @@
               <FilePath>..\..\..\components\libraries\log\src\xinc_log_str_formatter.c</FilePath>
             </File>
             <File>
-              <FileName>xinc_log_backend_serial.c</FileName>
+              <FileName>xinc_log_frontend.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>adc</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_saadc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_saadc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>rtc</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_rtc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>timer</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>pwm</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_pwm.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>wdt</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_wdt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_wdt.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1734,30 +1270,25 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>battery_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\battery_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>device_information_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\device_information_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>hog_keyboard_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\hog_keyboard_demo.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\main.c</FilePath>
             </File>
             <File>
-              <FileName>hids_device.c</FileName>
+              <FileName>xc_kbs_event.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\hids_device.c</FilePath>
+              <FilePath>..\app\xc_kbs_event.c</FilePath>
             </File>
+            <File>
+              <FileName>AT24C02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ble</GroupName>
+          <Files>
             <File>
               <FileName>ble_idle.c</FileName>
               <FileType>1</FileType>
@@ -1769,24 +1300,19 @@
               <FilePath>..\app\gatt_client.c</FilePath>
             </File>
             <File>
-              <FileName>voice_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\voice_ringbuf.c</FilePath>
-            </File>
-            <File>
-              <FileName>FF10_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\FF10_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>xc_kbs_event.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\xc_kbs_event.c</FilePath>
-            </File>
-            <File>
               <FileName>hids_device_skyworth.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\hids_device_skyworth.c</FilePath>
+            </File>
+            <File>
+              <FileName>device_information_service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\device_information_service_server.c</FilePath>
+            </File>
+            <File>
+              <FileName>battery_service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\battery_service_server.c</FilePath>
             </File>
             <File>
               <FileName>skyworth_RC_demo.c</FileName>
@@ -1794,20 +1320,15 @@
               <FilePath>..\app\skyworth_RC_demo.c</FilePath>
             </File>
             <File>
-              <FileName>app_cli.c</FileName>
+              <FileName>FF10_service_server.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\app_cli.c</FilePath>
+              <FilePath>..\app\FF10_service_server.c</FilePath>
             </File>
             <File>
-              <FileName>app_test.c</FileName>
+              <FileName>voice_ringbuf.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\app_test.c</FilePath>
+              <FilePath>..\app\voice_ringbuf.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>ble</GroupName>
-          <Files>
             <File>
               <FileName>rf_driver.c</FileName>
               <FileType>1</FileType>
@@ -1831,76 +1352,27 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>bsp</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>0</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <uGnu>2</uGnu>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
+          <GroupName>Board Definition</GroupName>
+          <Files>
+            <File>
+              <FileName>boards.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\boards\boards.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Board Support</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\bsp\bsp.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Xinc_Drivers</GroupName>
           <Files>
             <File>
               <FileName>bsp_retarget.c</FileName>
@@ -1918,129 +1390,9 @@
               <FilePath>..\..\..\Bsp\bsp_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_spi_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_spi_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>test_spi0_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\test_spi0_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_spi_master.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_spi_master.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\bsp_uart.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_clk.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\Bsp\bsp_clk.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_i2c_master.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\I2C\bsp_i2c_master.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>sbc</GroupName>
-          <Files>
-            <File>
-              <FileName>sbc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_armv6.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_armv6.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_iwmmxt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_iwmmxt.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_mmx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_mmx.c</FilePath>
-            </File>
-            <File>
-              <FileName>sbc_primitives_neon.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\sbc\sbc_primitives_neon.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>fds</GroupName>
-          <Files>
-            <File>
-              <FileName>app_util_poatform.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_atfifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic_fifo\xinc_atfifo.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_atomic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fstorage_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_fstorage_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_flash.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fstorage\xinc_flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>fds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fds\fds.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>button</GroupName>
-          <Files>
-            <File>
-              <FileName>app_button.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\button\app_button.c</FilePath>
             </File>
             <File>
               <FileName>xincx_gpio.c</FileName>
@@ -2048,9 +1400,44 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>app_error.c</FileName>
+              <FileName>xinc_atomic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\util\app_error.c</FilePath>
+              <FilePath>..\..\..\components\libraries\atomic\xinc_atomic.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\xinc_drv_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_rtc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_pwm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Xinc_Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>xinc_log_default_backends.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_util_poatform.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\util\app_util_poatform.c</FilePath>
             </File>
             <File>
               <FileName>app_error_weak.c</FileName>
@@ -2058,20 +1445,15 @@
               <FilePath>..\..\..\components\libraries\util\app_error_weak.c</FilePath>
             </File>
             <File>
-              <FileName>bsp.c</FileName>
+              <FileName>app_error.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\bsp\bsp.c</FilePath>
+              <FilePath>..\..\..\components\libraries\util\app_error.c</FilePath>
             </File>
             <File>
-              <FileName>boards.c</FileName>
+              <FileName>app_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\boards\boards.c</FilePath>
+              <FilePath>..\..\..\components\libraries\button\app_button.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>app_timer</GroupName>
-          <Files>
             <File>
               <FileName>app_timer.c</FileName>
               <FileType>1</FileType>
@@ -2085,127 +1467,7 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>uart</GroupName>
-          <Files>
-            <File>
-              <FileName>app_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\uart\app_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xincx_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_uart_fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\uart\app_uart_fifo.c</FilePath>
-            </File>
-            <File>
-              <FileName>app_fifo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>cli</GroupName>
-          <Files>
-            <File>
-              <FileName>cli_utils_cmds.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\cli_utils_cmds.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_cli.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\xinc_cli.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_cli_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_cli_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fprintf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\xinc_fprintf.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_fprintf_format.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\external\fprintf\xinc_fprintf_format.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\queue\xinc_queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_balloc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\balloc\xinc_balloc.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_memobj.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\ringbuf\xinc_ringbuf.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>spi</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_spim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_spim.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>i2c</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_strerror.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\strerror\xinc_strerror.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>AT24C02.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>log</GroupName>
+          <GroupName>Xinc_Log</GroupName>
           <Files>
             <File>
               <FileName>xinc_log_backend_uart.c</FileName>
@@ -2213,14 +1475,9 @@
               <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_uart.c</FilePath>
             </File>
             <File>
-              <FileName>xinc_log_default_backends.c</FileName>
+              <FileName>xinc_log_backend_serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_default_backends.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_log_frontend.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
             </File>
             <File>
               <FileName>xinc_log_str_formatter.c</FileName>
@@ -2228,59 +1485,9 @@
               <FilePath>..\..\..\components\libraries\log\src\xinc_log_str_formatter.c</FilePath>
             </File>
             <File>
-              <FileName>xinc_log_backend_serial.c</FileName>
+              <FileName>xinc_log_frontend.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\log\src\xinc_log_backend_serial.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>adc</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_saadc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_saadc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>rtc</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_rtc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>timer</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>pwm</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_pwm.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>wdt</GroupName>
-          <Files>
-            <File>
-              <FileName>xincx_wdt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_wdt.c</FilePath>
+              <FilePath>..\..\..\components\libraries\log\src\xinc_log_frontend.c</FilePath>
             </File>
           </Files>
         </Group>

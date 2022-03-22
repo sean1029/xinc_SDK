@@ -573,7 +573,7 @@ void drv_pwm_test(void)
         .clk_src = XINC_PWM_CLK_SRC_32K,
         .ref_clk   = XINC_PWM_REF_CLK_8MHzOr8K,//XINC_PWM_REF_CLK_8MHz,//XINC_PWM_REF_CLK_32000Hz
         .frequency       = 2,
-        .duty_cycle   = 75,
+        .duty_cycle   = 25,
         .inv_delay   = XINC_PWMCOMPTIME_VAL_4clk,
         .inv_enable   = true,
         .start   = true
@@ -582,7 +582,7 @@ void drv_pwm_test(void)
         
     printf("freq_valid:%d\n",xinc_drv_pwm_freq_valid_range_check(config0.clk_src,config0.ref_clk,200));;
         
-	//	xinc_drv_pwm_start(&m_pwm0);
+		xinc_drv_pwm_start(&m_pwm0);
 	
     xinc_drv_pwm_config_t const config1 =
     {

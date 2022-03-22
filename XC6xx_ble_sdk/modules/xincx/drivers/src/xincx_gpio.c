@@ -373,7 +373,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         }
         else if((XINC_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
         {                       
-            gpio_mux_ctl(pin,13);		
+            gpio_mux_ctl(pin,3);		
         }
         
         switch(pin)
@@ -399,6 +399,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
                     err_code = XINCX_ERROR_INVALID_PARAM;
                 }else
                 {
+                   
                     gpio_mux_ctl(pin,0);
                     gpio_fun_sel(pin,fun);
                 }
