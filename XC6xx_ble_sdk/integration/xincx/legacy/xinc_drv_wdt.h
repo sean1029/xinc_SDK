@@ -32,11 +32,7 @@ typedef xincx_wdt_config_t xinc_drv_wdt_config_t;
 
 /** @brief Macro for forwarding the new implementation. */
 #define xinc_wdt_event_handler_t     xincx_wdt_event_handler_t
-/** @brief Macro for forwarding the new implementation. */
-#define xinc_drv_wdt_channel_id      xincx_wdt_channel_id
 
-/** @brief Macro for forwarding the new implementation. */
-#define xinc_drv_wdt_channel_alloc   xincx_wdt_channel_alloc
 /** @brief Macro for forwarding the new implementation. */
 #define xinc_drv_wdt_enable          xincx_wdt_enable
 /** @brief Macro for forwarding the new implementation. */

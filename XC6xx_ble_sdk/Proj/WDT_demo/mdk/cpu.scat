@@ -1,0 +1,27 @@
+;
+;
+
+LR_IROM1	0x10000000	
+{
+	EXE 0x10000000
+	{
+        startup_xinc.o (RESET, +FIRST)
+		
+		* (+RO)
+	}
+	
+	RW	+0X0000
+	{
+		* (+RW,+ZI)
+	}
+	
+	;log_constdata +0X0000
+	;{
+	;	* (+RW,+ZI)
+	;}
+
+		
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (128*1024 - 0X0000)) 
+	
+}
+

@@ -35,7 +35,7 @@ void WDT_Handler()
 void xincx_wdt_irq_handler(void)
 {
     uint32_t stat = XINC_WDT->STAT;
-    uint32_t icr = XINC_WDT->ICR;  
+    
 
     if(((stat & WDT_STAT_STAT_Msk )) >> WDT_STAT_STAT_Pos == WDT_STAT_STAT_Generated)
     {
@@ -119,7 +119,7 @@ void xincx_wdt_enable(void)
 void xincx_wdt_feed(void)
 {
     XINCX_ASSERT(m_state == XINCX_DRV_STATE_POWERED_ON);
-
+    uint32_t icr = XINC_WDT->ICR;  
     xinc_wdt_reload_request_set(WDT_CRR_CRR_Enable);
 }
 
