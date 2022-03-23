@@ -141,13 +141,14 @@ __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
 																			 uint8_t  duty_cycle)
 {
-    printf("xinc_pwm_configure period:%d,duty_cycle:%d\r\n",period,duty_cycle);
+ //   printf("xinc_pwm_configure period:%d,duty_cycle:%d\r\n",period,duty_cycle);
     //XINCX_ASSERT(top_value <= PWM_COUNTERTOP_COUNTERTOP_Msk);
-    p_reg->OCPY = (duty_cycle << PWM_OCPY_OCPY_RATIO_Pos) & PWM_OCPY_OCPY_RATIO_Msk ;
     p_reg->PERIOD = (period << PWM_P_PERIOD_Pos) & PWM_P_PERIOD_Msk;
-    p_reg->UP = (PWM_UP_UPDATE_Enable < PWM_UP_UPDATE_Pos) & PWM_UP_UPDATE_Msk;
+    p_reg->OCPY = (duty_cycle << PWM_OCPY_OCPY_RATIO_Pos) & PWM_OCPY_OCPY_RATIO_Msk ;
+   
+    p_reg->UP = (PWM_UP_UPDATE_Enable << PWM_UP_UPDATE_Pos) & PWM_UP_UPDATE_Msk;
     
-    printf("xinc_pwm_configure 0x%p,0x%p,0x%p, period:%d,duty_cycle:%d,UP:%d\r\n",&p_reg->OCPY,&p_reg->PERIOD,&p_reg->UP,p_reg->OCPY,p_reg->PERIOD,p_reg->UP);
+  //  printf("xinc_pwm_configure 0x%p,0x%p,0x%p, UP:%d,period:%d,duty_cycle:%d\r\n",&p_reg->UP,&p_reg->PERIOD,&p_reg->OCPY,p_reg->UP,p_reg->PERIOD,p_reg->OCPY);
 }
 
 
@@ -155,7 +156,6 @@ __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
 __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,xinc_pwm_clk_src_t clk_src,
                                              xinc_pwm_ref_clk_t ref_clk)
 {
-	
 	switch(clk_src)
 	{
 		case XINC_PWM_CLK_SRC_32M_DIV:

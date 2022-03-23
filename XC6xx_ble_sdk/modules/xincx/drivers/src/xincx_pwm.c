@@ -119,8 +119,8 @@ static xincx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm
     }
 
     return err_code;
-}
-                          
+}                        
+
 
 xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
                          xincx_pwm_config_t const * p_config,
@@ -131,6 +131,8 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
     xincx_err_t err_code = XINCX_SUCCESS;
 
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
+    
+    XINC_PWM_Type       *p_reg = p_instance->p_reg;
 
     if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
@@ -141,7 +143,6 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         return err_code;
     }
 
-    err_code = configure_pins(p_instance,p_config);
     if(err_code != XINCX_SUCCESS)
     {
         return err_code;
@@ -192,12 +193,11 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         
         return err_code;
     }
-	 printf("CTLAPBCLKEN_GRCTL 1 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
- 
+
     p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x10001000;//PWM_PCLK ʱ��ʹ��
-     printf("CTLAPBCLKEN_GRCTL 2 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
- 
-      xinc_pwm_disable(p_instance->p_reg);
+    printf("CTLAPBCLKEN_GRCTL 2 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
+
+    xinc_pwm_disable(p_instance->p_reg);
 
     configure_pins(p_instance, p_config);
         
@@ -223,7 +223,8 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
                                                 XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-    xinc_pwm_configure(p_instance->p_reg,period, p_config->duty_cycle);
+    xinc_pwm_configure(p_instance->p_reg,period, p_config->duty_cycle);//p_config->duty_cycle
+
     p_cb->period = period;
     p_cb->ocpy =  p_config->duty_cycle;
 
@@ -322,7 +323,7 @@ xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uin
     XINCX_ASSERT(new_duty <= 100);
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
 
-    if(new_duty >= 100)
+    if(new_duty > 100)
     {
         err_code = XINCX_ERROR_INVALID_PARAM;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",

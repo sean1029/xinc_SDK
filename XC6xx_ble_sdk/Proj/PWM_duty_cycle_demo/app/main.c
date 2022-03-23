@@ -306,7 +306,7 @@ static void scheduler_init(void)
 
 static xinc_drv_pwm_t m_pwm0 = XINC_DRV_PWM_INSTANCE(0);
 static xinc_drv_pwm_t m_pwm1 = XINC_DRV_PWM_INSTANCE(1);
-static uint8_t duty;
+static int8_t duty;
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
     ret_code_t err_code;
@@ -318,15 +318,15 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
              //检测按键 S1 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
-                //点亮 LED 指示灯 D1
-                duty-= 10;
-                if(duty <= 10)
+                //减少 pwm 的占空比
+                duty-= 5;
+                if(duty <= 0)
                 {
-                    duty = 10;
+                    duty = 0;
                 }
-                printf("pwm_duty_cycle_update0 :%d\r\n",duty);
+              //  printf("pwm_duty_cycle_update0 :%d\r\n",duty);
                 xinc_drv_pwm_duty_cycle_update(&m_pwm0,duty);
-                xinc_drv_pwm_duty_cycle_update(&m_pwm1,100-duty);
+
             }    
 
             
@@ -337,24 +337,20 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
              //检测按键 S2 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
-                //点亮 LED 指示灯 D2
-                duty+= 10;
+                //增加 pwm 的占空比
+                duty+= 5;
                 if(duty >= 100)
                 {
-                    duty = 90;
+                    duty = 100;
                 }
-                printf("pwm_duty_cycle_update1 :%d\r\n",duty);
+              //  printf("pwm_duty_cycle_update1 :%d\r\n",duty);
                 xinc_drv_pwm_duty_cycle_update(&m_pwm0,duty);
-                xinc_drv_pwm_duty_cycle_update(&m_pwm1,100 - duty);
+
             }    
-
-
-        
+   
         }break;
           
-       
-            
-
+                
         default:
             APP_ERROR_HANDLER(pin_no);
             break;
@@ -377,33 +373,26 @@ void pwm_duty_test()
 
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
-    
+//    
     APP_ERROR_CHECK(err_code);
     xinc_drv_pwm_config_t const config =
     {
-        .clk_src = XINC_PWM_CLK_SRC_32M_DIV,
-        .ref_clk   = XINC_PWM_REF_CLK_1MHzOr1K,
-        .frequency       = 2000,
-        .duty_cycle   = 10,
-        .start = true,
-        .inv_enable = false
+        .clk_src = XINC_PWM_CLK_SRC_32M_DIV,//使用32M 时钟源
+        .ref_clk   = XINC_PWM_REF_CLK_2MHzOr2K,//分频采用2M时钟作为pwm的参考时钟
+        .frequency       = 1000,//设定pwm脉冲的频率
+        .duty_cycle   = 50,//设置pwm 脉冲的占空比
+        .start = true,//初始化完成后自动启动
+        .inv_enable = true,//打开反向输出
+        .inv_delay = 3
     };
     
-    xinc_drv_pwm_config_t const config1 =
-    {
-        .clk_src = XINC_PWM_CLK_SRC_32M_DIV,
-        .ref_clk   = XINC_PWM_REF_CLK_1MHzOr1K,
-        .frequency       = 2000,
-        .duty_cycle   = 10,
-        .start = true,
-        .inv_enable = false
-    };
-    duty = 10;
-    xinc_drv_pwm_freq_valid_range_check(config.clk_src,config.ref_clk,2);;
+    duty = config.duty_cycle;
+    
+
+    //该函数用来检测设定的 pwm 频率是否在对应的时钟下能够产生
+    xinc_drv_pwm_freq_valid_range_check(config.clk_src,config.ref_clk,config.frequency);
     
     APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm0, &config, NULL));
-    
-    APP_ERROR_CHECK(xinc_drv_pwm_init(&m_pwm1, &config, NULL));
     
 }
 
