@@ -259,7 +259,6 @@ static void cli_read(xinc_cli_t const * p_cli,
 {
     ASSERT(p_cli && p_data);
     ASSERT(p_cli->p_iface);
-
     ret_code_t ret = p_cli->p_iface->p_api->read(p_cli->p_iface, p_data, length, p_cnt);
     UNUSED_VARIABLE(ret);
 }
@@ -2606,6 +2605,7 @@ static ret_code_t xinc_cli_instance_init(xinc_cli_t const * p_cli,
 #if defined(XINC_CLI_LOG_BACKEND) && XINC_CLI_LOG_BACKEND
     ((xinc_cli_log_backend_t *)p_cli->p_log_backend->p_ctx)->p_cli = p_cli;
 #endif
+     printf("cli_instance_init\r\n");
     ret_code_t ret = p_cli->p_iface->p_api->init(p_cli->p_iface,
                                                  p_config,
                                                  cli_transport_evt_handler,

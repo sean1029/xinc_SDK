@@ -30,6 +30,8 @@ static ret_code_t rx_try(xinc_cli_uart_internal_t * p_internal)
     uint8_t *  p_data;
 //		printf("rx_try\r\n ");
     err_code = xinc_ringbuf_alloc(p_internal->p_rx_ringbuf, &p_data, &len, true);
+    
+//    printf("rx_try ringbuf_alloc err_code:%d;len:%d\r\n",err_code,len);
 
     ASSERT(err_code == XINC_SUCCESS);
 		
@@ -55,7 +57,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context
     UNUSED_VARIABLE(err_code);
     uint8_t * p_data;
     size_t len = 255;
-//		printf("uart_event_handler type:%d\r\n ",p_event->type);
+	//	printf("uart_event_handler type:%d\r\n ",p_event->type);
     switch (p_event->type)
     {
         case XINC_DRV_UART_EVT_ERROR:
@@ -125,8 +127,8 @@ static ret_code_t cli_uart_init(xinc_cli_transport_t const * p_transport,
                                 void *                      p_context)
 {
 	
-		printf("%s\r\n",__func__);
-		XINC_LOG_INFO("cli_uart_init");
+	printf("%s\r\n",__func__);
+	XINC_LOG_INFO("cli_uart_init");
     xinc_cli_uart_internal_t * p_internal =
                                        CONTAINER_OF(p_transport,
                                                     xinc_cli_uart_internal_t,
@@ -221,18 +223,15 @@ static ret_code_t cli_uart_read(xinc_cli_transport_t const * p_transport,
                                 size_t                      length,
                                 size_t *                    p_cnt)
 {
-	//	printf("cli_uart_read\r\n");
     ASSERT(p_cnt);
     xinc_cli_uart_internal_t * p_instance =
                                  CONTAINER_OF(p_transport, xinc_cli_uart_internal_t, transport);
 
     *p_cnt = length;
     ret_code_t err_code = xinc_ringbuf_cpy_get(p_instance->p_rx_ringbuf, p_data, p_cnt);
-		if(err_code == 0)
-		{
-	//		xinc_ringbuf_free(p_instance->p_rx_ringbuf,*p_cnt);
-		}
-//		ret_code_t err_code = xinc_ringbuf_get(p_instance->p_rx_ringbuf, p_data, p_cnt,true);
+    
+   // printf("cli_uart_read err_code:0x%x\r\n",err_code);
+
     if (*p_cnt)
     {
      //   XINC_LOG_INFO("id:%d, read:%d", p_instance->p_uart->inst_idx, *p_cnt);

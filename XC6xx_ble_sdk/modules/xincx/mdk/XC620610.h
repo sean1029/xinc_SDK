@@ -148,6 +148,7 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
   __IOM  uint32_t  MCR;
   __IM  uint32_t  TSR;               
   __IM  uint32_t  MSR;
+    __IM  uint32_t  RESERVED4[24];
   __IM  uint32_t  USR;
 
 } XINC_UART_Type;  

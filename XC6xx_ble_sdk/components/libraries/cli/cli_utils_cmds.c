@@ -20,7 +20,7 @@ static void cmd_reset(xinc_cli_t const * p_cli, size_t argc, char **argv)
     }
 
 //    NVIC_SystemReset();
-		printf("cmd_reset\r\n");
+	xinc_cli_print(p_cli, "rcv cmd_led_on led_idx:%d",);
 }
 
 

@@ -20,8 +20,10 @@
 #include "bsp_register_macro.h"
 #include "bsp_clk.h"
 #include "bsp_uart.h"
+#include "xinc_delay.h"
 #define XINCX_LOG_MODULE UART
 #include <xincx_log.h>
+
 
 #define EVT_TO_STR(event) \
     (event == XINC_UART_EVENT_ERROR ? "XINC_UART_EVENT_ERROR" : \
@@ -96,11 +98,25 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         }
         
     }
-    printf("baudrate_set:%d\r\n",p_config->baudrate);
-
-    xinc_uart_baudrate_set(p_instance->p_reg, p_config->baudrate);
-
+    printf("baudrate_set:%d,busy:0x%p,%d\r\n",p_config->baudrate,&p_instance->p_reg->USR,p_instance->p_reg->USR);
     printf("parity:%d\r\n",p_config->parity);
+    printf("data bits:%d\r\n",p_config->data_bits);
+    printf("stop bits:%d\r\n",p_config->stop_bits);
+    while(p_instance->p_reg->USR == 1)
+    {
+      //  printf("wait0\r\n");
+        xinc_delay_ms(10);
+    }
+  
+    xinc_uart_baudrate_set(p_instance->p_reg, p_config->baudrate);
+    
+    
+    while(p_instance->p_reg->USR == 1)
+    {
+      //  printf("wait1\r\n");
+        xinc_delay_ms(10);
+    }
+   
     //  xinc_uart_configure
     if(p_config->parity == XINC_UART_PARITY_INCLUDED)//奇偶校验使能位：
     {
@@ -113,7 +129,11 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
         p_instance->p_reg->TCR &= ~(UART_UARTx_TCR_PEN_Msk);
     }
 
-    printf("hwfc:%d\r\n",p_config->hwfc);
+ //   printf("hwfc:%d\r\n",p_config->hwfc);
+    while(p_instance->p_reg->USR == 1)
+    {
+        xinc_delay_ms(10);
+    }
     if(p_config->hwfc == XINC_UART_HWFC_ENABLED)
     {
         p_instance->p_reg->MCR |= (UART_UARTx_MCR_AFCE_Enable << UART_UARTx_MCR_AFCE_Pos);
@@ -123,17 +143,27 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
     }
 
 
-    printf("data bits:%d\r\n",p_config->data_bits);
-    printf("stop bits:%d\r\n",p_config->stop_bits);
     //设置data bits
+    while(p_instance->p_reg->USR == 1)
+    {
+         xinc_delay_ms(10);
+    }
     p_instance->p_reg->TCR &= ~(UART_UARTx_TCR_CLS_Msk); 
     p_instance->p_reg->TCR |= ((p_config->data_bits << UART_UARTx_TCR_CLS_Pos) & UART_UARTx_TCR_CLS_Msk);
-
+   //  printf("TCR0:0x%p,0x%x\r\n",&p_instance->p_reg->TCR,p_instance->p_reg->TCR);
+    while(p_instance->p_reg->USR == 1)
+    {
+         xinc_delay_ms(10);
+    }
     //设置stop bits
     p_instance->p_reg->TCR &= ~(UART_UARTx_TCR_STOP_Msk);  
     p_instance->p_reg->TCR |= ((p_config->stop_bits << UART_UARTx_TCR_STOP_Pos) & UART_UARTx_TCR_STOP_Msk);
 
-    printf("TCR:%x\r\n",p_instance->p_reg->TCR);
+ //   printf("TCR1:%x\r\n",p_instance->p_reg->TCR);
+    while(p_instance->p_reg->USR == 1)
+    {
+        xinc_delay_ms(10);
+    }
     // FIFO 控制
     //    p_instance->p_reg->IIR_FCR.FCR = 0XB7;
     p_instance->p_reg->IIR_FCR.FCR =    (UART_UARTx_FCR_RCVR_Trigger_FIFO_2_1 << UART_UARTx_FCR_RCVR_Trigger_Pos) |
@@ -168,7 +198,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 {
     printf("%s\r\n",__func__);
 
-    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk ;//| UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
+    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;// | UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
 
     printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
             
@@ -181,7 +211,6 @@ static void interrupts_disable(xincx_uart_t const * p_instance)
     XINCX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
-
 xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler)
@@ -189,7 +218,7 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     XINCX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     xincx_err_t err_code = XINCX_SUCCESS;
-    printf("%s,inst_idx:%d,state:%d\r\n",__func__,p_instance->drv_inst_idx,p_cb->state);
+    printf("%s,id:%d,inst_idx:%d,state:%d\r\n",__func__,p_instance->id,p_instance->drv_inst_idx,p_cb->state);
     // printf("XINC_UART_Type size :%d\r\n",sizeof(XINC_UART_Type));
     if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
@@ -241,17 +270,20 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     p_cb->handler   = event_handler;
     p_cb->p_context = p_config->p_context;
 
-    if (p_cb->handler)
-    {
-        interrupts_enable(p_instance, p_config->interrupt_priority);
-    }
-
+   
     xinc_uart_enable(p_instance->p_reg);
     p_cb->rx_buffer_length           = 0;
     p_cb->rx_secondary_buffer_length = 0;
     p_cb->rx_enabled                 = false;
     p_cb->tx_buffer_length           = 0;
     p_cb->state                      = XINCX_DRV_STATE_INITIALIZED;
+    
+    xinc_delay_ms(100);
+     if (p_cb->handler)
+    {
+        interrupts_enable(p_instance, p_config->interrupt_priority);
+    }
+
     XINCX_LOG_WARNING("Function: %s, error code: %s.",
                         __func__,
                         XINCX_LOG_ERROR_STRING_GET(err_code));
@@ -575,7 +607,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
 
-  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
+   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;
@@ -604,7 +636,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
 
         rx_byte(p_uart, p_cb);
 
-        //  printf("rx_counter:%d,rx_buffer_length:%d\r\n",p_cb->rx_counter,p_cb->rx_buffer_length);
+         // printf("rx_counter:%d,rx_buffer_length:%d\r\n",p_cb->rx_counter,p_cb->rx_buffer_length);
         if (p_cb->rx_buffer_length == p_cb->rx_counter)
         {
             if (p_cb->rx_secondary_buffer_length)
@@ -654,28 +686,41 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
         // in one statement.
         size_t const tx_buffer_length = p_cb->tx_buffer_length;
         //	printf("tx:%d,%d\r\n",p_cb->tx_counter,tx_buffer_length);
-     
-         {
-            while (p_cb->tx_counter < tx_buffer_length && !p_cb->tx_abort)
+        
+        if (p_cb->tx_counter < tx_buffer_length && !p_cb->tx_abort)
+        {
+            tx_byte(p_uart, p_cb);
+        }
+        else
+        {
+          //  nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
+            if (p_cb->tx_buffer_length)
             {
-                if(!xinc_uart_event_check(p_uart, XINC_UART_EVENT_TXDRDY))
-                {
-                    tx_byte(p_uart, p_cb);
-                }
-                else
-                {
-                  //  printf("break\r\n");
-                    break;
-                }
-                
-            }   
-            if (p_cb->tx_buffer_length && (p_cb->tx_counter == tx_buffer_length))
-            {
-                p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
             }
-            
         }
+     
+//         {
+//            while (p_cb->tx_counter < tx_buffer_length && !p_cb->tx_abort)
+//            {
+//                if(!xinc_uart_event_check(p_uart, XINC_UART_EVENT_TXDRDY))
+//                {
+//                    tx_byte(p_uart, p_cb);
+//                }
+//                else
+//                {
+//                  //  printf("break\r\n");
+//                    break;
+//                }
+//                
+//            }   
+//            if (p_cb->tx_buffer_length && (p_cb->tx_counter == tx_buffer_length))
+//            {
+//                p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
+//                tx_done_event(p_cb, p_cb->tx_buffer_length);
+//            }
+//            
+//        }
     }
     (void)IER;
 }

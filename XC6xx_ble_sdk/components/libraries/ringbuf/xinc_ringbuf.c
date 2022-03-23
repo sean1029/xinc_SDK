@@ -39,7 +39,7 @@ ret_code_t xinc_ringbuf_alloc(xinc_ringbuf_t const * p_ringbuf, uint8_t * * pp_d
     if (p_ringbuf->p_cb->tmp_wr_idx - p_ringbuf->p_cb->rd_idx == p_ringbuf->bufsize_mask + 1)
     {
         *p_length = 0;
-        printf("ringbuf_alloc :%d,\r\n",start);
+        
         if (start)
         {
             UNUSED_RETURN_VALUE(xinc_atomic_flag_clear(&p_ringbuf->p_cb->wr_flag));
