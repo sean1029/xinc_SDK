@@ -309,7 +309,6 @@ static xinc_drv_pwm_t m_pwm1 = XINC_DRV_PWM_INSTANCE(1);
 static int8_t duty;
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
-    ret_code_t err_code;
 
     switch (pin_no)
     {
@@ -414,7 +413,7 @@ int	main(void)
     app_timer_init();
     xincx_gpio_init();
 	btstack_main();
-    key_init();
+  //  key_init();
 
     // setup advertisements
     uint16_t adv_int_min = 0x0030;

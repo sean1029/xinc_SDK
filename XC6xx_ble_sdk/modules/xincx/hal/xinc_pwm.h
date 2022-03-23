@@ -160,12 +160,12 @@ __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,x
 	{
 		case XINC_PWM_CLK_SRC_32M_DIV:
 		{
-			p_reg->PWM_CLK_CTL = (1 << ref_clk) - 1 ;
+			p_reg->PWM_CLK_CTL = (1UL << ref_clk) - 1UL ;
 		}break;
 		
 		case XINC_PWM_CLK_SRC_32K_DIV:
 		{
-			p_reg->PWM_CLK_CTL = ((1 << ref_clk) - 1) | (XINC_PWM_CLK_SRC_32K_DIV << 28UL) ;
+			p_reg->PWM_CLK_CTL = ((1UL << ref_clk) - 1UL) | (XINC_PWM_CLK_SRC_32K_DIV << 28UL) ;
 		}break;
 		
 		case XINC_PWM_CLK_SRC_32K:
@@ -177,7 +177,7 @@ __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,x
 			break;
 	
 	}
-	p_reg->PWM_CLK_CTL |= ((unsigned int)(1 << 31UL));
+	p_reg->PWM_CLK_CTL |= ((unsigned int)(1UL << 31UL));
 
 	printf("pwm clock id:%d, addr=[%p],val=[0x%x],ref_clk=[%d]\n",id,&p_reg->PWM_CLK_CTL,p_reg->PWM_CLK_CTL,ref_clk);
 }

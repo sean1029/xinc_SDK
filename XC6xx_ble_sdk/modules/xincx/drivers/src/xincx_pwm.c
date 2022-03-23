@@ -36,6 +36,8 @@ typedef struct
 } pwm_control_block_t;
 static pwm_control_block_t m_cb[XINCX_PWM_ENABLED_COUNT];
 
+static uint32_t xincx_pwm_clk_init_state = XINCX_DRV_STATE_UNINITIALIZED;
+
 static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq);
 
 static xincx_err_t configure_pins(xincx_pwm_t const * const p_instance,xincx_pwm_config_t const * p_config)
@@ -132,7 +134,6 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
 
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     
-    XINC_PWM_Type       *p_reg = p_instance->p_reg;
 
     if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
@@ -194,7 +195,18 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         return err_code;
     }
 
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x10001000;//PWM_PCLK ʱ��ʹ��
+    //因为pwm 各路输出采用的是一个时钟源，因此时钟只需要初始化一次
+    if(xincx_pwm_clk_init_state == XINCX_DRV_STATE_UNINITIALIZED)
+    {
+        //  p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x10001000;//打开pwm pclk 时钟
+        p_instance->p_cpr->CTLAPBCLKEN_GRCTL = (CPR_CTLAPBCLKEN_GRCTL_PWM_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_PWM_PCLK_EN_Pos) |
+                                               (CPR_CTLAPBCLKEN_GRCTL_PWM_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
+        //复位pwm模块
+        p_instance->p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Pos)  |
+                                               (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);                           
+        xincx_pwm_clk_init_state = XINCX_DRV_STATE_INITIALIZED;
+    }   
+  
     printf("CTLAPBCLKEN_GRCTL 2 addr =0x%p,value:0x%x\r\n", &p_instance->p_cpr->CTLAPBCLKEN_GRCTL,p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
 
     xinc_pwm_disable(p_instance->p_reg);

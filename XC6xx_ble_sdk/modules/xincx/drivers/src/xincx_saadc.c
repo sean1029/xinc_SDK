@@ -164,17 +164,22 @@ static void xincx_saadc_irq_handler(XINC_SAADC_Type * p_reg,xincx_saadc_cb_t * p
     p_cb->buffer_size = gadc_count;
     p_cb->event_handler(&evt);
 }
+static void xincx_saadc_clk_init(xincx_saadc_t const * const  p_instance,
+                         xincx_saadc_config_t const * p_config)
+{
+    XINC_CPR_CTL_Type   *p_cpr = p_instance->p_cpr;
+    p_cpr->RSTCTL_CTLAPB_SW = 0x10000000;
+    p_cpr->RSTCTL_CTLAPB_SW = 0x10001000;
+    p_cpr->CTLAPBCLKEN_GRCTL = 0x20002000;
 
+}
 
 xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
                             xincx_saadc_config_t const * p_config,
                            xincx_saadc_event_handler_t  event_handler)
 {
 
-    XINC_CPR_CTL_Type   *p_cpr = p_instance->p_cpr;
-    p_cpr->RSTCTL_CTLAPB_SW = 0x10000000;
-    p_cpr->RSTCTL_CTLAPB_SW = 0x10001000;
-    p_cpr->CTLAPBCLKEN_GRCTL = 0x20002000;
+
     
     xincx_err_t err_code = XINCX_SUCCESS;
     xincx_saadc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
@@ -188,7 +193,8 @@ xincx_err_t xincx_saadc_init(xincx_saadc_t const * const p_instance,
                                             XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-            
+
+    xincx_saadc_clk_init(p_instance,p_config);  
 
     p_cb->event_handler = event_handler;
 

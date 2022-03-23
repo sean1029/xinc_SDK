@@ -450,10 +450,10 @@ typedef struct {                                /*!< (@ 0x40002400) CPR AO Struc
     __IOM uint32_t  PU_CTRL1;  /*!< (@ 0x00000034) CPR AO  GPIO PU Ctrl */
     __IOM uint32_t  PE_CTRL2;  /*!< (@ 0x00000038) CPR AO  GPIO PE Ctrl */
 
-    __IM  uint32_t  RESERVED03[20]; 
+    __IM  uint32_t  RESERVED03[16]; 
     __IOM uint32_t  AOCLKEN_GRCTL;  /*!< (@ 0x0000007C) AO 域时钟使能寄存器     */
 
-    __IM  uint32_t  RESERVED04[63]; 
+    __IM  uint32_t  RESERVED04[51]; 
     __IOM uint32_t  CTL_CLK32K;  /*!< (@ 0x0000014C) 32K 时钟配置寄存器     */
 
     __IM  uint32_t  RESERVED05[1]; 

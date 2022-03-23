@@ -151,7 +151,17 @@ xincx_err_t xincx_gpio_init(void)
         printf("Function: %s,error code:0x%x\r\n ", __func__,err_code);
         return err_code;
     }
+    XINC_CPR_CTL_Type * p_cpr            = XINC_CPR;
     
+    p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos) |
+                               (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
+  
+    p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Enable <<  CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Pos) | 
+                                (CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
+    
+    p_cpr->OTHERCLKEN_GRCTL =   (CPR_OTHERCLKEN_GRCTL_GPIO_CLK_EN_Enable <<  CPR_OTHERCLKEN_GRCTL_GPIO_CLK_EN_Pos) | 
+                                (CPR_OTHERCLKEN_GRCTL_GPIO_CLK_EN_Msk << CPR_OTHERCLKEN_GRCTL_MASK_OFFSET);
+
     uint8_t i;
 
     for (i = 0; i < MAX_PIN_NUMBER; i++)
@@ -310,7 +320,7 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
         }
         else
         {
-         err_code = XINCX_ERROR_NO_MEM;
+            err_code = XINCX_ERROR_NO_MEM;
         }
 
     }
@@ -430,7 +440,7 @@ void xincx_gpio_irq_handler(void)
     gpio_regs[0]->INTR_CLR[0] = status[0];
 		
         
-    /* collect status of all GPIOTE pin events. Processing is done once all are collected and cleared.*/
+    /* collect status of all GPIO pin events. Processing is done once all are collected and cleared.*/
         /* Process pin events. */
     if (status[0])
     {

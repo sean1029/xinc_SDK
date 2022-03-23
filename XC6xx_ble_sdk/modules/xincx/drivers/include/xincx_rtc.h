@@ -68,7 +68,8 @@ typedef enum
 typedef struct
 {
     XINC_RTC_Type  * p_reg;            /**< Pointer to instance register set. */
-    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers. 
+    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
+    XINC_CPR_AO_CTL_Type *p_cprAO; 		///< Pointer to a structure with CPR registers.    
     uint8_t         instance_id;      /**< Index of the driver instance. For internal use only. */
     uint8_t         id; /**< Number of capture/compare channels. */
 } xincx_rtc_t;
@@ -80,6 +81,7 @@ typedef struct
 {                                                               \
     .p_reg          = XINCX_CONCAT_2(XINC_RTC, Id),              \
     .p_cpr          = XINC_CPR,                                 \
+    .p_cprAO        = XINC_CPR_AO,                              \
     .instance_id    = XINCX_CONCAT_3(XINCX_RTC, Id, _INST_IDX),  \
     .id             = Id,                                       \
 }

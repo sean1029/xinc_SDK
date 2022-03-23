@@ -80,6 +80,42 @@ typedef struct
 
 static spim_control_block_t m_cb[XINCX_SPIM_ENABLED_COUNT];
 
+
+static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
+                         xincx_spim_config_t const * p_config)
+{
+    uint32_t    val;
+    uint8_t ch = p_instance->id;
+    val = p_instance->p_cpr->SSI_CTRL;
+    if(ch == 0)
+    {
+        // *SSI_MCLK_CTL_Base = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+        p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI0_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
+                                             ((CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_WE);
+
+        val |= (CPR_SSI_CTRL_SSI0_PROTOCOL_SPI << CPR_SSI_CTRL_SSI0_PROTOCOL_Pos);
+
+    }else
+    {
+        p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI0_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
+                                            ((CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_WE);
+
+        val |= (CPR_SSI_CTRL_SSI1_PROTOCOL_SPI << CPR_SSI_CTRL_SSI1_PROTOCOL_Pos) | (CPR_SSI_CTRL_SSI1_MASTER_EN_Master << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos);
+
+    }
+
+
+    //(0x1000100 << ch);         
+    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
+                                        (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) <<ch; 
+    p_instance->p_cpr->SSI_CTRL = val;
+
+
+
+
+   
+}
+
 xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
                           xincx_spim_config_t const * p_config,
                           xincx_spim_evt_handler_t    handler,
@@ -112,7 +148,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     //   0 - for modes 0 and 1 (CPOL = 0), 1 - for modes 2 and 3 (CPOL = 1);
     //   according to the reference manual guidelines this pin and its input
     //   buffer must always be connected for the SPI to work.
-    xinc_spim_disable(p_spim);
+   
     if(p_instance->id != 0)
     {
         if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
@@ -193,17 +229,19 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 
 
 	
-    uint32_t    val;
-    uint8_t ch = p_instance->id;
-    volatile uint32_t *Spim0CtlBaseAddr = (uint32_t*)&(p_instance->p_cpr->SSI0_MCLK_CTL);
-    Spim0CtlBaseAddr+=ch;
+    // uint32_t    val;
+    // uint8_t ch = p_instance->id;
+    // volatile uint32_t *Spim0CtlBaseAddr = (uint32_t*)&(p_instance->p_cpr->SSI0_MCLK_CTL);
+    // Spim0CtlBaseAddr+=ch;
     
-    *Spim0CtlBaseAddr = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = (0x1000100 << ch);
+    // *Spim0CtlBaseAddr = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
+    // p_instance->p_cpr->CTLAPBCLKEN_GRCTL = (0x1000100 << ch);
         
-    val = p_instance->p_cpr->SSI_CTRL;
-    val |= (ch==0)? 0x01: 0x30;
-    p_instance->p_cpr->SSI_CTRL = val;
+    // val = p_instance->p_cpr->SSI_CTRL;
+    // val |= (ch==0)? 0x01: 0x30;
+    // p_instance->p_cpr->SSI_CTRL = val;
+
+    xincx_spim_clk_init(p_instance,p_config);
     
     // DMA 通道和外设使用是固定绑定关系的，因此此处不能做修改，对应中断处理里也就固定其检测值
     if(ch == 0)
@@ -218,7 +256,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         p_cb->tx_dma_ch = 3;
     }
 		
-
+    xinc_spim_disable(p_spim);
     printf("p_spim:%p\n",p_spim); 
 
     printf("CTRL0:%p,0x%x\n",&(p_spim->CTRL0),p_spim->CTRL0); 

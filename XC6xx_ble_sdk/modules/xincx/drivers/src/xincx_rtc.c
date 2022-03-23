@@ -41,11 +41,12 @@ static volatile uint8_t 						calibration_flag;
 static void xincx_rtc_clk_init(xincx_rtc_t const * const  p_instance,
                          xincx_rtc_config_t const * p_config)
 {
-   //   	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL, 0x20002);   // RTC_PCLK 时钟使能：
-	//	__write_hw_reg32(CPR_AOCLKEN_GRCTL, 0x20002);       // RTC_CLK 时钟使能：
-    
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = 0x20002;
- //   p_instance->p_cpr->AOCLK
+    // RTC_PCLK 浣胯兘
+    p_instance->p_cpr->CTLAPBCLKEN_GRCTL    =   (CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Pos) |
+                                                (CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
+    // RTC_CLK 浣胯兘
+    p_instance->p_cprAO->AOCLKEN_GRCTL      =   (CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Enable << CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Pos) |
+                                                (CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Msk << CPR_AOCLKEN_GRCTL_MASK_OFFSET);                                           
 }
 
 xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
@@ -61,12 +62,13 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
     if(p_config->type == XINC_RTC_TYPE_AOTIME)
     {              
         m_AoTimehandlers[p_instance->instance_id] = handler;
-        xc_rtc_clk_init();
+        xincx_rtc_clk_init(p_instance,p_config);
         XINCX_IRQ_ENABLE(RTC_IRQn);
 
         return err_code;
     } 
 
+	
     if (m_cb[p_instance->instance_id].state != XINCX_DRV_STATE_UNINITIALIZED)
     {
         err_code = XINCX_ERROR_INVALID_STATE;
@@ -83,7 +85,8 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
         return err_code;
     }
 	
-    xc_rtc_clk_init();
+   // xc_rtc_clk_init();
+    xincx_rtc_clk_init(p_instance,p_config);
     uint32_t icr_en;
     icr_en =    (RTC_ICR_DaE_Disable << RTC_ICR_DaE_Pos)|
                 (RTC_ICR_HoE_Disable << RTC_ICR_HoE_Pos)|

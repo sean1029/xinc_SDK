@@ -131,17 +131,25 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
     p_cb->busy            = false;
     p_cb->hold_bus_uninit = p_config->hold_bus_uninit;
 
-    /* To secure correct signal levels on the pins used by the I2C
-       master when the system is in OFF mode, and when the I2C master is
-       disabled, these pins must be configured in the GPIO peripheral.
-    */
 
     XINC_CPR_CTL_Type * p_cpr = p_instance->p_cpr;
 
-    p_cpr->CTLAPBCLKEN_GRCTL = 0x8000800;//打开pclk_i2c的时钟
-    p_cpr->RSTCTL_SUBRST_SW = 0x400000;
-    p_cpr->RSTCTL_SUBRST_SW = 0x400040;
-    p_cpr->I2C_CLK_CTL = 0x110011; //-> i2c_mclk = 16mhz.
+    //打开pclk_i2c的时钟p_cpr->CTLAPBCLKEN_GRCTL = 0x8000800;
+    p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos) |
+                                (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos);
+
+    // 复位i2c模块  p_cpr->RSTCTL_SUBRST_SW = 0x400000; p_cpr->RSTCTL_SUBRST_SW = 0x400040;                  
+    p_cpr->RSTCTL_SUBRST_SW =   (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Pos) |
+                                (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+    
+  
+    // p_cpr->I2C_CLK_CTL = 0x110011; //-> i2c_mclk = 16mhz.
+    //设置I2C时钟分频系数
+    p_cpr->I2C_CLK_CTL = ((1UL << CPR_I2C_CLK_CTL_I2C_CLK_DIV_Pos) & CPR_I2C_CLK_CTL_I2C_CLK_DIV_Msk) |
+                         ((1UL <<CPR_I2C_CLK_CTL_I2C_CLK_DIV_Pos) << CPR_I2C_CLK_CTL_MASK_OFFSET);
+    //I2C_CLK 时钟使能
+    p_cpr->I2C_CLK_CTL = (CPR_I2C_CLK_CTL_I2C_CLK_EN_Enable << CPR_I2C_CLK_CTL_I2C_CLK_EN_Pos) | 
+                         ((1UL << CPR_I2C_CLK_CTL_I2C_CLK_EN_Pos) << CPR_I2C_CLK_CTL_MASK_OFFSET);
    
 
 
