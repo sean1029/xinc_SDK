@@ -1010,6 +1010,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
             </File>
+            <File>
+              <FileName>xinc_drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\legacy\xinc_drv_uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1054,11 +1059,6 @@
               <FileName>xinc_memobj.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>xinc_ringbuf.c</FileName>
@@ -2107,6 +2107,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\fifo\app_fifo.c</FilePath>
             </File>
+            <File>
+              <FileName>xinc_drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\legacy\xinc_drv_uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2151,11 +2156,6 @@
               <FileName>xinc_memobj.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\memobj\xinc_memobj.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\libraries\cli\uart\xinc_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>xinc_ringbuf.c</FileName>

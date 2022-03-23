@@ -487,7 +487,7 @@ __STATIC_INLINE XINC_GPIO_Type * xinc_gpio_pin_port_decode(uint32_t * p_pin)
 #endif
 }
 
-__STATIC_INLINE XINC_CPRA_AO_Type * xinc_gpio_pin_pull_decode(uint32_t * p_pin)
+__STATIC_INLINE XINC_CPR_AO_CTL_Type * xinc_gpio_pin_pull_decode(uint32_t * p_pin)
 {
 //    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 
@@ -615,7 +615,7 @@ __STATIC_INLINE void xinc_gpio_cfg(
     xinc_gpio_pin_debounce_t debounce)
 {
     XINC_GPIO_Type * reg = xinc_gpio_pin_port_decode(&pin_number);
-    XINC_CPRA_AO_Type * pull_reg = xinc_gpio_pin_pull_decode(&pin_number);
+    XINC_CPR_AO_CTL_Type * pull_reg = xinc_gpio_pin_pull_decode(&pin_number);
 
     uint32_t reg_value ;
     uint32_t tmp_num;

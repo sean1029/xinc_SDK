@@ -108,11 +108,6 @@ typedef struct {                                /*!< (@ 0x40001000) P0 Structure
                                                     
 } XINC_GPIO_Type;//XINC_GPIO_Type;    /*!< Size = 548 (0x224)   */
 
-typedef struct { 
-    __IM  uint32_t  RESERVED[13]; /*!< (@ 0x40002400) CPR AO Structure                                               */
-    __IOM uint32_t  PU_CTRL1;  /*!< (@ 0x40002434) CPR AO  GPIO PU Ctrl                                               */
-    __IOM uint32_t  PE_CTRL2; 	/*!< (@ 0x40002438) CPR AO  GPIO PE Ctrl                                               */
-}XINC_CPRA_AO_Type;
 
                            
 /* =========================================================================================================================== */
@@ -256,17 +251,17 @@ typedef struct {                                /*!< (@ 0x40006000) I2C Structur
   * @brief Successive approximation register (SAR) analog-to-digital converter (SAADC)
   */
 
-typedef struct {                          /*!< (@ 0x40018000) SAADC Structure                                            */
-    __IOM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000)                                          */
-    __IOM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004)                                 */
-    __IOM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008)   */
-    __IOM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C)                           */
-    __IOM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010)                          */
-    __IOM  uint32_t  INT ;                      /*!< (@ 0x00000014)                            */
+typedef struct {                                /*!< (@ 0x40018000) SAADC Structure */
+    __IOM  uint32_t  MAIN_CTL;                  /*!< (@ 0x00000000)                 */
+    __IOM  uint32_t  CHAN_CTL;                  /*!< (@ 0x00000004)                 */
+    __IOM  uint32_t  FIFO_CTL;                  /*!< (@ 0x00000008)                 */
+    __IOM  uint32_t  TIMER0;                    /*!< (@ 0x0000000C)                 */
+    __IOM  uint32_t  TIMER1 ;                   /*!< (@ 0x00000010)                 */
+    __IOM  uint32_t  INT ;                      /*!< (@ 0x00000014)                 */
     __IM   uint32_t  INT_RAW;                   /*!< (@ 0x00000018)                 */
-    __IOM  uint32_t  INT_EN;                    /*!< (@ 0x0000001C)             */
-    __IM   uint32_t  FIFO;                      /*!< (@ 0x00000020)                                 */
-    __IOM  uint32_t  RF_CTL;                    /*!< (@ 0x00000024)                             */
+    __IOM  uint32_t  INT_EN;                    /*!< (@ 0x0000001C)                 */
+    __IM   uint32_t  FIFO;                      /*!< (@ 0x00000020)                 */
+    __IOM  uint32_t  RF_CTL;                    /*!< (@ 0x00000024)                 */
 
 } XINC_SAADC_Type;  
 
@@ -278,28 +273,28 @@ typedef struct {                          /*!< (@ 0x40018000) SAADC Structure   
   * @brief Real time counter 0 (RTC0)
   */
 
-typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                                                                                  */
-    __IM   uint32_t  CCVR;                     /*!< (@ 0x00000000) current count value register                                                     */
-    __IOM  uint32_t  CLR;                      /*!< (@ 0x00000004) Counter initial value setting register                                           */
-    __IOM  uint32_t  CMR_ONE;                  /*!< (@ 0x00000008) Timing Match Register 1                                                          */
-    __IOM  uint32_t  CMR_TWO;                  /*!< (@ 0x0000000C) Timing Match Register 2                                                          */
-    __IOM  uint32_t  CMR_THREE;				 /*!< (@ 0x00000010) Timing Match Register 3                                                          */
-    __IOM  uint32_t  ICR;                      /*!< (@ 0x00000014) Interrupt Control Register                                                       */
-    __IOM  uint32_t  ISR_EOI;                  /*!< (@ 0x00000018) The interrupt status register and the interrupt clear register share one         */
-    __IM   uint32_t  WVR	;                    /*!< (@ 0x0000001C) Current Week Counter Value Register                                              */
-    __IOM  uint32_t  WLR;                      /*!< (@ 0x00000020) Week counter initial value setting register                                      */
-    __IOM  uint32_t  RAW_LIMIT;                /*!< (@ 0x00000024) Counting frequency setting register                                              */
-    __IOM  uint32_t  SECOND_LIMIT;             /*!< (@ 0x00000028) Second count upper limit control register                                        */
-    __IOM  uint32_t  MINUTE_LIMIT;             /*!< (@ 0x0000002C) Minute count upper limit control register                                        */
-    __IOM  uint32_t  HOUR_LIMIT;               /*!< (@ 0x00000030) hour count upper limit control register                                          */
-    __IM   uint32_t  ISR_RAW;                  /*!< (@ 0x00000034) interrupt raw status register                                                    */
-    __IM   uint32_t  RVR;                      /*!< (@ 0x00000038) Current second count value register                                              */
+typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                                            */
+    __IM   uint32_t  CCVR;                      /*!< (@ 0x00000000) current count value register             */
+    __IOM  uint32_t  CLR;                       /*!< (@ 0x00000004) Counter initial value setting register   */
+    __IOM  uint32_t  CMR_ONE;                   /*!< (@ 0x00000008) Timing Match Register 1                  */
+    __IOM  uint32_t  CMR_TWO;                   /*!< (@ 0x0000000C) Timing Match Register 2                  */
+    __IOM  uint32_t  CMR_THREE;                 /*!< (@ 0x00000010) Timing Match Register 3                    */
+    __IOM  uint32_t  ICR;                       /*!< (@ 0x00000014) Interrupt Control Register               */
+    __IOM  uint32_t  ISR_EOI;                   /*!< (@ 0x00000018) The interrupt status register and the interrupt clear register share one         */
+    __IM   uint32_t  WVR;                       /*!< (@ 0x0000001C) Current Week Counter Value Register    */
+    __IOM  uint32_t  WLR;                       /*!< (@ 0x00000020) Week counter initial value setting register  */
+    __IOM  uint32_t  RAW_LIMIT;                 /*!< (@ 0x00000024) Counting frequency setting register          */
+    __IOM  uint32_t  SECOND_LIMIT;              /*!< (@ 0x00000028) Second count upper limit control register    */
+    __IOM  uint32_t  MINUTE_LIMIT;              /*!< (@ 0x0000002C) Minute count upper limit control register    */
+    __IOM  uint32_t  HOUR_LIMIT;                /*!< (@ 0x00000030) hour count upper limit control register      */
+    __IM   uint32_t  ISR_RAW;                   /*!< (@ 0x00000034) interrupt raw status register                */
+    __IM   uint32_t  RVR;                       /*!< (@ 0x00000038) Current second count value register          */
     __IOM  uint32_t  RESERVED0;
-    __IOM  uint32_t  AO_TIMER_CTL;             /*!< (@ 0x00000040) 16-bit Counter Control Register                                                  */
-    __IOM  uint32_t  AO_GPIO_MODE_;             /*!< (@ 0x00000044) GPIO Mode Configuration Register                                                 */
-    __IOM  uint32_t  AO_GPIO_CTL;              /*!< (@ 0x00000048) GPIO Control Register                                                            */
-    __IOM  uint32_t  ALL_INTR_AO; 			 /*!< (@ 0x0000004C) AO Interrupt Register                                                            			*/													
-    __IM   uint32_t  FREQ_32K_TIMER_VAL;       /*!< (@ 0x00000050) FREQ_TIMER value register                                                        */			
+    __IOM  uint32_t  AO_TIMER_CTL;              /*!< (@ 0x00000040) 16-bit Counter Control Register             */
+    __IOM  uint32_t  AO_GPIO_MODE;              /*!< (@ 0x00000044) GPIO Mode Configuration Register            */
+    __IOM  uint32_t  AO_GPIO_CTL;               /*!< (@ 0x00000048) GPIO Control Register                       */
+    __IOM  uint32_t  ALL_INTR_AO;               /*!< (@ 0x0000004C) AO Interrupt Register                       */													
+    __IM   uint32_t  FREQ_32K_TIMER_VAL;        /*!< (@ 0x00000050) FREQ_TIMER value register                   */			
   
 } XINC_RTC_Type;   
 /* =========================================================================================================================== */
@@ -311,21 +306,21 @@ typedef struct {              /*!< (@ 0x4000B000) RTC0 Structure                
   * @brief Timer/Counter 0 (TIMER0)
   */
 
-typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structure                                              */
-    __IOM  uint32_t  TLC;                   /*!< (@ 0x00000000) Load count value into register                             */
-    __IOM  uint32_t  TCV;                   /*!< (@ 0x00000004) current count value register                               */
-    __IOM  uint32_t  TCR;                   /*!< (@ 0x00000008) control register                                           */
-    __IOM  uint32_t  TIC;                   /*!< (@ 0x0000000C) interrupt clear register                                   */
-    __IOM  uint32_t  TIS;                   /*!< (@ 0x00000010) Interrupt Status Register                                  */
+typedef struct {                            /*!< (@ 0x40003000) TIMER0 Structure                                            */
+    __IOM  uint32_t  TLC;                   /*!< (@ 0x00000000) Load count value into register                              */
+    __IOM  uint32_t  TCV;                   /*!< (@ 0x00000004) current count value register                                */
+    __IOM  uint32_t  TCR;                   /*!< (@ 0x00000008) control register                                            */
+    __IOM  uint32_t  TIC;                   /*!< (@ 0x0000000C) interrupt clear register                                    */
+    __IOM  uint32_t  TIS;                   /*!< (@ 0x00000010) Interrupt Status Register                                   */
 
 } XINC_TIMER_Type;  
 
 
-typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structure                      */                        
+typedef struct {                            /*!< (@ 0x40003000) TIMER0 Structure                                            */                        
 
-    __IOM  uint32_t  GLOBAL_TIS;                    /*!< (@ 0x000000A0) Global Interrupt Status Register                                  */
-    __IOM  uint32_t  GLOBAL_TIC;                    /*!< (@ 0x000000A4) Global interrupt clear register                                   */
-    __IOM  uint32_t  GLOBAL_RTIS;                   /*!< (@ 0x000000A8) Global Raw Interrupt Status register                              */
+    __IOM  uint32_t  GLOBAL_TIS;            /*!< (@ 0x000000A0) Global Interrupt Status Register                            */
+    __IOM  uint32_t  GLOBAL_TIC;            /*!< (@ 0x000000A4) Global interrupt clear register                             */
+    __IOM  uint32_t  GLOBAL_RTIS;           /*!< (@ 0x000000A8) Global Raw Interrupt Status register                        */
 	
 } XINC_TIMER_GLOBAL_Type; 
 
@@ -334,52 +329,139 @@ typedef struct {                             /*!< (@ 0x40003000) TIMER0 Structur
 /* ================                                          CPR                                           ================ */
 /* =========================================================================================================================== */
 
-typedef struct {                             /*!< (@ 0x40000000) CPR Structure                      */                        
+typedef struct {                                /*!< (@ 0x40000000) CPR PD 域寄存器地址映射 Structure       */                        
+    __IOM  uint32_t  SLP_SRC_MASK;              /*!< (@ 0x40000000) 睡眠源屏蔽寄存器       */ 
+    __IM   uint32_t  RESERVED[3];
 
-    __IM   uint32_t  RESERVED0[9];
-    __IOM  uint32_t  PCLK_GRCTL;              /*!< (@ 0x00000024) PCLK GR  */   
-    __IM   uint32_t  RESERVED1[2];        
-    __IOM  uint32_t  UART0_GRCTL;             /*!< (@ 0x00000030) UART0 CLK GR  */ 
-    __IOM  uint32_t  UART0_CLK_CTL;           /*!< (@ 0x00000034) UART0 CLK CTL  */ 
-    __IOM  uint32_t  UART1_GRCTL;             /*!< (@ 0x00000038) UART1 CLK GR  */ 
-    __IOM  uint32_t  UART1_CLK_CTL;           /*!< (@ 0x0000003C) UART1 CLK CTL  */  
-    __IOM  uint32_t  BT_CLK_CTL;              /*!< (@ 0x00000040) BT CLK CTL  */ 
-    __IM   uint32_t  RESERVED2;     
-    __IOM  uint32_t  BT_MODEM_CTL;              /*!< (@ 0x00000048) BT MODEM CTL  */ 
-    __IM   uint32_t  RESERVED3;
-    __IOM  uint32_t  SSI0_MCLK_CTL;              /*!< (@ 0x00000050) SSI0_MCLK CTL  */ 
-    __IOM  uint32_t  SSI1_MCLK_CTL;              /*!< (@ 0x00000054) SSI1_MCLK CTL  */ 
-    __IOM  uint32_t  TIMER0_CLK_CTL;             /*!< (@ 0x00000058) TIMER0 CLK CTL  */
-    __IOM  uint32_t  TIMER1_CLK_CTL;             /*!< (@ 0x0000005C) TIMER1 CLK CTL  */ 
-    __IOM  uint32_t  TIMER2_CLK_CTL;             /*!< (@ 0x00000060) TIMER2 CLK CTL  */
-    __IOM  uint32_t  TIMER3_CLK_CTL;             /*!< (@ 0x00000064) TIMER2 CLK CTL  */
-    __IOM  uint32_t  PWM_CLK_CTL;                /*!< (@ 0x00000068) PWM CLK CTL  */  
-    __IOM  uint32_t  AHBCLKEN_GRCTL;             /*!< (@ 0x0000006C) AHBCLKEN_GRCTL  */
-    __IOM  uint32_t  CTLAPBCLKEN_GRCTL;          /*!< (@ 0x00000070) CTLAPBCLKEN_GRCTL  */ 
-    __IOM  uint32_t  OTHERCLKEN_GRCTL;           /*!< (@ 0x00000074) OTHERCLKEN_GRCTL  */ 
-    __IOM  uint32_t  I2C_CLK_CTL;                /*!< (@ 0x00000078) I2C_CLK_CTL  */ 
-  //CPR_AOCLKEN_GRCTL
-    __IM   uint32_t  RESERVED4[17];
-    __IOM  uint32_t  GPIO_FUN_SEL0;                /*!< (@ 0x000000C0) GPIO_FUNSEL0  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL1;                /*!< (@ 0x000000C4) GPIO_FUNSEL1  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL2;                /*!< (@ 0x000000C8) GPIO_FUNSEL2  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL3;                /*!< (@ 0x000000CC) GPIO_FUNSEL3  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL4;                /*!< (@ 0x000000D0) GPIO_FUNSEL4  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL5;                /*!< (@ 0x000000D4) GPIO_FUNSEL5  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL6;                /*!< (@ 0x000000D8) GPIO_FUNSEL6  */ 
-    __IOM  uint32_t  GPIO_FUN_SEL7;                /*!< (@ 0x000000DC) GPIO_FUNSEL7  */ 
-    __IM   uint32_t  RESERVED5[8];
-    __IOM  uint32_t  RSTCTL_CTLAPB_SW;             /*!< (@ 0x00000100) RSTCTL_CTLAPB_SW  */ 
-    __IOM  uint32_t  RSTCTL_SUBRST_SW;             /*!< (@ 0x00000104) RSTCTL_SUBRST_SW  */ 
+    __IOM  uint32_t  SLP_CNT_LIMIT;             /*!< (@ 0x40000010) 睡眠进入阈值寄存器       */ 
+    __IOM  uint32_t  SLP_ST;                    /*!< (@ 0x40000014) 睡眠启动寄存器       */
+    __IOM  uint32_t  SLP_FSM_STATE;             /*!< (@ 0x40000018) 睡眠状态机状态寄存器       */
+    __IM   uint32_t  RESERVED01[1];
 
-    __IOM  uint32_t  RSTCTL_M0RST_SW;             /*!< (@ 0x00000108) RSTCTL_M0RST_SW  */ 
-    __IOM  uint32_t  RSTCTL_M0RST_MASK;             /*!< (@ 0x0000010C) RSTCTL_M0RST_MASK  */  
-    __IM   uint32_t  RESERVED6;
-    __IOM  uint32_t  RSTCTL_WDTRST_MASK;             /*!< (@ 0x00000114) RSTCTL_WDTRST_MASK  */ 
-    __IOM  uint32_t  LP_CTL;                          /*!< (@ 0x00000118) 低功耗控制寄存器  */ 
-    __IM   uint32_t  RESERVED7[17];
-    __IOM  uint32_t  SSI_CTRL;                    /*!< (@ 0x00000160) SSI_CTRL  */
+    __IOM  uint32_t  M0_FCLK_CTL;               /*!< (@ 0x40000020) M0 fclk 时钟控制寄存器       */
+    __IOM  uint32_t  CTL_PCLK_GRCTL;            /*!< (@ 0x00000024) CTL_PCLK 时钟控制寄存器 GR  */   
+    __IOM  uint32_t  SIM_CLK_GRCTL;             /*!< (@ 0x00000028) SIM_CLK时钟GR控制寄存器  */ 
+    __IOM  uint32_t  SIM_CLK_CTLL;              /*!< (@ 0x0000002C) SIM_CLK 时钟控制寄存器  */ 
+
+    __IOM  uint32_t  UART0_CLK_GRCTL;           /*!< (@ 0x00000030) UART0 CLK GR  */ 
+    __IOM  uint32_t  UART0_CLK_CTL;             /*!< (@ 0x00000034) UART0 CLK CTL  */ 
+    __IOM  uint32_t  UART1_CLK_GRCTL;           /*!< (@ 0x00000038) UART1 CLK GR  */ 
+    __IOM  uint32_t  UART1_CLK_CTL;             /*!< (@ 0x0000003C) UART1 CLK CTL  */  
+    
+    __IOM  uint32_t  BT_CLK_CTL;                /*!< (@ 0x00000040) BT_CLK 时钟控制寄存器  */ 
+    __IM   uint32_t  RESERVED02;     
+    __IOM  uint32_t  BT_MODEM_CTL;              /*!< (@ 0x00000048) BT_MODEM_CLK时钟控制寄存器  */ 
+    __IOM  uint32_t  QDEC_CLK_CTL;              /*!< (@ 0x0000004C) QDEC 时钟控制寄存器  */ 
+
+    __IOM  uint32_t  SSI0_MCLK_CTL;             /*!< (@ 0x00000050) SSI0_MCLK CTL  */ 
+    __IOM  uint32_t  SSI1_MCLK_CTL;             /*!< (@ 0x00000054) SSI1_MCLK CTL  */ 
+    __IOM  uint32_t  TIMER0_CLK_CTL;            /*!< (@ 0x00000058) TIMER0 CLK CTL  */
+    __IOM  uint32_t  TIMER1_CLK_CTL;            /*!< (@ 0x0000005C) TIMER1 CLK CTL  */ 
+   
+    __IOM  uint32_t  TIMER2_CLK_CTL;            /*!< (@ 0x00000060) TIMER2 CLK CTL  */
+    __IOM  uint32_t  TIMER3_CLK_CTL;            /*!< (@ 0x00000064) TIMER2 CLK CTL  */
+    __IOM  uint32_t  PWM_CLK_CTL;               /*!< (@ 0x00000068) PWM CLK CTL    */  
+    __IOM  uint32_t  AHBCLKEN_GRCTL;            /*!< (@ 0x0000006C) AHBCLKEN_GRCTL  */
+   
+    __IOM  uint32_t  CTLAPBCLKEN_GRCTL;         /*!< (@ 0x00000070) CTLAPBCLKEN_GRCTL  */ 
+    __IOM  uint32_t  OTHERCLKEN_GRCTL;          /*!< (@ 0x00000074) OTHERCLKEN_GRCTL  */ 
+    __IOM  uint32_t  I2C_CLK_CTL;               /*!< (@ 0x00000078) I2C_CLK_CTL  */ 
+    __IM   uint32_t  RESERVED03[9];
+
+    __IOM  uint32_t  INT;                       /*!< (@ 0x000000A0) M0 的 CPR 中断状态寄存器  */ 
+    __IOM  uint32_t  INT_EN;                    /*!< (@ 0x000000A4) M0 的 CPR 中断状态寄存器  */ 
+    __IOM  uint32_t  INT_RAW;                   /*!< (@ 0x000000A8) M0 的 CPR 中断状态寄存器  */ 
+    __IM   uint32_t  RESERVED04[5];
+
+
+    __IOM  uint32_t  GPIO_FUN_SEL0;             /*!< (@ 0x000000C0) GPIO_FUNSEL0  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL1;             /*!< (@ 0x000000C4) GPIO_FUNSEL1  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL2;             /*!< (@ 0x000000C8) GPIO_FUNSEL2  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL3;             /*!< (@ 0x000000CC) GPIO_FUNSEL3  */ 
+   
+    __IOM  uint32_t  GPIO_FUN_SEL4;             /*!< (@ 0x000000D0) GPIO_FUNSEL4  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL5;             /*!< (@ 0x000000D4) GPIO_FUNSEL5  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL6;             /*!< (@ 0x000000D8) GPIO_FUNSEL6  */ 
+    __IOM  uint32_t  GPIO_FUN_SEL7;             /*!< (@ 0x000000DC) GPIO_FUNSEL7  */ 
+   
+    __IM   uint32_t  RESERVED05[8];
+   
+    __IOM  uint32_t  RSTCTL_CTLAPB_SW;          /*!< (@ 0x00000100) CTLAPB 模块软复位寄存器  */ 
+    __IOM  uint32_t  RSTCTL_SUBRST_SW;          /*!< (@ 0x00000104) SUB 模块软复位寄存器  */ 
+    __IOM  uint32_t  RSTCTL_M0RST_SW;           /*!< (@ 0x00000108) M0 相关软复位寄存器  */ 
+    __IOM  uint32_t  RSTCTL_M0RST_MASK;         /*!< (@ 0x0000010C) M0 复位屏蔽寄存器  */  
+   
+    __IOM  uint32_t  RSTCTL_LOCKUP_STATE;       /*!< (@ 0x00000110) M0 死锁状态指示寄存器 */ 
+    __IOM  uint32_t  RSTCTL_WDTRST_MASK;        /*!< (@ 0x00000114) WDT 复位屏蔽寄存 */ 
+    __IOM  uint32_t  LP_CTL;                    /*!< (@ 0x00000118) 低功耗控制寄存器  */ 
+    __IM   uint32_t  RESERVED06[1];
+
+    __IOM  uint32_t  CTL_SHRAM_ICM_PRIORITY;    /*!< (@ 0x00000120) SHRAM 的 ICM 优先级配置寄存器  */ 
+    __IOM  uint32_t  CTL_CTLAPB_ICM_PRIORITY;   /*!< (@ 0x00000124) CTL_APB 桥的 ICM优先级配置寄存器  */ 
+    __IOM  uint32_t  CTL_MUXCTL1;               /*!< (@ 0x00000128) MUXPIN 控制寄存器1  */ 
+    __IOM  uint32_t  CTL_MUXCTL2;               /*!< (@ 0x0000012C) MUXPIN 控制寄存器2  */ 
+
+    __IOM  uint32_t  CTL_PECTL1;                /*!< (@ 0x00000130) 管脚上下拉配置寄存器1  */ 
+    __IOM  uint32_t  CTL_PECTL2;                /*!< (@ 0x00000134) 管脚上下拉配置寄存器2  */ 
+    __IM   uint32_t  RESERVED07[1];
+    __IOM  uint32_t  REMAP_CTRL;                /*!< (@ 0x0000013C) REMAP 控制寄存器  */ 
+
+    __IOM  uint32_t  CTL_BOOTCTL;               /*!< (@ 0x00000140) BOOTCTL 指示寄存器  */ 
+    __IOM  uint32_t  CTL_M0_STCALIB;            /*!< (@ 0x00000144) M0 配置寄存器  */ 
+    __IOM  uint32_t  CTL_M0_IRQLATENCY;         /*!< (@ 0x00000148) M0 IRQ 延迟寄存器  */ 
+    __IM  uint32_t  RESERVED08[5];
+
+    // SSI 控制寄存器
+    __IOM  uint32_t  SSI_CTRL;                  /*!< (@ 0x00000160) SSI 控制寄存器  */
+    __IM  uint32_t  RESERVED09[3];
+
+    __IOM  uint32_t  TESTCTRL0;                 /*!< (@ 0x00000170) 测试控制寄存器 0  */
+    __IOM  uint32_t  TESTCTRL1;                 /*!< (@ 0x00000174) 测试控制寄存器 1  */
+    __IOM  uint32_t  TESTCTRL2;                 /*!< (@ 0x00000178) 测试控制寄存器 2  */
+    __IOM  uint32_t  TESTCTRL3;                 /*!< (@ 0x0000017C) 测试控制寄存器 3  */
+
+    __IOM  uint32_t  TESTCTRL4;                 /*!< (@ 0x00000180) 测试控制寄存器 4  */
+    __IOM  uint32_t  TESTCTRL5;                 /*!< (@ 0x00000184) 测试控制寄存器 5  */
+    __IOM  uint32_t  TESTCTRL6;                 /*!< (@ 0x00000188) 测试控制寄存器 6  */
+    __IOM  uint32_t  TESTCTRL7;                 /*!< (@ 0x0000018C) 测试控制寄存器 7  */
+
+    __IOM  uint32_t  TESTCTRL8;                 /*!< (@ 0x00000190) 测试控制寄存器 8  */
+    __IOM  uint32_t  TESTCTRL9;                 /*!< (@ 0x00000194) 测试控制寄存器 9  */
+    __IM   uint32_t  RESERVED10[1];
+    __IOM  uint32_t  CTL_MUXCTL3;               /*!< (@ 0x0000019C) MUXPIN 控制寄存器 3  */
+
+    __IOM  uint32_t  CTL_PUCTL;                 /*!< (@ 0x000001A0) 管脚上下拉配置寄存 3  */
+
+
 } XINC_CPR_CTL_Type; 
+
+typedef struct {                                /*!< (@ 0x40002400) CPR AO Structure       */    
+    __IM  uint32_t  RESERVED00[1]; 
+    __IOM uint32_t  SLP_CTL;  /*!< (@ 0x00000004) 睡眠控制寄存器     */
+    __IOM uint32_t  SLPCTL_INT_MASK;  /*!< (@ 0x00000008) 睡眠唤醒 M0 中断屏蔽寄存器     */
+    __IOM uint32_t  SLP_PD_MASK;  /*!< (@ 0x0000000C) 睡眠断电屏蔽寄存器     */
+
+    __IOM uint32_t  MCLK_DIV_CLK_CTL;  /*!< (@ 0x00000010) MCLK_DIV_CLK(32K)分频控制寄存器     */
+    __IOM uint32_t  RFPMU_SPI_CTL;  /*!< (@ 0x00000014) SPI 控制寄存器     */
+    __IM  uint32_t  RESERVED01[1]; 
+    __IOM uint32_t  SYS_TIME;  /*!< (@ 0x0000001C) SPI 控制寄存器     */
+
+    __IM  uint32_t  RESERVED02[5]; 
+    __IOM uint32_t  PU_CTRL1;  /*!< (@ 0x00000034) CPR AO  GPIO PU Ctrl */
+    __IOM uint32_t  PE_CTRL2;  /*!< (@ 0x00000038) CPR AO  GPIO PE Ctrl */
+
+    __IM  uint32_t  RESERVED03[20]; 
+    __IOM uint32_t  AOCLKEN_GRCTL;  /*!< (@ 0x0000007C) AO 域时钟使能寄存器     */
+
+    __IM  uint32_t  RESERVED04[63]; 
+    __IOM uint32_t  CTL_CLK32K;  /*!< (@ 0x0000014C) 32K 时钟配置寄存器     */
+
+    __IM  uint32_t  RESERVED05[1]; 
+    __IOM uint32_t  AO_REG0;  /*!< (@ 0x00000154) AO 通用器 0     */
+    __IOM uint32_t  AO_REG1;  /*!< (@ 0x00000158) AO 通用器 0     */
+    __IOM uint32_t  AO_CTRL;  /*!< (@ 0x0000015C) AO 控制寄存器     */
+
+}XINC_CPR_AO_CTL_Type;
 
 
 
@@ -392,16 +474,16 @@ typedef struct {                             /*!< (@ 0x40000000) CPR Structure  
   * @brief Pulse width modulation unit 0 (PWM0)
   */
 
-typedef struct {                                /*!< (@ 0x40017000UL) PWM Structure                 */
-    __IOM  uint32_t  EN;                   /*!< (@ 0x00000000) PWM EN Register                                  */
-    __IOM  uint32_t  UP;                   /*!< (@ 0x00000004) PWM UPDATE Register                                  */
-    __IOM  uint32_t  RST;                   /*!< (@ 0x00000008) PWM RST  Register                                  */
-    __IOM  uint32_t  PERIOD;                   /*!< (@ 0x0000000c) PWM Period Register                                  */
-    __IOM  uint32_t  OCPY;                   /*!< (@ 0x00000010) PWM OCPY Register                                  */
+typedef struct {                            /*!< (@ 0x40017000UL) PWM Structure                     */
+    __IOM  uint32_t  EN;                    /*!< (@ 0x00000000) PWM EN Register                     */
+    __IOM  uint32_t  UP;                    /*!< (@ 0x00000004) PWM UPDATE Register                 */
+    __IOM  uint32_t  RST;                   /*!< (@ 0x00000008) PWM RST  Register                   */
+    __IOM  uint32_t  PERIOD;                /*!< (@ 0x0000000c) PWM Period Register                 */
+    __IOM  uint32_t  OCPY;                  /*!< (@ 0x00000010) PWM OCPY Register                   */
     __IM   uint32_t  RESERVED[2];
-    __IOM  uint32_t  PWMCOMPEN;                   /*!< (@ 0x0000001C) PWM  COMP EN Register                                  */
-    __IOM  uint32_t  PWMCOMPTIME;                   /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register              */
-} XINC_PWM_Type;                                 /*!< Size =  ()                                                       */
+    __IOM  uint32_t  PWMCOMPEN;             /*!< (@ 0x0000001C) PWM  COMP EN Register               */
+    __IOM  uint32_t  PWMCOMPTIME;           /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register          */
+} XINC_PWM_Type;                            /*!< Size =  ()                                         */
 
 
 /* =========================================================================================================================== */
@@ -413,7 +495,7 @@ typedef struct {                                /*!< (@ 0x40017000UL) PWM Struct
   * @brief Watchdog Timer (WDT)
   */
 
-typedef struct {                  /*!< (@ 0x40010000) WDT Structure                                              */
+typedef struct {                                  /*!< (@ 0x40010000) WDT Structure                                */
     __IOM  uint32_t  CR;                          /*!< (@ 0x00000000) control register                             */
     __IOM  uint32_t  TORR;                        /*!< (@ 0x00000004) Timeout Range Register                       */
     __IOM  uint32_t  CCVR;                        /*!< (@ 0x00000008) current count value register                 */
@@ -465,8 +547,7 @@ typedef struct {                  /*!< (@ 0x40010000) WDT Structure             
   */
 #define XINC_P0                             ((XINC_GPIO_Type*)              XINC_P0_BASE)
 #define XINC_CPR                            ((XINC_CPR_CTL_Type*)           XINC_CPR_BASE)
-
-#define XINC_CPR_AO                         ((XINC_CPRA_AO_Type*)           XINC_CPR_AO_BASE)
+#define XINC_CPR_AO                         ((XINC_CPR_AO_CTL_Type*)        XINC_CPR_AO_BASE)
 #define XINC_GPIO                           ((XINC_GPIO_Type*)              XINC_GPIOTE_BASE)
 #define XINC_UART0                          ((XINC_UART_Type*)              XINC_UART0_BASE)
 #define XINC_UART1                          ((XINC_UART_Type*)              XINC_UART1_BASE)

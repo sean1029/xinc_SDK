@@ -246,12 +246,12 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     
     if(ch == 0)
     {
-        p_cpr->UART0_GRCTL = 0x110018;
+        p_cpr->UART0_CLK_GRCTL = 0x110018;
         p_cpr->UART0_CLK_CTL = p_config->baudrate>>4;
     }
     else
     {   
-        p_cpr->UART1_GRCTL = 0x110018;
+        p_cpr->UART1_CLK_GRCTL = 0x110018;
         p_cpr->UART1_CLK_CTL = p_config->baudrate>>4;
     
     }
