@@ -21,8 +21,8 @@
 #define CPR_CLK_SRC_32KHZ_DIV    (1UL) ///<  CLK SRC 32kHz div.
 #define CPR_CLK_SRC_32KHZ    (4UL) ///<  CLK SRC 32kHz.
 
-/* Register: CPR_UART0_CLK_GRCTL */
-/* Description :UART0_CLK 时 钟 GR 控制寄存器
+/* Register: CPR_UART_CLK_GRCTL */
+/* Description :UART_CLK 时 钟 GR 控制寄存器
     BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
 写屏蔽 BIT[15:12]*/
 #define CPR_UART_CLK_GRCTL_MASK_OFFSET (16UL)
@@ -726,6 +726,33 @@
 
 
 
+/* Register: CPR_LP_CTL */
+/* Description :低功耗使能寄存器
+*/
+
+/* Bit 0: UART1_CLK_OFF_PROTECT_EN */
+/* Description: UART1 时钟保护功能使能
+0：不使能
+1：使能
+*/
+#define CPR_LP_CTL_UART1_CLK_OFF_PROTECT_EN_Pos (0UL) // /*!< Position of UART1_CLK_OFF_PROTECT_EN field. */
+#define CPR_LP_CTL_UART1_CLK_OFF_PROTECT_EN_Msk (0x1UL << CPR_LP_CTL_UART1_CLK_OFF_PROTECT_EN_Pos) 
+#define CPR_LP_CTL_UART1_CLK_OFF_PROTECT_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_LP_CTL_UART1_CLK_OFF_PROTECT_EN_Enable (1UL) /*!< 1：使能*/
+
+
+
+/* Bit 1: UART0_CLK_OFF_PROTECT_EN */
+/* Description: UART0 时钟保护功能使能
+0：不使能
+1：使能
+*/
+#define CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Pos (1UL) // /*!< Position of UART0_CLK_OFF_PROTECT_EN field. */
+#define CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Msk (0x1UL << CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Pos) 
+#define CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Enable (1UL) /*!< 1：使能*/
+
+
 
 /* Register: CPR_SSI_CTRL */
 /* Description :SSI 控制寄存器
@@ -760,6 +787,8 @@
 #define CPR_SSI_CTRL_SSI1_MASTER_EN_Msk (0x1UL << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos) 
 #define CPR_SSI_CTRL_SSI1_MASTER_EN_Slave (0UL) /*!< 0：Slave */
 #define CPR_SSI_CTRL_SSI1_MASTER_EN_Master (1UL) /*!< 1：Master*/
+
+
 
 
 

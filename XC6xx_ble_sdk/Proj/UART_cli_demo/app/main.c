@@ -384,7 +384,10 @@ int	main(void)
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
-    
+            if(LastTimeGulSystickCount % 300 == 0)
+            {
+              //  printf("sched  cnt:%d\n",LastTimeGulSystickCount/300);
+            }
 			 
 	   }		   
 

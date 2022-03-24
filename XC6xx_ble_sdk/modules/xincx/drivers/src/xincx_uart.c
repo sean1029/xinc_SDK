@@ -211,6 +211,41 @@ static void interrupts_disable(xincx_uart_t const * p_instance)
     XINCX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
+static void xincx_uart_clk_init(xincx_uart_t const * const  p_instance,
+                         xincx_uart_config_t const * p_config)
+{
+    XINC_CPR_CTL_Type * p_cpr = (XINC_CPR_CTL_Type *)p_instance->p_cpr;
+
+    volatile uint32_t *Uart0_CLK_GRCTL_BaseAddr = (uint32_t*)&(p_cpr->UART0_CLK_GRCTL);
+    uint8_t ch = p_instance->id;
+    uint32_t	val;		
+    p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Pos)|
+                                (CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET)) << ch;
+
+    //不使能其时钟保护功能
+    val = p_cpr->LP_CTL;
+    val &= ~(CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Msk >> ch);
+    p_cpr->LP_CTL = val;
+ 
+    
+    p_cpr->CTLAPBCLKEN_GRCTL = val = ((CPR_CTLAPBCLKEN_GRCTL_UART0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_UART0_PCLK_EN_Pos) | 
+                                (CPR_CTLAPBCLKEN_GRCTL_UART0_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch;
+    
+    Uart0_CLK_GRCTL_BaseAddr += (ch * 2UL); //指向对应的 UART_CLK_GRCTL 寄存器
+
+    
+    // 0x110018;
+    *Uart0_CLK_GRCTL_BaseAddr = val = (((8UL << CPR_UART_CLK_GRCTL_UART_CLK_GR_Pos) | CPR_UART_CLK_GRCTL_UART_CLK_GR_WE)   |
+                              
+                                ((CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Enable << CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Pos) |
+                                (CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Msk << CPR_UART_CLK_GRCTL_MASK_OFFSET)));
+
+    Uart0_CLK_GRCTL_BaseAddr++;  //指向对应的 UART_CLK_CTL 寄存器
+
+    *Uart0_CLK_GRCTL_BaseAddr = p_config->baudrate>>4;
+
+}
+
 xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler)
@@ -229,33 +264,8 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
         return err_code;
     }
 
-    XINC_CPR_CTL_Type * p_cpr = p_instance->p_cpr;
-    uint8_t ch = p_instance->id;
-    uint32_t	val;		
-
-
-    p_cpr->RSTCTL_SUBRST_SW = (1<<(16+ch));
-    p_cpr->RSTCTL_SUBRST_SW = ((1<<(16+ch))|(1<<ch));
-    
-    val = p_cpr->LP_CTL;
-    val &= ~(1<<(1-ch));
-    p_cpr->LP_CTL = val;
-    
-    val = (1<<(16+ch+4)) | (1<<(ch+4));
-    p_cpr->CTLAPBCLKEN_GRCTL = val;
-    
-    if(ch == 0)
-    {
-        p_cpr->UART0_CLK_GRCTL = 0x110018;
-        p_cpr->UART0_CLK_CTL = p_config->baudrate>>4;
-    }
-    else
-    {   
-        p_cpr->UART1_CLK_GRCTL = 0x110018;
-        p_cpr->UART1_CLK_CTL = p_config->baudrate>>4;
-    
-    }
-    
+    xincx_uart_clk_init(p_instance, p_config);
+  
     err_code = apply_config(p_instance, p_config);
 
     if(err_code != XINCX_SUCCESS)
@@ -278,7 +288,7 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     p_cb->tx_buffer_length           = 0;
     p_cb->state                      = XINCX_DRV_STATE_INITIALIZED;
     
-    xinc_delay_ms(100);
+    xinc_delay_ms(10);
      if (p_cb->handler)
     {
         interrupts_enable(p_instance, p_config->interrupt_priority);
