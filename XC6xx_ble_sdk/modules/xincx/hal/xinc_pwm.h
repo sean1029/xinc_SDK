@@ -49,9 +49,9 @@ enum
 /** @brief Timer bit width. */
 typedef enum
 {
-    XINC_PWM_CLK_SRC_32M_DIV = 0, ///< PWM CLK SRC 32MHz div.
-    XINC_PWM_CLK_SRC_32K_DIV = 1, ///< PWM CLK SRC 32kHz div.
-    XINC_PWM_CLK_SRC_32K = 4, ///< PWM CLK SRC 32kHz.
+    XINC_PWM_CLK_SRC_32M_DIV = CPR_PWM_CLK_CTL_PWM_CLKSEL_32M_DIV, ///< PWM CLK SRC 32MHz div.
+    XINC_PWM_CLK_SRC_32K_DIV = CPR_PWM_CLK_CTL_PWM_CLKSEL_32K_DIV, ///< PWM CLK SRC 32kHz div.
+    XINC_PWM_CLK_SRC_32K = CPR_PWM_CLK_CTL_PWM_CLKSEL_32K, ///< PWM CLK SRC 32kHz.
 } xinc_pwm_clk_src_t;
 
 /** @brief Timer prescalers. */
@@ -160,24 +160,24 @@ __STATIC_INLINE void xinc_pwm_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id,x
 	{
 		case XINC_PWM_CLK_SRC_32M_DIV:
 		{
-			p_reg->PWM_CLK_CTL = (1UL << ref_clk) - 1UL ;
+			p_reg->PWM_CLK_CTL = ((1UL << ref_clk) - 1UL) | (XINC_PWM_CLK_SRC_32M_DIV << CPR_PWM_CLK_CTL_PWM_CLKSEL_Pos) ;
 		}break;
 		
 		case XINC_PWM_CLK_SRC_32K_DIV:
 		{
-			p_reg->PWM_CLK_CTL = ((1UL << ref_clk) - 1UL) | (XINC_PWM_CLK_SRC_32K_DIV << 28UL) ;
+			p_reg->PWM_CLK_CTL = (((1UL << ref_clk) - 1UL) << CPR_PWM_CLK_CTL_PWM_CLK1_DIV_Pos) | (XINC_PWM_CLK_SRC_32K_DIV << CPR_PWM_CLK_CTL_PWM_CLKSEL_Pos) ;
 		}break;
 		
 		case XINC_PWM_CLK_SRC_32K:
 		{
-			p_reg->PWM_CLK_CTL = (XINC_PWM_CLK_SRC_32K << 28UL);
+			p_reg->PWM_CLK_CTL = (XINC_PWM_CLK_SRC_32K << CPR_PWM_CLK_CTL_PWM_CLKSEL_Pos);
 		}break;
 		
 		default:
 			break;
 	
 	}
-	p_reg->PWM_CLK_CTL |= ((unsigned int)(1UL << 31UL));
+	p_reg->PWM_CLK_CTL |= ( CPR_PWM_CLK_CTL_PWM_CLK_EN_Enable << CPR_PWM_CLK_CTL_PWM_CLK_EN_Pos);
 
 	printf("pwm clock id:%d, addr=[%p],val=[0x%x],ref_clk=[%d]\n",id,&p_reg->PWM_CLK_CTL,p_reg->PWM_CLK_CTL,ref_clk);
 }

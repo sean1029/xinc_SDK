@@ -17,6 +17,171 @@
 /* Description: Clock control */
 
 
+#define CPR_CLK_SRC_32MHZ_DIV    (0UL) ///< CLK SRC 32MHz div.
+#define CPR_CLK_SRC_32KHZ_DIV    (1UL) ///<  CLK SRC 32kHz div.
+#define CPR_CLK_SRC_32KHZ    (4UL) ///<  CLK SRC 32kHz.
+
+/* Register: CPR_UART0_CLK_GRCTL */
+/* Description :UART0_CLK 时 钟 GR 控制寄存器
+    BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
+写屏蔽 BIT[15:12]*/
+#define CPR_UART_CLK_GRCTL_MASK_OFFSET (16UL)
+
+/* Bit 0..3: UART_CLK_GR */
+/* Description: uart0_clk 相对于 32MHz 时
+钟的一级分频比为:UART_CLK_GR/8
+0：不复位
+1：复位
+*/
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_Pos (0UL) // /*!< Position of UART_CLK_GR field. */
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_Msk (0xFUL << CPR_UART_CLK_GRCTL_UART_CLK_GR_Pos) 
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_WE  ((1UL << CPR_UART_CLK_GRCTL_UART_CLK_GR_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
+
+/* Bit 4: UART_CLK_GR_UPD */
+/* Description: uart_clk GR 参数更新寄存器
+自清 0
+1 有效
+*/
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Pos (4UL) // /*!< Position of UART_CLK_GR_UPD field. */
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Msk (0x1UL << CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Pos) 
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Disable (0UL) /*!< 自清 */
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Enable (1UL) /*!< 有效*/
+
+#define CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_WE  ((1UL << CPR_UART_CLK_GRCTL_UART_CLK_GR_UPD_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
+
+
+
+/* Register: CPR_UART_CLK_CTL */
+/* Description :UART_CLK 时钟控制寄存器*/
+
+/* Bit 0..15: UART_CLK_DIV */
+/* Description: uart0_clk 相对于 32MHz 时钟的二级分频系数 DIV
+*/
+#define CPR_UART_CLK_CTL_UART_CLK_DIV_Pos (0UL) // /*!< Position of UART_CLK_DIV field. */
+#define CPR_UART_CLK_CTL_UART_CLK_DIV_Msk (0xFFFFUL << CPR_UART_CLK_CTL_UART_CLK_DIV_Pos) 
+
+/* Bit 16..31: UART_CLK_MUL */
+/* Description: uart0_clk 相对于 32MHz 时钟的二级分频系数 MUL
+*/
+#define CPR_UART_CLK_CTL_UART_CLK_MUL_Pos (16UL) // /*!< Position of UART_CLK_MUL field. */
+#define CPR_UART_CLK_CTL_UART_CLK_MUL_Msk (0xFFFFUL << CPR_UART_CLK_CTL_UART_CLK_MUL_Pos) 
+
+
+
+/* Register: CPR_SSI_MCLK_CTL */
+/* Description :SSI_MCLK 时钟控制寄存器
+    BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
+写屏蔽 BIT[15:12]*/
+#define CPR_SSI_MCLK_CTL_MASK_OFFSET (16UL)
+
+/* Bit 0..3: SSI_MCLK_DIV */
+/* Description: SSI_MCLK 时钟分频系数：
+0：不复位
+1：复位
+*/
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos (0UL) // /*!< Position of SSI_MCLK_DIV field. */
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Msk (0xFUL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) 
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos)
+
+/* Bit 4: SSI_MCLK_EN */
+/* Description: SSI_MCLK 时钟使能
+0：不复位
+1：复位
+*/
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos (4UL) // /*!< Position of SSI_MCLK_EN field. */
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Msk (0x1UL << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) 
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
+#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos)
+
+
+
+
+
+
+
+/* Register: CPR_TIMER_CLK_CTL */
+/* Description :TIMER_CLK 时 钟 控 制 寄 存 器
+*/
+
+/* Bit 0..7: TIMER_CLK0_DIV */
+/* Description: 控制 timer0_clk 相对于 mclk_in(32MHz)时钟的分频比为 2*(TIMER_CLK0_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Pos (0UL) // /*!< Position of TIMER_CLK0_DIV field. */
+#define CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Msk (0xFFUL << CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Pos) 
+
+/* Bit 8..15: TIMER_CLK1_DIV */
+/* Description: 控制 timer0_clk 相对于 32KHz时钟的分频比为 2*(TIMER_CLK1_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Pos (8UL) // /*!< Position of TIMER_CLK1_DIV field. */
+#define CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Msk (0xFFUL << CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Pos) 
+
+
+/* Bit 28..30: TIMER_CLKSEL */
+/* Description: 控制 timer0_clk 相对于 32KHz时钟的分频比为 2*(TIMER_CLK1_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos (28UL) // /*!< Position of TIMER_CLKSEL field. */
+#define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Msk (0x7UL << CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos) 
+#define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32M_DIV      CPR_CLK_SRC_32MHZ_DIV ///< CLK SRC 32MHz div.
+#define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32K_DIV      CPR_CLK_SRC_32KHZ_DIV   ///<  CLK SRC 32kHz div.
+#define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32K          CPR_CLK_SRC_32KHZ    ///<  CLK SRC 32kHz.
+
+
+
+
+
+
+/* Register: CPR_PWM_CLK_CTL */
+/* Description :PWM_CLK 时 钟 控 制 寄 存 器
+*/
+
+/* Bit 0..7: PWM_CLK0_DIV */
+/* Description: 控制 pwm_clk 相对于 mclk_in(32MHz)时钟的分频比为 2*(PWM_CLK0_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_PWM_CLK_CTL_PWM_CLK0_DIV_Pos (0UL) // /*!< Position of PWM_CLK0_DIV field. */
+#define CPR_PWM_CLK_CTL_PWM_CLK0_DIV_Msk (0xFFUL << CPR_PWM_CLK_CTL_PWM_CLK0_DIV_Pos) 
+
+/* Bit 8..15: PWM_CLK1_DIV */
+/* Description: 控制 pwm_clk 相对于 32KHz时钟的分频比为 2*(PWM_CLK1_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_PWM_CLK_CTL_PWM_CLK1_DIV_Pos (8UL) // /*!< Position of PWM_CLK1_DIV field. */
+#define CPR_PWM_CLK_CTL_PWM_CLK1_DIV_Msk (0xFFUL << CPR_PWM_CLK_CTL_PWM_CLK1_DIV_Pos) 
+
+
+/* Bit 28..30: PWM_CLKSEL */
+/* Description: 控制 timer0_clk 相对于 32KHz时钟的分频比为 2*(TIMER_CLK1_DIV+ 1)
+0：不复位
+1：复位
+*/
+#define CPR_PWM_CLK_CTL_PWM_CLKSEL_Pos (28UL) // /*!< Position of TIMER_CLKSEL field. */
+#define CPR_PWM_CLK_CTL_PWM_CLKSEL_Msk (0x7UL << CPR_PWM_CLK_CTL_PWM_CLKSEL_Pos) 
+#define CPR_PWM_CLK_CTL_PWM_CLKSEL_32M_DIV      CPR_CLK_SRC_32MHZ_DIV ///< CLK SRC 32MHz div.
+#define CPR_PWM_CLK_CTL_PWM_CLKSEL_32K_DIV      CPR_CLK_SRC_32KHZ_DIV   ///<  CLK SRC 32kHz div.
+#define CPR_PWM_CLK_CTL_PWM_CLKSEL_32K          CPR_CLK_SRC_32KHZ    ///<  CLK SRC 32kHz.
+
+/* Bit 31: PWM_CLK_EN */
+/* Description: PWM_CLK 时钟使能
+0：不使能时钟
+1：使能时钟
+*/
+#define CPR_PWM_CLK_CTL_PWM_CLK_EN_Pos (31UL) // /*!< Position of PWM_CLK_EN field. */
+#define CPR_PWM_CLK_CTL_PWM_CLK_EN_Msk (0x1UL << CPR_PWM_CLK_CTL_PWM_CLK_EN_Pos)
+#define CPR_PWM_CLK_CTL_PWM_CLK_EN_EN_Disable (0UL) /*!< 0：不使能时钟 */
+#define CPR_PWM_CLK_CTL_PWM_CLK_EN_Enable (1UL) /*!< 1：使能时钟*/
+
+
+
+
 
 /* Register: CPR_AHBCLKEN_GRCTL */
 /* Description:AHB 总线时钟使能寄存器 
@@ -294,32 +459,6 @@
 #define CPR_I2C_CLK_CTL_I2C_CLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
 #define CPR_I2C_CLK_CTL_I2C_CLK_EN_Enable (1UL) /*!< 1：使能时钟*/
 
-
-/* Register: CPR_SSI_MCLK_CTL */
-/* Description :SSI_MCLK 时钟控制寄存器
-    BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
-写屏蔽 BIT[15:12]*/
-#define CPR_SSI_MCLK_CTL_MASK_OFFSET (16UL)
-
-/* Bit 0..3: SSI_MCLK_DIV */
-/* Description: SSI_MCLK 时钟分频系数：
-0：不复位
-1：复位
-*/
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos (0UL) // /*!< Position of SSI_MCLK_DIV field. */
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Msk (0xFUL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) 
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos)
-
-/* Bit 4: SSI_MCLK_EN */
-/* Description: SSI_MCLK 时钟使能
-0：不复位
-1：复位
-*/
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos (4UL) // /*!< Position of SSI_MCLK_EN field. */
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Msk (0xFUL << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) 
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
-#define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos)
 
 
 

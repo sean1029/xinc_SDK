@@ -53,9 +53,9 @@ typedef enum
 /** @brief Timer bit width. */
 typedef enum
 {
-	XINC_TIMER_CLK_SRC_32M_DIV = 0, ///< Timer CLK SRC 32MHz div.
-	XINC_TIMER_CLK_SRC_32K_DIV = 1, ///< Timer CLK SRC 32kHz div.
-	XINC_TIMER_CLK_SRC_32K = 4, ///< TimerCLK SRC 32kHz.
+	XINC_TIMER_CLK_SRC_32M_DIV = CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32M_DIV, ///< Timer CLK SRC 32MHz div.
+	XINC_TIMER_CLK_SRC_32K_DIV = CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32K_DIV, ///< Timer CLK SRC 32kHz div.
+	XINC_TIMER_CLK_SRC_32K = CPR_TIMER_CLK_CTL_TIMER_CLKSEL_32K, ///< Timer CLK SRC 32kHz.
 } xinc_timer_clk_src_t;
 
 /** @brief Timer prescalers. */
@@ -289,10 +289,6 @@ __STATIC_INLINE void xinc_timer_mode_set(XINC_TIMER_Type * p_reg,
 {
     p_reg->TCR = (p_reg->TCR & ~TIMERx_TCR_TMS_Msk) |
                         ((mode << TIMERx_TCR_TMS_Pos) & TIMERx_TCR_TMS_Msk);
-//    uint32_t reg  = p_reg->TCR;
-//    reg &= ~(TIMERx_TCR_TMS_Msk);
-//    reg |= (mode << TIMERx_TCR_TMS_Pos);
-//    p_reg->TCR = reg;
 }
 
 __STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg)
@@ -306,23 +302,23 @@ __STATIC_INLINE void xinc_timer_clk_div_set(XINC_CPR_CTL_Type * p_reg,uint8_t id
                                              xinc_timer_ref_clk_t ref_clk)
 {
 	volatile uint32_t *Timer0CtlBaseAddr = (uint32_t*)&(p_reg->TIMER0_CLK_CTL);
-
+    printf("xinc_timer_clk_div_set clk_src:%d,ref_clk:%d\r\n",clk_src,ref_clk);
     Timer0CtlBaseAddr+= id;
     switch(clk_src)
     {
         case XINC_TIMER_CLK_SRC_32M_DIV:
         {
-            *Timer0CtlBaseAddr = (1 << ref_clk) - 1 ;
+            *Timer0CtlBaseAddr = ((1UL << ref_clk) - 1UL )| (XINC_TIMER_CLK_SRC_32K_DIV << CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos) ;
         }break;
         
         case XINC_TIMER_CLK_SRC_32K_DIV:
         {
-            *Timer0CtlBaseAddr = ((1 << ref_clk) - 1) | (0x01 << 28) ;
+            *Timer0CtlBaseAddr = (((1UL << ref_clk) - 1UL )  << CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Pos)| (XINC_TIMER_CLK_SRC_32K_DIV << CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos) ;
         }break;
         
         case XINC_TIMER_CLK_SRC_32K:
         {
-            *Timer0CtlBaseAddr = (0x04 << 28);
+            *Timer0CtlBaseAddr = (XINC_TIMER_CLK_SRC_32K << CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos);
         }break;
         
         default:
@@ -366,7 +362,7 @@ __STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
 {
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16 MHz / 2^prescaler.
-    xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency >> 28) & 0x07);
+    xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency & CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos);
     uint32_t prescaler;
     uint32_t clk_base;
     uint32_t ticks;
@@ -374,14 +370,14 @@ __STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
     {
         case XINC_TIMER_CLK_SRC_32M_DIV:
         {
-            prescaler = frequency & 0xFF;
+            prescaler = (frequency & CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Pos;
             clk_base = 16ULL;
             ticks = ((time_us * clk_base) /(prescaler + 1));
         }break;
 
         case XINC_TIMER_CLK_SRC_32K_DIV:
         {
-            prescaler = (frequency >> 8 )& 0xFF;
+            prescaler = (frequency & CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Pos;
             clk_base = 16ULL;
             ticks = ((time_us * clk_base) /(prescaler + 1)) / 1000;
         }break;
@@ -399,7 +395,7 @@ __STATIC_INLINE uint32_t xinc_timer_us_to_ticks(uint32_t              time_us,
     } 
     if(ticks < 4) ticks = 4;
 
-    printf("%s,frequency:%x,clk_src:%d,time_us:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_us,ticks ,prescaler);
+    printf("%s,frequency:0x%x,clk_src:%d,time_us:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_us,ticks ,prescaler);
     XINCX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }
@@ -410,20 +406,20 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
     // The "frequency" parameter here is actually the prescaler value, and the
     // timer runs at the following frequency: f = 16000 kHz / 2^prescaler.
 	// xinchip f=32000kHz/(2*(prescaler+1))
-    xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency >> 28) & 0x07);
+    xinc_timer_clk_src_t clk_src  = (xinc_timer_clk_src_t)((frequency & CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos);
     uint32_t prescaler;
     uint32_t clk_base;
     switch(clk_src)
     {
         case XINC_TIMER_CLK_SRC_32M_DIV:
         {
-            prescaler = frequency & 0xFF;
+            prescaler = (frequency & CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLK0_DIV_Pos;
             clk_base = 16000ULL;
         }break;
         
         case XINC_TIMER_CLK_SRC_32K_DIV:
         {
-            prescaler = (frequency >> 8 )& 0xFF;
+            prescaler = (frequency & CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Msk) >> CPR_TIMER_CLK_CTL_TIMER_CLK1_DIV_Pos;
             clk_base = 16ULL;
         }break;
         
@@ -442,7 +438,7 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
     
     if(ticks < TIMERx_MIN_TICKS) ticks = TIMERx_MIN_TICKS;
 
-    printf("%s,frequency:%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
+    printf("%s,frequency:0x%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
     XINCX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }

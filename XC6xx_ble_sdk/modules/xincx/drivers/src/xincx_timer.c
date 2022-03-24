@@ -32,6 +32,17 @@ typedef struct
 static timer_control_block_t m_cb[XINCX_TIMER_ENABLED_COUNT];
 
 
+
+static void xincx_timer_clk_init(xincx_timer_t const * const  p_instance,
+                         xincx_timer_config_t const * p_config)
+{
+    XINC_CPR_CTL_Type * p_cpr = (XINC_CPR_CTL_Type *)p_instance->p_cpr;
+    
+    //TIMER_PCLK en
+    p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_TIMER_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_TIMER_PCLK_EN_Pos) |
+                                (CPR_CTLAPBCLKEN_GRCTL_TIMER_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET));
+
+}
 xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
                            xincx_timer_config_t const * p_config,
                            xincx_timer_event_handler_t  timer_event_handler)
@@ -67,7 +78,9 @@ xincx_err_t xincx_timer_init(xincx_timer_t const * const  p_instance,
         return err_code;
     }
 
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK ʱ��ʹ��
+    xincx_timer_clk_init(p_instance,p_config);
+
+  //  p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((0x01 << 3) | (0x01 << 19));//TIMER_PCLK ʱ��ʹ��
 
     xinc_timer_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk); //TIMERx_CLK ʱ�ӿ��ƼĴ��� mclk_in(32MHz)/2x(0x0f + 0x1)=1M
     printf("frequency val:0x%08x\r\n",p_config->ref_clk);
