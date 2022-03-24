@@ -312,14 +312,15 @@ static	uint8_t w_buf[20];
 static	uint8_t r_buf[20];
 
 
+static xinc_drv_wdt_t m_wdt0 =  XINC_DRV_WDT_INSTANCE(0);
 /**
  * @brief WDT events handler.
  */
 void wdt_event_handler(void)//NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
 {
     //bsp_board_leds_off();
-   // printf("wdt_event_handler\n");
-    xincx_wdt_feed();
+    printf("wdt_event_handler\n");
+    xincx_wdt_feed(&m_wdt0);
     bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_2));    
 
 }
@@ -339,7 +340,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
         
                  // WDT feed
-                xincx_wdt_feed();
+                xincx_wdt_feed(&m_wdt0);
 
             }else
             {
@@ -376,10 +377,10 @@ void wdt_test()
     
     //Initialize wdt instance
     xinc_drv_wdt_config_t config = XINC_DRV_WDT_DEAFULT_CONFIG;
-    err_code = xinc_drv_wdt_init(&config, NULL);//wdt_event_handler
+    err_code = xinc_drv_wdt_init(&m_wdt0,&config, wdt_event_handler);//wdt_event_handler
     APP_ERROR_CHECK(err_code);
 
-    xinc_drv_wdt_enable();   
+    xinc_drv_wdt_enable(&m_wdt0);   
 
 
     APP_ERROR_CHECK(err_code);

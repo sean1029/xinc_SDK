@@ -18,13 +18,13 @@ extern "C" {
 #endif
 
 
-#ifndef XINC_P0
-#define XINC_P0 XINC_GPIO
+#ifndef XINC_GPIO0
+#define XINC_GPIO0 XINC_GPIO0
 #endif
 
 #if (GPIO_COUNT == 1)
 #define NUMBER_OF_PINS (P0_PIN_NUM)
-#define GPIO_REG_LIST  {XINC_P0}
+#define GPIO_REG_LIST  {XINC_GPIO0}
 #else
 #error "Not supported."
 #endif
@@ -473,16 +473,16 @@ __STATIC_INLINE XINC_GPIO_Type * xinc_gpio_pin_port_decode(uint32_t * p_pin)
 {
 //    XINCX_ASSERT(xinc_gpio_pin_present_check(*p_pin));
 #if (GPIO_COUNT == 1)
-    return XINC_P0;
+    return XINC_GPIO0;
 #else
     if (*p_pin < P0_PIN_NUM)
     {
-        return XINC_P0;
+        return XINC_GPIO0;
     }
     else
     {
         *p_pin = *p_pin & 0x1F;
-        return XINC_P1;
+        return XINC_GPIO1;
     }
 #endif
 }

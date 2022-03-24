@@ -24,6 +24,36 @@ extern "C" {
  * @brief   Watchdog Timer (WDT) peripheral driver.
  */
 
+/** @brief Data structure of the UART driver instance. */
+typedef struct
+{
+    XINC_WDT_Type * p_reg;        ///< Pointer to a structure with UART registers.
+    XINC_CPR_CTL_Type * p_cpr; 		///< Pointer to a structure with CPR registers.
+    uint8_t         drv_inst_idx; ///< Index of the driver instance. For internal use only.
+    uint8_t         id;
+} xincx_wdt_t;
+
+#ifndef __XINCX_DOXYGEN__
+enum {
+    #if XINCX_CHECK(XINCX_WDT0_ENABLED)
+    XINCX_WDT0_INST_IDX ,
+    #endif
+
+    XINCX_WDT_ENABLED_COUNT,
+
+};
+#endif
+
+/** @brief Macro for creating a UART driver instance. */
+#define XINCX_WDT_INSTANCE(Id)                                     \
+{                                                                   \
+    .p_reg          = XINCX_CONCAT_2(XINC_WDT, Id),                 \
+    .p_cpr          = XINC_CPR,                                     \
+    .drv_inst_idx   = XINCX_CONCAT_3(XINCX_WDT, Id, _INST_IDX),     \
+    .id             = Id,                                           \
+}
+
+
 #if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__XINCX_DOXYGEN__)
 /** @brief WDT instance interrupt priority configuration. */
     #define XINCX_WDT_IRQ_CONFIG .interrupt_priority = XINCX_WDT_CONFIG_IRQ_PRIORITY
@@ -59,7 +89,7 @@ typedef void (*xincx_wdt_event_handler_t)(void);
  *
  * @return XINCX_SUCCESS on success, otherwise an error code.
  */
-xincx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
+xincx_err_t xincx_wdt_init(xincx_wdt_t  const * const p_instance,xincx_wdt_config_t const * p_config,
                          xincx_wdt_event_handler_t  wdt_event_handler);
 
 
@@ -69,14 +99,14 @@ xincx_err_t xincx_wdt_init(xincx_wdt_config_t const * p_config,
  * @note After calling this function the watchdog is started, so the user needs to feed all allocated
  *       watchdog channels to avoid reset. At least one watchdog channel must be allocated.
  */
-void xincx_wdt_enable(void);
+void xincx_wdt_enable(xincx_wdt_t  const * const p_instance);
 
 /**
  * @brief Function for feeding the watchdog.
  *
  * @details Function feeds all allocated watchdog channels.
  */
-void xincx_wdt_feed(void);
+void xincx_wdt_feed(xincx_wdt_t  const * const p_instance);
 
 
 /** @} */

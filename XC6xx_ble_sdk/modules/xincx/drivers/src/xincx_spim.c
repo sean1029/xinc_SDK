@@ -90,15 +90,15 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     if(ch == 0)
     {
         // *SSI_MCLK_CTL_Base = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
-        p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI0_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
-                                             ((CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_WE);
+        p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
+                                             ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
 
         val |= (CPR_SSI_CTRL_SSI0_PROTOCOL_SPI << CPR_SSI_CTRL_SSI0_PROTOCOL_Pos);
 
     }else
     {
-        p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI0_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
-                                            ((CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI0_MCLK_CTL_SSI_MCLK_EN_WE);
+        p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
+                                            ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
 
         val |= (CPR_SSI_CTRL_SSI1_PROTOCOL_SPI << CPR_SSI_CTRL_SSI1_PROTOCOL_Pos) | (CPR_SSI_CTRL_SSI1_MASTER_EN_Master << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos);
 
@@ -230,7 +230,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 
 	
     // uint32_t    val;
-    // uint8_t ch = p_instance->id;
+    
     // volatile uint32_t *Spim0CtlBaseAddr = (uint32_t*)&(p_instance->p_cpr->SSI0_MCLK_CTL);
     // Spim0CtlBaseAddr+=ch;
     
@@ -243,6 +243,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 
     xincx_spim_clk_init(p_instance,p_config);
     
+     uint8_t ch = p_instance->id;
     // DMA 通道和外设使用是固定绑定关系的，因此此处不能做修改，对应中断处理里也就固定其检测值
     if(ch == 0)
     {

@@ -27,6 +27,12 @@ extern "C" {
 /** @brief Type definition for forwarding the new implementation. */
 typedef xincx_wdt_config_t xinc_drv_wdt_config_t;
 
+typedef xincx_wdt_t         xinc_drv_wdt_t;
+
+
+/** @brief Macro for forwarding the new implementation. */
+#define XINC_DRV_WDT_INSTANCE                    XINCX_WDT_INSTANCE
+
 /** @brief Macro for forwarding the new implementation. */
 #define XINC_DRV_WDT_DEAFULT_CONFIG  XINCX_WDT_DEAFULT_CONFIG
 
@@ -49,7 +55,7 @@ typedef xincx_wdt_config_t xinc_drv_wdt_config_t;
  *
  * @return XINC_SUCCESS on success, otherwise an error code.
  */
-__STATIC_INLINE ret_code_t xinc_drv_wdt_init(xinc_drv_wdt_config_t const * p_config,
+__STATIC_INLINE ret_code_t xinc_drv_wdt_init(xinc_drv_wdt_t  const * const p_instance,xinc_drv_wdt_config_t const * p_config,
                                             xinc_wdt_event_handler_t      wdt_event_handler)
 {
     if (p_config == NULL)
@@ -57,7 +63,7 @@ __STATIC_INLINE ret_code_t xinc_drv_wdt_init(xinc_drv_wdt_config_t const * p_con
         static const xincx_wdt_config_t default_config = XINCX_WDT_DEAFULT_CONFIG;
         p_config = &default_config;
     }
-    return xincx_wdt_init(p_config, wdt_event_handler);
+    return xincx_wdt_init(p_instance,p_config, wdt_event_handler);
 }
 
 /** @} */

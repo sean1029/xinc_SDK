@@ -30,7 +30,7 @@ extern "C" {
 /** @brief WDT behavior in the SLEEP or HALT CPU modes. */
 typedef enum
 {
-    XINC_WDT_MODE_RUN_0        = WDT_CR_RMOD_Mode0,                         /**< WDT will run on mode 0. */
+    XINC_WDT_MODE_RUN_0        =  WDT_CR_RMOD_Mode0,                         /**< WDT will run on mode 0. */
     XINC_WDT_MODE_RUN_1         = WDT_CR_RMOD_Mode1,                        /**< WDT will run on mode 1. */                                
 } xinc_wdt_mode_t;
 
@@ -53,14 +53,14 @@ enum
  *
  * @param behaviour Watchdog behavior mode.
  */
-__STATIC_INLINE void xinc_wdt_mode_set(xinc_wdt_mode_t mode);
+__STATIC_INLINE void xinc_wdt_mode_set(XINC_WDT_Type * p_reg,xinc_wdt_mode_t mode);
 
 /**
  * @brief Function for enabling the specified interrupt.
  *
  * @param[in] int_mask Interrupt.
  */
-__STATIC_INLINE void xinc_wdt_enable(uint32_t en);
+__STATIC_INLINE void xinc_wdt_enable(XINC_WDT_Type * p_reg,uint32_t en);
 
 
 /**
@@ -69,7 +69,7 @@ __STATIC_INLINE void xinc_wdt_enable(uint32_t en);
  * @retval true  The watchdog is started.
  * @retval false The watchdog is not started.
  */
-__STATIC_INLINE bool xinc_wdt_started(void);
+__STATIC_INLINE bool xinc_wdt_started(XINC_WDT_Type * p_reg);
 
 
 /**
@@ -77,14 +77,14 @@ __STATIC_INLINE bool xinc_wdt_started(void);
  *
  * @param[in] reload_value Watchdog counter initial value.
  */
-__STATIC_INLINE void xinc_wdt_reload_value_set(uint32_t reload_value);
+__STATIC_INLINE void xinc_wdt_reload_value_set(XINC_WDT_Type * p_reg,uint32_t reload_value);
 
 /**
  * @brief Function for retrieving the watchdog reload value.
  *
  * @return Reload value.
  */
-__STATIC_INLINE uint32_t xinc_wdt_reload_value_get(void);
+__STATIC_INLINE uint32_t xinc_wdt_reload_value_get(XINC_WDT_Type * p_reg);
 
 
 /**
@@ -92,58 +92,58 @@ __STATIC_INLINE uint32_t xinc_wdt_reload_value_get(void);
  *
  * @param[in]  rr_register       Reload request register to set.
  */
-__STATIC_INLINE void xinc_wdt_reload_request_set(uint32_t value);
+__STATIC_INLINE void xinc_wdt_reload_request_set(XINC_WDT_Type * p_reg,uint32_t value);
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
-__STATIC_INLINE void xinc_wdt_mode_set(xinc_wdt_mode_t mode)
+__STATIC_INLINE void xinc_wdt_mode_set(XINC_WDT_Type * p_reg,xinc_wdt_mode_t mode)
 {
-    uint32_t reg = XINC_WDT->CR;  
+    uint32_t reg = p_reg->CR;  
     reg &= ~(WDT_CR_RMOD_Msk);
     reg |= (mode << WDT_CR_RMOD_Pos);
-    XINC_WDT->CR = reg;
+    p_reg->CR = reg;
 }
 
-__STATIC_INLINE void xinc_wdt_enable(uint32_t en)
+__STATIC_INLINE void xinc_wdt_enable(XINC_WDT_Type * p_reg,uint32_t en)
 {
 
-	XINC_WDT->CR |= en;
-	XINC_WDT->CRR = WDT_CRR_CRR_Enable;
+	p_reg->CR |= en;
+	p_reg->CRR = WDT_CRR_CRR_Enable;
 }
 
-__STATIC_INLINE bool xinc_wdt_enable_check(uint32_t int_mask)
+__STATIC_INLINE bool xinc_wdt_enable_check(XINC_WDT_Type * p_reg,uint32_t int_mask)
 {
-    return (bool)(XINC_WDT->CR & WDT_CR_WDT_EN_Msk);// 0x01 << 0,wdt en
+    return (bool)(p_reg->CR & WDT_CR_WDT_EN_Msk);// 0x01 << 0,wdt en
 }
 
-__STATIC_INLINE void xinc_wdt_int_disable(uint32_t int_mask)
+__STATIC_INLINE void xinc_wdt_int_disable(XINC_WDT_Type * p_reg,uint32_t int_mask)
 {
 
-}
-
-
-__STATIC_INLINE bool xinc_wdt_started(void)
-{
-    return (bool)(XINC_WDT->CR & WDT_CR_WDT_EN_Msk);
 }
 
 
-
-__STATIC_INLINE void xinc_wdt_reload_value_set(uint32_t reload_value)
+__STATIC_INLINE bool xinc_wdt_started(XINC_WDT_Type * p_reg)
 {
-    XINC_WDT->TORR = reload_value;
-}
-
-__STATIC_INLINE uint32_t xinc_wdt_reload_value_get(void)
-{
-    return (uint32_t)XINC_WDT->TORR;
+    return (bool)(p_reg->CR & WDT_CR_WDT_EN_Msk);
 }
 
 
 
-__STATIC_INLINE void xinc_wdt_reload_request_set(uint32_t value)
+__STATIC_INLINE void xinc_wdt_reload_value_set(XINC_WDT_Type * p_reg,uint32_t reload_value)
 {
-	XINC_WDT->CRR = value;
+    p_reg->TORR = reload_value;
+}
+
+__STATIC_INLINE uint32_t xinc_wdt_reload_value_get(XINC_WDT_Type * p_reg)
+{
+    return (uint32_t)p_reg->TORR;
+}
+
+
+
+__STATIC_INLINE void xinc_wdt_reload_request_set(XINC_WDT_Type * p_reg,uint32_t value)
+{
+	p_reg->CRR = value;
 }
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION

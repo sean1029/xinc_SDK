@@ -20,6 +20,11 @@
 #define XINCX_WDT_ENABLED 1
 #endif
 
+// <q> XINCX_WDT0_ENABLED  - Enable WDT0 instance
+
+ #ifndef XINCX_WDT0_ENABLED
+#define XINCX_WDT0_ENABLED 1
+#endif
 
 // <o> XINCX_WDT_CONFIG_RELOAD_VALUE - Reload value
 

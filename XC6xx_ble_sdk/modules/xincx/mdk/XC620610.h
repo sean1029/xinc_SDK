@@ -508,7 +508,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
-#define XINC_P0_BASE                0x40001000UL
+#define XINC_GPIO0_BASE                0x40001000UL
 #define XINC_CPR_BASE               0x40000000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
 #define XINC_GPIOTE_BASE            0x40006000UL
@@ -520,7 +520,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_SAADC_BASE             0x40018000UL
 #define XINC_SAADC0_BASE            0x40018000UL
 #define XINC_RTC0_BASE              0x40002000UL
-#define XINC_WDT_BASE               0x40004000UL
+#define XINC_WDT0_BASE              0x40004000UL
 #define XINC_TIMER0_BASE            0x40003000UL
 #define XINC_TIMER1_BASE            0x40003014UL
 #define XINC_TIMER2_BASE            0x40003028UL
@@ -545,7 +545,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 /** @addtogroup Device_Peripheral_declaration
   * @{
   */
-#define XINC_P0                             ((XINC_GPIO_Type*)              XINC_P0_BASE)
+#define XINC_GPIO0                             ((XINC_GPIO_Type*)              XINC_GPIO0_BASE)
 #define XINC_CPR                            ((XINC_CPR_CTL_Type*)           XINC_CPR_BASE)
 #define XINC_CPR_AO                         ((XINC_CPR_AO_CTL_Type*)        XINC_CPR_AO_BASE)
 #define XINC_GPIO                           ((XINC_GPIO_Type*)              XINC_GPIOTE_BASE)
@@ -557,7 +557,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_I2C0                           ((XINC_I2C_Type*)               XINC_I2C0_BASE)
 #define XINC_SAADC0                         ((XINC_SAADC_Type*)             XINC_SAADC_BASE)
 #define XINC_RTC0                           ((XINC_RTC_Type*)               XINC_RTC0_BASE)
-#define XINC_WDT                            ((XINC_WDT_Type*)               XINC_WDT_BASE)
+#define XINC_WDT0                           ((XINC_WDT_Type*)               XINC_WDT0_BASE)
 #define XINC_TIMER0                         ((XINC_TIMER_Type*)             XINC_TIMER0_BASE)
 #define XINC_TIMER1                         ((XINC_TIMER_Type*)             XINC_TIMER1_BASE)
 #define XINC_TIMER2                         ((XINC_TIMER_Type*)             XINC_TIMER2_BASE)
