@@ -85,7 +85,7 @@ ret_code_t xinc_fstorage_read(xinc_fstorage_t const * p_fs,
     /* Source addres must be word-aligned. */
     XINC_FSTORAGE_PARAM_CHECK(addr_is_aligned32(src),                XINC_ERROR_INVALID_ADDR);
     XINC_FSTORAGE_PARAM_CHECK(addr_is_within_bounds(p_fs, src, len), XINC_ERROR_INVALID_ADDR);
-		printf("%s\r\n",__func__);
+    
     return (p_fs->p_api)->read(p_fs, src, p_dest, len);
 }
 
@@ -108,7 +108,7 @@ ret_code_t xinc_fstorage_write(xinc_fstorage_t const * p_fs,
     XINC_FSTORAGE_PARAM_CHECK(addr_is_aligned32(dest),                XINC_ERROR_INVALID_ADDR);
     XINC_FSTORAGE_PARAM_CHECK(addr_is_aligned32((uint32_t)p_src),     XINC_ERROR_INVALID_ADDR);
     XINC_FSTORAGE_PARAM_CHECK(addr_is_within_bounds(p_fs, dest, len), XINC_ERROR_INVALID_ADDR);
-	//	printf("%s\r\n",__func__);
+
     return (p_fs->p_api)->write(p_fs, dest, p_src, len, p_context);
 }
 

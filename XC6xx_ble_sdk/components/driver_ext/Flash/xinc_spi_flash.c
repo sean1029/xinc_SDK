@@ -141,19 +141,19 @@ void spim_flash_write_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
 }
 
 void spim_flash_read_page(uint32_t aligAddr,uint8_t *data,uint16_t len)
-{
-		
+{	
     txbuff[0] = CMD_READ_DATA;
     txbuff[1] = (uint8_t)(aligAddr>>16);
     txbuff[2] = (uint8_t)(aligAddr>>8);		
     txbuff[3] = (uint8_t)(aligAddr);
-
+  //  printf("read_page aligAddr:0x%x\r\n",aligAddr);
     memset(&txbuff[4],0xff,len);
     spi_xfer_done = false;									
     xinc_drv_spi_transfer(&m_spi,txbuff,len + 4,rxbuff,len + 4);
     while (!spi_xfer_done)
     {
         __WFE();
+//        printf("read_page wait\r\n");
     }	
     memcpy(data,&rxbuff[4],len);
 }
@@ -197,6 +197,11 @@ void spim_flash_sector_erase(uint32_t sectorAddr)
     {
         __WFE();
     }	
+    
+    while(spim_read_flash_status() & 0x01)
+    {
+        __nop();
+    }
 }
 void spim_flash_block_erase(uint32_t blkAddr)
 {
@@ -355,14 +360,14 @@ void spim_flash_init(void)
                                             .bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,
                                     };
 
-    err_code = xinc_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);
+    err_code = xinc_drv_spi_init(&m_spi, &spi_cfg, spi_handler, NULL);//
         
     APP_ERROR_CHECK(err_code);                                    
     printf("xinc_drv_spi_init:err_code:0x%x\r\n",err_code);
                                     
 
-
-
+   // spim_flash_sector_erase(1024* 128);
+   //  spim_flash_sector_erase(1024* 132);
 
 }
 #endif //

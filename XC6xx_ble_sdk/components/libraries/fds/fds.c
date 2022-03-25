@@ -19,9 +19,9 @@
 #include "xinc_atfifo.h"
 
 #include "xinc_fstorage.h"
-#if (FDS_BACKEND == XINC_FSTORAGE_SD)
+#if (FDS_BACKEND == XINC_FSTORAGE_FMC)
 #include "xinc_fstorage_sd.h"
-#elif (FDS_BACKEND == XINC_FSTORAGE_NVMC)
+#elif (FDS_BACKEND == XINC_FSTORAGE_FLASH)
 #include "xinc_fstorage_flash.h"
 #else
 #error Invalid FDS backend.
@@ -130,38 +130,49 @@ static void event_prepare(fds_op_t const * const p_op, fds_evt_t * const p_evt)
 }
 
 
-static bool header_has_next(fds_header_t const * p_hdr, uint32_t const * p_page_end)
+static bool header_has_next(fds_header_t const * p_hdr, fds_header_t *header,uint32_t const * p_page_end)
 {
     uint32_t const * const p_hdr32 = (uint32_t*)p_hdr;
+    
+    uint32_t *hdr_word  = (uint32_t *)header; 
+    
+
+  //  printf("header_has_next addr:%x :0x%08x\r\n",(uint32_t)p_hdr,hdr_word[0]);
+    
     return (   ( p_hdr32 <  p_page_end)
-            && (*p_hdr32 != FDS_ERASED_WORD));  // Check last to be on the safe side (dereference)
+            && (hdr_word[0] != FDS_ERASED_WORD));  // Check last to be on the safe side (dereference)
 }
 
 
 // Jump to the next header.
-static fds_header_t const * header_jump(fds_header_t const * const p_hdr)
+static fds_header_t const * header_jump(fds_header_t const * const p_hdr,fds_header_t *hearder)
 {
-    return (fds_header_t*)((uint32_t*)p_hdr + FDS_HEADER_SIZE + p_hdr->length_words);
+    return (fds_header_t*)((uint32_t*)p_hdr + FDS_HEADER_SIZE + hearder->length_words);
 }
 
 
-static fds_header_status_t header_check(fds_header_t const * p_hdr, uint32_t const * p_page_end)
+static fds_header_status_t header_check(fds_header_t const * p_hdr, fds_header_t *header,uint32_t const * p_page_end)
 {
-    if (((uint32_t*)header_jump(p_hdr) > p_page_end))
+   //   printf("header_check start addr:0x%x,file_id:0x%x,record_key:%x,record_id:%x,length_words:%d\r\n",(uint32_t)p_hdr,header->file_id,header->record_key,header->record_id,header->length_words);
+     uint32_t hdr_addr = (uint32_t)p_hdr;
+    
+    if (((uint32_t*)header_jump(p_hdr,header) > p_page_end))
     {
         // The length field would jump across the page boundary.
         // FDS won't allow writing such a header, therefore it has been corrupted.
         return FDS_HEADER_CORRUPT;
     }
 
+ 
+  //  printf("header_check jump addr:0x%x,file_id:0x%x,record_key:%x,record_id:%x,length_words:%d\r\n",hdr_addr,header->file_id,header->record_key,header->record_id,header->length_words);
     // It is important to also check for the record ID to be non-erased.
     // It might happen that during GC, when records are copied in one operation,
     // the device powers off after writing the first two words of the header.
     // In that case the record would be considered valid, but its ID would
     // corrupt the file system.
-    if (   (p_hdr->file_id    == FDS_FILE_ID_INVALID)
-        || (p_hdr->record_key == FDS_RECORD_KEY_DIRTY)
-        || (p_hdr->record_id  == FDS_ERASED_WORD))
+    if (   (header->file_id    == FDS_FILE_ID_INVALID)
+        || (header->record_key == FDS_RECORD_KEY_DIRTY)
+        || (header->record_id  == FDS_ERASED_WORD))
     {
         return FDS_HEADER_DIRTY;
     }
@@ -182,15 +193,24 @@ static bool address_is_valid(uint32_t const * const p_addr)
 // Reads a page tag, and determines if the page is used to store data or as swap.
 static fds_page_type_t page_identify(uint32_t const * const p_page_addr)
 {
-	printf("p_page_addr[FDS_PAGE_TAG_WORD_0]:0x%x\r\n",p_page_addr[FDS_PAGE_TAG_WORD_0]);
-	printf("p_page_addr[FDS_PAGE_TAG_WORD_1]:0x%x\r\n",p_page_addr[FDS_PAGE_TAG_WORD_1]);
-    if (   (p_page_addr == NULL)    // Should never happen.
-        || (p_page_addr[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
+
+    uint32_t page_addr = (uint32_t)p_page_addr;
+    
+    uint32_t page_tag_word[FDS_PAGE_TAG_SIZE];
+    xinc_fstorage_read(&m_fs,page_addr,(uint8_t *)&page_tag_word, sizeof(page_tag_word));
+    
+//    printf("page_tag_word[FDS_PAGE_TAG_WORD_0]:0x%x\r\n",page_tag_word[FDS_PAGE_TAG_WORD_0]);
+//	printf("page_tag_word[FDS_PAGE_TAG_WORD_1]:0x%x\r\n",page_tag_word[FDS_PAGE_TAG_WORD_1]);
+//    
+    
+    if ( (p_page_addr == NULL)    // Should never happen.
+        || (page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
     {
+    
         return FDS_PAGE_UNDEFINED;
     }
 
-    switch (p_page_addr[FDS_PAGE_TAG_WORD_1])
+    switch (page_tag_word[FDS_PAGE_TAG_WORD_1])
     {
         case FDS_PAGE_TAG_SWAP:
             return FDS_PAGE_SWAP;
@@ -215,8 +235,14 @@ static bool page_can_tag(uint32_t const * const p_page_addr)
     // By considering the first word as erased if it contains fds page tag,
     // the page can be re-tagged as necessary.
 
-    if ((p_page_addr[FDS_PAGE_TAG_WORD_0] != FDS_ERASED_WORD) &&
-        (p_page_addr[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
+    uint32_t page_addr = (uint32_t)p_page_addr;
+    
+    uint32_t page_tag_word[FDS_PAGE_TAG_SIZE];
+
+    xinc_fstorage_read(&m_fs,(uint32_t)p_page_addr,(uint8_t *)&page_tag_word, sizeof(page_tag_word));
+
+    if ((page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_ERASED_WORD) &&
+        (page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
     {
         return false;
     }
@@ -224,7 +250,11 @@ static bool page_can_tag(uint32_t const * const p_page_addr)
     // Ignore the first word of the tag, we already checked that it is either erased or fds's.
     for (uint32_t i = FDS_PAGE_TAG_WORD_1; i < FDS_PAGE_SIZE; i++)
     {
-        if (*(p_page_addr + i) != FDS_ERASED_WORD)
+        page_addr = (uint32_t)(p_page_addr + i);
+        
+        xinc_fstorage_read(&m_fs,page_addr,(uint8_t *)&page_tag_word, sizeof(uint32_t));
+        
+        if (page_tag_word[0] != FDS_ERASED_WORD)
         {
             return false;
         }
@@ -279,18 +309,27 @@ static void page_scan(uint32_t const *       p_addr,
     p_addr         += FDS_PAGE_TAG_SIZE;
     *words_written  = FDS_PAGE_TAG_SIZE;
 
+    fds_header_t header;
+   
     fds_header_t const * p_header = (fds_header_t*)p_addr;
 
-    while (header_has_next(p_header, p_page_end))
+    xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+    
+  
+  // printf("page_scan start addr:0x%x,file_id:0x%x,record_key:%x,record_id:%x,length_words:%d\r\n",(uint32_t)p_header,header.file_id,header.record_key,header.record_id,header.length_words);
+  
+    while (header_has_next(p_header,&header,p_page_end))
     {
-        fds_header_status_t hdr = header_check(p_header, p_page_end);
-
+       
+        fds_header_status_t hdr = header_check(p_header,&header, p_page_end);
+        
         if (hdr == FDS_HEADER_VALID)
         {
             // Update the latest (largest) record ID.
-            if (p_header->record_id > m_latest_rec_id)
+            if (header.record_id > m_latest_rec_id)
             {
-                m_latest_rec_id = p_header->record_id;
+                m_latest_rec_id = header.record_id;
+                printf("m_latest_rec_id %d\r\n",m_latest_rec_id);
             }
         }
         else
@@ -313,8 +352,13 @@ static void page_scan(uint32_t const *       p_addr,
             }
         }
 
-        *words_written += (FDS_HEADER_SIZE + p_header->length_words);
-        p_header        = header_jump(p_header);
+        *words_written += (FDS_HEADER_SIZE + header.length_words);
+    //    printf("p_header jump to addr start 0x%p,len:%d\r\n",p_header,header.length_words);
+        p_header        = header_jump(p_header,&header);
+     //   printf("p_header jump to addr end 0x%p,len:%d\r\n",p_header,header.length_words);
+        xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
+        
     }
 }
 
@@ -403,6 +447,7 @@ static uint32_t record_id_new(void)
 // otherwise, resume searching from p_record.
 // Return true if a record is found, false otherwise.
 // If no record is found, p_record is unchanged.
+
 static bool record_find_next(uint16_t page, uint32_t const ** p_record)
 {
     uint32_t const * p_page_end = (m_pages[page].p_addr + FDS_PAGE_SIZE);
@@ -411,34 +456,57 @@ static bool record_find_next(uint16_t page, uint32_t const ** p_record)
     // Otherwise, jump to the next record.
     fds_header_t const * p_header = (fds_header_t*)(*p_record);
 
+    fds_header_t record_header;
+ //   printf("record_find_next  p_header :0x%p\r\n",p_header);
     if (p_header != NULL)
     {
-        p_header = header_jump(p_header);
+           
+        xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&record_header, sizeof(fds_header_t));
+   
+        p_header = header_jump(p_header,&record_header);
+             
     }
     else
     {
         p_header = (fds_header_t*)(m_pages[page].p_addr + FDS_PAGE_TAG_SIZE);
     }
+    
+    
+    xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&record_header, sizeof(fds_header_t));
 
+
+    
+ //  printf("record_find_next start addr:0x%x,file_id:0x%x,record_key:%x,record_id:%x,length_words:%d\r\n",(uint32_t)p_header,record_header.file_id,record_header.record_key,record_header.record_id,record_header.length_words);
     // Read records from the page until:
     // - a valid record is found or
     // - the last record on a page is found
 
-    while (header_has_next(p_header, p_page_end))
+    
+    while (header_has_next(p_header,&record_header, p_page_end))
     {
-        switch (header_check(p_header, p_page_end))
+        switch (header_check(p_header,&record_header,p_page_end))
         {
             case FDS_HEADER_VALID:
                 *p_record = (uint32_t*)p_header;
+           //     printf("record_find_next  HEADER_VALID :0x%p\r\n",(uint32_t*)p_header);
                 return true;
 
             case FDS_HEADER_DIRTY:
-                p_header = header_jump(p_header);
+                 
+          //  printf("record_find_next  HEADER_DIRTY :0x%p,lenwords:%d\r\n",(uint32_t*)p_header,record_header.length_words);
+                p_header = header_jump(p_header,&record_header);
+              xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&record_header, sizeof(fds_header_t));
+  
+               // p_header
+            //      printf("record_find_next  HEADER_DIRTY jump:0x%p,lenwords:%d\r\n",(uint32_t*)p_header,record_header.length_words);
+          
                 break;
 
             case FDS_HEADER_CORRUPT:
                 // We can't reliably jump over this record.
                 // There is nothing more we can do on this page.
+            //  printf("record_find_next  FDS_HEADER_CORRUPT \r\n");
+          
                 return false;
         }
     }
@@ -456,9 +524,15 @@ static bool record_find_by_desc(fds_record_desc_t * const p_desc, uint16_t * con
     // not been moved. If the address is valid, and the record ID matches, there is no need
     // to find the record again. Only lookup the page in which the record is stored.
 
+    fds_header_t header; 
+    
+    xinc_fstorage_read(&m_fs,(uint32_t)p_desc->p_record,(uint8_t *)&header, sizeof(fds_header_t));
+    
     if ((address_is_valid(p_desc->p_record))     &&
         (p_desc->gc_run_count == m_gc.run_count) &&
-        (p_desc->record_id    == ((fds_header_t*)p_desc->p_record)->record_id))
+       // (p_desc->record_id    == ((fds_header_t*)p_desc->p_record)->record_id)
+        (p_desc->record_id    == header.record_id)
+        )
     {
         return (page_from_record(p_page, p_desc->p_record) == XINC_SUCCESS);
     }
@@ -472,7 +546,10 @@ static bool record_find_by_desc(fds_record_desc_t * const p_desc, uint16_t * con
         while (record_find_next(*p_page, &p_record))
         {
             fds_header_t const * const p_header = (fds_header_t*)p_record;
-            if (p_header->record_id == p_desc->record_id)
+            
+            xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+            
+            if (header.record_id == p_desc->record_id)
             {
                 p_desc->p_record     = p_record;
                 p_desc->gc_run_count = m_gc.run_count;
@@ -517,25 +594,30 @@ static ret_code_t record_find(uint16_t          const * p_file_id,
         while (record_find_next(p_token->page, &p_token->p_addr))
         {
             fds_header_t const * p_header = (fds_header_t*)p_token->p_addr;
+            
+            fds_header_t header;
+            
+            xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
 
             // A valid record was found, check its header for a match.
             if ((p_file_id != NULL) &&
-                (p_header->file_id != *p_file_id))
+                (header.file_id != *p_file_id))
             {
                 continue;
             }
 
             if ((p_record_key != NULL) &&
-                (p_header->record_key != *p_record_key))
+                (header.record_key != *p_record_key))
             {
                 continue;
             }
 
             // Record found; update the descriptor.
-            p_desc->record_id    = p_header->record_id;
+            p_desc->record_id    = header.record_id;
             p_desc->p_record     = p_token->p_addr;
             p_desc->gc_run_count = m_gc.run_count;
 
+        //    printf("record_find succes p_record:%p\r\n",p_desc->p_record);
             return XINC_SUCCESS;
         }
 
@@ -557,20 +639,28 @@ static void records_stat(uint16_t   page,
 {
     fds_header_t const *       p_header   = (fds_header_t*)(m_pages[page].p_addr + FDS_PAGE_TAG_SIZE);
     uint32_t     const * const p_page_end = (m_pages[page].p_addr + FDS_PAGE_SIZE);
-
-    while (header_has_next(p_header, p_page_end))
+    
+    fds_header_t header; 
+    
+    xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+     
+    while (header_has_next(p_header, &header,p_page_end))
     {
-        switch (header_check(p_header, p_page_end))
+        switch (header_check(p_header,&header, p_page_end))
         {
             case FDS_HEADER_DIRTY:
                 *p_dirty_records  += 1;
                 *p_freeable_words += FDS_HEADER_SIZE + p_header->length_words;
-                p_header = header_jump(p_header);
+                p_header = header_jump(p_header,&header);
+             xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
                 break;
 
             case FDS_HEADER_VALID:
                 *p_valid_records += 1;
-                p_header = header_jump(p_header);
+                p_header = header_jump(p_header,&header);
+               xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
                 break;
 
             case FDS_HEADER_CORRUPT:
@@ -593,10 +683,7 @@ static void records_stat(uint16_t   page,
 static fds_op_t * queue_buf_get(xinc_atfifo_item_put_t * p_iput_ctx)
 {
     fds_op_t * const p_op = (fds_op_t*) xinc_atfifo_item_alloc(m_queue, p_iput_ctx);
-		if(p_op ==NULL)
-		{
-			printf("queue_buf_get fail\r\n");
-		}
+
     memset(p_op, 0x00, sizeof(fds_op_t));
     return p_op;
 }
@@ -643,14 +730,15 @@ static fds_init_opts_t pages_init(void)
 
     for (uint16_t i = 0; i < FDS_VIRTUAL_PAGES; i++)
     {
-				printf("m_fs.page_addr :0x%x\r\n",m_fs.start_addr + (i * FDS_PAGE_SIZE));
+		
         uint32_t        const * const p_page_addr = (uint32_t*)m_fs.start_addr + (i * FDS_PAGE_SIZE);
         fds_page_type_t const         page_type   = page_identify(p_page_addr);
-
+        printf("m_fs.page_addr :0x%p\r\n",p_page_addr);
         switch (page_type)
         {
             case FDS_PAGE_UNDEFINED:
             {
+            //    printf("FDS_PAGE_UNDEFINED\r\n");
                 if (page_can_tag(p_page_addr))
                 {
                     if (m_swap_page.p_addr != NULL)
@@ -689,7 +777,7 @@ static fds_init_opts_t pages_init(void)
 
             case FDS_PAGE_DATA:
             {
-							printf("FDS_PAGE_DATA\r\n");
+			//	printf("FDS_PAGE_DATA\r\n");
                 m_pages[page].page_type = FDS_PAGE_DATA;
                 m_pages[page].p_addr    = p_page_addr;
 
@@ -703,6 +791,7 @@ static fds_init_opts_t pages_init(void)
 
             case FDS_PAGE_SWAP:
             {
+             //   printf("FDS_PAGE_SWAP swap_set_but_not_found:%d\r\n",swap_set_but_not_found);
                 if (swap_set_but_not_found)
                 {
                     m_pages[page].page_type    = FDS_PAGE_ERASED;
@@ -794,9 +883,14 @@ static ret_code_t record_header_flag_dirty(uint32_t * const p_record, uint16_t p
 
     // Flag the record as dirty.
     ret_code_t ret;
-
+    
+    uint32_t header;
+    xinc_fstorage_read(&m_fs, (uint32_t)p_record,
+        &header, FDS_HEADER_SIZE_TL * sizeof(uint32_t));
+    header &= 0xFFFF0000;
+     
     ret = xinc_fstorage_write(&m_fs, (uint32_t)p_record,
-        &dirty_header, FDS_HEADER_SIZE_TL * sizeof(uint32_t), NULL);
+        &header, FDS_HEADER_SIZE_TL * sizeof(uint32_t), NULL);
 
     if (ret != XINC_SUCCESS)
     {
@@ -816,18 +910,24 @@ static ret_code_t record_find_and_delete(fds_op_t * const p_op)
     fds_record_desc_t desc = {0};
 
     desc.record_id = p_op->del.record_to_delete;
+    
+    fds_header_t header; 
 
     if (record_find_by_desc(&desc, &page))
     {
         fds_header_t const * const p_header = (fds_header_t const *)desc.p_record;
+        
+        xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
+             
 
         // Copy the record key and file ID, so that they can be returned in the event.
         // In case this function is run as part of an update, there is no need to copy
         // the file ID and record key since they are present in the header stored
         // in the queue element.
 
-        p_op->del.file_id    = p_header->file_id;
-        p_op->del.record_key = p_header->record_key;
+        p_op->del.file_id    = header.file_id;
+        p_op->del.record_key = header.record_key;
 
         // Flag the record as dirty.
         ret = record_header_flag_dirty((uint32_t*)desc.p_record, page);
@@ -887,15 +987,30 @@ static ret_code_t record_write_data(fds_op_t * const p_op, uint32_t * const p_ad
 static bool crc_verify_success(uint16_t crc, uint16_t len_words, uint32_t const * const p_data)
 {
     uint16_t computed_crc;
+    
+    uint8_t rbuff[8];
+    
+    uint32_t data_addr = (uint32_t)p_data;
+
 
     // The CRC is computed on the entire record, except the CRC field itself.
     // The record header is 12 bytes, out of these we have to skip bytes 6 to 8 where the
     // CRC itself is stored. Then we compute the CRC for the rest of the record, from byte 8 of
     // the header (where the record ID begins) to the end of the record data.
-    computed_crc = crc16_compute((uint8_t const *)p_data,  6, NULL);
-    computed_crc = crc16_compute((uint8_t const *)p_data + 8,
-                                 (FDS_HEADER_SIZE_ID + len_words) * sizeof(uint32_t),
-                                 &computed_crc);
+    xinc_fstorage_read(&m_fs,(uint32_t)data_addr,(uint8_t *)&rbuff, 6);
+
+    computed_crc = crc16_compute(rbuff,  6, NULL);
+        
+    data_addr += 8;
+    for(uint32_t i = 0 ; i < FDS_HEADER_SIZE_ID + len_words ; i++)
+    {
+        xinc_fstorage_read(&m_fs,(uint32_t)data_addr,(uint8_t *)&rbuff, 4);
+        computed_crc = crc16_compute(rbuff,
+                             sizeof(uint32_t),
+                             &computed_crc);
+        data_addr += sizeof(uint32_t);
+    }
+
 
     return (computed_crc == crc);
 }
@@ -981,16 +1096,38 @@ static ret_code_t gc_page_erase(void)
 static ret_code_t gc_record_copy(void)
 {
     fds_header_t const * const p_header   = (fds_header_t*)m_gc.p_record_src;
+    
+    fds_header_t header;
+    xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
     uint32_t     const * const p_dest     = m_swap_page.p_addr + m_swap_page.write_offset;
-    uint16_t     const         record_len = FDS_HEADER_SIZE + p_header->length_words;
-
+    uint32_t    const * const p_src     = m_gc.p_record_src;
+    uint16_t     const         record_len = FDS_HEADER_SIZE + header.length_words;
+    uint32_t rbuff;
     m_gc.state = GC_COPY_RECORD;
-
-    // Copy the record to swap; it is guaranteed to fit in the destination page,
+    ret_code_t ret;
+        // Copy the record to swap; it is guaranteed to fit in the destination page,
     // so there is no need to check its size. This will either succeed or timeout.
-    return xinc_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
-                              record_len * sizeof(uint32_t),
+    for(uint32_t i = 0 ; i < record_len;i++)
+    {
+        ret = xinc_fstorage_read(&m_fs,(uint32_t)(p_src + i),(uint8_t *)&rbuff, sizeof(uint32_t));
+        if(ret!= XINC_SUCCESS)
+        {
+            break;  
+        }
+         ret = xinc_fstorage_write(&m_fs, (uint32_t)(p_dest + i), (uint8_t *)&rbuff,
+                              sizeof(uint32_t),
                               NULL);
+        if(ret != XINC_SUCCESS)
+        {
+            break;
+        }
+    }
+    return  (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_INTERNAL;
+
+//    return xinc_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
+//                              record_len * sizeof(uint32_t),
+//                              NULL);
 }
 
 
@@ -1050,7 +1187,9 @@ static ret_code_t gc_next_page(void)
 static void gc_update_swap_offset(void)
 {
     fds_header_t const * const p_header   = (fds_header_t*)m_gc.p_record_src;
-    uint16_t     const         record_len = FDS_HEADER_SIZE + p_header->length_words;
+            fds_header_t header;
+         xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+    uint16_t     const         record_len = FDS_HEADER_SIZE + header.length_words;
 
     m_swap_page.write_offset += record_len;
 }
@@ -1632,29 +1771,20 @@ ret_code_t fds_register(fds_cb_t cb)
 
 static uint32_t flash_end_addr(void)
 {
-    uint32_t const bootloader_addr = 0;//= BOOTLOADER_ADDRESS;
-    uint32_t const page_sz        = 0;//= XINC_FICR->CODEPAGESIZE;
 
-#if defined(XINC52810_XXAA) || defined(XINC52811_XXAA)
-    // Hardcode the number of flash pages, necessary for SoC emulation.
-    // nRF52810 on nRF52832 and
-    // nRF52811 on nRF52840
-    uint32_t const code_sz = 48;
-#else
-   uint32_t const code_sz = 0;//XINC_FICR->CODESIZE;
-#endif
-
-    uint32_t end_addr = (bootloader_addr != 0xFFFFFFFF) ? bootloader_addr : (code_sz * page_sz);
-
-    return end_addr - (FDS_PHY_PAGES_RESERVED * FDS_PHY_PAGE_SIZE * sizeof(uint32_t));
+    return 0;
 }
 
 
 static void flash_bounds_set(void)
 {
     uint32_t flash_size  = (FDS_PHY_PAGES * FDS_PHY_PAGE_SIZE * sizeof(uint32_t));
-    m_fs.end_addr   = 0x10000000 + 128 * 1024;//flash_end_addr();
-    m_fs.start_addr = 0x10000000 + 122 * 1024; //m_fs.end_addr - flash_size;
+    
+    m_fs.start_addr =  128 * 1024; //m_fs.end_addr - flash_size;
+    m_fs.end_addr   = m_fs.start_addr + flash_size;//flash_end_addr();
+    
+    printf("flash_bounds_set size:%d,start_addr:0x%x,end_addr:0x%x\r\n",flash_size,m_fs.start_addr,m_fs.end_addr);
+    
 }
 
 
@@ -1662,10 +1792,21 @@ static ret_code_t flash_subsystem_init(void)
 {
     flash_bounds_set();
 
-    #if   (FDS_BACKEND == XINC_FSTORAGE_SD)
-        return xinc_fstorage_init(&m_fs, &xinc_fstorage_sd, NULL);
-    #elif (FDS_BACKEND == XINC_FSTORAGE_NVMC)
-        return xinc_fstorage_init(&m_fs, &xinc_fstorage_nvmc, NULL);
+    #if   (FDS_BACKEND == XINC_FSTORAGE_FMC)
+        return xinc_fstorage_init(&m_fs, &xinc_fstorage_fmc, NULL);
+    #elif (FDS_BACKEND == XINC_FSTORAGE_FLASH)
+        return xinc_fstorage_init(&m_fs, &xinc_fstorage_flash, NULL);
+    #else
+        #error Invalid FDS_BACKEND.
+    #endif
+}
+
+static ret_code_t flash_data_erase_init(void)
+{
+    #if   (FDS_BACKEND == XINC_FSTORAGE_FMC)
+        return xinc_fstorage_init(&m_fs, m_fs.start_addr, m_fs.end_addr - m_fs.start_addr)/m_fs.p_flash_info->erase_unit, NULL);
+    #elif (FDS_BACKEND == XINC_FSTORAGE_FLASH)
+        return xinc_fstorage_erase(&m_fs, m_fs.start_addr, (m_fs.end_addr - m_fs.start_addr)/m_fs.p_flash_info->erase_unit , NULL);
     #else
         #error Invalid FDS_BACKEND.
     #endif
@@ -1689,7 +1830,7 @@ ret_code_t fds_init(void)
 
     if (m_flags.initialized)
     {
-				printf("m_flags.initialized:%d\n",m_flags.initialized);
+		printf("m_flags.initialized:%d\n",m_flags.initialized);
         // No initialization is necessary. Notify the application immediately.
         event_send(&evt_success);
         return XINC_SUCCESS;
@@ -1705,7 +1846,7 @@ ret_code_t fds_init(void)
 
     ret = flash_subsystem_init();
 		
-		printf("flash_subsystem_init reet:%d\n",ret);
+	printf("flash_subsystem_init reet:%d\n",ret);
     if (ret != XINC_SUCCESS)
     {
         return ret;
@@ -1713,19 +1854,26 @@ ret_code_t fds_init(void)
 		
     queue_init();
 		
-		printf("queue_init\n");
+	printf("queue_init\n");
 
     // Initialize the page structure (m_pages), and determine which
     // initialization steps are required given the current state of the filesystem.
 
     fds_init_opts_t init_opts = pages_init();
+    
+    if((NO_SWAP == init_opts) || (NO_PAGES == init_opts))// flash 数据是无效的，执行一次擦除
+    {
+      //  flash_data_erase_init();
+     //   init_opts = pages_init();
+    }
 		
-		printf("pages_init,init_opts :%d\n",init_opts);
+    printf("pages_init,init_opts :%d\n",init_opts);
 
     switch (init_opts)
     {
         case NO_PAGES:
         case NO_SWAP:
+            
             return FDS_ERR_NO_PAGES;
 
         case ALREADY_INSTALLED:
@@ -1791,6 +1939,7 @@ ret_code_t fds_init(void)
 ret_code_t fds_record_open(fds_record_desc_t  * const p_desc,
                            fds_flash_record_t * const p_flash_rec)
 {
+    printf("fds_record_open\r\n");
     uint16_t page;
 
     if ((p_desc == NULL) || (p_flash_rec == NULL))
@@ -1802,16 +1951,18 @@ ret_code_t fds_record_open(fds_record_desc_t  * const p_desc,
     if (record_find_by_desc(p_desc, &page))
     {
         fds_header_t const * const p_header = (fds_header_t*)p_desc->p_record;
-
+        fds_header_t header;
+        xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+  
 #if (FDS_CRC_CHECK_ON_READ)
-        if (!crc_verify_success(p_header->crc16,
-                                p_header->length_words,
+        
+        if (!crc_verify_success(header.crc16,
+                                header.length_words,
                                 p_desc->p_record))
         {
             return FDS_ERR_CRC_CHECK_FAILED;
         }
 #endif
-
         (void) xinc_atomic_u32_add(&m_pages[page].records_open, 1);
 
         // Initialize p_flash_rec.
@@ -1829,6 +1980,24 @@ ret_code_t fds_record_open(fds_record_desc_t  * const p_desc,
     return FDS_ERR_NOT_FOUND;
 }
 
+
+ret_code_t fds_record_read(fds_record_desc_t  * const p_desc,
+                           fds_flash_record_t * const p_flash_rec,uint8_t *dest,uint32_t len)
+{
+    if ((p_desc == NULL) || (p_flash_rec == NULL))
+    {
+        return FDS_ERR_NULL_ARG;
+    }
+
+    if(p_desc->record_is_open != true)
+    {
+
+        return FDS_ERR_NO_OPEN_RECORDS;
+    }
+
+    // Find the record if necessary.
+    return xinc_fstorage_read(&m_fs,(uint32_t)p_flash_rec->p_data,(uint8_t *)p_flash_rec->p_rdata, p_flash_rec->size_bytes);         
+}
 
 ret_code_t fds_record_close(fds_record_desc_t * const p_desc)
 {

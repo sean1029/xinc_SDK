@@ -110,6 +110,8 @@ typedef struct
 {
     fds_header_t const * p_header;  //!< Location of the record header in flash.
     void         const * p_data;    //!< Location of the record data in flash.
+    void          * p_rdata;    //!< Location of the record data in ram.
+    uint32_t     size_bytes;    //!< Location of the record data in ram.
 } fds_flash_record_t;
 
 
@@ -574,6 +576,9 @@ ret_code_t fds_record_open(fds_record_desc_t  * p_desc,
                            fds_flash_record_t * p_flash_record);
 
 
+
+ret_code_t fds_record_read(fds_record_desc_t  * const p_desc,
+                           fds_flash_record_t * const p_flash_rec,uint8_t *dest,uint32_t len);
 /**@brief   Function for closing a record.
  *
  * Closing a record allows garbage collection to run on the virtual page in which the record is

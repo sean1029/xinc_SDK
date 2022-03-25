@@ -28,6 +28,8 @@
 #include "app_timer.h"
 #include "bsp.h"
 #include "app_test.h"
+
+#include "fds_test.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -478,6 +480,9 @@ int	main(void)
 	sys_run_timer.process = &system_run_timer_handler;
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
+    
+    
+    es_flash_init();
 	
     while(1) {
 			#if CLI_TEST_EN

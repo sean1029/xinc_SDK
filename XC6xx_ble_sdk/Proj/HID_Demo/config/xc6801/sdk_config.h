@@ -17,7 +17,7 @@
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
-#define XINCX_WDT_ENABLED 1
+#define XINCX_WDT_ENABLED 0
 #endif
 
 
@@ -123,7 +123,7 @@
 // <e> XINCX_TIMER_ENABLED - xincx_timer - TIMER periperal driver
 //==========================================================
 #ifndef XINCX_TIMER_ENABLED
-#define XINCX_TIMER_ENABLED 1
+#define XINCX_TIMER_ENABLED 0
 #endif
 
 // <q> XINCX_TIMER0_ENABLED  - Enable TIMER0 instance
@@ -259,7 +259,7 @@
 // <e> XINCX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
 #ifndef XINCX_PWM_ENABLED
-#define XINCX_PWM_ENABLED 1
+#define XINCX_PWM_ENABLED 0
 #endif
 
 // <q> XINCX_PWM0_ENABLED  - Enable PWM0 instance
@@ -521,7 +521,7 @@
 // <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
 #ifndef XINCX_I2C_ENABLED
-#define XINCX_I2C_ENABLED 1
+#define XINCX_I2C_ENABLED 0
 #endif
 
 // <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
@@ -674,7 +674,7 @@
 // <e> XINCX_SAADC_ENABLED - xinc_saadc - SAADC peripheral driver
 //==========================================================
 #ifndef XINCX_SAADC_ENABLED
-#define XINCX_SAADC_ENABLED 1
+#define XINCX_SAADC_ENABLED 0
 #endif
 // <o> XINCX_SAADC_CONFIG_RESOLUTION  - Resolution
  
@@ -1254,11 +1254,18 @@
 
 // </e>
 
+// <q> CRC16_ENABLED  - crc16 - CRC16 calculation routines
+ 
+
+#ifndef CRC16_ENABLED
+#define CRC16_ENABLED 1
+#endif
+
 
 // <e> FDS_ENABLED - fds - Flash data storage module
 //==========================================================
 #ifndef FDS_ENABLED
-#define FDS_ENABLED 0
+#define FDS_ENABLED 1
 #endif
 
 
@@ -1281,8 +1288,8 @@
 // <i> Expressed in number of 4-byte words.
 // <i> By default, a virtual page is the same size as a physical page.
 // <i> The size of a virtual page must be a multiple of the size of a physical page.
+// <512=> 512 
 // <1024=> 1024 
-// <2048=> 2048 
 
 #ifndef FDS_VIRTUAL_PAGE_SIZE
 #define FDS_VIRTUAL_PAGE_SIZE 512
@@ -1307,10 +1314,10 @@
 // <o> FDS_BACKEND  - FDS flash backend.
  
 
-// <i> XINC_FSTORAGE_SD uses the xinc_fstorage_sd backend implementation using the SoftDevice API. Use this if you have a SoftDevice present.
-// <i> XINC_FSTORAGE_NVMC uses the xinc_fstorage_nvmc implementation. Use this setting if you don't use the SoftDevice.
-// <1=> XINC_FSTORAGE_NVMC 
-// <2=> XINC_FSTORAGE_SD 
+// <i> XINC_FSTORAGE_FMC uses the xinc_fstorage_fmc backend implementation.
+// <i> XINC_FSTORAGE_FLASH uses the xinc_fstorage_flash implementation.
+// <1=> XINC_FSTORAGE_FLASH 
+// <2=> XINC_FSTORAGE_FMC 
 
 #ifndef FDS_BACKEND
 #define FDS_BACKEND 1
@@ -1342,7 +1349,7 @@
 // <i> Additionally, they will not be garbage collected until they are deleted.
 //==========================================================
 #ifndef FDS_CRC_CHECK_ON_READ
-#define FDS_CRC_CHECK_ON_READ 0
+#define FDS_CRC_CHECK_ON_READ 1
 #endif
 // <o> FDS_CRC_CHECK_ON_WRITE  - Perform a CRC check on newly written records.
  
@@ -1353,7 +1360,7 @@
 // <0=> Disabled 
 
 #ifndef FDS_CRC_CHECK_ON_WRITE
-#define FDS_CRC_CHECK_ON_WRITE 0
+#define FDS_CRC_CHECK_ON_WRITE 1
 #endif
 
 // </e>
@@ -1376,17 +1383,12 @@
 
 // </e>
 
-// <q> XINC_CLI_UART_ENABLED  - xinc_cli_uart - UART command line interface transport
- 
 
-#ifndef XINC_CLI_UART_ENABLED
-#define XINC_CLI_UART_ENABLED 1
-#endif
 
 // <e> XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 //==========================================================
 #ifndef XINC_FSTORAGE_ENABLED
-#define XINC_FSTORAGE_ENABLED 0
+#define XINC_FSTORAGE_ENABLED 1
 #endif
 // <h> xinc_fstorage - Common settings
 
@@ -1405,7 +1407,12 @@
 // </h> 
 // </e>  XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 
+// <q> XINC_CLI_UART_ENABLED  - xinc_cli_uart - UART command line interface transport
+ 
 
+#ifndef XINC_CLI_UART_ENABLED
+#define XINC_CLI_UART_ENABLED 1
+#endif
 
 // <e> XINC_BALLOC_ENABLED - xinc_balloc - Block allocator module
 //==========================================================

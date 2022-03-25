@@ -20,7 +20,7 @@ void assert_xinc_callback(uint16_t line_num, const uint8_t * p_file_name)
 
 static xinc_fstorage_info_t m_flash_info =
 {
-	 .erase_unit = 4096,
+	 .erase_unit = 256,
 #if defined(XC_620610)
     .erase_unit = 1024,
 #elif defined(XC_XXXX)
@@ -67,8 +67,10 @@ static ret_code_t init(xinc_fstorage_t * p_fs, void * p_param)
     UNUSED_PARAMETER(p_param);
 
     p_fs->p_flash_info = &m_flash_info;
+    
+    xinc_flash_init();
 	
-		printf("m_fstroage_flash init\n");
+	printf("m_fstroage_flash init\n");
 
     return XINC_SUCCESS;
 }
@@ -88,8 +90,9 @@ static ret_code_t read(xinc_fstorage_t const * p_fs, uint32_t src, void * p_dest
 {
     UNUSED_PARAMETER(p_fs);
 
-		printf("flash %s\n",__func__);
-    memcpy(p_dest, (uint32_t*)src, len);
+  //  printf("xinc_fstorage_flash %s,src:0x%x,len:%d\n",__func__,src,len);
+    xinc_flash_read_bytes(src,p_dest,len);
+  //  memcpy(p_dest, (uint32_t*)src, len);
 
     return XINC_SUCCESS;
 }
@@ -101,13 +104,13 @@ static ret_code_t write(xinc_fstorage_t const * p_fs,
                         uint32_t               len,
                         void                 * p_param)
 {
-		printf("flash %s\n",__func__);
+	//	printf("flash %s\n",__func__);
     if (xinc_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
         return XINC_ERROR_BUSY;
     }
 
-    xinc_nvmc_write_words(dest, (uint32_t*)p_src, (len / m_flash_info.program_unit));
+    xinc_flash_write_words(dest, (uint32_t*)p_src, (len / m_flash_info.program_unit));
 
     /* Clear the flag before sending the event, to allow API calls in the event context. */
     (void) xinc_atomic_flag_clear(&m_flash_operation_ongoing);
@@ -124,7 +127,7 @@ static ret_code_t erase(xinc_fstorage_t const * p_fs,
                         void                 * p_param)
 {
     uint32_t progress = 0;
-		printf("flash %s\n",__func__);
+	//	printf("flash %s\n",__func__);
     if (xinc_atomic_flag_set_fetch(&m_flash_operation_ongoing))
     {
         return XINC_ERROR_BUSY;
@@ -132,7 +135,7 @@ static ret_code_t erase(xinc_fstorage_t const * p_fs,
 
     while (progress != len)
     {
-        xinc_nvmc_page_erase(page_addr + (progress * m_flash_info.erase_unit));
+        xinc_flash_page_erase(page_addr + (progress * m_flash_info.erase_unit));
         progress++;
     }
 
@@ -171,7 +174,7 @@ static bool is_busy(xinc_fstorage_t const * p_fs)
 
 
 /* The exported API. */
-xinc_fstorage_api_t xinc_fstorage_nvmc =
+xinc_fstorage_api_t xinc_fstorage_flash =
 {
     .init    = init,
     .uninit  = uninit,

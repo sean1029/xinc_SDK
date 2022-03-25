@@ -45,14 +45,14 @@ extern "C" {
 #define FDS_OP_EXECUTING        (XINC_SUCCESS)
 #define FDS_OP_COMPLETED        (0x1D1D)
 
-#define XINC_FSTORAGE_NVMC       1
-#define XINC_FSTORAGE_SD         2
+#define XINC_FSTORAGE_FLASH      1
+#define XINC_FSTORAGE_FMC        2
 
 // The size of a physical page, in 4-byte words.
 #if defined(XINC51)
     #define FDS_PHY_PAGE_SIZE   (256)
 #else
-    #define FDS_PHY_PAGE_SIZE   (128)//(1024)
+    #define FDS_PHY_PAGE_SIZE   (256)//(1024)
 #endif
 
 // The number of physical pages to be used. This value is configured indirectly.

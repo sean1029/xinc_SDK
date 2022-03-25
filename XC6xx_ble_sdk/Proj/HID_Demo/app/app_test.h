@@ -37,7 +37,7 @@
 
 #define RTC_TEST_EN 0
 
-#define DRV_TIMER_TEST_EN 1
+#define DRV_TIMER_TEST_EN 0
 
 #define DRV_I2C_TEST_EN 0
 #define DRV_SPI_TEST_EN 0
