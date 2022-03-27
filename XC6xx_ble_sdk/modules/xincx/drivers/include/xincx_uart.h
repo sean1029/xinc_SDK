@@ -59,6 +59,7 @@ enum {
 typedef enum
 {
     XINCX_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
+    XINCX_UART_EVT_RX_READY, ///< Requested RX transfer start.
     XINCX_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
     XINCX_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
 } xincx_uart_evt_type_t;

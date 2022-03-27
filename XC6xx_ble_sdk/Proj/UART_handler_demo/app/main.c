@@ -294,25 +294,48 @@ static void scheduler_init(void)
 {
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
+ uint8_t rxd[500];
+ uint16_t rxLen = 0;
 
 
 void uart_event_handle(app_uart_evt_t * p_event)
 {
     static uint8_t data_array[20];
+    static uint8_t *p_data ;
     static uint16_t index = 0;
     uint32_t ret_val;
     uint32_t err_code;
+    uint8_t  req_len = 255;
 
     switch (p_event->evt_type)
     {
        
         case APP_UART_DATA_READY:
-            UNUSED_VARIABLE(app_uart_get(&data_array[0]));
-            index++;
-            app_uart_get(&data_array[0]);
+          //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));  
+            req_len = 255;
+            err_code = app_uart_gets(&rxd[rxLen],&req_len);
+            rxLen+= req_len;
+           
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
-            printf("%c \r\n",data_array[0]);	
-            app_uart_put(data_array[0]);
+         //   printf("%c \r\n",data_array[0]);	
+            break;
+        
+        case APP_UART_DATA_DONE:
+          //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));
+            req_len = 255;
+            err_code = app_uart_gets(&rxd[rxLen],&req_len);
+            rxLen+=req_len;
+            bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
+            if(rxLen)
+            {
+                printf("rx_len:%d\r\n",rxLen);
+                for(int i = 0;i < rxLen;i++)
+                {
+                    printf("rx_byte:%c\r\n",rxd[i]);
+                }
+                rxLen = 0; 
+            }
+
             break;
         /**@snippet [Handling data from UART] */
         case APP_UART_COMMUNICATION_ERROR:
@@ -322,13 +345,13 @@ void uart_event_handle(app_uart_evt_t * p_event)
         case APP_UART_TX_EMPTY:
             //翻转指示灯 D2 状态，指示串口发送完成事件
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_2));
+            printf("TX_EMPTY\r\n");
             break;
         
         case APP_UART_DATA:
             app_uart_get(&data_array[0]);
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
            
-            printf("%c \r\n",data_array[0]);	
             app_uart_put(data_array[0]);
          break;
         case APP_UART_FIFO_ERROR:
@@ -350,7 +373,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
     ret_code_t err_code;
-    static uint8_t i = 'a';
+    static uint8_t buff[26];
     switch (pin_no)
     {
         case S1BUTTON_BUTTON_PIN:
@@ -358,14 +381,21 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
            if(button_action == APP_BUTTON_PUSH)
             {
                 
-                if(i == ('z' + 1))
+                for(int j = 0 ; j < 26;j++)
                 {
-                    i = 'a';
+                  buff[j] = 'a' + j;
+                   
                 }
                 
-                //通过串口发送数据
-                app_uart_put(i);
-                i += 1;
+                
+                for(int j = 0 ; j < 2;j++)
+                {
+                    //通过串口发送数据
+                    app_uart_puts(buff,26);
+                   
+                }
+                
+                
  
             }
             
@@ -411,7 +441,7 @@ void uart_handler_test(void)
         //初始化 按键,用来触发执行put 操作
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
-    
+    rxLen =0;
         //初始化串口，注册串口事件回调函数
     APP_UART_FIFO_INIT(&comm_params,
                         UART_RX_BUF_SIZE,
@@ -420,7 +450,6 @@ void uart_handler_test(void)
                         APP_IRQ_PRIORITY_LOWEST,
                         err_code);
  }
-
 
 
 
@@ -467,9 +496,10 @@ int	main(void)
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
-           if(LastTimeGulSystickCount % 200 == 0)
+           if(LastTimeGulSystickCount % 500 == 0)
            {
-              // printf("SystickCount:%d\n",LastTimeGulSystickCount);
+               printf("SystickCount:%d\n",LastTimeGulSystickCount);
+               
            }
   
 			 

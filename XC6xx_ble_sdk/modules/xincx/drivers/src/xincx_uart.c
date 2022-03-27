@@ -46,6 +46,8 @@ typedef struct
     volatile size_t           rx_counter;
     volatile bool             tx_abort;
     bool                      rx_enabled;
+    uint8_t                   rx_fifo_read_max;
+    uint8_t                   rx_fifo_ready_read;
     xincx_drv_state_t          state;
 } uart_control_block_t;
 static uart_control_block_t m_cb[XINCX_UART_ENABLED_COUNT];
@@ -56,6 +58,8 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
     printf("%s\r\n",__func__);
     xincx_err_t err_code = XINCX_SUCCESS;
     printf("pseltxd:%d\r\n",p_config->pseltxd);
+    
+    uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     if (p_config->pseltxd != XINC_UART_PSEL_DISCONNECTED)
     {     
         if(p_instance->id == 0)
@@ -171,8 +175,9 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
                                     (UART_UARTx_FCR_XMIT_FIFO_Reset_Clear << UART_UARTx_FCR_XMIT_FIFO_Reset_Pos)|
                                     (UART_UARTx_FCR_RCVR_FIFO_Reset_Clear << UART_UARTx_FCR_RCVR_FIFO_Reset_Pos)|
                                     (UART_UARTx_FCR_FIFO_Enable_Enable << UART_UARTx_FCR_FIFO_Enable_Pos);//0XB7;
-                                    
-        
+          
+    // 这里设置成7的话是和FIFO 设置成1/2对应起来的 16 /2 - 1
+    p_cb->rx_fifo_read_max = 7;    
     printf("FCR:%x\r\n",p_instance->p_reg->IIR_FCR.FCR);
 
 
@@ -198,7 +203,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 {
     printf("%s\r\n",__func__);
 
-    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;// | UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
+    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;// | UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
 
     printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
             
@@ -402,7 +407,7 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
         p_cb->tx_buffer_length = 0;
     }else
     {
-        p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_ETHEI_Msk;;
+        p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_ETHEI_Msk | UART_UARTx_IER_PTIME_Msk;
     }
 
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
@@ -447,6 +452,7 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 //        xinc_uart_int_disable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
 //                                                XINC_UART_INT_MASK_ERROR);
     }
+ //   printf("rx_buffer_length:%d, rx_secondary_buffer_length:%d\r\n",p_cb->rx_buffer_length,p_cb->rx_secondary_buffer_length);
     if (p_cb->rx_buffer_length != 0)
     {
         if (p_cb->rx_secondary_buffer_length != 0)
@@ -476,6 +482,7 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
     {
         p_cb->p_rx_secondary_buffer = p_data;
         p_cb->rx_secondary_buffer_length = length;
+     //   p_cb->rx_counter       = 0;
     }
 
     XINCX_LOG_INFO("Transfer rx_len: %d.", length);
@@ -558,6 +565,19 @@ uint32_t xincx_uart_errorsrc_get(xincx_uart_t const * p_instance)
     return xinc_uart_errorsrc_get_and_clear(p_instance->p_reg);
 }
 
+static void rx_ready_event(uart_control_block_t * p_cb,
+                          size_t                 bytes,
+                          uint8_t *              p_data)
+{
+    xincx_uart_event_t event;
+
+    event.type             = XINCX_UART_EVT_RX_READY;
+    event.data.rxtx.bytes  = bytes;
+    event.data.rxtx.p_data = p_data;
+
+    p_cb->handler(&event, p_cb->p_context);
+}
+
 static void rx_done_event(uart_control_block_t * p_cb,
                           size_t                 bytes,
                           uint8_t *              p_data)
@@ -570,6 +590,7 @@ static void rx_done_event(uart_control_block_t * p_cb,
 
     p_cb->handler(&event, p_cb->p_context);
 }
+
 
 static void tx_done_event(uart_control_block_t * p_cb,
                           size_t                 bytes)
@@ -609,7 +630,7 @@ void xincx_uart_rx_abort(xincx_uart_t const * p_instance)
     printf("xincx_uart_rx_abort\r\n");
 }
 
-static void uart_irq_handler(XINC_UART_Type *        p_uart,
+static void uart_irq_old_handler(XINC_UART_Type *        p_uart,
                              uart_control_block_t * p_cb)
 {
 
@@ -623,21 +644,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
         xincx_uart_event_t event;
 
         XINCX_LOG_DEBUG("Event: %s.", EVT_TO_STR(XINC_UART_EVENT_ERROR));
-//        xinc_uart_int_disable(p_uart, XINC_UART_INT_MASK_RXDRDY |
-//                                     XINC_UART_INT_MASK_ERROR);
-        if (!p_cb->rx_enabled)
-        {
-        }
-        event.type                   = XINCX_UART_EVT_ERROR;
-        event.data.error.error_mask  = xinc_uart_errorsrc_get_and_clear(p_uart);
-        event.data.error.rxtx.bytes  = p_cb->rx_buffer_length;
-        event.data.error.rxtx.p_data = p_cb->p_rx_buffer;
-
-        // Abort transfer.
-        p_cb->rx_buffer_length = 0;
-        p_cb->rx_secondary_buffer_length = 0;
-
-        p_cb->handler(&event,p_cb->p_context);
+ 
     }
 
 
@@ -706,6 +713,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
           //  nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
             if (p_cb->tx_buffer_length)
             {
+                p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
             }
         }
@@ -735,11 +743,251 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     (void)IER;
 }
 
+static uint8_t rxd[100];
+static uint8_t rxLen = 0;
+static void uart_irq_rx_ok_handler(XINC_UART_Type *        p_uart,
+                             uart_control_block_t * p_cb)
+{
+
+    uint32_t IIR,IER,TSR;
+    IER = p_uart->IER_DLH.IER;
+    IIR = p_uart->IIR_FCR.IIR;
+
+  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
+    if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
+    {
+        xincx_uart_event_t event;
+
+        XINCX_LOG_DEBUG("Event: %s.", EVT_TO_STR(XINC_UART_EVENT_ERROR));
+//        xinc_uart_int_disable(p_uart, XINC_UART_INT_MASK_RXDRDY |
+//                                     XINC_UART_INT_MASK_ERROR);
+        if (!p_cb->rx_enabled)
+        {
+        }
+        event.type                   = XINCX_UART_EVT_ERROR;
+        event.data.error.error_mask  = xinc_uart_errorsrc_get_and_clear(p_uart);
+        event.data.error.rxtx.bytes  = p_cb->rx_buffer_length;
+        event.data.error.rxtx.p_data = p_cb->p_rx_buffer;
+
+        // Abort transfer.
+        p_cb->rx_buffer_length = 0;
+        p_cb->rx_secondary_buffer_length = 0;
+
+        p_cb->handler(&event,p_cb->p_context);
+    }
+
+
+    if(((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ERDAI ))
+    {
+        TSR = p_uart->TSR;
+        IIR = p_uart->IIR_FCR.IIR;
+     //   printf(" 2IIR:%x,TSR:%x\r\n",IIR,TSR);
+        p_cb->rx_counter = 0;
+        while((TSR & UART_UARTx_TSR_DR_Msk) == UART_UARTx_TSR_DR_Msk )
+        {
+           // rx_byte(p_uart, p_cb);
+            
+            rxd[rxLen] = xinc_uart_rxd_get(p_uart);
+            
+            rxLen++;
+            p_cb->rx_counter++;
+            TSR = p_uart->TSR;
+            if(p_cb->rx_counter == 7)
+            {
+                TSR = 0;
+            }
+           // 
+        }
+
+//         printf("READY IER:%x,IIR:%x \r\n",IER,IIR);
+//        for(int i = 0;i < p_cb->rx_counter;i++)
+//        {
+//             printf("rx_byte:%c\r\n",rxd[i]);
+//        }
+//          
+         
+        p_cb->rx_counter = 0;
+
+       
+        
+     //   IIR = p_uart->IIR_FCR.IIR;
+        
+    }
+    if((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_TO)
+        {
+          //  printf("CIER:%x,IIR:%x \r\n",IER,IIR);
+            TSR = p_uart->TSR;
+            p_cb->rx_counter = 0;
+            while((TSR & UART_UARTx_TSR_DR_Msk) == UART_UARTx_TSR_DR_Msk )
+            {
+               // rx_byte(p_uart, p_cb);
+                
+                rxd[rxLen] = xinc_uart_rxd_get(p_uart);
+                p_cb->rx_counter++;
+                rxLen++;
+                
+              
+                TSR = p_uart->TSR;
+               // 
+            }
+            printf("TO IER:%x,IIR:%x,rx_len:%d \r\n",IER,IIR,p_cb->rx_counter);
+
+        
+            p_cb->rx_counter = 0;
+        }
+
+        
+
+    (void)IER;
+}
+
+static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
+                             uart_control_block_t * p_cb)
+{
+
+    uint32_t IIR,IER,TSR;
+    IER = p_uart->IER_DLH.IER;
+    IIR = p_uart->IIR_FCR.IIR;
+    uint8_t RxBytes;
+    static uint8_t RxBytesIdx;
+  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
+    if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
+    {
+        xincx_uart_event_t event;
+
+        XINCX_LOG_DEBUG("Event: %s.", EVT_TO_STR(XINC_UART_EVENT_ERROR));
+ 
+    }
+
+
+    if(((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ERDAI ))
+    {
+        TSR = p_uart->TSR;
+        p_cb->rx_fifo_ready_read = 0UL;
+        RxBytes = 0;
+        RxBytesIdx = p_cb->rx_counter;
+        while((TSR & UART_UARTx_TSR_DR_Msk) == UART_UARTx_TSR_DR_Msk )
+        {
+            rx_byte(p_uart, p_cb);
+            RxBytes++;
+            p_cb->rx_fifo_ready_read++;
+            if(p_cb->rx_fifo_ready_read == p_cb->rx_fifo_read_max)
+            {
+                TSR = 0UL;
+            }else
+            {
+                TSR = p_uart->TSR;
+            }
+
+            if(p_cb->rx_buffer_length == p_cb->rx_counter)
+            {
+            //    printf("rx0_counter:%d,rx_buffer_length:%d,RxBytesIdx:%d\r\n",p_cb->rx_counter,p_cb->rx_buffer_length,RxBytesIdx);      
+
+                if (p_cb->rx_secondary_buffer_length)
+                {
+                    uint8_t * p_data     = p_cb->p_rx_buffer;
+                    size_t    rx_counter = p_cb->rx_counter;
+
+                    // Switch to secondary buffer.
+                    p_cb->rx_buffer_length = p_cb->rx_secondary_buffer_length;
+                    p_cb->p_rx_buffer = p_cb->p_rx_secondary_buffer;
+                    p_cb->rx_secondary_buffer_length = 0;
+                    p_cb->rx_counter = 0;
+                     
+                    rx_ready_event(p_cb, rx_counter, p_data);
+                }
+                else
+                {
+                    p_cb->rx_buffer_length = 0;
+
+                    rx_ready_event(p_cb, p_cb->rx_counter, p_cb->p_rx_buffer);
+                }              
+            }              
+        }
+        
+       
+        
+    }
+    
+    if((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_TO)
+    {
+    // RXTO event may be triggered as a result of abort call. In th
+        TSR = p_uart->TSR;
+        RxBytes = 0;
+        while((TSR & UART_UARTx_TSR_DR_Msk) == UART_UARTx_TSR_DR_Msk )
+        {
+             rx_byte(p_uart, p_cb);
+                        
+             TSR = p_uart->TSR;
+             RxBytes++;
+
+               
+            if(p_cb->rx_buffer_length == p_cb->rx_counter)
+            {
+               if (p_cb->rx_secondary_buffer_length)
+                {
+                    uint8_t * p_data     = p_cb->p_rx_buffer;
+                    size_t    rx_counter = p_cb->rx_counter;
+
+                    // Switch to secondary buffer.
+                    p_cb->rx_buffer_length = p_cb->rx_secondary_buffer_length;
+                    p_cb->p_rx_buffer = p_cb->p_rx_secondary_buffer;
+                    p_cb->rx_secondary_buffer_length = 0;
+                    p_cb->rx_counter = 0;
+                    rx_ready_event(p_cb, rx_counter, p_data);
+                }
+                else
+                {
+                    p_cb->rx_buffer_length = 0;
+    
+                    rx_ready_event(p_cb, p_cb->rx_counter, p_cb->p_rx_buffer);
+                }              
+            }                   
+        }
+      //   printf("TO IER:%x,IIR:%x,rx_len:%d,p_cb->rx_counter:%d \r\n",IER,IIR,RxBytes,p_cb->rx_counter);   
+
+   
+        p_cb->rx_buffer_length = 0;
+        rx_done_event(p_cb, p_cb->rx_counter, p_cb->p_rx_buffer);
+
+    }
+
+    if ((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETHEI)
+    {
+        // Use a local variable to avoid undefined order of accessing two volatile variables
+        // in one statement.
+        size_t const tx_buffer_length = p_cb->tx_buffer_length;
+        	
+        TSR = p_uart->TSR;
+        uint8_t fifo_full_flg;
+        fifo_full_flg = ((TSR >> 5) & 0x01 );
+        while (p_cb->tx_counter < tx_buffer_length && !p_cb->tx_abort && !fifo_full_flg)
+        {
+            tx_byte(p_uart, p_cb);
+            TSR = p_uart->TSR;
+
+            fifo_full_flg = ((TSR >> 5) & 0x01 );
+        }
+        
+        if(p_cb->tx_counter == tx_buffer_length)
+        {
+          //  nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
+            if (p_cb->tx_buffer_length)
+            {
+                 p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
+                tx_done_event(p_cb, p_cb->tx_buffer_length);
+            }
+        }
+     
+
+    }
+    (void)IER;
+}
 
 #if XINCX_CHECK(XINCX_UART0_ENABLED)
 void xincx_uart_0_irq_handler(void)
 {
-    uart_irq_handler(XINC_UART0, &m_cb[XINCX_UART0_INST_IDX]);
+   // uart_irq_handler(XINC_UART0, &m_cb[XINCX_UART0_INST_IDX]);
 }
 void UART0_Handler(void)
 {
@@ -750,7 +998,7 @@ void UART0_Handler(void)
 #if XINCX_CHECK(XINCX_UART1_ENABLED)
 void xincx_uart_1_irq_handler(void)
 {
-    uart_irq_handler(XINC_UART1, &m_cb[XINCX_UART1_INST_IDX]);
+    uart_irq_new_handler(XINC_UART1, &m_cb[XINCX_UART1_INST_IDX]);
 }
 void UART1_Handler(void)
 {

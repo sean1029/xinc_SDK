@@ -69,10 +69,11 @@ typedef struct
 typedef enum
 {
     APP_UART_DATA_READY,          /**< An event indicating that UART data has been received. The data is available in the FIFO and can be fetched using @ref app_uart_get. */
+    APP_UART_DATA_DONE,
     APP_UART_FIFO_ERROR,          /**< An error in the FIFO module used by the app_uart module has occured. The FIFO error code is stored in app_uart_evt_t.data.error_code field. */
     APP_UART_COMMUNICATION_ERROR, /**< An communication error has occured during reception. The error is stored in app_uart_evt_t.data.error_communication field. */
     APP_UART_TX_EMPTY,            /**< An event indicating that UART has completed transmission of all available data in the TX FIFO. */
-    APP_UART_DATA,                /**< An event indicating that UART data has been received, and data is present in data field. This event is only used when no FIFO is configured. */
+    APP_UART_DATA,                /**< An event indicating that UART data has been received, and data is present in data field. */
 } app_uart_evt_type_t;
 
 /**@brief Struct containing events from the UART module.
@@ -193,11 +194,30 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
  */
 uint32_t app_uart_get(uint8_t * p_byte);
 
+
+/**@brief Function for getting bytes from the UART.
+ *
+ * @details This function will get the next byte from the RX buffer. If the RX buffer is empty
+ *          an error code will be returned and the app_uart module will generate an event upon
+ *          reception of the first byte which is added to the RX buffer.
+ *
+ * @param[out] p_byte    Pointer to an address where next byte received on the UART will be copied.
+ *
+ * @param[out] len       Pointer to an address where next byte received on the UART will be copied.
+ * @retval XINC_SUCCESS          If a byte has been received and pushed to the pointer provided.
+ * @retval XINC_ERROR_NOT_FOUND  If no byte is available in the RX buffer of the app_uart module.
+ */
+uint32_t app_uart_gets(uint8_t * p_byte,uint8_t * len);
+
 /**@brief Function for putting a byte on the UART.
  *
  * @details This call is non-blocking.
  *
- * @param[in] byte   Byte to be transmitted on the UART.
+ * @param[inout] byte   Address to memory indicating the maximum number of bytes to be written.
+ *                          The provided memory is overwritten with the number of bytes that were actually
+ *                          written if the procedure is successful. This field must not be NULL.
+ *                          If p_byte_array is set to NULL by the application, this parameter
+ *                          returns the number of bytes available in the FIFO.
  *
  * @retval XINC_SUCCESS        If the byte was successfully put on the TX buffer for transmission.
  * @retval XINC_ERROR_NO_MEM   If no more space is available in the TX buffer.
@@ -206,6 +226,22 @@ uint32_t app_uart_get(uint8_t * p_byte);
  * @retval XINC_ERROR_INTERNAL If UART driver reported error.
  */
 uint32_t app_uart_put(uint8_t byte);
+
+/**@brief Function for putting bytes on the UART.
+ *
+ * @details This call is non-blocking.
+ *
+ * @param[in] *bytes   Bytes to be transmitted on the UART.
+ *
+ * @param[in] len    Bytes len transmitted on the UART.
+ *
+ * @retval XINC_SUCCESS        If the byte was successfully put on the TX buffer for transmission.
+ * @retval XINC_ERROR_NO_MEM   If no more space is available in the TX buffer.
+ *                            XINC_ERROR_NO_MEM may occur if flow control is enabled and CTS signal
+ *                            is high for a long period and the buffer fills up.
+ * @retval XINC_ERROR_INTERNAL If UART driver reported error.
+ */
+uint32_t app_uart_puts(uint8_t* bytes,uint8_t len);
 
 /**@brief Function for flushing the RX and TX buffers (Only valid if FIFO is used).
  *        This function does nothing if FIFO is not used.

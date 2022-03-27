@@ -71,6 +71,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context
 
             break;
 
+        case XINC_DRV_UART_EVT_RX_READY:
         case XINC_DRV_UART_EVT_RX_DONE:
 //						printf("R:%d\r\n",p_event->data.rxtx.bytes);
             err_code = xinc_ringbuf_put(p_internal->p_rx_ringbuf, p_event->data.rxtx.bytes);

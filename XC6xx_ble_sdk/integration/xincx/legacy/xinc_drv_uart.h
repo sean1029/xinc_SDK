@@ -136,7 +136,7 @@ typedef struct
 #define XINC_DRV_UART_INSTANCE(Id) \
 {                                 \
     .inst_idx = Id,               \
-		.id = Id,											\
+	.id = Id,											\
     XINC_DRV_UART_CREATE_UARTE(Id) \
     XINC_DRV_UART_CREATE_UART(Id)  \
 }
@@ -146,9 +146,10 @@ typedef struct
  */
 typedef enum
 {
-    XINC_DRV_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
-    XINC_DRV_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
-    XINC_DRV_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
+    XINC_DRV_UART_EVT_TX_DONE = XINCX_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
+    XINC_DRV_UART_EVT_RX_READY = XINCX_UART_EVT_RX_READY, ///< Requested RX transfer start.
+    XINC_DRV_UART_EVT_RX_DONE = XINCX_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
+    XINC_DRV_UART_EVT_ERROR =   XINCX_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
 } xinc_drv_uart_evt_type_t;
 
 
@@ -183,6 +184,9 @@ typedef struct
     xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
+#if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
+    bool                use_easy_dma;
+#endif
 } xinc_drv_uart_config_t;
 
 #if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
@@ -445,6 +449,7 @@ ret_code_t xinc_drv_uart_tx(xinc_drv_uart_t const * p_instance,
                            uint8_t                length)
 {
     uint32_t result = 0;
+  //  printf("xinc_drv_uart_tx len :%d\r\n",length);
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_tx(&p_instance->uarte,
