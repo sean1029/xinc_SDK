@@ -54,8 +54,8 @@ typedef struct
     volatile bool               tx_abort;
     bool                        rx_enabled;
     bool                        use_easy_dma;
-    xinc_dma_ch_t                     tx_dma_ch;
-    xinc_dma_ch_t                     rx_dma_ch;
+    xinc_dma_ch_t               tx_dma_ch;
+    xinc_dma_ch_t               rx_dma_ch;
     xincx_drv_state_t          state;
 } uarte_control_block_t;
 static uarte_control_block_t m_cb[XINCX_UARTE_ENABLED_COUNT];

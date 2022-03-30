@@ -8,7 +8,7 @@
  */
 
 #include <xincx.h>
-#include "bsp_register_macro.h"
+
 #include "bsp_clk.h"
 #if XINCX_CHECK(XINCX_SPIM_ENABLED)
 
@@ -17,11 +17,12 @@
 #error "No enabled SPIM instances. Check <xincx_config.h>."
 #endif
 
-#if XINCX_CHECK(XINCX_SPIM_EXTENDED_ENABLED) && !XINCX_CHECK(XINCX_SPIM3_ENABLED)
-#error "Extended options are available only in SPIM3 on the nRF52840 SoC."
+#if !XINCX_CHECK(XINCX_DMAS_ENABLED)
+#error "No enabled DMAS instances. Check <xincx_config.h>."
 #endif
 
 #include <xincx_spim.h>
+#include <xincx_dmas.h>
 #include <hal/xinc_gpio.h>
 
 #define XINCX_LOG_MODULE SPIM
@@ -74,8 +75,8 @@ typedef struct
     uint8_t         miso_pin;
     uint8_t         orc;
 
-    uint8_t tx_dma_ch;
-    uint8_t rx_dma_ch;
+    xinc_dma_ch_t   tx_dma_ch;
+    xinc_dma_ch_t   rx_dma_ch;
 } spim_control_block_t;
 
 static spim_control_block_t m_cb[XINCX_SPIM_ENABLED_COUNT];
@@ -247,14 +248,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     // DMA 通道和外设使用是固定绑定关系的，因此此处不能做修改，对应中断处理里也就固定其检测值
     if(ch == 0)
     {
-        p_cb->rx_dma_ch = 10;
-        p_cb->tx_dma_ch = 2;
+        p_cb->rx_dma_ch = DMAS_CH_10;
+        p_cb->tx_dma_ch = DMAS_CH_2;
     }
     
     if(ch == 1)
     {
-        p_cb->rx_dma_ch = 11;
-        p_cb->tx_dma_ch = 3;
+        p_cb->rx_dma_ch = DMAS_CH_11;
+        p_cb->tx_dma_ch = DMAS_CH_3;
     }
 		
     xinc_spim_disable(p_spim);
@@ -395,17 +396,24 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     
 
             //- TX Channel
-    __write_hw_reg32(DMAS_CHx_SAR(p_cb->tx_dma_ch) , (uint32_t)p_xfer_desc->p_tx_buffer);
-    __write_hw_reg32(DMAS_CHx_DAR(p_cb->tx_dma_ch) , (uint32_t)&(p_spim->DATA));
-    __write_hw_reg32(DMAS_CHx_CTL1(p_cb->tx_dma_ch) ,((2 << 8)|  0));
-    __write_hw_reg32(DMAS_CHx_CTL0(p_cb->tx_dma_ch) ,p_xfer_desc->tx_length);//
+    xincx_dmas_ch_set_t set;
+
+    set.ch = p_cb->tx_dma_ch;
+    set.src_addr = (uint32_t)p_xfer_desc->p_tx_buffer;
+    set.dst_addr = (uint32_t)&(p_spim->DATA);
+    set.ctl0 = p_xfer_desc->tx_length;
+    set.ctl1 = (2 << 8);
+    xincx_dmas_ch_param_set(set);
 
 
         //- RX Channel
-    __write_hw_reg32(DMAS_CHx_SAR(p_cb->rx_dma_ch) , (uint32_t)&(p_spim->DATA));//
-    __write_hw_reg32(DMAS_CHx_DAR(p_cb->rx_dma_ch) , (uint32_t)p_xfer_desc->p_rx_buffer);
-    __write_hw_reg32(DMAS_CHx_CTL1(p_cb->rx_dma_ch) ,((2 << 8)|  0));
-    __write_hw_reg32(DMAS_CHx_CTL0(p_cb->rx_dma_ch) ,p_xfer_desc->rx_length);
+
+    set.ch = p_cb->rx_dma_ch;
+    set.src_addr = (uint32_t)&(p_spim->DATA);
+    set.dst_addr = (uint32_t)p_xfer_desc->p_rx_buffer;
+    set.ctl0 = p_xfer_desc->rx_length;
+    set.ctl1 = (2 << 8);
+    xincx_dmas_ch_param_set(set);
 
 
 #if XINCX_CHECK(XINCX_SPIM3_XINC52840_ANOMALY_198_WORKAROUND_ENABLED)
@@ -438,8 +446,8 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     }
     else
     {
-        __write_hw_reg32(DMAS_EN , p_cb->rx_dma_ch);
-        __write_hw_reg32(DMAS_EN , p_cb->tx_dma_ch);
+        xincx_dmas_ch_enable(p_cb->rx_dma_ch);
+        xincx_dmas_ch_enable(p_cb->tx_dma_ch);
         xinc_spim_enable(p_spim);
 			
     }
@@ -511,17 +519,37 @@ void xincx_spim_abort(xincx_spim_t const * p_instance)
 
 
 
-
 static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
 {
-
-    {
-
+	uint32_t intSta;
+	uint32_t rowIntSta;
+	uint32_t state;
+    intSta = p_spim->IS;
+    rowIntSta = p_spim->RIS;
+    state = p_spim->STS;
+    
+    uint32_t mask = (0x01 << p_cb->rx_dma_ch) | (0x01 << p_cb->tx_dma_ch);
+    
+    if(intSta && (state & 0x4))
+	{
+        do{
+           // __read_hw_reg32(DMAS_INT_RAW , iWK);
+            rowIntSta = xincx_dmas_int_raw_stat_get();
+        }while((rowIntSta & mask) != mask);
+				
+       // __write_hw_reg32(DMAS_INT_RAW, 0x404);
+      //  __write_hw_reg32(DMAS_CLR , 10);
+        xincx_dmas_int_sta_clear(p_cb->rx_dma_ch);
+        xincx_dmas_int_sta_clear(p_cb->tx_dma_ch);
+        
         XINCX_ASSERT(p_cb->handler);
         XINCX_LOG_DEBUG("Event: XINC_SPIM_EVENT_END.");
         xinc_spim_disable(p_spim);
         finish_transfer(p_cb);
+    
     }
+        
+    
 }
 
 #if XINCX_CHECK(XINCX_SPIM0_ENABLED)
@@ -540,50 +568,12 @@ void xincx_spim_1_irq_handler(void)
 
 void SPI0_Handler()
 {
-	uint32_t iWK;
-	uint32_t iWK1;
-	uint32_t STS;
-	__read_hw_reg32(SSIx_IS(0) , iWK);
-	__read_hw_reg32(SSIx_RIS(0) , iWK1);
-	__read_hw_reg32(SSIx_STS(0) , STS);
-	
-	if(iWK && (STS & 0x4))
-	{
-        do{
-            __read_hw_reg32(DMAS_INT_RAW , iWK);
-        }while((iWK&0x404) != 0x404);
-				
-        __write_hw_reg32(DMAS_INT_RAW, 0x404);
-        __write_hw_reg32(DMAS_CLR , 10);
-        __write_hw_reg32(DMAS_CLR , 2);
-
-        xincx_spim_0_irq_handler();
-    }  
-    (void)iWK1;	
+    xincx_spim_0_irq_handler();
 }
 
 void SPI1_Handler()
 {
-	uint32_t iWK;
-	uint32_t iWK1;
-	uint32_t STS;
-	__read_hw_reg32(SSIx_IS(1) , iWK);
-	__read_hw_reg32(SSIx_RIS(1) , iWK1);
-	__read_hw_reg32(SSIx_STS(1) , STS);
-//	printf("SPI1_Handler iWK :%x,iWK1:%x,STS:%x\n",iWK,iWK1,STS);  
-	if(iWK && (STS & 0x4))
-	{
-        do{
-            __read_hw_reg32(DMAS_INT_RAW , iWK);
-        }while((iWK&0x808) != 0x808);
-
-        __write_hw_reg32(DMAS_INT_RAW, 0x808);
-        __write_hw_reg32(DMAS_CLR , 11);
-        __write_hw_reg32(DMAS_CLR , 3);
-
-		xincx_spim_1_irq_handler();
-	}
-	(void)iWK1;
+    xincx_spim_1_irq_handler();
 }
 
 
