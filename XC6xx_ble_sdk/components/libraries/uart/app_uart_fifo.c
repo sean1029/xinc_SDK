@@ -17,9 +17,6 @@
 #include "xincx_dmas.h"
 #endif //
 
-#if defined(XINC_DRV_UART_WITH_UARTE)
-static xincx_dmas_t xincx_dmas_inst = XINCX_DMAS_INSTANCE(0);
-#endif //
 
 static xinc_drv_uart_t app_uart_inst = XINC_DRV_UART_INSTANCE(APP_UART_DRIVER_INSTANCE);
 
@@ -33,7 +30,9 @@ static __INLINE uint32_t fifo_length(app_fifo_t * const fifo)
 
 
 static app_uart_event_handler_t   m_event_handler;            /**< Event handler function. */
-#define TRX_BUFF_SIZE   32UL
+
+#define TRX_BUFF_SIZE   APP_UART_DRIVER_BUFFSIZE
+
 __ALIGN(4) static uint8_t tx_buffer[TRX_BUFF_SIZE];
 __ALIGN(4) static uint8_t rx_buffer[TRX_BUFF_SIZE];
 static uint16_t rx_buffsize = TRX_BUFF_SIZE;
@@ -160,27 +159,26 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     config.pselrxd = p_comm_params->rx_pin_no;
     config.pseltxd = p_comm_params->tx_pin_no;
     
-    config.data_bits = p_comm_params->data_bits;
-    config.stop_bits = p_comm_params->stop_bits;
-    config.use_easy_dma = true,
+    config.data_bits = (xinc_uart_data_bits_t)p_comm_params->data_bits;
+    config.stop_bits = (xinc_uart_stop_bits_t)p_comm_params->stop_bits;
     
     printf("config baud:%d \r\n",config.baudrate);
+    
+    #if defined(XINC_DRV_UART_WITH_UARTE)
+    
+    if(!xincx_dmas_is_init())
+    {
+        err_code = xincx_dmas_init(NULL,NULL,NULL);
+        VERIFY_SUCCESS(err_code);
+        
+    }
+    
+    #endif //
 
     err_code = xinc_drv_uart_init(&app_uart_inst, &config, uart_event_handler);
     VERIFY_SUCCESS(err_code);
     
-    #if defined(XINC_DRV_UART_WITH_UARTE)
     
-    if(!xincx_dmas_is_init(&xincx_dmas_inst))
-    {
-        err_code = xincx_dmas_init(&xincx_dmas_inst,
-                                   NULL,
-                                   NULL,
-                                   NULL);
-        VERIFY_SUCCESS(err_code);
-    }
-    
-    #endif //
 
     m_rx_ovf = false;
 

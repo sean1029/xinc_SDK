@@ -48,6 +48,7 @@
 
 #if defined(XINC_DRV_UART_WITH_UARTE)
     #include <xincx_uarte.h>
+    #include <xincx_dmas.h>
 
     #define XINC_DRV_UART_CREATE_UART(id)   _XINC_DRV_UART_CREATE_UART(id)
     #define _XINC_DRV_UART_CREATE_UART(id)  XINC_DRV_UART_CREATE_UART_##id
@@ -141,14 +142,8 @@ typedef struct
     xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
-    bool                use_easy_dma;
 } xinc_drv_uart_config_t;
 
-#if XINCX_CHECK(UART0_CONFIG_USE_EASY_DMA) && XINCX_CHECK(UART1_CONFIG_USE_EASY_DMA)
-#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA  .use_easy_dma = true,
-#else
-#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA  .use_easy_dma = false,
-#endif
 
 /**@brief UART default configuration. */
 #define XINC_DRV_UART_DEFAULT_CONFIG                                          \
@@ -162,7 +157,6 @@ typedef struct
     .parity             = (xinc_uart_parity_t)UART_DEFAULT_CONFIG_PARITY,     \
     .baudrate           = (xinc_uart_baudrate_t)UART_DEFAULT_CONFIG_BAUDRATE, \
     .interrupt_priority = UART_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
-    XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA                                 \
 }
 
 /**@brief Structure for UART transfer completion event. */
@@ -407,7 +401,7 @@ ret_code_t xinc_drv_uart_tx(xinc_drv_uart_t const * p_instance,
                            uint8_t                length)
 {
     uint32_t result = 0;
-  //  printf("xinc_drv_uart_tx len :%d\r\n",length);
+   // printf("xinc_drv_uart_tx len :%d\r\n",length);
     
     if (XINC_DRV_UART_USE_UARTE)
     {

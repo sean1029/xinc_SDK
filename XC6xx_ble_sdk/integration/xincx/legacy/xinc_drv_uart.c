@@ -80,7 +80,6 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
     printf("%s\r\n",__func__);
     printf("uart_init p_config baudrate:%d\r\n",p_config->baudrate);
     printf("uart_init config baudrate:%d\r\n",config.baudrate);
-     printf("uart_init config use_easy_dma:%d\r\n",config.use_easy_dma);
     config.p_context = (void *)inst_idx;
 
     ret_code_t result = 0;

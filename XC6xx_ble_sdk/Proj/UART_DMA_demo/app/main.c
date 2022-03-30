@@ -372,10 +372,10 @@ void uart_event_handle(app_uart_evt_t * p_event)
 
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 
+static uint8_t buff[52];
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
-    ret_code_t err_code;
-    static uint8_t buff[26];
+
     switch (pin_no)
     {
         case S1BUTTON_BUTTON_PIN:
@@ -385,7 +385,12 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 
                 for(int j = 0 ; j < 26;j++)
                 {
-                  buff[j] = 'a' + j;
+                    buff[j] = 'a' + j;
+                   
+                }
+                for(int j = 26 ; j < 52;j++)
+                {
+                    buff[j] = 'A' + j - 26;
                    
                 }
                 
@@ -393,7 +398,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 for(int j = 0 ; j < 2;j++)
                 {
                     //通过串口发送数据
-                    app_uart_puts(buff,26);
+                    app_uart_puts(buff,30);
                    
                 }
                 

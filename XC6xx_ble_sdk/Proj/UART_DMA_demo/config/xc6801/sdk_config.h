@@ -43,6 +43,11 @@
 #define XINCX_WDT_ENABLED 1
 #endif
 
+// <q> XINCX_WDT0_ENABLED  - Enable WDT0 instance
+ 
+#ifndef XINCX_WDT0_ENABLED
+#define XINCX_WDT0_ENABLED 1
+#endif
 
 // <o> XINCX_WDT_CONFIG_RELOAD_VALUE - Reload value
 
@@ -1327,6 +1332,12 @@
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
 #define APP_UART_DRIVER_INSTANCE 1
+#endif
+
+// <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes
+
+#ifndef APP_UART_DRIVER_BUFFSIZE
+#define APP_UART_DRIVER_BUFFSIZE 32
 #endif
 
 // </e>

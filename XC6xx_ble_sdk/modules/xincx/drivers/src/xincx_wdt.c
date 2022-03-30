@@ -12,6 +12,10 @@
 #if XINCX_CHECK(XINCX_WDT_ENABLED)
 #include <xincx_wdt.h>
 
+#if !XINCX_CHECK(XINCX_WDT0_ENABLED)
+#error "No enabled WDT instances. Check <xincx_config.h>."
+#endif
+
 #define XINCX_LOG_MODULE WDT
 #include <xincx_log.h>
 
@@ -133,8 +137,8 @@ xincx_err_t xincx_wdt_init(xincx_wdt_t  const * const p_instance,xincx_wdt_confi
     
 
 #if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
-    XINCX_IRQ_PRIORITY_SET(WDT_IRQn + p_instance->id, p_config->interrupt_priority);
-    XINCX_IRQ_ENABLE(WDT_IRQn + p_instance->id);
+    XINCX_IRQ_PRIORITY_SET((IRQn_Type)(WDT_IRQn + p_instance->id), p_config->interrupt_priority);
+    XINCX_IRQ_ENABLE((IRQn_Type)(WDT_IRQn + p_instance->id));
     p_cb->mode = XINC_WDT_MODE_RUN_1;
 #endif
     xinc_wdt_mode_set(p_reg,p_cb->mode);

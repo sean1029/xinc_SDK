@@ -387,9 +387,9 @@ static void buttons_init(void)
     //The array must be static because a pointer to it will be saved in the button handler module.
     static app_button_cfg_t buttons[] =
     {
-        {S1BUTTON_BUTTON_PIN, false, BUTTON_PULLDOWN, button_event_handler},
-        {S2BUTTON_BUTTON_PIN, false, BUTTON_PULLDOWN, button_event_handler},
-        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULLDOWN, button_event_handler}
+        {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler}
     };
 
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),

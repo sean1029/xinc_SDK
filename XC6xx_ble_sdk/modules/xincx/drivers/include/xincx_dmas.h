@@ -96,17 +96,34 @@ typedef void (* xincx_dmas_evt_handler_t)(xincx_dmas_evt_t const * p_event,
 typedef void (* xincx_dmas_ch_evt_handler_t)(xincx_dmas_ch_evt_t const * p_event,
                                         void *                 p_context);
 
-xincx_err_t xincx_dmas_init(xincx_dmas_t const *        p_instance,
-                         xincx_dmas_config_t const * p_config,
+xincx_err_t xincx_dmas_init(xincx_dmas_config_t const * p_config,
                          xincx_dmas_evt_handler_t    event_handler,
                          void *                    p_context);
                          
-bool xincx_dmas_is_init(xincx_dmas_t const * p_instance0);
+bool xincx_dmas_is_init(void);
                          
-xincx_err_t xincx_dmas_ch_set(xincx_dmas_t const *p_instance,xincx_dmas_ch_set_t set);
+xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set);
 
                          
-xincx_err_t xincx_dmas_ch_enable(xincx_dmas_t const *p_instance,xinc_dma_ch_t ch);
+xincx_err_t xincx_dmas_ch_enable(xinc_dma_ch_t ch);
+
+xincx_err_t xincx_dmas_ch_disable(xinc_dma_ch_t ch);
+
+uint32_t xincx_dmas_stat_get(void);
+
+xincx_err_t xincx_dmas_int_enable(uint32_t mask);
+
+xincx_err_t xincx_dmas_int_disable(uint32_t mask);
+
+uint32_t xincx_dmas_int_stat_get(void);
+
+uint32_t xincx_dmas_int_raw_stat_get(void);
+
+xincx_err_t xincx_dmas_int_sta_clear(uint32_t clr_bits);
+
+xincx_err_t xincx_dmas_ch_ca_get(uint8_t ch,uint32_t *ch_ca);
+
+xincx_err_t xincx_dmas_low_power_ctl(uint32_t ctl);
                          
 xincx_err_t xincx_dmas_ch_handler_register(uint8_t ch,xincx_dmas_ch_evt_handler_t handler);
 

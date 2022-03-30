@@ -24,15 +24,15 @@ extern "C" {
  */
 typedef enum
 {
-    DMAS_CH_0 = 0,
-    DMAS_CH_1 = 1,
-    DMAS_CH_2 = 2,
-    DMAS_CH_3 = 3,
-    DMAS_CH_8 = 8,
-    DMAS_CH_9 = 9,
-    DMAS_CH_10 = 10,
-    DMAS_CH_11 = 11,
-    DMAS_CH_12 = 12,
+    DMAS_CH_0 = 0UL,
+    DMAS_CH_1 = 1UL,
+    DMAS_CH_2 = 2UL,
+    DMAS_CH_3 = 3UL,
+    DMAS_CH_8 = 8UL,
+    DMAS_CH_9 = 9UL,
+    DMAS_CH_10 = 10UL,
+    DMAS_CH_11 = 11UL,
+    DMAS_CH_12 = 12UL,
 }xinc_dma_ch_t;
 
 
@@ -88,6 +88,17 @@ __STATIC_INLINE void xinc_dmas_int_sta_clr(XINC_DMAS_Type * p_reg,uint32_t clr_b
 __STATIC_INLINE void xinc_dmas_lp_ctl(XINC_DMAS_Type * p_reg,uint32_t ctl)
 {
      p_reg->DMAs_LP_CTL = ctl;
+}
+
+__STATIC_INLINE void xinc_dmas_intv_unit_set(XINC_DMAS_Type * p_reg,uint32_t intv_unit)
+{
+     p_reg->DMAs_INTV_UNIT = intv_unit;
+}
+
+__STATIC_INLINE XINC_DMAS_Type * xinc_dmas_reg_decode(void)
+{
+
+    return XINC_DMAS0;
 }
 
 #endif //XINC_DMAS_H__

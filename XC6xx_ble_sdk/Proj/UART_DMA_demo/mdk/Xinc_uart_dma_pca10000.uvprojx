@@ -701,11 +701,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
-            <File>
-              <FileName>xinc_drv_dmas.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_dmas.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1528,11 +1523,6 @@
               <FileName>xincx_dmas.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
-            </File>
-            <File>
-              <FileName>xinc_drv_dmas.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\integration\xincx\xinc_drv_dmas.c</FilePath>
             </File>
           </Files>
         </Group>
