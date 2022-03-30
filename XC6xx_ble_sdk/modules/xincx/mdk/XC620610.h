@@ -45,41 +45,116 @@ extern "C" {
 
  
 /* =========================================================================================================================== */
-/* ================                                           NVMC                                            ================ */
+/* ================                                           DMAS                                            ================ */
 /* =========================================================================================================================== */
 
 
 /**
-  * @brief Non Volatile Memory Controller (NVMC)
+  * @brief 精简直接存储器存取控制器（DMAS） (DMAS)
   */
 
-typedef struct {                                /*!< (@ 0x4001E000) NVMC Structure                                             */
-    __IM  uint32_t  RESERVED[256];
-    __IM  uint32_t  READY;                        /*!< (@ 0x00000400) Ready flag                                                 */
-    __IM  uint32_t  RESERVED1;
-    __IM  uint32_t  READYNEXT;                    /*!< (@ 0x00000408) Ready flag                                                 */
-    __IM  uint32_t  RESERVED2[62];
-    __IOM uint32_t  CONFIG;                       /*!< (@ 0x00000504) Configuration register                                     */
-  
-    union {
-    __IOM uint32_t ERASEPAGE;                   /*!< (@ 0x00000508) Register for erasing a page in code area                   */
-    __IOM uint32_t ERASEPCR1;                   /*!< (@ 0x00000508) Deprecated register - Register for erasing a
-                                                                    page in code area. Equivalent to ERASEPAGE.                */
-    };
-    __IOM uint32_t  ERASEALL;                     /*!< (@ 0x0000050C) Register for erasing all non-volatile user memory          */
-    __IOM uint32_t  ERASEPCR0;                    /*!< (@ 0x00000510) Deprecated register - Register for erasing a
-                                                                    page in code area. Equivalent to ERASEPAGE.                */
-    __IOM uint32_t  ERASEUICR;                    /*!< (@ 0x00000514) Register for erasing user information configuration
-                                                                    registers                                                  */
-    __IOM uint32_t  ERASEPAGEPARTIAL;             /*!< (@ 0x00000518) Register for partial erase of a page in code
-                                                                    area                                                       */
-    __IOM uint32_t  ERASEPAGEPARTIALCFG;          /*!< (@ 0x0000051C) Register for partial erase configuration                   */
-    __IM  uint32_t  RESERVED3[8];
-    __IOM uint32_t  ICACHECNF;                    /*!< (@ 0x00000540) I-code cache configuration register.                       */
-    __IM  uint32_t  RESERVED4;
-    __IOM uint32_t  IHIT;                         /*!< (@ 0x00000548) I-code cache hit counter.                                  */
-    __IOM uint32_t  IMISS;                        /*!< (@ 0x0000054C) I-code cache miss counter.                                 */
-} XINC_NVMC_Type;                                /*!< Size = 1360 (0x550)                                                       */
+typedef struct {                                /*!< (@ 0x50001000) DMAS Structure                 */
+    __OM    uint32_t  DMAs_EN;                   /*!< (@ 0x50001000) DMA 通道使能寄存器              */
+    __OM    uint32_t  DMAs_CLR;                 /*!< (@ 0x50001004) DMA 通道清除寄存器         */
+    __IM    uint32_t  DMAs_STA;                /*!< (@ 0x50001008) DMA 通道清除寄存器      */
+    __IM    uint32_t  DMAs_INT_RAW;            /*!< (@ 0x5000100C) DMA 中断原始状态寄存器      */
+
+    __IOM   uint32_t  DMAs_INT_EN0;      /*!< (@ 0x50001010) DMA 中断使能寄存器 0  */
+    __IM    uint32_t  RESERVED0[2];
+    __IOM   uint32_t  DMAs_INT0;      /*!< (@ 0x5000101C) DMA 中断状态寄存器 0  */                      
+
+    __IM    uint32_t  RESERVED1[2];
+    __OM    uint32_t  DMAs_INT_CLR; /*!< (@ 0x50001028) DMA 中断清除寄存器 */ 
+    __IOM   uint32_t  DMAs_INTV_UNIT; /*!< (@ 0x5000102C) DMA 定时单位寄存器 */  
+
+    __IM    uint32_t  RESERVED2[4];
+
+    __IOM   uint32_t  DMAs_CH0_SAR;   /*!< (@ 0x50001040) 发送通道 0 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH0_DAR;   /*!< (@ 0x50001044) 发送通道 0 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH0_CTL0;   /*!< (@ 0x50001048) 发送通道 0 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH0_CTL1;   /*!< (@ 0x5000104C) 发送通道 0 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH0_CA;   /*!< (@ 0x50001050) 发送通道 0 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED3[3];
+
+    __IOM   uint32_t  DMAs_CH1_SAR;   /*!< (@ 0x50001060) 发送通道 1 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH1_DAR;   /*!< (@ 0x50001064) 发送通道 1 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH1_CTL0;   /*!< (@ 0x50001068) 发送通道 1 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH1_CTL1;  /*!< (@ 0x5000106C) 发送通道 1 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH1_CA;   /*!< (@ 0x50001070) 发送通道 1 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED4[3];
+
+    __IOM   uint32_t  DMAs_CH2_SAR;   /*!< (@ 0x50001080) 发送通道 2 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH2_DAR;   /*!< (@ 0x50001084) 发送通道 2 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH2_CTL0;   /*!< (@ 0x50001088) 发送通道 2 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH2_CTL1;  /*!< (@ 0x5000108C) 发送通道 2 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH2_CA;   /*!< (@ 0x50001090) 发送通道 2 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED5[3];
+
+    __IOM   uint32_t  DMAs_CH3_SAR;   /*!< (@ 0x500010A0) 发送通道 3 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH3_DAR;   /*!< (@ 0x500010A4) 发送通道 3 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH3_CTL0;   /*!< (@ 0x500010A8) 发送通道 3 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH3_CTL1;  /*!< (@ 0x500010AC) 发送通道 3 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH3_CA;   /*!< (@ 0x500010B0) 发送通道 3 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED6[3];
+
+    __IM    uint32_t  RESERVED7[32];   //(@ 0x500010C0) -->/(@ 0x5000113C)
+
+
+    __IOM   uint32_t  DMAs_CH8_SAR;   /*!< (@ 0x50001140) 接收通道 8 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH8_DAR;   /*!< (@ 0x50001144) 接收通道 8 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH8_CTL0;   /*!< (@ 0x50001148) 接收通道 8 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH8_CTL1;  /*!< (@ 0x5000114C) 接收通道 8 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH8_CA;   /*!< (@ 0x50001150) 接收通道 8 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED8[3];
+
+    __IOM   uint32_t  DMAs_CH9_SAR;   /*!< (@ 0x50001160) 接收通道 9 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH9_DAR;   /*!< (@ 0x50001164) 接收通道 9 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH9_CTL0;   /*!< (@ 0x50001168) 接收通道 9 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH9_CTL1;  /*!< (@ 0x5000116C) 接收通道 9 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH9_CA;   /*!< (@ 0x50001170) 接收通道 9 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED9[3];
+
+    __IOM   uint32_t  DMAs_CH10_SAR;   /*!< (@ 0x50001180) 接收通道 10 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH10_DAR;   /*!< (@ 0x50001184) 接收通道 10 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH10_CTL0;   /*!< (@ 0x50001188) 接收通道 10 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH10_CTL1;  /*!< (@ 0x5000118C) 接收通道 10 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH10_CA;   /*!< (@ 0x50001190) 接收通道 10 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED10[3];
+
+    __IOM   uint32_t  DMAs_CH11_SAR;   /*!< (@ 0x500011A0) 接收通道 11 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH11_DAR;   /*!< (@ 0x500011A4) 接收通道 11 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH11_CTL0;   /*!< (@ 0x500011A8) 接收通道 11 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH11_CTL1;  /*!< (@ 0x500011AC) 接收通道 11 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH11_CA;   /*!< (@ 0x500011B0) 接收通道 11 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED11[3];
+
+    __IOM   uint32_t  DMAs_CH12_SAR;   /*!< (@ 0x500011C0) 接收通道 12 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH12_DAR;   /*!< (@ 0x500011C4) 接收通道 12 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH12_CTL0;   /*!< (@ 0x500011C8) 接收通道 12 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH12_CTL1;  /*!< (@ 0x500011CC) 接收通道 12 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH12_CA;   /*!< (@ 0x500011D0) 接收通道 12 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED12[3];
+
+    __IM    uint32_t  RESERVED13[24];//(@ 0x500011E0) -->/(@ 0x5000123C)
+
+    __IOM   uint32_t  DMAs_CH0_WD; /*!< (@ 0x50001240) 发送通道 0 缺省写入数据 */
+    __IOM   uint32_t  DMAs_CH1_WD; /*!< (@ 0x50001244) 发送通道 0 缺省写入数据 */
+    __IOM   uint32_t  DMAs_CH2_WD; /*!< (@ 0x50001248) 发送通道 0 缺省写入数据 */
+    __IOM   uint32_t  DMAs_CH3_WD; /*!< (@ 0x5000124C) 发送通道 0 缺省写入数据 */
+
+    __IM    uint32_t  RESERVED14[107];//(@ 0x50001250) -->/(@ 0x500013F8)
+    __IOM   uint32_t  DMAs_LP_CTL; /*!< (@ 0x500013FC) DMA 低功耗控制寄存器 */  
+                    
+} XINC_DMAS_Type;                                /*!< Size = 1024 (0x400)                                                       */
 
 
 
@@ -508,10 +583,10 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
-#define XINC_GPIO0_BASE                0x40001000UL
+#define XINC_GPIO0_BASE             0x40001000UL
 #define XINC_CPR_BASE               0x40000000UL
 #define XINC_CPR_AO_BASE            0x40002400UL
-#define XINC_GPIOTE_BASE            0x40006000UL
+#define XINC_DMAS_BASE              0x50001000UL
 #define XINC_UART0_BASE             0x40010000UL
 #define XINC_UART1_BASE             0x40011000UL
 #define XINC_SPIM0_BASE             0x40013000UL
@@ -545,12 +620,15 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 /** @addtogroup Device_Peripheral_declaration
   * @{
   */
-#define XINC_GPIO0                             ((XINC_GPIO_Type*)              XINC_GPIO0_BASE)
+#define XINC_GPIO0                          ((XINC_GPIO_Type*)              XINC_GPIO0_BASE)
 #define XINC_CPR                            ((XINC_CPR_CTL_Type*)           XINC_CPR_BASE)
 #define XINC_CPR_AO                         ((XINC_CPR_AO_CTL_Type*)        XINC_CPR_AO_BASE)
-#define XINC_GPIO                           ((XINC_GPIO_Type*)              XINC_GPIOTE_BASE)
+#define XINC_DMAS0                          ((XINC_DMAS_Type*)              XINC_DMAS_BASE)
+
 #define XINC_UART0                          ((XINC_UART_Type*)              XINC_UART0_BASE)
 #define XINC_UART1                          ((XINC_UART_Type*)              XINC_UART1_BASE)
+#define XINC_UARTE0                         ((XINC_UARTE_Type*)              XINC_UART0_BASE)
+#define XINC_UARTE1                         ((XINC_UARTE_Type*)              XINC_UART1_BASE)
 #define XINC_SPIM0                          ((XINC_SPIM_Type*)              XINC_SPIM0_BASE)
 #define XINC_SPIM1                          ((XINC_SPIM_Type*)              XINC_SPIM1_BASE)
 

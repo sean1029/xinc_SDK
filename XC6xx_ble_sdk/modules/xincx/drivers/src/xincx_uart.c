@@ -17,13 +17,13 @@
 
 #include <xincx_uart.h>
 #include <hal/xinc_gpio.h>
-#include "bsp_register_macro.h"
-#include "bsp_clk.h"
-#include "bsp_uart.h"
+//#include "bsp_register_macro.h"
+//#include "bsp_clk.h"
+//#include "bsp_uart.h"
 #include "xinc_delay.h"
 #define XINCX_LOG_MODULE UART
 #include <xincx_log.h>
-
+#include "xincx_dmas.h"
 
 #define EVT_TO_STR(event) \
     (event == XINC_UART_EVENT_ERROR ? "XINC_UART_EVENT_ERROR" : \
@@ -34,20 +34,22 @@
 
 typedef struct
 {
-    void                    * p_context;
-    xincx_uart_event_handler_t handler;
-    uint8_t           const * p_tx_buffer;
-    uint8_t                 * p_rx_buffer;
-    uint8_t                 * p_rx_secondary_buffer;
-    volatile size_t           tx_buffer_length;
-    size_t                    rx_buffer_length;
-    size_t                    rx_secondary_buffer_length;
-    volatile size_t           tx_counter;
-    volatile size_t           rx_counter;
-    volatile bool             tx_abort;
-    bool                      rx_enabled;
-    uint8_t                   rx_fifo_read_max;
-    uint8_t                   rx_fifo_ready_read;
+    void                        * p_context;
+    xincx_uart_event_handler_t  handler;
+    uint8_t           const     * p_tx_buffer;
+    uint8_t                     * p_rx_buffer;
+    uint8_t                     * p_rx_secondary_buffer;
+    volatile size_t             tx_buffer_length;
+    size_t                      rx_buffer_length;
+    size_t                      rx_secondary_buffer_length;
+    volatile size_t             tx_counter;
+    volatile size_t             rx_counter;
+    volatile bool               tx_abort;
+    bool                        rx_enabled;
+    uint8_t                     rx_fifo_read_max;
+    uint8_t                     rx_fifo_ready_read;
+    uint8_t                     tx_dma_ch;
+    uint8_t                     rx_dma_ch;
     xincx_drv_state_t          state;
 } uart_control_block_t;
 static uart_control_block_t m_cb[XINCX_UART_ENABLED_COUNT];
@@ -203,10 +205,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 {
     printf("%s\r\n",__func__);
 
-    p_instance->p_reg->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;// | UART_UARTx_IER_ETHEI_Msk;// | UART_UARTx_IER_PTIME_Msk;//open tx/rx interrupt
-
-    printf("p_instance->p_reg:%p\r\n",p_instance->p_reg);
-            
+      
     NVIC_EnableIRQ((IRQn_Type)(UART0_IRQn + p_instance->id));
 }
 
@@ -251,6 +250,7 @@ static void xincx_uart_clk_init(xincx_uart_t const * const  p_instance,
 
 }
 
+
 xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
                           xincx_uart_config_t const * p_config,
                           xincx_uart_event_handler_t  event_handler)
@@ -258,6 +258,7 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     XINCX_ASSERT(p_config);
     uart_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     xincx_err_t err_code = XINCX_SUCCESS;
+    
     printf("%s,id:%d,inst_idx:%d,state:%d\r\n",__func__,p_instance->id,p_instance->drv_inst_idx,p_cb->state);
     // printf("XINC_UART_Type size :%d\r\n",sizeof(XINC_UART_Type));
     if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
@@ -284,8 +285,8 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
 
     p_cb->handler   = event_handler;
     p_cb->p_context = p_config->p_context;
-
-   
+        
+  
     xinc_uart_enable(p_instance->p_reg);
     p_cb->rx_buffer_length           = 0;
     p_cb->rx_secondary_buffer_length = 0;
@@ -294,9 +295,9 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     p_cb->state                      = XINCX_DRV_STATE_INITIALIZED;
     
     xinc_delay_ms(10);
-     if (p_cb->handler)
-    {
-        interrupts_enable(p_instance, p_config->interrupt_priority);
+    if (p_cb->handler)
+    {      
+        interrupts_enable(p_instance, p_config->interrupt_priority);             
     }
 
     XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -366,6 +367,7 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
     XINCX_ASSERT(length > 0);
 
     xincx_err_t err_code;
+    
 	//  printf("xincx_uart_tx progress:%d\r\n",xincx_uart_tx_in_progress(p_instance));
     if (xincx_uart_tx_in_progress(p_instance))
     {
@@ -386,10 +388,10 @@ xincx_err_t xincx_uart_tx(xincx_uart_t const * p_instance,
                            p_cb->tx_buffer_length * sizeof(p_cb->p_tx_buffer[0]));
 
     err_code = XINCX_SUCCESS;
+    
 
     tx_byte(p_instance->p_reg, p_cb);
     
-
     if (p_cb->handler == NULL)
     {
         if (!tx_blocking(p_instance->p_reg, p_cb))
@@ -445,6 +447,7 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
 
     xincx_err_t err_code;
 
+    
     bool second_buffer = false;
 
     if (p_cb->handler)
@@ -486,7 +489,8 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
     }
 
     XINCX_LOG_INFO("Transfer rx_len: %d.", length);
-   
+
+    // printf("xincx_uart_rx:0x%p,0x%p\n",p_data,p_cb->p_rx_buffer);	
 
     if (p_cb->handler == NULL)
     {
@@ -528,12 +532,13 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
                              XINCX_LOG_ERROR_STRING_GET(err_code));
             return err_code;
         }
-
+    
     }
     else
     {
-//        xinc_uart_int_enable(p_instance->p_reg, XINC_UART_INT_MASK_RXDRDY |
-//                                               XINC_UART_INT_MASK_ERROR);
+    
+        p_instance->p_reg->IER_DLH.IER |= UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;//open rx interrupt
+
     }
     err_code = XINCX_SUCCESS;
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
@@ -841,7 +846,7 @@ static void uart_irq_rx_ok_handler(XINC_UART_Type *        p_uart,
     (void)IER;
 }
 
-static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
+static void uart_irq_handler(XINC_UART_Type *        p_uart,
                              uart_control_block_t * p_cb)
 {
 
@@ -849,8 +854,8 @@ static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
     IER = p_uart->IER_DLH.IER;
     IIR = p_uart->IIR_FCR.IIR;
     uint8_t RxBytes;
-    static uint8_t RxBytesIdx;
-  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
+
+   // printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
         xincx_uart_event_t event;
@@ -865,7 +870,6 @@ static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
         TSR = p_uart->TSR;
         p_cb->rx_fifo_ready_read = 0UL;
         RxBytes = 0;
-        RxBytesIdx = p_cb->rx_counter;
         while((TSR & UART_UARTx_TSR_DR_Msk) == UART_UARTx_TSR_DR_Msk )
         {
             rx_byte(p_uart, p_cb);
@@ -904,8 +908,7 @@ static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
                 }              
             }              
         }
-        
-       
+             
         
     }
     
@@ -944,7 +947,7 @@ static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
                 }              
             }                   
         }
-      //   printf("TO IER:%x,IIR:%x,rx_len:%d,p_cb->rx_counter:%d \r\n",IER,IIR,RxBytes,p_cb->rx_counter);   
+        printf("TO IER:%x,IIR:%x,rx_len:%d,p_cb->rx_counter:%d \r\n",IER,IIR,RxBytes,p_cb->rx_counter);   
 
    
         p_cb->rx_buffer_length = 0;
@@ -984,6 +987,8 @@ static void uart_irq_new_handler(XINC_UART_Type *        p_uart,
     (void)IER;
 }
 
+
+
 #if XINCX_CHECK(XINCX_UART0_ENABLED)
 void xincx_uart_0_irq_handler(void)
 {
@@ -998,7 +1003,7 @@ void UART0_Handler(void)
 #if XINCX_CHECK(XINCX_UART1_ENABLED)
 void xincx_uart_1_irq_handler(void)
 {
-    uart_irq_new_handler(XINC_UART1, &m_cb[XINCX_UART1_INST_IDX]);
+    uart_irq_handler(XINC_UART1, &m_cb[XINCX_UART1_INST_IDX]);
 }
 void UART1_Handler(void)
 {

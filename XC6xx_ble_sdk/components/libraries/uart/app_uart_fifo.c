@@ -13,6 +13,14 @@
 #include "xinc_drv_uart.h"
 #include "xinc_assert.h"
 
+#if defined(XINC_DRV_UART_WITH_UARTE)
+#include "xincx_dmas.h"
+#endif //
+
+#if defined(XINC_DRV_UART_WITH_UARTE)
+static xincx_dmas_t xincx_dmas_inst = XINCX_DMAS_INSTANCE(0);
+#endif //
+
 static xinc_drv_uart_t app_uart_inst = XINC_DRV_UART_INSTANCE(APP_UART_DRIVER_INSTANCE);
 
 static __INLINE uint32_t fifo_length(app_fifo_t * const fifo)
@@ -25,10 +33,10 @@ static __INLINE uint32_t fifo_length(app_fifo_t * const fifo)
 
 
 static app_uart_event_handler_t   m_event_handler;            /**< Event handler function. */
-#define TRX_BUFF_SIZE   64UL
-static uint8_t tx_buffer[TRX_BUFF_SIZE];
-static uint8_t rx_buffer[TRX_BUFF_SIZE];
-static uint8_t rx_buffsize = TRX_BUFF_SIZE;
+#define TRX_BUFF_SIZE   32UL
+__ALIGN(4) static uint8_t tx_buffer[TRX_BUFF_SIZE];
+__ALIGN(4) static uint8_t rx_buffer[TRX_BUFF_SIZE];
+static uint16_t rx_buffsize = TRX_BUFF_SIZE;
 static bool m_rx_ovf;
 
 static app_fifo_t                  m_rx_fifo;                               /**< RX FIFO buffer for storing data received on the UART until the application fetches them using app_uart_get(). */
@@ -66,7 +74,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void* p_context)
                 m_event_handler(&app_uart_event);
             }
             // Notify that there are data available.
-            else if (FIFO_LENGTH(m_rx_fifo) != 0)
+            else //if (FIFO_LENGTH(m_rx_fifo) != 0)
             {
               // app_uart_event.evt_type = APP_UART_DATA_READY;APP_UART_DATA_DONE
                 m_event_handler(&app_uart_event);
@@ -76,7 +84,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void* p_context)
             if ((FIFO_LENGTH(m_rx_fifo) <= m_rx_fifo.buf_size_mask) || (app_uart_event.evt_type == APP_UART_DATA_DONE))
             {
               //  printf("drv_uart_rx2:%d\r\n",rx_buffsize);
-                (void)xinc_drv_uart_rx(&app_uart_inst, rx_buffer, rx_buffsize);
+                (void)xinc_drv_uart_rx(&app_uart_inst, rx_buffer, TRX_BUFF_SIZE);
             }
             else
             {
@@ -90,14 +98,14 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void* p_context)
         case XINC_DRV_UART_EVT_ERROR:
             app_uart_event.evt_type                 = APP_UART_COMMUNICATION_ERROR;
             app_uart_event.data.error_communication = p_event->data.error.error_mask;
-            (void)xinc_drv_uart_rx(&app_uart_inst, rx_buffer, rx_buffsize);
+            (void)xinc_drv_uart_rx(&app_uart_inst, rx_buffer, TRX_BUFF_SIZE);
             m_event_handler(&app_uart_event);
             break;
 
         case XINC_DRV_UART_EVT_TX_DONE:
 						
             // Get next byte from FIFO.
-            len8 = 255;
+            len8 = TRX_BUFF_SIZE;
           //  if (app_fifo_get(&m_tx_fifo, tx_buffer) == XINC_SUCCESS)
             if (app_fifo_read(&m_tx_fifo, tx_buffer,&len8) == XINC_SUCCESS)
             {
@@ -154,11 +162,26 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     
     config.data_bits = p_comm_params->data_bits;
     config.stop_bits = p_comm_params->stop_bits;
+    config.use_easy_dma = true,
     
     printf("config baud:%d \r\n",config.baudrate);
 
     err_code = xinc_drv_uart_init(&app_uart_inst, &config, uart_event_handler);
     VERIFY_SUCCESS(err_code);
+    
+    #if defined(XINC_DRV_UART_WITH_UARTE)
+    
+    if(!xincx_dmas_is_init(&xincx_dmas_inst))
+    {
+        err_code = xincx_dmas_init(&xincx_dmas_inst,
+                                   NULL,
+                                   NULL,
+                                   NULL);
+        VERIFY_SUCCESS(err_code);
+    }
+    
+    #endif //
+
     m_rx_ovf = false;
 
     // Turn on receiver if RX pin is connected

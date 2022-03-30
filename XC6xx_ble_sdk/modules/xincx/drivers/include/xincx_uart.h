@@ -79,6 +79,7 @@ typedef struct
     xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
+    bool                use_easy_dma;
 } xincx_uart_config_t;
 
 

@@ -25,6 +25,11 @@
 #define POWER_FEATURE_VDDH_PRESENT
 #define POWER_FEATURE_VDDH_DCDC_PRESENT
 
+/* DMAS Controller */
+#define DMAS_PRESENT
+#define DMAS_COUNT 1
+#define DMAS_CH_COUNT 13
+
 /* Non-Volatile Memory Controller */
 #define NVMC_PRESENT
 #define NVMC_COUNT 1

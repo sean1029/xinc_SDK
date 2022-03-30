@@ -12,34 +12,13 @@
 
 #include <xincx.h>
 
-#if defined(UARTE_PRESENT) && XINCX_CHECK(XINCX_UARTE_ENABLED)
+#if defined(UART_PRESENT) && (XINCX_CHECK(XINCX_UARTE_ENABLED))
     #define XINC_DRV_UART_WITH_UARTE
-#endif
-#if defined(UART_PRESENT) && XINCX_CHECK(XINCX_UART_ENABLED)
+#elif defined(UART_PRESENT) && (XINCX_CHECK(XINCX_UART_ENABLED))
     #define XINC_DRV_UART_WITH_UART
 #endif
 
-#if defined(XINC_DRV_UART_WITH_UARTE)
-    #include <xincx_uarte.h>
-    #define XINC_DRV_UART_CREATE_UARTE(id) \
-        .uarte = XINCX_UARTE_INSTANCE(id),
-#else
-    // Compilers (at least the smart ones) will remove the UARTE related code
-    // (blocks starting with "if (XINC_DRV_UART_USE_UARTE)") when it is not used,
-    // but to perform the compilation they need the following definitions.
-    #define xincx_uarte_init(...)                0
-    #define xincx_uarte_uninit(...)
-    #define xincx_uarte_task_address_get(...)    0
-    #define xincx_uarte_event_address_get(...)   0
-    #define xincx_uarte_tx(...)                  0
-    #define xincx_uarte_tx_in_progress(...)      0
-    #define xincx_uarte_tx_abort(...)
-    #define xincx_uarte_rx(...)                  0
-    #define xincx_uarte_rx_ready(...)            0
-    #define xincx_uarte_rx_abort(...)
-    #define xincx_uarte_errorsrc_get(...)        0
-    #define XINC_DRV_UART_CREATE_UARTE(id)
-#endif
+
 
 #if defined(XINC_DRV_UART_WITH_UART)
     #include <xincx_uart.h>
@@ -52,56 +31,49 @@
         .uart = XINCX_UART_INSTANCE(1),
 
 #else
+    #define xincx_uart_init(...)                0
+    #define xincx_uart_uninit(...)              
+    #define xincx_uart_tx(...)                  0
+    #define xincx_uart_tx_in_progress(...)      0
+    #define xincx_uart_tx_abort(...)
+    #define xincx_uart_rx(...)                  0
+    #define xincx_uart_rx_ready(...)            0
+    #define xincx_uart_rx_enable(...)
+    #define xincx_uart_rx_disable(...)
+
+    #define xincx_uart_rx_abort(...)
+    #define xincx_uart_errorsrc_get(...)        0
+    
+#endif
+
+#if defined(XINC_DRV_UART_WITH_UARTE)
+    #include <xincx_uarte.h>
+
+    #define XINC_DRV_UART_CREATE_UART(id)   _XINC_DRV_UART_CREATE_UART(id)
+    #define _XINC_DRV_UART_CREATE_UART(id)  XINC_DRV_UART_CREATE_UART_##id
+    #define XINC_DRV_UART_CREATE_UART_0  \
+        .uarte = XINCX_UARTE_INSTANCE(0),
+    #define XINC_DRV_UART_CREATE_UART_1  \
+        .uarte = XINCX_UARTE_INSTANCE(1),
+
+#else
     // Compilers (at least the smart ones) will remove the UART related code
     // (blocks starting with "if (XINC_DRV_UART_USE_UART)") when it is not used,
     // but to perform the compilation they need the following definitions.
-    #define xincx_uart_init(...)                 0
-    #define xincx_uart_uninit(...)
-    #define xincx_uart_task_address_get(...)     0
-    #define xincx_uart_event_address_get(...)    0
-    #define xincx_uart_tx(...)                   0
-    #define xincx_uart_tx_in_progress(...)       0
-    #define xincx_uart_tx_abort(...)
-    #define xincx_uart_rx(...)                   0
-    #define xincx_uart_rx_enable(...)
-    #define xincx_uart_rx_disable(...)
-    #define xincx_uart_rx_ready(...)             0
-    #define xincx_uart_rx_abort(...)
-    #define xincx_uart_errorsrc_get(...)         0
-    #define XINC_DRV_UART_CREATE_UART(id)
+    
+    #define xincx_uarte_init(...)                0
+    #define xincx_uarte_uninit(...)              
+    #define xincx_uarte_tx(...)                  0
+    #define xincx_uarte_tx_in_progress(...)      0
+    #define xincx_uarte_tx_abort(...)
+    #define xincx_uarte_rx(...)                  0
+    #define xincx_uarte_rx_ready(...)            0
+    #define xincx_uarte_rx_enable(...)
+    #define xincx_uarte_rx_disable(...)
 
-    // This part is for old modules that use directly UART HAL definitions
-    // (to make them compilable for chips that have only UARTE).
-    #define XINC_UART_BAUDRATE_1200      XINC_UARTE_BAUDRATE_1200
-    #define XINC_UART_BAUDRATE_2400      XINC_UARTE_BAUDRATE_2400
-    #define XINC_UART_BAUDRATE_4800      XINC_UARTE_BAUDRATE_4800
-    #define XINC_UART_BAUDRATE_9600      XINC_UARTE_BAUDRATE_9600
-    #define XINC_UART_BAUDRATE_14400     XINC_UARTE_BAUDRATE_14400
-    #define XINC_UART_BAUDRATE_19200     XINC_UARTE_BAUDRATE_19200
-    #define XINC_UART_BAUDRATE_28800     XINC_UARTE_BAUDRATE_28800
-    #define XINC_UART_BAUDRATE_38400     XINC_UARTE_BAUDRATE_38400
-    #define XINC_UART_BAUDRATE_57600     XINC_UARTE_BAUDRATE_57600
-    #define XINC_UART_BAUDRATE_76800     XINC_UARTE_BAUDRATE_76800
-    #define XINC_UART_BAUDRATE_115200    XINC_UARTE_BAUDRATE_115200
-    #define XINC_UART_BAUDRATE_230400    XINC_UARTE_BAUDRATE_230400
-    #define XINC_UART_BAUDRATE_250000    XINC_UARTE_BAUDRATE_250000
-    #define XINC_UART_BAUDRATE_460800    XINC_UARTE_BAUDRATE_460800
-    #define XINC_UART_BAUDRATE_921600    XINC_UARTE_BAUDRATE_921600
-    #define XINC_UART_BAUDRATE_1000000   XINC_UARTE_BAUDRATE_1000000
-    typedef xinc_uarte_baudrate_t        xinc_uart_baudrate_t;
-    #define XINC_UART_ERROR_OVERRUN_MASK XINC_UARTE_ERROR_OVERRUN_MASK
-    #define XINC_UART_ERROR_PARITY_MASK  XINC_UARTE_ERROR_PARITY_MASK
-    #define XINC_UART_ERROR_FRAMING_MASK XINC_UARTE_ERROR_PARITY_MASK
-    #define XINC_UART_ERROR_BREAK_MASK   XINC_UARTE_ERROR_BREAK_MASK
-    typedef xinc_uarte_error_mask_t      xinc_uart_error_mask_t;
-    #define XINC_UART_HWFC_DISABLED      XINC_UARTE_HWFC_DISABLED
-    #define XINC_UART_HWFC_ENABLED       XINC_UARTE_HWFC_ENABLED
-    typedef xinc_uarte_hwfc_t            xinc_uart_hwfc_t;
-    #define XINC_UART_PARITY_EXCLUDED    XINC_UARTE_PARITY_EXCLUDED
-    #define XINC_UART_PARITY_INCLUDED    XINC_UARTE_PARITY_INCLUDED
-    typedef xinc_uarte_parity_t          xinc_uart_parity_t;
-    typedef xinc_uarte_event_t           xinc_uart_event_t;
-    #define XINC_UART_PSEL_DISCONNECTED  XINC_UARTE_PSEL_DISCONNECTED
+    #define xincx_uarte_rx_abort(...)
+    #define xincx_uarte_errorsrc_get(...)        0
+    
 #endif
 
 #ifdef __cplusplus
@@ -121,13 +93,14 @@ extern "C" {
 typedef struct
 {
     uint8_t inst_idx;
-		uint8_t id;
+    uint8_t id;
 #if defined(XINC_DRV_UART_WITH_UARTE)
     xincx_uarte_t uarte;
 #endif
 #if defined(XINC_DRV_UART_WITH_UART)
     xincx_uart_t uart;
 #endif
+
 } xinc_drv_uart_t;
 
 /**
@@ -137,7 +110,6 @@ typedef struct
 {                                 \
     .inst_idx = Id,               \
 	.id = Id,											\
-    XINC_DRV_UART_CREATE_UARTE(Id) \
     XINC_DRV_UART_CREATE_UART(Id)  \
 }
 
@@ -146,29 +118,14 @@ typedef struct
  */
 typedef enum
 {
-    XINC_DRV_UART_EVT_TX_DONE = XINCX_UART_EVT_TX_DONE, ///< Requested TX transfer completed.
-    XINC_DRV_UART_EVT_RX_READY = XINCX_UART_EVT_RX_READY, ///< Requested RX transfer start.
-    XINC_DRV_UART_EVT_RX_DONE = XINCX_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
-    XINC_DRV_UART_EVT_ERROR =   XINCX_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
+    XINC_DRV_UART_EVT_TX_DONE , ///< Requested TX transfer completed.
+    XINC_DRV_UART_EVT_RX_READY, ///< Requested RX transfer start.
+    XINC_DRV_UART_EVT_RX_DONE, ///< Requested RX transfer completed.
+    XINC_DRV_UART_EVT_ERROR,   ///< Error reported by UART peripheral.
 } xinc_drv_uart_evt_type_t;
 
 
 ///**@brief Structure for UART configuration. */
-//typedef struct
-//{
-//    uint32_t            pseltxd;            ///< TXD pin number.
-//    uint32_t            pselrxd;            ///< RXD pin number.
-//    uint32_t            pselcts;            ///< CTS pin number.
-//    uint32_t            pselrts;            ///< RTS pin number.
-//    void *              p_context;          ///< Context passed to interrupt handler.
-//    xinc_uart_hwfc_t     hwfc;               ///< Flow control configuration.
-//    xinc_uart_parity_t   parity;             ///< Parity configuration.
-//    xinc_uart_baudrate_t baudrate;           ///< Baudrate.
-//    uint8_t             interrupt_priority; ///< Interrupt priority.
-//#if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
-//    bool                use_easy_dma;
-//#endif
-//} xinc_drv_uart_config_t;
 
 typedef struct
 {
@@ -184,16 +141,13 @@ typedef struct
     xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
-#if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
     bool                use_easy_dma;
-#endif
 } xinc_drv_uart_config_t;
 
-#if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
-extern uint8_t xinc_drv_uart_use_easy_dma[];
+#if XINCX_CHECK(UART0_CONFIG_USE_EASY_DMA) && XINCX_CHECK(UART1_CONFIG_USE_EASY_DMA)
 #define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA  .use_easy_dma = true,
 #else
-#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA
+#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA  .use_easy_dma = false,
 #endif
 
 /**@brief UART default configuration. */
@@ -420,8 +374,9 @@ uint32_t xinc_drv_uart_errorsrc_get(xinc_drv_uart_t const * p_instance);
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
+
 #if defined(XINC_DRV_UART_WITH_UARTE) && defined(XINC_DRV_UART_WITH_UART)
-    #define XINC_DRV_UART_USE_UARTE  (xinc_drv_uart_use_easy_dma[p_instance->inst_idx])
+    #define XINC_DRV_UART_USE_UARTE  true
 #elif defined(XINC_DRV_UART_WITH_UARTE)
     #define XINC_DRV_UART_USE_UARTE  true
 #else
@@ -429,17 +384,20 @@ uint32_t xinc_drv_uart_errorsrc_get(xinc_drv_uart_t const * p_instance);
 #endif
 #define XINC_DRV_UART_USE_UART  (!XINC_DRV_UART_USE_UARTE)
 
+
+
 __STATIC_INLINE
 void xinc_drv_uart_uninit(xinc_drv_uart_t const * p_instance)
 {
     if (XINC_DRV_UART_USE_UARTE)
     {
         xincx_uarte_uninit(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         xincx_uart_uninit(&p_instance->uart);
     }
+      
 }
 
 
@@ -450,18 +408,21 @@ ret_code_t xinc_drv_uart_tx(xinc_drv_uart_t const * p_instance,
 {
     uint32_t result = 0;
   //  printf("xinc_drv_uart_tx len :%d\r\n",length);
+    
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_tx(&p_instance->uarte,
-                               p_data,
-                               length);
-    }
+                      p_data,
+                      length);
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_tx(&p_instance->uart,
                               p_data,
                               length);
     }
+  
+
     return result;
 }
 
@@ -469,16 +430,19 @@ __STATIC_INLINE
 bool xinc_drv_uart_tx_in_progress(xinc_drv_uart_t const * p_instance)
 {
     bool result = 0;
+    
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_tx_in_progress(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_tx_in_progress(&p_instance->uart);
     }
+    
     return result;
 }
+
 
 __STATIC_INLINE
 void xinc_drv_uart_tx_abort(xinc_drv_uart_t const * p_instance)
@@ -486,12 +450,13 @@ void xinc_drv_uart_tx_abort(xinc_drv_uart_t const * p_instance)
     if (XINC_DRV_UART_USE_UARTE)
     {
         xincx_uarte_tx_abort(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         xincx_uart_tx_abort(&p_instance->uart);
-    }
+    } 
 }
+
 
 __STATIC_INLINE
 ret_code_t xinc_drv_uart_rx(xinc_drv_uart_t const * p_instance,
@@ -502,15 +467,16 @@ ret_code_t xinc_drv_uart_rx(xinc_drv_uart_t const * p_instance,
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_rx(&p_instance->uarte,
-                               p_data,
-                               length);
-    }
+                          p_data,
+                          length);  
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_rx(&p_instance->uart,
-                              p_data,
-                              length);
+                          p_data,
+                          length);  
     }
+   
     return result;
 }
 
@@ -518,41 +484,45 @@ __STATIC_INLINE
 bool xinc_drv_uart_rx_ready(xinc_drv_uart_t const * p_instance)
 {
     bool result = 0;
+
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_rx_ready(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_rx_ready(&p_instance->uart);
     }
+
     return result;
 }
 
 __STATIC_INLINE
 void xinc_drv_uart_rx_enable(xinc_drv_uart_t const * p_instance)
-{
+{ 
     if (XINC_DRV_UART_USE_UARTE)
     {
-        XINCX_ASSERT(false); // not supported
-    }
+        xincx_uarte_rx_enable(&p_instance->uarte);   
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
-        xincx_uart_rx_enable(&p_instance->uart);
+        xincx_uart_rx_enable(&p_instance->uart);   
     }
+
 }
 
 __STATIC_INLINE
 void xinc_drv_uart_rx_disable(xinc_drv_uart_t const * p_instance)
-{
+{      
     if (XINC_DRV_UART_USE_UARTE)
     {
-        XINCX_ASSERT(false); // not supported
-    }
+        xincx_uarte_rx_disable(&p_instance->uarte); 
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
-        xincx_uart_rx_disable(&p_instance->uart);
+        xincx_uart_rx_disable(&p_instance->uart); 
     }
+
 }
 
 __STATIC_INLINE
@@ -561,25 +531,28 @@ void xinc_drv_uart_rx_abort(xinc_drv_uart_t const * p_instance)
     if (XINC_DRV_UART_USE_UARTE)
     {
         xincx_uarte_rx_abort(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         xincx_uart_rx_abort(&p_instance->uart);
-    }
+    }  
 }
+
 
 __STATIC_INLINE
 uint32_t xinc_drv_uart_errorsrc_get(xinc_drv_uart_t const * p_instance)
 {
     uint32_t result = 0;
+ 
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_errorsrc_get(&p_instance->uarte);
-    }
+    } 
     else if (XINC_DRV_UART_USE_UART)
     {
         result = xincx_uart_errorsrc_get(&p_instance->uart);
     }
+   
     return result;
 }
 
