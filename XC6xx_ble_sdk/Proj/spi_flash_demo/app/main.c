@@ -5,7 +5,6 @@
 #include    "profile.h"
 #include    "ble.h"
 #include "hids_device.h"
-#include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
 #include "bsp_timer.h"
@@ -321,11 +320,11 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
              //检测按键 S1 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
-                
-                //点亮 LED 指示灯 D1
-                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
                 //擦除 falsh sector
                 printf("sector_erase addr:0x%x\r\n",TEST_FLASH_ADDR);
+                //点亮 LED 指示灯 D1
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+                
                 spim_flash_sector_erase(TEST_FLASH_ADDR);
  
             }else
@@ -342,9 +341,10 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
              //检测按键 S2 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
+                 printf("write data:\r\n");
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-                printf("write data:\r\n");
+               
                 for(int i = 0;i < 20;i ++)
                 {
                     w_buf[i] = 'a' + i;
@@ -434,7 +434,7 @@ void spi_flash_test()
 
 
 
-
+#include "xinc_assert.h"
 
 int	main(void)
 {
@@ -450,7 +450,43 @@ int	main(void)
     xincx_gpio_init();
 	btstack_main();
     key_init();
+    
+    
+    uint8_t pin_number = 0;
+    uint8_t mux = 0;
+    uint8_t mux_idx; 
+    uint8_t pin_idx; 
+    uint32_t regVal;
+    
+    mux = 0XF;
+    mux_idx = pin_number >> 2UL;
+    pin_idx = pin_number & 0x3UL;
+    regVal = 0xFFFFFFFF;
+//    for(int i = 0;i < 4;i++)
+//    {
+//        pin_number = i;
+//        mux_idx = pin_number >> 2UL;
+//        pin_idx = pin_number & 0x3UL;
+//        regVal = (regVal & ~(0x1f << (pin_idx << 3))) | (mux << (pin_idx << 3));
 
+//        printf("regVal0:%08x\r\n",regVal);
+
+//    }
+    regVal = 0;
+    for(int i = 0;i < 4;i++)
+    {
+        pin_number = i;
+        mux_idx = pin_number >> 2UL;
+        pin_idx = pin_number & 0x3UL;
+         regVal = (regVal  & ~(0xF0000UL) & ~(0xFUL << (pin_idx << 2UL))) | (mux << (pin_idx << 2UL)) | ((0x01UL << pin_idx) << 16UL);
+
+        printf("regVal1:%08x\r\n",regVal);
+
+    }
+    
+   
+    
+    
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;

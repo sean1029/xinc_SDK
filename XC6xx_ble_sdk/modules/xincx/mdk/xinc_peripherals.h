@@ -14,8 +14,8 @@
 
 #if defined(XINC6206_XXAA)
  #include "xinc620610_peripherals.h"
-#elif defined(XINC6201_XXAA)
-  
+#elif defined (XINC628_A) || defined (XINC628_B) ||  defined (XINC628_C) ||  defined (XINC628_D)
+  #include "xinc628_XXXX_peripherals.h"
 #else
     #error "Device must be defined. See xinc.h."
 #endif

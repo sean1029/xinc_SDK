@@ -91,6 +91,9 @@ enum {
     #if XINCX_CHECK(XINCX_RTC0_ENABLED)
     XINCX_RTC0_INST_IDX,
     #endif
+    #if XINCX_CHECK(XINCX_RTC1_ENABLED)
+    XINCX_RTC1_INST_IDX,
+    #endif
     XINCX_RTC_ENABLED_COUNT
 };
 #endif

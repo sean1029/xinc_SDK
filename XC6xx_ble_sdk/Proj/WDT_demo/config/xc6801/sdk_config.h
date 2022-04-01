@@ -45,7 +45,7 @@
 // <14=> 0x3FFFFFFF
 // <15=> 0x7FFFFFFF
 #ifndef XINCX_WDT_CONFIG_RELOAD_VALUE
-#define XINCX_WDT_CONFIG_RELOAD_VALUE 10
+#define XINCX_WDT_CONFIG_RELOAD_VALUE 5
 #endif
 
 // <o> XINCX_WDT_CONFIG_NO_IRQ  - Remove WDT IRQ handling from WDT driver
@@ -622,7 +622,7 @@
 // <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef XINCX_SPIM_ENABLED
-#define XINCX_SPIM_ENABLED 1
+#define XINCX_SPIM_ENABLED 0
 #endif
 
 // <q> XINCX_SPIM0_ENABLED  - Enable SPIM0 instance

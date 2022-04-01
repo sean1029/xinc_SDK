@@ -17,26 +17,18 @@
 
 
 
-
-
-
-
-   
-
-
-
-
 /* Device selection for device includes. */
 #if   defined (XINC6206_XXAA)
     #include "XC620610.h"
     #include "xinc_620610_bitfields.h"
 
-#elif defined (XINC6201_XXAA) || defined (XINC6202_XXAA)
-
+#elif defined (XINC628_A) || defined (XINC628_B) ||  defined (XINC628_C) ||  defined (XINC628_D)
+    #include "XC628_XXXX.h"
+    #include "xinc628_XXXX_bitfields.h"
 
 #else
     #error "Device must be defined. See xinc.h."
-#endif /* XINC51, XINC52805_XXAA, XINC52810_XXAA, XINC52811_XXAA, XINC52820_XXAA, XINC52832_XXAA, XINC52832_XXAB, XINC52833_XXAA, XINC6206_XXAA, XINC5340_XXAA_APPLICATION, XINC5340_XXAA_NETWORK, XINC9160_XXAA */
+#endif /* */
 
 #include "compiler_abstraction.h"
 

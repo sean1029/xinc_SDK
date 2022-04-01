@@ -47,6 +47,7 @@ static xincx_drv_state_t   g_state = XINCX_DRV_STATE_UNINITIALIZED;
 static void irq_handler(XINC_WDT_Type * p_reg, wdt_control_block_t * p_cb)
 {
     uint32_t stat = p_reg->STAT;
+    uint32_t icr = p_reg->ICR;
     if(((stat & WDT_STAT_STAT_Msk )) >> WDT_STAT_STAT_Pos == WDT_STAT_STAT_Generated)
     {
         if(p_cb->handler)

@@ -319,8 +319,9 @@ static xinc_drv_wdt_t m_wdt0 =  XINC_DRV_WDT_INSTANCE(0);
 void wdt_event_handler(void)//NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
 {
     //bsp_board_leds_off();
-    printf("wdt_event_handler\n");
+   
     xincx_wdt_feed(&m_wdt0);
+  //  printf("wdt_event_handler\n");
     bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_2));    
 
 }
@@ -404,6 +405,7 @@ int	main(void)
     printf("ble_init\n");
     ble_init((void *)&blestack_init);
 	 printf("scheduler_init\n");
+   
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
@@ -420,7 +422,7 @@ int	main(void)
     gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
     gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+  //  gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");

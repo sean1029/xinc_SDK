@@ -14,8 +14,8 @@
 #include "xincx_gpio.h"
 #include "xinchip_common.h"
 
-#if defined(BOARD_XINC6310)
-  #include "xinc6310.h"
+#if defined(BOARD_PCA10000)
+  #include "pca10000.h"
 #elif defined(BOARD_PCA10040)
   #include "pca10040.h"
 #elif defined(BOARD_CUSTOM)

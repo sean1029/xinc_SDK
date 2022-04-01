@@ -691,11 +691,19 @@
 #define XINCX_RTC_ENABLED 1
 #endif
 
-// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance
+
+// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance Only use for app time
  
 #ifndef XINCX_RTC0_ENABLED
 #define XINCX_RTC0_ENABLED 1
 #endif
+// <q> XINCX_RTC1_ENABLED  - Enable RTC1 instance
+ 
+#ifndef XINCX_RTC1_ENABLED
+#define XINCX_RTC1_ENABLED 1
+#endif
+
+
 
 // </e>
 

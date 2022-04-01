@@ -11,7 +11,7 @@
 #define XINC_SAADC_H_
 
 #include <xincx.h>
-#include "bsp_gpio.h"
+#include "xinc_gpio.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -96,43 +96,59 @@ __STATIC_INLINE void xinc_saadc_channel_init(uint8_t                            
  __STATIC_INLINE void xinc_saadc_channel_init(uint8_t                                  channel,
                                             xinc_saadc_channel_config_t const * const config)
 {
+    uint8_t cfg_ch;
     if(config->mode == XINC_SAADC_MODE_SINGLE_ENDED)
     {
+        
         switch(channel)
         {
             case 0:
-            {
-                gpio_mux_ctl(21,0);gpio_fun_sel(21,0);gpio_fun_inter(21,0);gpio_direction_input(21,3);
-            }break;
-            
             case 1:
-            {
-                gpio_mux_ctl(20,0);gpio_fun_sel(20,0);gpio_fun_inter(20,0);gpio_direction_input(20,3);
-            }break;
             case 2:
-            {
-                gpio_mux_ctl(19,0);gpio_fun_sel(19,0);gpio_fun_inter(19,0);gpio_direction_input(19,3);
-            }break;
             case 3:
             {
-                gpio_mux_ctl(18,0);gpio_fun_sel(18,0);gpio_fun_inter(18,0);gpio_direction_input(18,3);
+                cfg_ch = 21 - channel;
+                xinc_gpio_mux_ctl(cfg_ch,0);
+                xinc_gpio_fun_sel(cfg_ch,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(cfg_ch,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(cfg_ch,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(cfg_ch,XINC_GPIO_PIN_PULLUP);
             }break;
+            
+            
             case 4:
             {
-                gpio_mux_ctl(0,0);gpio_fun_sel(0,0);gpio_fun_inter(0,0);gpio_direction_input(0,3);
+                xinc_gpio_mux_ctl(0,0);
+                xinc_gpio_fun_sel(0,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(0,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(0,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(0,XINC_GPIO_PIN_PULLUP);
             }break;
             case 5:
             {
-                gpio_mux_ctl(1,0);gpio_fun_sel(1,0);gpio_fun_inter(1,0);gpio_direction_input(1,3);
+                xinc_gpio_mux_ctl(1,0);
+                xinc_gpio_fun_sel(1,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(1,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(1,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(1,XINC_GPIO_PIN_PULLUP);
+
             }break;
             case 6:
             {	
-                gpio_mux_ctl(4,0);gpio_fun_sel(4,0);gpio_fun_inter(4,0);gpio_direction_input(4,3);
+                xinc_gpio_mux_ctl(4,0);
+                xinc_gpio_fun_sel(4,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(4,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(4,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(4,XINC_GPIO_PIN_PULLUP);
             }break;
             
             case 7:
             {
-                gpio_mux_ctl(5,0);gpio_fun_sel(5,0);gpio_fun_inter(5,0);gpio_direction_input(5,3);
+                xinc_gpio_mux_ctl(5,0);
+                xinc_gpio_fun_sel(5,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(5,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(5,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(5,XINC_GPIO_PIN_PULLUP);
             }break;
             default:break;
         }
@@ -143,26 +159,62 @@ __STATIC_INLINE void xinc_saadc_channel_init(uint8_t                            
             case 0:
             case 1:
             {
-                gpio_mux_ctl(21,0);gpio_fun_sel(21,0);gpio_fun_inter(21,0);gpio_direction_input(21,3);        
-                gpio_mux_ctl(20,0);gpio_fun_sel(20,0);gpio_fun_inter(20,0);gpio_direction_input(20,3);
+                xinc_gpio_mux_ctl(20,0);
+                xinc_gpio_fun_sel(20,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(20,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(20,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(20,XINC_GPIO_PIN_PULLUP);
+
+                xinc_gpio_mux_ctl(21,0);
+                xinc_gpio_fun_sel(21,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(21,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(21,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(21,XINC_GPIO_PIN_PULLUP);
             }break;
             case 2:
             case 3:
             {
-                gpio_mux_ctl(19,0);gpio_fun_sel(19,0);gpio_fun_inter(19,0);gpio_direction_input(19,3);
-                gpio_mux_ctl(18,0);gpio_fun_sel(18,0);gpio_fun_inter(18,0);gpio_direction_input(18,3);
+                xinc_gpio_mux_ctl(18,0);
+                xinc_gpio_fun_sel(18,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(18,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(18,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(18,XINC_GPIO_PIN_PULLUP);
+
+                xinc_gpio_mux_ctl(19,0);
+                xinc_gpio_fun_sel(19,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(19,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(19,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(19,XINC_GPIO_PIN_PULLUP);
             }break;
             case 4:
             case 5:
             {
-                gpio_mux_ctl(0,0);gpio_fun_sel(0,0);gpio_fun_inter(0,0);gpio_direction_input(0,3);
-                gpio_mux_ctl(1,0);gpio_fun_sel(1,0);gpio_fun_inter(1,0);gpio_direction_input(1,3);
+                xinc_gpio_mux_ctl(0,0);
+                xinc_gpio_fun_sel(0,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(0,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(0,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(0,XINC_GPIO_PIN_PULLUP);
+
+                xinc_gpio_mux_ctl(1,0);
+                xinc_gpio_fun_sel(1,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(1,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(1,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(1,XINC_GPIO_PIN_PULLUP);
             }break;
             case 6:
             case 7:
             {	
-                gpio_mux_ctl(4,0);gpio_fun_sel(4,0);gpio_fun_inter(4,0);gpio_direction_input(4,3);
-                gpio_mux_ctl(5,0);gpio_fun_sel(5,0);gpio_fun_inter(5,0);gpio_direction_input(5,3);
+                xinc_gpio_mux_ctl(4,0);
+                xinc_gpio_fun_sel(4,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(4,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(4,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(4,XINC_GPIO_PIN_PULLUP);
+
+                xinc_gpio_mux_ctl(5,0);
+                xinc_gpio_fun_sel(5,XINC_GPIO_PIN_GPIODx);
+                xinc_gpio_inter_sel(5,XINC_GPIO_PIN_INPUT_NOINT);
+                xinc_gpio_pin_dir_set(5,XINC_GPIO_PIN_DIR_INPUT);
+                xinc_gpio_pull_sel(5,XINC_GPIO_PIN_PULLUP);
             }break;
             default:break;
     

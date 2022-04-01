@@ -16,7 +16,7 @@
 #include <string.h>
 
 
-#define XINCX_LOG_MODULE GPIOTE
+#define XINCX_LOG_MODULE GPIO
 #include <xincx_log.h>
 
 #if (GPIO_COUNT == 1)
@@ -371,19 +371,19 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         }
         else if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
         {
-            gpio_mux_ctl(pin,2);		     
+            xinc_gpio_mux_ctl(pin,2);		     
         }
         else if((XINC_GPIO_PIN_PWM3 == fun) && (XINC_GPIO_1 == pin))
         {
-            gpio_mux_ctl(pin,2);		         
+            xinc_gpio_mux_ctl(pin,2);		         
         }
         else if((XINC_GPIO_PIN_PWM4 == fun) && (XINC_GPIO_12 == pin))
         {
-            gpio_mux_ctl(pin,3);		
+            xinc_gpio_mux_ctl(pin,3);		
         }
         else if((XINC_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
         {                       
-            gpio_mux_ctl(pin,3);		
+            xinc_gpio_mux_ctl(pin,3);		
         }
         
         switch(pin)
@@ -397,8 +397,8 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
                     err_code = XINCX_ERROR_INVALID_PARAM;
                 }else
                 {
-                    gpio_mux_ctl(pin,1);
-                    gpio_fun_sel(pin,fun);
+                    xinc_gpio_mux_ctl(pin,1);
+                    xinc_gpio_fun_sel(pin,fun);
                 }                
             }break;
             
@@ -410,8 +410,8 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
                 }else
                 {
                    
-                    gpio_mux_ctl(pin,0);
-                    gpio_fun_sel(pin,fun);
+                    xinc_gpio_mux_ctl(pin,0);
+                    xinc_gpio_fun_sel(pin,fun);
                 }
             }
             break;	
@@ -465,6 +465,10 @@ void xincx_gpio_irq_handler(void)
 		
 }
 
+// void GPIO_Handler(void)
+//{
+//    xincx_gpio_irq_handler();
+//}
 
 /*lint -restore*/
 #endif // XINCX_CHECK(XINCX_GPIO_ENABLED)

@@ -5,6 +5,8 @@
 #include 	"Platform.h"
 #include    "test_config.h"
 
+
+#if 1
 IoHandler_callback	IoHandler_Callback = (IoHandler_callback)0;
 /* ---------------------------------------------------------------------------------------------------
 - 		用户配置如下系统IO功能
@@ -88,27 +90,27 @@ interrupt_config_t	interrupt_config = {
 ----------------------------------------------------------------------------------------------------*/
 void	Init_gpio(void)
 {
-	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x40004); /*gpio_pclk enable*/
-	__write_hw_reg32(CPR_OTHERCLKEN_GRCTL , 0x10001);  /*gpio_clk  enable*/       
-	__write_hw_reg32(CPR_GPIO_FUN_SEL0 , gpio_fun_sel_config.fun_sel0.config); 
-	__write_hw_reg32(CPR_GPIO_FUN_SEL1 , gpio_fun_sel_config.fun_sel1.config);	    
-	__write_hw_reg32(CPR_GPIO_FUN_SEL2 , gpio_fun_sel_config.fun_sel2.config);
-	__write_hw_reg32(CPR_GPIO_FUN_SEL3 , gpio_fun_sel_config.fun_sel3.config);	    
-	__write_hw_reg32(CPR_GPIO_FUN_SEL4 , gpio_fun_sel_config.fun_sel4.config);
-	__write_hw_reg32(CPR_GPIO_FUN_SEL5 , gpio_fun_sel_config.fun_sel5.config);	    
-	__write_hw_reg32(CPR_GPIO_FUN_SEL6 , gpio_fun_sel_config.fun_sel6.config);
-	__write_hw_reg32(CPR_GPIO_FUN_SEL7 , gpio_fun_sel_config.fun_sel7.config);	
-	__write_hw_reg32(CPR_CTL_MUXCTL1 , gpio_mux_config.mux1_ctl.muxctl1);
-	__write_hw_reg32(CPR_CTL_MUXCTL2 , gpio_mux_config.mux2_ctl.muxctl2);			
-	
-	  __write_hw_reg32(GPIO_PORT_DDR0 , (0xFFFF0000|((dir_config.dir)&0xFFFF)));
-    __write_hw_reg32(GPIO_PORT_DDR1 , (0xFFFF0000|((dir_config.dir)>>16)));
-	
-	__write_hw_reg32(GPIO_INTR_CTRL0 , (0xF0000|(interrupt_config.intr_ctl0.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL1 , (0xF0000|(interrupt_config.intr_ctl1.interrupt)));
-	__write_hw_reg32(GPIO_INTR_CTRL2 , (0xF0000|(interrupt_config.intr_ctl2.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL3 , (0xF0000|(interrupt_config.intr_ctl3.interrupt)));
-	__write_hw_reg32(GPIO_INTR_CTRL4 , (0xF0000|(interrupt_config.intr_ctl4.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL5 , (0xF0000|(interrupt_config.intr_ctl5.interrupt)));
-	__write_hw_reg32(GPIO_INTR_CTRL6 , (0xF0000|(interrupt_config.intr_ctl6.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL7 , (0xF0000|(interrupt_config.intr_ctl7.interrupt)));	
-	NVIC_EnableIRQ(GPIO_IRQn);
+//	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x40004); /*gpio_pclk enable*/
+//	__write_hw_reg32(CPR_OTHERCLKEN_GRCTL , 0x10001);  /*gpio_clk  enable*/       
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL0 , gpio_fun_sel_config.fun_sel0.config); 
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL1 , gpio_fun_sel_config.fun_sel1.config);	    
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL2 , gpio_fun_sel_config.fun_sel2.config);
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL3 , gpio_fun_sel_config.fun_sel3.config);	    
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL4 , gpio_fun_sel_config.fun_sel4.config);
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL5 , gpio_fun_sel_config.fun_sel5.config);	    
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL6 , gpio_fun_sel_config.fun_sel6.config);
+//	__write_hw_reg32(CPR_GPIO_FUN_SEL7 , gpio_fun_sel_config.fun_sel7.config);	
+//	__write_hw_reg32(CPR_CTL_MUXCTL1 , gpio_mux_config.mux1_ctl.muxctl1);
+//	__write_hw_reg32(CPR_CTL_MUXCTL2 , gpio_mux_config.mux2_ctl.muxctl2);			
+//	
+//	  __write_hw_reg32(GPIO_PORT_DDR0 , (0xFFFF0000|((dir_config.dir)&0xFFFF)));
+//    __write_hw_reg32(GPIO_PORT_DDR1 , (0xFFFF0000|((dir_config.dir)>>16)));
+//	
+//	__write_hw_reg32(GPIO_INTR_CTRL0 , (0xF0000|(interrupt_config.intr_ctl0.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL1 , (0xF0000|(interrupt_config.intr_ctl1.interrupt)));
+//	__write_hw_reg32(GPIO_INTR_CTRL2 , (0xF0000|(interrupt_config.intr_ctl2.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL3 , (0xF0000|(interrupt_config.intr_ctl3.interrupt)));
+//	__write_hw_reg32(GPIO_INTR_CTRL4 , (0xF0000|(interrupt_config.intr_ctl4.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL5 , (0xF0000|(interrupt_config.intr_ctl5.interrupt)));
+//	__write_hw_reg32(GPIO_INTR_CTRL6 , (0xF0000|(interrupt_config.intr_ctl6.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL7 , (0xF0000|(interrupt_config.intr_ctl7.interrupt)));	
+//	NVIC_EnableIRQ(GPIO_IRQn);
 }
 
 /* ---------------------------------------------------------------------------------------------------
@@ -261,32 +263,6 @@ void	gpio_Register_Callback(IoHandler_callback callback)
 	IoHandler_Callback = callback;
 }
 
-/* ---------------------------------------------------------------------------------------------------
-- 函数名称: GPIO_Handler
-- 函数功能: GPIO0中断处理函数
-- 输入参数: 无
-- 创建日期: 2016-05-26
-----------------------------------------------------------------------------------------------------*/
-#include "xincx_gpio.h"
-void	GPIO_Handler(void)
-{
-		uint32_t	val;
-	
-//	__read_hw_reg32(GPIO_INTR_STATUS_C00 , val);/*read interrupt flag*/
-//		__write_hw_reg32(GPIO_INTR_CLR0 , val);     /*clean interrupt flag*/
-//	 printf("GPIO_Handler:%#x\n",val);
-	//	if(IoHandler_Callback != (IoHandler_callback)0)
-	//		IoHandler_Callback(val);
-      
-       if(DETECT_INTER_NUM(GPIO_PIN_24,val))//判断是否为GPIO24中断
-       {
-         
-       }
-     //  printf("interrupt:%#x\n",val);
-		//	 printf("GPIO_Handler\n"); 
-
-			 xincx_gpio_irq_handler();
-}
 
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: gpio_output_high
@@ -428,3 +404,32 @@ void GPIO_Sleep_Config(void)
 	__write_hw_reg32((volatile unsigned *)(0x40000000+0x128),0x0);	  
 	__write_hw_reg32((volatile unsigned *)(0x40000000+0x12C),0x0);	 
 }
+
+#endif
+/* ---------------------------------------------------------------------------------------------------
+- 诏私幕詥: GPIO_Handler
+- 诏私佴艤: GPIO0讗讖驭m诏私
+- 摔色訋私: 蠟
+- 源莰蓵菤: 2016-05-26
+----------------------------------------------------------------------------------------------------*/
+#include "xincx_gpio.h"
+void	GPIO_Handler(void)
+{
+		uint32_t	val;
+	
+//	__read_hw_reg32(GPIO_INTR_STATUS_C00 , val);/*read interrupt flag*/
+//		__write_hw_reg32(GPIO_INTR_CLR0 , val);     /*clean interrupt flag*/
+//	 printf("GPIO_Handler:%#x\n",val);
+	//	if(IoHandler_Callback != (IoHandler_callback)0)
+	//		IoHandler_Callback(val);
+      
+       if(DETECT_INTER_NUM(GPIO_PIN_24,val))//茞讖藝乇为GPIO24讗讖
+       {
+         
+       }
+     //  printf("interrupt:%#x\n",val);
+		//	 printf("GPIO_Handler\n"); 
+
+			 xincx_gpio_irq_handler();
+}
+

@@ -9,7 +9,6 @@
 
 #include <xincx.h>
 
-#include "bsp_clk.h"
 #if XINCX_CHECK(XINCX_SPIM_ENABLED)
 
 #if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED) || \

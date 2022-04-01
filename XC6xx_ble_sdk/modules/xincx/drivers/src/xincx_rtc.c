@@ -59,12 +59,12 @@ xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
     uint32_t reg;
     float freq = 0.0;
     volatile int32_t hw_timeout = HW_RTC_TIMEOUT;
-    if(p_config->type == XINC_RTC_TYPE_AOTIME)
+    if(p_config->type == XINC_RTC_TYPE_AOTIME )
     {              
         m_AoTimehandlers[p_instance->instance_id] = handler;
         xincx_rtc_clk_init(p_instance,p_config);
         XINCX_IRQ_ENABLE(RTC_IRQn);
-
+        m_cb[p_instance->instance_id].state        = XINCX_DRV_STATE_INITIALIZED;
         return err_code;
     } 
 

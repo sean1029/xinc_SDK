@@ -11,13 +11,13 @@
   */
 
 
-/** @addtogroup xc6206
+/** @addtogroup xc628_XX
   * @{
   */
 
 
-#ifndef XINC620610_H
-#define XINC620610_H
+#ifndef XINC628_XX_H
+#define XINC628_XX_H
 
 #include <stdint.h>
 #ifdef __cplusplus
@@ -655,9 +655,9 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 }
 #endif
 
-#endif /* XINC620610_H */
+#endif /* XINC628_XX_H */
 
 
-/** @} */ /* End of group XC620610 */
+/** @} */ /* End of group XC628_XX */
 
 /** @} */ /* End of group XINCHIP */
