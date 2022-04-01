@@ -6,7 +6,15 @@
 *            HARDWARE PLATFORM
 *********************************************************************************************************
 */
-#include    "xinc_m0.h"
+#include "xinc.h"
+#if defined(XINC6206_XXAA)
+  #include    "xinc_m0.h"
+#elif defined (XINC628_XXAA)
+  #include    "xinc_m4.h"
+#else
+    #error "Device must be defined. See xinc.h."
+#endif
+
 #include    "bsp_register_macro.h"
 #include    "bsp_com_spi.h"
 #include    "bsp_uart.h"

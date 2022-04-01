@@ -662,6 +662,13 @@
 #define XINCX_SPIM1_ENABLED 1
 #endif
 
+// <q> XINCX_SPIM2_ENABLED  - Enable SPIM2 instance
+ 
+
+#ifndef XINCX_SPIM2_ENABLED
+#define XINCX_SPIM2_ENABLED 0
+#endif
+
 // <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
  
 // <0=> XINC_GPIO_PIN_NOPULL 

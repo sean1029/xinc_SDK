@@ -1,4 +1,13 @@
-#include    "xinc_m0.h"
+
+#include "xinc.h"
+#if defined(XINC6206_XXAA)
+  #include    "xinc_m0.h"
+#elif defined (XINC628_XXAA)
+  #include    "xinc_m4.h"
+#else
+    #error "Device must be defined. See xinc.h."
+#endif
+
 #include "bsp_gpio.h"
 #define u32 uint32_t
 

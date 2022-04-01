@@ -58,6 +58,10 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
         config_spim.mosi_pin       = p_config->mosi_pin;
         config_spim.miso_pin       = p_config->miso_pin;
         config_spim.ss_pin         = p_config->ss_pin;
+        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        config_spim.d2_pin             = p_config->d2_pin;
+        config_spim.d2_pin             = p_config->d3_pin;
+        #endif
         config_spim.irq_priority   = p_config->irq_priority;
         config_spim.orc            = p_config->orc;
         config_spim.frequency      = (xinc_spim_frequency_t)p_config->frequency;
@@ -67,7 +71,6 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
                                 &config_spim,
                                 handler ? spim_evt_handler : NULL,//spim_evt_handler
                                 (void *)inst_idx);
-			// xincx_spim_evt_handler_t
 #endif
     }
     return result;

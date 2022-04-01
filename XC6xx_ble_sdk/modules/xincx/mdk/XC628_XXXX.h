@@ -40,7 +40,7 @@ extern "C" {
 /* ================                                Interrupt Number Definition                                ================ */
 /* =========================================================================================================================== */
 
-#include "xinc_m0.h"
+#include "xinc_m4.h"
 
 
  
@@ -589,6 +589,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_UART1_BASE             0x40011000UL
 #define XINC_SPIM0_BASE             0x40013000UL
 #define XINC_SPIM1_BASE             0x40014000UL
+#define XINC_SPIM2_BASE             0x40014800UL
 #define XINC_I2C0_BASE              0x40006000UL
 #define XINC_SAADC_BASE             0x40018000UL
 #define XINC_SAADC0_BASE            0x40018000UL
@@ -629,6 +630,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_UARTE1                         ((XINC_UARTE_Type*)              XINC_UART1_BASE)
 #define XINC_SPIM0                          ((XINC_SPIM_Type*)              XINC_SPIM0_BASE)
 #define XINC_SPIM1                          ((XINC_SPIM_Type*)              XINC_SPIM1_BASE)
+#define XINC_SPIM2                          ((XINC_SPIM_Type*)              XINC_SPIM2_BASE)
 
 #define XINC_I2C0                           ((XINC_I2C_Type*)               XINC_I2C0_BASE)
 #define XINC_SAADC0                         ((XINC_SAADC_Type*)             XINC_SAADC_BASE)

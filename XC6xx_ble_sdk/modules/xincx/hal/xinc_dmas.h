@@ -24,15 +24,24 @@ extern "C" {
  */
 typedef enum
 {
-    DMAS_CH_0 = 0UL,
-    DMAS_CH_1 = 1UL,
-    DMAS_CH_2 = 2UL,
-    DMAS_CH_3 = 3UL,
-    DMAS_CH_8 = 8UL,
-    DMAS_CH_9 = 9UL,
-    DMAS_CH_10 = 10UL,
-    DMAS_CH_11 = 11UL,
-    DMAS_CH_12 = 12UL,
+    DMAS_CH_SEND_UART0 = 0UL,
+    DMAS_CH_SEND_UART1 = 1UL,
+    DMAS_CH_SEND_SSI0 = 2UL,
+    DMAS_CH_SEND_SSI1 = 3UL,
+    #if defined (XINC628_XXAA) 
+    DMAS_CH_SEND_SSI2 = 4UL,
+    DMAS_CH_SEND_I2S = 5UL,
+    #endif
+    DMAS_CH_RCV_UART0 = 8UL,
+    DMAS_CH_RCV_UART1 = 9UL,
+    DMAS_CH_RCV_SSI0 = 10UL,
+    DMAS_CH_RCV_SSI1 = 11UL,
+    DMAS_CH_RCV_GPADC = 12UL,
+    #if defined (XINC628_XXAA) 
+    DMAS_CH_RCV_AUDIO_ADC = 13UL,
+    DMAS_CH_RCV_SSI2 = 14UL,
+    DMAS_CH_RCV_I2S = 15UL,
+    #endif
 }xinc_dma_ch_t;
 
 

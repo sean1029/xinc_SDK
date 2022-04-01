@@ -1,7 +1,14 @@
 #ifndef		__BSP_GPIO_H_
 #define		__BSP_GPIO_H_
 
-#include	"xinc_m0.h"
+#include "xinc.h"
+#if defined(XINC6206_XXAA)
+  #include    "xinc_m0.h"
+#elif defined (XINC628_XXAA)
+  #include    "xinc_m4.h"
+#else
+    #error "Device must be defined. See xinc.h."
+#endif
 
 #define    DETECT_INTER_NUM(num,val)                ((val>>num)&0x01)
 

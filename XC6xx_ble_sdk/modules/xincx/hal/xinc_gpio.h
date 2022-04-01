@@ -217,6 +217,13 @@ typedef enum
     XINC_GPIO_PIN_PWM3,
     XINC_GPIO_PIN_PWM4,
     XINC_GPIO_PIN_PWM5,
+    XINC_GPIO_PIN_SSI2_CLK,
+    XINC_GPIO_PIN_SSI2_SSN,
+    XINC_GPIO_PIN_SSI2_D0,
+    XINC_GPIO_PIN_SSI2_D1,
+    XINC_GPIO_PIN_SSI2_D2,
+    XINC_GPIO_PIN_SSI2_D3,
+    
 		
 } xinc_gpio_pin_fun_sel_t;
 
@@ -562,9 +569,6 @@ __STATIC_INLINE void xinc_gpio_cfg(
 
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
 
-
-    uint8_t pin_idx;
-    uint8_t reg_idx = 0;
     
     xinc_gpio_fun_sel(pin_number,fun);
     
@@ -659,7 +663,7 @@ __STATIC_INLINE void xinc_gpio_mux_ctl(uint32_t  pin_number,uint8_t mux)//o
     regVal = preg->CTL_MUXCTL1_2[reg_idx];
     regVal = (regVal & ~(0x03 << (pin_idx << 1))) | (mux << (pin_idx << 1));
     preg->CTL_MUXCTL1_2[reg_idx] = regVal;
-#elif defined (XINC628_A) || defined (XINC628_B) ||  defined (XINC628_C) ||  defined (XINC628_D)
+#elif defined (XINC628_XXAA)
 
     XINC_CPR_CTL_Type * preg = xinc_gpio_pin_cpr_decode(&pin_number);
     if(reg_idx < 2)
@@ -731,7 +735,7 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
 	
 		 
     
-#elif defined (XINC628_A) || defined (XINC628_B) ||  defined (XINC628_C) ||  defined (XINC628_D)
+#elif defined (XINC628_XXAA)
 
     XINC_CPR_AO_CTL_Type * preg = xinc_gpio_pin_pull_decode(&pin_number);
 

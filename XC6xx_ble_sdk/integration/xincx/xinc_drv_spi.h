@@ -85,12 +85,19 @@ typedef struct
     #define XINC_DRV_SPI_INSTANCE_1 \
         { 1, { .spi = XINCX_SPI_INSTANCE(1) }, false }
 #endif
-#if XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        
+#if XINCX_CHECK(XINCX_SPIM2_ENABLED) 
+        
+#if defined(XINC628_XXAA)
     #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spim = XINCX_SPIM_INSTANCE(2) }, true }
 #elif XINCX_CHECK(XINCX_SPI2_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spi = XINCX_SPI_INSTANCE(2) }, false }
+#else
+     #error "SPIM2 used only Device XINC628_XXAA Please Disable SPIM2 Instance. See sdk_config.h."
+#endif
+        
 #endif
 
 /**
@@ -153,6 +160,10 @@ typedef struct
                            *   supports only active low for this signal.
                            *   If the signal should be active high,
                            *   it must be controlled externally. */
+#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    uint8_t d2_pin;
+    uint8_t d3_pin;
+#endif
     uint8_t irq_priority; ///< Interrupt priority.
     uint8_t orc;          ///< Over-run character.
                           /**< This character is used when all bytes from the TX buffer are sent,

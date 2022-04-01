@@ -69,6 +69,8 @@
 
 
 /* Register: CPR_SSI_MCLK_CTL */
+/* Offset: 0x50 -0x54 */
+/* RegCount: 2 */
 /* Description :SSI_MCLK 时钟控制寄存器
     BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
 写屏蔽 BIT[15:12]*/
@@ -94,6 +96,29 @@
 #define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
 #define CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos)
 
+
+/*******************************************************
+* SSI2_MCLK_DIV & SSI2_MCLK_EN AT Reg Offset 0x54 CPR_SSI1_MCLK_CTL
+********************************************************/
+/* Bit 8..11: SSI2_MCLK_DIV */
+/* Description: SSI2_MCLK 时钟分频系数：
+0：不复位
+1：复位
+*/
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Pos (8UL) // /*!< Position of SSI2_MCLK_DIV field. */
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Msk (0xFUL << CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Pos) 
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Pos)
+
+/* Bit 12: SSI2_MCLK_EN */
+/* Description: SSI2_MCLK 时钟使能
+0：不复位
+1：复位
+*/
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Pos (12UL) // /*!< Position of SSI_MCLK_EN field. */
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Msk (0x1UL << CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Pos) 
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
+#define CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_WE  ((1UL << CPR_SSI_MCLK_CTL_MASK_OFFSET) << CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Pos)
 
 
 
@@ -242,6 +267,7 @@
 
 
 /* Register: CPR_CTLAPBCLKEN_GRCTL */
+/* Offset: 0x70 */
 /* Description: CTL_APB 总 线 时 钟 使 能 寄 存 器 
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET (16UL)
@@ -396,6 +422,15 @@
 #define CPR_CTLAPBCLKEN_GRCTL_SIM_PCLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
 #define CPR_CTLAPBCLKEN_GRCTL_SIM_PCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
 
+/* Bit 15: SSI2_PCLK_EN */
+/* Description: SSI2_PCLK 时钟使能：
+0：不使能时钟
+1：使能时钟
+*/
+#define CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Pos (15UL) // /*!< Position of SSI2_PCLK_EN field. */
+#define CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Msk (0x1UL << CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Pos) 
+#define CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Disable (0UL) /*!< 0：不使能时钟 */
+#define CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Enable (1UL) /*!< 1：使能时钟*/
 
 
 /* Register: CPR_OTHERCLKEN_GRCTL */
@@ -593,6 +628,7 @@
 
 /* Register: CPR_RSTCTL_SUBRST_SW */
 /* Description :SUB 模块软复位寄存器
+ * Offset      :0x104
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_RSTCTL_SUBRST_SW_MASK_OFFSET (16UL)
 
@@ -617,25 +653,25 @@
 #define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Enable (1UL) /*!< 1：复位*/
 
 
-/* Bit 2: SS0_RSTN */
+/* Bit 2: SSI0_RSTN */
 /* Description: SS0 模块软复位：
 0：不复位
 1：复位
 */
-#define CPR_RSTCTL_SUBRST_SW_SS0_RSTN_Pos (2UL) // /*!< Position of SS0_RSTN field. */
-#define CPR_RSTCTL_SUBRST_SW_SS0_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SS0_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SS0_RSTN_Disable (0UL) /*!< 0：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SS0_RSTN_Enable (1UL) /*!< 1：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos (2UL) // /*!< Position of SSI0_RSTN field. */
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos) 
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Disable (0UL) /*!< 0：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable (1UL) /*!< 1：复位*/
 
-/* Bit 3: SS1_RSTN */
-/* Description: SS1 模块软复位：
+/* Bit 3: SSI1_RSTN */
+/* Description: SSI1 模块软复位：
 0：不复位
 1：复位
 */
-#define CPR_RSTCTL_SUBRST_SW_SS1_RSTN_Pos (3UL) // /*!< Position of SS1_RSTN field. */
-#define CPR_RSTCTL_SUBRST_SW_SS1_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SS1_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SS1_RSTN_Disable (0UL) /*!< 0：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SS1_RSTN_Enable (1UL) /*!< 1：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos (3UL) // /*!< Position of SSI1_RSTN field. */
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos) 
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Disable (0UL) /*!< 0：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable (1UL) /*!< 1：复位*/
 
 /* Bit 4: DMAS_RSTN */
 /* Description: DMAS 模块软复位：
@@ -698,6 +734,15 @@
 #define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Enable (1UL) /*!< 1：复位*/
 
 
+/* Bit 10: SSI2_RSTN */
+/* Description: SSI2 模块软复位：
+0：不复位
+1：复位
+*/
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos (10UL) // /*!< Position of SSI2_RSTN field. */
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos) 
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Disable (0UL) /*!< 0：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable (1UL) /*!< 1：复位*/
 
 
 /* Register: CPR_RSTCTL_WDTRST_MASK */
@@ -755,6 +800,7 @@
 
 
 /* Register: CPR_SSI_CTRL */
+/* Offse: 0x160 */
 /* Description :SSI 控制寄存器
 */
 
@@ -767,6 +813,17 @@
 #define CPR_SSI_CTRL_SSI0_PROTOCOL_Msk (0x1UL << CPR_SSI_CTRL_SSI0_PROTOCOL_Pos) 
 #define CPR_SSI_CTRL_SSI0_PROTOCOL_SSP (0UL) /*!< 0：SSP */
 #define CPR_SSI_CTRL_SSI0_PROTOCOL_SPI (1UL) /*!< 1：SPI*/
+
+/* Bit 1: SSI2_PROTOCOL */
+/* Description: SSI2 支持协议选择
+0：SSP
+1：SPI
+*/
+#define CPR_SSI_CTRL_SSI2_PROTOCOL_Pos (1UL) // /*!< Position of SSI2_PROTOCOL field. */
+#define CPR_SSI_CTRL_SSI2_PROTOCOL_Msk (0x1UL << CPR_SSI_CTRL_SSI02_PROTOCOL_Pos) 
+#define CPR_SSI_CTRL_SSI2_PROTOCOL_SSP (0UL) /*!< 0：SSP */
+#define CPR_SSI_CTRL_SSI2_PROTOCOL_SPI (1UL) /*!< 1：SPI*/
+
 
 /* Bit 4: SSI1_PROTOCOL */
 /* Description: SSI1 支持协议选择

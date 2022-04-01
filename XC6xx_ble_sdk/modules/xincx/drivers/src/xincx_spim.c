@@ -11,10 +11,18 @@
 
 #if XINCX_CHECK(XINCX_SPIM_ENABLED)
 
-#if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED) || \
-      XINCX_CHECK(XINCX_SPIM2_ENABLED) || XINCX_CHECK(XINCX_SPIM3_ENABLED))
+#if defined(XINC6206_XXAA)
+
+#if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED))
+#error "No enabled SPIM instances. Check <xincx_config.h>."
+#endif //
+
+#elif defined (XINC628_XXAA)
+#if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED) || XINCX_CHECK(XINCX_SPIM2_ENABLED))
 #error "No enabled SPIM instances. Check <xincx_config.h>."
 #endif
+
+#endif // defined(XINC6206_XXAA)
 
 #if !XINCX_CHECK(XINCX_DMAS_ENABLED)
 #error "No enabled DMAS instances. Check <xincx_config.h>."
@@ -43,16 +51,17 @@
 #define SPIM1_LENGTH_VALIDATE(...)  0
 #endif
 
-
+#if XINCX_CHECK(XINCX_SPIM2_ENABLED)
+#define SPIM2_LENGTH_VALIDATE(...)  SPIMX_LENGTH_VALIDATE(SPIM2, __VA_ARGS__)
+#else
+#define SPIM2_LENGTH_VALIDATE(...)  0
+#endif
 
 #define SPIM_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len)  \
     (SPIM0_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len) || \
      SPIM1_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len))
 
-#if defined(XINC6206_XXAA) && (XINCX_CHECK(XINCX_SPIM3_ENABLED))
-// Enable workaround for nRF52840 anomaly 195 (SPIM3 continues to draw current after disable).
-#define USE_WORKAROUND_FOR_ANOMALY_195
-#endif
+
 
 // Control block - driver instance local data.
 typedef struct
@@ -70,8 +79,14 @@ typedef struct
     // [no need for 'volatile' attribute for the following members, as they
     //  are not concurrently used in IRQ handlers and main line code]
     bool            ss_active_high;
+    uint8_t         sck_pin;
     uint8_t         ss_pin;
     uint8_t         miso_pin;
+    uint8_t         mosi_pin;
+    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    uint8_t         d2_pin;
+    uint8_t         d3_pin;
+    #endif
     uint8_t         orc;
 
     xinc_dma_ch_t   tx_dma_ch;
@@ -84,31 +99,61 @@ static spim_control_block_t m_cb[XINCX_SPIM_ENABLED_COUNT];
 static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
                          xincx_spim_config_t const * p_config)
 {
-    uint32_t    val;
+    uint32_t    ssi_ctrl_val;
     uint8_t ch = p_instance->id;
-    val = p_instance->p_cpr->SSI_CTRL;
+    ssi_ctrl_val = p_instance->p_cpr->SSI_CTRL;
     if(ch == 0)
     {
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
+                                               (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
         // *SSI_MCLK_CTL_Base = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
         p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
-                                             ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
+                                           ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | 
+                                            CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
 
-        val |= (CPR_SSI_CTRL_SSI0_PROTOCOL_SPI << CPR_SSI_CTRL_SSI0_PROTOCOL_Pos);
+        ssi_ctrl_val |= (CPR_SSI_CTRL_SSI0_PROTOCOL_SPI << CPR_SSI_CTRL_SSI0_PROTOCOL_Pos);
+            //(0x1000100 << ch);         
+        p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
+                                        (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch; 
 
-    }else
+    }else if(ch == 1)
     {
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos)|
+                                               (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+        
         p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
-                                            ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
+                                            ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | 
+                                            CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE);
 
-        val |= (CPR_SSI_CTRL_SSI1_PROTOCOL_SPI << CPR_SSI_CTRL_SSI1_PROTOCOL_Pos) | (CPR_SSI_CTRL_SSI1_MASTER_EN_Master << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos);
+                    //(0x1000100 << ch);         
+        p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
+                                        (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch; 
+        
+        ssi_ctrl_val |= (CPR_SSI_CTRL_SSI1_PROTOCOL_SPI << CPR_SSI_CTRL_SSI1_PROTOCOL_Pos) |
+                        (CPR_SSI_CTRL_SSI1_MASTER_EN_Master << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos);
 
     }
+     #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+     else if(ch == 2)
+     {
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos)|
+                                       (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+ 
+        p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_WE) | 
+                                             ((CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Pos) |
+                                             CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_WE);
+
+        p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Pos)|
+                                        (CPR_CTLAPBCLKEN_GRCTL_SSI2_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)); 
+        
+        ssi_ctrl_val |= (CPR_SSI_CTRL_SSI2_PROTOCOL_SPI << CPR_SSI_CTRL_SSI2_PROTOCOL_Pos);
+     
+     }
+     #endif
 
 
-    //(0x1000100 << ch);         
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
-                                        (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) <<ch; 
-    p_instance->p_cpr->SSI_CTRL = val;
+
+    p_instance->p_cpr->SSI_CTRL = ssi_ctrl_val;
 
 
 
@@ -143,6 +188,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 
     uint32_t mosi_pin;
     uint32_t miso_pin;
+
     // Configure pins used by the peripheral:
     // - SCK - output with initial value corresponding with the SPI mode used:
     //   0 - for modes 0 and 1 (CPOL = 0), 1 - for modes 2 and 3 (CPOL = 1);
@@ -154,8 +200,18 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             mosi_pin = p_config->mosi_pin;
-            err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
-        
+
+            if(p_instance->id == 1UL)
+            {
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
+            }
+            #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+            else if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D0);
+            }
+            #endif
+           
             if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
@@ -174,8 +230,16 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             miso_pin = p_config->miso_pin;
-            err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
-        
+            if(p_instance->id == 1UL)
+            {
+                err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
+            }
+            #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+            else if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D1);
+            }
+            #endif
             if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
@@ -194,8 +258,16 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             p_cb->ss_active_high = p_config->ss_active_high;
-            err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
-        
+            if(p_instance->id == 1UL)
+            {
+                err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
+            }
+            #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+            else if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_SSN);
+            }
+            #endif
             if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
@@ -204,29 +276,69 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         
         if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
         {
-            err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
-        
+            if(p_instance->id == 1UL)
+            {
+                err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
+            }
+            #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+            else if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_CLK);
+            }
+            #endif
+            
             if(err_code != XINCX_SUCCESS)
             {
                 return err_code;
             }
         }
+        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+               
+        if (p_config->d2_pin != XINCX_SPIM_PIN_NOT_USED)
+        {
+            if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(p_config->d2_pin,XINC_GPIO_PIN_SSI2_D2);
+            }                   
+            if(err_code != XINCX_SUCCESS)
+            {
+                return err_code;
+            }
+        }
+        if (p_config->d3_pin != XINCX_SPIM_PIN_NOT_USED)
+        {
+            if(p_instance->id == 2UL)
+            {
+                err_code = xinc_gpio_secfun_config(p_config->d3_pin,XINC_GPIO_PIN_SSI2_D3);
+            }                   
+            if(err_code != XINCX_SUCCESS)
+            {
+                return err_code;
+            }
+        }
+        p_cb->d2_pin = p_config->d2_pin;
+        p_cb->d3_pin  = p_config->d3_pin;
+        
+        #endif                  
     }
 
     miso_pin = p_config->miso_pin;
     mosi_pin = p_config->mosi_pin;
     p_cb->miso_pin = p_config->miso_pin;
-    // - Slave Select (optional) - output with initial value 1 (inactive).
+    p_cb->mosi_pin = p_config->mosi_pin;
 
-    // 'p_cb->ss_pin' variable is used during transfers to check if SS pin should be toggled,
-    // so this field needs to be initialized even if the pin is not used.
     p_cb->ss_pin = p_config->ss_pin;
+    p_cb->sck_pin = p_config->sck_pin;
 
     printf("miso_pin:%d\n",miso_pin); 
     printf("mosi_pin:%d\n",mosi_pin); 
     printf("sck_pin:%d\n",p_config->sck_pin);
     printf("ss_pin:%d\n",p_config->ss_pin);		
-
+   
+    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    printf("d2_pin:%d\n",p_config->d2_pin);
+    printf("d3_pin:%d\n",p_config->d3_pin);	
+    #endif
 
 	
     // uint32_t    val;
@@ -247,15 +359,22 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     // DMA 通道和外设使用是固定绑定关系的，因此此处不能做修改，对应中断处理里也就固定其检测值
     if(ch == 0)
     {
-        p_cb->rx_dma_ch = DMAS_CH_10;
-        p_cb->tx_dma_ch = DMAS_CH_2;
+        p_cb->rx_dma_ch = DMAS_CH_RCV_SSI0;
+        p_cb->tx_dma_ch = DMAS_CH_SEND_SSI0;
     }
     
-    if(ch == 1)
+    else if(ch == 1)
     {
-        p_cb->rx_dma_ch = DMAS_CH_11;
-        p_cb->tx_dma_ch = DMAS_CH_3;
+        p_cb->rx_dma_ch = DMAS_CH_RCV_SSI1;
+        p_cb->tx_dma_ch = DMAS_CH_SEND_SSI1;
     }
+    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    else if(ch == 2)
+    {
+        p_cb->rx_dma_ch = DMAS_CH_RCV_SSI2;
+        p_cb->tx_dma_ch = DMAS_CH_RCV_SSI2;
+    }	
+    #endif
 		
     xinc_spim_disable(p_spim);
     printf("p_spim:%p\n",p_spim); 
@@ -285,7 +404,17 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     if (p_cb->handler)
     {
         xinc_spim_int_enable(p_spim,XINC_SPIM_INT_TXEIE_MASK);
-        XINCX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
+        if((ch == 0 )||( ch == 1))
+        {
+            XINCX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
+        }
+        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        else if(ch == 2)
+        {
+            XINCX_IRQ_ENABLE((IRQn_Type)(SSI2_IRQn));
+        }	
+        #endif
+
     }
 
     p_cb->transfer_in_progress = false;
@@ -303,7 +432,17 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
 
     if (p_cb->handler)
     {      
-        XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->drv_inst_idx));
+        XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->id));
+        if((p_instance->id == 0 )||( p_instance->id == 1))
+        {
+            XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->id));
+        }
+        #if defined (XINC628_XXAA) || defined (XINC628_D) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        else if(p_instance->id == 2)
+        {
+            XINCX_IRQ_DISABLE((IRQn_Type)(SSI2_IRQn));
+        }	
+        #endif
     }
 
     XINC_SPIM_Type * p_spim = (XINC_SPIM_Type *)p_instance->p_reg;
@@ -556,6 +695,10 @@ void xincx_spim_0_irq_handler(void)
 {
     irq_handler(XINC_SPIM0, &m_cb[XINCX_SPIM0_INST_IDX]);
 }
+void SPI0_Handler()
+{
+    xincx_spim_0_irq_handler();
+}
 #endif
 
 #if XINCX_CHECK(XINCX_SPIM1_ENABLED)
@@ -563,17 +706,15 @@ void xincx_spim_1_irq_handler(void)
 {
     irq_handler(XINC_SPIM1, &m_cb[XINCX_SPIM1_INST_IDX]);
 }
-#endif
-
-void SPI0_Handler()
-{
-    xincx_spim_0_irq_handler();
-}
-
 void SPI1_Handler()
 {
     xincx_spim_1_irq_handler();
 }
+
+#endif
+
+
+
 
 
 #endif // XINCX_CHECK(XINCX_SPIM_ENABLED)

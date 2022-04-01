@@ -41,6 +41,9 @@ enum {
 #if XINCX_CHECK(XINCX_SPIM1_ENABLED)
     XINCX_SPIM1_INST_IDX ,
 #endif
+#if XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    XINCX_SPIM2_INST_IDX ,
+#endif
     XINCX_SPIM_ENABLED_COUNT
 };
 #endif
@@ -74,6 +77,11 @@ typedef struct
     uint8_t ss_pin;       ///< Slave Select pin number (optional).
                             /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
                              *   if this signal is not needed. */
+#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    uint8_t d2_pin; 
+    uint8_t d3_pin;
+#endif
+    
     bool ss_active_high;  ///< Polarity of the Slave Select pin during transmission.
     uint8_t irq_priority; ///< Interrupt priority.
     uint8_t orc;          ///< Overrun character.
@@ -88,6 +96,13 @@ typedef struct
 
 #define XINCX_SPIM_DEFAULT_EXTENDED_CONFIG
 
+#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+#define NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG         .d2_pin = XINCX_SPIM_PIN_NOT_USED,\
+                                                  .d3_pin = XINCX_SPIM_PIN_NOT_USED,
+#else
+#define NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG       
+#endif
+
 
 /** @brief The default configuration of the SPIM master instance. */
 #define XINCX_SPIM_DEFAULT_CONFIG                             \
@@ -96,6 +111,7 @@ typedef struct
     .mosi_pin       = XINCX_SPIM_PIN_NOT_USED,                \
     .miso_pin       = XINCX_SPIM_PIN_NOT_USED,                \
     .ss_pin         = XINCX_SPIM_PIN_NOT_USED,                \
+     NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG                       \
     .ss_active_high = false,                                 \
     .irq_priority   = 0,                                    \
     .orc            = 0xFF,                                  \
