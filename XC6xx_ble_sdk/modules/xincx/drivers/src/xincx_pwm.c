@@ -30,8 +30,11 @@ typedef struct
     uint8_t                   flags;
     xinc_pwm_clk_src_t clk_src;          ///< Bit width.
     xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
+    #if  defined (XINC628_XXAA)
+    xinc_pwm_acc_mode_t mode;
+    #endif 
     uint8_t period; //set pwm out freq
-    uint8_t ocpy;// duty cycle
+    uint16_t ocpy;// duty cycle
  
 } pwm_control_block_t;
 static pwm_control_block_t m_cb[XINCX_PWM_ENABLED_COUNT];
@@ -215,6 +218,11 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         
     p_cb->clk_src = p_config->clk_src;
     p_cb->ref_clk = p_config->ref_clk;
+    #if  defined (XINC628_XXAA)
+    xinc_pwm_mode(p_instance->p_reg,p_config->mode);
+    p_cb->mode = p_config->mode;
+    #endif //
+     
 
     printf("p_cb->clk_src=%d,p_cb->ref_clk:%d\r\n", p_cb->clk_src,p_cb->ref_clk);
     xinc_pwm_clk_div_set(p_instance->p_cpr,p_instance->id,p_config->clk_src,p_config->ref_clk);
@@ -309,7 +317,7 @@ xincx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t 
     uint16_t period;
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
-    if(period == 0xFFFF)
+    if(period > PWM_P_PERIOD_MAX)
     {
         err_code = XINCX_ERROR_INVALID_PARAM;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -329,13 +337,34 @@ xincx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t 
 }
 
 
-xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty)
+xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint16_t new_duty)
 {
     xincx_err_t err_code = XINCX_SUCCESS;
-    XINCX_ASSERT(new_duty <= 100);
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
-
-    if(new_duty > 100)
+    
+    uint16_t max_duty = PWM_OCPY_MAX_100;    
+    #if  defined (XINC628_XXAA)  
+    switch(p_cb->mode)
+    {
+        case XINC_PWM_MODE_ACC_100:
+        {
+            max_duty = PWM_OCPY_MAX_100;
+        }break;
+        
+        case XINC_PWM_MODE_ACC_1000:
+        {
+            max_duty = PWM_OCPY_MAX_1000;
+        }break;
+        
+        case XINC_PWM_MODE_ACC_4000:
+        {
+            max_duty = PWM_OCPY_MAX_4000;
+        }break;
+        
+    } 
+    #endif 
+    
+    if(new_duty > max_duty)
     {
         err_code = XINCX_ERROR_INVALID_PARAM;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -354,14 +383,36 @@ xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uin
     return err_code;
 
 }
-xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty)
+xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint16_t new_duty)
 {
     xincx_err_t err_code = XINCX_SUCCESS;
-    XINCX_ASSERT(new_duty <= 100);
     uint16_t period;
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
+    
+    uint16_t max_duty = PWM_OCPY_MAX_100;
+    #if  defined (XINC628_XXAA)  
+    switch(p_cb->mode)
+    {
+        case XINC_PWM_MODE_ACC_100:
+        {
+            max_duty = PWM_OCPY_MAX_100;
+        }break;
+        
+        case XINC_PWM_MODE_ACC_1000:
+        {
+            max_duty = PWM_OCPY_MAX_1000;
+        }break;
+        
+        case XINC_PWM_MODE_ACC_4000:
+        {
+            max_duty = PWM_OCPY_MAX_4000;
+        }break;
+        
+    } 
+    #endif 
+    
     period = xincx_pwm_freq_to_period(p_instance->drv_inst_idx,new_freq);
-    if((period == 0xFFFF) || (new_duty >= 100))
+    if((period > PWM_P_PERIOD_MAX) || (new_duty > max_duty))
     {
         err_code = XINCX_ERROR_INVALID_PARAM;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -415,11 +466,6 @@ static uint16_t xincx_pwm_freq_to_period(uint8_t inst_idx,uint32_t freq)
     period  = ((pwm_clk /  100 ) / freq ) - 1 ;
     //	period*=2;
     printf("%s,pwm_clk:%d,period:0x%x,%d\r\n",__func__,pwm_clk,period,period);
-
-    if(period > 0xFF)
-    {
-        period = 0xFFFF;
-    }
 
     return period;
 }

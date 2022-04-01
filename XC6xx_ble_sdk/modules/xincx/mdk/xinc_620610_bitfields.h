@@ -2239,6 +2239,7 @@ M0 复位信号，维持多少个 pclk 时钟周期。   */
 /* Register: PWM_EN */
 /* Description: PWM 使能寄存器 
 */
+#define PWM_PWM_MODE_ACC_100 (0UL) /*!< 0:占空比精度1/100*/
 
 /* Bit 0 : PWM PWM_EN   */
 /* Description:PWM 使能控制位。
@@ -2295,7 +2296,7 @@ M0 复位信号，维持多少个 pclk 时钟周期。   */
 */
 #define PWM_P_PERIOD_Pos (0UL) /*!< Position of PERIOD field. */
 #define PWM_P_PERIOD_Msk (0xFFUL << PWM_P_PERIOD_Pos) /*!< Bit mask of PERIOD field. */
-
+#define PWM_P_PERIOD_MAX (0xFFUL)
 
 /* Register: PWM_OCPY */
 /* Description: PWM 占空比设置寄存器
@@ -2313,7 +2314,7 @@ OCPY_RATIO 的值便可调节
 */
 #define PWM_OCPY_OCPY_RATIO_Pos (0UL) /*!< Position of OCPY_RATIO field. */
 #define PWM_OCPY_OCPY_RATIO_Msk (0xFFUL << PWM_OCPY_OCPY_RATIO_Pos) /*!< Bit mask of OCPY_RATIO field. */
-
+#define PWM_OCPY_MAX_100 (100UL)
 
 /* Register: PWM_COMP_EN */
 /* Description: PWM 互补 PWM 输出、死区控制寄存器

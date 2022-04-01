@@ -90,27 +90,27 @@ interrupt_config_t	interrupt_config = {
 ----------------------------------------------------------------------------------------------------*/
 void	Init_gpio(void)
 {
-//	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x40004); /*gpio_pclk enable*/
-//	__write_hw_reg32(CPR_OTHERCLKEN_GRCTL , 0x10001);  /*gpio_clk  enable*/       
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL0 , gpio_fun_sel_config.fun_sel0.config); 
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL1 , gpio_fun_sel_config.fun_sel1.config);	    
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL2 , gpio_fun_sel_config.fun_sel2.config);
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL3 , gpio_fun_sel_config.fun_sel3.config);	    
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL4 , gpio_fun_sel_config.fun_sel4.config);
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL5 , gpio_fun_sel_config.fun_sel5.config);	    
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL6 , gpio_fun_sel_config.fun_sel6.config);
-//	__write_hw_reg32(CPR_GPIO_FUN_SEL7 , gpio_fun_sel_config.fun_sel7.config);	
-//	__write_hw_reg32(CPR_CTL_MUXCTL1 , gpio_mux_config.mux1_ctl.muxctl1);
-//	__write_hw_reg32(CPR_CTL_MUXCTL2 , gpio_mux_config.mux2_ctl.muxctl2);			
-//	
-//	  __write_hw_reg32(GPIO_PORT_DDR0 , (0xFFFF0000|((dir_config.dir)&0xFFFF)));
-//    __write_hw_reg32(GPIO_PORT_DDR1 , (0xFFFF0000|((dir_config.dir)>>16)));
-//	
-//	__write_hw_reg32(GPIO_INTR_CTRL0 , (0xF0000|(interrupt_config.intr_ctl0.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL1 , (0xF0000|(interrupt_config.intr_ctl1.interrupt)));
-//	__write_hw_reg32(GPIO_INTR_CTRL2 , (0xF0000|(interrupt_config.intr_ctl2.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL3 , (0xF0000|(interrupt_config.intr_ctl3.interrupt)));
-//	__write_hw_reg32(GPIO_INTR_CTRL4 , (0xF0000|(interrupt_config.intr_ctl4.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL5 , (0xF0000|(interrupt_config.intr_ctl5.interrupt)));
-//	__write_hw_reg32(GPIO_INTR_CTRL6 , (0xF0000|(interrupt_config.intr_ctl6.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL7 , (0xF0000|(interrupt_config.intr_ctl7.interrupt)));	
-//	NVIC_EnableIRQ(GPIO_IRQn);
+	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x40004); /*gpio_pclk enable*/
+	__write_hw_reg32(CPR_OTHERCLKEN_GRCTL , 0x10001);  /*gpio_clk  enable*/       
+	__write_hw_reg32(CPR_GPIO_FUN_SEL0 , gpio_fun_sel_config.fun_sel0.config); 
+	__write_hw_reg32(CPR_GPIO_FUN_SEL1 , gpio_fun_sel_config.fun_sel1.config);	    
+	__write_hw_reg32(CPR_GPIO_FUN_SEL2 , gpio_fun_sel_config.fun_sel2.config);
+	__write_hw_reg32(CPR_GPIO_FUN_SEL3 , gpio_fun_sel_config.fun_sel3.config);	    
+	__write_hw_reg32(CPR_GPIO_FUN_SEL4 , gpio_fun_sel_config.fun_sel4.config);
+	__write_hw_reg32(CPR_GPIO_FUN_SEL5 , gpio_fun_sel_config.fun_sel5.config);	    
+	__write_hw_reg32(CPR_GPIO_FUN_SEL6 , gpio_fun_sel_config.fun_sel6.config);
+	__write_hw_reg32(CPR_GPIO_FUN_SEL7 , gpio_fun_sel_config.fun_sel7.config);	
+	__write_hw_reg32(CPR_CTL_MUXCTL1 , gpio_mux_config.mux1_ctl.muxctl1);
+	__write_hw_reg32(CPR_CTL_MUXCTL2 , gpio_mux_config.mux2_ctl.muxctl2);			
+	
+	  __write_hw_reg32(GPIO_PORT_DDR0 , (0xFFFF0000|((dir_config.dir)&0xFFFF)));
+    __write_hw_reg32(GPIO_PORT_DDR1 , (0xFFFF0000|((dir_config.dir)>>16)));
+	
+	__write_hw_reg32(GPIO_INTR_CTRL0 , (0xF0000|(interrupt_config.intr_ctl0.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL1 , (0xF0000|(interrupt_config.intr_ctl1.interrupt)));
+	__write_hw_reg32(GPIO_INTR_CTRL2 , (0xF0000|(interrupt_config.intr_ctl2.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL3 , (0xF0000|(interrupt_config.intr_ctl3.interrupt)));
+	__write_hw_reg32(GPIO_INTR_CTRL4 , (0xF0000|(interrupt_config.intr_ctl4.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL5 , (0xF0000|(interrupt_config.intr_ctl5.interrupt)));
+	__write_hw_reg32(GPIO_INTR_CTRL6 , (0xF0000|(interrupt_config.intr_ctl6.interrupt)));	__write_hw_reg32(GPIO_INTR_CTRL7 , (0xF0000|(interrupt_config.intr_ctl7.interrupt)));	
+	NVIC_EnableIRQ(GPIO_IRQn);
 }
 
 /* ---------------------------------------------------------------------------------------------------

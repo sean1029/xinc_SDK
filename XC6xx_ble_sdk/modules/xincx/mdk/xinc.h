@@ -24,7 +24,7 @@
 
 
 /* Device selection for device includes. */
-#if   defined (XINC6206_XXAA)
+#if  defined (XINC6206_XXAA)
     #include "XC620610.h"
     #include "xinc_620610_bitfields.h"
 

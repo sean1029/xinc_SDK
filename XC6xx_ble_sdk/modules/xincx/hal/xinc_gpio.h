@@ -555,7 +555,7 @@ __STATIC_INLINE void xinc_gpio_range_cfg_input(uint32_t            pin_range_sta
 - ��������: 2019-12-03
 ----------------------------------------------------------------------------------------------------*/
 
-	//#include "bsp_gpio.h"
+//	#include "bsp_gpio.h"
 
 
 __STATIC_INLINE void xinc_gpio_cfg(
@@ -569,14 +569,13 @@ __STATIC_INLINE void xinc_gpio_cfg(
 
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
 
-    
     xinc_gpio_fun_sel(pin_number,fun);
-    
     xinc_gpio_mux_ctl(pin_number,0);
+
     if(XINC_GPIO_PIN_DIR_INPUT == dir)
     {
         xinc_gpio_pin_dir_set(pin_number,XINC_GPIO_PIN_DIR_INPUT);
-//        
+        
         xinc_gpio_inter_sel(pin_number,inter);
         xinc_gpio_pull_sel(pin_number,pull);
         
@@ -714,7 +713,13 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
     XINC_CPR_AO_CTL_Type * preg = xinc_gpio_pin_pull_decode(&pin_number);
 
     reg_idx = pin_number >> 4UL;
+    
+    if(pin_number <= 4)
+    {
+        reg_idx = 1;
+    }
     pin_idx = pin_number & 0xFUL;
+    
     regVal = preg->PE_CTRLx[reg_idx];
 
     if(XINC_GPIO_PIN_PULLUP == pull)
@@ -732,7 +737,7 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
         xinc_bitmask_bit_clear((pin_idx << 1) + 1,&regVal);
         xinc_bitmask_bit_clear((pin_idx << 1),&regVal);
     }
-	
+	preg->PE_CTRLx[reg_idx] = regVal;
 		 
     
 #elif defined (XINC628_XXAA)

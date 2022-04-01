@@ -19,9 +19,9 @@ extern "C" {
 #define LEDS_NUMBER    2
 
 #define LED_START      4
-#define LED_1          5
-#define LED_2          6
-#define LED_3          19
+#define LED_1          4
+#define LED_2          5
+#define LED_3          7
 #define LED_4          20
 #define LED_STOP       20
 
@@ -41,7 +41,7 @@ extern "C" {
 
 #define BUTTON_START   13
 #define BUTTON_1       0
-#define BUTTON_2       4
+#define BUTTON_2       1
 #define BUTTON_3       24
 //#define BUTTON_4       16
 #define BUTTON_STOP    16

@@ -31,7 +31,7 @@ extern "C" {
 
 
 
-/** @brief PWM interrupts. */
+/** @brief PWM ID. */
 enum
 {
     XINC_PWM_ID_0 = 0,      ///< XINC_PWM_ID_0
@@ -44,6 +44,15 @@ enum
 } ;
 
 
+/** @brief PWM MODE . */
+typedef enum
+{
+    XINC_PWM_MODE_ACC_100 = PWM_PWM_MODE_ACC_100,      ///< PWM 占空比档位精度
+    #if  defined (XINC628_XXAA)
+    XINC_PWM_MODE_ACC_1000  = PWM_PWM_MODE_ACC_1000,
+    XINC_PWM_MODE_ACC_4000 = PWM_PWM_MODE_ACC_4000,
+    #endif//
+} xinc_pwm_acc_mode_t;
 
 
 /** @brief Timer bit width. */
@@ -109,7 +118,7 @@ __STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg);
  */
 __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
-									   uint8_t        duty_cycle);
+									   uint16_t        duty_cycle);
 
 
 
@@ -126,20 +135,30 @@ __STATIC_INLINE uint32_t xinc_pwm_clk_div_get(XINC_CPR_CTL_Type * p_reg,uint8_t 
 
 __STATIC_INLINE void xinc_pwm_enable(XINC_PWM_Type * p_reg)
 {
-    p_reg->EN = (PWM_EN_Enable << PWM_EN_Pos) & PWM_EN_Msk;	
+    p_reg->EN |= (PWM_EN_Enable << PWM_EN_Pos) & PWM_EN_Msk;	
     printf("xinc_pwm_enable EN addr:0x%p,value:0x%x\r\n",&p_reg->EN,p_reg->EN);
 }
 
 __STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg)
 {	
-    p_reg->EN = (PWM_EN_Disable << PWM_EN_Pos)& PWM_EN_Msk;
+    p_reg->EN &= ~PWM_EN_Msk;
 }
 
-
+#if  defined (XINC628_XXAA)
+__STATIC_INLINE void xinc_pwm_mode(XINC_PWM_Type * p_reg,xinc_pwm_acc_mode_t mode)
+{
+    XINCX_ASSERT(mode <= XINC_PWM_MODE_ACC_4000);
+    uint32_t regVal = p_reg->EN;
+    
+    regVal = ((regVal & ~(PWM_PWM_MODE_Msk)) | (mode << PWM_PWM_MODE_Pos));
+    p_reg->EN = regVal;
+    printf("xinc_pwm_mode EN addr:0x%p,value:0x%x\r\n",&p_reg->EN,p_reg->EN);
+}
+#endif //
 
 __STATIC_INLINE void xinc_pwm_configure(XINC_PWM_Type * p_reg,
                                        uint8_t       period,
-																			 uint8_t  duty_cycle)
+																			 uint16_t  duty_cycle)
 {
  //   printf("xinc_pwm_configure period:%d,duty_cycle:%d\r\n",period,duty_cycle);
     //XINCX_ASSERT(top_value <= PWM_COUNTERTOP_COUNTERTOP_Msk);

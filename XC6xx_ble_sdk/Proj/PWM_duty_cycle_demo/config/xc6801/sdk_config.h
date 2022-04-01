@@ -14,12 +14,40 @@
 
 // <h> Xinc_Drivers 
 
+// <e> XINCX_DMAS_ENABLED - xincx_dmas - DMAS peripheral driver
+//==========================================================
+#ifndef XINCX_DMAS_ENABLED
+#define XINCX_DMAS_ENABLED 1
+#endif
+
+
+// <o> XINCX_DMAS_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_DMAS_CONFIG_IRQ_PRIORITY
+#define XINCX_DMAS_CONFIG_IRQ_PRIORITY 7
+#endif
+// </e> 
+
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
 #define XINCX_WDT_ENABLED 1
 #endif
 
+// <q> XINCX_WDT0_ENABLED  - Enable WDT0 instance
+ 
+#ifndef XINCX_WDT0_ENABLED
+#define XINCX_WDT0_ENABLED 1
+#endif
 
 // <o> XINCX_WDT_CONFIG_RELOAD_VALUE - Reload value
 
@@ -320,13 +348,13 @@
 
 
 #ifndef XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN
-#define XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN 6
+#define XINCX_PWM_DEFAULT_CONFIG_OUT1_PIN 5
 #endif
 
 // <o> XINCX_PWM_DEFAULT_CONFIG_OUT1_INV_PIN - Out1 pin  <0-31> 
 
 #ifndef XINCX_PWM_DEFAULT_CONFIG_OUT1_INV_PIN
-#define XINCX_PWM_DEFAULT_CONFIG_OUT1_INV_PIN 7
+#define XINCX_PWM_DEFAULT_CONFIG_OUT1_INV_PIN 3
 #endif
 
 
@@ -521,7 +549,7 @@
 // <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
 #ifndef XINCX_I2C_ENABLED
-#define XINCX_I2C_ENABLED 1
+#define XINCX_I2C_ENABLED 0
 #endif
 
 // <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
@@ -617,7 +645,7 @@
 // <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef XINCX_SPIM_ENABLED
-#define XINCX_SPIM_ENABLED 0
+#define XINCX_SPIM_ENABLED 1
 #endif
 
 // <q> XINCX_SPIM0_ENABLED  - Enable SPIM0 instance
@@ -632,6 +660,13 @@
 
 #ifndef XINCX_SPIM1_ENABLED
 #define XINCX_SPIM1_ENABLED 1
+#endif
+
+// <q> XINCX_SPIM2_ENABLED  - Enable SPIM2 instance
+ 
+
+#ifndef XINCX_SPIM2_ENABLED
+#define XINCX_SPIM2_ENABLED 0
 #endif
 
 // <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
@@ -663,11 +698,19 @@
 #define XINCX_RTC_ENABLED 1
 #endif
 
-// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance
+
+// <q> XINCX_RTC0_ENABLED  - Enable RTC0 instance Only use for app time
  
 #ifndef XINCX_RTC0_ENABLED
 #define XINCX_RTC0_ENABLED 1
 #endif
+// <q> XINCX_RTC1_ENABLED  - Enable RTC1 instance
+ 
+#ifndef XINCX_RTC1_ENABLED
+#define XINCX_RTC1_ENABLED 1
+#endif
+
+
 
 // </e>
 
@@ -795,27 +838,166 @@
 // </e>
 
 
+// <e> XINCX_UARTE_ENABLED  - xincx_uarte - UARTE peripheral driver
+ 
+#ifndef XINCX_UARTE_ENABLED
+#define XINCX_UARTE_ENABLED 1
+#endif
+
+// <q> XINCX_UARTE0_ENABLED - Enable UARTE0 instance 
+
+#ifndef XINCX_UARTE0_ENABLED
+#define XINCX_UARTE0_ENABLED 1
+#endif
+
+// <q> XINCX_UART1_ENABLED - Enable UARTE1 instance 
+#ifndef XINCX_UARTE1_ENABLED
+#define XINCX_UARTE1_ENABLED 1
+#endif
+
+
+// <o> XINCX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
+ 
+// <0=> Disabled 
+// <1=> Enabled 
+
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_HWFC
+#define XINCX_UARTE_DEFAULT_CONFIG_HWFC 0
+#endif
+
+// <o> XINCX_UARTE_DEFAULT_CONFIG_PARITY  - Parity
+ 
+// <0=> Excluded 
+// <1=> Included 
+
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_PARITY
+#define XINCX_UARTE_DEFAULT_CONFIG_PARITY 0
+#endif
+
+// <o> XINCX_UARTE_DEFAULT_CONFIG_PARITY_TYPE  - Parity type
+// <0=> Included Odd  
+// <1=> Included Even 
+ 
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_PARITY_TYPE
+#define XINCX_UARTE_DEFAULT_CONFIG_PARITY_TYPE 0
+#endif
+
+// <o> XINCX_UARTE_DEFAULT_CONFIG_DATA_BITS  - Data bits
+// <0=> 5 bits
+// <1=> 6 bits
+// <2=> 7 bits
+// <3=> 8 bits
+ 
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_DATA_BITS
+#define XINCX_UARTE_DEFAULT_CONFIG_DATA_BITS 3
+#endif
+
+// <o> XINCX_UART_DEFAULT_CONFIG_STOP_BITS  - Stop bits
+// <0=> 1 bits
+// <1=> 1.5 / 2 bits
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_STOP_BITS
+#define XINCX_UARTE_DEFAULT_CONFIG_STOP_BITS 1
+#endif
+
+
+
+
+
+// <o> XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
+ 
+// <0x0120271C=> 2400 baud 
+// <0x0240271C=> 4800 baud 
+// <0x0480271C=> 9600 baud 
+// <0x04802719=> 12800 baud 
+// <0x04802718=> 14400 baud 
+// <0x04802716=> 19200 baud 
+// <0x04802715=> 23040 baud 
+// <0x04802713=> 38400 baud 
+// <0x04802712=> 57600 baud 
+// <0x04802711=> 115200 baud 
+// <0x030007D3=> 1280000 baud 
+// <0x0120271C=> 230400 baud 
+// <0x060007D3=> 256000 baud 
+// <0x12002711=> 460800 baud 
+// <0x24002711=> 921600 baud 
+// <0x00100011=> 1M baud 
+
+#ifndef XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE
+#define XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE 75507473
+#endif
+
+// <e> XINCX_UARTE_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_UARTE_CONFIG_LOG_ENABLED
+#define XINCX_UARTE_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_UARTE_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+
+#ifndef XINCX_UARTE_CONFIG_LOG_LEVEL
+#define XINCX_UARTE_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> XINCX_UART_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_UARTE_CONFIG_INFO_COLOR
+#define XINCX_UARTE_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_UARTE_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_UARTE_CONFIG_DEBUG_COLOR
+#define XINCX_UARTE_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
 
 
 // <e> XINCX_UART_ENABLED - xincx_uart - UART peripheral driver
 //==========================================================
 #ifndef XINCX_UART_ENABLED
-#define XINCX_UART_ENABLED 1
+#define XINCX_UART_ENABLED 0
 #endif
 
-// <o> XINCX_UART0_ENABLED - Enable UART0 instance 
-// <0=> Disabled 
-// <1=> Enabled 
+
+// <q> XINCX_UART0_ENABLED - Enable UART0 instance 
+
 #ifndef XINCX_UART0_ENABLED
-#define XINCX_UART0_ENABLED 1
+#define XINCX_UART0_ENABLED 0
 #endif
 
-// <o> XINCX_UART1_ENABLED - Enable UART01 instance 
-// <0=> Disabled 
-// <1=> Enabled 
+// <q> XINCX_UART1_ENABLED - Enable UART01 instance 
 #ifndef XINCX_UART1_ENABLED
-#define XINCX_UART1_ENABLED 1
+#define XINCX_UART1_ENABLED 0
 #endif
+
 
 // <o> XINCX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
  
@@ -859,6 +1041,8 @@
 #ifndef XINCX_UART_DEFAULT_CONFIG_STOP_BITS
 #define XINCX_UART_DEFAULT_CONFIG_STOP_BITS 1
 #endif
+
+
 
 
 
@@ -938,97 +1122,10 @@
 
 // </e>
 
-// <e> XINCX_UARTE_ENABLED - xincx_uarte - UARTE peripheral driver
-//==========================================================
-#ifndef XINCX_UARTE_ENABLED
-#define XINCX_UARTE_ENABLED 0
-#endif
-// <o> XINCX_UARTE0_ENABLED - Enable UARTE0 instance 
-#ifndef XINCX_UARTE1_ENABLED
-#define XINCX_UARTE1_ENABLED 0
-#endif
 
-// <o> XINCX_UARTE_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
- 
-// <0=> Disabled 
-// <1=> Enabled 
 
-#ifndef XINCX_UARTE_DEFAULT_CONFIG_HWFC
-#define XINCX_UARTE_DEFAULT_CONFIG_HWFC 0
-#endif
 
-// <o> XINCX_UARTE_DEFAULT_CONFIG_PARITY  - Parity
- 
-// <0=> Excluded 
-// <14=> Included 
 
-#ifndef XINCX_UARTE_DEFAULT_CONFIG_PARITY
-#define XINCX_UARTE_DEFAULT_CONFIG_PARITY 0
-#endif
-
-// <o> XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE  - Default Baudrate
- 
-// <0x0120271C=> 2400 baud 
-// <0x0240271C=> 4800 baud 
-// <0x0480271C=> 9600 baud 
-// <0x04802719=> 12800 baud 
-// <0x04802718=> 14400 baud 
-// <0x04802716=> 19200 baud 
-// <0x04802715=> 23040 baud 
-// <0x04802713=> 38400 baud 
-// <0x04802712=> 57600 baud 
-// <0x04802711=> 115200 baud 
-// <0x030007D3=> 1280000 baud 
-// <0x0120271C=> 230400 baud 
-// <0x060007D3=> 256000 baud 
-// <0x12002711=> 460800 baud 
-// <0x24002711=> 921600 baud 
-// <0x00100011=> 1M baud 
-
-#ifndef XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE
-#define XINCX_UARTE_DEFAULT_CONFIG_BAUDRATE 30801920
-#endif
-// <e> XINCX_UARTE_CONFIG_LOG_ENABLED - Enables logging in the module.
-//==========================================================
-#ifndef XINCX_UARTE_CONFIG_LOG_ENABLED
-#define XINCX_UARTE_CONFIG_LOG_ENABLED 0
-#endif
-
-// <o> XINCX_UARTE_CONFIG_LOG_LEVEL  - Default Severity level
- 
-// <0=> Off 
-// <1=> Error 
-// <2=> Warning 
-// <3=> Info 
-// <4=> Debug 
-
-#ifndef XINCX_UARTE_CONFIG_LOG_LEVEL
-#define XINCX_UARTE_CONFIG_LOG_LEVEL 3
-#endif
-
-#ifndef XINCX_UARTE_CONFIG_INFO_COLOR
-#define XINCX_UARTE_CONFIG_INFO_COLOR 0
-#endif
-
-// <o> XINCX_UARTE_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
- 
-// <0=> Default 
-// <1=> Black 
-// <2=> Red 
-// <3=> Green 
-// <4=> Yellow 
-// <5=> Blue 
-// <6=> Magenta 
-// <7=> Cyan 
-// <8=> White 
-
-#ifndef XINCX_UARTE_CONFIG_DEBUG_COLOR
-#define XINCX_UARTE_CONFIG_DEBUG_COLOR 0
-#endif
-
-// </e>
-
-// </e>
 // <e> UART_ENABLED - xinc_drv_uart - UART/UARTE peripheral driver - legacy layer
 //==========================================================
 #ifndef UART_ENABLED
@@ -1096,7 +1193,7 @@
  
 
 #ifndef UART_EASY_DMA_SUPPORT
-#define UART_EASY_DMA_SUPPORT 0
+#define UART_EASY_DMA_SUPPORT 1
 #endif
 
 // <q> UART_LEGACY_SUPPORT  - Driver supporting Legacy mode
@@ -1250,6 +1347,12 @@
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
 #define APP_UART_DRIVER_INSTANCE 1
+#endif
+
+// <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes
+
+#ifndef APP_UART_DRIVER_BUFFSIZE
+#define APP_UART_DRIVER_BUFFSIZE 32
 #endif
 
 // </e>

@@ -90,7 +90,8 @@ typedef struct
 
 	uint32_t            frequency;
 	uint16_t           	duty_cycle;
-	uint8_t           	inv_delay;
+	uint8_t           	inv_delay;  
+    xinc_pwm_acc_mode_t mode;
 	bool           			start;
 	bool           			inv_enable;
 		
@@ -140,9 +141,9 @@ bool xincx_pwm_start(xincx_pwm_t const * const p_instance);
 bool xincx_pwm_stop(xincx_pwm_t const * const p_instance);
 
 
-xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint8_t new_duty);
+xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance,uint32_t new_freq,uint16_t new_duty);
 
-xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint8_t new_duty);
+xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uint16_t new_duty);
 
 xincx_err_t xincx_pwm_freq_update(xincx_pwm_t const * const p_instance,uint32_t new_freq);
 

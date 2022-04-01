@@ -323,7 +323,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 {
                     duty = 0;
                 }
-              //  printf("pwm_duty_cycle_update0 :%d\r\n",duty);
+                printf("pwm_duty_cycle_update0 :%d\r\n",duty);
                 xinc_drv_pwm_duty_cycle_update(&m_pwm0,duty);
 
             }    
@@ -342,7 +342,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 {
                     duty = 100;
                 }
-              //  printf("pwm_duty_cycle_update1 :%d\r\n",duty);
+                printf("pwm_duty_cycle_update1 :%d\r\n",duty);
                 xinc_drv_pwm_duty_cycle_update(&m_pwm0,duty);
 
             }    
@@ -382,7 +382,8 @@ void pwm_duty_test()
         .duty_cycle   = 50,//设置pwm 脉冲的占空比
         .start = true,//初始化完成后自动启动
         .inv_enable = true,//打开反向输出
-        .inv_delay = 3
+        .inv_delay = 3,
+        .mode = XINC_PWM_MODE_ACC_100
     };
     
     duty = config.duty_cycle;
@@ -411,9 +412,10 @@ int	main(void)
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
+    key_init();
     xincx_gpio_init();
 	btstack_main();
-  //  key_init();
+    
 
     // setup advertisements
     uint16_t adv_int_min = 0x0030;

@@ -2307,6 +2307,16 @@ M0 复位信号，维持多少个 pclk 时钟周期。   */
 #define PWM_EN_Disable (0UL) /*!< PWM 不使能*/
 
 
+/* Bit 1..2 : PWM PWM_MODE   */
+/* Description:PWM PWM 占空比档位精度。
+*/
+#define PWM_PWM_MODE_Pos (1UL) /*!< Position of PWM_MODE field. */
+#define PWM_PWM_MODE_Msk (0x3UL << PWM_PWM_MODE_Pos) /*!< Bit mask of PWM_EN field. */
+#define PWM_PWM_MODE_ACC_100 (0UL) /*!< 0:占空比精度1/100*/
+#define PWM_PWM_MODE_ACC_1000 (1UL) /*!<1:占空比精度1/1000*/
+#define PWM_PWM_MODE_ACC_4000 (2UL) /*!<2:占空比精度1/4000*/
+
+
 /* Register: PWM_UP */
 /* Description: PWM 参数更新寄存器 
 */
@@ -2352,13 +2362,13 @@ M0 复位信号，维持多少个 pclk 时钟周期。   */
 */
 #define PWM_P_PERIOD_Pos (0UL) /*!< Position of PERIOD field. */
 #define PWM_P_PERIOD_Msk (0xFFUL << PWM_P_PERIOD_Pos) /*!< Bit mask of PERIOD field. */
-
+#define PWM_P_PERIOD_MAX (0xFFUL)
 
 /* Register: PWM_OCPY */
 /* Description: PWM 占空比设置寄存器
 */
 
-/* Bit 0..7 : PWM OCPY_RATIO   */
+/* Bit 0..11 : PWM OCPY_RATIO   */
 /* Description:OCPY_RATIO 用于控制占空
 比计数器的占空比，占空比设
 置寄存器用于和占空比计数器
@@ -2369,7 +2379,10 @@ OCPY_RATIO 的值便可调节
 占空比。
 */
 #define PWM_OCPY_OCPY_RATIO_Pos (0UL) /*!< Position of OCPY_RATIO field. */
-#define PWM_OCPY_OCPY_RATIO_Msk (0xFFUL << PWM_OCPY_OCPY_RATIO_Pos) /*!< Bit mask of OCPY_RATIO field. */
+#define PWM_OCPY_OCPY_RATIO_Msk (0xFFFUL << PWM_OCPY_OCPY_RATIO_Pos) /*!< Bit mask of OCPY_RATIO field. */
+#define PWM_OCPY_MAX_100 (100UL)
+#define PWM_OCPY_MAX_1000 (1000UL)
+#define PWM_OCPY_MAX_4000 (4000UL)
 
 
 /* Register: PWM_COMP_EN */

@@ -122,7 +122,7 @@ const static xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance
 
 
 
-/**@brief Function for handling the RTC1 interrupt.
+/**@brief Function for handling the RTC0 interrupt.
  *
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
