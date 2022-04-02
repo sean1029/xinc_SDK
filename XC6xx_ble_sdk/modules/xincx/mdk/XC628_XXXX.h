@@ -483,11 +483,11 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
     __IOM  uint32_t  CTL_BOOTCTL;               /*!< (@ 0x00000140) BOOTCTL 指示寄存器  */ 
     __IOM  uint32_t  CTL_M0_STCALIB;            /*!< (@ 0x00000144) M0 配置寄存器  */ 
     __IOM  uint32_t  CTL_M0_IRQLATENCY;         /*!< (@ 0x00000148) M0 IRQ 延迟寄存器  */ 
-    __IM  uint32_t  RESERVED08[5];
+    __IM  uint32_t   RESERVED08[5];
 
     // SSI 控制寄存器
     __IOM  uint32_t  SSI_CTRL;                  /*!< (@ 0x00000160) SSI 控制寄存器  */
-    __IM  uint32_t  RESERVED09[3];
+    __IM  uint32_t   RESERVED09[3];
 
     __IOM  uint32_t  TESTCTRL0;                 /*!< (@ 0x00000170) 测试控制寄存器 0  */
     __IOM  uint32_t  TESTCTRL1;                 /*!< (@ 0x00000174) 测试控制寄存器 1  */
@@ -588,7 +588,29 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
     __IM   uint32_t  STAT;                        /*!< (@ 0x00000010) Interrupt Status Register                    */
     __IM   uint32_t  ICR;                         /*!< (@ 0x00000014) interrupt clear register                     */
  
-} XINC_WDT_Type;                                 /*!< Size = ?                                                    */
+} XINC_WDT_Type;                                 /*!< Size = ?  */
+
+
+
+/* =========================================================================================================================== */
+/* ================                                            CDC                                            ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief CDC (CDC)
+  */
+
+typedef struct {                        /*!< (@ 0x50004000) CDC Structure                                */
+    __IOM  uint32_t  ANA_REG0;          /*!< (@ 0x00000000) 模拟寄存器                             */
+    __IM   uint32_t  RESERVED[7];
+    __IM   uint32_t  RXFIFO_DATA;       /*!< (@ 0x00000020) FIFO寄存器                      */
+    __IOM  uint32_t  FIFO_STATUS;       /*!< (@ 0x00000024) FIFO状态寄存器                 */
+    __IOM  uint32_t  DMA_CONFIG;        /*!< (@ 0x00000028)  DMA配置寄存器                     */
+    __IOM  uint32_t  INT;               /*!< (@ 0x0000002C) 中断清除寄存器                 */
+    __IM   uint32_t  INT_RAW;           /*!< (@ 0x00000030) 中断状态寄存器                     */
+    __IOM  uint32_t  INT_EN;            /*!< (@ 0x00000034) 中断使能寄存器                     */
+} XINC_CDC_Type;                                                       
 
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
@@ -624,6 +646,9 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define	XINC_PWM3_BASE              0x40017440UL
 #define	XINC_PWM4_BASE              0x40017800UL
 #define	XINC_PWM5_BASE              0x40017840UL
+
+#define	XINC_CDC0_BASE              0x50004000UL
+
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
 /* =========================================================================================================================== */
@@ -667,6 +692,9 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_PWM3                           ((XINC_PWM_Type*)               XINC_PWM3_BASE)
 #define XINC_PWM4                           ((XINC_PWM_Type*)               XINC_PWM4_BASE)
 #define XINC_PWM5                           ((XINC_PWM_Type*)               XINC_PWM5_BASE)
+
+#define XINC_CDC0                           ((XINC_CDC_Type*)               XINC_CDC0_BASE)
+
 #ifdef __cplusplus
 }
 #endif

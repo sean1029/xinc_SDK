@@ -164,18 +164,20 @@ static void xincx_saadc_irq_handler(XINC_SAADC_Type * p_reg,xincx_saadc_cb_t * p
     p_cb->buffer_size = gadc_count;
     p_cb->event_handler(&evt);
 }
+
 static void xincx_saadc_clk_init(xincx_saadc_t const * const  p_instance,
                          xincx_saadc_config_t const * p_config)
 {
-    XINC_CPR_CTL_Type   *p_cpr = p_instance->p_cpr;
-    p_instance->p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos)  |
+    XINC_CPR_CTL_Type*  p_cpr = p_instance->p_cpr;
+    
+    p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos)  |
                                             (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);                           
     
-    p_instance->p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos)  |
+    p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos)  |
                                             (CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);                           
         
   
-    p_instance->p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_GPADC_PCLK_EN_Enable <<  CPR_CTLAPBCLKEN_GRCTL_GPADC_PCLK_EN_Pos) | 
+    p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_GPADC_PCLK_EN_Enable <<  CPR_CTLAPBCLKEN_GRCTL_GPADC_PCLK_EN_Pos) | 
                                             (CPR_CTLAPBCLKEN_GRCTL_GPADC_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
     
  
