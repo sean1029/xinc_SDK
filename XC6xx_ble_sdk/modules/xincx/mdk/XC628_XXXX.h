@@ -505,6 +505,12 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
     __IOM  uint32_t  CTL_MUXCTL3[1];               /*!< (@ 0x0000019C) MUXPIN 控制寄存器 3  */
 
     __IOM  uint32_t  CTL_PUCTL;                 /*!< (@ 0x000001A0) 管脚上下拉配置寄存 3  */
+     __IM  uint32_t  RESERVED11[3];
+
+
+    __IM  uint32_t   RESERVED12[40];                   //0x000001B0 - 0x0000024C
+    __IOM  uint32_t  UART2_CLK_GRCTL;           /*!< (@ 0x00000250) UART2 CLK GR  */ 
+    __IOM  uint32_t  UART2_CLK_CTL;             /*!< (@ 0x00000254) UART2 CLK CTL  */  
 
 
 } XINC_CPR_CTL_Type; 
@@ -587,6 +593,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 #define XINC_DMAS_BASE              0x50001000UL
 #define XINC_UART0_BASE             0x40010000UL
 #define XINC_UART1_BASE             0x40011000UL
+#define XINC_UART2_BASE             0x40011400UL
 #define XINC_SPIM0_BASE             0x40013000UL
 #define XINC_SPIM1_BASE             0x40014000UL
 #define XINC_SPIM2_BASE             0x40014800UL
@@ -626,6 +633,7 @@ typedef struct {                                  /*!< (@ 0x40010000) WDT Struct
 
 #define XINC_UART0                          ((XINC_UART_Type*)              XINC_UART0_BASE)
 #define XINC_UART1                          ((XINC_UART_Type*)              XINC_UART1_BASE)
+#define XINC_UART2                          ((XINC_UART_Type*)              XINC_UART2_BASE)
 #define XINC_UARTE0                         ((XINC_UARTE_Type*)              XINC_UART0_BASE)
 #define XINC_UARTE1                         ((XINC_UARTE_Type*)              XINC_UART1_BASE)
 #define XINC_SPIM0                          ((XINC_SPIM_Type*)              XINC_SPIM0_BASE)

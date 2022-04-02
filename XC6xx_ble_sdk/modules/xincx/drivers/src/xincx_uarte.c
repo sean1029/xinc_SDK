@@ -262,8 +262,8 @@ static void xincx_uarte_dma_ch_set(xincx_uarte_t const *p_instance)
     {
         case 0:
         {
-            p_cb->tx_dma_ch = DMAS_CH_0;
-            p_cb->rx_dma_ch = DMAS_CH_8;
+            p_cb->tx_dma_ch = DMAS_CH_SEND_UART0;
+            p_cb->rx_dma_ch = DMAS_CH_RCV_UART0;
             #if XINCX_CHECK(XINCX_UARTE0_ENABLED)
             xincx_dmas_ch_handler_register(p_cb->rx_dma_ch,uarte0_irq_dma_ch_handler);
             xincx_dmas_ch_handler_register(p_cb->tx_dma_ch,uarte0_irq_dma_ch_handler);
@@ -272,8 +272,8 @@ static void xincx_uarte_dma_ch_set(xincx_uarte_t const *p_instance)
         
         case 1:
         {
-            p_cb->tx_dma_ch = DMAS_CH_1;
-            p_cb->rx_dma_ch = DMAS_CH_9;
+            p_cb->tx_dma_ch = DMAS_CH_SEND_UART1;
+            p_cb->rx_dma_ch = DMAS_CH_RCV_UART1;
             #if XINCX_CHECK(XINCX_UARTE1_ENABLED)
             xincx_dmas_ch_handler_register(p_cb->rx_dma_ch,uarte1_irq_dma_ch_handler);
             xincx_dmas_ch_handler_register(p_cb->tx_dma_ch,uarte1_irq_dma_ch_handler);
@@ -297,6 +297,15 @@ xincx_err_t xincx_uarte_init(xincx_uarte_t const *        p_instance,
     {
         err_code = XINCX_ERROR_INVALID_STATE;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
+                            __func__,
+                            XINCX_LOG_ERROR_STRING_GET(err_code));
+        return err_code;
+    }
+
+    if(p_instance->id > 1UL)
+    {
+         err_code = XINC_ERROR_NOT_SUPPORTED;
+         XINCX_LOG_WARNING("Function: %s, error code: %s.",
                             __func__,
                             XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;

@@ -43,7 +43,7 @@ static void uart_evt_handler(xincx_uart_event_t const * p_event,
 #endif //defined(XINC_DRV_UART_WITH_UART)
 
 #if defined(XINC_DRV_UART_WITH_UARTE)
-static void uart_evt_handler(xincx_uarte_event_t const * p_event,
+static void uarte_evt_handler(xincx_uarte_event_t const * p_event,
                              void *                    p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;
@@ -84,11 +84,22 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
 
     ret_code_t result = 0;
 	
-    if (XINC_DRV_UART_USE_UARTE)
+    if (XINC_DRV_UART_USE_UARTE)       
     {
-        result = xincx_uarte_init(&p_instance->uarte,
-                            (xincx_uarte_config_t const *)&config,
-                            event_handler ? uart_evt_handler : NULL);
+        if(p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_init(&p_instance->uarte,
+                                (xincx_uarte_config_t const *)&config,
+                                event_handler ? uarte_evt_handler : NULL);
+                                                          
+                                
+        }else
+        {
+            result = xincx_uart_init(&p_instance->uart,
+                                (xincx_uart_config_t const *)&config,
+                                event_handler ? uart_evt_handler : NULL);   
+        }
+
     }
     else if(XINC_DRV_UART_USE_UART)
     {

@@ -365,7 +365,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
     }
     else
     {
-        if(pin > XINC_GPIO_31)
+        if(pin > XINC_GPIO_MAX)
         {
             err_code = XINC_ERROR_INVALID_PARAM;
         }
@@ -375,17 +375,50 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         }
         else if((XINC_GPIO_PIN_PWM3 == fun) && (XINC_GPIO_1 == pin))
         {
-            xinc_gpio_mux_ctl(pin,2);		         
+            xinc_gpio_mux_ctl(pin,2);        
         }
         else if((XINC_GPIO_PIN_PWM4 == fun) && (XINC_GPIO_12 == pin))
         {
-            xinc_gpio_mux_ctl(pin,3);		
+            xinc_gpio_mux_ctl(pin,3);
         }
         else if((XINC_GPIO_PIN_PWM5 == fun) && (XINC_GPIO_13 == pin))
         {                       
-            xinc_gpio_mux_ctl(pin,3);		
+            xinc_gpio_mux_ctl(pin,3);
         }
-        
+        #if defined (XINC628_XXAA)
+        else if((XINC_GPIO_PIN_SSI2_CLK == fun) && (XINC_GPIO_14 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);		
+        }
+        else if((XINC_GPIO_PIN_SSI2_SSN == fun) && (XINC_GPIO_15 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);
+        }
+         else if((XINC_GPIO_PIN_SSI2_D0 == fun) && (XINC_GPIO_16 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);
+        }
+        else if((XINC_GPIO_PIN_SSI2_D1 == fun) && (XINC_GPIO_17 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);
+        }
+        else if((XINC_GPIO_PIN_SSI2_D2 == fun) && (XINC_GPIO_26 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);
+        }
+        else if((XINC_GPIO_PIN_SSI2_D3 == fun) && (XINC_GPIO_27 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,2);	
+        }
+        else if((XINC_GPIO_PIN_UART1_TX == fun) && (XINC_GPIO_31 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,1);		
+        }
+        else if((XINC_GPIO_PIN_UART2_TX == fun) && (XINC_GPIO_32 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,1);		
+        }
+        #endif
         switch(pin)
         {
             case XINC_GPIO_11:

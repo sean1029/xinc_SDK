@@ -31,13 +31,13 @@
 
 /* GPIO */
 #define GPIO_PRESENT
-#define GPIO_COUNT 1
+#define GPIO_COUNT 2
 
 #define P0_PIN_NUM 32
-#define P1_PIN_NUM 32
+#define P1_PIN_NUM 4
 
 #define P0_FEATURE_PINS_PRESENT 0xFFFFFFFFUL
-#define P1_FEATURE_PINS_PRESENT 0xFFFFFFFFUL
+#define P1_FEATURE_PINS_PRESENT 0xFUL
 
 
 /* Timer/Counter */

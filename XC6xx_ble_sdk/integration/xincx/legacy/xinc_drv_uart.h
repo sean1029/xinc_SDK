@@ -14,11 +14,12 @@
 
 #if defined(UART_PRESENT) && (XINCX_CHECK(XINCX_UARTE_ENABLED))
     #define XINC_DRV_UART_WITH_UARTE
-#elif defined(UART_PRESENT) && (XINCX_CHECK(XINCX_UART_ENABLED))
-    #define XINC_DRV_UART_WITH_UART
+
 #endif
 
-
+#if defined(UART_PRESENT) && (XINCX_CHECK(XINCX_UART_ENABLED))
+    #define XINC_DRV_UART_WITH_UART
+#endif
 
 #if defined(XINC_DRV_UART_WITH_UART)
     #include <xincx_uart.h>
@@ -29,8 +30,11 @@
         .uart = XINCX_UART_INSTANCE(0),
     #define XINC_DRV_UART_CREATE_UART_1  \
         .uart = XINCX_UART_INSTANCE(1),
+    #define XINC_DRV_UART_CREATE_UART_2  \
+        .uart = XINCX_UART_INSTANCE(2),
 
 #else
+    #define XINC_DRV_UART_CREATE_UART(id)
     #define xincx_uart_init(...)                0
     #define xincx_uart_uninit(...)              
     #define xincx_uart_tx(...)                  0
@@ -50,18 +54,21 @@
     #include <xincx_uarte.h>
     #include <xincx_dmas.h>
 
-    #define XINC_DRV_UART_CREATE_UART(id)   _XINC_DRV_UART_CREATE_UART(id)
-    #define _XINC_DRV_UART_CREATE_UART(id)  XINC_DRV_UART_CREATE_UART_##id
-    #define XINC_DRV_UART_CREATE_UART_0  \
+    #define XINC_DRV_UARTE_CREATE_UART(id)   _XINC_DRV_UARTE_CREATE_UART(id)
+    #define _XINC_DRV_UARTE_CREATE_UART(id)  XINC_DRV_UARTE_CREATE_UART_##id
+    #define XINC_DRV_UARTE_CREATE_UART_0  \
         .uarte = XINCX_UARTE_INSTANCE(0),
-    #define XINC_DRV_UART_CREATE_UART_1  \
+    #define XINC_DRV_UARTE_CREATE_UART_1  \
         .uarte = XINCX_UARTE_INSTANCE(1),
+        
+    #define XINC_DRV_UARTE_CREATE_UART_2  
+
 
 #else
     // Compilers (at least the smart ones) will remove the UART related code
     // (blocks starting with "if (XINC_DRV_UART_USE_UART)") when it is not used,
     // but to perform the compilation they need the following definitions.
-    
+    #define XINC_DRV_UARTE_CREATE_UART(id)
     #define xincx_uarte_init(...)                0
     #define xincx_uarte_uninit(...)              
     #define xincx_uarte_tx(...)                  0
@@ -101,6 +108,7 @@ typedef struct
 #if defined(XINC_DRV_UART_WITH_UART)
     xincx_uart_t uart;
 #endif
+    bool                use_easy_dma;
 
 } xinc_drv_uart_t;
 
@@ -111,6 +119,7 @@ typedef struct
 {                                 \
     .inst_idx = Id,               \
 	.id = Id,											\
+    XINC_DRV_UARTE_CREATE_UART(Id)  \
     XINC_DRV_UART_CREATE_UART(Id)  \
 }
 
@@ -142,8 +151,15 @@ typedef struct
     xinc_uart_parity_type_t parity_type;     ///< Parity configuration type odd /even. 
     xinc_uart_baudrate_t baudrate;           ///< Baud rate.
     uint8_t             interrupt_priority; ///< Interrupt priority.
+    bool                use_easy_dma;
 } xinc_drv_uart_config_t;
 
+
+#if defined(XINC_DRV_UART_WITH_UARTE)
+#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA  .use_easy_dma = true,
+#else
+#define XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA   .use_easy_dma = false,
+#endif
 
 /**@brief UART default configuration. */
 #define XINC_DRV_UART_DEFAULT_CONFIG                                          \
@@ -157,6 +173,7 @@ typedef struct
     .parity             = (xinc_uart_parity_t)UART_DEFAULT_CONFIG_PARITY,     \
     .baudrate           = (xinc_uart_baudrate_t)UART_DEFAULT_CONFIG_BAUDRATE, \
     .interrupt_priority = UART_DEFAULT_CONFIG_IRQ_PRIORITY,                  \
+    XINC_DRV_UART_DEFAULT_CONFIG_USE_EASY_DMA                               \
 }
 
 /**@brief Structure for UART transfer completion event. */
@@ -385,7 +402,13 @@ void xinc_drv_uart_uninit(xinc_drv_uart_t const * p_instance)
 {
     if (XINC_DRV_UART_USE_UARTE)
     {
-        xincx_uarte_uninit(&p_instance->uarte);
+        if (p_instance->use_easy_dma)
+        {
+            xincx_uarte_uninit(&p_instance->uarte);
+        }else
+        {
+            xincx_uart_uninit(&p_instance->uart);
+        }    
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -404,10 +427,18 @@ ret_code_t xinc_drv_uart_tx(xinc_drv_uart_t const * p_instance,
    // printf("xinc_drv_uart_tx len :%d\r\n",length);
     
     if (XINC_DRV_UART_USE_UARTE)
-    {
-        result = xincx_uarte_tx(&p_instance->uarte,
+    {       
+        if (p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_tx(&p_instance->uarte,
                       p_data,
                       length);
+        }else
+        {
+            result = xincx_uart_tx(&p_instance->uart,
+                              p_data,
+                              length);
+        }   
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -428,6 +459,13 @@ bool xinc_drv_uart_tx_in_progress(xinc_drv_uart_t const * p_instance)
     if (XINC_DRV_UART_USE_UARTE)
     {
         result = xincx_uarte_tx_in_progress(&p_instance->uarte);
+        if (p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_tx_in_progress(&p_instance->uarte);
+        }else
+        {
+            result = xincx_uart_tx_in_progress(&p_instance->uart);
+        }
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -442,8 +480,14 @@ __STATIC_INLINE
 void xinc_drv_uart_tx_abort(xinc_drv_uart_t const * p_instance)
 {
     if (XINC_DRV_UART_USE_UARTE)
-    {
-        xincx_uarte_tx_abort(&p_instance->uarte);
+    {       
+        if (p_instance->use_easy_dma)
+        {
+            xincx_uarte_tx_abort(&p_instance->uarte);
+        }else
+        {
+            xincx_uart_tx_abort(&p_instance->uart);
+        }
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -460,9 +504,17 @@ ret_code_t xinc_drv_uart_rx(xinc_drv_uart_t const * p_instance,
     uint32_t result = 0;
     if (XINC_DRV_UART_USE_UARTE)
     {
-        result = xincx_uarte_rx(&p_instance->uarte,
+        if (p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_rx(&p_instance->uarte,
                           p_data,
-                          length);  
+                          length); 
+        }else
+        {
+            result = xincx_uart_rx(&p_instance->uart,
+                          p_data,
+                          length); 
+        }      
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -481,7 +533,13 @@ bool xinc_drv_uart_rx_ready(xinc_drv_uart_t const * p_instance)
 
     if (XINC_DRV_UART_USE_UARTE)
     {
-        result = xincx_uarte_rx_ready(&p_instance->uarte);
+        if (p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_rx_ready(&p_instance->uarte);
+        }else
+        {
+            result = xincx_uart_rx_ready(&p_instance->uart);
+        }
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -496,7 +554,13 @@ void xinc_drv_uart_rx_enable(xinc_drv_uart_t const * p_instance)
 { 
     if (XINC_DRV_UART_USE_UARTE)
     {
-        xincx_uarte_rx_enable(&p_instance->uarte);   
+        if(p_instance->use_easy_dma)
+        {
+            xincx_uarte_rx_enable(&p_instance->uarte);  
+        }else
+        {
+            xincx_uart_rx_enable(&p_instance->uart);   
+        }        
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -510,7 +574,13 @@ void xinc_drv_uart_rx_disable(xinc_drv_uart_t const * p_instance)
 {      
     if (XINC_DRV_UART_USE_UARTE)
     {
-        xincx_uarte_rx_disable(&p_instance->uarte); 
+        if(p_instance->use_easy_dma)
+        {
+            xincx_uarte_rx_disable(&p_instance->uarte); 
+        }else
+        {
+            xincx_uart_rx_disable(&p_instance->uart);  
+        }  
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -523,8 +593,14 @@ __STATIC_INLINE
 void xinc_drv_uart_rx_abort(xinc_drv_uart_t const * p_instance)
 {
     if (XINC_DRV_UART_USE_UARTE)
-    {
-        xincx_uarte_rx_abort(&p_instance->uarte);
+    {       
+        if(p_instance->use_easy_dma)
+        {
+            xincx_uarte_rx_abort(&p_instance->uarte); 
+        }else
+        {
+            xincx_uart_rx_abort(&p_instance->uart);  
+        } 
     } 
     else if (XINC_DRV_UART_USE_UART)
     {
@@ -540,7 +616,13 @@ uint32_t xinc_drv_uart_errorsrc_get(xinc_drv_uart_t const * p_instance)
  
     if (XINC_DRV_UART_USE_UARTE)
     {
-        result = xincx_uarte_errorsrc_get(&p_instance->uarte);
+        if(p_instance->use_easy_dma)
+        {
+            result = xincx_uarte_errorsrc_get(&p_instance->uarte);
+        }else
+        {
+            result = xincx_uart_errorsrc_get(&p_instance->uart);
+        } 
     } 
     else if (XINC_DRV_UART_USE_UART)
     {

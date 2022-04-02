@@ -158,7 +158,8 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     config.pselrts = p_comm_params->rts_pin_no;
     config.pselrxd = p_comm_params->rx_pin_no;
     config.pseltxd = p_comm_params->tx_pin_no;
-    
+    config.use_easy_dma = p_comm_params->use_easy_dma;
+    app_uart_inst.use_easy_dma = config.use_easy_dma;
     config.data_bits = (xinc_uart_data_bits_t)p_comm_params->data_bits;
     config.stop_bits = (xinc_uart_stop_bits_t)p_comm_params->stop_bits;
     

@@ -59,11 +59,17 @@ enum {
 /** @brief Types of UART driver events. */
 typedef enum
 {
-    XINCX_UARTE_EVT_TX_DONE, ///< Requested TX transfer completed.
+    XINCX_UARTE_EVT_TX_DONE , ///< Requested TX transfer completed.
     XINCX_UARTE_EVT_RX_READY, ///< Requested RX transfer start.
     XINCX_UARTE_EVT_RX_DONE, ///< Requested RX transfer completed.
     XINCX_UARTE_EVT_ERROR,   ///< Error reported by UART peripheral.
 } xincx_uarte_evt_type_t;
+
+//#define    XINCX_UARTE_EVT_TX_DONE  XINCX_UART_EVT_TX_DONE ///< Requested TX transfer completed.
+//#define    XINCX_UARTE_EVT_RX_READY XINCX_UART_EVT_RX_READY///< Requested RX transfer start.
+//#define    XINCX_UARTE_EVT_RX_DONE  XINCX_UART_EVT_RX_DONE///< Requested RX transfer completed.
+//#define    XINCX_UARTE_EVT_ERROR    XINCX_UART_EVT_ERROR///< Error reported by UART peripheral.
+//#define xincx_uarte_evt_type_t xincx_uart_evt_type_t
 
 /** @brief Structure for the UART configuration. */
 typedef struct
@@ -108,12 +114,16 @@ typedef struct
     uint32_t  bytes;  ///< Number of bytes transfered.
 } xincx_uarte_xfer_evt_t;
 
+//#define xincx_uarte_xfer_evt_t xincx_uart_xfer_evt_t
+
 /** @brief Structure for the UART error event. */
 typedef struct
 {
     xincx_uarte_xfer_evt_t rxtx;       ///< Transfer details, including number of bytes transferred.
     uint32_t             error_mask; ///< Mask of error flags that generated the event.
 } xincx_uarte_error_evt_t;
+
+//#define xincx_uarte_error_evt_t xincx_uart_error_evt_t
 
 /** @brief Structure for the UART event. */
 typedef struct
@@ -126,6 +136,8 @@ typedef struct
     } data;                          ///< Union to store event data.
 } xincx_uarte_event_t;
 
+//#define xincx_uarte_event_t xincx_uart_event_t
+
 /**
  * @brief UARTE interrupt event handler.
  *
@@ -135,6 +147,9 @@ typedef struct
  */
 typedef void (*xincx_uarte_event_handler_t)(xincx_uarte_event_t const * p_event,
                                           void *                    p_context);
+
+//#define xincx_uarte_event_handler_t xincx_uart_event_handler_t
+
 
 /**
  * @brief Function for initializing the UARTE driver.
