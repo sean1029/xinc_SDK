@@ -666,7 +666,7 @@
  
 
 #ifndef XINCX_SPIM2_ENABLED
-#define XINCX_SPIM2_ENABLED 1
+#define XINCX_SPIM2_ENABLED 0
 #endif
 
 // <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.
@@ -1346,7 +1346,7 @@
 // <0=> 0 
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
-#define APP_UART_DRIVER_INSTANCE 1
+#define APP_UART_DRIVER_INSTANCE 0
 #endif
 
 // <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes

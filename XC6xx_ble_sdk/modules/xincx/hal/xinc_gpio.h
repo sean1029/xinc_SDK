@@ -13,7 +13,7 @@
 #include <xincx.h>
 #include "xinc_bitmask.h"
 //#include "XC620610.h"
-
+#include "bsp_gpio.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -585,19 +585,27 @@ __STATIC_INLINE void xinc_gpio_cfg(
 
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
 
-    xinc_gpio_fun_sel(pin_number,fun);
-    xinc_gpio_mux_ctl(pin_number,0);
+//  gpio_fun_sel(pin_number,fun);
+//    gpio_mux_ctl(pin_number,0);
 
+        xinc_gpio_fun_sel(pin_number,fun);
+    xinc_gpio_mux_ctl(pin_number,0);
+    
     if(XINC_GPIO_PIN_DIR_INPUT == dir)
     {
         xinc_gpio_pin_dir_set(pin_number,XINC_GPIO_PIN_DIR_INPUT);
-        
+               xinc_gpio_pull_sel(pin_number,pull);
         xinc_gpio_inter_sel(pin_number,inter);
-        xinc_gpio_pull_sel(pin_number,pull);
+ 
+//        gpio_fun_inter(pin_number,inter);
+//        gpio_direction_input(pin_number,pull);
         
     }else
     {
         xinc_gpio_pin_dir_set(pin_number,XINC_GPIO_PIN_DIR_OUTPUT);
+       
+        
+      //  gpio_direction_output(pin_number);
        
     }
 
@@ -761,6 +769,10 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
     XINC_CPR_AO_CTL_Type * preg = xinc_gpio_pin_pull_decode(&pin_number);
 
     reg_idx = pin_number >> 4UL;
+    if(pin_number <= 4)
+    {
+        reg_idx = 1;
+    }
     pin_idx = pin_number & 0xFUL;
     regVal = preg->PE_CTRLx[reg_idx];
 
@@ -779,7 +791,7 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
         xinc_bitmask_bit_clear((pin_idx << 1) + 1,&regVal);
         xinc_bitmask_bit_clear((pin_idx << 1),&regVal);
     }
-    
+    preg->PE_CTRLx[reg_idx] = regVal;
 #endif   
     
 }

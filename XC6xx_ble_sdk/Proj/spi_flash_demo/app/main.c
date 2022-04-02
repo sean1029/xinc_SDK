@@ -12,7 +12,7 @@
 #include    "bsp_spi_flash.h"
 #include "xinc_gpio.h"
 #include "bsp_uart.h"
-
+#include "bsp_gpio.h"
 #include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
@@ -315,7 +315,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 
     switch (pin_no)
     {
-        case S1BUTTON_BUTTON_PIN:
+        case S3BUTTON_BUTTON_PIN:
         {
              //检测按键 S1 是否按下
             if(button_action == APP_BUTTON_PUSH)
@@ -325,7 +325,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
                 
-                spim_flash_sector_erase(TEST_FLASH_ADDR);
+             //   spim_flash_sector_erase(TEST_FLASH_ADDR);
  
             }else
             {
@@ -351,7 +351,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                     printf("%c:0x%x ",w_buf[i],w_buf[i]);
                 }printf("\r\n");
                 //向指定地址写入特定长度的数据
-                spim_flash_write(TEST_FLASH_ADDR,w_buf,20);
+              //  spim_flash_write(TEST_FLASH_ADDR,w_buf,20);
 		
 	
             }else
@@ -364,7 +364,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
         
         }break;
         
-        case S3BUTTON_BUTTON_PIN:
+        case S1BUTTON_BUTTON_PIN:
         {
              //检测按键 S2 是否按下
             if(button_action == APP_BUTTON_PUSH)
@@ -373,7 +373,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
               
                  //向指定地址读特定长度的数据
-                spim_flash_read(TEST_FLASH_ADDR,r_buf,20);
+             //   spim_flash_read(TEST_FLASH_ADDR,r_buf,20);
                 printf("read_data char[] hex[]:\r\n");
                 for(int i = 0;i < 20;i++)
                 {
@@ -413,7 +413,7 @@ void spi_flash_test()
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
         {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
-        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+     //   {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
     };
     //初始化 LED,用来指示按键按下状态
     bsp_board_init(BSP_INIT_LEDS);
@@ -422,6 +422,7 @@ void spi_flash_test()
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
     
+    printf("app_button_init err_code:%x\n",err_code);
     APP_ERROR_CHECK(err_code);
 
         

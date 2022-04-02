@@ -379,7 +379,7 @@ void pwm_duty_test()
         .clk_src = XINC_PWM_CLK_SRC_32M_DIV,//使用32M 时钟源
         .ref_clk   = XINC_PWM_REF_CLK_2MHzOr2K,//分频采用2M时钟作为pwm的参考时钟
         .frequency       = 1000,//设定pwm脉冲的频率
-        .duty_cycle   = 50,//设置pwm 脉冲的占空比
+        .duty_cycle   = 2,//设置pwm 脉冲的占空比
         .start = true,//初始化完成后自动启动
         .inv_enable = true,//打开反向输出
         .inv_delay = 3,

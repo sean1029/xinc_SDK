@@ -507,8 +507,14 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
     __IOM  uint32_t  CTL_PUCTL;                 /*!< (@ 0x000001A0) 管脚上下拉配置寄存 3  */
      __IM  uint32_t  RESERVED11[3];
 
+    __IM   uint32_t  RESERVED12[1];
+    __IOM  uint32_t  M4_NEW_REG1;                /*!< (@ 0x000001b4) USB、2.4G、ADUDIO_ADC控制寄存器  */    
+    __IOM  uint32_t  M4_NEW_REG2;                /*!< (@ 0x000001b8) ADUDIO_ADC控制寄存器 2 */    
+    __IM   uint32_t  RESERVED14[1]; 
 
-    __IM  uint32_t   RESERVED12[40];                   //0x000001B0 - 0x0000024C
+
+    __IM   uint32_t  RESERVED13[36];                   //0x000001c0 - 0x0000024C
+
     __IOM  uint32_t  UART2_CLK_GRCTL;           /*!< (@ 0x00000250) UART2 CLK GR  */ 
     __IOM  uint32_t  UART2_CLK_CTL;             /*!< (@ 0x00000254) UART2 CLK CTL  */  
 

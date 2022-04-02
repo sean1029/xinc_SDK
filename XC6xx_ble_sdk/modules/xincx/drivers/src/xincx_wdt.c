@@ -91,6 +91,9 @@ static void xincx_wdt_clk_init(xincx_wdt_t  const * const p_instance,xincx_wdt_c
     p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Pos) |
                                (CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
 
+    p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Pos) |
+                               (CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
+
     p_cpr->RSTCTL_WDTRST_MASK = (CPR_RSTCTL_WDTRST_MASK_WDT_M0_RSTN_MASK_Enable << CPR_RSTCTL_WDTRST_MASK_WDT_M0_RSTN_MASK_Pos);
     
     

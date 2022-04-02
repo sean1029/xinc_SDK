@@ -137,7 +137,7 @@ static void pin_handler_free(uint8_t handler_id)
     m_cb.handlers[handler_id] = FORBIDDEN_HANDLER_ADDRESS;
 }
 
-
+#include "xinc_delay.h"
 xincx_err_t xincx_gpio_init(void)
 {
     xincx_err_t err_code;
@@ -152,10 +152,16 @@ xincx_err_t xincx_gpio_init(void)
         return err_code;
     }
     XINC_CPR_CTL_Type * p_cpr            = XINC_CPR;
-    
+   // CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Enable
     p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos) |
                                (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
+    
+    p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos) |
+                               (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
+    
+    xinc_delay_ms(100);
   
+    printf("RSTCTL_CTLAPB_SW: 0x%x\r\n ",p_cpr->RSTCTL_CTLAPB_SW);
     p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Enable <<  CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Pos) | 
                                 (CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
     
@@ -310,13 +316,15 @@ xincx_err_t xincx_gpio_in_init(xincx_gpio_pin_t               pin,
     }
     else
     {
-
+        
         int8_t handler_id = pin_handler_use_alloc(pin, evt_handler);
         if (handler_id != NO_HANDLERS_ID)
         {     
             xinc_gpio_cfg_input(pin, p_config->input_config);
 
-            pin_configured_set(pin);         
+            pin_configured_set(pin);  
+             
+            
         }
         else
         {

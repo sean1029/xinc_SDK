@@ -102,6 +102,8 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     uint32_t    ssi_ctrl_val;
     uint8_t ch = p_instance->id;
     ssi_ctrl_val = p_instance->p_cpr->SSI_CTRL;
+//    printf("M4_NEW_REG1 addr:%p\r\n",&p_instance->p_cpr->M4_NEW_REG1);
+//    printf("UART2_CLK_GRCTL addr:%p\r\n",&p_instance->p_cpr->UART2_CLK_GRCTL);
     #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA))&& XINCX_CHECK(XINCX_SPIM0_ENABLED)
     if(ch == 0)
     {

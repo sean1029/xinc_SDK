@@ -207,6 +207,10 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         //复位pwm模块
         p_instance->p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Enable << CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Pos)  |
                                                (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);                           
+        
+        p_instance->p_cpr->RSTCTL_CTLAPB_SW =  (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Pos)  |
+                                               (CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);                           
+        
         xincx_pwm_clk_init_state = XINCX_DRV_STATE_INITIALIZED;
     }   
   

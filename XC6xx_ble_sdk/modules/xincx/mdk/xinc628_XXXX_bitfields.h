@@ -596,6 +596,9 @@
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET (16UL)
 
+#define RSTN_VALID                      (0UL)
+#define RSTN_INVALID                    (1UL)
+
 /* Bit 1: GPIO_RSTN */
 /* Description: GPIO 模块软复位：
 1：不复位
@@ -603,8 +606,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos (1UL) // /*!< Position of GPIO_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 2: WDT_RSTN */
 /* Description: WDT 模块软复位：
@@ -613,8 +616,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Pos (2UL) // /*!< Position of WDT_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_WDT_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 3: TIMER0_RSTN */
 /* Description: TIMER0 模块软复位：
@@ -623,8 +626,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Pos (3UL) // /*!< Position of TIMER0_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER0_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 4: TIMER1_RSTN */
 /* Description: TIMER1 模块软复位：
@@ -633,8 +636,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Pos (4UL) // /*!< Position of TIMER1_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER1_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 5: TIMER2_RSTN */
 /* Description: TIMER2 模块软复位：
@@ -643,8 +646,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Pos (5UL) // /*!< Position of TIMER2_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER2_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 6: TIMER3_RSTN */
 /* Description: TIMER3 模块软复位：
@@ -653,19 +656,19 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Pos (6UL) // /*!< Position of TIMER3_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Bit 7: TIMER_PRESETN */
-/* Description: TIMER3 模块软复位：
+/* Description: TIMER 模块软复位：
 1：不复位
 0：复位
 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Pos (6UL) // /*!< Position of TIMER3_RSTN field. */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER3_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Pos (7UL) // /*!< Position of TIMER_RSTN field. */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_TIMER_RSTN_Pos) 
+#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_TIMER_PRESETN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 8: CTL_APB_RSTN */
 /* Description: CTL_APB 桥软复位：
@@ -674,8 +677,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Pos (8UL) // /*!< Position of CTL_APB_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_CTL_APB_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Bit 9: KBS_RSTN */
@@ -685,8 +688,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Pos (9UL) // /*!< Position of KBS_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_KBS_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 10: QDEC_RSTN */
 /* Description: QDEC 模块软复位
@@ -695,8 +698,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Pos (10UL) // /*!< Position of QDEC_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_QDEC_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 11: PWM_RSTN */
 /* Description: PWM 模块软复位
@@ -705,8 +708,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Pos (11UL) // /*!< Position of PWM_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_PWM_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 12: GPADC_RSTN */
 /* Description: GPADC 模块软复位
@@ -715,8 +718,8 @@
 */
 #define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos (12UL) // /*!< Position of GPADC_RSTN field. */
 #define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Msk (0x1UL << CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Pos) 
-#define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_CTLAPB_SW_GPADC_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Register: CPR_RSTCTL_SUBRST_SW */
@@ -731,8 +734,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Pos (0UL) // /*!< Position of UART0_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Disable (1UL) /*!< 0：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Enable (0UL) /*!< 1：复位*/
+#define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Disable (RSTN_INVALID) /*!< 0：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Enable (RSTN_VALID) /*!< 1：复位*/
 
 /* Bit 1: UART1_RSTN */
 /* Description: UART1 模块软复位：
@@ -741,8 +744,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Pos (1UL) // /*!< Position of UART1_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Bit 2: SSI0_RSTN */
@@ -752,8 +755,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos (2UL) // /*!< Position of SSI0_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 3: SSI1_RSTN */
 /* Description: SSI1 模块软复位：
@@ -762,8 +765,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos (3UL) // /*!< Position of SSI1_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 4: DMAS_RSTN */
 /* Description: DMAS 模块软复位：
@@ -772,8 +775,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Pos (4UL) // /*!< Position of DMAS_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_DMAS_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 5: BT_RSTN */
 /* Description: BT 模块软复位：
@@ -782,8 +785,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Pos (5UL) // /*!< Position of BT_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_BT_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_BT_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 6: I2C_RSTN */
 /* Description: I2C 模块软复位：
@@ -792,8 +795,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Pos (6UL) // /*!< Position of I2C_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 7: SHRAM0_RSTN */
 /* Description: SHRAM0 模块软复位：
@@ -802,8 +805,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Pos (7UL) // /*!< Position of SHRAM0_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SHRAM0_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 8: AES_RSTN */
 /* Description: AES 模块软复位：
@@ -812,8 +815,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Pos (8UL) // /*!< Position of AES_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_AES_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_AES_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 9: SIM_RSTN */
 /* Description: SIM 模块软复位：
@@ -822,8 +825,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Pos (9UL) // /*!< Position of SIM_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SIM_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Bit 10: SSI2_RSTN */
@@ -833,8 +836,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos (10UL) // /*!< Position of SSI2_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 11: UART2_RSTN */
 /* Description: UART2 模块软复位：
@@ -843,8 +846,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Pos (11UL) // /*!< Position of UART2_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 /* Bit 12: I2S_RSTN */
 /* Description: I2S 模块软复位：
@@ -853,8 +856,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Pos (12UL) // /*!< Position of I2S_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 /* Bit 13: CAN_RSTN */
@@ -864,8 +867,8 @@
 */
 #define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Pos (13UL) // /*!< Position of CAN_RSTN field. */
 #define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Msk (0x1UL << CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Pos) 
-#define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Disable (1UL) /*!< 1：不复位 */
-#define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Enable (0UL) /*!< 0：复位*/
+#define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Disable (RSTN_INVALID) /*!< 1：不复位 */
+#define CPR_RSTCTL_SUBRST_SW_CAN_RSTN_Enable (RSTN_VALID) /*!< 0：复位*/
 
 
 
