@@ -14,7 +14,7 @@
 #if defined(XINC6206_XXAA)
 
 #if !(XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED))
-#error "No enabled SPIM instances. Check <xincx_config.h>."
+#error "No enabled SPIM 0/1 instances. Check <xincx_config.h>."
 #endif //
 
 #elif defined (XINC628_XXAA)
@@ -102,6 +102,7 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     uint32_t    ssi_ctrl_val;
     uint8_t ch = p_instance->id;
     ssi_ctrl_val = p_instance->p_cpr->SSI_CTRL;
+    #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA))&& XINCX_CHECK(XINCX_SPIM0_ENABLED)
     if(ch == 0)
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
@@ -116,7 +117,10 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
         p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
                                         (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch; 
 
-    }else if(ch == 1)
+    }
+    #endif 
+    #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA))&& XINCX_CHECK(XINCX_SPIM1_ENABLED)
+    if(ch == 1)
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos)|
                                                (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
@@ -133,9 +137,10 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
                         (CPR_SSI_CTRL_SSI1_MASTER_EN_Master << CPR_SSI_CTRL_SSI1_MASTER_EN_Pos);
 
     }
-     #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-     else if(ch == 2)
-     {
+    #endif
+    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+    if(ch == 2)
+    {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos)|
                                        (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
  
@@ -149,7 +154,7 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
         ssi_ctrl_val |= (CPR_SSI_CTRL_SSI2_PROTOCOL_SPI << CPR_SSI_CTRL_SSI2_PROTOCOL_Pos);
      
      }
-     #endif
+    #endif
 
 
 
@@ -201,12 +206,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         {
             mosi_pin = p_config->mosi_pin;
 
+            #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
             }
+            #endif
             #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-            else if(p_instance->id == 2UL)
+            if(p_instance->id == 2UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D0);
             }
@@ -230,12 +237,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->miso_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             miso_pin = p_config->miso_pin;
+            #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
             }
+            #endif
             #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-            else if(p_instance->id == 2UL)
+            if(p_instance->id == 2UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D1);
             }
@@ -258,12 +267,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->ss_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             p_cb->ss_active_high = p_config->ss_active_high;
+            #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
             }
+            #endif
             #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-            else if(p_instance->id == 2UL)
+            if(p_instance->id == 2UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_SSN);
             }
@@ -276,12 +287,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         
         if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
         {
+            #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
             }
+            #endif
             #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-            else if(p_instance->id == 2UL)
+            if(p_instance->id == 2UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_CLK);
             }
@@ -404,12 +417,14 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     if (p_cb->handler)
     {
         xinc_spim_int_enable(p_spim,XINC_SPIM_INT_TXEIE_MASK);
+        #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && (XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED))
         if((ch == 0 )||( ch == 1))
         {
             XINCX_IRQ_ENABLE((IRQn_Type)(SPI0_IRQn + ch));
         }
+        #endif
         #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-        else if(ch == 2)
+        if(ch == 2)
         {
             XINCX_IRQ_ENABLE((IRQn_Type)(SSI2_IRQn));
         }	
@@ -432,13 +447,14 @@ void xincx_spim_uninit(xincx_spim_t const * const p_instance)
 
     if (p_cb->handler)
     {      
-        XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->id));
+        #if (defined (XINC6206_XXAA) || defined (XINC628_XXAA)) && (XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED))
         if((p_instance->id == 0 )||( p_instance->id == 1))
         {
             XINCX_IRQ_DISABLE((IRQn_Type)(SPI0_IRQn + p_instance->id));
         }
-        #if defined (XINC628_XXAA) || defined (XINC628_D) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-        else if(p_instance->id == 2)
+        #endif
+        #if defined (XINC628_XXAA)  && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        if(p_instance->id == 2)
         {
             XINCX_IRQ_DISABLE((IRQn_Type)(SSI2_IRQn));
         }	
