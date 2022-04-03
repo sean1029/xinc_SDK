@@ -15,7 +15,6 @@
 //#define XINCX_LOG_MODULE SAADC
 #include <xincx_log.h>
 
-#if !defined(XINCX_SAADC_API_V2)
 
 #define EVT_TO_STR(event)                                                       \
     (event == XINC_SAADC_EVENT_STARTED       ? "XINC_SAADC_EVENT_STARTED"       : \
@@ -554,8 +553,6 @@ void GADC_Handler(void)
 }
 
 
-
-#endif // !defined(XINCX_SAADC_API_V2)
 
 
 #endif // XINCX_CHECK(XINCX_SAADC_ENABLED)

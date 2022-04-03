@@ -549,7 +549,7 @@
 // <e> XINCX_I2C_ENABLED - xincx_i2c - I2C peripheral driver
 //==========================================================
 #ifndef XINCX_I2C_ENABLED
-#define XINCX_I2C_ENABLED 0
+#define XINCX_I2C_ENABLED 1
 #endif
 
 // <q> XINCX_I2C0_ENABLED  - Enable I2C0 instance
@@ -710,9 +710,8 @@
 #define XINCX_RTC1_ENABLED 1
 #endif
 
-
-
 // </e>
+
 
 // <e> XINCX_SAADC_ENABLED - xinc_saadc - SAADC peripheral driver
 //==========================================================
@@ -838,8 +837,135 @@
 // </e>
 
 
-// <e> XINCX_UARTE_ENABLED  - xincx_uarte - UARTE peripheral driver
+// <e> XINCX_AUDIO_ADC_ENABLED - xinc_audio_adc - AUDIO ADC peripheral driver
+//==========================================================
+#ifndef XINCX_AUDIO_ADC_ENABLED
+#define XINCX_AUDIO_ADC_ENABLED 1
+#endif
+
+// <q> XINCX_AUDIO_ADC0_ENABLED  - Enable AUDIO_ADC0 instance
  
+
+#ifndef XINCX_AUDIO_ADC0_ENABLED
+#define XINCX_AUDIO_ADC0_ENABLED 1
+#endif
+
+
+// <o> XINCX_AUDIO_ADC_CONFIG_RESOLUTION  - Resolution
+ 
+// <0=> 8 bit 
+// <1=> 10 bit 
+// <2=> 12 bit 
+// <3=> 14 bit 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_RESOLUTION
+#define XINCX_AUDIO_ADC_CONFIG_RESOLUTION 1
+#endif
+
+// <o> XINCX_CDC_CONFIG_OVERSAMPLE  - Sample period
+ 
+// <0=> Disabled 
+// <1=> 2x 
+// <2=> 4x 
+// <3=> 8x 
+// <4=> 16x 
+// <5=> 32x 
+// <6=> 64x 
+// <7=> 128x 
+// <8=> 256x 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_OVERSAMPLE
+#define XINCX_AUDIO_ADC_CONFIG_OVERSAMPLE 0
+#endif
+
+// <o> XINCX_AUDIO_ADC_CONFIG_FIFO_LEN  - Fifo len
+ 
+// <1=> 1 
+// <2=> 2 
+// <4=> 3 
+// <6=> 4 
+// <8=> 8 
+// <10=> 10 
+// <12=> 12 
+// <14=> 14 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_FIFO_LEN
+#define XINCX_AUDIO_ADC_CONFIG_FIFO_LEN 8
+#endif
+
+
+// <o> XINCX_CDC_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_IRQ_PRIORITY
+#define XINCX_AUDIO_ADC_CONFIG_IRQ_PRIORITY 6
+#endif
+
+
+// <e> XINCX_AUDIO_ADC_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef XINCX_AUDIO_ADC_CONFIG_LOG_ENABLED
+#define XINCX_AUDIO_ADC_CONFIG_LOG_ENABLED 0
+#endif
+// <o> XINCX_CDC_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+#ifndef XINCX_AUDIO_ADC_CONFIG_LOG_LEVEL
+#define XINCX_AUDIO_ADC_CONFIG_LOG_LEVEL 3
+#endif
+
+
+// <o> XINCX_AUDIO_ADC_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_INFO_COLOR
+#define XINCX_AUDIO_ADC_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> XINCX_AUDIO_ADC_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef XINCX_AUDIO_ADC_CONFIG_DEBUG_COLOR
+#define XINCX_AUDIO_ADC_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// </e>
+
+
+// <e> XINCX_UARTE_ENABLED  - xincx_uarte - UARTE peripheral driver
+//==========================================================
 #ifndef XINCX_UARTE_ENABLED
 #define XINCX_UARTE_ENABLED 1
 #endif

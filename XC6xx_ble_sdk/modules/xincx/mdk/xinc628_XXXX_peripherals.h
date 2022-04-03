@@ -138,6 +138,10 @@
 #define GPIOTE_CH_NUM 32
 
 
+
+#define AUDIO_ADC_PRESENT
+#define AUDIO_ADC_COUNT 1
+
 /* Low Power Comparator */
 #define LPCOMP_PRESENT
 #define LPCOMP_COUNT 1

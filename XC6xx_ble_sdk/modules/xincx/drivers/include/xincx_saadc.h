@@ -17,9 +17,7 @@
 extern "C" {
 #endif
 
-#if defined(XINCX_SAADC_API_V2)
-#include "xinc_saadc_v2.h"
-#else
+
 /**
  * @defgroup xinc_saadc SAADC legacy driver
  * @{
@@ -238,9 +236,6 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
 bool xincx_saadc_is_busy(xincx_saadc_t const * const p_instance);
 
 
-
-/** @} */
-#endif // defined(XINCX_SAADC_API_V2)
 
 
 #ifdef __cplusplus

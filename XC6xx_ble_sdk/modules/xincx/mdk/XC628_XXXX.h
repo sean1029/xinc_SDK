@@ -693,7 +693,7 @@ typedef struct {                        /*!< (@ 0x50004000) CDC Structure       
 #define XINC_PWM4                           ((XINC_PWM_Type*)               XINC_PWM4_BASE)
 #define XINC_PWM5                           ((XINC_PWM_Type*)               XINC_PWM5_BASE)
 
-#define XINC_CDC0                           ((XINC_CDC_Type*)               XINC_CDC0_BASE)
+#define XINC_AUDIO_ADC0                     ((XINC_CDC_Type*)               XINC_CDC0_BASE)
 
 #ifdef __cplusplus
 }

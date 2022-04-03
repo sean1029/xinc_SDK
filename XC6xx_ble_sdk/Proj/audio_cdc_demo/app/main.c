@@ -5,6 +5,7 @@
 #include    "profile.h"
 #include    "ble.h"
 #include "hids_device.h"
+#include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
 #include "bsp_timer.h"
@@ -12,11 +13,12 @@
 #include    "bsp_spi_flash.h"
 #include "xinc_gpio.h"
 #include "bsp_uart.h"
-#include "bsp_gpio.h"
+
 #include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
 #include "xinc_drv_saadc.h"
+#include "xinc_drv_audio_adc.h"
 #include "xinc_drv_rtc.h"
 #include "bsp_clk.h"
 #include "xinc_drv_timer.h"
@@ -28,7 +30,6 @@
 #include "bsp.h"
 #include "app_scheduler.h"
 #include "xinc_delay.h"
-#include "xinc_spi_flash.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -301,32 +302,33 @@ static void scheduler_init(void)
  */
 #define S1BUTTON_BUTTON_PIN            BSP_BUTTON_0   
 #define S2BUTTON_BUTTON_PIN            BSP_BUTTON_1   
-#define S3BUTTON_BUTTON_PIN            BSP_BUTTON_2 
 
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 #define SAMPLES_IN_BUFFER 32
 
-#define TEST_FLASH_ADDR   (132* 1024) 
-static	uint8_t w_buf[20];
-static	uint8_t r_buf[20];
+static xinc_drv_saadc_t m_saadc = XINCX_SAADC_INSTANCE(0);
+
+static xinc_drv_audio_adc_t m_audio_adc = XINC_DRV_AUDIO_ADC_INSTANCE(0);
+
+static xinc_saadc_value_t   m_buffer_pool[2][SAMPLES_IN_BUFFER];
+
+xinc_saadc_value_t adc_value;
+
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
     ret_code_t err_code;
 
     switch (pin_no)
     {
-        case S3BUTTON_BUTTON_PIN:
+        case S1BUTTON_BUTTON_PIN:
         {
              //检测按键 S1 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
-                //擦除 falsh sector
-                printf("sector_erase addr:0x%x\r\n",TEST_FLASH_ADDR);
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-                
-             //   spim_flash_sector_erase(TEST_FLASH_ADDR);
- 
+                //启动通道8，芯片内部adc的采样，使用非阻塞方式，在回调函数中得到采样的结果
+                xincx_saadc_sample(&m_saadc,8);  
             }else
             {
                 //熄灭LED 指示灯 D1
@@ -341,50 +343,12 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
              //检测按键 S2 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
-                 printf("write data:\r\n");
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-               
-                for(int i = 0;i < 20;i ++)
-                {
-                    w_buf[i] = 'a' + i;
-                    printf("%c:0x%x ",w_buf[i],w_buf[i]);
-                }printf("\r\n");
-                //向指定地址写入特定长度的数据
-              //  spim_flash_write(TEST_FLASH_ADDR,w_buf,20);
-		
-	
-            }else
-            {
-                //熄灭LED 指示灯 D1
-                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
-            }            
-
-
-        
-        }break;
-        
-        case S1BUTTON_BUTTON_PIN:
-        {
-             //检测按键 S2 是否按下
-            if(button_action == APP_BUTTON_PUSH)
-            {
-                //点亮 LED 指示灯 D2
-                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-              
-                 //向指定地址读特定长度的数据
-             //   spim_flash_read(TEST_FLASH_ADDR,r_buf,20);
-                printf("read_data char[] hex[]:\r\n");
-                for(int i = 0;i < 20;i++)
-                {
-                    printf("%c:0x%x ",r_buf[i],r_buf[i]);
-                    if(i % 16 == 15)
-                    {
-                        printf("\r\n");
-                    }
-                }
-                printf("\r\n");
-	
+                //启动通道8，芯片内部adc的采样，使用阻塞方式,adc_value保存得到的采样结果
+                xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
+                printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
+                adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));		
             }else
             {
                 //熄灭LED 指示灯 D1
@@ -404,7 +368,28 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
     }
 }
 
-void spi_flash_test()
+void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
+{
+    printf("%s\n",__func__);
+    uint32_t val;
+    
+    if (p_event->type == XINC_DRV_SAADC_EVT_DONE)
+    {
+        //非阻塞方式得到的结果
+        val = p_event->data.done.adc_value;
+        printf("1.0v,channel=%d,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
+            p_event->data.done.channel, val,((val)*2.47)/(1.0*1024),   ((val)*2.47)/(1.0*1024));		
+    }
+}	
+
+void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event)
+{
+    printf("%s\n",__func__);
+
+    
+}
+
+void saadc_test()
 {
     ret_code_t err_code;
 
@@ -413,29 +398,42 @@ void spi_flash_test()
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
         {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
-     //   {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
     };
     //初始化 LED,用来指示按键按下状态
     bsp_board_init(BSP_INIT_LEDS);
 
-    //初始化 按键,用来触发执行flash操作
+    //初始化 按键,用来触发adc 采用
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
     
-    printf("app_button_init err_code:%x\n",err_code);
     APP_ERROR_CHECK(err_code);
 
         
-    spim_flash_init();
+
+    xinc_saadc_channel_config_t channel_config =  XINC_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE;
+
+    //初始化saadc，config 设置为NULL，使用default 配置
+    err_code = xinc_drv_saadc_init(&m_saadc,NULL, saadc_callback);
+        
+    APP_ERROR_CHECK(err_code);
+    // 初始化 8 通道，只有初始化通道后，后面才能使用对应的采样函数
+    err_code = xinc_drv_saadc_channel_init(&m_saadc,8, &channel_config);
 
     APP_ERROR_CHECK(err_code);
- 
+
+    //设置采样数据的 buffer
+    err_code = xinc_drv_saadc_buffer_convert(&m_saadc,m_buffer_pool[0], SAMPLES_IN_BUFFER);
+
+    APP_ERROR_CHECK(err_code);
+    
+        //初始化saadc，config 设置为NULL，使用default 配置
+    err_code = xinc_drv_audio_adc_init(&m_audio_adc,NULL, audio_adc_callback,NULL);
 }
 
 
 
 
-#include "xinc_assert.h"
+
 
 int	main(void)
 {
@@ -451,43 +449,7 @@ int	main(void)
     xincx_gpio_init();
 	btstack_main();
     key_init();
-    
-    
-    uint8_t pin_number = 0;
-    uint8_t mux = 0;
-    uint8_t mux_idx; 
-    uint8_t pin_idx; 
-    uint32_t regVal;
-    
-    mux = 0XF;
-    mux_idx = pin_number >> 2UL;
-    pin_idx = pin_number & 0x3UL;
-    regVal = 0xFFFFFFFF;
-//    for(int i = 0;i < 4;i++)
-//    {
-//        pin_number = i;
-//        mux_idx = pin_number >> 2UL;
-//        pin_idx = pin_number & 0x3UL;
-//        regVal = (regVal & ~(0x1f << (pin_idx << 3))) | (mux << (pin_idx << 3));
 
-//        printf("regVal0:%08x\r\n",regVal);
-
-//    }
-    regVal = 0;
-    for(int i = 0;i < 4;i++)
-    {
-        pin_number = i;
-        mux_idx = pin_number >> 2UL;
-        pin_idx = pin_number & 0x3UL;
-         regVal = (regVal  & ~(0xF0000UL) & ~(0xFUL << (pin_idx << 2UL))) | (mux << (pin_idx << 2UL)) | ((0x01UL << pin_idx) << 16UL);
-
-        printf("regVal1:%08x\r\n",regVal);
-
-    }
-    
-   
-    
-    
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -502,7 +464,7 @@ int	main(void)
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
-    spi_flash_test();
+    saadc_test();
 
     while(1) {
 
