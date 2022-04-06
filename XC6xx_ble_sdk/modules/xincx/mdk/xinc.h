@@ -48,8 +48,8 @@
     #include "xinc_620610_bitfields.h"
 
 #elif defined (XC66XX_M4)
-    #include "XC628_XXXX.h"
-    #include "xinc628_XXXX_bitfields.h"
+    #include "XC66_XXXX.h"
+    #include "xinc66_XXXX_bitfields.h"
 
 #else
     #error "Device must be defined. See xinc.h."

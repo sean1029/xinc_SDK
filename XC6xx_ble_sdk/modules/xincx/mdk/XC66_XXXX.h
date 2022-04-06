@@ -11,13 +11,13 @@
   */
 
 
-/** @addtogroup xc628_XX
+/** @addtogroup xc66_XX
   * @{
   */
 
 
-#ifndef XINC628_XX_H
-#define XINC628_XX_H
+#ifndef XINC66_XX_H
+#define XINC66_XX_H
 
 #include <stdint.h>
 #ifdef __cplusplus

@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef _XINC628_A_PERIPHERALS_H
-#define _XINC628_A_PERIPHERALS_H
+#ifndef _XINC66_XXXX_PERIPHERALS_H
+#define _XINC66_XXXX_PERIPHERALS_H
 
 
 /* Clock Peripheral */

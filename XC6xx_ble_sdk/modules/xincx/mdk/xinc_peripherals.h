@@ -15,7 +15,7 @@
 #if defined(XC60XX_M0)
  #include "xinc620610_peripherals.h"
 #elif defined (XC66XX_M4)
-  #include "xinc628_XXXX_peripherals.h"
+  #include "xinc66_XXXX_peripherals.h"
 #else
     #error "Device must be defined. See xinc.h."
 #endif
