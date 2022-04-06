@@ -610,7 +610,31 @@ typedef struct {                        /*!< (@ 0x50004000) CDC Structure       
     __IOM  uint32_t  INT;               /*!< (@ 0x0000002C) 中断清除寄存器                 */
     __IM   uint32_t  INT_RAW;           /*!< (@ 0x00000030) 中断状态寄存器                     */
     __IOM  uint32_t  INT_EN;            /*!< (@ 0x00000034) 中断使能寄存器                     */
-} XINC_CDC_Type;                                                       
+} XINC_CDC_Type;       
+
+/* =========================================================================================================================== */
+/* ================                                            I2S                                            ================ */
+/* =========================================================================================================================== */
+
+
+/**
+  * @brief I2S (I2S)
+  */
+
+typedef struct {                        /*!< (@ 0x40011800) I2S Structure                                */
+    __IOM  uint32_t  TRANS_EN;          /*!< (@ 0x00000000)  I2S使能寄存器                             */
+    __IOM  uint32_t  CONFIG;            /*!< (@ 0x00000004) I2S配置寄存器  */
+    __IOM  uint32_t  CLOCK_GEN;       /*!< (@ 0x00000008) F时钟寄存器                      */
+    __IOM  uint32_t  RXFIFO_DATA;       /*!< (@ 0x0000000C) RX DATA寄存器               */
+    __IOM  uint32_t  TXFIFO_DATA;        /*!< (@ 0x00000010)  TX DATA寄存器                  */
+    __IOM  uint32_t  FIFO_STATUS;       /*!< (@ 0x00000014) FIFO状态寄存器             */
+    __IOM  uint32_t  DMA_CONFIG;           /*!< (@ 0x00000018) DMA控制寄存器                    */
+    __IM   uint32_t  RESERVED;
+    __IOM  uint32_t  INT;               /*!< (@ 0x00000020) 中断清除寄存器                     */
+    __IM   uint32_t  INT_RAW;           /*!< (@ 0x00000024) 中断状态寄存器                     */ 
+    __IM   uint32_t  RESERVED1;
+    __IOM  uint32_t  INT_EN;            /*!< (@ 0x0000002C) 中断使能寄存器                     */
+} XINC_I2S_Type;  
 
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
@@ -648,6 +672,7 @@ typedef struct {                        /*!< (@ 0x50004000) CDC Structure       
 #define	XINC_PWM5_BASE              0x40017840UL
 
 #define	XINC_CDC0_BASE              0x50004000UL
+#define	XINC_I2S0_BASE              0x40011800UL
 
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
@@ -694,6 +719,9 @@ typedef struct {                        /*!< (@ 0x50004000) CDC Structure       
 #define XINC_PWM5                           ((XINC_PWM_Type*)               XINC_PWM5_BASE)
 
 #define XINC_AUDIO_ADC0                     ((XINC_CDC_Type*)               XINC_CDC0_BASE)
+
+#define XINC_I2S0                           ((XINC_I2S_Type*)               XINC_I2S0_BASE)
+
 
 #ifdef __cplusplus
 }

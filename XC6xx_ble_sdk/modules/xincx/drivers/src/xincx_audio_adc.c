@@ -401,7 +401,7 @@ bool xincx_audio_adc_is_busy(xincx_audio_adc_t const * const p_instance)
 
 void AUDIAO_ADC_Handler(void)
 {
-  //  xincx_audio_adc_irq_handler(XINC_AUDIO_ADC0, &m_cb[XINCX_AUDIO_ADC0_INST_IDX]);
+    xincx_audio_adc_irq_handler(XINC_AUDIO_ADC0, &m_cb[XINCX_AUDIO_ADC0_INST_IDX]);
 }
 
 
