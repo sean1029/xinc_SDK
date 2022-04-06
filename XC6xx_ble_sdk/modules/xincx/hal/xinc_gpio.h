@@ -681,12 +681,12 @@ __STATIC_INLINE void xinc_gpio_mux_ctl(uint32_t  pin_number,uint8_t mux)//o
 
     uint32_t regVal;
     
-#if defined(XINC6206_XXAA)
+#if defined(XC60XX_M0)
     XINC_CPR_CTL_Type * preg = xinc_gpio_pin_cpr_decode(&pin_number);
     regVal = preg->CTL_MUXCTL1_2[reg_idx];
     regVal = (regVal & ~(0x03 << (pin_idx << 1))) | (mux << (pin_idx << 1));
     preg->CTL_MUXCTL1_2[reg_idx] = regVal;
-#elif defined (XINC628_XXAA)
+#elif defined (XC66XX_M4)
 
     XINC_CPR_CTL_Type * preg = xinc_gpio_pin_cpr_decode(&pin_number);
     if(reg_idx < 2)
@@ -733,7 +733,7 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
     uint32_t regVal;
        
 
-#if defined(XINC6206_XXAA)
+#if defined(XC60XX_M0)
     XINC_CPR_AO_CTL_Type * preg = xinc_gpio_pin_pull_decode(&pin_number);
 
     reg_idx = pin_number >> 4UL;
@@ -764,7 +764,7 @@ __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t
 	preg->PE_CTRLx[reg_idx] = regVal;
 		 
     
-#elif defined (XINC628_XXAA)
+#elif defined (XC66XX_M4)
 
     XINC_CPR_AO_CTL_Type * preg = xinc_gpio_pin_pull_decode(&pin_number);
 

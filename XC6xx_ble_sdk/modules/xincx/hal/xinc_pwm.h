@@ -48,7 +48,7 @@ enum
 typedef enum
 {
     XINC_PWM_MODE_ACC_100 = PWM_PWM_MODE_ACC_100,      ///< PWM 占空比档位精度
-    #if  defined (XINC628_XXAA)
+    #if  defined (XC66XX_M4)
     XINC_PWM_MODE_ACC_1000  = PWM_PWM_MODE_ACC_1000,
     XINC_PWM_MODE_ACC_4000 = PWM_PWM_MODE_ACC_4000,
     #endif//
@@ -144,7 +144,7 @@ __STATIC_INLINE void xinc_pwm_disable(XINC_PWM_Type * p_reg)
     p_reg->EN &= ~PWM_EN_Msk;
 }
 
-#if  defined (XINC628_XXAA)
+#if  defined (XC66XX_M4)
 __STATIC_INLINE void xinc_pwm_mode(XINC_PWM_Type * p_reg,xinc_pwm_acc_mode_t mode)
 {
     XINCX_ASSERT(mode <= XINC_PWM_MODE_ACC_4000);

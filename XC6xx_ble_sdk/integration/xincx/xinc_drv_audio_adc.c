@@ -6,10 +6,10 @@
  * Author :sean cheng
  *
  */
-
 #include "xinc_drv_audio_adc.h"
 
 #if XINCX_CHECK(XINCX_AUDIO_ADC_ENABLED)
+
 //#include <xinc_delay.h>
 #include <hal/xinc_gpio.h>
 

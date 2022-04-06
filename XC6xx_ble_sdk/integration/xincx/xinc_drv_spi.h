@@ -88,14 +88,14 @@ typedef struct
         
 #if XINCX_CHECK(XINCX_SPIM2_ENABLED) 
         
-#if defined(XINC628_XXAA)
+#if defined(XC66XX_M4)
     #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spim = XINCX_SPIM_INSTANCE(2) }, true }
 #elif XINCX_CHECK(XINCX_SPI2_ENABLED)
     #define XINC_DRV_SPI_INSTANCE_2 \
         { 2, { .spi = XINCX_SPI_INSTANCE(2) }, false }
 #else
-     #error "SPIM2 used only Device XINC628_XXAA Please Disable SPIM2 Instance. See sdk_config.h."
+     #error "SPIM2 used only Device XC66XX_M4 Please Disable SPIM2 Instance. See sdk_config.h."
 #endif
         
 #endif
@@ -160,7 +160,7 @@ typedef struct
                            *   supports only active low for this signal.
                            *   If the signal should be active high,
                            *   it must be controlled externally. */
-#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+#if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
     uint8_t d2_pin;
     uint8_t d3_pin;
 #endif

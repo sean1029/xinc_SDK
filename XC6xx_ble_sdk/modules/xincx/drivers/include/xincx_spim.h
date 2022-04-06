@@ -77,7 +77,7 @@ typedef struct
     uint8_t ss_pin;       ///< Slave Select pin number (optional).
                             /**< Set to @ref XINCX_SPIM_PIN_NOT_USED
                              *   if this signal is not needed. */
-#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+#if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
     uint8_t d2_pin; 
     uint8_t d3_pin;
 #endif
@@ -96,7 +96,7 @@ typedef struct
 
 #define XINCX_SPIM_DEFAULT_EXTENDED_CONFIG
 
-#if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+#if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
 #define NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG         .d2_pin = XINCX_SPIM_PIN_NOT_USED,\
                                                   .d3_pin = XINCX_SPIM_PIN_NOT_USED,
 #else

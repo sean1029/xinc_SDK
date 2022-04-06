@@ -30,7 +30,7 @@ typedef struct
     uint8_t                   flags;
     xinc_pwm_clk_src_t clk_src;          ///< Bit width.
     xinc_pwm_ref_clk_t  ref_clk;   ///< Base clock frequency.
-    #if  defined (XINC628_XXAA)
+    #if  defined (XC66XX_M4)
     xinc_pwm_acc_mode_t mode;
     #endif 
     uint8_t period; //set pwm out freq
@@ -222,7 +222,7 @@ xincx_err_t xincx_pwm_init(xincx_pwm_t const * const p_instance,
         
     p_cb->clk_src = p_config->clk_src;
     p_cb->ref_clk = p_config->ref_clk;
-    #if  defined (XINC628_XXAA)
+    #if  defined (XC66XX_M4)
     xinc_pwm_mode(p_instance->p_reg,p_config->mode);
     p_cb->mode = p_config->mode;
     #endif //
@@ -347,7 +347,7 @@ xincx_err_t xincx_pwm_duty_cycle_update(xincx_pwm_t const * const p_instance,uin
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     
     uint16_t max_duty = PWM_OCPY_MAX_100;    
-    #if  defined (XINC628_XXAA)  
+    #if  defined (XC66XX_M4)  
     switch(p_cb->mode)
     {
         case XINC_PWM_MODE_ACC_100:
@@ -394,7 +394,7 @@ xincx_err_t xincx_pwm_freq_duty_cycl_update(xincx_pwm_t const * const p_instance
     pwm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     
     uint16_t max_duty = PWM_OCPY_MAX_100;
-    #if  defined (XINC628_XXAA)  
+    #if  defined (XC66XX_M4)  
     switch(p_cb->mode)
     {
         case XINC_PWM_MODE_ACC_100:

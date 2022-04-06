@@ -286,7 +286,6 @@ static btstack_timer_source_t sys_run_timer;
 #include "le_device_db.h"
 
 
-
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
 #define SCHED_QUEUE_SIZE                    10                                          //!< Size of the scheduler queue.
 
@@ -324,8 +323,6 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
         
-                 // WDT feed
-                xincx_wdt_feed();
 
             }else
             {

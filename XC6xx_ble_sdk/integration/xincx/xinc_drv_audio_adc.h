@@ -42,7 +42,9 @@ extern "C" {
 typedef struct
 {
     uint8_t inst_idx;
+    #ifdef AUDIO_ADC_PRESENT
     xincx_audio_adc_t audio_adc;
+    #endif
     bool    use_easy_dma;
 } xinc_drv_audio_adc_t;
 

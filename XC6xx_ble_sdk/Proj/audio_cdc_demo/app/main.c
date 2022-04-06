@@ -382,7 +382,9 @@ void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
     }
 }	
 
-void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event)
+void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event,
+                                           void *                    p_context)
+
 {
     printf("%s\n",__func__);
 

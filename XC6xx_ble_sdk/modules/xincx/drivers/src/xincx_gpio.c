@@ -393,7 +393,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,3);
         }
-        #if defined (XINC628_XXAA)
+        #if defined (XC66XX_M4)
         else if((XINC_GPIO_PIN_SSI2_CLK == fun) && (XINC_GPIO_14 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,2);		

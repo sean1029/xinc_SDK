@@ -11,8 +11,8 @@
 #if XINCX_CHECK(XINCX_AUDIO_ADC_ENABLED)
 
 
-#if !defined (XINC628_XXAA)
-#error "AUDIO_ADC only in chip XINC Check <xincx_config.h>."
+#if !defined (XC66XX_M4)
+#error "AUDIO_ADC only in chip XC66XX Check <xincx_config.h>."
 #endif
 
 
