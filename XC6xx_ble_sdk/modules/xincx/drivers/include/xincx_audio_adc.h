@@ -31,6 +31,14 @@ extern "C" {
 /** @brief Value to be set as low limit to disable limit detection. */
 #define XINCX_AUDIO_ADC_LIMITL_DISABLED (-2048)
 
+
+#ifdef AUDIO_ADC_PRESENT
+#define XINCX_AUDIO_ADC_CH_COUNT   AUDIO_ADC_CH_COUNT
+#else
+#define XINCX_AUDIO_ADC_CH_COUNT   1
+#endif
+
+
 /** @brief AUDIO_ADC driver instance data structure. */
 typedef struct
 {
@@ -65,7 +73,6 @@ enum {
 #define XINCX_AUDIO_ADC_DEFAULT_CONFIG                                               \
 {                                                                               \
     .interrupt_priority = XINCX_AUDIO_ADC_CONFIG_IRQ_PRIORITY,                       \
-    .refvol             = (xinc_audio_adc_refvol_t)XINC_AUDIO_ADC_CHANNEL_REFVOL_2_47,      \
     .freq               = (xinc_audio_adc_freq_t)XINC_AUDIO_ADC_FREQ_8M,                    \
     .waite_time         = 4,														\
 }
@@ -88,7 +95,6 @@ enum {
 typedef struct
 {
     uint8_t                interrupt_priority; ///< Interrupt priority.
-    xinc_audio_adc_refvol_t    refvol;  ///< Reference control value.
     xinc_audio_adc_freq_t      freq;     
     uint32_t            waite_time;  
 } xincx_audio_adc_config_t;

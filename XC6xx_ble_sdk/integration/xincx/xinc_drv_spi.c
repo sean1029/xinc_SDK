@@ -58,7 +58,7 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
         config_spim.mosi_pin       = p_config->mosi_pin;
         config_spim.miso_pin       = p_config->miso_pin;
         config_spim.ss_pin         = p_config->ss_pin;
-        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+        #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
         config_spim.d2_pin             = p_config->d2_pin;
         config_spim.d2_pin             = p_config->d3_pin;
         #endif

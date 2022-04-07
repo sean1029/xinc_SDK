@@ -141,6 +141,7 @@
 
 #define AUDIO_ADC_PRESENT
 #define AUDIO_ADC_COUNT 1
+#define AUDIO_ADC_CH_COUNT 1
 
 /* Low Power Comparator */
 #define LPCOMP_PRESENT

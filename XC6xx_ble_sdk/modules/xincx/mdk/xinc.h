@@ -46,11 +46,9 @@
 #if  defined (XC60XX_M0)
     #include "XC620610.h"
     #include "xinc_620610_bitfields.h"
-
 #elif defined (XC66XX_M4)
     #include "XC66_XXXX.h"
-    #include "xinc66_XXXX_bitfields.h"
-
+    #include "xinc66_common_bitfields.h"
 #else
     #error "Device must be defined. See xinc.h."
 #endif /* */

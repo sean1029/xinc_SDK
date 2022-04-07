@@ -210,7 +210,7 @@ void xinc_drv_i2c_uninit(xinc_drv_audio_adc_t const * p_instance)
 __STATIC_INLINE
 void xinc_drv_audio_adc_enable(xinc_drv_audio_adc_t const * p_instance)
 {
-
+    
 }
 
 __STATIC_INLINE

@@ -24,6 +24,8 @@
 
 
 
+
+
 #define EVT_TO_STR(event)                                                       \
     (event == XINC_AUDIO_ADC_EVENT_STARTED       ? "XINC_AUDIO_ADC_EVENT_STARTED"       : \
     (event == XINC_AUDIO_ADC_EVENT_END           ? "XINC_AUDIO_ADC_EVENT_END"           : \
@@ -43,12 +45,7 @@ typedef enum
 
 
 typedef struct  gadc_fifo_struct {
-    unsigned int value_2 : 10;
-    unsigned int chanel_2 : 4;
-    unsigned int  : 2;
-    unsigned int value_1 : 10;
-    unsigned int chanel_1 : 4;
-    unsigned int  : 2;
+    int value_2;
 } xinc_audio_adc_fifo_t;
 
 /** @brief AUDIO_ADC control block.*/
@@ -64,9 +61,9 @@ typedef struct
     uint16_t                      buffer_size_left;              ///< When low power mode is active indicates how many samples left to convert on current buffer.
     xincx_drv_state_t              state;                         ///< Driver initialization state.
     uint8_t                       active_channels;               ///< Number of enabled AUDIO_ADC channels.
-    uint8_t                       channel_state[1];                  ///< Indicates if channel is active.
+    uint8_t                       channel_state[XINCX_AUDIO_ADC_CH_COUNT];                  ///< Indicates if channel is active.
     bool                          conversions_end;               ///
-    xinc_audio_adc_channel_config_t   channel_config[1];
+    xinc_audio_adc_channel_config_t   channel_config[XINCX_AUDIO_ADC_CH_COUNT];
 } xincx_audio_adc_cb_t;
 
 
@@ -106,19 +103,7 @@ static void xincx_audio_adc_irq_handler(XINC_CDC_Type * p_reg,xincx_audio_adc_cb
     for( t = 0; t <  p_cb->channel_config[p_cb->active_channels].adc_fifo_len ; t++)
     {
                    
-        if(tmp->chanel_1 != tmp->chanel_2)
-        {
-            evt.type = XINCX_AUDIO_ADC_EVT_ERROR;      
-        }
-        if(tmp->chanel_1 != p_cb->active_channels)
-        {
-            evt.type = XINCX_AUDIO_ADC_EVT_ERROR;			
-        }
-
-        p_cb->p_buffer[gadc_count] = tmp->value_1;
-        
-        p_cb->p_buffer[gadc_count] = tmp->value_2;
-                    
+             
     }
 
     evt.data.done.p_buffer = (xinc_audio_adc_value_t *)p_cb->p_buffer;
@@ -180,7 +165,7 @@ xincx_err_t xincx_audio_adc_init(xincx_audio_adc_t const * const p_instance,
     xincx_audio_adc_config_set(p_instance,p_config);
 
     return err_code;
-//	
+	
 }
 
 
@@ -200,17 +185,6 @@ void xincx_audio_adc_config_set(xincx_audio_adc_t const * const p_instance,
     uint32_t reg_val;
     XINC_CDC_Type     *p_reg = p_instance->p_reg;
 
-
-
-    if(p_config->refvol ==  XINC_AUDIO_ADC_CHANNEL_REFVOL_2_47)
-    {
-        reg_val = (p_config->freq << 8) | 0x10;
-    }
-    else 
-    {
-        reg_val = (p_config->freq << 8) | 0x12;
-    }
-            
 
 
 }
@@ -246,7 +220,6 @@ xincx_err_t xincx_audio_adc_channel_init(xincx_audio_adc_t const * const p_insta
    
 
 
-    p_cb->channel_config[channel].mode = p_config->mode;
     p_cb->channel_config[channel].adc_fifo_len = p_config->adc_fifo_len;
 
     printf("adc_fifo_len: %d.\r\n",p_cb->channel_config[channel].adc_fifo_len);

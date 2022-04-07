@@ -236,30 +236,32 @@ typedef struct {                                /*!< (@ 0x40011000) UART1 Struct
 
 
 typedef struct {                                /*!< (@ 0x40014000) SPIM1_NS Structure                                         */
-    __IOM  uint32_t  CTRL0;
-    __IOM  uint32_t  CTRL1;
-    __IOM  uint32_t  EN;
+    __IOM  uint32_t  CTRL0;                     /*!< (@ 0x00000000)                 */
+    __IOM  uint32_t  CTRL1;                     /*!< (@ 0x00000004)                 */
+    __IOM  uint32_t  EN;                        /*!< (@ 0x00000008)                 */
     __IM   uint32_t  RESERVED0;
-    __IOM  uint32_t  SE;
-    __IOM  uint32_t  BAUD;
-    __IOM  uint32_t  TXFLT;
-    __IOM  uint32_t  RXFLT;
-    __IM   uint32_t  TXFL;
-    __IM   uint32_t  RXFL;
-    __IM   uint32_t  STS;
-    __IOM  uint32_t  IE;
-    __IM   uint32_t  IS;
-    __IM   uint32_t  RIS;
-    __IM   uint32_t  TXOIC;
-    __IM   uint32_t  RXOIC;
-    __IM   uint32_t  RXUIC;
+    __IOM  uint32_t  SE;                        /*!< (@ 0x00000010)                 */
+    __IOM  uint32_t  BAUD;                      /*!< (@ 0x00000014)                 */
+    __IOM  uint32_t  TXFLT;                     /*!< (@ 0x00000018)                 */
+    __IOM  uint32_t  RXFLT;                     /*!< (@ 0x0000001C)                 */
+    __IM   uint32_t  TXFL;                      /*!< (@ 0x00000020)                 */
+    __IM   uint32_t  RXFL;                      /*!< (@ 0x00000024)                 */
+    __IM   uint32_t  STS;                       /*!< (@ 0x00000028)                 */
+    __IOM  uint32_t  IE;                        /*!< (@ 0x0000002C)                 */
+    __IM   uint32_t  IS;                        /*!< (@ 0x00000030)                 */
+    __IM   uint32_t  RIS;                       /*!< (@ 0x00000034)                 */
+    __IM   uint32_t  TXOIC;                     /*!< (@ 0x00000038)                 */
+    __IM   uint32_t  RXOIC;                     /*!< (@ 0x0000003C)                 */
+    __IM   uint32_t  RXUIC;                     /*!< (@ 0x00000040)                 */
     __IM   uint32_t  RESERVED1;
-    __IM   uint32_t  IC;
-    __IOM  uint32_t DMAS;
-    __IOM  uint32_t DMATDL;
-    __IOM  uint32_t DMARDL;
+    __IM   uint32_t  IC;                        /*!< (@ 0x00000048)                 */
+    __IOM  uint32_t  DMAS;                      /*!< (@ 0x0000004C)                 */
+    __IOM  uint32_t  DMATDL;                    /*!< (@ 0x00000050)                 */
+    __IOM  uint32_t  DMARDL;                    /*!< (@ 0x00000054)                 */
     __IM   uint32_t  RESERVED2[2];
-    __IOM  uint32_t DATA;
+    __IOM  uint32_t  DATA;                      /*!< (@ 0x00000060)                 */
+    __IM   uint32_t  RESERVED3[36];
+    __IOM  uint32_t  SSI2_SPI_CTRLR0;           /*!< (@ 0x000000F4)                 */
 } XINC_SPIM_Type;          
 
 
@@ -522,41 +524,56 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
 } XINC_CPR_CTL_Type; 
 
 typedef struct {                                /*!< (@ 0x40002400) CPR AO Structure       */    
-    __IM  uint32_t  RESERVED00[1]; 
+    __IM  uint32_t  RESERVED00; 
     __IOM uint32_t  SLP_CTL;  /*!< (@ 0x00000004) 睡眠控制寄存器     */
     __IOM uint32_t  SLPCTL_INT_MASK;  /*!< (@ 0x00000008) 睡眠唤醒 M0 中断屏蔽寄存器     */
     __IOM uint32_t  SLP_PD_MASK;  /*!< (@ 0x0000000C) 睡眠断电屏蔽寄存器     */
 
     __IOM uint32_t  MCLK_DIV_CLK_CTL;  /*!< (@ 0x00000010) MCLK_DIV_CLK(32K)分频控制寄存器     */
     __IOM uint32_t  RFPMU_SPI_CTL;  /*!< (@ 0x00000014) SPI 控制寄存器     */
-    __IM  uint32_t  RESERVED01[1]; 
+    __IM  uint32_t  RESERVED01; 
     __IOM uint32_t  SYS_TIME;  /*!< (@ 0x0000001C) SPI 控制寄存器     */
 
-    __IM  uint32_t  RESERVED02[5]; 
+    __IM  uint32_t  RESERVED02[4]; /*!< (@ 0x00000020) */
+
+    __IOM  uint32_t RF_AON_REG;   /*!< (@ 0x00000030) */
     __IOM uint32_t  PE_CTRLx[2];  /*!< (@ 0x00000034) CPR AO  GPIO PE Ctrl1..2 */
-  
-    __IM  uint32_t  RESERVED03[16]; 
+    __IM  uint32_t  RESERVED04;
+
+    __IM  uint32_t  RESERVED05[4]; /*!< (@ 0x00000040) */
+
+
+    __IM  uint32_t  RESERVED03[1]; /*!< (@ 0x00000040) */
+    __IOM uint32_t  DCDC_CTRL[2];  /*!< (@ 0x00000054) CPR AO  DCDC CTRL */
+    __IOM uint32_t  AUDIO_ADC_CTRL[1];/*!< (@ 0x0000005C) */
+
+
+    __IM  uint32_t  RESERVED06[7];  /*!< (@ 0x00000050) */
     __IOM uint32_t  AOCLKEN_GRCTL;  /*!< (@ 0x0000007C) AO 域时钟使能寄存器     */
 
-    __IM  uint32_t  RESERVED04[51]; 
+    __IM  uint32_t  RESERVED07[51]; 
     __IOM uint32_t  CTL_CLK32K;  /*!< (@ 0x0000014C) 32K 时钟配置寄存器     */
 
-    __IM  uint32_t  RESERVED05[1]; 
-    __IOM uint32_t  AO_REG0;  /*!< (@ 0x00000154) AO 通用器 0     */
-    __IOM uint32_t  AO_REG1;  /*!< (@ 0x00000158) AO 通用器 0     */
+    __IM  uint32_t  RESERVED08[1]; 
+    __IOM uint32_t  ALWAYS_ON_REG0;  /*!< (@ 0x00000154) AO 通用器 0     */
+    __IOM uint32_t  ALWAYS_ON_REG1;  /*!< (@ 0x00000158) AO 通用器 1     */
     __IOM uint32_t  AO_CTRL;  /*!< (@ 0x0000015C) AO 控制寄存器     */
+
+    __IOM uint32_t  ALWAYS_ON_REG2;  /*!< (@ 0x00000160) AO 通用器 2     */
+    __IM  uint32_t  RESERVED09[2]; 
+    __IOM uint32_t  ALWAYS_ON_REG3;  /*!< (@ 0x00000160) AO 通用器 2     */
 
 }XINC_CPR_AO_CTL_Type;
 
 
 
 /* =========================================================================================================================== */
-/* ================                                           PWM0                                            ================ */
+/* ================                                           PWM                                            ================ */
 /* =========================================================================================================================== */
 
 
 /**
-  * @brief Pulse width modulation unit 0 (PWM0)
+  * @brief Pulse width modulation unit (PWM)
   */
 
 typedef struct {                            /*!< (@ 0x40017000UL) PWM Structure                     */
@@ -567,7 +584,7 @@ typedef struct {                            /*!< (@ 0x40017000UL) PWM Structure 
     __IOM  uint32_t  OCPY;                  /*!< (@ 0x00000010) PWM OCPY Register                   */
     __IM   uint32_t  RESERVED[2];
     __IOM  uint32_t  PWMCOMPEN;             /*!< (@ 0x0000001C) PWM  COMP EN Register               */
-    __IOM  uint32_t  PWMCOMPTIME;           /*!< (@ 0x00000018) PWM OCPYCOMP TIME Register          */
+    __IOM  uint32_t  PWMCOMPTIME;           /*!< (@ 0x00000020) PWM OCPYCOMP TIME Register          */
 } XINC_PWM_Type;                            /*!< Size =  ()                                         */
 
 

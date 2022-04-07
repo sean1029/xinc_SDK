@@ -28,7 +28,7 @@ typedef enum
     DMAS_CH_SEND_UART1 = 1UL,
     DMAS_CH_SEND_SSI0 = 2UL,
     DMAS_CH_SEND_SSI1 = 3UL,
-    #if defined (XINC628_XXAA) 
+    #if defined (XC66XX_M4) 
     DMAS_CH_SEND_SSI2 = 4UL,
     DMAS_CH_SEND_I2S = 5UL,
     #endif
@@ -37,7 +37,7 @@ typedef enum
     DMAS_CH_RCV_SSI0 = 10UL,
     DMAS_CH_RCV_SSI1 = 11UL,
     DMAS_CH_RCV_GPADC = 12UL,
-    #if defined (XINC628_XXAA) 
+    #if defined (XC66XX_M4) 
     DMAS_CH_RCV_AUDIO_ADC = 13UL,
     DMAS_CH_RCV_SSI2 = 14UL,
     DMAS_CH_RCV_I2S = 15UL,

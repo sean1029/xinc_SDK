@@ -12,7 +12,7 @@
 
 #if defined(XINC51)
    
-#elif defined(XINC6206_XXAA)
+#elif defined(XC60XX_M0)
     #include <soc/xincx_irqs_xinc6206.h>
 #else
     #error "Unknown device."

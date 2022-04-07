@@ -39,24 +39,12 @@ typedef enum
 	XINC_AUDIO_ADC_FREQ_500K=16,
 } xinc_audio_adc_freq_t;
 
-typedef enum
-{	
-	XINC_AUDIO_ADC_CHANNEL_REFVOL_2_47=0,
-	XINC_AUDIO_ADC_CHANNEL_REFVOL_3_3=1,
-} xinc_audio_adc_refvol_t;
 
 
 
 
 #define XINC_AUDIO_ADC_GPADC_MAIN_CTL_ALL_CLOSE     AUDIO_ADC_GPADC_MAIN_CTL_ALL_CLOSE
 
-
-/** @brief Analog-to-digital converter channel mode. */
-typedef enum
-{
-    XINC_AUDIO_ADC_MODE_SINGLE_ENDED = 0,  ///< Single-ended mode. PSELN will be ignored, negative input to ADC shorted to GND.
-    XINC_AUDIO_ADC_MODE_DIFFERENTIAL = 1 ///< Differential mode.
-} xinc_audio_adc_mode_t;
 
 
 /** @brief Analog-to-digital converter value limit type. */
@@ -70,11 +58,22 @@ typedef enum
 typedef int32_t xinc_audio_adc_value_t;
 
 
+typedef	union		cdc_ana_reg0 {
+        uint8_t     REG00;
+        struct      bit0 {
+            uint8_t     adc_d_vol  :6;     
+            uint8_t     hpf_en  :1;
+            uint8_t     hpf_bypass  :1;
+        }bits;
+}cdc_ana_reg00_t;
+
+
 /** @brief Analog-to-digital converter channel configuration structure. */
 typedef struct
 {     
-    xinc_audio_adc_mode_t      mode;///< AUDIO_ADC mode. Single-ended or differential.
     uint8_t        	      adc_fifo_len; 
+    cdc_ana_reg00_t       reg0;
+    uint8_t        	      reg1; 
 } xinc_audio_adc_channel_config_t;
 
 
@@ -97,63 +96,11 @@ __STATIC_INLINE void xinc_audio_adc_channel_init(uint8_t                        
                                             xinc_audio_adc_channel_config_t const * const config)
 {
     uint8_t cfg_ch;
-    if(config->mode == XINC_AUDIO_ADC_MODE_SINGLE_ENDED)
-    {
+    
         
-        switch(channel)
-        {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            {
-                cfg_ch = 21 - channel;
-                xinc_gpio_mux_ctl(cfg_ch,0);
-                xinc_gpio_fun_sel(cfg_ch,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(cfg_ch,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(cfg_ch,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(cfg_ch,XINC_GPIO_PIN_PULLUP);
-            }break;
-            
-            
-            case 4:
-            {
-                xinc_gpio_mux_ctl(0,0);
-                xinc_gpio_fun_sel(0,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(0,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(0,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(0,XINC_GPIO_PIN_PULLUP);
-            }break;
-            case 5:
-            {
-                xinc_gpio_mux_ctl(1,0);
-                xinc_gpio_fun_sel(1,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(1,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(1,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(1,XINC_GPIO_PIN_PULLUP);
-
-            }break;
-            case 6:
-            {	
-                xinc_gpio_mux_ctl(4,0);
-                xinc_gpio_fun_sel(4,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(4,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(4,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(4,XINC_GPIO_PIN_PULLUP);
-            }break;
-            
-            case 7:
-            {
-                xinc_gpio_mux_ctl(5,0);
-                xinc_gpio_fun_sel(5,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(5,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(5,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(5,XINC_GPIO_PIN_PULLUP);
-            }break;
-            default:break;
-        }
-    }else
-    {
+        
+           
+    
         switch(channel)
         {
             case 0:
@@ -171,55 +118,12 @@ __STATIC_INLINE void xinc_audio_adc_channel_init(uint8_t                        
                 xinc_gpio_pin_dir_set(21,XINC_GPIO_PIN_DIR_INPUT);
                 xinc_gpio_pull_sel(21,XINC_GPIO_PIN_PULLUP);
             }break;
-            case 2:
-            case 3:
-            {
-                xinc_gpio_mux_ctl(18,0);
-                xinc_gpio_fun_sel(18,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(18,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(18,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(18,XINC_GPIO_PIN_PULLUP);
 
-                xinc_gpio_mux_ctl(19,0);
-                xinc_gpio_fun_sel(19,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(19,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(19,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(19,XINC_GPIO_PIN_PULLUP);
-            }break;
-            case 4:
-            case 5:
-            {
-                xinc_gpio_mux_ctl(0,0);
-                xinc_gpio_fun_sel(0,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(0,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(0,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(0,XINC_GPIO_PIN_PULLUP);
 
-                xinc_gpio_mux_ctl(1,0);
-                xinc_gpio_fun_sel(1,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(1,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(1,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(1,XINC_GPIO_PIN_PULLUP);
-            }break;
-            case 6:
-            case 7:
-            {	
-                xinc_gpio_mux_ctl(4,0);
-                xinc_gpio_fun_sel(4,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(4,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(4,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(4,XINC_GPIO_PIN_PULLUP);
-
-                xinc_gpio_mux_ctl(5,0);
-                xinc_gpio_fun_sel(5,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(5,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(5,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(5,XINC_GPIO_PIN_PULLUP);
-            }break;
             default:break;
     
         }
-    }
+    
 }
 
 

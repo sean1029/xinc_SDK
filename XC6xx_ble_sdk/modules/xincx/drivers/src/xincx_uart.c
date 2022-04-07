@@ -11,17 +11,17 @@
 #include <xincx_config.h>
 #if XINCX_CHECK(XINCX_UART_ENABLED)
 
-#if defined(XINC6206_XXAA)
+#if defined(XC60XX_M0)
 
 #if !XINCX_CHECK(XINCX_UART0_ENABLED) && !XINCX_CHECK(XINCX_UART1_ENABLED)
 #error "No enabled UART instances. Check <xincx_config.h>."
 #endif
 
 #if XINCX_CHECK(XINCX_UART2_ENABLED)
-#error "CHIP XINC6206_XXAA Not has UART2. Check <xincx_config.h>."
+#error "CHIP XC60XX_M0 Not has UART2. Check <xincx_config.h>."
 #endif
 
-#elif defined (XINC628_XXAA)
+#elif defined (XC66XX_M4)
 #if !XINCX_CHECK(XINCX_UART0_ENABLED) && !XINCX_CHECK(XINCX_UART1_ENABLED) && !XINCX_CHECK(XINCX_UART2_ENABLED)
 #error "No enabled UART instances. Check <xincx_config.h>."
 #endif
@@ -94,7 +94,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
                 return err_code;
             }
         }
-        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+        #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
         else if(p_instance->id == 2UL)
         {
             err_code = xinc_gpio_secfun_config(p_config->pseltxd, XINC_GPIO_PIN_UART2_TX);
@@ -125,7 +125,7 @@ static xincx_err_t apply_config(xincx_uart_t        const * p_instance,
                 return err_code;
             }
         }
-        #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+        #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
         else if(p_instance->id == 2UL)
         {
             err_code = xinc_gpio_secfun_config(p_config->pselrxd, XINC_GPIO_PIN_UART2_RX);
@@ -237,13 +237,13 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
                               uint8_t             interrupt_priority)
 {
     printf("%s\r\n",__func__);
-    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+    #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
     if((p_instance->id == 0UL) || (p_instance->id == 1UL))
     {
         XINCX_IRQ_ENABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
     }
     #endif
-    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+    #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
     if(p_instance->id == 2UL)
     {
         XINCX_IRQ_ENABLE((IRQn_Type)(UART2_IRQn));
@@ -261,7 +261,7 @@ static void interrupts_disable(xincx_uart_t const * p_instance)
         XINCX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
     } 
     #endif
-    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+    #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
     if(p_instance->id == 2UL)
     {
         XINCX_IRQ_DISABLE((IRQn_Type)(UART2_IRQn));
@@ -331,7 +331,7 @@ static void xincx_uart_clk_init(xincx_uart_t const * const  p_instance,
     }
     #endif
     
-    #if defined (XINC628_XXAA) && XINCX_CHECK(XINCX_UART2_ENABLED)
+    #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
     if(p_instance->id == 2UL)
     {
         p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Pos)|

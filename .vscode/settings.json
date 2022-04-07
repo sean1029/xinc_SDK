@@ -8,6 +8,8 @@
         "bsp_spi_flash.h": "c",
         "platform.h": "c",
         "bsp_gpio.h": "c",
-        "xinc628_xxxx_peripherals.h": "c"
+        "xinc628_xxxx_peripherals.h": "c",
+        "xincx_audio_adc.h": "c",
+        "xinc_audio_adc.h": "c"
     }
 }
