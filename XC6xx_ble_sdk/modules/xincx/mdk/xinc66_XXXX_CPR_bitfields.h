@@ -216,6 +216,7 @@
 
 
 /* Register: CPR_TIMER_CLK_CTL */
+/* Offset: 0x54 -0x64 */
 /* Description :TIMER_CLK 时 钟 控 制 寄 存 器
 */
 
@@ -253,6 +254,7 @@
 
 
 /* Register: CPR_PWM_CLK_CTL */
+/* Offset: 0x68 */
 /* Description :PWM_CLK 时 钟 控 制 寄 存 器
 */
 
@@ -299,6 +301,7 @@
 
 
 /* Register: CPR_AHBCLKEN_GRCTL */
+/* Offset: 0x6c */
 /* Description:AHB 总线时钟使能寄存器 
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_AHBCLKEN_GRCTL_MASK_OFFSET (16UL)
@@ -524,6 +527,7 @@
 
 
 /* Register: CPR_OTHERCLKEN_GRCTL */
+/* Offset: 0x74 */
 /* Description :CTL_APB 总 线 时 钟 使 能 寄 存 器 
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_OTHERCLKEN_GRCTL_MASK_OFFSET (16UL)
@@ -560,6 +564,7 @@
 #define CPR_OTHERCLKEN_GRCTL_KBS_CLK_EN_Enable (1UL) /*!< 1：使能时钟*/
 
 /* Register: CPR_I2C_CLK_CTL */
+/* Offset: 0x78 */
 /* Description :I2C_CLK 时钟控制寄存器
  * Offset : 0x     
     BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
@@ -590,6 +595,7 @@
 
 
 /* Register: CPR_RSTCTL_CTLAPB_SW */
+/* Offset: 0x100 */
 /* Description :CTLAPB 模 块 软 复 位 寄 存 器
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET (16UL)
@@ -720,6 +726,7 @@
 
 
 /* Register: CPR_RSTCTL_SUBRST_SW */
+/* Offset: 0x104 */
 /* Description :SUB 模块软复位寄存器
     高 16BITS 写屏蔽低 16BITS*/
 #define CPR_RSTCTL_SUBRST_SW_MASK_OFFSET (16UL)
@@ -871,6 +878,7 @@
 
 
 /* Register: CPR_RSTCTL_WDTRST_MASK */
+/* Offset: 0x114 */
 /* Description :CTLAPB 模 块 软 复 位 寄 存 器
 */
 
@@ -897,6 +905,7 @@
 
 
 /* Register: CPR_LP_CTL */
+/* Offset: 0x118 */
 /* Description :低功耗使能寄存器
 */
 
@@ -970,6 +979,166 @@
 #define CPR_SSI_CTRL_SSI1_MASTER_EN_Slave (0UL) /*!< 0：Slave */
 #define CPR_SSI_CTRL_SSI1_MASTER_EN_Master (1UL) /*!< 1：Master*/
 
+
+/* Register: CPR_M4_NEW_REG1 */
+/* Offse: 0x1B4 */
+/* Description :USB AUDIO 2.4G 相关控制寄存器
+*/
+
+/* Bit 0..3: USB_MCLK_DIV */
+/* Description: usb mclk分频比
+分频值=寄存器值+1
+*/
+#define CPR_OTHER_CLK_USB_MCLK_DIV_Pos (0UL) // /*!< Position of USB_MCLK_DIV field. */
+#define CPR_OTHER_CLK_USB_MCLK_DIV_Msk (0xFUL << CPR_OTHER_CLK_USB_MCLK_DIV_Pos) 
+
+/* Bit 4..7: RF24G_MCLK_DIV */
+/* Description: RF24G mclk分频比
+分频值=寄存器值+1
+*/
+#define CPR_OTHER_CLK_RF24G_MCLK_DIV_Pos (4UL) // /*!< Position of RF24G_MCLK_DIV field. */
+#define CPR_OTHER_CLK_RF24G_MCLK_DIV_Msk (0xFUL << CPR_OTHER_CLK_RF24G_MCLK_DIV_Pos) 
+
+/* Bit 8..11: CDC_MCLK_GR */
+/* Description: audio ADC mclk一级分频
+*/
+#define CPR_OTHER_CLK_CDC_MCLK_GR_Pos (8UL) // /*!< Position of CDC_MCLK_GR field. */
+#define CPR_OTHER_CLK_CDC_MCLK_GR_Msk (0xFUL << CPR_OTHER_CLK_CDC_MCLK_GR_Pos) 
+
+/* Bit 12: USB_HCLK_EN */
+/* Description: usb hclk使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_USB_HCLK_EN_Pos (12UL) // /*!< Position of USB_HCLK_EN field. */
+#define CPR_OTHER_CLK_USB_HCLK_EN_Msk (0x1UL << CPR_OTHER_CLK_USB_HCLK_EN_Pos) 
+#define CPR_OTHER_CLK_USB_HCLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_USB_HCLK_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 13: USB_MCLK_EN */
+/* Description: usb mclk使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_USB_MCLK_EN_Pos (13UL) // /*!< Position of USB_MCLK_EN field. */
+#define CPR_OTHER_CLK_USB_MCLK_EN_Msk (0x1UL << CPR_OTHER_CLK_USB_MCLK_EN_Pos) 
+#define CPR_OTHER_CLK_USB_MCLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_USB_MCLK_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 14: RF24G_HCLK_EN */
+/* Description: RF24G hclk使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_RF24G_HCLK_EN_Pos (14UL) // /*!< Position of RF24G_HCLK_EN field. */
+#define CPR_OTHER_CLK_RF24G_HCLK_EN_Msk (0x1UL << CPR_OTHER_CLK_RF24G_HCLK_EN_Pos) 
+#define CPR_OTHER_CLK_RF24G_HCLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_RF24G_HCLK_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 15: RF24G_MCLK_EN */
+/* Description: RF24G mclk使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_RF24G_MCLK_EN_Pos (15UL) // /*!< Position of RF24G_MCLK_EN field. */
+#define CPR_OTHER_CLK_RF24G_MCLK_EN_Msk (0x1UL << CPR_OTHER_CLK_RF24G_MCLK_EN_Pos) 
+#define CPR_OTHER_CLK_RF24G_MCLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_RF24G_MCLK_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 16: CDC_HCLK_EN */
+/* Description: CDC hclk使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_CDC_HCLK_EN_Pos (16UL) // /*!< Position of CDC_HCLK_EN field. */
+#define CPR_OTHER_CLK_CDC_HCLK_EN_Msk (0x1UL << CPR_OTHER_CLK_CDC_HCLK_EN_Pos) 
+#define CPR_OTHER_CLK_CDC_HCLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_CDC_HCLK_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 17: CDC_MCLK_GR_UPD */
+/* Description:  audio ADC分频寄存器更新，写1自清0
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_CDC_MCLK_GR_UPD_Pos (17UL) // /*!< Position of CDC_MCLK_GR_UPD field. */
+#define CPR_OTHER_CLK_CDC_MCLK_GR_UPD_Msk (0x1UL << CPR_OTHER_CLK_CDC_MCLK_GR_UPD_Pos) 
+#define CPR_OTHER_CLK_CDC_MCLK_GR_UPD_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_CDC_MCLK_GR_UPD_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 20: USB_RSTN_REG */
+/* Description:  usb软复位，0：复位有效
+ * 1：Invalid
+ * 0：valid
+*/
+#define CPR_OTHER_CLK_USB_RSTN_REG_Pos (17UL) // /*!< Position of USB_RSTN_REG field. */
+#define CPR_OTHER_CLK_USB_RSTN_REG_Msk (0x1UL << CPR_OTHER_CLK_USB_RSTN_REG_Pos) 
+#define CPR_OTHER_CLK_USB_RSTN_REG_Disable (RSTN_INVALID) /*!< 1：不使能 */
+#define CPR_OTHER_CLK_USB_RSTN_REG_Enable (RSTN_VALID) /*!< 0：使能*/
+
+
+/* Bit 21: RF24G_RSTN_REG */
+/* Description:  RF24G软复位，0：复位有效
+ * 1：Invalid
+ * 0：valid
+*/
+#define CPR_OTHER_CLK_RF24G_RSTN_REG_Pos (21UL) // /*!< Position of RF24G_RSTN_REG field. */
+#define CPR_OTHER_CLK_RF24G_RSTN_REG_Msk (0x1UL << CPR_OTHER_CLK_RF24G_RSTN_REG_Pos) 
+#define CPR_OTHER_CLK_RF24G_RSTN_REG_Disable (RSTN_INVALID) /*!< 1：不使能 */
+#define CPR_OTHER_CLK_RF24G_RSTN_REG_Enable (RSTN_VALID) /*!< 0：使能*/
+
+/* Bit 22: CDC_RSTN_REG */
+/* Description:  CDC 软复位，0：复位有效
+ * 1：Invalid
+ * 0：valid
+*/
+#define CPR_OTHER_CLK_CDC_RSTN_REG_Pos (22UL) // /*!< Position of CDC_RSTN_REG field. */
+#define CPR_OTHER_CLK_CDC_RSTN_REG_Msk (0x1UL << CPR_OTHER_CLK_CDC_RSTN_REG_Pos) 
+#define CPR_OTHER_CLK_CDC_RSTN_REG_Disable (RSTN_INVALID) /*!< 1：不使能 */
+#define CPR_OTHER_CLK_CDC_RSTN_REG_Enable (RSTN_VALID) /*!< 0：使能*/
+
+/* Bit 23: CDC_CLK_INV_EN */
+/* Description:  audio ADC模拟时钟反向：1：反向
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_CDC_CLK_INV_EN_Pos (23UL) // /*!< Position of CDC_CLK_INV_EN field. */
+#define CPR_OTHER_CLK_CDC_CLK_INV_EN_Msk (0x1UL << CPR_OTHER_CLK_CDC_CLK_INV_EN_Pos) 
+#define CPR_OTHER_CLK_CDC_CLK_INV_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_CDC_CLK_INV_EN_Enable (1UL) /*!< 1：使能*/
+
+/* Bit 24..27: USB_UTMI_CLK_DIV */
+/* Description:  usb的utmi时钟分频比，分频值=寄存器值+1
+*/
+#define CPR_OTHER_CLK_USB_UTMI_CLK_DIV_Pos (24UL) // /*!< Position of CDC_CLK_INV_EN field. */
+#define CPR_OTHER_CLK_USB_UTMI_CLK_DIV_Msk (0xFUL << CPR_OTHER_CLK_USB_UTMI_CLK_DIV_Pos) 
+
+/* Bit 28: USB_UTMI_CLK_EN */
+/* Description:  usb的utmi时钟时钟，1使能
+ * 0：Disable
+ * 1：Enable
+*/
+#define CPR_OTHER_CLK_USB_UTMI_CLK_EN_Pos (28UL) // /*!< Position of USB_UTMI_CLK_EN field. */
+#define CPR_OTHER_CLK_USB_UTMI_CLK_EN_Msk (0x1UL << CPR_OTHER_CLK_USB_UTMI_CLK_EN_Pos) 
+#define CPR_OTHER_CLK_USB_UTMI_CLK_EN_Disable (0UL) /*!< 0：不使能 */
+#define CPR_OTHER_CLK_USB_UTMI_CLK_EN_Enable (1UL) /*!< 1：使能*/
+
+
+/* Register: CPR_M4_NEW_REG2 */
+/* Offse: 0x1B8 */
+/* Description :AUDIO  CLK 相关控制寄存器
+*/
+
+/* Bit 0..15: CDC_MCLK_DIV */
+/* Description: audio ADC小数分频DIV值
+*/
+#define CPR_OTHER_CLK_CDC_MCLK_DIV_Pos (0UL) // /*!< Position of CPR_OTHER_CLK_CDC_MCLK_DIV_Pos field. */
+#define CPR_OTHER_CLK_CDC_MCLK_DIV_Msk (0xFFFFUL << CPR_OTHER_CLK_CDC_MCLK_DIV_Pos) 
+
+/* Bit 16..31: CDC_MCLK_MUL */
+/* Description: audio ADC小数分频MUL值
+*/
+#define CPR_OTHER_CLK_CDC_MCLK_MUL_Pos (16UL) // /*!< Position of CDC_MCLK_MUL field. */
+#define CPR_OTHER_CLK_CDC_MCLK_MUL_Msk (0xFFFFUL << CPR_OTHER_CLK_CDC_MCLK_MUL_Pos) 
 
 
 

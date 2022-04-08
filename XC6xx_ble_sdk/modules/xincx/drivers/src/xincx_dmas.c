@@ -101,7 +101,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
         case 0: 
         case 1: 
         case 2: 
-        case 3:         
+        case 3: 
+    #if defined (XC66XX_M4) 
+        case 4:
+        case 5:
+    #endif            
         {
             ch_idx = set.ch - 0;
             p_dma_ch_sar_base = (uint32_t*)&p_reg->DMAs_CH0_SAR;
@@ -126,6 +130,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
         case 10:
         case 11:
         case 12:
+    #if defined (XC66XX_M4) 
+        case 13:
+        case 14:
+        case 15:
+    #endif  
         {
             uint8_t ch_idx = set.ch - 8;
             p_dma_ch_sar_base = (uint32_t*)&p_reg->DMAs_CH8_SAR;
@@ -136,7 +145,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
             p_dma_ch_dar_base += (ch_idx * 8);
             p_dma_ch_ctl0_base += (ch_idx * 8);
             p_dma_ch_ctl1_base += (ch_idx * 8);
-                        
+            
+            if(!xincx_is_word_aligned((void const *)set.dst_addr))
+            {
+                err_code = XINCX_ERROR_INVALID_ADDR;
+            }
             *p_dma_ch_sar_base = set.src_addr;
             *p_dma_ch_dar_base = set.dst_addr;
             *p_dma_ch_ctl1_base = set.ctl1;

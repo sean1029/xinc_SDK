@@ -13,6 +13,7 @@
 #include <xincx.h>
 #ifdef AUDIO_ADC_PRESENT
     #include <xincx_audio_adc.h>
+    #include "xinc_gpio.h"
 #else
     // Compilers (at least the smart ones) will remove the I2CM related code
     // (blocks starting with "if (XINC_DRV_I2C_USE_I2CM)") when it is not used,
@@ -51,7 +52,7 @@ typedef struct
 /** @brief Type definition for forwarding the new implementation. */
 //typedef xincx_audio_adc_t        xinc_drv_audio_adc_t;
 ///** @brief Type definition for forwarding the new implementation. */
-//typedef xincx_saadc_config_t xinc_drv_saadc_config_t;
+typedef xincx_audio_adc_config_t    xinc_drv_audio_adc_config_t;
 
 /**
  * @brief Macro for creating a audio adc driver instance.
@@ -64,72 +65,43 @@ typedef struct
 #endif
 
 /**
- * @brief I2C master clock frequency.
+ * @brief Audio ADC clock frequency.
  */
-typedef enum
-{
-    XINC_DRV_I2C_FREQ_100K = 0 , ///< 100 kbps.
-    XINC_DRV_I2C_FREQ_400K = 1   ///< 400 kbps.
-} xinc_drv_audio_adc_frequency_t;
 
+typedef xinc_audio_adc_freq_t xinc_drv_audio_adc_frequency_t;
+     
 /**
  * @brief Structure for the AUDIO ADC driver instance configuration.
  */
-typedef struct
-{
-    uint32_t                scl;                 ///< SCL pin number.
-    uint32_t                sda;                 ///< SDA pin number.
-    xinc_drv_audio_adc_frequency_t frequency;           ///< I2C frequency.
-    uint8_t                 interrupt_priority;  ///< Interrupt priority.
-    bool                    clear_bus_init;      ///< Clear bus during init.
-    bool                    hold_bus_uninit;     ///< Hold pull up state on gpio pins after uninit.
-} xinc_drv_audio_adc_config_t;
 
+
+typedef xincx_audio_adc_config_t xinc_drv_audio_adc_config_t;
 /**
  * @brief AUDIO_ADC driver instance default configuration.
  */
 #define XINC_DRV_AUDIO_ADC_DEFAULT_CONFIG                                               \
 {                                                                                \
     .frequency          = (xinc_drv_i2c_frequency_t)I2C_DEFAULT_CONFIG_FREQUENCY, \
-    .scl                = 31,                                                    \
-    .sda                = 31,                                                    \
+    .mic_p              = XINC_GPIO_18,                                                    \
+    .mic_n              = XINC_GPIO_0,                                                    \
+    .mic_bias           = XINC_GPIO_19,                                             \
     .interrupt_priority = I2C_DEFAULT_CONFIG_IRQ_PRIORITY,                       \
-    .clear_bus_init     = I2C_DEFAULT_CONFIG_CLR_BUS_INIT,                       \
-    .hold_bus_uninit    = I2C_DEFAULT_CONFIG_HOLD_BUS_UNINIT,                    \
 }
-
-/**
- * @brief I2C master driver event types.
- */
-typedef enum
-{
-    XINC_DRV_AUDIO_ADC_EVT_DONE,         ///< Transfer completed event.
-    XINC_DRV_AUDIO_ADC_EVT_ADDRESS_NACK, ///< Error event: NACK received after sending the address.
-    XINC_DRV_AUDIO_ADC_EVT_DATA_NACK     ///< Error event: NACK received after sending a data byte.
-} xinc_drv_audio_adc_evt_type_t;
-
-
-
-
-
 
 
 /**
  * @brief Structure for a AUDIO ADC event.
  */
-typedef struct
-{
 
-} xinc_drv_audio_adc_evt_t;
+typedef xincx_audio_adc_evt_t xinc_drv_audio_adc_evt_t;
 
 /**
- * @brief I2C event handler prototype.
+ * @brief AUDIO ADC event handler prototype.
  */
-typedef void (* xinc_drv_audio_adc_evt_handler_t)(xinc_drv_audio_adc_evt_t const * p_event,
-                                           void *                    p_context);
 
+typedef xincx_audio_adc_evt_handler_t xinc_drv_audio_adc_evt_handler_t  ;
 /**
- * @brief Function for initializing the I2C driver instance.
+ * @brief Function for initializing the AUDIO ADC driver instance.
  *
  * @param[in] p_instance      Pointer to the driver instance structure.
  * @param[in] p_config        Initial configuration.
@@ -149,7 +121,7 @@ ret_code_t xinc_drv_audio_adc_init(xinc_drv_audio_adc_t const *        p_instanc
                             void *                       p_context);
 
 /**
- * @brief Function for uninitializing the I2C instance.
+ * @brief Function for uninitializing the AUDIO ADC instance.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
@@ -157,7 +129,7 @@ __STATIC_INLINE
 void xinc_drv_audio_adc_uninit(xinc_drv_audio_adc_t const * p_instance);
 
 /**
- * @brief Function for enabling the I2C instance.
+ * @brief Function for enabling the AUDIO ADC instance.
  *
  * @param[in] p_instance Pointer to the driver instance structure.
  */
@@ -174,20 +146,16 @@ void xinc_drv_audio_adc_disable(xinc_drv_audio_adc_t const * p_instance);
 
 
 
-__STATIC_INLINE
-ret_code_t xinc_drv_audio_adc_rx(xinc_drv_audio_adc_t const * p_instance,
-                          uint8_t               address,
-                          uint8_t *             p_data,
-                          uint16_t               length);
+
 
 
 /**
  * @brief Function for checking the audio_adc driver state.
  *
- * @param[in] p_instance I2C instance.
+ * @param[in] p_instance AUDIO ADC instance.
  *
- * @retval true  If the I2C driver is currently busy performing a transfer.
- * @retval false If the I2C driver is ready for a new transfer.
+ * @retval true  If the AUDIO ADC driver is currently busy performing a converted.
+ * @retval false If the AUDIO ADC driver is ready for a new converted.
  */
 __STATIC_INLINE
 bool xinc_drv_audio_adc_is_busy(xinc_drv_audio_adc_t const * p_instance);
@@ -202,24 +170,27 @@ bool xinc_drv_audio_adc_is_busy(xinc_drv_audio_adc_t const * p_instance);
 
 
 __STATIC_INLINE
-void xinc_drv_i2c_uninit(xinc_drv_audio_adc_t const * p_instance)
+void xinc_drv_audio_adc_uninit(xinc_drv_audio_adc_t const * p_instance)
 {
-   
+   xincx_audio_adc_uninit(&p_instance->audio_adc);
 }
 
 __STATIC_INLINE
 void xinc_drv_audio_adc_enable(xinc_drv_audio_adc_t const * p_instance)
 {
-    
+    xincx_audio_adc_enable(&p_instance->audio_adc);
 }
 
 __STATIC_INLINE
 void xinc_drv_audio_adc_disable(xinc_drv_audio_adc_t const * p_instance)
 {
-
+    xincx_audio_adc_disable(&p_instance->audio_adc);
 }
 
-
+bool xinc_drv_audio_adc_is_busy(xinc_drv_audio_adc_t const * p_instance)
+{
+    return xincx_audio_adc_is_busy(&p_instance->audio_adc);
+}
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
 
@@ -229,4 +200,4 @@ void xinc_drv_audio_adc_disable(xinc_drv_audio_adc_t const * p_instance)
 }
 #endif
 
-#endif // XINC_DRV_I2C_H__
+#endif // XINC_DRV_AUDIO_ADC_H__

@@ -19,7 +19,7 @@
 /* DMAS Controller */
 #define DMAS_PRESENT
 #define DMAS_COUNT 1
-#define DMAS_CH_COUNT 13
+#define DMAS_CH_COUNT 16
 
 
 

@@ -13,6 +13,9 @@
 #define INSTANCE_COUNT   SPIM_COUNT
 #endif
 
+#include "sdk_macros.h"
+#include "xincx_dmas.h"
+
 static xinc_drv_spi_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];
 
@@ -67,6 +70,13 @@ ret_code_t xinc_drv_spi_init(xinc_drv_spi_t const * const p_instance,
         config_spim.frequency      = (xinc_spim_frequency_t)p_config->frequency;
         config_spim.mode           = (xinc_spim_mode_t)p_config->mode;
         config_spim.bit_order      = (xinc_spim_bit_order_t)p_config->bit_order;
+
+        if(!xincx_dmas_is_init())
+        {
+            result = xincx_dmas_init(NULL,NULL,NULL);
+            VERIFY_SUCCESS(result);
+            
+        }
         result = xincx_spim_init(&p_instance->u.spim,
                                 &config_spim,
                                 handler ? spim_evt_handler : NULL,//spim_evt_handler

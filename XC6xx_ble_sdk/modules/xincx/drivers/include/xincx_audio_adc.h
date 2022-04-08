@@ -42,10 +42,11 @@ extern "C" {
 /** @brief AUDIO_ADC driver instance data structure. */
 typedef struct
 {
-    XINC_CDC_Type       *p_reg;  ///< Pointer to the structure with AUDIO ADC peripheral instance registers.
-    XINC_CPR_CTL_Type   *p_cpr; 
-    uint8_t             id;
-    uint8_t             drv_inst_idx; ///< Index of the driver instance. For internal use only.
+    XINC_CDC_Type        *p_reg;  ///< Pointer to the structure with AUDIO ADC peripheral instance registers.
+    XINC_CPR_CTL_Type    *p_cpr; 
+    XINC_CPR_AO_CTL_Type *p_cprAO; 		///< Pointer to a structure with CPR registers.    
+    uint8_t              id;
+    uint8_t              drv_inst_idx; ///< Index of the driver instance. For internal use only.
 
 } xincx_audio_adc_t;
 
@@ -55,6 +56,7 @@ typedef struct
 {                                                                           \
     .p_reg          =   XINCX_CONCAT_2(XINC_AUDIO_ADC,Id) ,                  \
     .p_cpr          =   XINC_CPR,                                           \
+    .p_cprAO        =   XINC_CPR_AO,                                           \
     .id 		    =   Id,                                                 \
     .drv_inst_idx   =   XINCX_CONCAT_3(XINCX_AUDIO_ADC, Id, _INST_IDX),     \
 }
@@ -72,31 +74,25 @@ enum {
 
 #define XINCX_AUDIO_ADC_DEFAULT_CONFIG                                               \
 {                                                                               \
-    .interrupt_priority = XINCX_AUDIO_ADC_CONFIG_IRQ_PRIORITY,                       \
-    .freq               = (xinc_audio_adc_freq_t)XINC_AUDIO_ADC_FREQ_8M,                    \
-    .waite_time         = 4,														\
+    .interrupt_priority         = XINCX_AUDIO_ADC_CONFIG_IRQ_PRIORITY,                       \
+    .frequency                  = (xinc_audio_adc_freq_t)XINC_AUDIO_ADC_FREQ_16K,                    \
+    .mic_p                      = XINC_GPIO_18,														\
+    .mic_n                      = XINC_GPIO_0,														\
+    .mic_bias                   = XINC_GPIO_19,														\
 }
-/**
- * @brief Macro for setting @ref xinc_audio_adc_channel_config_t to default settings
- *        in single-ended mode.
- *
- * @param PIN_P Analog input.
- */
 
-
-#define XINCX_AUDIO_ADC_DEFAULT_CHANNEL_CONFIG                                         \
-{                                                                                 \
-    .mode               =  XINC_AUDIO_ADC_MODE_SINGLE_ENDED,                              \
-	.adc_fifo_len       = XINCX_AUDIO_ADC_CONFIG_FIFO_LEN                             \
-}
 
 /** @brief AUDIO_ADC driver configuration structure. */
+#define XINCX_AUDIO_ADC_PIN_NOT_USED  0xFF
 
 typedef struct
 {
-    uint8_t                interrupt_priority; ///< Interrupt priority.
-    xinc_audio_adc_freq_t      freq;     
-    uint32_t            waite_time;  
+    uint32_t                mic_p;                 ///< mic_p pin number.
+    uint32_t                mic_n;                 ///< mic_n pin number.
+    uint32_t                mic_bias;                 ///< mic_bias pin number.
+    xinc_audio_adc_freq_t   frequency;           ///< audio adc frequency.
+    uint8_t                 interrupt_priority;  ///< Interrupt priority.
+    xinc_audio_adc_channel_config_t ch_config;
 } xincx_audio_adc_config_t;
 
 
@@ -112,9 +108,8 @@ typedef enum
 /** @brief AUDIO_ADC driver done event data. */
 typedef struct
 {
-    xinc_audio_adc_value_t * p_buffer; ///< Pointer to buffer with converted samples.
-    uint16_t          size;     ///< Number of samples in the buffer.
-    int16_t           adc_value;     ///< Number of samples in the buffer.
+    volatile xinc_audio_adc_value_t * p_buffer; ///< Pointer to buffer with converted samples.
+    uint32_t          size;     ///< Number of samples in the buffer.
     uint8_t           channel;    ///< Channel on which the limit was detected.
 } xincx_audio_adc_done_evt_t;
 
@@ -149,7 +144,8 @@ typedef void (* xincx_audio_adc_evt_handler_t)(xincx_audio_adc_evt_t const * p_e
  */
 xincx_err_t xincx_audio_adc_init(xincx_audio_adc_t const * const p_instance,
                             xincx_audio_adc_config_t const * p_config,
-                           xincx_audio_adc_evt_handler_t  event_handler);
+                           xincx_audio_adc_evt_handler_t  event_handler,
+                             void                     * p_context);
 
 /**
  * @brief Function for uninitializing the AUDIO_ADC.
@@ -159,58 +155,14 @@ xincx_err_t xincx_audio_adc_init(xincx_audio_adc_t const * const p_instance,
 void xincx_audio_adc_uninit(xincx_audio_adc_t const * const p_instance);
 
 
+void xincx_audio_adc_enable(xincx_audio_adc_t const * const p_instance);
+                            
+void xincx_audio_adc_disable(xincx_audio_adc_t const * const p_instance);
 
+                            
 void xincx_audio_adc_config_set(xincx_audio_adc_t const * const p_instance,                                
                                    xincx_audio_adc_config_t const * p_config);
-/**
- * @brief Function for initializing an AUDIO_ADC channel.
- *
- * This function configures and enables the channel.
- *
- * @param[in] channel  Channel index.
- * @param[in] p_config Pointer to the structure with the initial configuration.
- *
- * @retval XINCX_SUCCESS             Initialization was successful.
- * @retval XINCX_ERROR_INVALID_STATE The AUDIO_ADC was not initialized.
- * @retval XINCX_ERROR_NO_MEM        The specified channel was already allocated.
- */
-xincx_err_t xincx_audio_adc_channel_init(xincx_audio_adc_t const * const p_instance,
-                                    uint8_t     channel,
-                                   xinc_audio_adc_channel_config_t const * const p_config);
 
-/**
- * @brief Function for uninitializing an AUDIO_ADC channel.
- *
- * @param[in] channel Channel index.
- *
- * @retval XINCX_SUCCESS    Uninitialization was successful.
- * @retval XINCX_ERROR_BUSY The AUDIO_ADC is busy.
- */
-xincx_err_t xincx_audio_adc_channel_uninit(xincx_audio_adc_t const * const p_instance,uint8_t channel);
-
-/**
- * @brief Function for starting the AUDIO_ADC sampling.
- *
- * @retval XINCX_SUCCESS             The AUDIO_ADC sampling was triggered.
- * @retval XINCX_ERROR_INVALID_STATE The AUDIO_ADC is in idle state.
- */
-xincx_err_t xincx_audio_adc_sample(xincx_audio_adc_t const * const p_instance,uint8_t channel);
-
-/**
- * @brief Blocking function for executing a single AUDIO_ADC conversion.
- *
- * This function selects the desired input, starts a single conversion,
- * waits for it to finish, and returns the result.
- *
- * The function fails if the AUDIO_ADC is busy.
- *
- * @param[in]  channel Channel.
- * @param[out] p_value Pointer to the location where the result is to be placed.
- *
- * @retval XINCX_SUCCESS    The conversion was successful.
- * @retval XINCX_ERROR_BUSY The AUDIO_ADC driver is busy.
- */
-xincx_err_t xincx_audio_adc_sample_convert(xincx_audio_adc_t const * const p_instance,uint8_t channel, xinc_audio_adc_value_t * p_value);
 
 /**
  * @brief Function for issuing conversion of data to the buffer.

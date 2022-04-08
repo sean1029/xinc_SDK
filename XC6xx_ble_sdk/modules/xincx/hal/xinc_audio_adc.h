@@ -24,7 +24,7 @@ extern "C" {
  */
 
 /** @brief Number of available AUDIO_ADC channels. */
-#define XINC_AUDIO_ADC_CHANNEL_COUNT 9
+#define XINC_AUDIO_ADC_CHANNEL_COUNT 1
 
 #define XINCX_AUDIO_ADC_FIFOLEN          AUDIO_ADC_GPADC_FIFO_FIFO_DOUT_LEN
 
@@ -32,11 +32,8 @@ extern "C" {
 /** @brief Resolution of the analog-to-digital converter. */
 typedef enum
 {	
-	XINC_AUDIO_ADC_FREQ_8M=1,
-	XINC_AUDIO_ADC_FREQ_4M=2,
-	XINC_AUDIO_ADC_FREQ_2M=4,
-	XINC_AUDIO_ADC_FREQ_1M=8,
-	XINC_AUDIO_ADC_FREQ_500K=16,
+	XINC_AUDIO_ADC_FREQ_16K=0,
+    XINC_AUDIO_ADC_FREQ_32K=1,
 } xinc_audio_adc_freq_t;
 
 
@@ -78,64 +75,31 @@ typedef struct
 
 
 
-/**
- * @brief Function for initializing the AUDIO_ADC channel.
- *
- * @param[in] channel Channel number.
- * @param[in] config  Pointer to the channel configuration structure.
- */
-__STATIC_INLINE void xinc_audio_adc_channel_init(uint8_t                                  channel,
-                                            xinc_audio_adc_channel_config_t const * const config);
-
-
-
-
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
 
- __STATIC_INLINE void xinc_audio_adc_channel_init(uint8_t                                  channel,
-                                            xinc_audio_adc_channel_config_t const * const config)
-{
-    uint8_t cfg_ch;
-    
-        
-        
-           
-    
-        switch(channel)
-        {
-            case 0:
-            case 1:
-            {
-                xinc_gpio_mux_ctl(20,0);
-                xinc_gpio_fun_sel(20,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(20,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(20,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(20,XINC_GPIO_PIN_PULLUP);
-
-                xinc_gpio_mux_ctl(21,0);
-                xinc_gpio_fun_sel(21,XINC_GPIO_PIN_GPIODx);
-                xinc_gpio_inter_sel(21,XINC_GPIO_PIN_INPUT_NOINT);
-                xinc_gpio_pin_dir_set(21,XINC_GPIO_PIN_DIR_INPUT);
-                xinc_gpio_pull_sel(21,XINC_GPIO_PIN_PULLUP);
-            }break;
-
-
-            default:break;
-    
-        }
-    
-}
 
 
 __STATIC_INLINE void xinc_audio_adc_enable(XINC_CDC_Type * p_reg)
 {
-
+    uint32_t reg_val = p_reg->ANA_REG0;
+    reg_val |= CDC_CDC_ANA_REG0_REG00_HPF_EN_Msk;
+    reg_val &= ~CDC_CDC_ANA_REG0_REG00_HPF_BYPASS_Msk;
+    p_reg->ANA_REG0 = reg_val;
 }
+
+__STATIC_INLINE void xinc_audio_adc_disable(XINC_CDC_Type * p_reg)
+{
+    uint32_t reg_val = p_reg->ANA_REG0;
+    reg_val &= ~CDC_CDC_ANA_REG0_REG00_HPF_EN_Msk;
+    reg_val |= CDC_CDC_ANA_REG0_REG00_HPF_BYPASS_Msk;
+    p_reg->ANA_REG0 = reg_val;
+}
+
 
 __STATIC_INLINE void xinc_audio_adc_fifo_clear(XINC_CDC_Type * p_reg)
 {
-
-
+    p_reg->FIFO_STATUS |= CDC_CDC_RXFIFO_STATUS_RXFIFO_FLUSH_Msk;
+	p_reg->FIFO_STATUS &= ~(CDC_CDC_RXFIFO_STATUS_RXFIFO_FLUSH_Msk);
 }
 
 

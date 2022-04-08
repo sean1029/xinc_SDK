@@ -239,7 +239,9 @@ typedef enum
     XINC_GPIO_PIN_SSI2_D3,
     XINC_GPIO_PIN_UART2_TX , ///
     XINC_GPIO_PIN_UART2_RX , ///< 
-    
+    XINC_GPIO_PIN_AUDIO_MIC_P ,
+    XINC_GPIO_PIN_AUDIO_MIC_N ,
+    XINC_GPIO_PIN_AUDIO_MIC_BIAS ,
 		
 } xinc_gpio_pin_fun_sel_t;
 

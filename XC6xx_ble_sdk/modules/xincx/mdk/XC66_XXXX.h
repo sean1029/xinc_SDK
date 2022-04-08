@@ -100,8 +100,25 @@ typedef struct {                                /*!< (@ 0x50001000) DMAS Structu
 
     __IM    uint32_t  DMAs_CH3_CA;   /*!< (@ 0x500010B0) 发送通道 3 当前源地址寄存器 */ 
     __IM    uint32_t  RESERVED6[3];
+    
+    __IOM   uint32_t  DMAs_CH4_SAR;   /*!< (@ 0x500010C0) 发送通道 4 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH4_DAR;   /*!< (@ 0x500010C4) 发送通道 4 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH4_CTL0;   /*!< (@ 0x500010C8) 发送通道 4 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH4_CTL1;  /*!< (@ 0x500010CC) 发送通道 4 控制寄存器 1*/ 
 
-    __IM    uint32_t  RESERVED7[32];   //(@ 0x500010C0) -->/(@ 0x5000113C)
+    __IM    uint32_t  DMAs_CH4_CA;   /*!< (@ 0x500010D0) 发送通道 4 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED16[3];
+    
+    __IOM   uint32_t  DMAs_CH5_SAR;   /*!< (@ 0x500010E0) 发送通道 5 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH5_DAR;   /*!< (@ 0x500010E4) 发送通道 5 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH5_CTL0;   /*!< (@ 0x500010E8) 发送通道 5 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH5_CTL1;  /*!< (@ 0x500010EC) 发送通道 5 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH5_CA;   /*!< (@ 0x500010F0) 发送通道 5 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED17[3];
+    
+
+    __IM    uint32_t  RESERVED7[16];   //(@ 0x50001100) -->/(@ 0x5000113C)
 
 
     __IOM   uint32_t  DMAs_CH8_SAR;   /*!< (@ 0x50001140) 接收通道 8 源起始地址 */ 
@@ -144,7 +161,31 @@ typedef struct {                                /*!< (@ 0x50001000) DMAS Structu
     __IM    uint32_t  DMAs_CH12_CA;   /*!< (@ 0x500011D0) 接收通道 12 当前源地址寄存器 */ 
     __IM    uint32_t  RESERVED12[3];
 
-    __IM    uint32_t  RESERVED13[24];//(@ 0x500011E0) -->/(@ 0x5000123C)
+    __IOM   uint32_t  DMAs_CH13_SAR;   /*!< (@ 0x500011E0) 接收通道 13 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH13_DAR;   /*!< (@ 0x500011E4) 接收通道 13 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH13_CTL0;   /*!< (@ 0x500011E8) 接收通道 13 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH13_CTL1;  /*!< (@ 0x500011EC) 接收通道 13 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH13_CA;   /*!< (@ 0x500011F0) 接收通道 13 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED22[3];
+
+    __IOM   uint32_t  DMAs_CH14_SAR;   /*!< (@ 0x50001200) 接收通道 14 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH14_DAR;   /*!< (@ 0x50001204) 接收通道 14 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH14_CTL0;   /*!< (@ 0x50001208) 接收通道 14 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH14_CTL1;  /*!< (@ 0x5000120C) 接收通道 14 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH14_CA;   /*!< (@ 0x50001210) 接收通道 14 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED23[3];
+
+    __IOM   uint32_t  DMAs_CH15_SAR;   /*!< (@ 0x50001220) 接收通道 14 源起始地址 */ 
+    __IOM   uint32_t  DMAs_CH15_DAR;   /*!< (@ 0x50001224) 接收通道 14 目的起始地址 */ 
+    __IOM   uint32_t  DMAs_CH15_CTL0;   /*!< (@ 0x50001228) 接收通道 14 控制寄存器 0 */ 
+    __IOM   uint32_t  DMAs_CH15_CTL1;  /*!< (@ 0x5000122C) 接收通道 14 控制寄存器 1*/ 
+
+    __IM    uint32_t  DMAs_CH15_CA;   /*!< (@ 0x50001230) 接收通道 14 当前源地址寄存器 */ 
+    __IM    uint32_t  RESERVED24[3];
+
+   
 
     __IOM   uint32_t  DMAs_CH0_WD; /*!< (@ 0x50001240) 发送通道 0 缺省写入数据 */
     __IOM   uint32_t  DMAs_CH1_WD; /*!< (@ 0x50001244) 发送通道 0 缺省写入数据 */
@@ -509,7 +550,7 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
     __IOM  uint32_t  CTL_PUCTL;                 /*!< (@ 0x000001A0) 管脚上下拉配置寄存 3  */
      __IM  uint32_t  RESERVED11[3];
 
-    __IM   uint32_t  RESERVED12[1];
+    __IOM  uint32_t  M4_NEW_REG0;                  /*!< (@ 0x000001b0) */
     __IOM  uint32_t  M4_NEW_REG1;                /*!< (@ 0x000001b4) USB、2.4G、ADUDIO_ADC控制寄存器  */    
     __IOM  uint32_t  M4_NEW_REG2;                /*!< (@ 0x000001b8) ADUDIO_ADC控制寄存器 2 */    
     __IM   uint32_t  RESERVED14[1]; 
@@ -519,7 +560,8 @@ typedef struct {                                /*!< (@ 0x40000000) CPR PD 域�
 
     __IOM  uint32_t  UART2_CLK_GRCTL;           /*!< (@ 0x00000250) UART2 CLK GR  */ 
     __IOM  uint32_t  UART2_CLK_CTL;             /*!< (@ 0x00000254) UART2 CLK CTL  */  
-
+    __IOM  uint32_t  I2S_CLK_CTL;              /*!< (@ 0x00000258) I2S CLK CTL  */  
+    __IOM  uint32_t  CAN_CLK_CTL;              /*!< (@ 0x0000025C) CAN CLK CTL  */ 
 
 } XINC_CPR_CTL_Type; 
 
@@ -543,12 +585,12 @@ typedef struct {                                /*!< (@ 0x40002400) CPR AO Struc
     __IM  uint32_t  RESERVED05[4]; /*!< (@ 0x00000040) */
 
 
-    __IM  uint32_t  RESERVED03[1]; /*!< (@ 0x00000040) */
+    __IOM uint32_t  RESERVED03[1]; /*!< (@ 0x00000050) */
     __IOM uint32_t  DCDC_CTRL[2];  /*!< (@ 0x00000054) CPR AO  DCDC CTRL */
     __IOM uint32_t  AUDIO_ADC_CTRL[1];/*!< (@ 0x0000005C) */
 
 
-    __IM  uint32_t  RESERVED06[7];  /*!< (@ 0x00000050) */
+    __IM  uint32_t  RESERVED06[7];  /*!< (@ 0x00000060) */
     __IOM uint32_t  AOCLKEN_GRCTL;  /*!< (@ 0x0000007C) AO 域时钟使能寄存器     */
 
     __IM  uint32_t  RESERVED07[51]; 

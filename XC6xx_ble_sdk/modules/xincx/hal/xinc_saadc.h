@@ -232,7 +232,7 @@ __STATIC_INLINE void xinc_saadc_fifo_clear(XINC_SAADC_Type * p_reg)
 {
 
     p_reg->FIFO_CTL |= SAADC_GPADC_FIFO_CTL_FIFO_FLUSH_Msk;
-	p_reg->FIFO_CTL &= ~(SAADC_GPADC_FIFO_CTL_FIFO_FLUSH_Msk);
+    p_reg->FIFO_CTL &= ~(SAADC_GPADC_FIFO_CTL_FIFO_FLUSH_Msk);
 
 }
 

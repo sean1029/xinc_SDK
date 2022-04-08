@@ -671,6 +671,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_audio_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1454,6 +1459,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_audio_adc.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2187,6 +2197,11 @@
               <FileName>xinc_drv_audio_adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_audio_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
           </Files>
         </Group>

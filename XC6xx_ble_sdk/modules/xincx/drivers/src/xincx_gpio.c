@@ -426,6 +426,31 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,1);		
         }
+        else if((XINC_GPIO_PIN_AUDIO_MIC_P == fun) && (XINC_GPIO_18 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,0);
+            xinc_gpio_fun_sel(pin,XINC_GPIO_PIN_GPIODx);
+            xinc_gpio_inter_sel(pin,XINC_GPIO_PIN_INPUT_NOINT);
+            xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_INPUT);
+            xinc_gpio_pull_sel(pin,XINC_GPIO_PIN_NOPULL);
+                    
+        }
+        else if((XINC_GPIO_PIN_AUDIO_MIC_N == fun) && (XINC_GPIO_0 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,0);
+            xinc_gpio_fun_sel(pin,XINC_GPIO_PIN_GPIODx);
+            xinc_gpio_inter_sel(pin,XINC_GPIO_PIN_INPUT_NOINT);
+            xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_INPUT);
+            xinc_gpio_pull_sel(pin,XINC_GPIO_PIN_NOPULL);		
+        }
+        else if((XINC_GPIO_PIN_AUDIO_MIC_BIAS == fun) && (XINC_GPIO_19 == pin))
+        {                       
+            xinc_gpio_mux_ctl(pin,0);
+            xinc_gpio_fun_sel(pin,XINC_GPIO_PIN_GPIODx);
+            xinc_gpio_inter_sel(pin,XINC_GPIO_PIN_INPUT_NOINT);
+            xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_INPUT);
+            xinc_gpio_pull_sel(pin,XINC_GPIO_PIN_NOPULL);	
+        }
         #endif
         switch(pin)
         {

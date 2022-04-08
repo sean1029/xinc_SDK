@@ -10,8 +10,9 @@
 
 #if XINCX_CHECK(XINCX_AUDIO_ADC_ENABLED)
 
-//#include <xinc_delay.h>
+#include "sdk_macros.h"
 #include <hal/xinc_gpio.h>
+#include "xincx_dmas.h"
 
 #ifdef AUDIO_ADC_PRESENT
 #define INSTANCE_COUNT   AUDIO_ADC_COUNT
@@ -23,28 +24,6 @@ static xinc_drv_audio_adc_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];
 
 
-#ifdef I2CM_PRESENT
-static void i2cm_evt_handler(xincx_i2cm_evt_t const * p_event,
-                             void *                  p_context)
-{
-    uint32_t inst_idx = (uint32_t)p_context;
-    xinc_drv_i2c_evt_t const event =
-    {
-        .type = (xinc_drv_i2c_evt_type_t)p_event->type,
-        .xfer_desc =
-        {
-            .type = (xinc_drv_i2c_xfer_type_t)p_event->xfer_desc.type,
-            .address          = p_event->xfer_desc.address,
-            .primary_length   = p_event->xfer_desc.primary_length,
-            .secondary_length = p_event->xfer_desc.secondary_length,
-            .p_primary_buf    = p_event->xfer_desc.p_primary_buf,
-            .p_secondary_buf  = p_event->xfer_desc.p_secondary_buf,
-        }
-    };
-    m_handlers[inst_idx](&event, m_contexts[inst_idx]);
-}
-#endif // I2CM_PRESENT
-
 #ifdef AUDIO_ADC_PRESENT
 static void audio_adc_evt_handler(xincx_audio_adc_evt_t const * p_event,
                             void *                 p_context)
@@ -52,9 +31,17 @@ static void audio_adc_evt_handler(xincx_audio_adc_evt_t const * p_event,
     uint32_t inst_idx = (uint32_t)p_context;
     xinc_drv_audio_adc_evt_t const event =
     {
-        
+        .type = p_event->type,
+        .data.done.size = p_event->data.done.size,
+        .data.done.p_buffer = p_event->data.done.p_buffer,
+        .data.done.channel = p_event->data.done.channel
     };
-    m_handlers[inst_idx](&event, m_contexts[inst_idx]);
+    
+    if(m_handlers[inst_idx])
+    {
+        m_handlers[inst_idx](&event, m_contexts[inst_idx]);
+    }
+    
 }
 #endif // AUDIO_ADC_PRESENT
 
@@ -67,15 +54,25 @@ ret_code_t xinc_drv_audio_adc_init(xinc_drv_audio_adc_t const *        p_instanc
     m_handlers[inst_idx] = event_handler;
     m_contexts[inst_idx] = p_context;
 
-
-    ret_code_t result = 0;
-  
+    ret_code_t result = XINC_SUCCESS;
+    
+    if (p_config == NULL)
     {
-        result = xincx_audio_adc_init(&p_instance->audio_adc,
-                                (xincx_audio_adc_config_t const *)p_config,
-                                event_handler ? audio_adc_evt_handler : NULL
-                                );
+        static const xincx_audio_adc_config_t default_config = XINCX_AUDIO_ADC_DEFAULT_CONFIG;
+        p_config = &default_config;
     }
+    
+    if(!xincx_dmas_is_init())
+    {
+        result = xincx_dmas_init(NULL,NULL,NULL);
+        VERIFY_SUCCESS(result);
+        
+    }
+    
+    result = xincx_audio_adc_init(&p_instance->audio_adc,
+                            (xincx_audio_adc_config_t const *)p_config,
+                             audio_adc_evt_handler,(void *)inst_idx);
+    
    
     return result;
 }
