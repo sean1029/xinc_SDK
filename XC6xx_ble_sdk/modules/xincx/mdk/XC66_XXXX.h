@@ -780,7 +780,7 @@ typedef struct {                        /*!< (@ 0x40011800) I2S Structure       
 #define XINC_AUDIO_ADC0                     ((XINC_CDC_Type*)               XINC_CDC0_BASE)
 
 #define XINC_I2S0                           ((XINC_I2S_Type*)               XINC_I2S0_BASE)
-
+#define XINC_I2SM0                           ((XINC_I2S_Type*)               XINC_I2S0_BASE)
 
 #ifdef __cplusplus
 }

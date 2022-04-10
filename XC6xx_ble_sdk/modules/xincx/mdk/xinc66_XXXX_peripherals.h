@@ -167,8 +167,8 @@
 
 
 /* Inter-IC Sound Interface */
-#define I2S_PRESENT
-#define I2S_COUNT 1
+#define I2SM_PRESENT
+#define I2SM_COUNT 1
 
 #define I2S_EASYDMA_MAXCNT_SIZE 14
 

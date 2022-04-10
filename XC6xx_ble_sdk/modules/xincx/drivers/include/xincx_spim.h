@@ -97,10 +97,10 @@ typedef struct
 #define XINCX_SPIM_DEFAULT_EXTENDED_CONFIG
 
 #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
-#define NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG         .d2_pin = XINCX_SPIM_PIN_NOT_USED,\
+#define XINC_DRV_SPIM_DEFAULT_D2_D3_CONFIG         .d2_pin = XINCX_SPIM_PIN_NOT_USED,\
                                                   .d3_pin = XINCX_SPIM_PIN_NOT_USED,
 #else
-#define NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG       
+#define XINC_DRV_SPIM_DEFAULT_D2_D3_CONFIG       
 #endif
 
 
@@ -111,7 +111,7 @@ typedef struct
     .mosi_pin       = XINCX_SPIM_PIN_NOT_USED,                \
     .miso_pin       = XINCX_SPIM_PIN_NOT_USED,                \
     .ss_pin         = XINCX_SPIM_PIN_NOT_USED,                \
-     NRF_DRV_SPIM_DEFAULT_D2_D3_CONFIG                       \
+     XINC_DRV_SPIM_DEFAULT_D2_D3_CONFIG                       \
     .ss_active_high = false,                                 \
     .irq_priority   = 0,                                    \
     .orc            = 0xFF,                                  \

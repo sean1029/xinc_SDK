@@ -652,14 +652,14 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
             </File>
             <File>
+              <FileName>xincx_i2sm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2sm.c</FilePath>
+            </File>
+            <File>
               <FileName>xinc_drv_i2s.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_i2s.c</FilePath>
-            </File>
-            <File>
-              <FileName>xincx_i2s.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2s.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1425,14 +1425,14 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
             </File>
             <File>
+              <FileName>xincx_i2sm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2sm.c</FilePath>
+            </File>
+            <File>
               <FileName>xinc_drv_i2s.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_i2s.c</FilePath>
-            </File>
-            <File>
-              <FileName>xincx_i2s.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2s.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2149,14 +2149,14 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_rtc.c</FilePath>
             </File>
             <File>
+              <FileName>xincx_i2sm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2sm.c</FilePath>
+            </File>
+            <File>
               <FileName>xinc_drv_i2s.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_i2s.c</FilePath>
-            </File>
-            <File>
-              <FileName>xincx_i2s.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_i2s.c</FilePath>
             </File>
           </Files>
         </Group>

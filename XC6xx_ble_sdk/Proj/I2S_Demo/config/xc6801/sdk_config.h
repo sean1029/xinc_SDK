@@ -619,28 +619,136 @@
 #define XINCX_I2S_ENABLED 1
 #endif
 
-// <q> XINCX_I2S0_ENABLED  - Enable I2S0 instance
-#ifndef XINCX_I2S0_ENABLED
-#define XINCX_I2S0_ENABLED 1
+
+// <q> XINCX_I2SM0_ENABLED  - Enable I2SM0 instance
+#ifndef XINCX_I2SM0_ENABLED
+#define XINCX_I2SM0_ENABLED 1
 #endif
 
-// <o> XINCX_I2S_DEFAULT_CONFIG_FREQUENCY  - Frequency
+
+// <o> XINCX_I2S_CONFIG_SCK_PIN - SCK pin  <0-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_SCK_PIN
+#define XINCX_I2S_CONFIG_SCK_PIN 31
+#endif
+
+// <o> XINCX_I2S_CONFIG_LRCK_PIN - LRCK pin  <1-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_LRCK_PIN
+#define XINCX_I2S_CONFIG_LRCK_PIN 30
+#endif
+
+// <o> XINCX_I2S_CONFIG_MCK_PIN - MCK pin 
+#ifndef XINCX_I2S_CONFIG_MCK_PIN
+#define XINCX_I2S_CONFIG_MCK_PIN 255
+#endif
+
+// <o> XINCX_I2S_CONFIG_SDOUT_PIN - SDOUT pin  <0-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_SDOUT_PIN
+#define XINCX_I2S_CONFIG_SDOUT_PIN 29
+#endif
+
+// <o> XINCX_I2S_CONFIG_SDIN_PIN - SDIN pin  <0-31> 
+
+
+#ifndef XINCX_I2S_CONFIG_SDIN_PIN
+#define XINCX_I2S_CONFIG_SDIN_PIN 28
+#endif
+
+// <o> XINCX_I2S_CONFIG_MASTER  - Mode
  
-// <0x0063484FUL=> 100k 
-// <0x00650C13UL=> 400k 
+// <0=> Master 
+// <1=> Slave 
 
-#ifndef XINCX_I2S_DEFAULT_CONFIG_FREQUENCY
-#define XINCX_I2S_DEFAULT_CONFIG_FREQUENCY 6506575
+#ifndef XINCX_I2S_CONFIG_MASTER
+#define XINCX_I2S_CONFIG_MASTER 0
 #endif
 
-// <q> XINCX_I2S_DEFAULT_CONFIG_HOLD_BUS_UNINIT  - Enables bus holding after uninit
+// <o> XINCX_I2S_CONFIG_FORMAT  - Format
  
+// <0=> I2S 
+// <1=> Aligned 
 
-#ifndef XINCX_I2S_DEFAULT_CONFIG_HOLD_BUS_UNINIT
-#define XINCX_I2S_DEFAULT_CONFIG_HOLD_BUS_UNINIT 1
+#ifndef XINCX_I2S_CONFIG_FORMAT
+#define XINCX_I2S_CONFIG_FORMAT 0
 #endif
 
-// <o> XINCX_I2S_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+// <o> XINCX_I2S_CONFIG_ALIGN  - Alignment
+ 
+// <0=> Left 
+// <1=> Right 
+
+#ifndef XINCX_I2S_CONFIG_ALIGN
+#define XINCX_I2S_CONFIG_ALIGN 0
+#endif
+
+// <o> XINCX_I2S_CONFIG_SWIDTH  - Sample width (bits)
+ 
+// <0=> 8 
+// <1=> 16 
+// <2=> 24 
+
+#ifndef XINCX_I2S_CONFIG_SWIDTH
+#define XINCX_I2S_CONFIG_SWIDTH 1
+#endif
+
+// <o> XINCX_I2S_CONFIG_CHANNELS  - Channels
+ 
+// <0=> Stereo 
+// <1=> Left 
+// <2=> Right 
+
+#ifndef XINCX_I2S_CONFIG_CHANNELS
+#define XINCX_I2S_CONFIG_CHANNELS 1
+#endif
+
+// <o> XINCX_I2S_CONFIG_MCK_SETUP  - MCK behavior
+ 
+// <0=> Disabled 
+// <2147483648=> 32MHz/2 
+// <1342177280=> 32MHz/3 
+// <1073741824=> 32MHz/4 
+// <805306368=> 32MHz/5 
+// <671088640=> 32MHz/6 
+// <536870912=> 32MHz/8 
+// <402653184=> 32MHz/10 
+// <369098752=> 32MHz/11 
+// <285212672=> 32MHz/15 
+// <268435456=> 32MHz/16 
+// <201326592=> 32MHz/21 
+// <184549376=> 32MHz/23 
+// <142606336=> 32MHz/30 
+// <138412032=> 32MHz/31 
+// <134217728=> 32MHz/32 
+// <100663296=> 32MHz/42 
+// <68157440=> 32MHz/63 
+// <34340864=> 32MHz/125 
+
+#ifndef XINCX_I2S_CONFIG_MCK_SETUP
+#define XINCX_I2S_CONFIG_MCK_SETUP 536870912
+#endif
+
+// <o> XINCX_I2S_CONFIG_RATIO  - MCK/LRCK ratio
+ 
+// <0=> 32x 
+// <1=> 48x 
+// <2=> 64x 
+// <3=> 96x 
+// <4=> 128x 
+// <5=> 192x 
+// <6=> 256x 
+// <7=> 384x 
+// <8=> 512x 
+
+#ifndef XINCX_I2S_CONFIG_RATIO
+#define XINCX_I2S_CONFIG_RATIO 2000
+#endif
+
+// <o> XINCX_I2S_CONFIG_IRQ_PRIORITY  - Interrupt priority
  
 // <0=> 0 (highest) 
 // <1=> 1 
@@ -651,14 +759,14 @@
 // <6=> 6 
 // <7=> 7 
 
-#ifndef XINCX_I2S_DEFAULT_CONFIG_IRQ_PRIORITY
-#define XINCX_I2S_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#ifndef XINCX_I2S_CONFIG_IRQ_PRIORITY
+#define XINCX_I2S_CONFIG_IRQ_PRIORITY 6
 #endif
 
 // <e> XINCX_I2S_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
 #ifndef XINCX_I2S_CONFIG_LOG_ENABLED
-#define XINCX_I2S_CONFIG_LOG_ENABLED 1
+#define XINCX_I2S_CONFIG_LOG_ENABLED 0
 #endif
 // <o> XINCX_I2S_CONFIG_LOG_LEVEL  - Default Severity level
  
@@ -669,7 +777,7 @@
 // <4=> Debug 
 
 #ifndef XINCX_I2S_CONFIG_LOG_LEVEL
-#define XINCX_I2S_CONFIG_LOG_LEVEL 2
+#define XINCX_I2S_CONFIG_LOG_LEVEL 3
 #endif
 
 // <o> XINCX_I2S_CONFIG_INFO_COLOR  - ANSI escape code prefix.

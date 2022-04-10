@@ -10,7 +10,7 @@
 #include "xinc_drv_i2c.h"
 
 #if XINCX_CHECK(XINCX_I2C_ENABLED)
-//#include <xinc_delay.h>
+#include <xinc_delay.h>
 #include <hal/xinc_gpio.h>
 
 #ifdef I2CM_PRESENT
@@ -19,70 +19,13 @@
 #define INSTANCE_COUNT   I2C_COUNT
 #endif
 
-// #define SCL_PIN_INIT_CONF                                     \
-//     ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
-//     | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
-//     | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
-//     | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
-//     | (GPIO_PIN_CNF_DIR_Input      << GPIO_PIN_CNF_DIR_Pos))
-
-// #define SDA_PIN_INIT_CONF        SCL_PIN_INIT_CONF
-
-// #define SDA_PIN_UNINIT_CONF                                     \
-//     ( (GPIO_PIN_CNF_SENSE_Disabled   << GPIO_PIN_CNF_SENSE_Pos) \
-//     | (GPIO_PIN_CNF_DRIVE_H0H1       << GPIO_PIN_CNF_DRIVE_Pos) \
-//     | (GPIO_PIN_CNF_PULL_Disabled    << GPIO_PIN_CNF_PULL_Pos)  \
-//     | (GPIO_PIN_CNF_INPUT_Disconnect << GPIO_PIN_CNF_INPUT_Pos) \
-//     | (GPIO_PIN_CNF_DIR_Input        << GPIO_PIN_CNF_DIR_Pos))
-
-// #define SCL_PIN_UNINIT_CONF      SDA_PIN_UNINIT_CONF
-
-// #define SCL_PIN_INIT_CONF_CLR                                 \
-//     ( (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos) \
-//     | (GPIO_PIN_CNF_DRIVE_S0D1     << GPIO_PIN_CNF_DRIVE_Pos) \
-//     | (GPIO_PIN_CNF_PULL_Pullup    << GPIO_PIN_CNF_PULL_Pos)  \
-//     | (GPIO_PIN_CNF_INPUT_Connect  << GPIO_PIN_CNF_INPUT_Pos) \
-//     | (GPIO_PIN_CNF_DIR_Output     << GPIO_PIN_CNF_DIR_Pos))
-
-// #define SDA_PIN_INIT_CONF_CLR    SCL_PIN_INIT_CONF_CLR
 
 static xinc_drv_i2c_evt_handler_t m_handlers[INSTANCE_COUNT];
 static void *                    m_contexts[INSTANCE_COUNT];
 
 static void i2c_clear_bus(xinc_drv_i2c_config_t const * p_config)
 {
-//    XINC_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF;
-//    XINC_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF;
 
-//    xinc_gpio_pin_set(p_config->scl);
-//    xinc_gpio_pin_set(p_config->sda);
-
-//    XINC_GPIO->PIN_CNF[p_config->scl] = SCL_PIN_INIT_CONF_CLR;
-//    XINC_GPIO->PIN_CNF[p_config->sda] = SDA_PIN_INIT_CONF_CLR;
-
-//    xinc_delay_us(4);
-
-//    for (int i = 0; i < 9; i++)
-//    {
-//        if (xinc_gpio_pin_read(p_config->sda))
-//        {
-//            if (i == 0)
-//            {
-//                return;
-//            }
-//            else
-//            {
-//                break;
-//            }
-//        }
-//        xinc_gpio_pin_clear(p_config->scl);
-//        xinc_delay_us(4);
-//        xinc_gpio_pin_set(p_config->scl);
-//        xinc_delay_us(4);
-//    }
-//    xinc_gpio_pin_clear(p_config->sda);
-//    xinc_delay_us(4);
-//    xinc_gpio_pin_set(p_config->sda);
 }
 
 #ifdef I2CM_PRESENT

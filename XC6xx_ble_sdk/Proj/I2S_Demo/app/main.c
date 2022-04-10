@@ -28,6 +28,7 @@
 #include "app_timer.h"
 #include "bsp.h"
 #include "app_scheduler.h"
+#include "xinc_drv_i2s.h"
 uint8_t flag_show_hci = 0;
 
 
@@ -411,6 +412,33 @@ static void AT24C02_init(void)
    
 }
 
+static const xinc_drv_i2s_t m_i2s = XINC_DRV_I2S_INSTANCE(0);
+
+xinc_drv_i2s_buffers_t i2s_buff[20];
+static void data_handler(xinc_drv_i2s_data_handler_t const * p_event,
+                         void *                     p_context)
+{
+    
+}
+static void I2S_init(void)
+{
+    uint32_t err_code = XINC_SUCCESS;
+    
+    xinc_drv_i2s_config_t config = XINC_DRV_I2S_DEFAULT_CONFIG;
+    // In Master mode the MCK frequency and the MCK/LRCK ratio should be
+    // set properly in order to achieve desired audio sample rate (which
+    // is equivalent to the LRCK frequency).
+    // For the following settings we'll get the LRCK frequency equal to
+    // 15873 Hz (the closest one to 16 kHz that is possible to achieve).
+
+    err_code = xinc_drv_i2s_init(&m_i2s,&config, data_handler,NULL);
+    
+    xinc_drv_i2s_start(&m_i2s,i2s_buff,20,0);
+    
+    xinc_drv_i2s_stop(&m_i2s);
+    xinc_drv_i2s_uninit(&m_i2s);
+    
+}
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
 #define SCHED_QUEUE_SIZE                    10                                          //!< Size of the scheduler queue.
 
@@ -451,6 +479,8 @@ int	main(void)
     
     buton_config();
     AT24C02_init();
+    
+    I2S_init();
 
 //	bsp_button_led_test();
     while(1) {

@@ -46,25 +46,25 @@ extern "C" {
 /** @brief Macro for mapping port and pin numbers to values understandable for xinc_gpio functions. */
 #define XINC_GPIO_PIN_MAP(port, pin) (((port) << 5) | ((pin) & 0x1F))
 #if (GPIO_COUNT == 1) || (GPIO_COUNT == 2)
-#define XINC_GPIO_0				    XINC_GPIO_PIN_MAP(0, 0)
-#define XINC_GPIO_1				    XINC_GPIO_PIN_MAP(0, 1)
-#define XINC_GPIO_2				    XINC_GPIO_PIN_MAP(0, 2)
-#define XINC_GPIO_3				    XINC_GPIO_PIN_MAP(0, 3)
-#define XINC_GPIO_4				    XINC_GPIO_PIN_MAP(0, 4)
-#define XINC_GPIO_5				    XINC_GPIO_PIN_MAP(0, 5)
-#define XINC_GPIO_6				    XINC_GPIO_PIN_MAP(0, 6)
-#define XINC_GPIO_7				    XINC_GPIO_PIN_MAP(0, 7)
-#define XINC_GPIO_8				    XINC_GPIO_PIN_MAP(0, 8)
-#define XINC_GPIO_9				    XINC_GPIO_PIN_MAP(0, 9)
-#define XINC_GPIO_10				XINC_GPIO_PIN_MAP(0, 10)
-#define XINC_GPIO_11				XINC_GPIO_PIN_MAP(0, 11)
-#define XINC_GPIO_12				XINC_GPIO_PIN_MAP(0, 12)
-#define XINC_GPIO_13				XINC_GPIO_PIN_MAP(0, 13)
-#define XINC_GPIO_14				XINC_GPIO_PIN_MAP(0, 14)
-#define XINC_GPIO_15				XINC_GPIO_PIN_MAP(0, 15)
-#define XINC_GPIO_16				XINC_GPIO_PIN_MAP(0, 16)
-#define XINC_GPIO_17				XINC_GPIO_PIN_MAP(0, 17)
-#define XINC_GPIO_18				XINC_GPIO_PIN_MAP(0, 18)
+//#define XINC_GPIO_0				    XINC_GPIO_PIN_MAP(0, 0)
+//#define XINC_GPIO_1				    XINC_GPIO_PIN_MAP(0, 1)
+//#define XINC_GPIO_2				    XINC_GPIO_PIN_MAP(0, 2)
+//#define XINC_GPIO_3				    XINC_GPIO_PIN_MAP(0, 3)
+//#define XINC_GPIO_4				    XINC_GPIO_PIN_MAP(0, 4)
+//#define XINC_GPIO_5				    XINC_GPIO_PIN_MAP(0, 5)
+//#define XINC_GPIO_6				    XINC_GPIO_PIN_MAP(0, 6)
+//#define XINC_GPIO_7				    XINC_GPIO_PIN_MAP(0, 7)
+//#define XINC_GPIO_8				    XINC_GPIO_PIN_MAP(0, 8)
+//#define XINC_GPIO_9				    XINC_GPIO_PIN_MAP(0, 9)
+//#define XINC_GPIO_10				XINC_GPIO_PIN_MAP(0, 10)
+//#define XINC_GPIO_11				XINC_GPIO_PIN_MAP(0, 11)
+//#define XINC_GPIO_12				XINC_GPIO_PIN_MAP(0, 12)
+//#define XINC_GPIO_13				XINC_GPIO_PIN_MAP(0, 13)
+//#define XINC_GPIO_14				XINC_GPIO_PIN_MAP(0, 14)
+//#define XINC_GPIO_15				XINC_GPIO_PIN_MAP(0, 15)
+//#define XINC_GPIO_16				XINC_GPIO_PIN_MAP(0, 16)
+//#define XINC_GPIO_17				XINC_GPIO_PIN_MAP(0, 17)
+//#define XINC_GPIO_18				XINC_GPIO_PIN_MAP(0, 18)
 //#define XINC_GPIO_19				XINC_GPIO_PIN_MAP(0, 19)
 //#define XINC_GPIO_20				XINC_GPIO_PIN_MAP(0, 20)
 //#define XINC_GPIO_21				XINC_GPIO_PIN_MAP(0, 21)
@@ -81,26 +81,56 @@ extern "C" {
 #endif
 
 #if (GPIO_COUNT == 2)
-#define XINC_GPIO_32				XINC_GPIO_PIN_MAP(0, 32)
-#define XINC_GPIO_33				XINC_GPIO_PIN_MAP(0, 33)
-#define XINC_GPIO_34				XINC_GPIO_PIN_MAP(0, 34)
-#define XINC_GPIO_35				XINC_GPIO_PIN_MAP(0, 35)
+//#define XINC_GPIO_32				XINC_GPIO_PIN_MAP(0, 32)
+//#define XINC_GPIO_33				XINC_GPIO_PIN_MAP(0, 33)
+//#define XINC_GPIO_34				XINC_GPIO_PIN_MAP(0, 34)
+//#define XINC_GPIO_35				XINC_GPIO_PIN_MAP(0, 35)
 #endif
 
 enum{
- XINC_GPIO_19		=		XINC_GPIO_PIN_MAP(0, 19),
- XINC_GPIO_20		=		XINC_GPIO_PIN_MAP(0, 20),
- XINC_GPIO_21		=		XINC_GPIO_PIN_MAP(0, 21),
- XINC_GPIO_22		=		XINC_GPIO_PIN_MAP(0, 22),
- XINC_GPIO_23		=		XINC_GPIO_PIN_MAP(0, 23),
- XINC_GPIO_24		=		XINC_GPIO_PIN_MAP(0, 24),
- XINC_GPIO_25		=		XINC_GPIO_PIN_MAP(0, 25),
- XINC_GPIO_26		=		XINC_GPIO_PIN_MAP(0, 26),
- XINC_GPIO_27		=		XINC_GPIO_PIN_MAP(0, 27),
- XINC_GPIO_28		=		XINC_GPIO_PIN_MAP(0, 28),
- XINC_GPIO_29		=		XINC_GPIO_PIN_MAP(0, 29),
- XINC_GPIO_31		=		XINC_GPIO_PIN_MAP(0, 31),
- XINC_GPIO_MAX 
+#if (GPIO_COUNT == 1) || (GPIO_COUNT == 2)
+    XINC_GPIO_0			=	    XINC_GPIO_PIN_MAP(0, 0),
+    XINC_GPIO_1			=	    XINC_GPIO_PIN_MAP(0, 1),
+    XINC_GPIO_2			=	    XINC_GPIO_PIN_MAP(0, 2),
+    XINC_GPIO_3			=	    XINC_GPIO_PIN_MAP(0, 3),
+    XINC_GPIO_4			=	    XINC_GPIO_PIN_MAP(0, 4),
+    XINC_GPIO_5			=	    XINC_GPIO_PIN_MAP(0, 5),
+    XINC_GPIO_6			=	    XINC_GPIO_PIN_MAP(0, 6),
+    XINC_GPIO_7			=	    XINC_GPIO_PIN_MAP(0, 7),
+    XINC_GPIO_8			=	    XINC_GPIO_PIN_MAP(0, 8),
+    XINC_GPIO_9			=	    XINC_GPIO_PIN_MAP(0, 9),
+    XINC_GPIO_10		=		XINC_GPIO_PIN_MAP(0, 10),
+    XINC_GPIO_11		=		XINC_GPIO_PIN_MAP(0, 11),
+    XINC_GPIO_12		=		XINC_GPIO_PIN_MAP(0, 12),
+    XINC_GPIO_13		=		XINC_GPIO_PIN_MAP(0, 13),
+    XINC_GPIO_14		=		XINC_GPIO_PIN_MAP(0, 14),
+    XINC_GPIO_15		=		XINC_GPIO_PIN_MAP(0, 15),
+    XINC_GPIO_16		=		XINC_GPIO_PIN_MAP(0, 16),
+    XINC_GPIO_17		=		XINC_GPIO_PIN_MAP(0, 17),
+    XINC_GPIO_18		=		XINC_GPIO_PIN_MAP(0, 18),
+    XINC_GPIO_19		=		XINC_GPIO_PIN_MAP(0, 19),
+    XINC_GPIO_20		=		XINC_GPIO_PIN_MAP(0, 20),
+    XINC_GPIO_21		=		XINC_GPIO_PIN_MAP(0, 21),
+    XINC_GPIO_22		=		XINC_GPIO_PIN_MAP(0, 22),
+    XINC_GPIO_23		=		XINC_GPIO_PIN_MAP(0, 23),
+    XINC_GPIO_24		=		XINC_GPIO_PIN_MAP(0, 24),
+    XINC_GPIO_25		=		XINC_GPIO_PIN_MAP(0, 25),
+    XINC_GPIO_26		=		XINC_GPIO_PIN_MAP(0, 26),
+    XINC_GPIO_27		=		XINC_GPIO_PIN_MAP(0, 27),
+    XINC_GPIO_28		=		XINC_GPIO_PIN_MAP(0, 28),
+    XINC_GPIO_29		=		XINC_GPIO_PIN_MAP(0, 29),
+    XINC_GPIO_30		=		XINC_GPIO_PIN_MAP(0, 29),
+    XINC_GPIO_31		=		XINC_GPIO_PIN_MAP(0, 31),
+#endif
+
+#if (GPIO_COUNT == 2)
+    XINC_GPIO_32		=		XINC_GPIO_PIN_MAP(0, 32),
+    XINC_GPIO_33		=		XINC_GPIO_PIN_MAP(0, 33),
+    XINC_GPIO_34		=		XINC_GPIO_PIN_MAP(0, 34),
+    XINC_GPIO_35		=		XINC_GPIO_PIN_MAP(0, 35),
+#endif //
+
+    XINC_GPIO_MAX 
 };
 typedef enum{
  XC_GPIO_Dx=0,//普通GPIO口功能
@@ -243,6 +273,10 @@ typedef enum
     XINC_GPIO_PIN_AUDIO_MIC_N ,
     XINC_GPIO_PIN_AUDIO_MIC_BIAS ,
 		
+    XINC_GPIO_PIN_I2S_SCLK,
+    XINC_GPIO_PIN_I2S_WS,
+    XINC_GPIO_PIN_I2S_DIN,
+    XINC_GPIO_PIN_I2S_DOUT,
 } xinc_gpio_pin_fun_sel_t;
 
 /** @brief Enumerator used for mux. */

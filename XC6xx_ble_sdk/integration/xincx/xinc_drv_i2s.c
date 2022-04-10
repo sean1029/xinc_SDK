@@ -25,76 +25,76 @@ static void *                    m_contexts[INSTANCE_COUNT];
 
 
 #ifdef I2SM_PRESENT
-static void i2sm_evt_handler(xincx_i2sm_evt_t const * p_event,
-                             void *                  p_context)
+static void i2sm_evt_handler(xincx_i2sm_buffers_t const * p_released,
+                                        uint32_t                   status,
+                                        void *                 p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;
-    xinc_drv_i2c_evt_t const event =
+    xinc_drv_i2s_data_handler_t const event =
     {
-        .type = (xinc_drv_i2c_evt_type_t)p_event->type,
-        .xfer_desc =
-        {
-            .type = (xinc_drv_i2c_xfer_type_t)p_event->xfer_desc.type,
-            .address          = p_event->xfer_desc.address,
-            .primary_length   = p_event->xfer_desc.primary_length,
-            .secondary_length = p_event->xfer_desc.secondary_length,
-            .p_primary_buf    = p_event->xfer_desc.p_primary_buf,
-            .p_secondary_buf  = p_event->xfer_desc.p_secondary_buf,
-        }
+        .p_released = p_released,
+        .status = 0,
     };
+
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
 }
 #endif // I2SM_PRESENT
 
 #ifdef I2S_PRESENT
-static void i2s_evt_handler(xincx_i2s_evt_t const * p_event,
-                            void *                 p_context)
+static void i2s_evt_handler(xincx_i2s_buffers_t const * p_released,
+                                        uint32_t                   status,
+                                        void *                 p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;
-    xinc_drv_i2s_evt_t const event =
+    xinc_drv_i2s_data_handler_t const event =
     {
-        .type = (xinc_drv_i2s_evt_type_t)p_event->type,
-        .xfer_desc =
-        {
-            .type = (xinc_drv_i2s_xfer_type_t)p_event->xfer_desc.type,
-            .address          = p_event->xfer_desc.address,
-            .primary_length   = p_event->xfer_desc.primary_length,
-            .secondary_length = p_event->xfer_desc.secondary_length,
-            .p_primary_buf    = p_event->xfer_desc.p_primary_buf,
-            .p_secondary_buf  = p_event->xfer_desc.p_secondary_buf,
-        }
+    
     };
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
 }
-#endif // I2C_PRESENT
+#endif // I2S_PRESENT
 
 ret_code_t xinc_drv_i2s_init(xinc_drv_i2s_t const *        p_instance,
                             xinc_drv_i2s_config_t const * p_config,
-                            xinc_drv_i2s_evt_handler_t    event_handler,
+                            xinc_drv_i2s_evt_handler_t    handler,
                             void *                       p_context)
 {
     uint32_t inst_idx = p_instance->inst_idx;
-    m_handlers[inst_idx] = event_handler;
+    m_handlers[inst_idx] = handler;
     m_contexts[inst_idx] = p_context;
 
-    ret_code_t result = 0;
+    ret_code_t result = XINC_SUCCESS;
 
     if (XINC_DRV_I2S_USE_I2SM)
     {
+        if (p_config == NULL)
+        {
+            static xincx_i2sm_config_t const default_config = XINCX_I2SM_DEFAULT_CONFIG;
+            p_config = &default_config;
+        }
+
         result = xincx_i2sm_init(&p_instance->u.i2sm,
-                               (xincx_i2c_config_t const *)p_config,
-                               event_handler ? i2sm_evt_handler : NULL,
+                               (xincx_i2sm_config_t const *)p_config,
+                               handler ? i2sm_evt_handler : NULL,
                                (void *)inst_idx);
-    }
-    
+    }  
+#ifdef I2S_PRESENT    
     else if (XINC_DRV_I2S_USE_I2S)
     {
+        if (p_config == NULL)
+        {
+            static xincx_i2s_config_t const default_config = XINCX_I2S_DEFAULT_CONFIG;
+            p_config = &default1_config;
+        }
+        
         result = xincx_i2s_init(&p_instance->u.i2s,
                                (xincx_i2s_config_t const *)p_config,
                                event_handler ? i2s_evt_handler : NULL,
                                (void *)inst_idx);
     }
+#endif //
     return result;
 }
+
 #endif //
 
