@@ -119,46 +119,6 @@
 
 
 
-/* Register: CPR_UART2_CLK_GRCTL */
-/* Description :UART2_CLK 时 钟 GR 控制寄存器 对应UART2
-* Offset      : 0x250
-    BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
-写屏蔽 BIT[15:12]*/
-/* Bit 0..3: UART2_CLK_GR */
-/* Description: uart2_clk 相对于 32MHz 时
-钟的一级分频比为:UART2_CLK_GR/8
-
-*/
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos (0UL) // /*!< Position of UART2_CLK_GR field. */
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_Msk (0xFUL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos) 
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_WE  ((1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
-
-/* Bit 4: UART2_CLK_GR_UPD */
-/* Description: uart2_clk GR 参数更新寄存器
-自清 0
-1 有效
-*/
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos (4UL) // /*!< Position of UART2_CLK_GR_UPD field. */
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Msk (0x1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos) 
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Disable (0UL) /*!< 自清 */
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Enable (1UL) /*!< 有效*/
-
-#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_WE  ((1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
-
-/* Bit 5: UART2_PCLK_EN */
-/* Description: UART2_PCLK 时钟使能
-0：不使能时钟
-1：使能时钟
-*/
-#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Pos (5UL) // /*!< Position of UART2_PCLK_EN field. */
-#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Msk (0x1UL << CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Pos) 
-#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Disable (0UL) /*!< 不使能时钟 */
-#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Enable (1UL) /*!< 使能时钟*/
-
-#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_WE  CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_WE
-
-
-
 
 
 
@@ -1139,6 +1099,105 @@
 */
 #define CPR_OTHER_CLK_CDC_MCLK_MUL_Pos (16UL) // /*!< Position of CDC_MCLK_MUL field. */
 #define CPR_OTHER_CLK_CDC_MCLK_MUL_Msk (0xFFFFUL << CPR_OTHER_CLK_CDC_MCLK_MUL_Pos) 
+
+
+
+/* Register: CPR_UART2_CLK_GRCTL */
+/* Description :UART2_CLK 时 钟 GR 控制寄存器 对应UART2
+* Offset      : 0x250
+    BIT 16 写屏蔽 BIT[3:0]，BIT 20 写屏蔽 BIT[7:4]，BIT 24 写屏蔽 BIT[11:8]，BIT 28
+写屏蔽 BIT[15:12]*/
+/* Bit 0..3: UART2_CLK_GR */
+/* Description: uart2_clk 相对于 32MHz 时
+钟的一级分频比为:UART2_CLK_GR/8
+
+*/
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos (0UL) // /*!< Position of UART2_CLK_GR field. */
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_Msk (0xFUL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos) 
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_WE  ((1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
+
+/* Bit 4: UART2_CLK_GR_UPD */
+/* Description: uart2_clk GR 参数更新寄存器
+自清 0
+1 有效
+*/
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos (4UL) // /*!< Position of UART2_CLK_GR_UPD field. */
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Msk (0x1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos) 
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Disable (0UL) /*!< 自清 */
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Enable (1UL) /*!< 有效*/
+
+#define CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_WE  ((1UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_Pos) << CPR_UART_CLK_GRCTL_MASK_OFFSET)
+
+/* Bit 5: UART2_PCLK_EN */
+/* Description: UART2_PCLK 时钟使能
+0：不使能时钟
+1：使能时钟
+*/
+#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Pos (5UL) // /*!< Position of UART2_PCLK_EN field. */
+#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Msk (0x1UL << CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Pos) 
+#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Disable (0UL) /*!< 不使能时钟 */
+#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_Enable (1UL) /*!< 使能时钟*/
+
+#define CPR_UART_CLK_GRCTL_UART2_PCLK_EN_WE  CPR_UART_CLK_GRCTL_UART2_CLK_GR_UPD_WE
+
+
+
+
+
+/* Register: CPR_I2S_CLK_CTL */
+/* Offse: 0x258 */
+/* Description : I2S CLK 相关控制寄存器
+*/
+
+/* Bit 0..11: i2s_mclk_div */
+/* Description: 
+*/
+#define CPR_I2S_CLK_CTL_I2S_MCLK_DIV_Pos (0UL) // /*!< Position of i2s_mclk_div field. */
+#define CPR_I2S_CLK_CTL_I2S_MCLK_DIV_Msk (0xFFFUL << CPR_I2S_CLK_CTL_I2S_MCLK_DIV_Pos) 
+
+/* Bit 12: i2s_mclk_en */
+/* Description: 
+*/
+#define CPR_I2S_CLK_CTL_I2S_MCLK_EN_Pos (12UL) // /*!< Position of i2s_mclk_en field. */
+#define CPR_I2S_CLK_CTL_I2S_MCLK_EN_Msk (0x1UL << CPR_I2S_CLK_CTL_I2S_MCLK_EN_Pos) 
+#define CPR_I2S_CLK_CTL_I2S_MCLK_EN_Disable (0UL) /*!< 不使能时钟 */
+#define CPR_I2S_CLK_CTL_I2S_MCLK_EN_Enable (1UL) /*!< 使能时钟*/
+
+/* Bit 13: i2s_pclk_en */
+/* Description: 
+*/
+#define CPR_I2S_CLK_CTL_I2S_PCLK_EN_Pos (13UL) // /*!< Position of i2s_pclk_en field. */
+#define CPR_I2S_CLK_CTL_I2S_PCLK_EN_Msk (0x1UL << CPR_I2S_CLK_CTL_I2S_PCLK_EN_Pos) 
+#define CPR_I2S_CLK_CTL_I2S_PCLK_EN_Disable (0UL) /*!< 不使能时钟 */
+#define CPR_I2S_CLK_CTL_I2S_PCLK_EN_Enable (1UL) /*!< 使能时钟*/
+
+
+/* Register: CPR_CAN_CLK_CTL */
+/* Offse: 0x25C */
+/* Description : CAN CLK 相关控制寄存器
+*/
+
+/* Bit 0..11: can_mclk_div */
+/* Description: 
+*/
+#define CPR_CAN_CLK_CTL_CAN_MCLK_DIV_Pos (0UL) // /*!< Position of can_mclk_div field. */
+#define CPR_CAN_CLK_CTL_CAN_MCLK_DIV_Msk (0xFFFUL << CPR_CAN_CLK_CTL_CAN_MCLK_DIV_Pos) 
+
+/* Bit 12: can_mclk_en */
+/* Description: 
+*/
+#define CPR_CAN_CLK_CTL_CAN_MCLK_EN_Pos (12UL) // /*!< Position of can_mclk_en field. */
+#define CPR_CAN_CLK_CTL_CAN_MCLK_EN_Msk (0x1UL << CPR_CAN_CLK_CTL_CAN_MCLK_EN_Pos) 
+#define CPR_CAN_CLK_CTL_CAN_MCLK_EN_Disable (0UL) /*!< 不使能时钟 */
+#define CPR_CAN_CLK_CTL_CAN_MCLK_EN_Enable (1UL) /*!< 使能时钟*/
+
+/* Bit 13: can_pclk_en */
+/* Description: 
+*/
+#define CPR_CAN_CLK_CTL_CAN_PCLK_EN_Pos (13UL) // /*!< Position of can_pclk_en field. */
+#define CPR_CAN_CLK_CTL_CAN_PCLK_EN_Msk (0x1UL << CPR_CAN_CLK_CTL_CAN_PCLK_EN_Pos) 
+#define CPR_CAN_CLK_CTL_CAN_PCLK_EN_Disable (0UL) /*!< 不使能时钟 */
+#define CPR_CAN_CLK_CTL_CAN_PCLK_EN_Enable (1UL) /*!< 使能时钟*/
 
 
 

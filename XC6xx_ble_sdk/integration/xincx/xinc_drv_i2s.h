@@ -212,7 +212,7 @@ ret_code_t xinc_drv_i2s_start(xinc_drv_i2s_t const *        p_instance,
                           uint8_t                    flags);  
 
 __STATIC_INLINE
-ret_code_t xincx_drv_i2s_next_buffers_set(xinc_drv_i2s_t const *        p_instance,
+ret_code_t xinc_drv_i2s_next_buffers_set(xinc_drv_i2s_t const *        p_instance,
                                         xinc_drv_i2s_buffers_t const * p_buffers); 
 
 
@@ -257,7 +257,7 @@ ret_code_t xinc_drv_i2s_start(xinc_drv_i2s_t const *        p_instance,
 
 
 __STATIC_INLINE
-ret_code_t xincx_drv_i2s_next_buffers_set(xinc_drv_i2s_t const *        p_instance,
+ret_code_t xinc_drv_i2s_next_buffers_set(xinc_drv_i2s_t const *        p_instance,
                                         xinc_drv_i2s_buffers_t const * p_buffers)
 {
     ret_code_t result = XINC_SUCCESS;

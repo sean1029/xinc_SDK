@@ -1,40 +1,9 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Author :sean cheng
  *
  */
 
@@ -72,9 +41,10 @@ typedef enum
 /** @brief I2SM events. */
 typedef enum
 {
-    XINC_I2SM_EVENT_RXPTRUPD = 0, ///< The RXD.PTR register has been copied to internal double buffers.
-    XINC_I2SM_EVENT_TXPTRUPD = 1, ///< The TXD.PTR register has been copied to internal double buffers.
-    XINC_I2SM_EVENT_STOPPED  = 2  ///< I2SM transfer stopped.
+    XINC_I2SM_EVENT_NONE = 0,
+    XINC_I2SM_EVENT_RXPTRUPD = 1, ///< The RXD.PTR register has been copied to internal double buffers.
+    XINC_I2SM_EVENT_TXPTRUPD = 2, ///< The TXD.PTR register has been copied to internal double buffers.
+    XINC_I2SM_EVENT_STOPPED  = 4  ///< I2SM transfer stopped.
 } xinc_i2sm_event_t;
 
 /** @brief I2SM interrupts. */
@@ -95,37 +65,33 @@ typedef enum
 /** @brief I2SM master clock generator settings. */
 typedef enum
 {
-    XINC_I2SM_MCK_DISABLED  = 0,                                       ///< MCK disabled.
-#if defined(I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV2) || defined(__XINCX_DOXYGEN__)
-    // [conversion to 'int' needed to prevent compilers from complaining
-    //  that the provided value (0x80000000UL) is out of range of "int"]
-    XINC_I2SM_MCK_32MDIV2   = (int)I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV2, ///< 32 MHz / 2 = 16.0 MHz.
-#endif
-#if defined(I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV3) || defined(__XINCX_DOXYGEN__)
-    XINC_I2SM_MCK_32MDIV3   = I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV3,      ///< 32 MHz / 3 = 10.6666667 MHz.
-#endif
-#if defined(I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV4) || defined(__XINCX_DOXYGEN__)
-    XINC_I2SM_MCK_32MDIV4   = I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV4,      ///< 32 MHz / 4 = 8.0 MHz.
-#endif
-#if defined(I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV5) || defined(__XINCX_DOXYGEN__)
-    XINC_I2SM_MCK_32MDIV5   = I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV5,      ///< 32 MHz / 5 = 6.4 MHz.
-#endif
-#if defined(I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV6) || defined(__XINCX_DOXYGEN__)
-    XINC_I2SM_MCK_32MDIV6   = I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV6,      ///< 32 MHz / 6 = 5.3333333 MHz.
-#endif
-    XINC_I2SM_MCK_32MDIV8   = 8,      ///< 32 MHz / 8 = 4.0 MHz.
-    XINC_I2SM_MCK_32MDIV10  = 9,     ///< 32 MHz / 10 = 3.2 MHz.
-    XINC_I2SM_MCK_32MDIV11  = 10,     ///< 32 MHz / 11 = 2.9090909 MHz.
-    XINC_I2SM_MCK_32MDIV15  = 11,     ///< 32 MHz / 15 = 2.1333333 MHz.
-    XINC_I2SM_MCK_32MDIV16  = 12,     ///< 32 MHz / 16 = 2.0 MHz.
-    XINC_I2SM_MCK_32MDIV21  = 13,     ///< 32 MHz / 21 = 1.5238095 MHz.
-    XINC_I2SM_MCK_32MDIV23  = 14,     ///< 32 MHz / 23 = 1.3913043 MHz.
-    XINC_I2SM_MCK_32MDIV30  = 15,     ///< 32 MHz / 30 = 1.0666667 MHz.
-    XINC_I2SM_MCK_32MDIV31  = 16,     ///< 32 MHz / 31 = 1.0322581 MHz.
-    XINC_I2SM_MCK_32MDIV32  = 17,     ///< 32 MHz / 32 = 1.0 MHz.
-    XINC_I2SM_MCK_32MDIV42  = 18,     ///< 32 MHz / 42 = 0.7619048 MHz.
-    XINC_I2SM_MCK_32MDIV63  = 19,     ///< 32 MHz / 63 = 0.5079365 MHz.
-    XINC_I2SM_MCK_32MDIV125 = 20,//I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV125     ///< 32 MHz / 125 = 0.256 MHz.
+    XINC_I2SM_MCK_SAME_PCLK  = 0,  ///< MCK same pclk.
+
+    XINC_I2SM_MCK_16MDIV2   = 1,//(int)I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV2, ///< 16 MHz / 2 = 8.0 MHz.
+
+
+    XINC_I2SM_MCK_32MDIV3   = 2,      ///< 16 MHz / 3 = 5.33333 MHz.
+   XINC_I2SM_MCK_32MDIV4   = 3,      ///< 16 MHz / 4 = 8.0 MHz.
+
+
+    XINC_I2SM_MCK_32MDIV5   = 4,      ///< 16 MHz / 5 = 6.4 MHz.
+
+
+    XINC_I2SM_MCK_32MDIV6   = 5,      ///< 16 MHz / 6 = 5.3333333 MHz.
+
+    XINC_I2SM_MCK_32MDIV8   = 7,      ///< 16 MHz / 8 = 2.0 MHz.
+    XINC_I2SM_MCK_32MDIV10  = 9,     ///< 16 MHz / 10 = 1.6 MHz.
+    XINC_I2SM_MCK_32MDIV11  = 10,     ///< 16 MHz / 11 = 1.454545 MHz.
+    XINC_I2SM_MCK_32MDIV15  = 14,     ///< 16 MHz / 15 = 1.066667 MHz.
+    XINC_I2SM_MCK_32MDIV16  = 15,     ///< 16 MHz / 16 = 1.0 MHz.
+    XINC_I2SM_MCK_32MDIV21  = 20,     ///< 16 MHz / 21 = 0.761904 MHz.
+    XINC_I2SM_MCK_32MDIV23  = 22,     ///< 16 MHz / 23 = 0.695652 MHz.
+    XINC_I2SM_MCK_32MDIV30  = 29,     ///< 16 MHz / 30 = 0.533333 MHz.
+    XINC_I2SM_MCK_32MDIV31  = 30,     ///< 16 MHz / 31 = 0.516129 MHz.
+    XINC_I2SM_MCK_32MDIV32  = 31,     ///< 16 MHz / 32 = 0.5 MHz.
+    XINC_I2SM_MCK_32MDIV42  = 41,     ///< 16 MHz / 42 = 0.380952 MHz.
+    XINC_I2SM_MCK_32MDIV63  = 62,     ///< 16 MHz / 63 = 0.253968 MHz.
+    XINC_I2SM_MCK_32MDIV125 = 124,//I2SM_CONFIG_MCKFREQ_MCKFREQ_32MDIV125     ///< 16 MHz / 125 = 0.128 MHz.
 } xinc_i2sm_mck_t;
 
 /** @brief I2SM MCK/LRCK ratios. */
@@ -145,9 +111,14 @@ typedef enum
 /** @brief I2SM sample widths. */
 typedef enum
 {
-    XINC_I2SM_SWIDTH_8BIT  = 0,//I2SM_CONFIG_SWIDTH_SWIDTH_8Bit,  ///< 8 bit.
-    XINC_I2SM_SWIDTH_16BIT = 1,//I2SM_CONFIG_SWIDTH_SWIDTH_16Bit, ///< 16 bit.
-    XINC_I2SM_SWIDTH_24BIT = 2,//I2SM_CONFIG_SWIDTH_SWIDTH_24Bit  ///< 24 bit.
+   
+    XINC_I2SM_SWIDTH_8BIT  = 1,//I2SM_CONFIG_SWIDTH_SWIDTH_8Bit,  ///< 8 bit.
+    XINC_I2SM_SWIDTH_12BIT  = 2,//I2SM_CONFIG_SWIDTH_SWIDTH_12Bit,  ///< 12 bit.
+    XINC_I2SM_SWIDTH_16BIT  = 3,//I2SM_CONFIG_SWIDTH_SWIDTH_16Bit,  ///< 16 bit.
+    XINC_I2SM_SWIDTH_20BIT = 4,//I2SM_CONFIG_SWIDTH_SWIDTH_20Bit, ///< 20 bit.
+    XINC_I2SM_SWIDTH_24BIT = 5,//I2SM_CONFIG_SWIDTH_SWIDTH_24Bit  ///< 24 bit.
+    XINC_I2SM_SWIDTH_28BIT = 6,//I2SM_CONFIG_SWIDTH_SWIDTH_24Bit  ///< 28 bit.
+    XINC_I2SM_SWIDTH_32BIT = 7,//I2SM_CONFIG_SWIDTH_SWIDTH_24Bit  ///< 32 bit.
 } xinc_i2sm_swidth_t;
 
 /** @brief I2SM alignments of sample within a frame. */
@@ -160,7 +131,7 @@ typedef enum
 /** @brief I2SM frame formats. */
 typedef enum
 {
-    XINC_I2SM_FORMAT_I2SM     = 0,//I2SM_CONFIG_FORMAT_FORMAT_I2SM,    ///< Original I2SM format.
+    XINC_I2SM_FORMAT_I2S     = 0,//I2SM_CONFIG_FORMAT_FORMAT_I2S,    ///< Original I2S format.
     XINC_I2SM_FORMAT_ALIGNED = 1,//I2SM_CONFIG_FORMAT_FORMAT_Aligned ///< Alternate (left-aligned or right-aligned) format.
 } xinc_i2sm_format_t;
 
@@ -233,7 +204,7 @@ __STATIC_INLINE void xinc_i2sm_disable(XINC_I2S_Type * p_reg);
  * @retval true  The configuration has been set successfully.
  * @retval false The specified configuration is not allowed.
  */
-__STATIC_INLINE bool xinc_i2sm_configure(XINC_I2S_Type *     p_reg,
+__STATIC_INLINE bool xinc_i2sm_configure_check(XINC_I2S_Type *     p_reg,
                                        xinc_i2sm_mode_t     mode,
                                        xinc_i2sm_format_t   format,
                                        xinc_i2sm_align_t    alignment,
@@ -242,66 +213,9 @@ __STATIC_INLINE bool xinc_i2sm_configure(XINC_I2S_Type *     p_reg,
                                        xinc_i2sm_mck_t      mck_setup,
                                        xinc_i2sm_ratio_t    ratio);
 
-/**
- * @brief Function for setting up the I2SM transfer.
- *
- * This function sets up the RX and TX buffers and enables reception or
- * transmission (or both) accordingly. If the transfer in a given direction is not
- * required, pass NULL instead of the pointer to the corresponding buffer.
- *
- * @param[in] p_reg       Pointer to the structure of registers of the peripheral.
- * @param[in] size        Size of the buffers (in 32-bit words).
- * @param[in] p_rx_buffer Pointer to the receive buffer.
- *                        Pass NULL to disable reception.
- * @param[in] p_tx_buffer Pointer to the transmit buffer.
- *                        Pass NULL to disable transmission.
- */
-__STATIC_INLINE void xinc_i2sm_transfer_set(XINC_I2S_Type *   p_reg,
-                                          uint16_t         size,
-                                          uint32_t *       p_rx_buffer,
-                                          uint32_t const * p_tx_buffer);
 
-/**
- * @brief Function for setting the pointer to the receive buffer.
- *
- * @note The size of the buffer can be set only by calling
- *       @ref xinc_i2sm_transfer_set.
- *
- * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in] p_buffer Pointer to the receive buffer.
- */
-__STATIC_INLINE void xinc_i2sm_rx_buffer_set(XINC_I2S_Type * p_reg,
-                                           uint32_t *     p_buffer);
 
-/**
- * @brief Function for getting the pointer to the receive buffer.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Pointer to the receive buffer.
- */
-__STATIC_INLINE uint32_t * xinc_i2sm_rx_buffer_get(XINC_I2S_Type const * p_reg);
 
-/**
- * @brief Function for setting the pointer to the transmit buffer.
- *
- * @note The size of the buffer can be set only by calling
- *       @ref xinc_i2sm_transfer_set.
- *
- * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
- * @param[in] p_buffer Pointer to the transmit buffer.
- */
-__STATIC_INLINE void xinc_i2sm_tx_buffer_set(XINC_I2S_Type *   p_reg,
-                                           uint32_t const * p_buffer);
-
-/**
- * @brief Function for getting the pointer to the transmit buffer.
- *
- * @param[in] p_reg Pointer to the structure of registers of the peripheral.
- *
- * @return Pointer to the transmit buffer.
- */
-__STATIC_INLINE uint32_t * xinc_i2sm_tx_buffer_get(XINC_I2S_Type const * p_reg);
 
 
 #ifndef SUPPRESS_INLINE_IMPLEMENTATION
@@ -311,32 +225,32 @@ __STATIC_INLINE uint32_t * xinc_i2sm_tx_buffer_get(XINC_I2S_Type const * p_reg);
 
 __STATIC_INLINE void xinc_i2sm_int_enable(XINC_I2S_Type * p_reg, uint32_t mask)
 {
-   // p_reg->INTENSET = mask;
+    p_reg->INT_EN |= mask;
 }
 
 __STATIC_INLINE void xinc_i2sm_int_disable(XINC_I2S_Type * p_reg, uint32_t mask)
 {
-  //  p_reg->INTENCLR = mask;
+    p_reg->INT_EN &= ~mask;
 }
 
 __STATIC_INLINE bool xinc_i2sm_int_enable_check(XINC_I2S_Type const * p_reg,
                                               xinc_i2sm_int_mask_t   i2sm_int)
 {
-    return (bool)0;//(p_reg->INTENSET & i2sm_int);
+    return (bool)(p_reg->INT_EN & i2sm_int);
 }
 
 __STATIC_INLINE void xinc_i2sm_enable(XINC_I2S_Type * p_reg)
 {
-   // p_reg->ENABLE = (I2SM_ENABLE_ENABLE_Enabled << I2SM_ENABLE_ENABLE_Pos);
+    p_reg->TRANS_EN |= (I2S_I2S_TRANS_EN_I2S_ENABLE_Enable  << I2S_I2S_TRANS_EN_I2S_ENABLE_Pos);
 }
 
 __STATIC_INLINE void xinc_i2sm_disable(XINC_I2S_Type * p_reg)
 {
-    //p_reg->ENABLE = (I2SM_ENABLE_ENABLE_Disabled << I2SM_ENABLE_ENABLE_Pos);
+    p_reg->TRANS_EN &= ~(I2S_I2S_TRANS_EN_I2S_ENABLE_Enable  << I2S_I2S_TRANS_EN_I2S_ENABLE_Pos);
 }
 
 
-__STATIC_INLINE bool xinc_i2sm_configure(XINC_I2S_Type *     p_reg,
+__STATIC_INLINE bool xinc_i2sm_configure_check(XINC_I2S_Type *     p_reg,
                                        xinc_i2sm_mode_t     mode,
                                        xinc_i2sm_format_t   format,
                                        xinc_i2sm_align_t    alignment,
@@ -362,63 +276,21 @@ __STATIC_INLINE bool xinc_i2sm_configure(XINC_I2S_Type *     p_reg,
         }
     }
 
-//    p_reg->CONFIG.MODE     = mode;
-//    p_reg->CONFIG.FORMAT   = format;
-//    p_reg->CONFIG.ALIGN    = alignment;
-//    p_reg->CONFIG.SWIDTH   = sample_width;
-//    p_reg->CONFIG.CHANNELS = channels;
-//    p_reg->CONFIG.RATIO    = ratio;
 
-    if (mck_setup == XINC_I2SM_MCK_DISABLED)
+    if (mck_setup == XINC_I2SM_MCK_SAME_PCLK)
     {
-//        p_reg->CONFIG.MCKEN =
-//            (I2SM_CONFIG_MCKEN_MCKEN_Disabled << I2SM_CONFIG_MCKEN_MCKEN_Pos);
+
     }
     else
     {
-//        p_reg->CONFIG.MCKFREQ = mck_setup;
-//        p_reg->CONFIG.MCKEN =
-//            (I2SM_CONFIG_MCKEN_MCKEN_Enabled << I2SM_CONFIG_MCKEN_MCKEN_Pos);
+
     }
 
     return true;
 }
 
-__STATIC_INLINE void xinc_i2sm_transfer_set(XINC_I2S_Type *   p_reg,
-                                          uint16_t         size,
-                                          uint32_t *       p_buffer_rx,
-                                          uint32_t const * p_buffer_tx)
-{
-   // p_reg->RXTXD.MAXCNT = size;
 
-//    xinc_i2sm_rx_buffer_set(p_reg, p_buffer_rx);
-//    p_reg->CONFIG.RXEN = (p_buffer_rx != NULL) ? 1 : 0;
 
-//    xinc_i2sm_tx_buffer_set(p_reg, p_buffer_tx);
-//    p_reg->CONFIG.TXEN = (p_buffer_tx != NULL) ? 1 : 0;
-}
-
-__STATIC_INLINE void xinc_i2sm_rx_buffer_set(XINC_I2S_Type * p_reg,
-                                           uint32_t * p_buffer)
-{
-    //p_reg->RXD.PTR = (uint32_t)p_buffer;
-}
-
-__STATIC_INLINE uint32_t * xinc_i2sm_rx_buffer_get(XINC_I2S_Type const * p_reg)
-{
-    return 0;//(uint32_t *)(p_reg->RXD.PTR);
-}
-
-__STATIC_INLINE void xinc_i2sm_tx_buffer_set(XINC_I2S_Type * p_reg,
-                                           uint32_t const * p_buffer)
-{
-   // p_reg->TXD.PTR = (uint32_t)p_buffer;
-}
-
-__STATIC_INLINE uint32_t * xinc_i2sm_tx_buffer_get(XINC_I2S_Type const * p_reg)
-{
-    return 0;//(uint32_t *)(p_reg->TXD.PTR);
-}
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
 

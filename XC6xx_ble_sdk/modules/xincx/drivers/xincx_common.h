@@ -27,6 +27,7 @@ extern "C" {
  * @brief Common module.
  */
 
+#define XINCX_RST_DELAY_MS       (2UL)
 /**
  * @brief Macro for checking if the specified identifier is defined and it has
  *        a non-zero value.

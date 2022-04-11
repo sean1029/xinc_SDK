@@ -44,7 +44,8 @@
 
 #include <xincx_i2sm.h>
 #include <hal/xinc_gpio.h>
-
+#include <xincx_dmas.h>
+#include "xinc_delay.h"
 #define XINCX_LOG_MODULE I2SMM
 #include <xincx_log.h>
 
@@ -61,6 +62,7 @@ typedef struct
     xincx_i2sm_data_handler_t handler;
     void *                     context;
     xincx_drv_state_t        state;
+    xinc_i2sm_event_t        event;
 
     bool use_rx         : 1;
     bool use_tx         : 1;
@@ -70,13 +72,92 @@ typedef struct
     bool buffers_reused : 1;
 
     uint16_t            buffer_size;
+    xinc_dma_ch_t       tx_dma_ch;
+    xinc_dma_ch_t       rx_dma_ch;
     xincx_i2sm_buffers_t  next_buffers;
     xincx_i2sm_buffers_t  current_buffers;
 } i2sm_control_block_t;
 static i2sm_control_block_t m_cb[XINCX_I2SM_ENABLED_COUNT];
 
+static void xincx_i2sm_dma_irq_ch_handler(xincx_dmas_ch_evt_t const * p_event,
+                                        void *                 p_context);
 
-static xincx_err_t configure_pins(xincx_i2sm_config_t const * p_config)
+static void xincx_i2sm_clk_init(xincx_i2sm_t const *        p_instance,
+                         xincx_i2sm_config_t const * p_config)
+{
+    XINC_CPR_CTL_Type * p_cpr = (XINC_CPR_CTL_Type *)p_instance->p_cpr;
+    
+    XINC_I2S_Type * p_i2sm = p_instance->p_i2sm;    
+    
+    uint32_t reg_val;
+
+    //复位I2S模块
+    p_cpr->RSTCTL_SUBRST_SW =   (CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Pos) |
+                                (CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+
+    xinc_delay_ms(XINCX_RST_DELAY_MS);
+    
+    p_cpr->RSTCTL_SUBRST_SW =   (CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Pos) |
+                                (CPR_RSTCTL_SUBRST_SW_I2S_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+
+    
+    p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos) |
+                               (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos);
+
+    //打开I2S pclk and mclk   
+    reg_val = p_cpr->I2S_CLK_CTL;
+    reg_val |= (CPR_I2S_CLK_CTL_I2S_MCLK_EN_Enable << CPR_I2S_CLK_CTL_I2S_MCLK_EN_Pos) | (CPR_I2S_CLK_CTL_I2S_PCLK_EN_Enable << CPR_I2S_CLK_CTL_I2S_PCLK_EN_Pos);
+    p_cpr->I2S_CLK_CTL = reg_val;
+    
+    reg_val = p_i2sm->CLOCK_GEN;
+    
+    if (p_config->mode == XINC_I2SM_MODE_MASTER)
+    {
+        reg_val |= I2S_I2S_CLOCK_GEN_MASTEREN_Msk; 
+    }
+    else
+    {
+        reg_val &= ~I2S_I2S_CLOCK_GEN_MASTEREN_Msk;
+    }
+    
+    if(p_config->format == XINC_I2SM_FORMAT_I2S)
+    {
+        reg_val &= ~I2S_I2S_CLOCK_GEN_WS_FORMAT_Msk;
+        reg_val |= (I2S_I2S_CLOCK_GEN_WS_FORMA_Standard << I2S_I2S_CLOCK_GEN_WS_FORMAT_Pos); 
+        
+        reg_val &= ~I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Msk;
+        reg_val |= (I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_0L_1R << I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Pos);
+        
+        reg_val |= (I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_2_SCLK_cycle << I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos);
+    }
+    else
+    {
+    
+    
+    }
+    p_i2sm->CLOCK_GEN = reg_val ;
+    
+    reg_val = p_i2sm->CONFIG;
+    
+    reg_val &= ~I2S_I2S_CONFIG_SLOT_WIDTH_Msk;
+    reg_val |= p_config->sample_width;
+    
+
+    p_i2sm->CONFIG = reg_val;
+    printf("p_config->alignment:%d\r\n",p_config->alignment);
+    printf("p_config->format:%d\r\n",p_config->format);
+    
+    printf("p_config->sample_width:%d\r\n",p_config->sample_width);
+    printf("p_config->ratio:%d\r\n",p_config->ratio);
+  
+
+   
+
+
+}
+
+static xincx_err_t configure_pins(xincx_i2sm_t const *        p_instance,
+                                    xincx_i2sm_config_t const * p_config)
 {
     uint32_t mck_pin,sck_pin,lrck_pin,sdout_pin, sdin_pin;
 
@@ -171,6 +252,17 @@ static xincx_err_t configure_pins(xincx_i2sm_config_t const * p_config)
 }
 
 
+static void xincx_i2s_dma_ch_set(xincx_i2sm_t const * const  p_instance )
+{
+    i2sm_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
+  
+    p_cb->tx_dma_ch = DMAS_CH_SEND_I2S;
+    p_cb->rx_dma_ch = DMAS_CH_RCV_I2S;
+    xincx_dmas_ch_handler_register(p_cb->tx_dma_ch,xincx_i2sm_dma_irq_ch_handler); 
+    xincx_dmas_ch_handler_register(p_cb->rx_dma_ch,xincx_i2sm_dma_irq_ch_handler); 
+}
+
+
 xincx_err_t xincx_i2sm_init(xincx_i2sm_t const *        p_instance,
                             xincx_i2sm_config_t const * p_config,
                             xincx_i2sm_data_handler_t   handler,
@@ -195,7 +287,9 @@ xincx_err_t xincx_i2sm_init(xincx_i2sm_t const *        p_instance,
         return err_code;
     }
 
-    if (!xinc_i2sm_configure(p_i2sm,
+  
+    
+    if (!xinc_i2sm_configure_check(p_i2sm,
                            p_config->mode,
                            p_config->format,
                            p_config->alignment,
@@ -210,7 +304,10 @@ xincx_err_t xincx_i2sm_init(xincx_i2sm_t const *        p_instance,
                          XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-    err_code = configure_pins(p_config);
+    
+    xincx_i2sm_clk_init(p_instance,p_config);
+    
+    err_code = configure_pins(p_instance,p_config);
     
     if(err_code != XINCX_SUCCESS)
     {
@@ -218,6 +315,8 @@ xincx_err_t xincx_i2sm_init(xincx_i2sm_t const *        p_instance,
     }
 
     p_cb->handler = handler;
+    
+    xincx_i2s_dma_ch_set(p_instance);
 
     XINCX_IRQ_PRIORITY_SET(I2S_IRQn, p_config->irq_priority);
     XINCX_IRQ_ENABLE(I2S_IRQn);
@@ -246,6 +345,74 @@ void xincx_i2sm_uninit(xincx_i2sm_t const *        p_instance)
     XINCX_LOG_INFO("Uninitialized.");
 }
 
+
+void xinc_i2sm_rx_buffer_set(xincx_i2sm_t const *        p_instance,uint16_t         size,
+                                           uint32_t * p_buffer)
+{
+    i2sm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
+
+    p_cb->event |= XINC_I2SM_EVENT_RXPTRUPD;
+    //- RX Channel
+    xincx_dmas_ch_set_t set;
+    set.ch = p_cb->rx_dma_ch;
+    set.src_addr = (uint32_t)&(p_instance->p_i2sm->RXFIFO_DATA);
+    set.dst_addr = (uint32_t)p_buffer;
+    set.ctl0 = size;
+    set.ctl1 = ((2 << 8)|  0 | 0xfff << 16);
+    xincx_dmas_ch_param_set(set);
+    xincx_dmas_int_enable((0x01 << p_cb->rx_dma_ch) | (0x01 << (p_cb->rx_dma_ch + 16)));
+    
+    xincx_dmas_ch_enable(p_cb->rx_dma_ch);
+}
+
+
+void xinc_i2sm_tx_buffer_set(xincx_i2sm_t const *        p_instance,uint16_t         size,
+                                           uint32_t const * p_buffer)
+{
+    i2sm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
+
+    p_cb->event |= XINC_I2SM_EVENT_TXPTRUPD;
+    //- TX Channel
+    xincx_dmas_ch_set_t set;
+
+    set.ch = p_cb->tx_dma_ch;
+    set.src_addr = (uint32_t)p_buffer;
+    set.dst_addr = (uint32_t)&(p_instance->p_i2sm->TXFIFO_DATA);
+    set.ctl0 = size;
+    set.ctl1 = ((2 << 8) |  (0xfff << 16));
+    xincx_dmas_ch_param_set(set);
+    xincx_dmas_int_enable((0x01 << p_cb->tx_dma_ch) | (0x01 << (p_cb->tx_dma_ch + 16)));
+    
+     xincx_dmas_ch_enable(p_cb->rx_dma_ch);
+}
+
+
+void xincx_i2sm_transfer_set(xincx_i2sm_t const *        p_instance ,
+                                          uint16_t         size,
+                                          uint32_t *       p_buffer_rx,
+                                          uint32_t const * p_buffer_tx)
+{
+    XINC_I2S_Type *   p_i2sm = p_instance->p_i2sm;
+    
+    i2sm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
+      
+
+    if(p_buffer_rx != NULL)
+    {             
+        p_i2sm->DMA_CONFIG &= ~I2S_I2S_DMA_CONFIG_DMA_RXLVL_Msk;
+        p_i2sm->DMA_CONFIG |= (0x8UL << I2S_I2S_DMA_CONFIG_DMA_RXLVL_Pos); 
+        p_i2sm->DMA_CONFIG |= (I2S_I2S_DMA_CONFIG_DMA_RX_EN_Enable << I2S_I2S_DMA_CONFIG_DMA_RX_EN_Pos);
+        xinc_i2sm_rx_buffer_set(p_instance,size,p_buffer_rx);
+    }
+    
+    if(p_buffer_tx != NULL)      
+    {
+        p_i2sm->DMA_CONFIG &= ~I2S_I2S_DMA_CONFIG_DMA_TXLVL_Msk;
+        p_i2sm->DMA_CONFIG |= (0x8UL << I2S_I2S_DMA_CONFIG_DMA_TXLVL_Pos);
+        p_i2sm->DMA_CONFIG |= (I2S_I2S_DMA_CONFIG_DMA_RX_EN_Enable << I2S_I2S_DMA_CONFIG_DMA_RX_EN_Pos);
+        xinc_i2sm_tx_buffer_set(p_instance,size,p_buffer_tx);
+    }
+}
 
 xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
                             xincx_i2sm_buffers_t const * p_initial_buffers,
@@ -306,7 +473,9 @@ xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
     p_cb->current_buffers.p_rx_buffer = NULL;
     p_cb->current_buffers.p_tx_buffer = NULL;
 
-    xinc_i2sm_transfer_set(p_i2sm,
+    p_cb->event = XINC_I2SM_EVENT_NONE;
+
+    xincx_i2sm_transfer_set(p_instance,
                          p_cb->buffer_size,
                          p_cb->next_buffers.p_rx_buffer,
                          p_cb->next_buffers.p_tx_buffer);
@@ -368,12 +537,12 @@ xincx_err_t xincx_i2sm_next_buffers_set(xincx_i2sm_t const *        p_instance,
     if (p_cb->use_tx)
     {
         XINCX_ASSERT(p_buffers->p_tx_buffer != NULL);
-        xinc_i2sm_tx_buffer_set(p_i2sm, p_buffers->p_tx_buffer);
+        xinc_i2sm_tx_buffer_set(p_instance,p_cb->buffer_size, p_buffers->p_tx_buffer);
     }
     if (p_cb->use_rx)
     {
         XINCX_ASSERT(p_buffers->p_rx_buffer != NULL);
-        xinc_i2sm_rx_buffer_set(p_i2sm, p_buffers->p_rx_buffer);
+        xinc_i2sm_rx_buffer_set(p_instance,p_cb->buffer_size, p_buffers->p_rx_buffer);
     }
 
     p_cb->next_buffers   = *p_buffers;
@@ -389,15 +558,15 @@ void xincx_i2sm_stop(xincx_i2sm_t const *        p_instance)
     
     XINC_I2S_Type * p_i2sm = p_instance->p_i2sm;
     
-    
+    p_cb->event = XINC_I2SM_EVENT_STOPPED;
     XINCX_ASSERT(p_cb->state != XINCX_DRV_STATE_UNINITIALIZED);
 
     p_cb->buffers_needed = false;
 
     // First disable interrupts, then trigger the STOP task, so no spurious
     // RXPTRUPD and TXPTRUPD events (see nRF52 anomaly 55) are processed.
-    xinc_i2sm_int_disable(p_i2sm, XINC_I2SM_INT_RXPTRUPD_MASK |
-                                 XINC_I2SM_INT_TXPTRUPD_MASK);
+    // xinc_i2sm_int_disable(p_i2sm, XINC_I2SM_INT_RXPTRUPD_MASK |
+    //                              XINC_I2SM_INT_TXPTRUPD_MASK);
 
 
 }
@@ -405,29 +574,33 @@ void xincx_i2sm_stop(xincx_i2sm_t const *        p_instance)
 static void i2s_irq_handler(XINC_I2S_Type * p_i2sm, i2sm_control_block_t * p_cb)
 {
     
-  //  if (xinc_i2s_event_check(XINC_I2SM0, XINC_I2SM_EVENT_TXPTRUPD))
+    if (p_cb->event & XINC_I2SM_EVENT_TXPTRUPD)
     {
-
+        p_cb->event &= ~XINC_I2SM_EVENT_TXPTRUPD;
+        
         p_cb->tx_ready = true;
         if (p_cb->use_tx && p_cb->buffers_needed)
         {
-             p_cb->buffers_reused = true;
+            p_cb->buffers_reused = true;
         }
     }
- //   if (xinc_i2s_event_check(XINC_I2SM0, XINC_I2SM_EVENT_RXPTRUPD))
+  
+    if (p_cb->event & XINC_I2SM_EVENT_RXPTRUPD)
     {
-
-         p_cb->rx_ready = true;
+        p_cb->event &= ~XINC_I2SM_EVENT_RXPTRUPD;
+        
+        p_cb->rx_ready = true;
         if ( p_cb->use_rx && p_cb->buffers_needed)
         {
              p_cb->buffers_reused = true;
         }
     }
 
-//    if (xinc_i2s_event_check(XINC_I2SM0, XINC_I2SM_EVENT_STOPPED))
+    if (p_cb->event & XINC_I2SM_EVENT_STOPPED)
     {
-
-        xinc_i2sm_int_disable(p_i2sm, XINC_I2SM_INT_STOPPED_MASK);
+        p_cb->event &= ~XINC_I2SM_EVENT_STOPPED;
+        
+      //  xinc_i2sm_int_disable(p_i2sm, XINC_I2SM_INT_STOPPED_MASK);
         xinc_i2sm_disable(p_i2sm);
 
         // When stopped, release all buffers, including these scheduled for
@@ -438,7 +611,7 @@ static void i2s_irq_handler(XINC_I2S_Type * p_i2sm, i2sm_control_block_t * p_cb)
         p_cb->state = XINCX_DRV_STATE_INITIALIZED;
         XINCX_LOG_INFO("Stopped.");
     }
-  //  else
+    else
     {
         // Check if the requested transfer has been completed:
         // - full-duplex mode
@@ -487,9 +660,25 @@ static void i2s_irq_handler(XINC_I2S_Type * p_i2sm, i2sm_control_block_t * p_cb)
     }
 }    
 
+
+
 void xincx_i2sm0_irq_handler(void)
 {
     i2s_irq_handler(XINC_I2S0,&m_cb[XINCX_I2SM0_INST_IDX]);
+}
+
+static void xincx_i2sm_dma_irq_ch_handler(xincx_dmas_ch_evt_t const * p_event,
+                                        void *                 p_context)
+{
+    i2sm_control_block_t * p_cb = &m_cb[XINCX_I2SM0_INST_IDX];
+    if(p_event->dmas_ch == p_cb->rx_dma_ch)
+    {
+        i2s_irq_handler(XINC_I2S0,&m_cb[XINCX_I2SM0_INST_IDX]);
+    }else if(p_event->dmas_ch == p_cb->tx_dma_ch)
+    {
+        i2s_irq_handler(XINC_I2S0,&m_cb[XINCX_I2SM0_INST_IDX]);
+    }
+
 }
 
 

@@ -14,6 +14,29 @@
 
 // <h> Xinc_Drivers 
 
+// <e> XINCX_DMAS_ENABLED - xincx_dmas - DMAS peripheral driver
+//==========================================================
+#ifndef XINCX_DMAS_ENABLED
+#define XINCX_DMAS_ENABLED 1
+#endif
+
+
+// <o> XINCX_DMAS_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_DMAS_CONFIG_IRQ_PRIORITY
+#define XINCX_DMAS_CONFIG_IRQ_PRIORITY 7
+#endif
+// </e> 
+
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
@@ -686,14 +709,18 @@
 #define XINCX_I2S_CONFIG_ALIGN 0
 #endif
 
-// <o> XINCX_I2S_CONFIG_SWIDTH  - Sample width (bits)
+// <o> XINCX_I2S_CONFIG_SLOT_WIDTH  - Sample width (bits)
  
-// <0=> 8 
-// <1=> 16 
-// <2=> 24 
+// <1=> 8 
+// <2=> 12 
+// <3=> 16
+// <4=> 20 
+// <5=> 24 
+// <6=> 28 
+// <7=> 32 
 
-#ifndef XINCX_I2S_CONFIG_SWIDTH
-#define XINCX_I2S_CONFIG_SWIDTH 1
+#ifndef XINCX_I2S_CONFIG_SLOT_WIDTH
+#define XINCX_I2S_CONFIG_SLOT_WIDTH 3
 #endif
 
 // <o> XINCX_I2S_CONFIG_CHANNELS  - Channels
@@ -703,33 +730,33 @@
 // <2=> Right 
 
 #ifndef XINCX_I2S_CONFIG_CHANNELS
-#define XINCX_I2S_CONFIG_CHANNELS 1
+#define XINCX_I2S_CONFIG_CHANNELS 0
 #endif
 
 // <o> XINCX_I2S_CONFIG_MCK_SETUP  - MCK behavior
  
-// <0=> Disabled 
-// <2147483648=> 32MHz/2 
-// <1342177280=> 32MHz/3 
-// <1073741824=> 32MHz/4 
-// <805306368=> 32MHz/5 
-// <671088640=> 32MHz/6 
-// <536870912=> 32MHz/8 
-// <402653184=> 32MHz/10 
-// <369098752=> 32MHz/11 
-// <285212672=> 32MHz/15 
-// <268435456=> 32MHz/16 
-// <201326592=> 32MHz/21 
-// <184549376=> 32MHz/23 
-// <142606336=> 32MHz/30 
-// <138412032=> 32MHz/31 
-// <134217728=> 32MHz/32 
-// <100663296=> 32MHz/42 
-// <68157440=> 32MHz/63 
-// <34340864=> 32MHz/125 
+// <0=> 16MHz 
+// <1=> 16MHz/2 
+// <2=> 16MHz/3 
+// <3=> 16MHz/4 
+// <4=> 16MHz/5 
+// <5=> 16MHz/6 
+// <7=> 16MHz/8 
+// <9=> 16MHz/10 
+// <10=> 16MHz/11 
+// <14=> 16MHz/15 
+// <15=> 16MHz/16 
+// <20=> 16MHz/21 
+// <22=> 16MHz/23 
+// <29=> 16MHz/30 
+// <30=> 16MHz/31 
+// <31=> 16MHz/32 
+// <41=> 16MHz/42 
+// <63=> 16MHz/63 
+// <124=> 16MHz/125 
 
 #ifndef XINCX_I2S_CONFIG_MCK_SETUP
-#define XINCX_I2S_CONFIG_MCK_SETUP 536870912
+#define XINCX_I2S_CONFIG_MCK_SETUP 124
 #endif
 
 // <o> XINCX_I2S_CONFIG_RATIO  - MCK/LRCK ratio
@@ -745,7 +772,7 @@
 // <8=> 512x 
 
 #ifndef XINCX_I2S_CONFIG_RATIO
-#define XINCX_I2S_CONFIG_RATIO 2000
+#define XINCX_I2S_CONFIG_RATIO 0
 #endif
 
 // <o> XINCX_I2S_CONFIG_IRQ_PRIORITY  - Interrupt priority

@@ -10,9 +10,10 @@
 #include "xinc_drv_i2s.h"
 
 #if XINCX_CHECK(XINCX_I2S_ENABLED)
-//#include <xinc_delay.h>
+#include "sdk_macros.h"
+#include <xinc_delay.h>
 #include <hal/xinc_gpio.h>
-
+#include "xincx_dmas.h"
 #ifdef I2SM_PRESENT
 #define INSTANCE_COUNT   I2SM_COUNT
 #else
@@ -33,7 +34,7 @@ static void i2sm_evt_handler(xincx_i2sm_buffers_t const * p_released,
     xinc_drv_i2s_data_handler_t const event =
     {
         .p_released = p_released,
-        .status = 0,
+        .status = status,
     };
 
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
@@ -48,7 +49,8 @@ static void i2s_evt_handler(xincx_i2s_buffers_t const * p_released,
     uint32_t inst_idx = (uint32_t)p_context;
     xinc_drv_i2s_data_handler_t const event =
     {
-    
+        .p_released = p_released,
+        .status = status, 
     };
     m_handlers[inst_idx](&event, m_contexts[inst_idx]);
 }
@@ -71,6 +73,13 @@ ret_code_t xinc_drv_i2s_init(xinc_drv_i2s_t const *        p_instance,
         {
             static xincx_i2sm_config_t const default_config = XINCX_I2SM_DEFAULT_CONFIG;
             p_config = &default_config;
+        }
+
+        if(!xincx_dmas_is_init())
+        {
+            result = xincx_dmas_init(NULL,NULL,NULL);
+            VERIFY_SUCCESS(result);
+            
         }
 
         result = xincx_i2sm_init(&p_instance->u.i2sm,

@@ -1,40 +1,9 @@
 /**
- * Copyright (c) 2015 - 2021, Nordic Semiconductor ASA
+ * Copyright (c) 2022 - 2025, XinChip
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 4. This software, with or without modification, must only be used with a
- *    Nordic Semiconductor ASA integrated circuit.
- *
- * 5. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS
- * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- * OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
- * GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
- * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * Author :sean cheng
  *
  */
 
@@ -138,7 +107,7 @@ typedef struct
     .mode         = (xinc_i2sm_mode_t)XINCX_I2S_CONFIG_MASTER,       \
     .format       = (xinc_i2sm_format_t)XINCX_I2S_CONFIG_FORMAT,     \
     .alignment    = (xinc_i2sm_align_t)XINCX_I2S_CONFIG_ALIGN,       \
-    .sample_width = (xinc_i2sm_swidth_t)XINCX_I2S_CONFIG_SWIDTH,     \
+    .sample_width = (xinc_i2sm_swidth_t)XINCX_I2S_CONFIG_SLOT_WIDTH,     \
     .channels     = (xinc_i2sm_channels_t)XINCX_I2S_CONFIG_CHANNELS, \
     .mck_setup    = (xinc_i2sm_mck_t)XINCX_I2S_CONFIG_MCK_SETUP,     \
     .ratio        = (xinc_i2sm_ratio_t)XINCX_I2S_CONFIG_RATIO,       \
@@ -212,6 +181,52 @@ xincx_err_t xincx_i2sm_init(xincx_i2sm_t const *        p_instance,
 
 /** @brief Function for uninitializing the I2SM driver. */
 void xincx_i2sm_uninit(xincx_i2sm_t const *        p_instance);
+
+ 
+/**
+ * @brief Function for setting the pointer to the receive buffer.
+ *
+ * @note The size of the buffer can be set only by calling
+ *       @ref xinc_i2sm_transfer_set.
+ *
+ * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
+ * @param[in] p_buffer Pointer to the receive buffer.
+ */
+void xincx_i2sm_rx_buffer_set(xincx_i2sm_t const *        p_instance,uint16_t         size,
+                                           uint32_t *     p_buffer);
+
+
+/**
+ * @brief Function for setting the pointer to the transmit buffer.
+ *
+ * @note The size of the buffer can be set only by calling
+ *       @ref xinc_i2sm_transfer_set.
+ *
+ * @param[in] p_reg    Pointer to the structure of registers of the peripheral.
+ * @param[in] p_buffer Pointer to the transmit buffer.
+ */
+void xincx_i2sm_tx_buffer_set(xincx_i2sm_t const *        p_instance,uint16_t         size,
+                                           uint32_t const * p_buffer);
+
+
+ /**
+ * @brief Function for setting up the I2SM transfer.
+ *
+ * This function sets up the RX and TX buffers and enables reception or
+ * transmission (or both) accordingly. If the transfer in a given direction is not
+ * required, pass NULL instead of the pointer to the corresponding buffer.
+ *
+ * @param[in] p_reg       Pointer to the structure of registers of the peripheral.
+ * @param[in] size        Size of the buffers (in 32-bit words).
+ * @param[in] p_rx_buffer Pointer to the receive buffer.
+ *                        Pass NULL to disable reception.
+ * @param[in] p_tx_buffer Pointer to the transmit buffer.
+ *                        Pass NULL to disable transmission.
+ */
+void xincx_i2sm_transfer_set(xincx_i2sm_t const *        p_instance,
+                                          uint16_t         size,
+                                          uint32_t *       p_rx_buffer,
+                                          uint32_t const * p_tx_buffer);
 
 /**
  * @brief Function for starting the continuous I2SM transfer.
