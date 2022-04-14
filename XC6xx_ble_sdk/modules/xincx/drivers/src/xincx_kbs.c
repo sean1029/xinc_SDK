@@ -24,7 +24,7 @@ static uint8_t m_mtxkey_states[MTXKEYS*BIT_PER_MTXKEY/8];
 
 static uint8_t m_mtxkey_long_press_time[MTXKEYS];
 
-
+//按键检测过程中检测到mtxkey的状态
 typedef enum {
     MTXKEY_IDLE,
     MTXKEY_PRESS_ARMED,
@@ -35,6 +35,7 @@ typedef enum {
     MTXKEY_RELEASE_DETECTED
 } mtxkey_state_t;
 
+//KSB 检测过程中整个矩阵键盘的状态
 typedef enum {
     KBS_IDLE,
     KBS_ACTIVE,
@@ -85,7 +86,10 @@ typedef struct
 
 static kbs_control_block_t m_cb;
 
-
+/*
+*根据row_pin 值换算得到其在矩阵当中所在的mko_idx
+其每个pin对应的矩阵idx可参考芯片手册文档
+*/
 __STATIC_INLINE int16_t kbs_mtxkey_row_pin_to_mko_idx(uint8_t row_pin)
 {
     uint8_t mko_idx;
@@ -97,9 +101,13 @@ __STATIC_INLINE int16_t kbs_mtxkey_row_pin_to_mko_idx(uint8_t row_pin)
     return -1;  
 }
 
+/*
+*根据col_pin 值换算得到其在矩阵当中所在的mki_idx
+其每个pin对应的矩阵idx可参考芯片手册文档
+*/
 __STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin)
 {
-    uint8_t mki_idx;
+    int8_t mki_idx;
     
     switch(col_pin)
     {
@@ -164,26 +172,21 @@ __STATIC_INLINE int16_t kbs_mtxkey_cfg_idx_get(uint8_t row_pin,uint8_t col_pin)
     return NO_MTXKEY_ID;  
 }
 
-
-__STATIC_INLINE xincx_kbs_mtxkey_handler_t kbs_mtxkey_handler_get(uint32_t mtxkey_id)
-{
-    return m_cb.mtxkey_cfg[mtxkey_id].handler;
-}
-
+//保存矩阵中每个元素的信息
 __STATIC_INLINE void xincx_kbs_mtxkey_use_by_handler_set(uint8_t        key_val,
                                                 uint8_t                  row_pin,
                                                 uint8_t                  col_pin,
-                                                uint32_t                  handler_id,
+                                                uint32_t                  mtxkey_id,
                                                 xincx_kbs_mtxkey_handler_t handler)
 {
 
-    m_cb.mtxkey_cfg[handler_id].key_val = key_val;
-    m_cb.mtxkey_cfg[handler_id].row_pin = row_pin;
-    m_cb.mtxkey_cfg[handler_id].col_pin = col_pin;
-    m_cb.mtxkey_cfg[handler_id].handler = handler;
+    m_cb.mtxkey_cfg[mtxkey_id].key_val = key_val;
+    m_cb.mtxkey_cfg[mtxkey_id].row_pin = row_pin;
+    m_cb.mtxkey_cfg[mtxkey_id].col_pin = col_pin;
+    m_cb.mtxkey_cfg[mtxkey_id].handler = handler;
 }
 
-
+//为矩阵按键中的每个元素分配一个未使用的 mtxkey_cfg 结构体
 static int16_t xincx_kbs_mtxkey_handler_use_alloc(uint8_t key_val,uint8_t row_pin,
                                         uint8_t col_pin, xincx_kbs_mtxkey_handler_t handler)
 {
@@ -380,7 +383,6 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
         p_config = &default_config;
     }
     
-  //  m_cb.m_mtxkey_events = p_events;
     mtxkey_idx = 0;
     while (mtxkey_count--)
     {
@@ -445,6 +447,7 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
     m_cb.lprs_intval = p_config->lprs_intval;//长按按键间隔
 
 
+    //根据所设置的长按时间计算长按所需要的计数值
     m_cb.lprs_cal_cnt = m_cb.lprs_intval * m_cb.rprs_intval / m_cb.dbc_intval;
     
     printf("mask_set:%x,m_cb.lprs_cal_cnt:%d\r\n",kbs_mask,m_cb.lprs_cal_cnt);
@@ -472,11 +475,11 @@ bool kbs_mtxkey_value_check(void)
     XINC_KBS_Type * p_reg = xinc_kbs_decode();
     for(uint8_t row_idx  = 0 ; row_idx < KBS_ROW_PIN_COUNT; )
     {
-        if((0x01 << row_idx) & m_cb.row_Bits_En)
+        if((0x01UL << row_idx) & m_cb.row_Bits_En)
         {
             if(rw_flag == 1)
             {
-                row_out_reg = (0x01 << row_idx);
+                row_out_reg = (0x01UL << row_idx);
                 p_reg->MTXKEY_MANUAL_ROWOUT = row_out_reg;
                //  printf("row_idx:%d,row_out_reg:0x%x \r\n",row_idx,row_out_reg);
                 rw_flag = 0;
@@ -491,25 +494,24 @@ bool kbs_mtxkey_value_check(void)
                 {
                     has_value = true;
                 }
-                for (int i = 0; i < KBS_COL_PIN_COUNT; i++)
+                for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
                 {
                     int16_t mtxkey_idx;
                     bool is_set = 0;
-                    if((0x01UL << i) & m_cb.col_Bits_En)
+                    if((0x01UL << col_idx) & m_cb.col_Bits_En)
                     {
-                        is_set = col_in_reg & (0x01 << i);
+                        is_set = col_in_reg & (0x01UL << col_idx);
 
-                        mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[i]);
+                        mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[col_idx]);
                         if(mtxkey_idx != NO_MTXKEY_ID)
                         {
                             kbs_evt_handle(mtxkey_idx, is_set);
                         }
                     }
                 }
-                rw_flag = 1;
+                rw_flag = 1UL;
                 row_idx++;
-            }
-            
+            }           
         }
         else
         {
@@ -523,13 +525,12 @@ bool kbs_mtxkey_value_check(void)
 
 static void kbs_irq_handler(XINC_KBS_Type * p_i2c, kbs_control_block_t * p_cb)
 {
-	 uint32_t reg_kbs_int = 0;//א׏״̬
-	 uint32_t reg_kbs_int_prs = 0;//дݼ
-	 uint32_t reg_kbs_int_en = 0;//א׏ʹŜ
+	 uint32_t reg_kbs_int = 0;//
+	 uint32_t reg_kbs_int_prs = 0;
+	 uint32_t reg_kbs_int_en = 0;//
      uint32_t row_out_reg ;
     
      bool has_key_presss = false;
-	 static uint8_t rls_cnt = 0;
 
      XINC_KBS_Type * p_reg = xinc_kbs_decode();
 
@@ -581,7 +582,6 @@ static void kbs_irq_handler(XINC_KBS_Type * p_i2c, kbs_control_block_t * p_cb)
     if(m_cb.kbs_state == KBS_RELEASED)
     {
         p_reg->MTXKEY_MANUAL_ROWOUT = 0;   
-        rls_cnt = 0;
         m_cb.kbs_state = KBS_IDLE;
     }
 

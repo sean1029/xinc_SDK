@@ -46,10 +46,10 @@ typedef struct
 } kbs_mtxkey_event_cfg_t;
 
 
-/**@brief Kbs Button event handler type. */
+/**@brief Kbs Mtxkey event handler type. */
 typedef void (*xincx_kbs_mtxkey_handler_t)(int16_t mtxkey_idx,uint16_t mtxkey_val,uint8_t row_pin,uint8_t col_pin, uint8_t button_action);
 
-/**@brief Button configuration structure. */
+/**@brief Mtxkey configuration structure. */
 typedef struct
 {
     uint8_t              key_val;           /**< Pin set value. */
@@ -84,15 +84,15 @@ typedef	struct
 
 
 
-/**@brief Function for initializing the kbs Buttons.
+/**@brief Function for initializing the kbs Mtxkeys.
  *
- * @details This function will initialize the specified pins as buttons, and configure the Button
+ * @details This function will initialize the specified pins as mtxkeys, and configure the Button
  *          Handler module as a kbs user 
  *
  * @note xincx_kbs_init() function must be called in order to enable the button .
  *
- * @param[in]  p_mtxkeys           Array of buttons to be used (NOTE: Must be static!).
- * @param[in]  mtxkey_count        Number of buttons.
+ * @param[in]  p_mtxkeys           Array of mtxkeys to be used (NOTE: Must be static!).
+ * @param[in]  mtxkey_count        Number of mtxkeys.
  * @param[in]  detection_delay     Delay from a kbs event until a button is reported as pushed.
  *
  * @return   XINC_SUCCESS on success, otherwise an error code.

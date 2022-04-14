@@ -681,7 +681,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
     // BSP will support buttons and generate events
     if (type & BSP_INIT_BUTTONS)
     {
-        uint32_t num;
+//        uint32_t num;
 
 //        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
 // 
