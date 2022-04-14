@@ -27,7 +27,10 @@
 #define SYSTICK_PRESENT
 #define SYSTICK_COUNT 1
 
-
+/* KBS */
+#define KBS_PRESENT
+#define KBS_ROW_PIN_COUNT 8 //矩阵键盘行个数
+#define KBS_COL_PIN_COUNT 18 //矩阵键盘列个数
 
 /* GPIO */
 #define GPIO_PRESENT

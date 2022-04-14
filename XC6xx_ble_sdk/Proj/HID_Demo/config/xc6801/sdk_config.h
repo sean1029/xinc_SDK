@@ -14,6 +14,29 @@
 
 // <h> Xinc_Drivers 
 
+// <e> XINCX_DMAS_ENABLED - xincx_dmas - DMAS peripheral driver
+//==========================================================
+#ifndef XINCX_DMAS_ENABLED
+#define XINCX_DMAS_ENABLED 1
+#endif
+
+
+// <o> XINCX_DMAS_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_DMAS_CONFIG_IRQ_PRIORITY
+#define XINCX_DMAS_CONFIG_IRQ_PRIORITY 7
+#endif
+// </e> 
+
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
 #ifndef XINCX_WDT_ENABLED
@@ -1250,6 +1273,12 @@
 // <1=> 1 
 #ifndef APP_UART_DRIVER_INSTANCE
 #define APP_UART_DRIVER_INSTANCE 1
+#endif
+
+// <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes
+
+#ifndef APP_UART_DRIVER_BUFFSIZE
+#define APP_UART_DRIVER_BUFFSIZE 32
 #endif
 
 // </e>

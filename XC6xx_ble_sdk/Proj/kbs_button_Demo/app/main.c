@@ -28,6 +28,7 @@
 #include "app_timer.h"
 #include "bsp.h"
 #include "app_scheduler.h"
+#include "xincx_kbs.h"
 #include "xinc_delay.h"
 uint8_t flag_show_hci = 0;
 
@@ -293,110 +294,6 @@ static void scheduler_init(void)
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
 
-void gpio_buttun_test1()
-{
-    bsp_board_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS);
-    while(true)
-    {
-        //检测按键 S1 是否按下
-        
-        if(xinc_gpio_pin_read(BUTTON_1) == 0)
-        {
-            //点亮 LED 指示灯 D1
-            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-            while(xinc_gpio_pin_read(BUTTON_1) == 0);//等待按键释放
-            //熄灭 LED 指示灯 D1
-            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-        }
-     
-        if(xinc_gpio_pin_read(BUTTON_2) == 0)
-        {
-            //点亮 LED 指示灯 D2
-            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-            while(xinc_gpio_pin_read(BUTTON_2) == 0);//等待按键释放
-            //熄灭 LED 指示灯 D2
-            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
-        }
-    }
-}
-
-/**@brief Function for handling events from the button handler module.
- *
- * @param[in] pin_no        The pin that the event applies to.
- * @param[in] button_action The button action (press/release).
- */
-#define S1BUTTON_BUTTON_PIN            BSP_BUTTON_0   
-#define S2BUTTON_BUTTON_PIN            BSP_BUTTON_1   
-
-#define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
-
-static void button_event_handler(uint8_t pin_no, uint8_t button_action)
-{
-    ret_code_t err_code;
-    uint8_t rxbuff[AT24Cxx_PAGESIZE];
-    uint8_t txbuff[AT24Cxx_PAGESIZE];
-    uint16_t addr;
-    switch (pin_no)
-    {
-        case S1BUTTON_BUTTON_PIN:
-        {
-             //检测按键 S1 是否按下
-            if(button_action == APP_BUTTON_PUSH)
-            {
-                //点亮 LED 指示灯 D1
-               bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-            }    
-            else//S1 按键释放
-            {
-                //熄灭 LED 指示灯 D1
-                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-            }
-
-            
-        }break;
-          
-        case S2BUTTON_BUTTON_PIN:
-        {
-             //检测按键 S2 是否按下
-            if(button_action == APP_BUTTON_PUSH)
-            {
-                //点亮 LED 指示灯 D2
-                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-            }    
-            else//S2 按键释放
-            {
-                //熄灭 LED 指示灯 D2
-                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
-            }
-
-        
-        }break;
-          
-       
-            
-
-        default:
-            APP_ERROR_HANDLER(pin_no);
-            break;
-    }
-}
-
-void gpio_buttun_test2()
-{
-    ret_code_t err_code;
-
-    //The array must be static because a pointer to it will be saved in the button handler module.
-    static app_button_cfg_t buttons[] =
-    {
-        {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
-        {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
-    };
-
-    bsp_board_init(BSP_INIT_LEDS);
-    err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
-                               BUTTON_DETECTION_DELAY);
-    APP_ERROR_CHECK(err_code);
-}
 
 
 /**@brief Function for handling bsp events.
@@ -410,6 +307,7 @@ void bsp_evt_handler(bsp_event_t evt)
         {
             //点亮 LED 指示灯 D1
             bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+    //        printf("EVENT_LED1_ON\r\n");
             
         } break;
         // 按键S1 注册的释放事件的回调
@@ -417,6 +315,7 @@ void bsp_evt_handler(bsp_event_t evt)
         {
             //熄灭 LED 指示灯 D1
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+    //        printf("EVENT_LED1_OFF\r\n");
         } break;
         // 按键S2 注册的长按事件的回调
         case BSP_EVENT_LED2_ON:
@@ -436,24 +335,127 @@ void bsp_evt_handler(bsp_event_t evt)
             break; // No implementation needed
     }
 }
-void gpio_buttun_test3()
+
+
+void kbs_mtxkey_bsp_test()
 {
-    ret_code_t err_code;
-    //注册按键S1 按下时候的事件
-    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
-    //注册按键S1 释放时候的事件
-    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF));
-    //注册按键S2 长按下时候的事件
-    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
-    //注册按键S2 释放时候的事件
-    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF));
+    ret_code_t err_code = 0;
+    
+    bsp_board_init(BSP_INIT_LEDS);
+    
+    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
 
-    err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);
+    err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
 
+  
+    printf("xincx_kbs_init err_code:0x%x\n",err_code);
     APP_ERROR_CHECK(err_code);
 }
 
 
+
+static void mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action);
+static xincx_kbs_mtxkey_cfg_t mtxkeys[] =
+{
+  [2] = {12,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, mtxkey_event_handler},//BUTTON_PULLDOWN
+  [1] = {10,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, mtxkey_event_handler},
+  [3] = {11,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, mtxkey_event_handler},
+
+  
+  [0] = {13,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, mtxkey_event_handler},
+
+};
+            
+static void mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action)
+{
+
+    switch (button_action)
+    {
+        case KBS_MTXKEY_PUSH:
+        {     
+            if(mtxkey_idx == 2)
+            {
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            }
+            
+        }break;
+
+        case KBS_MTXKEY_RELEASE:
+        {     
+            if(mtxkey_idx == 2)
+            {
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            }
+        }break;
+
+        case KBS_MTXKEY_LONG_PUSH:
+        {     
+            if(mtxkey_idx == 2)
+            {
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            }
+            
+        }break;
+
+    }
+  
+}
+
+void kbs_mtxkey_drv_test()
+{
+    ret_code_t err_code = 0;
+    
+    bsp_board_init(BSP_INIT_LEDS);
+    
+    err_code = xincx_kbs_init(mtxkeys, ARRAY_SIZE(mtxkeys), NULL); 
+
+  
+    printf("xincx_kbs_init err_code:0x%x\n",err_code);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+static void system_run_timer_handler(btstack_timer_source_t * ts){
+
+	static uint8_t on_off = 0;
+
+	static uint8_t ocpy_ratio = 10;
+   // printf("system_run_timer_handler\n");
+	ocpy_ratio++;
+//	g_sys_time++;
+	if(ocpy_ratio >= 99)
+	{
+		ocpy_ratio = 10;	
+	}
+	//xc_set_pwm(2,ocpy_ratio, 159);
+	if(on_off == 0)
+	{
+		
+		//GPIO_OUTPUT_HIGH(4);
+		bsp_board_led_on(0);
+		bsp_board_led_off(1);
+		on_off = 1;
+	//	led_value = xinc_gpio_pin_read(LED1);
+
+		
+	}else
+	{
+	
+		
+	//	GPIO_OUTPUT_LOW(4);
+		bsp_board_led_off(0);
+		bsp_board_led_on(1);
+		on_off = 0;
+	//	printf("LED1 ON\n");
+	}	
+	 btstack_run_loop_set_timer(ts, 500);
+ //  btstack_run_loop_add_timer(ts);
+
+}
 
 int	main(void)
 {
@@ -467,7 +469,6 @@ int	main(void)
     app_timer_init();
     xincx_gpio_init();
 	btstack_main();
-	//scheduler_init();
 
 
     // setup advertisements
@@ -484,8 +485,13 @@ int	main(void)
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
-    gpio_buttun_test3();
-
+    	sys_run_timer.process = &system_run_timer_handler;
+	btstack_run_loop_set_timer(&sys_run_timer, 100);
+	btstack_run_loop_add_timer(&sys_run_timer);
+    bsp_board_init(BSP_INIT_LEDS);
+    
+    kbs_mtxkey_drv_test();
+ //   kbs_mtxkey_bsp_test();
     while(1) {
 
        ble_mainloop();
@@ -496,6 +502,8 @@ int	main(void)
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
+           if(LastTimeGulSystickCount % 200 == 0);
+           //    printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount);
 			 
 	   }		   
 

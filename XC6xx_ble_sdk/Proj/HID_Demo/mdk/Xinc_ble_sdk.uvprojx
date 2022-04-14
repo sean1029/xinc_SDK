@@ -1253,6 +1253,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>dma</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -2362,6 +2372,16 @@
               <FileName>xincx_wdt.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_wdt.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>dma</GroupName>
+          <Files>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
           </Files>
         </Group>

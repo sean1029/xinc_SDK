@@ -695,6 +695,36 @@ typedef struct {                        /*!< (@ 0x40011800) I2S Structure       
     __IOM  uint32_t  INT_EN;            /*!< (@ 0x0000002C) 中断使能寄存器                     */
 } XINC_I2S_Type;  
 
+
+/* =========================================================================================================================== */
+/* ================                                            KBS                                            ================ */
+/* =========================================================================================================================== */
+typedef struct {  /*!< (@ 0x40015000) KBS Structure  */  
+__IOM  uint32_t  CTL;                   /*!< (@ 0x00000000)  控制寄存器  */
+__IOM  uint32_t  MASK;                  /*!< (@ 0x00000004)  按键 MASK 寄存器  */
+__IOM  uint32_t  DETECT_INTVAL;         /*!< (@ 0x00000008)  按键和释放键间隔寄存器  */
+__IOM  uint32_t  DBC_INTVAL;            /*!< (@ 0x0000000C)  Debounce 间隔寄存器  */
+
+__IOM  uint32_t  LPRS_INTVAL;           /*!< (@ 0x00000010)  长按键间隔寄存器  */
+__IOM  uint32_t  MTXKEY_MANUAL_ROWOUT;  /*!< (@ 0x00000014)  键盘矩阵手动扫描行驱动寄存器  */
+__IOM  uint32_t  MTXKEY_MANUAL_COLIN;   /*!< (@ 0x00000018)  键盘矩阵手动扫描列输入寄存器  */
+__IOM  uint32_t  MTXKEY_FIFO;           /*!< (@ 0x0000001C)  键盘矩阵键值队列 FIFO 接口  */
+
+__IOM  uint32_t  MTXKEY_ASREG0;         /*!< (@ 0x00000020)  键盘矩阵自动扫描键值寄存器 0  */
+__IOM  uint32_t  MTXKEY_ASREG1;         /*!< (@ 0x00000024)  键盘矩阵自动扫描键值寄存器 1  */
+__IOM  uint32_t  MTXKEY_INT;            /*!< (@ 0x00000028)  键盘矩阵中断状态寄存器  */
+__IOM  uint32_t  MTXKEY_INT_RAW;        /*!< (@ 0x0000002C)  键盘矩阵中断原始状态寄存器  */
+
+__IOM  uint32_t  MTXKEY_INT_EN;         /*!< (@ 0x00000030)  键盘矩阵中断使能寄存器  */
+
+}XINC_KBS_Type; 
+
+
+/**
+  * @brief KBS (KBS)
+  */
+
+
 /** @addtogroup Device_Peripheral_peripheralAddr
   * @{
   */
@@ -732,6 +762,7 @@ typedef struct {                        /*!< (@ 0x40011800) I2S Structure       
 
 #define	XINC_CDC0_BASE              0x50004000UL
 #define	XINC_I2S0_BASE              0x40011800UL
+#define	XINC_KBS_BASE               0x40015000UL
 
 /* =========================================================================================================================== */
 /* ================                                  Peripheral declaration                                   ================ */
@@ -780,7 +811,9 @@ typedef struct {                        /*!< (@ 0x40011800) I2S Structure       
 #define XINC_AUDIO_ADC0                     ((XINC_CDC_Type*)               XINC_CDC0_BASE)
 
 #define XINC_I2S0                           ((XINC_I2S_Type*)               XINC_I2S0_BASE)
-#define XINC_I2SM0                           ((XINC_I2S_Type*)               XINC_I2S0_BASE)
+#define XINC_I2SM0                          ((XINC_I2S_Type*)               XINC_I2S0_BASE)
+#define XINC_KBS                            ((XINC_KBS_Type*)               XINC_KBS_BASE)
+
 
 #ifdef __cplusplus
 }

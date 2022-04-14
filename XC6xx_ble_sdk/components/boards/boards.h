@@ -34,6 +34,7 @@ extern "C" {
 #define BSP_INIT_NONE    0        /**< No initialization of LEDs or buttons (@ref bsp_board_init).*/
 #define BSP_INIT_LEDS    (1 << 0) /**< Enable LEDs during initialization (@ref bsp_board_init).*/
 #define BSP_INIT_BUTTONS (1 << 1) /**< Enable buttons during initialization (@ref bsp_board_init).*/
+#define BSP_INIT_MTXKEY  (1 << 2) /**< Enable buttons during initialization (@ref bsp_board_init).*/
 /**@} */
 
 /**

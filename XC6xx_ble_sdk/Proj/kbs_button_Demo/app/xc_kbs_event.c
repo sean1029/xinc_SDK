@@ -21,17 +21,23 @@ key_event_t key1;
 static key_event_t ascii_input_storage[80];
 static btstack_ring_buffer_t ascii_input_buffer;
 
-uint8_t gpio_buff_col_ki[KEYBOARD_MAX_COL_SIZE]= {20,21,22,23}; //
-uint8_t gpio_buff_row_ko[KEYBOARD_MAX_ROW_SIZE]= {0,1,2,3}; //
+uint8_t gpio_buff_col_ki[KEYBOARD_MAX_COL_SIZE]= {20,21}; //
+uint8_t gpio_buff_row_ko[KEYBOARD_MAX_ROW_SIZE]= {0,1}; //
 
 uint8_t keyValue[KEYBOARD_MAX_COL_SIZE * KEYBOARD_MAX_ROW_SIZE];
 
+//uint8_t keyCode[KEYBOARD_MAX_COL_SIZE * KEYBOARD_MAX_ROW_SIZE] = 
+//{
+//	KEY_UP_ARROW,KEY_DOWN_ARROW,KEY_LEFT_ARROW,KEY_RIGHT_ARROW,
+//	0x41,KEY_ESC,KEY_VOLUME_ADD,KEY_VOLUME_SUB,
+//	62,130,101,102,
+//	250
+
+//};
+
 uint8_t keyCode[KEYBOARD_MAX_COL_SIZE * KEYBOARD_MAX_ROW_SIZE] = 
 {
-	KEY_UP_ARROW,KEY_DOWN_ARROW,KEY_LEFT_ARROW,KEY_RIGHT_ARROW,
-	0x41,KEY_ESC,KEY_VOLUME_ADD,KEY_VOLUME_SUB,
-	62,130,101,102,
-	250
+
 
 };
 void keyValueInit(void)
@@ -180,23 +186,24 @@ void delay(uint32_t i)
 
 static void kbs_reg_default_config(void)
 {
-    kbs_config.rls_intval = RLS;// Õ∑≈∞¥º¸º‰∏Ù
- 	  kbs_config.prs_intval = PRS;//∞¥º¸ºÏ≤‚º‰∏Ù
-    kbs_config.dbc_intval = DBC;//debounce º‰∏Ù
-	  kbs_config.rprs_intval = rprs_val;//÷ÿ∏¥∞¥º¸º‰∏Ù
-		kbs_config.lprs_intval = lprs_val;//≥§∞¥º¸º‰∏Ù
+    kbs_config.rls_intval = RLS;//ÀçÿÖ–¥›º›§Ÿ¥
+ 	  kbs_config.prs_intval = PRS;//–¥›º›¨”¢›§Ÿ¥
+    kbs_config.dbc_intval = DBC;//debounce ›§Ÿ¥
+	  kbs_config.rprs_intval = rprs_val;//◊òÿ¥–¥›º›§Ÿ¥
+		kbs_config.lprs_intval = lprs_val;//”§–¥›º›§Ÿ¥
 }	
 
 /* ---------------------------------------------------------------------------------------------------
-- ∫Ø ˝√˚≥∆: KBS_Handler
-- ∫Ø ˝π¶ƒ‹: KBS÷–∂œ¥¶¿Ì∫Ø ˝
--  ‰»Î≤Œ ˝: Œﬁ
-- ¥¥Ω®»’∆⁄: 2021-02-24
+- ⁄ØÀΩƒª‘Ü: KBS_Handler
+- ⁄ØÀΩŸ¶≈ú: KBS◊ê◊è‘¶m⁄ØÀΩ
+- À§…´”éÀΩ: œû
+- ‘¥›®…ï«ö: 2021-02-24
 ----------------------------------------------------------------------------------------------------*/
-extern	void KBS_Handler(void)
-{
-		xc620_kbs_scan();
-}
+//extern	void KBS_Handler(void)
+//{
+//   // printf("KBS_Handler\n");
+//		xc620_kbs_scan();
+//}
 
 void xc620_kbs_init(void)
 {
@@ -206,48 +213,50 @@ void xc620_kbs_init(void)
 	uint32_t    reg_kbs_dbc_intval=0;
 	uint32_t    reg_kbs_lprs_intval=0;
 	uint32_t    reg_kbs_mtxkey_manual_rowout=0;
-	uint32_t		reg_kbs_int_en = 0;//÷–∂œ πƒ‹
+	uint32_t		reg_kbs_int_en = 0;//◊ê◊è π≈ú
 	
 	memset(&kbs_env,0,sizeof(kbs_env));
 	kb_ring_buffer_init();
-	//ø™∆ÙKBS,GPIO ±÷”
+	//ﬂ™«¥KBS,GPIO ±◊ì
 	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x840084);
 	__write_hw_reg32(CPR_OTHERCLKEN_GRCTL,0x90009);
-	
-	//GPIO≈‰÷√
+	   return;
+	//GPIO∆§◊É
 	kbs_gpio_map();
+    
+ 
 	keyValueInit();
-	kbs_reg_default_config();//ƒ¨»œ÷µ
+	kbs_reg_default_config();//ƒ¨…è÷µ
 	
 	reg_kbs_ctl = KBS_CTL_KEY_EN_MASK | KBS_CTL_KEY_AUTOSCAN_EN_MASK | KBS_CTL_KEY_RPRS_RAW_EN_MASK | \
 	    KBS_CTL_KEY_LPRS_RAW_EN_MASK; 
-	__write_hw_reg32(KBS_CTL , reg_kbs_ctl);//–¥KBS_CTLºƒ¥Ê∆˜
+	__write_hw_reg32(KBS_CTL , reg_kbs_ctl);//–¥KBS_CTL›Ñ’¶«∑
 	
 	
 	reg_kbs_mask = 0xffffffff; // 8col and 8row input all  mask 
 	reg_kbs_mask &= ~(0x0F << 10); 
 	reg_kbs_mask &= ~(0x0F << 0); 
-	__write_hw_reg32(KBS_MASK , reg_kbs_mask);//–¥KBS_MASKºƒ¥Ê∆˜
+	__write_hw_reg32(KBS_MASK , reg_kbs_mask);//–¥KBS_MASK›Ñ’¶«∑
 	//printf("reg_kbs_mask value=0x%08x\n",reg_kbs_mask);
 	
 	reg_kbs_detect_intval = ((kbs_config.prs_intval << KBS_DETECT_KEY_PRS_INTVAL_SHIFT) & KBS_DETECT_KEY_PRS_INTVAL_MASK)+ \
 	      ((kbs_config.rls_intval << KBS_DETECT_KEY_RLS_INTVAL_SHIFT) & KBS_DETECT_KEY_RLS_INTVAL_MASK);
-  __write_hw_reg32(KBS_DETECT_INTVAL , reg_kbs_detect_intval);//–¥KBS_DETECT_INTVALºƒ¥Ê∆˜
+  __write_hw_reg32(KBS_DETECT_INTVAL , reg_kbs_detect_intval);//–¥KBS_DETECT_INTVAL›Ñ’¶«∑
 	
 	
 	reg_kbs_dbc_intval = (kbs_config.dbc_intval << KBS_DBC_KEY_DBC_INTVAL_SHIFT) & KBS_DBC_KEY_DBC_INTVAL_MASK;
-	__write_hw_reg32(KBS_DBC_INTVAL,reg_kbs_dbc_intval);//–¥KBS_DBC_INTVALºƒ¥Ê∆˜
+	__write_hw_reg32(KBS_DBC_INTVAL,reg_kbs_dbc_intval);//–¥KBS_DBC_INTVAL›Ñ’¶«∑
 	
 	
 	reg_kbs_lprs_intval = ((kbs_config.rprs_intval << KBS_LPRS_KBS_RPRS_INTVAL_SHIFT) & KBS_LPRS_KBS_RPRS_INTVAL_MASK) + \
 			  ((kbs_config.lprs_intval << KBS_LPRS_KBS_LPRS_INTVAL_SHIFT) & KBS_LPRS_KBS_LPRS_INTVAL_MASK);
-	__write_hw_reg32(KBS_LPRS_INTVAL,reg_kbs_lprs_intval);//–¥KBS_LPRS_INTVALºƒ¥Ê∆˜
+	__write_hw_reg32(KBS_LPRS_INTVAL,reg_kbs_lprs_intval);//–¥KBS_LPRS_INTVAL›Ñ’¶«∑
 	
 	
-	/*  πƒ‹÷–∂œ */
+	/*  π≈ú◊ê◊è */
 	reg_kbs_int_en = KBS_INT_PRS_INT_EN_MASK | KBS_INT_FIFO_INT_EN_MASK | KBS_INT_RPRS_INT_EN_MASK | \
 			KBS_INT_LPRS_INT_EN_MASK | KBS_INT_RLS_INT_EN_MASK;
-	__write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);//–¥KBS_MTXKEY_INT_ENºƒ¥Ê∆˜
+	__write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);//–¥KBS_MTXKEY_INT_EN›Ñ’¶«∑
 	
 	NVIC_EnableIRQ(KBS_IRQn);
 	
@@ -275,97 +284,101 @@ void xc620_kbs_init(void)
 }	
 extern int key_value ;
 
-/* º¸≈Ãæÿ’Û◊‘∂Ø…®√Ëƒ£ Ωµƒº¸÷µºÏ≤‚ */
-int xc620_kbs_scan(void)
+/* ›º∆åﬂò÷≥ÿî÷Ø…®ƒ®ƒ£ Ω÷Ñ›º÷µ›¨”¢ */
+int xc620_kbs_Auto_scan(void)
 {
-	 uint32_t reg_kbs_int = 0;//÷–∂œ◊¥Ã¨
-	 uint32_t reg_kbs_int_lprs = 0;//≥§∞¥
-	 uint32_t reg_kbs_int_prs = 0;//∞¥º¸
+	 uint32_t reg_kbs_int = 0;//◊ê◊è◊¥Ã¨
+	 uint32_t reg_kbs_int_lprs = 0;//”§–¥
+	 uint32_t reg_kbs_int_prs = 0;//–¥›º
 	 uint32_t reg_kbs_fifo = 0;//FIFO
-	 uint32_t reg_kbs_int_rls = 0;// Õ∑≈
-	 uint32_t reg_kbs_int_rprs = 0;//÷ÿ∏¥
-	 uint32_t reg_kbs_int_en = 0;//÷–∂œ πƒ‹
+	 uint32_t reg_kbs_int_rls = 0;//ÀçÿÖ
+	 uint32_t reg_kbs_int_rprs = 0;//◊òÿ¥
+	 uint32_t reg_kbs_int_en = 0;//◊ê◊è π≈ú
 	 uint8_t interrupt_bits = 0;
 	 
 	 
-	 __read_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int);//∂¡»°÷–∂œ◊¥Ã¨ºƒ¥Ê∆˜µƒ÷µµΩ±‰¡øreg_kbs_int
+	 __read_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int);//◊Å»°◊ê◊è◊¥Ã¨›Ñ’¶«∑÷Ñ÷µ’Ω“§reg_kbs_int
 	
-	 reg_kbs_int_lprs = reg_kbs_int;//≥§∞¥
-	 reg_kbs_int_prs = reg_kbs_int;//∞¥º¸
-	 reg_kbs_int_rls = reg_kbs_int;// Õ∑≈
-	 reg_kbs_int_rprs = reg_kbs_int;//÷ÿ∏¥
+	 reg_kbs_int_lprs = reg_kbs_int;//”§–¥
+	 reg_kbs_int_prs = reg_kbs_int;//–¥›º
+	 reg_kbs_int_rls = reg_kbs_int;//ÀçÿÖ
+	 reg_kbs_int_rprs = reg_kbs_int;//◊òÿ¥
 	 reg_kbs_fifo = reg_kbs_int;//FIFO
 	 
 	
-	 kbs_state.prs_int = (reg_kbs_int_prs & KBS_INT_PRS_INT_MASK) >> KBS_INT_PRS_INT_SHIFT;//∂¡»°∞¥º¸÷–∂œ◊¥Ã¨Œª
-	 kbs_state.lprs_int = (reg_kbs_int_lprs & KBS_INT_LPRS_INT_MASK) >> KBS_INT_LPRS_INT_SHIFT;//∂¡»°≥§∞¥º¸÷–∂œ◊¥Ã¨Œª
-	 kbs_state.rprs_int = (reg_kbs_int_rprs & KBS_INT_RPRS_INT_MASK) >> KBS_INT_RPRS_INT_SHIFT;//∂¡»°÷ÿ∏¥∞¥º¸÷–∂œ◊¥Ã¨Œª
-	 kbs_state.rls_int = (reg_kbs_int_rls & KBS_INT_RLS_MASK) >> KBS_INT_RLS_SHIFT;//∂¡»° Õ∑≈∞¥º¸÷–∂œ◊¥Ã¨Œª
-	 kbs_state.fifo_update_int = (reg_kbs_fifo & KBS_INT_FIFO_INT_MASK) >> KBS_INT_FIFO_INT_SHIFT;//∂¡»°º¸÷µFIFO∏¸–¬÷–∂œ◊¥Ã¨Œª
+	 kbs_state.prs_int = (reg_kbs_int_prs & KBS_INT_PRS_INT_MASK) >> KBS_INT_PRS_INT_SHIFT;//◊Å»°–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.lprs_int = (reg_kbs_int_lprs & KBS_INT_LPRS_INT_MASK) >> KBS_INT_LPRS_INT_SHIFT;//◊Å»°”§–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.rprs_int = (reg_kbs_int_rprs & KBS_INT_RPRS_INT_MASK) >> KBS_INT_RPRS_INT_SHIFT;//◊Å»°◊òÿ¥–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.rls_int = (reg_kbs_int_rls & KBS_INT_RLS_MASK) >> KBS_INT_RLS_SHIFT;//◊Å»°ÀçÿÖ–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.fifo_update_int = (reg_kbs_fifo & KBS_INT_FIFO_INT_MASK) >> KBS_INT_FIFO_INT_SHIFT;//◊Å»°›º÷µFIFOŸº—Ç◊ê◊è◊¥Ã¨Œª
 	 
-	 
-	 //≤˙…˙∞¥º¸÷–∂œ
+      uint32_t reg_kbs_asreg0 = 0;//◊ê◊è π≈ú
+      uint32_t reg_kbs_asreg1 = 0;
+      __read_hw_reg32(KBS_MTXKEY_ASREG0,reg_kbs_asreg0);
+      __read_hw_reg32(KBS_MTXKEY_ASREG1,reg_kbs_asreg1);
+      printf("reg_kbs_asreg0:0x%x reg_kbs_asreg1:0x%x \n",reg_kbs_asreg0,reg_kbs_asreg1);
+	 //”∫ ∫–¥›º◊ê◊è
 	 if(kbs_state.prs_int)
 	 {
-		// printf("kbs_state.prs_int = 0x%x,key press\n",kbs_state.prs_int);
+		 printf("kbs_state.prs_int = 0x%x,key press\n",kbs_state.prs_int);
 		// hids_device_request_can_send_now_event(0x10);
 		 
 		 
 		 
      kbs_state.press_state = 1;
 		 
-		 //–¥1«Â≥˝∞¥º¸÷–∂œŒª
+		 //–¥1»•‘Ω–¥›º◊ê◊èŒª
 		 reg_kbs_int_prs |= KBS_INT_PRS_INT_MASK;
 		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_prs);
 		 
-		 //∆¡±Œ∞¥º¸÷–∂œ
+		 //«Å“é–¥›º◊ê◊è
 		 __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 //reg_kbs_int_en &= 0x1E;
 		 reg_kbs_int_en &= ~(KBS_INT_PRS_INT_EN_MASK);
-		 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+	//	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 
 		  
 	 }
  
 	 
-	 //≈–∂œº¸≈Ãæÿ’Ûº¸÷µ FIFO  «∑Ò∏¸–¬÷–∂œ
+	 //∆ê◊è›º∆åﬂò÷≥›º÷µ FIFO Àáÿ±Ÿº—Ç◊ê◊è
 	 if(kbs_state.fifo_update_int)
 	 {
-		//   printf("kbs_state.fifo_update_int = 0x%x\n",kbs_state.fifo_update_int);
+		   printf("kbs_state.fifo_update_int = 0x%x\n",kbs_state.fifo_update_int);
 		  
-			//«Â≥˝FIFO÷–∂œ,–¥ 1 »∑»œ÷–∂œ«Â≥˝∫Û£¨–Ë“™‘Ÿ∂‘∏√Œª–¥ 0		 
-			reg_kbs_fifo |= KBS_INT_FIFO_INT_MASK;//FIFO÷–∂œŒªªÚ…œ1
+			//»•‘ΩFIFO◊ê◊è,–¥ 1 »∑…è◊ê◊è»•‘Ω€≥√¨—®“™’ô◊îŸÉŒª–¥ 0		 
+			reg_kbs_fifo |= KBS_INT_FIFO_INT_MASK;//FIFO◊ê◊èŒª‹≤ è1
 			__write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_fifo);
 		 
 		 
-			//‘Ÿ∂‘∏√Œª–¥0
+			//’ô◊îŸÉŒª–¥0
 			//reg_kbs_fifo &= 0x0000001B;
 		  reg_kbs_fifo &= ~(KBS_INT_FIFO_INT_MASK);
 			__write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_fifo);
 		 
 		 
 		 
-		  //∆¡±ŒFIFO÷–∂œ πƒ‹
+		  //«Å“éFIFO◊ê◊è π≈ú
 		  __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		  //reg_kbs_int_en &= 0x1D;
 		  reg_kbs_int_en &= ~(KBS_INT_FIFO_INT_EN_MASK);
-			__write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+		//	__write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 
-			//∂¡»°º¸÷µ∂”¡– FIFO Ω”ø⁄ºƒ¥Ê∆˜µƒ÷µµΩ±‰¡øreg_kbs_fifo
+			//◊Å»°›º÷µ◊ì¬ê FIFO ﬁì‡†ö›Ñ’¶«∑÷Ñ÷µ’Ω“§reg_kbs_fifo
 			__read_hw_reg32(KBS_MTXKEY_FIFO,reg_kbs_fifo);
 
 
-			//≈–∂œFIFO «∑ÒŒ™ø’,≤ªŒ™ø’‘Ú∂¡»°
+			//∆ê◊èFIFOÀáÿ±Œ™‡†ï,“ªŒ™‡†ï’≤◊Å»°
 			while(! ((reg_kbs_fifo & KBS_FIFO_EMPTY_MASK) >> KBS_FIFO_EMPTY_SHIFT))
 			{
 				
-				uint8_t col = (reg_kbs_fifo & KBS_FIFO_KEY_COL_MASK) >> KBS_FIFO_KEY_COL_SHIFT;//ªÒ»°¡–
-				uint8_t row = (reg_kbs_fifo & KBS_FIFO_KEY_ROW_MASK) >> KBS_FIFO_KEY_ROW_SHIFT;//ªÒ»°––
+				uint8_t col = (reg_kbs_fifo & KBS_FIFO_KEY_COL_MASK) >> KBS_FIFO_KEY_COL_SHIFT;//‹±»°¬ê
+				uint8_t row = (reg_kbs_fifo & KBS_FIFO_KEY_ROW_MASK) >> KBS_FIFO_KEY_ROW_SHIFT;//‹±»°—ê
 					
-		//		printf("row = %d\n",row);
-		//		printf("col = %d\n",col);
+				printf("row = %d\n",row);
+				printf("col = %d\n",col);
 					 
-				kbs_state.key_value = row*8 + col;//º∆À„º¸÷µ
+				kbs_state.key_value = row*8 + col;//›ÜÃ£›º÷µ
 				
 				key_event_t key_evt;
 				
@@ -385,23 +398,23 @@ int xc620_kbs_scan(void)
 	 }
 	 
 	 
-	 //ºÏ≤‚÷ÿ∏¥∞¥º¸÷–∂œ
-	 //”√“‘ºÏ≤‚SHIFT∞¥œ¬µƒ«Èøˆœ¬£¨¡ÌÕ‚µƒ◊÷ƒ∏∞¥º¸”–√ª”– Õ∑≈µƒ≤Ÿ◊˜
+	 //›¨”¢◊òÿ¥–¥›º◊ê◊è
+	 //‘É”î›¨”¢SHIFT–¥–Ç÷Ñ»©‡†∂–Ç√¨¬≠Œ¢÷Ñÿñƒ∏–¥›º‘ê√ª‘êÀçÿÖ÷Ñ”ôÿ∑
 	 if(kbs_state.rprs_int)
 	 {
-		// printf("kbs_state.rprs_int = 0x%x,rep key\n",kbs_state.rprs_int);
-		 //œÚ±æ±»ÃÿŒª–¥°Æ1°Ø«Â≥˝±æ÷–∂œ◊¥Ã¨Œª
+		 printf("kbs_state.rprs_int = 0x%x,rep key\n",kbs_state.rprs_int);
+		 //–≤—æ“àÕòŒª–¥n1o»•‘Ω—æ◊ê◊è◊¥Ã¨Œª
 		 reg_kbs_int_rprs |= KBS_INT_RPRS_INT_MASK;
 		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_rprs);
 		 
 		 
-		 //∆¡±Œ÷ÿ∏¥∞¥º¸÷–∂œ
+		 //«Å“é◊òÿ¥–¥›º◊ê◊è
 		 __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 //reg_kbs_int_en &= 0x1B;
 		 reg_kbs_int_en &= ~(KBS_INT_RPRS_INT_EN_MASK);
-		 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+		// __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 	 }
-	 else //Œﬁ÷ÿ∏¥∞¥º¸÷–∂œ£¨Àµ√˜‘⁄◊È∫œ∞¥º¸µƒ«Èøˆ÷–”–∞¥º¸±ª Õ∑≈
+	 else //œû◊òÿ¥–¥›º◊ê◊è√¨Àµƒ∑’öÿ©€è–¥›º÷Ñ»©‡†∂◊ê‘ê–¥›º—ªÀçÿÖ
 	 {
 		  static uint8_t count = 0; 
 		 
@@ -409,17 +422,17 @@ int xc620_kbs_scan(void)
 			{
 				  count = 0; 
 				  kbs_state.press_state = 0;
-			   //—π»Î—≠ª∑∂”¡–
+			   //—π…´—≠€∑◊ì¬ê
 		   //  push_key_event_to_ble(interrupt_bits,0x00);
 			}	
 	 }	 	
 		
 		 
-	 //ºÏ≤‚≥§∞¥÷–∂œ
+	 //›¨”¢”§–¥◊ê◊è
 	 if(kbs_state.lprs_int)
 	 {
-	//	 printf("kbs_state.lprs_int = 0x%x,long key\n",kbs_state.lprs_int);
-		 //œÚ±æ±»ÃÿŒª–¥°Æ1°Ø«Â≥˝±æ÷–∂œ◊¥Ã¨Œª
+		 printf("kbs_state.lprs_int = 0x%x,long key\n",kbs_state.lprs_int);
+		 //–≤—æ“àÕòŒª–¥n1o»•‘Ω—æ◊ê◊è◊¥Ã¨Œª
 		 reg_kbs_int_lprs |= KBS_INT_RLS_MASK;
 		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_lprs);
 		 
@@ -433,20 +446,20 @@ int xc620_kbs_scan(void)
 			kbs_key_event_push(BUTTON_LONG_PUSH_EVT,key_evt);
 					
 			
-		 //∆¡±Œ≥§∞¥÷–∂œ
+		 //«Å“é”§–¥◊ê◊è
 		 __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 //reg_kbs_int_en &= 0x17;
 		 reg_kbs_int_en &= ~(KBS_INT_LPRS_INT_EN_MASK);
-		 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+	//	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 	 }
 	  
 	 
 	 
-	 //ºÏ≤‚ Õ∑≈∞¥º¸÷–∂œ
+	 //›¨”¢ÀçÿÖ–¥›º◊ê◊è
 	 if( kbs_state.rls_int )
 	 {
 		 
-	//	 printf("kbs_state.rls_int = 0x%x,release key\n",kbs_state.rls_int);
+		 printf("kbs_state.rls_int = 0x%x,release key\n",kbs_state.rls_int);
 			key_event_t key_evt;
 
 			key_evt.active = BUTTON_RELEASE_EVT;
@@ -459,31 +472,198 @@ int xc620_kbs_scan(void)
 		 interrupt_bits = reg_kbs_int & 0xff;
 
 		 
-		 //œÚ±æ±»ÃÿŒª–¥°Æ1°Ø«Â≥˝±æ÷–∂œ◊¥Ã¨Œª
+		 //–≤—æ“àÕòŒª–¥n1o»•‘Ω—æ◊ê◊è◊¥Ã¨Œª
 		 reg_kbs_int_rls |= KBS_INT_RLS_MASK;
 		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_rls);
 		 
 		 
-		 //∆¡±Œ Õ∑≈÷–∂œ
+		 //«Å“éÀçÿÖ◊ê◊è
 		 __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 		 //reg_kbs_int_en &= 0x0F;
 		 reg_kbs_int_en &= ~(KBS_INT_RLS_INT_EN_MASK);
-		 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+	//	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
 	 }
 
 	 
 	 
-	  //÷ÿ–¬ πƒ‹À˘”–÷–∂œ
-	 reg_kbs_int_en = KBS_INT_PRS_INT_EN_MASK | KBS_INT_FIFO_INT_EN_MASK | \
-	 KBS_INT_RPRS_INT_EN_MASK | KBS_INT_LPRS_INT_EN_MASK | KBS_INT_RLS_INT_EN_MASK;
-	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+	  //◊ò—Ç π≈úÃπ‘ê◊ê◊è
+//	 reg_kbs_int_en = KBS_INT_PRS_INT_EN_MASK | KBS_INT_FIFO_INT_EN_MASK | \
+//	   KBS_INT_RPRS_INT_EN_MASK | KBS_INT_LPRS_INT_EN_MASK | KBS_INT_RLS_INT_EN_MASK;
+//	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);//KBS_INT_RPRS_INT_EN_MASK
 	 
 	 return 0;
 }	
+#include "xinc_delay.h"
+
+int xc620_kbs_scan(void)
+{
+	 uint32_t reg_kbs_int = 0;//◊ê◊è◊¥Ã¨
+	 uint32_t reg_kbs_int_lprs = 0;//”§–¥
+	 uint32_t reg_kbs_int_prs = 0;//–¥›º
+	 uint32_t reg_kbs_fifo = 0;//FIFO
+	 uint32_t reg_kbs_int_rls = 0;//ÀçÿÖ
+	 uint32_t reg_kbs_int_rprs = 0;//◊òÿ¥
+	 uint32_t reg_kbs_int_en = 0;//◊ê◊è π≈ú
+	 uint8_t interrupt_bits = 0;
+    
+    static uint8_t key_0_cnt = 0;
+	 
+    static uint8_t rw_flag = 1;
+    
+   
+	 
+	 __read_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int);//◊Å»°◊ê◊è◊¥Ã¨›Ñ’¶«∑÷Ñ÷µ’Ω“§reg_kbs_int
+	
+	 reg_kbs_int_lprs = reg_kbs_int;//”§–¥
+	 reg_kbs_int_prs = reg_kbs_int;//–¥›º
+	 reg_kbs_int_rls = reg_kbs_int;//ÀçÿÖ
+	 reg_kbs_int_rprs = reg_kbs_int;//◊òÿ¥
+	 reg_kbs_fifo = reg_kbs_int;//FIFO
+	 
+	      uint32_t row_out_reg ;
+         uint32_t col_in_reg ;
+    
+	 kbs_state.prs_int = (reg_kbs_int_prs & KBS_INT_PRS_INT_MASK) >> KBS_INT_PRS_INT_SHIFT;//◊Å»°–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.lprs_int = (reg_kbs_int_lprs & KBS_INT_LPRS_INT_MASK) >> KBS_INT_LPRS_INT_SHIFT;//◊Å»°”§–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.rprs_int = (reg_kbs_int_rprs & KBS_INT_RPRS_INT_MASK) >> KBS_INT_RPRS_INT_SHIFT;//◊Å»°◊òÿ¥–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.rls_int = (reg_kbs_int_rls & KBS_INT_RLS_MASK) >> KBS_INT_RLS_SHIFT;//◊Å»°ÀçÿÖ–¥›º◊ê◊è◊¥Ã¨Œª
+	 kbs_state.fifo_update_int = (reg_kbs_fifo & KBS_INT_FIFO_INT_MASK) >> KBS_INT_FIFO_INT_SHIFT;//◊Å»°›º÷µFIFOŸº—Ç◊ê◊è◊¥Ã¨Œª
+	  static uint16_t count = 0; 
+
+	 //”∫ ∫–¥›º◊ê◊è
+	 if(kbs_state.prs_int)
+	 {
+		// printf("kbs_state.prs_int = 0x%x,key press\n",kbs_state.prs_int);
+		// hids_device_request_can_send_now_event(0x10);
+		 
+		 
+		 
+     kbs_state.press_state = 1;
+		 
+//		 //–¥1»•‘Ω–¥›º◊ê◊èŒª
+//		 reg_kbs_int_prs |= KBS_INT_PRS_INT_MASK;
+//		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_prs);
+		 
+		 //«Å“é–¥›º◊ê◊è
+		 __read_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+		 //reg_kbs_int_en &= 0x1E;
+		 reg_kbs_int_en &= ~(KBS_INT_PRS_INT_EN_MASK);
+		// __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);
+   
+
+         
+         __read_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,row_out_reg);
+         row_out_reg = 0;
+        
+     //    static uint8_t row_idx = 0;
+        for(uint8_t row_idx  = 0 ; row_idx < 2; )
+      //  if(row_idx < 2)
+         {
+           
+           //  
+             if(rw_flag == 1)
+             {
+                  row_out_reg = (0x01 << row_idx);
+                 __write_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,row_out_reg); 
+                // printf("i:%d,row_out_reg:0x%x \r\n",row_idx,row_out_reg);
+                 rw_flag = 0;
+                 xinc_delay_us(80);
+             
+             }else
+             {
+                __read_hw_reg32(KBS_MTXKEY_MANUAL_COLIN,col_in_reg);
+               //  printf("row:%d,col_in:0x%x,count:%d \r\n",row_idx,col_in_reg,count);
+                  if(col_in_reg != 0)
+                 {
+                   //  printf("row:%d,col:0x%x \r\n",row_idx,col_in_reg);
+                     key_0_cnt = 0;
+                     
+                     if((1 == kbs_state.press_state) && (count++>100))
+                        {
+                              count = 0; 
+                              kbs_state.press_state = 0;
+                           //—π…´—≠€∑◊ì¬ê
+                       //  push_key_event_to_ble(interrupt_bits,0x00);
+                            printf("long press row:%d,col_in:0x%x \r\n",row_idx,col_in_reg);
+                        }	
+                 }else
+                 {
+                    key_0_cnt ++;
+                 }
+                 rw_flag = 1;
+                 row_idx ++;
+//                 if(row_idx == 2)
+//                 {  
+//                    row_idx = 0;
+//                 }
+             }
+           
+           //   printf("i:%d,row_out_reg:0x%x \r\n",i,row_out_reg);
+             
+             
+          //  printf("row:%d,col_in:0x%x \r\n",i,col_in_reg);
+            
+            
+         
+         }
+        
+		 
+		  
+	 }
+     
+     static uint8_t rls_flag = 0;
+    //  printf("key_0_cnt = %d\r\n",key_0_cnt);
+	 if(key_0_cnt >= 4)
+     {
+         printf("key_0_cnt = %d\r\n",key_0_cnt);
+         row_out_reg = 0x01 << 8;
+        __write_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,row_out_reg);
+         key_0_cnt = 0;
+         rw_flag = 1;
+         rls_flag = 1;
+         count= 0;
+//              		 //–¥1»•‘Ω–¥›º◊ê◊èŒª
+//		 reg_kbs_int_prs |= KBS_INT_PRS_INT_MASK;
+//		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_prs);
+//         
+         
+       // __write_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,0);
+      //   __read_hw_reg32(KBS_CTL,row_out_reg);
+       //  row_out_reg &= ~0x01;
+        //  __write_hw_reg32(KBS_CTL,row_out_reg);
+       //  printf("KBS_CTL = 0x%x\r\n",row_out_reg);
+
+      //   __read_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,row_out_reg);
+      //   printf("ROWOUT = 0x%x\r\n",row_out_reg);
+       // __write_hw_reg32(KBS_CTL,row_out_reg);
+       xinc_delay_us(80);
+         
+     }
+
+     
+
+
+        reg_kbs_int_prs |= KBS_INT_PRS_INT_MASK;
+		 __write_hw_reg32(KBS_MTXKEY_INT,reg_kbs_int_prs);
+//         
+	 
+	  //◊ò—Ç π≈úÃπ‘ê◊ê◊è
+	 reg_kbs_int_en = KBS_INT_PRS_INT_EN_MASK ;//| KBS_INT_FIFO_INT_EN_MASK | \
+//	   KBS_INT_RPRS_INT_EN_MASK | KBS_INT_LPRS_INT_EN_MASK | KBS_INT_RLS_INT_EN_MASK;
+	 __write_hw_reg32(KBS_MTXKEY_INT_EN,reg_kbs_int_en);//KBS_INT_RPRS_INT_EN_MASK
+	 if(rls_flag == 1)
+     {
+         __write_hw_reg32(KBS_MTXKEY_MANUAL_ROWOUT,0);
+         rls_flag = 0;
+     }
+     
+	 return 0;
+}
+
 
 void kbs_gpio_map(void)
 {
- /* –– */	
+ /* —ê */	
 	#if 0
  gpio_mux_ctl(0,1);   //map ->kbs_mko[0]
  gpio_mux_ctl(1,1);   //map ->kbs_mko[1]
@@ -503,7 +683,7 @@ void kbs_gpio_map(void)
 	gpio_direction_input(7,1);
 	
 
- /* ¡– */
+ /* ¬ê */
  
 // gpio_mux_ctl(18,1);  //map ->kbs_mki[0]
 // gpio_mux_ctl(19,1);  //map ->kbs_mki[1]
@@ -539,7 +719,7 @@ void kbs_gpio_map(void)
 	for(int i = 0;i < KEYBOARD_MAX_ROW_SIZE;i++)
 	{
 		gpio_mux_ctl(gpio_buff_row_ko[i],1);
-		gpio_direction_output(gpio_buff_row_ko[i]);
+	//	gpio_direction_output(gpio_buff_row_ko[i]);
 	}
 	
 //	gpio_mux_ctl(20,1);   //map ->kbs_mki[2]

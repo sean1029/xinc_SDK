@@ -119,18 +119,22 @@ enum{
     XINC_GPIO_27		=		XINC_GPIO_PIN_MAP(0, 27),
     XINC_GPIO_28		=		XINC_GPIO_PIN_MAP(0, 28),
     XINC_GPIO_29		=		XINC_GPIO_PIN_MAP(0, 29),
-    XINC_GPIO_30		=		XINC_GPIO_PIN_MAP(0, 29),
-    XINC_GPIO_31		=		XINC_GPIO_PIN_MAP(0, 31),
+    XINC_GPIO_30		=		XINC_GPIO_PIN_MAP(0, 30),
+    XINC_GPIO_31		=		XINC_GPIO_PIN_MAP(0, 31),   
 #endif
 
 #if (GPIO_COUNT == 2)
-    XINC_GPIO_32		=		XINC_GPIO_PIN_MAP(0, 32),
-    XINC_GPIO_33		=		XINC_GPIO_PIN_MAP(0, 33),
-    XINC_GPIO_34		=		XINC_GPIO_PIN_MAP(0, 34),
-    XINC_GPIO_35		=		XINC_GPIO_PIN_MAP(0, 35),
+    XINC_GPIO_32		=		XINC_GPIO_PIN_MAP(1, 0),
+    XINC_GPIO_33		=		XINC_GPIO_PIN_MAP(1, 1),
+    XINC_GPIO_34		=		XINC_GPIO_PIN_MAP(1, 2),
+    XINC_GPIO_35		=		XINC_GPIO_PIN_MAP(1, 3),
 #endif //
 
+
     XINC_GPIO_MAX 
+
+
+    
 };
 typedef enum{
  XC_GPIO_Dx=0,//普通GPIO口功能
@@ -277,6 +281,9 @@ typedef enum
     XINC_GPIO_PIN_I2S_WS,
     XINC_GPIO_PIN_I2S_DIN,
     XINC_GPIO_PIN_I2S_DOUT,
+    
+    XINC_GPIO_PIN_KBS_MTXKEY_MKO,
+    XINC_GPIO_PIN_KBS_MTXKEY_MKI
 } xinc_gpio_pin_fun_sel_t;
 
 /** @brief Enumerator used for mux. */

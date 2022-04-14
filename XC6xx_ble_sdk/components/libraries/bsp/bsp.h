@@ -208,6 +208,20 @@ bool bsp_button_is_pressed(uint32_t button);
 uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t action, bsp_event_t event);
 
 
+/**@brief       Function for assigning a specific event to a button.
+ *
+ * @details     This function allows redefinition of standard events assigned to buttons.
+ *              To unassign events, provide the event @ref BSP_EVENT_NOTHING.
+ *
+ * @param[in]   mtxkey_idx               Mtxkey IDx to be redefined.
+ * @param[in]   action                   Mtxkey action to assign event to.
+ * @param[in]   event                    Event to be assigned to button.
+ *
+ * @retval      XINC_SUCCESS              If the event was successfully assigned to button.
+ * @retval      XINC_ERROR_INVALID_PARAM  If the button ID or button action was invalid.
+ */
+uint32_t bsp_event_to_mtxkey_action_assign(uint32_t mtxkey_idx, bsp_button_action_t action, bsp_event_t event);
+
 /**@brief       Function for configuring indicators to required state.
  *
  * @details     This function indicates the required state by means of LEDs (if enabled).

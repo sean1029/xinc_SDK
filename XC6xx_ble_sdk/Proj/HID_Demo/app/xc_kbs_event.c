@@ -195,6 +195,7 @@ static void kbs_reg_default_config(void)
 ----------------------------------------------------------------------------------------------------*/
 extern	void KBS_Handler(void)
 {
+    printf("KBS_Handler\n");
 		xc620_kbs_scan();
 }
 

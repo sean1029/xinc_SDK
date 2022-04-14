@@ -611,6 +611,61 @@ uint32_t bsp_indication_set(bsp_indication_t indicate)
     return err_code;
 }
 
+#if (KBS_ROW_BUTTONS_NUMBER > 0) && (KBS_COL_BUTTONS_NUMBER > 0)
+#include "xincx_kbs.h"
+static bsp_event_callback_t   m_mtxkey_registered_callback         = NULL;
+
+//bsp_button_event_cfg_t
+static kbs_mtxkey_event_cfg_t m_mtxkey_events_list[MAX_MTXKEY_NUMBER] = {{BSP_EVENT_NOTHING, BSP_EVENT_NOTHING}};
+
+
+static void bsp_mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action);
+
+static xincx_kbs_mtxkey_cfg_t mtxkeys[] =
+{
+  [2] = {12,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},//BUTTON_PULLDOWN
+  [1] = {10,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},
+  [3] = {11,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+
+  
+  [0] = {13,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+
+};
+            
+static void bsp_mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action)
+{
+  //  printf("%s\n,mtxkey_idx:%d,key_val:%d,row_pin:%d,col_pin:%d,button_action:%d\r\n",__func__,mtxkey_idx,key_val,row_pin,col_pin,button_action);
+
+    bsp_event_t        event  = BSP_EVENT_NOTHING;
+    switch (button_action)
+    {
+        case BSP_BUTTON_ACTION_PUSH:
+        {     
+            event = (bsp_event_t)m_mtxkey_events_list[mtxkey_idx].push_event;
+        }break;
+
+        case BSP_BUTTON_ACTION_RELEASE:
+        {     
+            event = (bsp_event_t)m_mtxkey_events_list[mtxkey_idx].release_event;
+        }break;
+
+        case BSP_BUTTON_ACTION_LONG_PUSH:
+        {     
+            event = (bsp_event_t)m_mtxkey_events_list[mtxkey_idx].long_push_event;
+        }break;
+
+    }
+            
+    if ((event != BSP_EVENT_NOTHING) && (m_mtxkey_registered_callback != NULL))
+    {
+        m_mtxkey_registered_callback(event);
+    }
+}
+
+
+
+
+#endif
 
 uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 {
@@ -628,13 +683,6 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
     {
         uint32_t num;
 
-        for (num = 0; ((num < BUTTONS_NUMBER) && (err_code == XINC_SUCCESS)); num++)
-        {
-//            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON + num * 2));
-// 
-//            err_code = bsp_event_to_button_action_assign(num, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF + num * 2));
-
-        }
 //        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
 // 
 //        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF));
@@ -665,7 +713,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #endif
 				
 #ifdef BSP_BUTTON_1
-				 if (err_code == XINC_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr1,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -674,16 +722,16 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #endif
 				
 #ifdef BSP_BUTTON_2
-				 if (err_code == XINC_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr2,
-                                        APP_TIMER_MODE_SINGLE_SHOT,
-                                        button_timer_handler);
+            APP_TIMER_MODE_SINGLE_SHOT,
+            button_timer_handler);
         }
 #endif
 				
 #ifdef BSP_BUTTON_3
-				 if (err_code == XINC_SUCCESS)
+        if (err_code == XINC_SUCCESS)
         {
             err_code = app_timer_create(&m_bsp_button_tmr3,
                                         APP_TIMER_MODE_SINGLE_SHOT,
@@ -694,25 +742,34 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
 #elif (BUTTONS_NUMBER > 0) && (defined BSP_SIMPLE)
     bsp_board_init(type);
 #endif // (BUTTONS_NUMBER > 0) && !(defined BSP_SIMPLE)
+    
+#if KBS_ROW_BUTTONS_NUMBER && KBS_COL_BUTTONS_NUMBER
+    if (type & BSP_INIT_MTXKEY)
+    {
+        m_mtxkey_registered_callback = callback;
+        
+        err_code = xincx_kbs_init(mtxkeys, ARRAY_SIZE(mtxkeys), NULL);    
+    }
+#endif
 
 #if LEDS_NUMBER > 0 && !(defined BSP_SIMPLE)
     if (type & BSP_INIT_LEDS)
     {
-      //handle LEDs only. Buttons are already handled.
-      err_code = bsp_board_init(BSP_INIT_LEDS);
+        //handle LEDs only. Buttons are already handled.
+        err_code = bsp_board_init(BSP_INIT_LEDS);
 
-      // timers module must be already initialized!
-      if (err_code == XINC_SUCCESS)
-      {
-          err_code =
-              app_timer_create(&m_bsp_leds_tmr, APP_TIMER_MODE_SINGLE_SHOT, leds_timer_handler);
-      }
+        // timers module must be already initialized!
+        if (err_code == XINC_SUCCESS)
+        {
+            err_code =
+                app_timer_create(&m_bsp_leds_tmr, APP_TIMER_MODE_SINGLE_SHOT, leds_timer_handler);
+        }
 
-      if (err_code == XINC_SUCCESS)
-      {
-          err_code =
-                app_timer_create(&m_bsp_alert_tmr, APP_TIMER_MODE_REPEATED, alert_timer_handler);
-      }
+        if (err_code == XINC_SUCCESS)
+        {
+            err_code =
+                    app_timer_create(&m_bsp_alert_tmr, APP_TIMER_MODE_REPEATED, alert_timer_handler);
+        }
     }
 #endif // LEDS_NUMBER > 0 && !(defined BSP_SIMPLE)
 
@@ -761,6 +818,48 @@ uint32_t bsp_event_to_button_action_assign(uint32_t button, bsp_button_action_t 
 
     return err_code;
 }
+
+/**@brief Assign specific event to mtxkey.
+ */
+uint32_t bsp_event_to_mtxkey_action_assign(uint32_t mtxkey_idx, bsp_button_action_t action, bsp_event_t event)
+{
+    uint32_t err_code = XINC_SUCCESS;
+
+#if KBS_ROW_BUTTONS_NUMBER > 0 && KBS_COL_BUTTONS_NUMBER > 0
+    if (mtxkey_idx < (KBS_ROW_BUTTONS_NUMBER * KBS_COL_BUTTONS_NUMBER))
+    {
+        if (event == BSP_EVENT_DEFAULT)
+        {
+            // Setting default action: BSP_EVENT_KEY_x for PUSH actions, BSP_EVENT_NOTHING for RELEASE and LONG_PUSH actions.
+            event = (action == BSP_BUTTON_ACTION_PUSH) ? (bsp_event_t)(BSP_EVENT_KEY_0 + mtxkey_idx) : BSP_EVENT_NOTHING;
+        }
+        switch (action)
+        {
+            case BSP_BUTTON_ACTION_PUSH:
+                m_mtxkey_events_list[mtxkey_idx].push_event = event;
+                break;
+            case BSP_BUTTON_ACTION_LONG_PUSH:
+                m_mtxkey_events_list[mtxkey_idx].long_push_event = event;
+                break;
+            case BSP_BUTTON_ACTION_RELEASE:
+                m_mtxkey_events_list[mtxkey_idx].release_event = event;
+                break;
+            default:
+                err_code = XINC_ERROR_INVALID_PARAM;
+                break;
+        }
+    }
+    else
+    {
+        err_code = XINC_ERROR_INVALID_PARAM;
+    }
+#else
+    err_code = XINC_ERROR_INVALID_PARAM;
+#endif // BUTTONS_NUMBER > 0
+
+    return err_code;
+}
+
 
 #endif // BSP_SIMPLE
 

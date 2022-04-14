@@ -28,6 +28,7 @@
 #include "xinc66_XXXX_I2S_bitfields.h"
 #include "xinc66_XXXX_SSI_bitfields.h"
 #include "xinc66_XXXX_AUDIO_ADC_bitfields.h"
+#include "xinc66_XXXX_KBS_bitfields.h"
 /*lint --flb "Leave library region" */
 
 #endif // XINC_BITFIELDS_H__

@@ -482,7 +482,9 @@ int	main(void)
 	btstack_run_loop_add_timer(&sys_run_timer);
     
     
-    es_flash_init();
+  //  es_flash_init();
+    
+    xc620_kbs_init();
 	
     while(1) {
 			#if CLI_TEST_EN

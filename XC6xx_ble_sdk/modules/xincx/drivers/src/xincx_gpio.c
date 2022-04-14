@@ -159,7 +159,7 @@ xincx_err_t xincx_gpio_init(void)
     p_cpr->RSTCTL_CTLAPB_SW = (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Disable << CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Pos) |
                                (CPR_RSTCTL_CTLAPB_SW_GPIO_RSTN_Msk << CPR_RSTCTL_CTLAPB_SW_MASK_OFFSET);
     
-    xinc_delay_ms(100);
+ //   xinc_delay_ms(100);
   
     printf("RSTCTL_CTLAPB_SW: 0x%x\r\n ",p_cpr->RSTCTL_CTLAPB_SW);
     p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Enable <<  CPR_CTLAPBCLKEN_GRCTL_GPIO_PCLK_EN_Pos) | 
@@ -376,6 +376,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         if(pin > XINC_GPIO_MAX)
         {
             err_code = XINC_ERROR_INVALID_PARAM;
+            printf("secfun_config 0,%d,%d\r\n",XINC_GPIO_MAX,XINC_GPIO_32);
         }
         else if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
         {
@@ -393,10 +394,23 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,3);
         }
+        else if(XINC_GPIO_PIN_KBS_MTXKEY_MKO == fun)
+        {                       
+            xinc_gpio_mux_ctl(pin,1);
+            xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_OUTPUT);
+            printf("secfun_config mko\r\n");
+        }
+        else if(XINC_GPIO_PIN_KBS_MTXKEY_MKI == fun)
+        {                       
+            xinc_gpio_mux_ctl(pin,1);
+            xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_INPUT);
+            xinc_gpio_pull_sel(pin,XINC_GPIO_PIN_PULLDOWN);
+            printf("secfun_config mki\r\n");
+        }
         #if defined (XC66XX_M4)
         else if((XINC_GPIO_PIN_SSI2_CLK == fun) && (XINC_GPIO_14 == pin))
         {                       
-            xinc_gpio_mux_ctl(pin,2);		
+            xinc_gpio_mux_ctl(pin,2);
         }
         else if((XINC_GPIO_PIN_SSI2_SSN == fun) && (XINC_GPIO_15 == pin))
         {                       
@@ -486,15 +500,15 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
             
             default:
             {                
-                if(fun > XINC_GPIO_PIN_PWM1_INV)
-                {
-                    err_code = XINCX_ERROR_INVALID_PARAM;
-                }else
-                {
-                   
-                    xinc_gpio_mux_ctl(pin,0);
-                    xinc_gpio_fun_sel(pin,fun);
-                }
+//                if(fun > XINC_GPIO_PIN_PWM1_INV)
+//                {
+//                    err_code = XINCX_ERROR_INVALID_PARAM;
+//                }else
+//                {
+//                   
+//                    xinc_gpio_mux_ctl(pin,0);
+//                    xinc_gpio_fun_sel(pin,fun);
+//                }
             }
             break;	
         

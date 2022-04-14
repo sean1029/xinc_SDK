@@ -7,12 +7,30 @@
 
 
 
-
-
-
-
-
 // <h> Xinc_Drivers 
+
+// <e> XINCX_DMAS_ENABLED - xincx_dmas - DMAS peripheral driver
+//==========================================================
+#ifndef XINCX_DMAS_ENABLED
+#define XINCX_DMAS_ENABLED 1
+#endif
+
+
+// <o> XINCX_DMAS_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_DMAS_CONFIG_IRQ_PRIORITY
+#define XINCX_DMAS_CONFIG_IRQ_PRIORITY 7
+#endif
+// </e> 
 
 // <e> XINCX_WDT_ENABLED - xincx_wdt - WDT peripheral driver
 //==========================================================
@@ -201,7 +219,7 @@
 // <7=> 7 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
-#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 6
+#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 0
 #endif
 
 // <e> XINCX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -656,6 +674,40 @@
 #define XINCX_GPIO_CONFIG_NUM_OF_LOW_POWER_EVENTS 1
 #endif
 // </e>
+
+// <e> XINCX_KBS_ENABLED - xincx_kbs - KBS peripheral driver
+//==========================================================
+#ifndef XINCX_KBS_ENABLED
+#define XINCX_KBS_ENABLED 1
+#endif
+
+// <o> XINCX_KBS_CONFIG_PRS_INTVAL - PRS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_PRS_INTVAL
+#define XINCX_KBS_CONFIG_PRS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_RLS_INTVA - RLS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_RLS_INTVAL
+#define XINCX_KBS_CONFIG_RLS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_DBC_INTVAL - DBC_INTVAL(Unit 1ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_DBC_INTVAL
+#define XINCX_KBS_CONFIG_DBC_INTVAL 5
+#endif
+
+// <o> XINCX_KBS_CONFIG_RPRS_INTVAL - RPRS_INTVAL(Unit 1ms)  <1-1023> 
+#ifndef XINCX_KBS_CONFIG_RPRS_INTVAL
+#define XINCX_KBS_CONFIG_RPRS_INTVAL 200
+#endif
+
+// <o> XINCX_KBS_CONFIG_LPRS_INTVAL - LPRS_INTVAL(Unit 1ms)  <1-63> 
+#ifndef XINCX_KBS_CONFIG_LPRS_INTVAL
+#define XINCX_KBS_CONFIG_LPRS_INTVAL 5
+#endif
+
+// </e>
+
 
 // <e> XINCX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================

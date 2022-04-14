@@ -6,8 +6,8 @@
 #include		<stdint.h> 
 #include "btstack_run_loop.h"
 
-#define KEYBOARD_MAX_COL_SIZE 4
-#define KEYBOARD_MAX_ROW_SIZE 4
+#define KEYBOARD_MAX_COL_SIZE 2
+#define KEYBOARD_MAX_ROW_SIZE 2
 
   
 #define RLS           0x02   //ÊÍ·Å°´¼ü¼ì²â¼ä¸ô 1ms
