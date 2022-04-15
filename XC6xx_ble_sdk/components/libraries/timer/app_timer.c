@@ -921,7 +921,7 @@ ret_code_t app_timer_init(void)
     m_max_user_op_queue_utilization   = 0;
 #endif
 
-		rtc_AOtime_init();
+    rtc_AOtime_init();
 
     m_ticks_latest = systick_counter_get();
 		

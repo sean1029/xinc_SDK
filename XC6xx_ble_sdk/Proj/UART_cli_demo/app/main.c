@@ -303,7 +303,7 @@ static void scheduler_init(void)
 
 
 
-XINC_CLI_UART_DEF(cli_uart, 1, 16, 16);
+XINC_CLI_UART_DEF(cli_uart, 1, 64, 64);
 XINC_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
 
 void uart_cli_test(void)
@@ -323,6 +323,7 @@ void uart_cli_test(void)
     uart_config.stop_bits = 0;
     uart_config.hwfc    = XINC_UART_HWFC_DISABLED;
     uart_config.baudrate = UART_BAUDRATE_BAUDRATE_Baud115200;
+    uart_config.use_easy_dma = false ;
 
     err_code = xinc_cli_init(&m_cli_uart, &uart_config, false, false, XINC_LOG_SEVERITY_NONE);
     

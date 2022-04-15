@@ -1938,11 +1938,12 @@ static void cli_state_collect(xinc_cli_t const * p_cli)
     while (1)
     {
         cli_read(p_cli, &data, sizeof(data), &count);
+  //      printf("count:%d,r1:%c\r\n",count,data);
         if (count == 0)
         {
             return;
         }
-//				printf("r1:%c\r\n",data);
+				
         if (ascii_filter(data) != XINC_SUCCESS)
         {
             continue;

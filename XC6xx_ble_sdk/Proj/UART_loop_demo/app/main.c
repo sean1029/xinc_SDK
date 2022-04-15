@@ -374,6 +374,7 @@ void uart_loop_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
+        .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
         .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
         .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
@@ -437,10 +438,10 @@ int	main(void)
 
        uint8_t cr;
         //查询是否接收到数据
-        if (app_uart_get(&cr) == XINC_SUCCESS)
+        if (app_uart_get(XINCX_APP_UART1_INST_IDX,&cr) == XINC_SUCCESS)
         {
             //将接收的数据原样发回
-            app_uart_put(cr);
+            app_uart_put(XINCX_APP_UART1_INST_IDX,cr);
 
         }
         			

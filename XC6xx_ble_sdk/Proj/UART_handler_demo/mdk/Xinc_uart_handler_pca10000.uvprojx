@@ -701,6 +701,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1524,6 +1529,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2297,6 +2307,11 @@
               <FileName>xincx_dmas.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
           </Files>
         </Group>

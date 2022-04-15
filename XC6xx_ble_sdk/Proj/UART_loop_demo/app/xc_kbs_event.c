@@ -193,10 +193,10 @@ static void kbs_reg_default_config(void)
 - 输入参数: 无
 - 创建日期: 2021-02-24
 ----------------------------------------------------------------------------------------------------*/
-extern	void KBS_Handler(void)
-{
-		xc620_kbs_scan();
-}
+//extern	void KBS_Handler(void)
+//{
+//		xc620_kbs_scan();
+//}
 
 void xc620_kbs_init(void)
 {

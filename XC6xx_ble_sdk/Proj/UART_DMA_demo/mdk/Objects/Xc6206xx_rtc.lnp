@@ -37,6 +37,7 @@
 ".\objects\xincx_uarte.o"
 ".\objects\xinc_drv_uart.o"
 ".\objects\xincx_dmas.o"
+".\objects\xincx_kbs.o"
 ".\objects\xinc_log_default_backends.o"
 ".\objects\app_util_poatform.o"
 ".\objects\app_error_weak.o"

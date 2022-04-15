@@ -395,7 +395,7 @@ xincx_err_t xincx_uart_init(xincx_uart_t const *        p_instance,
     p_cb->handler   = event_handler;
     p_cb->p_context = p_config->p_context;
         
-    printf("p_context: %d\r\n",(uint32_t)p_cb->p_context);
+    printf("p_context: 0x%p\r\n",p_cb->p_context);
     xinc_uart_enable(p_instance->p_reg);
     p_cb->rx_buffer_length           = 0;
     p_cb->rx_secondary_buffer_length = 0;
@@ -645,9 +645,8 @@ xincx_err_t xincx_uart_rx(xincx_uart_t const * p_instance,
     
     }
     else
-    {
-        p_instance->p_reg->IER_DLH.IER |= UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;//open rx interrupt
-        
+    {     
+        p_instance->p_reg->IER_DLH.IER |= UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;//open rx interrupt	      
     }
     err_code = XINCX_SUCCESS;
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
@@ -708,6 +707,7 @@ static void rx_done_event(uart_control_block_t * p_cb,
 static void tx_done_event(uart_control_block_t * p_cb,
                           size_t                 bytes)
 {
+ //   printf("tx_done_event:%p\r\n",p_cb->handler);
     xincx_uart_event_t event;
 
     event.type             = XINCX_UART_EVT_TX_DONE;
@@ -715,7 +715,7 @@ static void tx_done_event(uart_control_block_t * p_cb,
     event.data.rxtx.p_data = (uint8_t *)p_cb->p_tx_buffer;
 
     p_cb->tx_buffer_length = 0;
-
+   
     p_cb->handler(&event, p_cb->p_context);
 }
 
@@ -740,7 +740,7 @@ void xincx_uart_rx_abort(xincx_uart_t const * p_instance)
 
     XINCX_LOG_INFO("RX transaction aborted.");
 
-    printf("xincx_uart_rx_abort\r\n");
+  //  printf("xincx_uart_rx_abort\r\n");
 }
 
 
@@ -753,7 +753,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
     IIR = p_uart->IIR_FCR.IIR;
     uint8_t RxBytes;
 
-    //printf("IER:%x,IIR:%x\r\n",IER,IIR);
+  //  printf("IER:%x,IIR:%x\r\n",IER,IIR);
     if (((IIR & UART_UARTx_IIR_IID_Msk) == UART_UARTx_IIR_IID_ETSI))
     {
        // xincx_uart_event_t event;
@@ -875,7 +875,7 @@ static void uart_irq_handler(XINC_UART_Type *        p_uart,
           //  nrf_uart_event_clear(p_uart, NRF_UART_EVENT_TXDRDY);
             if (p_cb->tx_buffer_length)
             {
-                 p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
+                p_uart->IER_DLH.IER = UART_UARTx_IER_ERDAI_Msk;
                 tx_done_event(p_cb, p_cb->tx_buffer_length);
             }
         }

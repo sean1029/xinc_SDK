@@ -267,6 +267,8 @@ static void xincx_uarte_clk_init(xincx_uarte_t const * const  p_instance,
         p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Pos)|
                                 (CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
 
+        p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Pos)|
+                        (CPR_RSTCTL_SUBRST_SW_UART0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
         //不使能其时钟保护功能
         val = p_cpr->LP_CTL;
         val &= ~(CPR_LP_CTL_UART0_CLK_OFF_PROTECT_EN_Msk >> ch);
@@ -293,6 +295,10 @@ static void xincx_uarte_clk_init(xincx_uarte_t const * const  p_instance,
     {
         p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Pos)|
                                 (CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
+        
+        p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Pos)|
+                                (CPR_RSTCTL_SUBRST_SW_UART1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
+
 
         //不使能其时钟保护功能
         val = p_cpr->LP_CTL;

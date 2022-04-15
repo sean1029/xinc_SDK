@@ -692,6 +692,39 @@
 #endif
 // </e>
 
+// <e> XINCX_KBS_ENABLED - xincx_kbs - KBS peripheral driver
+//==========================================================
+#ifndef XINCX_KBS_ENABLED
+#define XINCX_KBS_ENABLED 1
+#endif
+
+// <o> XINCX_KBS_CONFIG_PRS_INTVAL - PRS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_PRS_INTVAL
+#define XINCX_KBS_CONFIG_PRS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_RLS_INTVA - RLS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_RLS_INTVAL
+#define XINCX_KBS_CONFIG_RLS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_DBC_INTVAL - DBC_INTVAL(Unit 1ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_DBC_INTVAL
+#define XINCX_KBS_CONFIG_DBC_INTVAL 5
+#endif
+
+// <o> XINCX_KBS_CONFIG_RPRS_INTVAL - RPRS_INTVAL(Unit 1ms)  <1-1023> 
+#ifndef XINCX_KBS_CONFIG_RPRS_INTVAL
+#define XINCX_KBS_CONFIG_RPRS_INTVAL 200
+#endif
+
+// <o> XINCX_KBS_CONFIG_LPRS_INTVAL - LPRS_INTVAL(Unit 1ms)  <1-63> 
+#ifndef XINCX_KBS_CONFIG_LPRS_INTVAL
+#define XINCX_KBS_CONFIG_LPRS_INTVAL 5
+#endif
+
+// </e>
+
 // <e> XINCX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
 #ifndef XINCX_RTC_ENABLED
@@ -841,7 +874,7 @@
 // <e> XINCX_UARTE_ENABLED  - xincx_uarte - UARTE peripheral driver
  
 #ifndef XINCX_UARTE_ENABLED
-#define XINCX_UARTE_ENABLED 1
+#define XINCX_UARTE_ENABLED 0
 #endif
 
 // <q> XINCX_UARTE0_ENABLED - Enable UARTE0 instance 
@@ -983,19 +1016,19 @@
 // <e> XINCX_UART_ENABLED - xincx_uart - UART peripheral driver
 //==========================================================
 #ifndef XINCX_UART_ENABLED
-#define XINCX_UART_ENABLED 0
+#define XINCX_UART_ENABLED 1
 #endif
 
 
 // <q> XINCX_UART0_ENABLED - Enable UART0 instance 
 
 #ifndef XINCX_UART0_ENABLED
-#define XINCX_UART0_ENABLED 0
+#define XINCX_UART0_ENABLED 1
 #endif
 
 // <q> XINCX_UART1_ENABLED - Enable UART01 instance 
 #ifndef XINCX_UART1_ENABLED
-#define XINCX_UART1_ENABLED 0
+#define XINCX_UART1_ENABLED 1
 #endif
 
 

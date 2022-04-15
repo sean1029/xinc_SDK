@@ -57,7 +57,7 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context
     UNUSED_VARIABLE(err_code);
     uint8_t * p_data;
     size_t len = 255;
-	//	printf("uart_event_handler type:%d\r\n ",p_event->type);
+//	printf("uart_event_handler type:%d\r\n ",p_event->type);
     switch (p_event->type)
     {
         case XINC_DRV_UART_EVT_ERROR:
@@ -92,11 +92,13 @@ static void uart_event_handler(xinc_drv_uart_event_t * p_event, void * p_context
             break;
 
         case XINC_DRV_UART_EVT_TX_DONE:
+          //  printf("TX_DONE free:%d\r\n ",p_event->data.rxtx.bytes);
             err_code = xinc_ringbuf_free(p_internal->p_tx_ringbuf, p_event->data.rxtx.bytes);
             ASSERT(err_code == XINC_SUCCESS);
             len = 255;
             err_code = xinc_ringbuf_get(p_internal->p_tx_ringbuf, &p_data, &len, true);
             ASSERT(err_code == XINC_SUCCESS);
+          //  printf("TX_DONE next len:%d\r\n ",len);
             if (len)
             {
             //    XINC_LOG_INFO("id:%d, evt uart_tx, len:%d", p_internal->p_uart->inst_idx, len);
@@ -142,6 +144,10 @@ static ret_code_t cli_uart_init(xinc_cli_transport_t const * p_transport,
     xinc_drv_uart_config_t * p_uart_config = (xinc_drv_uart_config_t *)p_config;
     memcpy(&p_internal->p_cb->uart_config, p_uart_config, sizeof(xinc_drv_uart_config_t));
     p_uart_config->p_context = (void *)p_internal;
+    
+    printf("p_internal:0x%p\r\n",p_internal);
+    printf("evt_handler:%p\r\n",evt_handler);
+    printf("uart_event_handler:%p\r\n",uart_event_handler);
     ret_code_t err_code = xinc_drv_uart_init(p_internal->p_uart,
                                             p_uart_config,
                                             uart_event_handler);

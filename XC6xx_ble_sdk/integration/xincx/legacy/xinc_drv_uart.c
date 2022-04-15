@@ -74,7 +74,7 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
 {
     uint32_t inst_idx = p_instance->inst_idx;
     m_handlers[inst_idx] = event_handler;
-    m_contexts[inst_idx] = (void *)inst_idx;
+    m_contexts[inst_idx] = p_config->p_context;
 
 
     xinc_drv_uart_config_t config = *p_config;
@@ -83,6 +83,9 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
     printf("uart_init config baudrate:%d\r\n",config.baudrate);
     
     printf("m_contexts[inst_idx]:%d\r\n",(uint32_t )m_contexts[inst_idx]);
+    printf("m_handlers[inst_idx]:0x%p\r\n",m_handlers[inst_idx] );
+
+    
 
     config.p_context = (void *)inst_idx;
     ret_code_t result = 0;
