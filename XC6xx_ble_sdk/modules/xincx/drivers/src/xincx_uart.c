@@ -239,7 +239,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
                               uint8_t             interrupt_priority)
 {
    // printf("%s\r\n",__func__);
-    #if defined (XC60XX_M0)
+    #if defined (XC60XX_M0) || defined (XC66XX_M4)
     if((p_instance->id == 0UL) || (p_instance->id == 1UL))
     {
         XINCX_IRQ_ENABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
@@ -258,7 +258,7 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
 static void interrupts_disable(xincx_uart_t const * p_instance)
 {
     p_instance->p_reg->IER_DLH.IER = 0X00;
-    #if defined (XC60XX_M0)
+    #if defined (XC60XX_M0) || defined (XC66XX_M4)
     if((p_instance->id == 0UL) || (p_instance->id == 1UL))
     {
         XINCX_IRQ_DISABLE((IRQn_Type)(UART0_IRQn + p_instance->id));
