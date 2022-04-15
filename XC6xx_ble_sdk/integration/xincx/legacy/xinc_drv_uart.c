@@ -21,7 +21,8 @@ static void *                   m_contexts[INSTANCE_COUNT];
 static void uart_evt_handler(xincx_uart_event_t const * p_event,
                              void *                    p_context)
 {
-    uint32_t inst_idx = (uint32_t)p_context;
+    uint32_t inst_idx = (uint32_t)p_context;;
+ //   printf("uart_evt_handler inst_idx:%d\r\n",inst_idx);
     xinc_drv_uart_event_t event =
     {
         .type = (xinc_drv_uart_evt_type_t)p_event->type,
@@ -73,15 +74,17 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
 {
     uint32_t inst_idx = p_instance->inst_idx;
     m_handlers[inst_idx] = event_handler;
-    m_contexts[inst_idx] = p_config->p_context;
+    m_contexts[inst_idx] = (void *)inst_idx;
 
 
     xinc_drv_uart_config_t config = *p_config;
     printf("%s\r\n",__func__);
     printf("uart_init p_config baudrate:%d\r\n",p_config->baudrate);
     printf("uart_init config baudrate:%d\r\n",config.baudrate);
-    config.p_context = (void *)inst_idx;
+    
+    printf("m_contexts[inst_idx]:%d\r\n",(uint32_t )m_contexts[inst_idx]);
 
+    config.p_context = (void *)inst_idx;
     ret_code_t result = 0;
 	
     if (XINC_DRV_UART_USE_UARTE)       

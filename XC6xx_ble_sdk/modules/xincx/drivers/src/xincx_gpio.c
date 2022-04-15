@@ -432,7 +432,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,2);	
         }
-        else if((XINC_GPIO_PIN_UART1_TX == fun) && (XINC_GPIO_31 == pin))
+        else if((XINC_GPIO_PIN_UART2_RX == fun) && (XINC_GPIO_31 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,1);		
         }
@@ -500,15 +500,15 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
             
             default:
             {                
-//                if(fun > XINC_GPIO_PIN_PWM1_INV)
-//                {
-//                    err_code = XINCX_ERROR_INVALID_PARAM;
-//                }else
-//                {
-//                   
-//                    xinc_gpio_mux_ctl(pin,0);
-//                    xinc_gpio_fun_sel(pin,fun);
-//                }
+                if(fun > XINC_GPIO_PIN_KBS_MTXKEY_MKI)
+                {
+                    err_code = XINCX_ERROR_INVALID_PARAM;
+                }else
+                {
+                    printf("xinc_gpio_fun_sel:%d\r\n",fun);
+                    xinc_gpio_mux_ctl(pin,0);
+                    xinc_gpio_fun_sel(pin,fun);
+                }
             }
             break;	
         

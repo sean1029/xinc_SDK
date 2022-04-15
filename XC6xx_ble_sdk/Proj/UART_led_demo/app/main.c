@@ -337,6 +337,7 @@ void uart_led_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
+        .uart_inst_idx = 1,
         .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
         .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
@@ -358,6 +359,7 @@ void uart_led_test(void)
                         uart_event_handle,
                         APP_IRQ_PRIORITY_LOWEST,
                         err_code);
+    printf("APP_UART_FIFO_INIT:%x\r\n",err_code);
  }
 
  void uart_data_proess(uint8_t cr)
@@ -458,7 +460,7 @@ int	main(void)
 
        ble_mainloop();
        app_sched_execute();
-        if(app_uart_get(&cr) == XINC_SUCCESS)
+        if(app_uart_get(1,&cr) == XINC_SUCCESS)
         {
             uart_data_proess(cr);
         }
@@ -472,6 +474,7 @@ int	main(void)
            if(LastTimeGulSystickCount % 200 == 0)
            {
               // printf("SystickCount:%d\n",LastTimeGulSystickCount);
+              // app_uart_put(XINCX_APP_UART1_INST_IDX,'a');
            }
   
 			 

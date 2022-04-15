@@ -18,6 +18,7 @@
 #ifndef APP_UART_H__
 #define APP_UART_H__
 
+#include <xincx.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "app_util_platform.h"
@@ -25,6 +26,25 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#ifndef __XINCX_DOXYGEN__
+enum {
+#if XINCX_CHECK(APP_UART_DRIVER_INSTANCE0)
+    XINCX_APP_UART0_INST_IDX ,
+#endif
+#if XINCX_CHECK(APP_UART_DRIVER_INSTANCE1)
+    XINCX_APP_UART1_INST_IDX ,
+#endif
+    
+#if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED) 
+#if XINCX_CHECK(APP_UART_DRIVER_INSTANCE2)
+    XINCX_APP_UART2_INST_IDX ,
+#endif
+#endif
+    XINCX_APP_UART_ENABLED_COUNT
+};
+#endif
+
 
 #define  UART_PIN_DISCONNECTED 0xFFFFFFFF /**< Value indicating that no pin is connected to this UART register. */
 
@@ -40,6 +60,7 @@ typedef enum
  */
 typedef struct
 {
+    uint8_t                 uart_inst_idx;     /**< 使能指定的UART作为app uart. */
     uint32_t                rx_pin_no;    /**< RX pin number. */
     uint32_t                tx_pin_no;    /**< TX pin number. */
     uint32_t                rts_pin_no;   /**< RTS pin number, only used if flow control is enabled. */
@@ -84,6 +105,7 @@ typedef enum
  */
 typedef struct
 {
+    uint8_t uart_inst_idx;
     app_uart_evt_type_t evt_type; /**< Type of event. */
     union
     {
@@ -188,12 +210,13 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
  *          an error code will be returned and the app_uart module will generate an event upon
  *          reception of the first byte which is added to the RX buffer.
  *
+ * @param[in] uart_inst_idx    Pointer to an address where next byte received on the UART will be copied.
  * @param[out] p_byte    Pointer to an address where next byte received on the UART will be copied.
  *
  * @retval XINC_SUCCESS          If a byte has been received and pushed to the pointer provided.
  * @retval XINC_ERROR_NOT_FOUND  If no byte is available in the RX buffer of the app_uart module.
  */
-uint32_t app_uart_get(uint8_t * p_byte);
+uint32_t app_uart_get(uint8_t uart_inst_idx,uint8_t * p_byte);
 
 
 /**@brief Function for getting bytes from the UART.
@@ -208,7 +231,7 @@ uint32_t app_uart_get(uint8_t * p_byte);
  * @retval XINC_SUCCESS          If a byte has been received and pushed to the pointer provided.
  * @retval XINC_ERROR_NOT_FOUND  If no byte is available in the RX buffer of the app_uart module.
  */
-uint32_t app_uart_gets(uint8_t * p_byte,uint8_t * len);
+uint32_t app_uart_gets(uint8_t uart_inst_idx,uint8_t * p_byte,uint8_t * len);
 
 /**@brief Function for putting a byte on the UART.
  *
@@ -226,7 +249,7 @@ uint32_t app_uart_gets(uint8_t * p_byte,uint8_t * len);
  *                            is high for a long period and the buffer fills up.
  * @retval XINC_ERROR_INTERNAL If UART driver reported error.
  */
-uint32_t app_uart_put(uint8_t byte);
+uint32_t app_uart_put(uint8_t uart_inst_idx ,uint8_t byte);
 
 /**@brief Function for putting bytes on the UART.
  *
@@ -242,14 +265,14 @@ uint32_t app_uart_put(uint8_t byte);
  *                            is high for a long period and the buffer fills up.
  * @retval XINC_ERROR_INTERNAL If UART driver reported error.
  */
-uint32_t app_uart_puts(uint8_t* bytes,uint8_t len);
+uint32_t app_uart_puts(uint8_t uart_inst_idx,uint8_t* bytes,uint8_t len);
 
 /**@brief Function for flushing the RX and TX buffers (Only valid if FIFO is used).
  *        This function does nothing if FIFO is not used.
  *
  * @retval  XINC_SUCCESS  Flushing completed (Current implementation will always succeed).
  */
-uint32_t app_uart_flush(void);
+uint32_t app_uart_flush(uint8_t uart_inst_idx);
 
 /**@brief Function for closing the UART module.
  *
@@ -257,7 +280,7 @@ uint32_t app_uart_flush(void);
  * @retval  XINC_ERROR_INVALID_PARAM If an invalid user id is provided or the user id differs from
  *                                  the current active user.
  */
-uint32_t app_uart_close(void);
+uint32_t app_uart_close(uint8_t uart_inst_idx);
 
 
 

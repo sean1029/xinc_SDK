@@ -696,6 +696,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\legacy\xinc_drv_uart.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1518,6 +1523,11 @@
               <FileName>xinc_drv_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\legacy\xinc_drv_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
           </Files>
         </Group>
