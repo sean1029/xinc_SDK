@@ -307,7 +307,7 @@ void bsp_evt_handler(bsp_event_t evt)
         {
             //点亮 LED 指示灯 D1
             bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-    //        printf("EVENT_LED1_ON\r\n");
+            printf("EVENT_LED1_ON\r\n");
             
         } break;
         // 按键S1 注册的释放事件的回调
@@ -315,20 +315,35 @@ void bsp_evt_handler(bsp_event_t evt)
         {
             //熄灭 LED 指示灯 D1
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-    //        printf("EVENT_LED1_OFF\r\n");
+            printf("EVENT_LED1_OFF\r\n");
         } break;
         // 按键S2 注册的长按事件的回调
         case BSP_EVENT_LED2_ON:
         {
             //点亮 LED 指示灯 D2
             bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            printf("EVENT_LED2_ON\r\n");
         } break;
         // 按键S2 注册的释放事件的回调
         case BSP_EVENT_LED2_OFF:
         {
             //熄灭 LED 指示灯 D2
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            printf("EVENT_LED2_OFF\r\n");
         } break;
+        
+        case BSP_EVENT_KEY_0:
+        {
+            printf("BSP_EVENT_KEY_0\r\n");
+        } break;
+        
+        case BSP_EVENT_KEY_1:
+        {
+ 
+            printf("BSP_EVENT_KEY_1\r\n");
+        } break;
+        
+        
            
 
         default:
@@ -345,8 +360,19 @@ void kbs_mtxkey_bsp_test()
     
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
+    
+        err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
+    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
+    
+    err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
+    err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
 
+//        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+//    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
+//    
     err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
+   // err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
+    
 
   
     printf("xincx_kbs_init err_code:0x%x\n",err_code);
@@ -488,10 +514,10 @@ int	main(void)
     	sys_run_timer.process = &system_run_timer_handler;
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
-    bsp_board_init(BSP_INIT_LEDS);
+  //  bsp_board_init(BSP_INIT_LEDS);
     
-    kbs_mtxkey_drv_test();
- //   kbs_mtxkey_bsp_test();
+   // kbs_mtxkey_drv_test();
+    kbs_mtxkey_bsp_test();
     while(1) {
 
        ble_mainloop();
@@ -502,8 +528,10 @@ int	main(void)
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
-           if(LastTimeGulSystickCount % 200 == 0);
-           //    printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount);
+           if(LastTimeGulSystickCount % 600 == 0)
+           {
+             //  printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/600);
+           }
 			 
 	   }		   
 

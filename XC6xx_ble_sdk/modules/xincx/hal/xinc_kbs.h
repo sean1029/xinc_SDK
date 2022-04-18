@@ -152,7 +152,7 @@ __STATIC_INLINE void xinc_kbs_mask_set(XINC_KBS_Type * p_reg,
 __STATIC_INLINE void xinc_kbs_interval_set(XINC_KBS_Type * p_reg,
                                         uint32_t       mask)
 {
-    p_reg->MASK = mask;
+  //  p_reg->MASK = mask;
 }
 
 __STATIC_INLINE void xinc_kbs_enable(XINC_KBS_Type * p_reg)

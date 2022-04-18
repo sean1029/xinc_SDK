@@ -701,6 +701,8 @@ __STATIC_INLINE void xinc_gpio_pin_dir_set(uint32_t pin_number, xinc_gpio_pin_di
     
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
     regVal = preg->PORT_DDR[reg_idx];
+    
+    regVal &= ~(0x01 << pin_idx);
     if (direction == XINC_GPIO_PIN_DIR_INPUT)
     {
         
@@ -903,6 +905,17 @@ __STATIC_INLINE void xinc_gpio_pin_write(uint32_t pin_number, uint32_t value)//o
     {
         xinc_gpio_pin_set(pin_number);
     }
+}
+
+
+__STATIC_INLINE uint32_t xinc_gpio_port_read(uint32_t port)//o
+{
+    XINC_GPIO_Type * reg = XINC_GPIO0;
+
+    uint32_t value = reg->EXT_PORT[port];
+
+    return value ;
+
 }
 
 

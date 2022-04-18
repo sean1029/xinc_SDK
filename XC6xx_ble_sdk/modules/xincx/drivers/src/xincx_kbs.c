@@ -74,12 +74,15 @@ typedef struct
     uint32_t                   row_Bits_En;
     uint32_t                   col_Bits_En;
     
-    uint8_t dbc_intval;//debounce间隔
-    uint16_t rprs_intval;//重复按键间隔
-    uint8_t lprs_intval;//长按按键间隔
+    uint8_t                    row_Bits_num; 
+    uint8_t                    detected_fun;//根据 row_Bits_num 的个数以及按下的row 个数选择相应的检测算法
     
-    uint16_t lprs_cal_cnt;
+    uint8_t                    dbc_intval;//debounce间隔
+    uint16_t                   rprs_intval;//重复按键间隔
+    uint8_t                    lprs_intval;//长按按键间隔
     
+    uint16_t                   lprs_cal_cnt;
+    uint32_t                   g_row_value;
     kbs_state_t                kbs_state;
     xincx_drv_state_t          state;
 } kbs_control_block_t;
@@ -90,12 +93,12 @@ static kbs_control_block_t m_cb;
 *根据row_pin 值换算得到其在矩阵当中所在的mko_idx
 其每个pin对应的矩阵idx可参考芯片手册文档
 */
-__STATIC_INLINE int16_t kbs_mtxkey_row_pin_to_mko_idx(uint8_t row_pin)
+__STATIC_INLINE int16_t kbs_mtxkey_row_pin_to_mko_idx(uint8_t row_pin_no)
 {
     uint8_t mko_idx;
-    if(row_pin <= 7)
+    if(row_pin_no <= XINC_GPIO_7)
     {
-        mko_idx = row_pin;
+        mko_idx = row_pin_no;
         return mko_idx;
     }
     return -1;  
@@ -105,16 +108,16 @@ __STATIC_INLINE int16_t kbs_mtxkey_row_pin_to_mko_idx(uint8_t row_pin)
 *根据col_pin 值换算得到其在矩阵当中所在的mki_idx
 其每个pin对应的矩阵idx可参考芯片手册文档
 */
-__STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin)
+__STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin_no)
 {
     int8_t mki_idx;
     
-    switch(col_pin)
+    switch(col_pin_no)
     {
         case XINC_GPIO_8:
         case XINC_GPIO_9:
         {
-            mki_idx = col_pin - 8UL; // 0 -- 1
+            mki_idx = col_pin_no - 8UL; // 0 -- 1
         }break;
         
         case XINC_GPIO_20:
@@ -124,7 +127,7 @@ __STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin)
         case XINC_GPIO_24:
         case XINC_GPIO_25:
         {
-            mki_idx = col_pin - 18UL;//2 -- 7
+            mki_idx = col_pin_no - 18UL;//2 -- 7
         }break;
         
         case XINC_GPIO_10:
@@ -137,7 +140,7 @@ __STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin)
         case XINC_GPIO_16:
         case XINC_GPIO_17:
         {
-            mki_idx = col_pin - 5UL;//9 -- 12
+            mki_idx = col_pin_no - 5UL;//9 -- 12
         }break;
         
         case XINC_GPIO_26:
@@ -146,7 +149,7 @@ __STATIC_INLINE int16_t kbs_mtxkey_col_pin_to_mki_idx(uint8_t col_pin)
         case XINC_GPIO_29:
         case XINC_GPIO_30:
         {
-            mki_idx = col_pin - 13UL;//13 -- 17
+            mki_idx = col_pin_no - 13UL;//13 -- 17
         }break;
         
         default:
@@ -224,7 +227,7 @@ static void usr_event(int16_t mtxkey_idx, uint8_t type)
 }
 
 /* State machine processing. */
-void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
+static void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
 {
 //	printf("evt_handle pin:%d,value:%d,state:%d\r\n",pin,value,state_get(pin));
     switch(mtxkey_state_get(mtxkey_idx))
@@ -233,7 +236,8 @@ void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
         if (value)
         {
            
-            mtxkey_state_set(mtxkey_idx, MTXKEY_PRESS_ARMED);
+           // mtxkey_state_set(mtxkey_idx, MTXKEY_PRESS_ARMED);
+            mtxkey_state_set(mtxkey_idx, MTXKEY_PRESS_DETECTED);
 
         }
         else
@@ -321,7 +325,6 @@ void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
     }
 }
 
-
 xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
                          uint8_t                        mtxkey_size,
                          xincx_kbs_intval_config_t  const *       p_config)
@@ -370,6 +373,8 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
     
     p_cpr->OTHERCLKEN_GRCTL = (CPR_OTHERCLKEN_GRCTL_KBS_CLK_EN_Enable << CPR_OTHERCLKEN_GRCTL_KBS_CLK_EN_Pos) | 
                               (CPR_OTHERCLKEN_GRCTL_KBS_CLK_EN_Msk << CPR_OTHERCLKEN_GRCTL_MASK_OFFSET);//0x90009;
+    
+
     
     p_reg->CTL = KBS_KBS_CTL_MTXKEY_EN_Msk ;
     
@@ -433,7 +438,7 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
         mtxkey_idx++;
         printf("p_mtxkey->mtxkey_id:%d,row_pin:%d,col_pin:%d\r\n",p_mtxkey->key_val,p_mtxkey->row_pin,p_mtxkey->col_pin);
     }
-    
+
    
     p_reg->DETECT_INTVAL = ((p_config->prs_intval << KBS_DETECT_INTVAL_MTXKEY_PRS_INTVAL_Pos) & KBS_DETECT_INTVAL_MTXKEY_PRS_INTVAL_Msk) |
                            ((p_config->rls_intval << KBS_DETECT_INTVAL_MTXKEY_RLS_INTVAL_Pos) & KBS_DETECT_INTVAL_MTXKEY_RLS_INTVAL_Msk);
@@ -452,13 +457,14 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
     
     printf("mask_set:%x,m_cb.lprs_cal_cnt:%d\r\n",kbs_mask,m_cb.lprs_cal_cnt);
     xinc_kbs_mask_set(p_reg,kbs_mask);
-    
     int_en = KBS_MTXKEY_INT_PRS_INT_EN_Msk;
     
     xinc_kbs_int_enable(p_reg,int_en);
-    printf("xinc_kbs_int_enable:%x\r\n",int_en);
+    printf("xinc_kbs_int_enable p_reg:%p,ctl:0x%x,en:0x%x\r\n",p_reg,p_reg->CTL,p_reg->MTXKEY_INT_EN);
 
     NVIC_EnableIRQ(KBS_IRQn);
+    
+    printf("xinc_kbs_int_enable:%x\r\n",int_en);
     
     m_cb.state = XINCX_DRV_STATE_INITIALIZED;
     m_cb.kbs_state = KBS_IDLE;
@@ -466,7 +472,10 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
     return err_code;
 }
 
-bool kbs_mtxkey_value_check(void)
+
+
+
+static bool kbs_mtxkey_value_check_funA(void)
 {
     uint32_t row_out_reg ;
     uint32_t col_in_reg ;
@@ -523,13 +532,187 @@ bool kbs_mtxkey_value_check(void)
      return  has_value;
 }
 
-static void kbs_irq_handler(XINC_KBS_Type * p_i2c, kbs_control_block_t * p_cb)
+
+
+static void mtxkey_set_mki_out_mko_input(void)
+{
+    for(uint8_t row_idx  = 0 ; row_idx < KBS_ROW_PIN_COUNT;row_idx++ )
+    {
+        if((0x01UL << row_idx) & m_cb.row_Bits_En)
+        {                  
+           xinc_gpio_mux_ctl(m_cb.row_pin_assignments[row_idx],0);
+           xinc_gpio_fun_sel(m_cb.row_pin_assignments[row_idx],XINC_GPIO_PIN_GPIODx);
+           xinc_gpio_pin_dir_set(m_cb.row_pin_assignments[row_idx],XINC_GPIO_PIN_DIR_INPUT);            
+           xinc_gpio_pull_sel(m_cb.row_pin_assignments[row_idx],XINC_GPIO_PIN_PULLDOWN);
+
+        }
+    
+    }
+    
+    for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+    {
+        if((0x01UL << col_idx) & m_cb.col_Bits_En)
+        {
+            xinc_gpio_mux_ctl(m_cb.col_pin_assignments[col_idx],0);
+            xinc_gpio_fun_sel(m_cb.col_pin_assignments[col_idx],XINC_GPIO_PIN_GPIODx);
+            xinc_gpio_cfg_output(m_cb.col_pin_assignments[col_idx]);
+            xinc_gpio_pin_dir_set(m_cb.col_pin_assignments[col_idx],XINC_GPIO_PIN_DIR_OUTPUT);
+            xinc_gpio_pin_set(m_cb.col_pin_assignments[col_idx]);
+        }
+    }
+}
+
+static uint32_t mtxkey_get_mkoio_input_value(void)
+{
+    uint32_t io_value = 0;
+
+    uint32_t port_value;
+    port_value = xinc_gpio_port_read(0);
+    for(uint8_t row_idx  = 0 ; row_idx < KBS_ROW_PIN_COUNT;row_idx++  )
+    {
+        if((0x01UL << row_idx) & m_cb.row_Bits_En)
+        {
+           // io_value |= (xinc_gpio_pin_read(m_cb.row_pin_assignments[row_idx]) << row_idx); 
+
+            io_value |= ((( port_value & (0x01 << m_cb.row_pin_assignments[row_idx])) >> m_cb.row_pin_assignments[row_idx] ) << row_idx);             
+        }
+    }
+    return io_value;
+}
+
+
+static void mtxkey_io_fun_relase(void)
+{
+
+    for(uint8_t row_idx  = 0 ; row_idx < KBS_ROW_PIN_COUNT;row_idx++  )
+    {
+        if((0x01UL << row_idx) & m_cb.row_Bits_En)
+        {
+            xinc_gpio_mux_ctl(m_cb.row_pin_assignments[row_idx],1);
+            xinc_gpio_pin_dir_set(m_cb.row_pin_assignments[row_idx],XINC_GPIO_PIN_DIR_OUTPUT);
+            
+        }
+    
+    }
+    
+    for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+    {
+        if((0x01UL << col_idx) & m_cb.col_Bits_En)
+        {          
+            xinc_gpio_mux_ctl(m_cb.col_pin_assignments[col_idx],1);
+            xinc_gpio_pin_dir_set(m_cb.col_pin_assignments[col_idx],XINC_GPIO_PIN_DIR_INPUT);
+            xinc_gpio_pull_sel(m_cb.col_pin_assignments[col_idx],XINC_GPIO_PIN_PULLDOWN);
+        }
+    }
+}
+
+static uint32_t kbs_mtxkey_row_value_check_by_gpio(void)
+{
+      
+    XINC_KBS_Type * p_reg = xinc_kbs_decode();
+    
+    mtxkey_set_mki_out_mko_input();
+    xinc_delay_us(80); 
+    m_cb.g_row_value = mtxkey_get_mkoio_input_value();
+         
+    mtxkey_io_fun_relase();
+     
+    return  m_cb.g_row_value;
+}
+
+
+static bool kbs_mtxkey_value_check_funB(void)
+{
+    uint32_t row_out_reg ;
+    uint32_t col_in_reg ;
+    uint8_t rw_flag = 1;
+    bool has_value = false; 
+    
+    kbs_mtxkey_row_value_check_by_gpio();
+    
+    XINC_KBS_Type * p_reg = xinc_kbs_decode();
+    for(uint8_t row_idx  = 0 ; row_idx < KBS_ROW_PIN_COUNT; )
+    {
+        if(((0x01UL << row_idx) & m_cb.row_Bits_En))
+        {
+            if( ((0x01UL << row_idx) & m_cb.g_row_value) == 0 )
+            {
+                    for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+                    {
+                        int16_t mtxkey_idx;
+                        bool is_set = 0;
+                        if((0x01UL << col_idx) & m_cb.col_Bits_En)
+                        {
+                            is_set = false;
+
+                            mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[col_idx]);
+                            if(mtxkey_idx != NO_MTXKEY_ID)
+                            {
+                                kbs_evt_handle(mtxkey_idx, is_set);
+                            }
+                        }
+                    }
+                    
+                row_idx++;
+            }
+            else
+            {     
+                if(rw_flag == 1)
+                {
+                    row_out_reg = (0x01UL << row_idx);
+                    p_reg->MTXKEY_MANUAL_ROWOUT = row_out_reg;
+                   //  printf("row_idx:%d,row_out_reg:0x%x \r\n",row_idx,row_out_reg);
+                    rw_flag = 0;
+                    xinc_delay_us(80);
+
+                }
+                else
+                {
+                    col_in_reg =  p_reg->MTXKEY_MANUAL_COLIN ;
+                  //  printf("row_idx:%d,col_in_reg:0x%x \r\n",row_idx,col_in_reg);
+                    if(col_in_reg != 0)
+                    {
+                        has_value = true;
+                    }
+                    for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+                    {
+                        int16_t mtxkey_idx;
+                        bool is_set = 0;
+                        if((0x01UL << col_idx) & m_cb.col_Bits_En)
+                        {
+                            is_set = col_in_reg & (0x01UL << col_idx);
+
+                            mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[col_idx]);
+                            if(mtxkey_idx != NO_MTXKEY_ID)
+                            {
+                                kbs_evt_handle(mtxkey_idx, is_set);
+                            }
+                        }
+                    }
+                    rw_flag = 1UL;
+                    row_idx++;
+                }
+
+            }          
+        }
+        else
+        {
+            row_idx++;
+        }
+                                      
+     }
+         
+     return  has_value;
+}
+
+
+
+static void kbs_irq_handler(XINC_KBS_Type * p_kbs, kbs_control_block_t * p_cb)
 {
 	 uint32_t reg_kbs_int = 0;//
 	 uint32_t reg_kbs_int_prs = 0;
 	 uint32_t reg_kbs_int_en = 0;//
-     uint32_t row_out_reg ;
-    
+
      bool has_key_presss = false;
 
      XINC_KBS_Type * p_reg = xinc_kbs_decode();
@@ -538,15 +721,15 @@ static void kbs_irq_handler(XINC_KBS_Type * p_i2c, kbs_control_block_t * p_cb)
 
 	 reg_kbs_int_prs = reg_kbs_int & KBS_MTXKEY_INT_PRS_INT_Msk;//дݼ
 
+  //   printf("int_prs:0x%x\r\n",reg_kbs_int_prs);
 	 if(reg_kbs_int_prs)
 	 {
 
          reg_kbs_int_en = p_reg->MTXKEY_INT_EN;
 		 reg_kbs_int_en &= ~(KBS_MTXKEY_INT_PRS_INT_EN_Msk);
          p_reg->MTXKEY_INT_EN = reg_kbs_int_en;
-
-         
-         has_key_presss = kbs_mtxkey_value_check();
+                       
+         has_key_presss = kbs_mtxkey_value_check_funB();
          
          if(has_key_presss == false)
          {
@@ -567,8 +750,7 @@ static void kbs_irq_handler(XINC_KBS_Type * p_i2c, kbs_control_block_t * p_cb)
 
     if(m_cb.kbs_state == KBS_RELEASED)
     {
-         row_out_reg = KBS_MTXKEY_MANUAL_ROWOUT_MANUAL_RLS_Msk;
-         p_reg->MTXKEY_MANUAL_ROWOUT = row_out_reg;
+         p_reg->MTXKEY_MANUAL_ROWOUT = KBS_MTXKEY_MANUAL_ROWOUT_MANUAL_RLS_Msk;
 
          xinc_delay_us(80);      
     }
