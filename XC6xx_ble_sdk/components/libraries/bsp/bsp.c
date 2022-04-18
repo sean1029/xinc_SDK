@@ -748,7 +748,7 @@ uint32_t bsp_init(uint32_t type, bsp_event_callback_t callback)
     {
         m_mtxkey_registered_callback = callback;
         
-        err_code = xincx_kbs_init(mtxkeys, ARRAY_SIZE(mtxkeys), NULL);    
+        //err_code = xincx_kbs_init(mtxkeys, ARRAY_SIZE(mtxkeys), NULL);    
     }
 #endif
 

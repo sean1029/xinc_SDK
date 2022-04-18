@@ -312,10 +312,13 @@ static xinc_drv_audio_adc_t m_audio_adc = XINC_DRV_AUDIO_ADC_INSTANCE(0);
 
 static xinc_saadc_value_t   m_buffer_pool[2][SAMPLES_IN_BUFFER];
 
+static xinc_audio_adc_value_t m_audio_adc_buffer_pool[2][SAMPLES_IN_BUFFER]; 
+
 xinc_saadc_value_t adc_value;
 
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
+	printf("%s\n",__func__);
     ret_code_t err_code;
 
     switch (pin_no)
@@ -328,15 +331,17 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
                 //启动通道8，芯片内部adc的采样，使用非阻塞方式，在回调函数中得到采样的结果
-                xincx_saadc_sample(&m_saadc,8);  
-            }else
+                xincx_saadc_sample(&m_saadc,8);
+				//使能audio adc
+				
+            }
+			else
             {
                 //熄灭LED 指示灯 D1
                 bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-            }            
-
-            
-        }break;
+            }                     
+        }
+			break;
           
         case S2BUTTON_BUTTON_PIN:
         {
@@ -345,22 +350,20 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
             {
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+				
+				
                 //启动通道8，芯片内部adc的采样，使用阻塞方式,adc_value保存得到的采样结果
                 xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
                 printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
                 adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));		
-            }else
+            }
+			else
             {
                 //熄灭LED 指示灯 D1
                 bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
-            }            
-
-
-        
-        }break;
-          
-       
-            
+            }                   
+        }
+			break;           
 
         default:
             APP_ERROR_HANDLER(pin_no);
@@ -368,33 +371,29 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
     }
 }
 
-void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
-{
-    printf("%s\n",__func__);
-    uint32_t val;
-    
-    if (p_event->type == XINC_DRV_SAADC_EVT_DONE)
-    {
-        //非阻塞方式得到的结果
-        val = p_event->data.done.adc_value;
-        printf("1.0v,channel=%d,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
-            p_event->data.done.channel, val,((val)*2.47)/(1.0*1024),   ((val)*2.47)/(1.0*1024));		
-    }
-}	
 
 void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event,
-                                           void *                    p_context)
+                                           void *            p_context)
 
 {
-    printf("%s\n",__func__);
-
-    
+    printf("__func__=%s\n",__func__);
+	//打印采集到的数据
+	uint32_t val[5];
+	if(p_event->type == XINCX_AUDIO_ADC_EVT_DONE)
+	{
+		for(int i=0;i<5;i++)
+		{
+			val[i] = p_event->data.done.p_buffer[i];
+		}
+		printf("__func__=%s,%d,%d,%d,%d,%d\n",__func__,val[0],val[1],val[2],val[3],val[4]);
+	} 
 }
 
-void saadc_test()
+
+void audio_adc_test()
 {
     ret_code_t err_code;
-
+	printf("%s,button_event_handler=%p\n",__func__,button_event_handler);
     //The array must be static because a pointer to it will be saved in the button handler module.
     static app_button_cfg_t buttons[] =
     {
@@ -404,75 +403,72 @@ void saadc_test()
     //初始化 LED,用来指示按键按下状态
     bsp_board_init(BSP_INIT_LEDS);
 
-    //初始化 按键,用来触发adc 采用
+    //初始化 按键,用来触发audio adc采用
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
     
     APP_ERROR_CHECK(err_code);
 
-        
-
-    xinc_saadc_channel_config_t channel_config =  XINC_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE;
-
-    //初始化saadc，config 设置为NULL，使用default 配置
-    err_code = xinc_drv_saadc_init(&m_saadc,NULL, saadc_callback);
-        
-    APP_ERROR_CHECK(err_code);
-    // 初始化 8 通道，只有初始化通道后，后面才能使用对应的采样函数
-    err_code = xinc_drv_saadc_channel_init(&m_saadc,8, &channel_config);
-
-    APP_ERROR_CHECK(err_code);
-
-    //设置采样数据的 buffer
-    err_code = xinc_drv_saadc_buffer_convert(&m_saadc,m_buffer_pool[0], SAMPLES_IN_BUFFER);
-
-    APP_ERROR_CHECK(err_code);
-    
-        //初始化saadc，config 设置为NULL，使用default 配置
+ 
+	//初始化audio_adc，config 设置为NULL，使用default 配置	
     err_code = xinc_drv_audio_adc_init(&m_audio_adc,NULL, audio_adc_callback,NULL);
+	//设置转换buff的大小
+	xinc_drv_audio_adc_buffer_convert(&m_audio_adc,m_audio_adc_buffer_pool[0], SAMPLES_IN_BUFFER);
+	xinc_drv_audio_adc_enable(&m_audio_adc);		
 }
 
 
-
-
+#define configCPU_CLOCK_HZ   ( ( unsigned long ) 32000000 )
+#define configTICK_RATE_HZ   (  20 )   //50ms滴答定时器中断一次调度一次    
+void delay_init()
+{
+    SysTick->LOAD=( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;; //每1/configTICK_RATE_HZ秒中断一次  --(1/20=50ms)
+    SysTick->CTRL|=SysTick_CTRL_CLKSOURCE_Msk;  //选择时钟源 -内核时钟FCLK(32M)
+    SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;  //开启SYSTICK中断
+    SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;    //开启SYSTICK
+}
 
 
 int	main(void)
 {
-
-
+	delay_init();
 	set_bd_addr();
     printf("ble_init\n");
-    ble_init((void *)&blestack_init);
-	 printf("scheduler_init\n");
+	//ble_init((void *)&blestack_init);
+	printf("scheduler_init\n");
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
     xincx_gpio_init();
-	btstack_main();
+//	btstack_main();
     key_init();
 
+	xinc_gpio_fun_sel(18,XINC_GPIO_PIN_GPIODx);
+	xinc_gpio_fun_sel(19,XINC_GPIO_PIN_GPIODx);
+	xinc_gpio_fun_sel(6,XINC_GPIO_PIN_UART0_TX);
+	xinc_gpio_fun_sel(7,XINC_GPIO_PIN_UART0_RX);
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
-    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
-    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
-    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+//    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
+//    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
+//    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
+//    gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
-    
-    saadc_test();
+
+	audio_adc_test();
 
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
-			
+//		xinc_delay_ms(1000);
+//			printf("run\n");
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
@@ -484,6 +480,5 @@ int	main(void)
 
     }
 }
-
 
 

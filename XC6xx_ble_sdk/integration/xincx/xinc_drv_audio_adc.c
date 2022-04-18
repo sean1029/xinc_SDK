@@ -28,6 +28,7 @@ static void *                    m_contexts[INSTANCE_COUNT];
 static void audio_adc_evt_handler(xincx_audio_adc_evt_t const * p_event,
                             void *                 p_context)
 {
+	printf("__func__=%s\n",__func__);
     uint32_t inst_idx = (uint32_t)p_context;
     xinc_drv_audio_adc_evt_t const event =
     {
@@ -40,8 +41,7 @@ static void audio_adc_evt_handler(xincx_audio_adc_evt_t const * p_event,
     if(m_handlers[inst_idx])
     {
         m_handlers[inst_idx](&event, m_contexts[inst_idx]);
-    }
-    
+    } 
 }
 #endif // AUDIO_ADC_PRESENT
 

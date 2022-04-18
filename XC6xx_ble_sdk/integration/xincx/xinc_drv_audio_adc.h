@@ -53,6 +53,16 @@ typedef struct
 //typedef xincx_audio_adc_t        xinc_drv_audio_adc_t;
 ///** @brief Type definition for forwarding the new implementation. */
 typedef xincx_audio_adc_config_t    xinc_drv_audio_adc_config_t;
+/**
+ * @brief Audio ADC clock frequency.
+ */
+typedef xinc_audio_adc_freq_t xinc_drv_audio_adc_frequency_t;
+     
+/**
+ * @brief Structure for the AUDIO ADC driver instance configuration.
+ */
+typedef xincx_audio_adc_config_t xinc_drv_audio_adc_config_t;
+
 
 /**
  * @brief Macro for creating a audio adc driver instance.
@@ -64,18 +74,7 @@ typedef xincx_audio_adc_config_t    xinc_drv_audio_adc_config_t;
      { 0, XINCX_AUDIO_ADC_INSTANCE(0), false }
 #endif
 
-/**
- * @brief Audio ADC clock frequency.
- */
 
-typedef xinc_audio_adc_freq_t xinc_drv_audio_adc_frequency_t;
-     
-/**
- * @brief Structure for the AUDIO ADC driver instance configuration.
- */
-
-
-typedef xincx_audio_adc_config_t xinc_drv_audio_adc_config_t;
 /**
  * @brief AUDIO_ADC driver instance default configuration.
  */
@@ -191,6 +190,14 @@ bool xinc_drv_audio_adc_is_busy(xinc_drv_audio_adc_t const * p_instance)
 {
     return xincx_audio_adc_is_busy(&p_instance->audio_adc);
 }
+
+__STATIC_INLINE
+xincx_err_t xinc_drv_audio_adc_buffer_convert(xinc_drv_audio_adc_t const * const p_instance,xinc_audio_adc_value_t * p_buffer, uint16_t size)
+{
+	return xincx_audio_adc_buffer_convert( &p_instance->audio_adc, p_buffer,  size);
+}
+
+
 
 #endif // SUPPRESS_INLINE_IMPLEMENTATION
 

@@ -78,7 +78,11 @@ enum {
     .frequency                  = (xinc_audio_adc_freq_t)XINC_AUDIO_ADC_FREQ_16K,                    \
     .mic_p                      = XINC_GPIO_18,														\
     .mic_n                      = XINC_GPIO_0,														\
-    .mic_bias                   = XINC_GPIO_19,														\
+    .mic_bias                   = XINC_GPIO_19,	\
+	.ch_config.adc_fifo_len     = 8,           \
+	.ch_config.reg0.bits.adc_d_vol     = 0,           \
+	.ch_config.reg0.bits.hpf_en     = 1,           \
+	.ch_config.reg0.bits.hpf_bypass      = 0,           \
 }
 
 

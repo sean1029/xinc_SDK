@@ -204,7 +204,7 @@ static void timer_start(void)
 
 static void detection_delay_timeout_handler(void * p_context)
 {
-	//	printf("detection_delay_timeout_handler\r\n");
+	printf("detection_delay_timeout_handler\r\n");
     for (int i = 0; i < m_button_count; i++)
     {
         app_button_cfg_t const * p_btn = &mp_buttons[i];
