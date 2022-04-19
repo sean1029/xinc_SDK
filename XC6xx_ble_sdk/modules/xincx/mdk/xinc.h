@@ -45,7 +45,8 @@
 /* Device selection for device includes. */
 #if  defined (XC60XX_M0)
     #include "XC620610.h"
-    #include "xinc_620610_bitfields.h"
+ //   #include "xinc_620610_bitfields.h"
+    #include "xinc62_common_bitfields.h"
 #elif defined (XC66XX_M4)
     #include "XC66_XXXX.h"
     #include "xinc66_common_bitfields.h"
