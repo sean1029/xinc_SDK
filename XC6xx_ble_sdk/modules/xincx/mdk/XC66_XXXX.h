@@ -580,7 +580,7 @@ typedef struct {                                /*!< (@ 0x40002400) CPR AO Struc
 
     __IOM  uint32_t RF_AON_REG;   /*!< (@ 0x00000030) */
     __IOM uint32_t  PE_CTRLx[2];  /*!< (@ 0x00000034) CPR AO  GPIO PE Ctrl1..2 */
-    __IM  uint32_t  RESERVED04;
+    __IM  uint32_t  PU_CTRLx[1];
 
     __IM  uint32_t  RESERVED05[4]; /*!< (@ 0x00000040) */
 
@@ -603,7 +603,7 @@ typedef struct {                                /*!< (@ 0x40002400) CPR AO Struc
 
     __IOM uint32_t  ALWAYS_ON_REG2;  /*!< (@ 0x00000160) AO 通用器 2     */
     __IM  uint32_t  RESERVED09[2]; 
-    __IOM uint32_t  ALWAYS_ON_REG3;  /*!< (@ 0x00000160) AO 通用器 2     */
+    __IOM uint32_t  ALWAYS_ON_REG3;  /*!< (@ 0x0000016C) AO 通用器 3     */
 
 }XINC_CPR_AO_CTL_Type;
 

@@ -28,7 +28,7 @@ void    ble_system_idle_init(void)
       
       
       __write_hw_reg32(CPR_SLP_CTL, 0x00);                
-      __write_hw_reg32(CPR_SLPCTL_INT_MASK, 0xFFFFFfBF); 
+      __write_hw_reg32(CPR_SLPCTL_INT_MASK, 0xFFFFFfAF); 
       __write_hw_reg32(CPR_SLP_PD_MASK,0x101);    
       __write_hw_reg32(CPR_SLP_SRC_MASK, 0x60006);
 

@@ -367,11 +367,11 @@ void kbs_mtxkey_bsp_test()
     err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
     err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
 
-//        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
-//    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
+        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
 //    
     err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
-   // err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
+    err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
     
 
   
@@ -507,7 +507,7 @@ int	main(void)
     gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
     gap_advertisements_enable(1);
-	//  ble_system_idle_init();
+    ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
@@ -523,7 +523,7 @@ int	main(void)
        ble_mainloop();
        app_sched_execute();
 			
-	//   ble_system_idle();
+	   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 

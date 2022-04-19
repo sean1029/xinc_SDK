@@ -74,7 +74,7 @@ typedef struct
     uint32_t                   row_Bits_En;
     uint32_t                   col_Bits_En;
     
-    uint8_t                    row_Bits_num; 
+    uint8_t                    row_Bits_num;
     uint8_t                    detected_fun;//根据 row_Bits_num 的个数以及按下的row 个数选择相应的检测算法
     
     uint8_t                    dbc_intval;//debounce间隔
@@ -279,7 +279,7 @@ static void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
             if(m_mtxkey_long_press_time[mtxkey_idx] > m_cb.lprs_cal_cnt)
             {
                 mtxkey_state_set(mtxkey_idx, MTXKEY_LONG_PRESSED_DETECTED);
-                 usr_event(mtxkey_idx, KBS_MTXKEY_LONG_PUSH);
+                usr_event(mtxkey_idx, KBS_MTXKEY_LONG_PUSH);
             //    printf("evt_handle mtxkey_idx:%d,LONG_PRESSED\r\n",mtxkey_idx);
             }
             
@@ -626,7 +626,7 @@ static bool kbs_mtxkey_value_check_funB(void)
     uint32_t row_out_reg ;
     uint32_t col_in_reg ;
     uint8_t rw_flag = 1;
-    bool has_value = false; 
+    bool has_value = false;
     
     kbs_mtxkey_row_value_check_by_gpio();
     
@@ -635,24 +635,23 @@ static bool kbs_mtxkey_value_check_funB(void)
     {
         if(((0x01UL << row_idx) & m_cb.row_Bits_En))
         {
-            if( ((0x01UL << row_idx) & m_cb.g_row_value) == 0 )
+            if(((0x01UL << row_idx) & m_cb.g_row_value) == 0 )
             {
-                    for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+                for (uint8_t col_idx = 0; col_idx < KBS_COL_PIN_COUNT; col_idx++)
+                {
+                    int16_t mtxkey_idx;
+                    bool is_set = 0;
+                    if((0x01UL << col_idx) & m_cb.col_Bits_En)
                     {
-                        int16_t mtxkey_idx;
-                        bool is_set = 0;
-                        if((0x01UL << col_idx) & m_cb.col_Bits_En)
-                        {
-                            is_set = false;
+                        is_set = false;
 
-                            mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[col_idx]);
-                            if(mtxkey_idx != NO_MTXKEY_ID)
-                            {
-                                kbs_evt_handle(mtxkey_idx, is_set);
-                            }
+                        mtxkey_idx = kbs_mtxkey_cfg_idx_get(m_cb.row_pin_assignments[row_idx],m_cb.col_pin_assignments[col_idx]);
+                        if(mtxkey_idx != NO_MTXKEY_ID)
+                        {
+                            kbs_evt_handle(mtxkey_idx, is_set);
                         }
                     }
-                    
+                }
                 row_idx++;
             }
             else
@@ -752,7 +751,7 @@ static void kbs_irq_handler(XINC_KBS_Type * p_kbs, kbs_control_block_t * p_cb)
     {
          p_reg->MTXKEY_MANUAL_ROWOUT = KBS_MTXKEY_MANUAL_ROWOUT_MANUAL_RLS_Msk;
 
-         xinc_delay_us(80);      
+         xinc_delay_us(80); 
     }
     
     reg_kbs_int_prs |= KBS_MTXKEY_INT_PRS_INT_Msk;

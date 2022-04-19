@@ -52,7 +52,7 @@ typedef void (*xincx_kbs_mtxkey_handler_t)(int16_t mtxkey_idx,uint16_t mtxkey_va
 /**@brief Mtxkey configuration structure. */
 typedef struct
 {
-    uint8_t              key_val;           /**< Pin set value. */
+    uint16_t             key_val;           /**< Pin set value. */
     uint8_t              row_pin;           /**< Pin to be used as a row button. */
     uint8_t              col_pin;           /**< Pin to be used as a col button. */
    // uint8_t              active_state;     /**< APP_BUTTON_ACTIVE_HIGH or APP_BUTTON_ACTIVE_LOW. */

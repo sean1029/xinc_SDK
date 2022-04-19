@@ -45,8 +45,8 @@ static void xincx_rtc_clk_init(xincx_rtc_t const * const  p_instance,
     p_instance->p_cpr->CTLAPBCLKEN_GRCTL    =   (CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Pos) |
                                                 (CPR_CTLAPBCLKEN_GRCTL_RTC_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
     // RTC_CLK 使能
-    p_instance->p_cprAO->AOCLKEN_GRCTL      =   (CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Enable << CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Pos) |
-                                                (CPR_AOCLKEN_GRCTL_RTC_CLK_EN_Msk << CPR_AOCLKEN_GRCTL_MASK_OFFSET);                                           
+    p_instance->p_cprAO->AOCLKEN_GRCTL      =   (CPR_AO_AOCLKEN_GRCTL_RTC_CLK_EN_Enable << CPR_AO_AOCLKEN_GRCTL_RTC_CLK_EN_Pos) |
+                                                (CPR_AO_AOCLKEN_GRCTL_RTC_CLK_EN_Msk << CPR_AO_AOCLKEN_GRCTL_MASK_OFFSET);                                           
 }
 
 xincx_err_t xincx_rtc_init(xincx_rtc_t const * const  p_instance,
