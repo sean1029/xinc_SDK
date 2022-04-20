@@ -482,7 +482,7 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
  //  btstack_run_loop_add_timer(ts);
 
 }
-
+    #include "mem_manager.h"
 int	main(void)
 {
 
@@ -515,6 +515,24 @@ int	main(void)
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
   //  bsp_board_init(BSP_INIT_LEDS);
+    xinc_mem_init();
+    
+    uint8_t * p_buff = NULL;
+    uint8_t * p_buff1 = NULL;
+
+    
+    printf("malloc 10\r\n");
+    p_buff = (uint8_t *)xinc_malloc(10);
+    xinc_mem_diagnose();
+    
+    printf("free 10\r\n");
+    xinc_free(p_buff);
+    xinc_mem_diagnose();
+
+
+    printf("malloc 160\r\n");
+    p_buff1 = (uint8_t *)xinc_malloc(160);
+
     
    // kbs_mtxkey_drv_test();
     kbs_mtxkey_bsp_test();
