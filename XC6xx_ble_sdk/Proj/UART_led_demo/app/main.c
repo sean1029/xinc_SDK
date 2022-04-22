@@ -424,16 +424,16 @@ void uart_led_test(void)
 int	main(void)
 {
 
-
+	xinc_delay_init();
 	set_bd_addr();
     printf("ble_init\n");
-    ble_init((void *)&blestack_init);
+//    ble_init((void *)&blestack_init);
 	 printf("scheduler_init\n");
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
     xincx_gpio_init();
-	btstack_main();
+//	btstack_main();
     key_init();
 
     // setup advertisements
@@ -442,10 +442,10 @@ int	main(void)
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
-    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
-    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
-    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+//    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
+//    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
+//    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
+//    gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
@@ -458,7 +458,7 @@ int	main(void)
 
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
         if(app_uart_get(XINCX_APP_UART1_INST_IDX,&cr) == XINC_SUCCESS)
         {

@@ -23,6 +23,7 @@ static void *                    m_contexts[INSTANCE_COUNT];
 static void spim_evt_handler(xincx_spim_evt_t   const * p_event,
                              void *                  p_context)
 {
+	printf("__func__=%s\n",__func__);
     uint32_t inst_idx = (uint32_t)p_context;
     xinc_drv_spi_evt_t event =
     {

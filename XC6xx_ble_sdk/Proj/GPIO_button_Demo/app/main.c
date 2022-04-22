@@ -332,7 +332,7 @@ void gpio_buttun_test1()
 
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
-    ret_code_t err_code;
+    ret_code_t err_code;printf("%s\n",__func__);
     uint8_t rxbuff[AT24Cxx_PAGESIZE];
     uint8_t txbuff[AT24Cxx_PAGESIZE];
     uint16_t addr;
@@ -409,27 +409,33 @@ void bsp_evt_handler(bsp_event_t evt)
         case BSP_EVENT_LED1_ON:
         {
             //点亮 LED 指示灯 D1
-            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-            
-        } break;
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));   
+        } 
+			break;
+			
         // 按键S1 注册的释放事件的回调
         case BSP_EVENT_LED1_OFF:
         {
             //熄灭 LED 指示灯 D1
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-        } break;
+        } 
+			break;
+		
         // 按键S2 注册的长按事件的回调
         case BSP_EVENT_LED2_ON:
         {
             //点亮 LED 指示灯 D2
             bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-        } break;
+        } 
+			break;
+		
         // 按键S2 注册的释放事件的回调
         case BSP_EVENT_LED2_OFF:
         {
             //熄灭 LED 指示灯 D2
-            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
-        } break;
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2)); 
+        } 
+			break;
            
 
         default:
@@ -453,21 +459,28 @@ void gpio_buttun_test3()
     APP_ERROR_CHECK(err_code);
 }
 
-
+#define configCPU_CLOCK_HZ   ( ( unsigned long ) 32000000 )
+#define configTICK_RATE_HZ   (  20 )   //50ms滴答定时器中断一次调度一次    
+void delay_init()
+{
+    SysTick->LOAD=( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;; //每1/configTICK_RATE_HZ秒中断一次  --(1/20=50ms)
+    SysTick->CTRL|=SysTick_CTRL_CLKSOURCE_Msk;  //选择时钟源 -内核时钟FCLK(32M)
+    SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;  //开启SYSTICK中断
+    SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;    //开启SYSTICK
+}
 
 int	main(void)
 {
 
-
+	delay_init();
 	set_bd_addr();
 
-    ble_init((void *)&blestack_init);
+//    ble_init((void *)&blestack_init);
 	key_init();
     scheduler_init();
     app_timer_init();
     xincx_gpio_init();
-	btstack_main();
-	//scheduler_init();
+//	btstack_main();
 
 
     // setup advertisements
@@ -476,19 +489,19 @@ int	main(void)
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
-    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
-    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
-    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+//    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
+//    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
+//    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
+//    gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
-    gpio_buttun_test3();
+    gpio_buttun_test2();
 
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
 			
 	//   ble_system_idle();

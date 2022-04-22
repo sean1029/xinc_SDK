@@ -78,12 +78,12 @@ ret_code_t xinc_drv_uart_init(xinc_drv_uart_t const *        p_instance,
 
 
     xinc_drv_uart_config_t config = *p_config;
-    printf("%s\r\n",__func__);
-    printf("uart_init p_config baudrate:%d\r\n",p_config->baudrate);
-    printf("uart_init config baudrate:%d\r\n",config.baudrate);
+
+    printf("__func__=%s, p_config baudrate:%d\r\n",__func__,p_config->baudrate);
+    printf("__func__=%s, config baudrate:%d\r\n",__func__,config.baudrate);
     
-    printf("m_contexts[inst_idx]:%d\r\n",(uint32_t )m_contexts[inst_idx]);
-    printf("m_handlers[inst_idx]:0x%p\r\n",m_handlers[inst_idx] );
+    printf("__func__=%s, m_contexts[inst_idx]:%d\r\n",__func__,(uint32_t )m_contexts[inst_idx]);
+    printf("__func__=%s, m_handlers[inst_idx]:0x%p\r\n",__func__,m_handlers[inst_idx] );
 
     
 

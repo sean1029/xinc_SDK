@@ -300,6 +300,7 @@ static void scheduler_init(void)
  uint16_t rxDone = 0;
 void uart_event_handle(app_uart_evt_t * p_event)
 {
+	printf("__func__=%s\n",__func__);
     static uint8_t data_array[20];
     static uint8_t *p_data ;
     static uint16_t index = 0;
@@ -433,8 +434,8 @@ void uart_handler_test(void)
     app_uart_comm_params_t const comm_params =
     {
         .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
-        .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
-        .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
+        .rx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 接收引脚
+        .tx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
         .use_parity   = false,//禁止奇偶检验
         .data_bits = 3,
@@ -468,16 +469,16 @@ void uart_handler_test(void)
 int	main(void)
 {
 
-
+	xinc_delay_init();
 	set_bd_addr();
     printf("ble_init\n");
-    ble_init((void *)&blestack_init);
+//    ble_init((void *)&blestack_init);
 	 printf("scheduler_init\n");
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
     xincx_gpio_init();
-	btstack_main();
+//	btstack_main();
     key_init();
 
     // setup advertisements
@@ -486,10 +487,10 @@ int	main(void)
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
-    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
-    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
-    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+//    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
+//    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
+//    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
+//    gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
@@ -498,9 +499,9 @@ int	main(void)
 
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
-        			
+		
 	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   

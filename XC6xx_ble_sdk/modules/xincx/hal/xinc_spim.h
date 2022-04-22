@@ -258,7 +258,9 @@ __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
         default:
         break;
     }
+	
     p_reg->CTRL0 = config;
+	printf("__func__=%s,CTRL0 write=%x,read=%x\n",__func__,config , p_reg->CTRL0);
 }
 
 

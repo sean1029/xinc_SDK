@@ -109,6 +109,8 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
                                                (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+	    p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
+                                               (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
         // *SSI_MCLK_CTL_Base = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
         p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
                                            ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | 
@@ -118,6 +120,16 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
             //(0x1000100 << ch);         
         p_instance->p_cpr->CTLAPBCLKEN_GRCTL = ((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
                                         (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch; 
+		
+//		printf("__func__=%s,ch=%d,RSTCTL_SUBRST_SW=%08x,SSI0_MCLK_CTL=%08x,CTLAPBCLKEN_GRCTL=%08x\n",__func__ ,ch ,
+//								p_instance->p_cpr->RSTCTL_SUBRST_SW ,p_instance->p_cpr->SSI0_MCLK_CTL ,
+//					p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
+		printf("CTLAPBCLKEN_GRCTL write=%x,read=%x\n",((CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Pos)|
+                                        (CPR_CTLAPBCLKEN_GRCTL_SSI0_PCLK_EN_Msk  << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET)) << ch
+						, p_instance->p_cpr->CTLAPBCLKEN_GRCTL);
+		printf("SSI0_MCLK_CTL write=%x,read=%x\n",((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
+                                           ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | 
+                                            CPR_SSI_MCLK_CTL_SSI_MCLK_EN_WE),p_instance->p_cpr->SSI0_MCLK_CTL);
 
     }
     #endif 
@@ -161,7 +173,7 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
 
 
     p_instance->p_cpr->SSI_CTRL = ssi_ctrl_val;
-
+	printf("__func__=%s,SSI_CTRL write=%x,read=%x\n",__func__ , ssi_ctrl_val,p_instance->p_cpr->SSI_CTRL );
 
 
 
@@ -345,10 +357,10 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     p_cb->ss_pin = p_config->ss_pin;
     p_cb->sck_pin = p_config->sck_pin;
 
-    printf("miso_pin:%d\n",miso_pin); 
-    printf("mosi_pin:%d\n",mosi_pin); 
-    printf("sck_pin:%d\n",p_config->sck_pin);
-    printf("ss_pin:%d\n",p_config->ss_pin);		
+    printf("__func__=%s,miso_pin:%d\n",__func__,miso_pin); 
+    printf("__func__=%s,mosi_pin:%d\n",__func__,mosi_pin); 
+    printf("__func__=%s,sck_pin:%d\n",__func__,p_config->sck_pin);
+    printf("__func__=%s,ss_pin:%d\n",__func__,p_config->ss_pin);	
    
     #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
     printf("d2_pin:%d\n",p_config->d2_pin);
@@ -392,28 +404,28 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     #endif
 		
     xinc_spim_disable(p_spim);
-    printf("p_spim:%p\n",p_spim); 
+    printf("__func__=%s,p_spim:%p\n",__func__,p_spim); 
 
-    printf("CTRL0:%p,0x%x\n",&(p_spim->CTRL0),p_spim->CTRL0); 
-    printf("xincx_spim_init ch :%d,mode:%d\n",ch,p_config->mode); 
+    printf("__func__=%s,CTRL0:%p,0x%x\n",__func__,&(p_spim->CTRL0),p_spim->CTRL0); 
+    printf("__func__=%s,xincx_spim_init ch :%d,mode:%d\n",__func__,ch,p_config->mode); 
 
 
     xinc_spim_configure(p_spim, p_config->mode, p_config->bit_order);
 
-    printf("EN:%p\n",&(p_spim->EN)); 
+    printf("__func__=%s,EN:%p\n",__func__,&(p_spim->EN)); 
 
     p_spim->SE = SSI_SSI_SE_SS0_Select << SSI_SSI_SE_SS0_Pos;
-    printf("SE:%p\n",&(p_spim->SE)); 
+    printf("__func__=%s,SE:%p\n",__func__,&(p_spim->SE)); 
 
     xinc_spim_frequency_set(p_spim,p_config->frequency);
 
-    printf("BAUD:%p\n",&(p_spim->BAUD)); 
+    printf("__func__=%s,BAUD:%p\n",__func__,&(p_spim->BAUD)); 
 
     p_spim->RXFLT = 0x00;
     p_spim->TXFLT = 0x00;
-    printf("RXFLT:%p\n",&(p_spim->RXFLT)); 
-    printf("TXFLT:%p\n",&(p_spim->TXFLT)); 
-    printf("frequency:%d\n",p_config->frequency); 
+    printf("__func__=%s,RXFLT:%p\n",__func__,&(p_spim->RXFLT)); 
+    printf("__func__=%s,TXFLT:%p\n",__func__,&(p_spim->TXFLT)); 
+    printf("__func__=%s,frequency:%d\n",__func__,p_config->frequency); 
 
 
     if (p_cb->handler)
@@ -531,8 +543,12 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
     xincx_err_t err_code;
     // EasyDMA requires that transfer buffers are placed in Data RAM region;
     // signal error if they are not.
+#if defined(XC60XX_M0)
     if ((p_xfer_desc->p_tx_buffer != NULL && !xincx_is_in_ram(p_xfer_desc->p_tx_buffer)) ||
         (p_xfer_desc->p_rx_buffer != NULL && !xincx_is_in_ram(p_xfer_desc->p_rx_buffer)))
+#else
+	if ((p_xfer_desc->p_tx_buffer == NULL ||(p_xfer_desc->p_rx_buffer == NULL)))
+#endif
     {
         p_cb->transfer_in_progress = false;
         err_code = XINCX_ERROR_INVALID_ADDR;
@@ -608,6 +624,7 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
 			
     }
     err_code = XINCX_SUCCESS;
+	printf("Function: %s, error code: %d.", __func__,err_code);
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
 }
@@ -685,12 +702,13 @@ static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
     state = p_spim->STS;
     
     uint32_t mask = (0x01 << p_cb->rx_dma_ch) | (0x01 << p_cb->tx_dma_ch);
-    
+    printf("__func__=%s,mask=%x\n",__func__,mask);
     if(intSta && (state & 0x4))
 	{
         do{
            // __read_hw_reg32(DMAS_INT_RAW , iWK);
             rowIntSta = xincx_dmas_int_raw_stat_get();
+			 printf("__func__=%s,rowIntSta=%x\n",__func__,rowIntSta);
         }while((rowIntSta & mask) != mask);
 				
        // __write_hw_reg32(DMAS_INT_RAW, 0x404);

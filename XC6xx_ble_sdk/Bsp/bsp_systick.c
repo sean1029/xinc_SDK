@@ -58,3 +58,12 @@ void delay_ms(u32 nms)
 	for(uint32_t i=0;i<nms;i++) delay_us(1000);
 }
 
+#define configCPU_CLOCK_HZ   ( ( unsigned long ) 32000000 )
+#define configTICK_RATE_HZ   (  20 )   //50ms滴答定时器中断一次调度一次    
+void delay_init()
+{
+    SysTick->LOAD=( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;; //每1/configTICK_RATE_HZ秒中断一次  --(1/20=50ms)
+    SysTick->CTRL|=SysTick_CTRL_CLKSOURCE_Msk;  //选择时钟源 -内核时钟FCLK(32M)
+    SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;  //开启SYSTICK中断
+    SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;    //开启SYSTICK
+}

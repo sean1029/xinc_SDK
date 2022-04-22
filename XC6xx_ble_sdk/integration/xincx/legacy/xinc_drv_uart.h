@@ -500,7 +500,8 @@ __STATIC_INLINE
 ret_code_t xinc_drv_uart_rx(xinc_drv_uart_t const * p_instance,
                            uint8_t *              p_data,
                            uint8_t                length)
-{
+{	
+	printf("__func__=%s\n",__func__);
     uint32_t result = 0;
     if (XINC_DRV_UART_USE_UARTE)
     {

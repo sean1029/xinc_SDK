@@ -317,7 +317,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
     {
         case S3BUTTON_BUTTON_PIN:
         {
-             //检测按键 S1 是否按下
+             //检测按键 S3 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
                 //擦除 falsh sector
@@ -325,7 +325,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
                 
-             //   spim_flash_sector_erase(TEST_FLASH_ADDR);
+                spim_flash_sector_erase(TEST_FLASH_ADDR);
  
             }else
             {
@@ -351,7 +351,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                     printf("%c:0x%x ",w_buf[i],w_buf[i]);
                 }printf("\r\n");
                 //向指定地址写入特定长度的数据
-              //  spim_flash_write(TEST_FLASH_ADDR,w_buf,20);
+                spim_flash_write(TEST_FLASH_ADDR,w_buf,20);
 		
 	
             }else
@@ -366,14 +366,14 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
         
         case S1BUTTON_BUTTON_PIN:
         {
-             //检测按键 S2 是否按下
+             //检测按键 S1 是否按下
             if(button_action == APP_BUTTON_PUSH)
             {
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
               
                  //向指定地址读特定长度的数据
-             //   spim_flash_read(TEST_FLASH_ADDR,r_buf,20);
+               spim_flash_read(TEST_FLASH_ADDR,r_buf,20);
                 printf("read_data char[] hex[]:\r\n");
                 for(int i = 0;i < 20;i++)
                 {
@@ -413,7 +413,7 @@ void spi_flash_test()
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
         {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
-     //   {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
     };
     //初始化 LED,用来指示按键按下状态
     bsp_board_init(BSP_INIT_LEDS);
@@ -429,7 +429,13 @@ void spi_flash_test()
     spim_flash_init();
 
     APP_ERROR_CHECK(err_code);
- 
+	
+	uint8_t buf[16] ={0};
+	spim_flash_Read_128bitsID(buf);
+	printf("flash_Read_128bitsID");
+	for(int i=0; i<16; i++) {
+		printf(" %#x ", buf[i]);
+	} 	
 }
 
 
@@ -437,10 +443,11 @@ void spi_flash_test()
 
 #include "xinc_assert.h"
 
+
 int	main(void)
 {
 
-
+	//xinc_delay_init();
 	set_bd_addr();
     printf("ble_init\n");
     ble_init((void *)&blestack_init);
@@ -503,10 +510,10 @@ int	main(void)
 	printf("sbc_init_msbc\n");
     
     spi_flash_test();
-
+	
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
 			
 	//   ble_system_idle();

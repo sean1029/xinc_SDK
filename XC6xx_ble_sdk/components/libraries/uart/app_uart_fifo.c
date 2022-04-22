@@ -60,6 +60,7 @@ static app_fifo_t                  m_tx_fifo[XINCX_APP_UART_ENABLED_COUNT];     
 
 static void uart_event_handler(xinc_drv_uart_event_t * p_event, void* p_context)
 {
+	printf("__func__=%s\n",__func__);
     app_uart_evt_t app_uart_event;
     uint32_t err_code;
     uint32_t rxbytes;
@@ -168,7 +169,7 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     }
     
     uart_inst_idx = p_comm_params->uart_inst_idx;
-    printf("app_uart_init baud:%d \r\n",p_comm_params->baud_rate);
+    printf("__func__=%s,app_uart_init baud:%d \r\n",__func__,p_comm_params->baud_rate);
     // Configure buffer RX buffer.
     err_code = app_fifo_init(&m_rx_fifo[uart_inst_idx], p_buffers->rx_buf, p_buffers->rx_buf_size);
     VERIFY_SUCCESS(err_code);
@@ -190,7 +191,7 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     config.p_context = (void *)uart_inst_idx;
     config.use_easy_dma = p_comm_params->use_easy_dma;
     
-    printf("config.p_context:%d \r\n",(uint32_t )config.p_context);
+    printf("__func__=%s,config.p_context:%d \r\n",__func__,(uint32_t )config.p_context);
     
     app_uart_inst[uart_inst_idx].use_easy_dma = true;//config.use_easy_dma;
     if(uart_inst_idx == 2)
@@ -200,7 +201,7 @@ uint32_t app_uart_init(const app_uart_comm_params_t * p_comm_params,
     config.data_bits = (xinc_uart_data_bits_t)p_comm_params->data_bits;
     config.stop_bits = (xinc_uart_stop_bits_t)p_comm_params->stop_bits;
     
-    printf("config baud:%d \r\n",config.baudrate);
+    printf("__func__=%s,config baud:%d \r\n",__func__,config.baudrate);
     
     #if defined(XINC_DRV_UART_WITH_UARTE)
     

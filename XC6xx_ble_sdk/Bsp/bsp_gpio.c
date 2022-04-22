@@ -428,7 +428,7 @@ void	GPIO_Handler(void)
          
        }
      //  printf("interrupt:%#x\n",val);
-		//	 printf("GPIO_Handler\n"); 
+			 printf("GPIO_Handler\n"); 
 
 			 xincx_gpio_irq_handler();
 }

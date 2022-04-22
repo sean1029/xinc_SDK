@@ -171,9 +171,10 @@ static inline bool _XINCX_IRQ_IS_PENDING(IRQn_Type irq_number)
 
 //#include <soc/xincx_coredep.h>
 extern void delay_us(uint32_t nus);
+extern void delay_init(void);
 
 #define XINCX_DELAY_US(us_time) delay_us(us_time)
-
+#define XINCX_DELAY_INIT(void) delay_init(void)
 //------------------------------------------------------------------------------
 
 //#include <xincx_atomic.h>

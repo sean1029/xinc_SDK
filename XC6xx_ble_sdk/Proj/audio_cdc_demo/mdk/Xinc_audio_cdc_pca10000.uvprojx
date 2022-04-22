@@ -10,13 +10,13 @@
       <TargetName>ble-fullstack</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>ARMCM0</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.7.0</PackID>
+          <PackID>ARM.CMSIS.5.6.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M0") CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -185,7 +185,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -352,7 +351,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>1</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -384,21 +383,6 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -407,6 +391,41 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_armcc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\cmsis_armcc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cm4.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmFunc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmFunc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmInstr.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmInstr.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmSimd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmSimd.h</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\startup_xinc.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_xinc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\system_xinc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -491,7 +510,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -754,7 +773,7 @@
         <TargetCommonOption>
           <Device>ARMCM0</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.7.0</PackID>
+          <PackID>ARM.CMSIS.5.6.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M0") CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -923,7 +942,6 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1090,7 +1108,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>1</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1179,7 +1197,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1191,21 +1209,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -1214,6 +1217,41 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_armcc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\cmsis_armcc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cm4.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmFunc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmFunc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmInstr.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmInstr.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmSimd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmSimd.h</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\startup_xinc.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_xinc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\system_xinc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1278,7 +1316,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -1537,20 +1575,20 @@
       <TargetName>ble-fullstack_M4</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>ARMCM0</Device>
+          <Device>ARMCM4_FP</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.7.0</PackID>
+          <PackID>ARM.CMSIS.5.6.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M0") CLOCK(12000000) ESEL ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000)</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:ARMCM0$Device\ARM\ARMCM0\Include\ARMCM0.h</RegisterFile>
+          <RegisterFile>$$Device:ARMCM4_FP$Device\ARM\ARMCM4\Include\ARMCM4_FP.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -1637,13 +1675,13 @@
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments>  </SimDllArguments>
-          <SimDlgDll>DARMCM1.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pCM0</SimDlgDllArguments>
+          <SimDllArguments>  -MPU</SimDllArguments>
+          <SimDlgDll>DCM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pCM4</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
-          <TargetDllArguments> </TargetDllArguments>
-          <TargetDlgDll>TARMCM1.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM0</TargetDlgDllArguments>
+          <TargetDllArguments> -MPU</TargetDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM4</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -1659,13 +1697,13 @@
             <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -1701,7 +1739,7 @@
             <AdsLsxf>1</AdsLsxf>
             <RvctClst>0</RvctClst>
             <GenPPlst>0</GenPPlst>
-            <AdsCpuType>"Cortex-M0"</AdsCpuType>
+            <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
             <uocRom>0</uocRom>
@@ -1710,9 +1748,8 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>0</RvdsVP>
+            <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
-            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1866,7 +1903,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\Bsp\startup\m4</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1879,7 +1916,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <ClangAsOpt>1</ClangAsOpt>
+            <uClangAs>0</uClangAs>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1911,21 +1948,6 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -1934,6 +1956,41 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>cmsis_armcc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\cmsis_armcc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm4.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cm4.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmFunc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmFunc.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmInstr.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmInstr.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cmSimd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\core_cmSimd.h</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\startup_xinc.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_xinc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\Bsp\startup\m4\system_xinc.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2018,7 +2075,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
+                <uClangAs>2</uClangAs>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -2279,20 +2336,5 @@
     <components/>
     <files/>
   </RTE>
-
-  <LayerInfo>
-    <Layers>
-      <Layer>
-        <LayName>&lt;Project Info&gt;</LayName>
-        <LayDesc></LayDesc>
-        <LayUrl></LayUrl>
-        <LayKeys></LayKeys>
-        <LayCat></LayCat>
-        <LayLic></LayLic>
-        <LayTarg>0</LayTarg>
-        <LayPrjMark>1</LayPrjMark>
-      </Layer>
-    </Layers>
-  </LayerInfo>
 
 </Project>

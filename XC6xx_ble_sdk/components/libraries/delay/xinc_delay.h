@@ -22,7 +22,7 @@ extern "C" {
  * @param us_time Number of microseconds to wait.
  */
 #define xinc_delay_us(us_time) XINCX_DELAY_US(us_time)
-
+#define xinc_delay_init(void) XINCX_DELAY_INIT(void)
 
 /**
  * @brief Function for delaying execution for a number of milliseconds.

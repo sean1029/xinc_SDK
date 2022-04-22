@@ -99,6 +99,7 @@ __STATIC_INLINE void xinc_audio_adc_disable(XINC_CDC_Type * p_reg)
 __STATIC_INLINE void xinc_audio_adc_fifo_clear(XINC_CDC_Type * p_reg)
 {
     p_reg->FIFO_STATUS |= CDC_CDC_RXFIFO_STATUS_RXFIFO_FLUSH_Msk;
+	XINCX_DELAY_US(2000);
 	p_reg->FIFO_STATUS &= ~(CDC_CDC_RXFIFO_STATUS_RXFIFO_FLUSH_Msk);
 }
 

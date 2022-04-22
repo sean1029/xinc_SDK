@@ -109,6 +109,7 @@ __STATIC_INLINE xincx_gpio_evt_handler_t pin_handler_get(uint32_t channel)
 
 static int8_t pin_handler_use_alloc(uint32_t pin, xincx_gpio_evt_handler_t handler)
 {
+	printf("pin_handler_use_alloc,pin=%d,handler=%p",pin,handler);
     int8_t   handler_id = NO_HANDLERS_ID;
     uint32_t i;
 

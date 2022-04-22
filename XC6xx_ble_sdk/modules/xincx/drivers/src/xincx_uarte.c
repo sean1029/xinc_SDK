@@ -363,7 +363,8 @@ xincx_err_t xincx_uarte_init(xincx_uarte_t const *        p_instance,
     uarte_control_block_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     xincx_err_t err_code = XINCX_SUCCESS;
     
-    printf("%s,id:%d,inst_idx:%d,state:%d\r\n",__func__,p_instance->id,p_instance->drv_inst_idx,p_cb->state);
+    printf("__func__=%s,p_instance id:%d, inst_idx:%d, state:%d\r\n",
+			__func__,p_instance->id,p_instance->drv_inst_idx,p_cb->state);
     // printf("XINC_UART_Type size :%d\r\n",sizeof(XINC_UART_Type));
     if (p_cb->state != XINCX_DRV_STATE_UNINITIALIZED)
     {
@@ -420,7 +421,7 @@ xincx_err_t xincx_uarte_init(xincx_uarte_t const *        p_instance,
                         __func__,
                         XINCX_LOG_ERROR_STRING_GET(err_code));
 
-    printf("Function: %s, error code: %s.\r\n",
+    printf("__func__: %s, error code: %s.\r\n",
                         __func__,
                         XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
@@ -544,21 +545,28 @@ xincx_err_t xincx_uarte_rx(xincx_uarte_t const * p_instance,
 
      // EasyDMA requires that transfer buffers are placed in DataRAM,
     // signal error if the are not.
-  
+#if defined (XC6000) || \
+    defined (XC6010) || \
+    defined (XC6020) || \
+    defined (XC6022) || \
+    defined (XC6028) || \
+    defined (XC6030) || \
+    defined (XC003)  
     if (!xincx_is_in_ram(p_data))
     {
+		printf("__func__=%s, xincx_is_in_ram\n",__func__);
         err_code = XINCX_ERROR_INVALID_ADDR;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
                          __func__,
                          XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-    
+#endif    
 
     
     bool second_buffer = false;
 
- //   printf("rx_buffer_length:%d, rx_secondary_buffer_length:%d\r\n",p_cb->rx_buffer_length,p_cb->rx_secondary_buffer_length);
+    printf("__func__=%s,rx_buffer_length:%d, rx_secondary_buffer_length:%d\r\n",__func__,p_cb->rx_buffer_length,p_cb->rx_secondary_buffer_length);
     if (p_cb->rx_buffer_length != 0)
     {
         if (p_cb->rx_secondary_buffer_length != 0)
@@ -601,7 +609,7 @@ xincx_err_t xincx_uarte_rx(xincx_uarte_t const * p_instance,
     xincx_dmas_int_enable(0x01 << p_cb->rx_dma_ch | 0x01 << (p_cb->rx_dma_ch + 16));
  
     
-//    printf("xincx_uarte_rx:0x%p,0x%p\n",p_data,p_cb->p_rx_buffer);	
+    printf("__func__=%s,send addr=0x%p,recv addr=0x%p\n",__func__,p_data,p_cb->p_rx_buffer);	
   
     p_instance->p_reg->IER_DLH.IER |= UART_UARTx_IER_ERDAI_Msk | UART_UARTx_IER_PTIME_Msk;//open rx interrupt
     xincx_dmas_ch_enable(p_cb->rx_dma_ch);

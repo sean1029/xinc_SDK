@@ -309,7 +309,7 @@ static xinc_drv_pwm_t m_pwm1 = XINC_DRV_PWM_INSTANCE(1);
 static int8_t duty;
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
-
+	printf("%s\n",__func__);
     switch (pin_no)
     {
         case S1BUTTON_BUTTON_PIN:
@@ -377,8 +377,8 @@ void pwm_duty_test()
     xinc_drv_pwm_config_t const config =
     {
         .clk_src = XINC_PWM_CLK_SRC_32M_DIV,//使用32M 时钟源
-        .ref_clk   = XINC_PWM_REF_CLK_2MHzOr2K,//分频采用2M时钟作为pwm的参考时钟
-        .frequency       = 1000,//设定pwm脉冲的频率
+        .ref_clk   = XINC_PWM_REF_CLK_16MHzOr16K,//分频采用2M时钟作为pwm的参考时钟
+        .frequency       = 14000,//设定pwm脉冲的频率
         .duty_cycle   = 2,//设置pwm 脉冲的占空比
         .start = true,//初始化完成后自动启动
         .inv_enable = true,//打开反向输出
@@ -398,23 +398,31 @@ void pwm_duty_test()
 
 
 
-
+#define configCPU_CLOCK_HZ   ( ( unsigned long ) 32000000 )
+#define configTICK_RATE_HZ   (  20 )   //50ms滴答定时器中断一次调度一次    
+void delay_init()
+{
+    SysTick->LOAD=( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;; //每1/configTICK_RATE_HZ秒中断一次  --(1/20=50ms)
+    SysTick->CTRL|=SysTick_CTRL_CLKSOURCE_Msk;  //选择时钟源 -内核时钟FCLK(32M)
+    SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;  //开启SYSTICK中断
+    SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;    //开启SYSTICK
+}
 
 
 int	main(void)
 {
 
-
+    delay_init();
 	set_bd_addr();
     printf("ble_init\n");
-    ble_init((void *)&blestack_init);
+//    ble_init((void *)&blestack_init);
 	 printf("scheduler_init\n");
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
     key_init();
     xincx_gpio_init();
-	btstack_main();
+//	btstack_main();
     
 
     // setup advertisements
@@ -423,10 +431,10 @@ int	main(void)
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
-    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
-    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
-    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
-    gap_advertisements_enable(1);
+//    gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
+//    gap_advertisements_set_data(adv_pair_data_len, (uint8_t*) adv_pair_data);
+//    gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
+//    gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
@@ -435,7 +443,7 @@ int	main(void)
 
     while(1) {
 
-       ble_mainloop();
+//       ble_mainloop();
        app_sched_execute();
 			
 	//   ble_system_idle();
