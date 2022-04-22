@@ -173,7 +173,7 @@ void xincx_gpio_in_uninit(xincx_gpio_pin_t pin);
  */
 bool xincx_gpio_in_is_set(xincx_gpio_pin_t pin);
 
-
+bool xincx_pin_use_is_set(uint32_t pin);
 
 
 /** @} */

@@ -16,7 +16,7 @@ extern "C" {
 #include "xinc_gpio.h"
 
 // LEDs definitions for PCA10040
-#define LEDS_NUMBER    2
+#define LEDS_NUMBER    1
 
 #define LED_START      4
 #define LED_1          5
@@ -37,7 +37,7 @@ extern "C" {
 #define BSP_LED_2      LED_3
 #define BSP_LED_3      LED_4
 
-#define BUTTONS_NUMBER 3
+#define BUTTONS_NUMBER 2
 
 #define BUTTON_START   13
 #define BUTTON_1       0

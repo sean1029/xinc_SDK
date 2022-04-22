@@ -15,8 +15,9 @@
 #define alignmentDown(a,size)		(a & (~ (size -1)))
 #define alignmentUp(a,size)		  ((a + size - 1) & (~ (size -1)))
 
-uint8_t		__attribute__((aligned(4)))	txbuff[(PACKET_FULL_LEN+4)];
-uint8_t		__attribute__((aligned(4)))	rxbuff[(PACKET_FULL_LEN+4)];
+uint8_t		__attribute__((at(127*1024+0x10000000))) txbuff[(PACKET_FULL_LEN+4)];
+
+uint8_t		__attribute__((at(127*1024+0x10000000)))	rxbuff[(PACKET_FULL_LEN+4)];// ((aligned(4)))
 
 static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(0);  /**< SPI instance. */
 static volatile bool spi_xfer_done;

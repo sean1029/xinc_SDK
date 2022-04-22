@@ -274,6 +274,48 @@
 
 // </e>
 
+// <e> XINCX_POWER_ENABLED - xincx_power - POWER peripheral driver
+//==========================================================
+#ifndef XINCX_POWER_ENABLED
+#define XINCX_POWER_ENABLED 1
+#endif
+// <o> XINCX_POWER_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_POWER_CONFIG_IRQ_PRIORITY
+#define XINCX_POWER_CONFIG_IRQ_PRIORITY 6
+#endif
+
+// <q> XINCX_POWER_CONFIG_DEFAULT_DCDCEN  - The default configuration of main DCDC regulator
+ 
+
+// <i> This settings means only that components for DCDC regulator are installed and it can be enabled.
+
+#ifndef XINCX_POWER_CONFIG_DEFAULT_DCDCEN
+#define XINCX_POWER_CONFIG_DEFAULT_DCDCEN 1
+#endif
+
+// <q> XINCX_POWER_CONFIG_DEFAULT_DCDCENHV  - The default configuration of High Voltage DCDC regulator
+ 
+
+// <i> This settings means only that components for DCDC regulator are installed and it can be enabled.
+
+#ifndef XINCX_POWER_CONFIG_DEFAULT_DCDCENHV
+#define XINCX_POWER_CONFIG_DEFAULT_DCDCENHV 1
+#endif
+
+// </e>
+
+
+
 // <e> XINCX_PWM_ENABLED - xincx_pwm - PWM peripheral driver
 //==========================================================
 #ifndef XINCX_PWM_ENABLED
@@ -635,7 +677,7 @@
 // <e> XINCX_SPIM_ENABLED - xincx_spim - SPIM peripheral driver
 //==========================================================
 #ifndef XINCX_SPIM_ENABLED
-#define XINCX_SPIM_ENABLED 0
+#define XINCX_SPIM_ENABLED 1
 #endif
 
 // <q> XINCX_SPIM0_ENABLED  - Enable SPIM0 instance
@@ -1081,6 +1123,8 @@
 // </e>
 
 // </e>
+
+
 // <e> UART_ENABLED - xinc_drv_uart - UART/UARTE peripheral driver - legacy layer
 //==========================================================
 #ifndef UART_ENABLED
@@ -1508,7 +1552,7 @@
 
 
 #ifndef MEMORY_MANAGER_XLARGE_BLOCK_COUNT
-#define MEMORY_MANAGER_XLARGE_BLOCK_COUNT 0
+#define MEMORY_MANAGER_XLARGE_BLOCK_COUNT 1
 #endif
 
 // <o> MEMORY_MANAGER_XLARGE_BLOCK_SIZE -  Size of each memory blocks identified as 'extra large' block. 
@@ -1674,15 +1718,155 @@
 
 // </e>
 
+// </e>
 
+
+// <e> XINC_PWR_MGMT_ENABLED - xinc_pwr_mgmt - Power management module
+//==========================================================
+#ifndef XINC_PWR_MGMT_ENABLED
+#define XINC_PWR_MGMT_ENABLED 1
+#endif
+// <e> XINC_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED - Enables pin debug in the module.
+
+// <i> Selected pin will be set when CPU is in sleep mode.
+//==========================================================
+#ifndef XINC_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED
+#define XINC_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED 0
+#endif
+// <o> XINC_PWR_MGMT_SLEEP_DEBUG_PIN  - Pin number
+ 
+// <0=> 0 (P0.0) 
+// <1=> 1 (P0.1) 
+// <2=> 2 (P0.2) 
+// <3=> 3 (P0.3) 
+// <4=> 4 (P0.4) 
+// <5=> 5 (P0.5) 
+// <6=> 6 (P0.6) 
+// <7=> 7 (P0.7) 
+// <8=> 8 (P0.8) 
+// <9=> 9 (P0.9) 
+// <10=> 10 (P0.10) 
+// <11=> 11 (P0.11) 
+// <12=> 12 (P0.12) 
+// <13=> 13 (P0.13) 
+// <14=> 14 (P0.14) 
+// <15=> 15 (P0.15) 
+// <16=> 16 (P0.16) 
+// <17=> 17 (P0.17) 
+// <18=> 18 (P0.18) 
+// <19=> 19 (P0.19) 
+// <20=> 20 (P0.20) 
+// <21=> 21 (P0.21) 
+// <22=> 22 (P0.22) 
+// <23=> 23 (P0.23) 
+// <24=> 24 (P0.24) 
+// <25=> 25 (P0.25) 
+// <26=> 26 (P0.26) 
+// <27=> 27 (P0.27) 
+// <28=> 28 (P0.28) 
+// <29=> 29 (P0.29) 
+// <30=> 30 (P0.30) 
+// <31=> 31 (P0.31) 
+// <32=> 32 (P1.0) 
+// <33=> 33 (P1.1) 
+// <34=> 34 (P1.2) 
+// <35=> 35 (P1.3) 
+// <36=> 36 (P1.4) 
+// <37=> 37 (P1.5) 
+// <38=> 38 (P1.6) 
+// <39=> 39 (P1.7) 
+// <40=> 40 (P1.8) 
+// <41=> 41 (P1.9) 
+// <42=> 42 (P1.10) 
+// <43=> 43 (P1.11) 
+// <44=> 44 (P1.12) 
+// <45=> 45 (P1.13) 
+// <46=> 46 (P1.14) 
+// <47=> 47 (P1.15) 
+// <4294967295=> Not connected 
+
+#ifndef XINC_PWR_MGMT_SLEEP_DEBUG_PIN
+#define XINC_PWR_MGMT_SLEEP_DEBUG_PIN 31
+#endif
 
 // </e>
+
+// <q> XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED  - Enables CPU usage monitor.
+ 
+
+// <i> Module will trace percentage of CPU usage in one second intervals.
+
+#ifndef XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED
+#define XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED 1
+#endif
+
+// <q> XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED - Enable Ble Stack timeout.
+//==========================================================
+#ifndef XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED
+#define XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED 0
+#endif
+
+
+
+// <e> XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_ENABLED - Enable standby timeout.
+//==========================================================
+#ifndef XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_ENABLED
+#define XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_ENABLED 0
+#endif
+// <o> XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_S - Standby timeout (in seconds). 
+// <i> Shutdown procedure will begin no earlier than after this number of seconds.
+
+#ifndef XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_S
+#define XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_S 3
+#endif
+
+// </e>
+
+// <q> XINC_PWR_MGMT_CONFIG_FPU_SUPPORT_ENABLED  - Enables FPU event cleaning.
+ 
+
+#ifndef XINC_PWR_MGMT_CONFIG_FPU_SUPPORT_ENABLED
+#define XINC_PWR_MGMT_CONFIG_FPU_SUPPORT_ENABLED 0
+#endif
+
+// <q> XINC_PWR_MGMT_CONFIG_AUTO_SHUTDOWN_RETRY  - Blocked shutdown procedure will be retried every second.
+ 
+
+#ifndef XINC_PWR_MGMT_CONFIG_AUTO_SHUTDOWN_RETRY
+#define XINC_PWR_MGMT_CONFIG_AUTO_SHUTDOWN_RETRY 0
+#endif
+
+// <q> XINC_PWR_MGMT_CONFIG_USE_SCHEDULER  - Module will use @ref app_scheduler.
+ 
+
+#ifndef XINC_PWR_MGMT_CONFIG_USE_SCHEDULER
+#define XINC_PWR_MGMT_CONFIG_USE_SCHEDULER 1
+#endif
+
+// <o> XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT - The number of priorities for module handlers. 
+// <i> The number of stages of the shutdown process.
+
+#ifndef XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT
+#define XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT 3
+#endif
+
+// </e>
+
 
 // <e> XINC_QUEUE_ENABLED - xinc_queue - Queue module
 
 #ifndef XINC_QUEUE_ENABLED
 #define XINC_QUEUE_ENABLED 1
 #endif
+
+// <q> XINC_SECTION_ITER_ENABLED  - xinc_section_iter - Section iterator
+ 
+
+#ifndef XINC_SECTION_ITER_ENABLED
+#define XINC_SECTION_ITER_ENABLED 1
+#endif
+
+
 // <q> XINC_QUEUE_CLI_CMDS  - Enable CLI commands specific to the module
  
 

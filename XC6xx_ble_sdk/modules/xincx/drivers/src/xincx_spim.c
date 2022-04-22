@@ -109,6 +109,10 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
                                                (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+        
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Pos)|
+                                               (CPR_RSTCTL_SUBRST_SW_SSI0_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+        
         // *SSI_MCLK_CTL_Base = 0x110010;//1��Ƶ			//- spi(x)_mclk = 32Mhz(When TXCO=32Mhz).
         p_instance->p_cpr->SSI0_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
                                            ((CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI_MCLK_EN_Pos) | 
@@ -125,6 +129,9 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     if(ch == 1)
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos)|
+                                               (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+        
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Pos)|
                                                (CPR_RSTCTL_SUBRST_SW_SSI1_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
         
         p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI_MCLK_DIV_WE) | 
@@ -202,13 +209,18 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     //   according to the reference manual guidelines this pin and its input
     //   buffer must always be connected for the SPI to work.
    
-    if(p_instance->id != 0)
+    if(p_instance->id <= 2)
     {
         if (p_config->mosi_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             mosi_pin = p_config->mosi_pin;
 
             #if (defined (XC60XX_M0) || defined (XC66XX_M4)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
+            if(p_instance->id == 0UL)
+            {
+               err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI0_TX);
+            }
+            
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI1_TX);
@@ -240,6 +252,10 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         {
             miso_pin = p_config->miso_pin;
             #if (defined (XC60XX_M0) || defined (XC66XX_M4)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
+            if(p_instance->id == 0UL)
+            {
+               err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI0_RX);
+            }         
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI1_RX);
@@ -270,6 +286,12 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         {
             p_cb->ss_active_high = p_config->ss_active_high;
             #if (defined (XC60XX_M0) || defined (XC66XX_M4)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
+            
+            if(p_instance->id == 0UL)
+            {
+               err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI0_SSN);
+            } 
+            
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI1_SSN);
@@ -290,6 +312,12 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if (p_config->sck_pin != XINCX_SPIM_PIN_NOT_USED)
         {
             #if (defined (XC60XX_M0) || defined (XC66XX_M4)) && XINCX_CHECK(XINCX_SPIM1_ENABLED)
+            
+            if(p_instance->id == 0UL)
+            {
+               err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);
+            }
+            
             if(p_instance->id == 1UL)
             {
                 err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI1_CLK);

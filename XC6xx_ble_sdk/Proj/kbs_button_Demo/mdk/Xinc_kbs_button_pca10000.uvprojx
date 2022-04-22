@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6028 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager;..\..\..\components\libraries\pwr_mgmt;..\..\..\components\libraries\mutex;..\..\..\components\driver_ext\Flash;..\..\..\integration\xincx\legacy</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -427,6 +427,11 @@
               <FileName>AT24C02.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_spi_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\Flash\xinc_spi_flash.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -656,6 +661,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_spim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_spim.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -700,6 +720,16 @@
               <FileName>mem_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\mem_manager\mem_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_pwr_mgmt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\pwr_mgmt\xinc_pwr_mgmt.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_section_iter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\experimental_section_vars\xinc_section_iter.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1289,6 +1319,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
             </File>
+            <File>
+              <FileName>xinc_spi_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\Flash\xinc_spi_flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1429,6 +1464,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_spim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_spim.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1473,6 +1523,16 @@
               <FileName>mem_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\mem_manager\mem_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_pwr_mgmt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\pwr_mgmt\xinc_pwr_mgmt.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_section_iter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\experimental_section_vars\xinc_section_iter.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1836,7 +1896,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6651 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mutex;..\..\..\components\libraries\pwr_mgmt;..\..\..\components\libraries\mem_manager</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1924,6 +1984,11 @@
               <FileName>AT24C02.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_spi_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\driver_ext\Flash\xinc_spi_flash.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2153,6 +2218,21 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_spim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_spim.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_dmas.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_drv_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2197,6 +2277,16 @@
               <FileName>mem_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\libraries\mem_manager\mem_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_pwr_mgmt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\pwr_mgmt\xinc_pwr_mgmt.c</FilePath>
+            </File>
+            <File>
+              <FileName>xinc_section_iter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\components\libraries\experimental_section_vars\xinc_section_iter.c</FilePath>
             </File>
           </Files>
         </Group>

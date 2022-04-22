@@ -261,6 +261,11 @@ typedef enum
     XINC_GPIO_PIN_FUN_SEL_MAX,
     //////////////////////////////////////////////////////
 
+    XINC_GPIO_PIN_SSI0_CLK ,
+    XINC_GPIO_PIN_SSI0_SSN,
+    XINC_GPIO_PIN_SSI0_RX,
+    XINC_GPIO_PIN_SSI0_TX ,
+    
     XINC_GPIO_PIN_PWM2,
     XINC_GPIO_PIN_PWM3,
     XINC_GPIO_PIN_PWM4,
@@ -628,27 +633,22 @@ __STATIC_INLINE void xinc_gpio_cfg(
 
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
 
-//  gpio_fun_sel(pin_number,fun);
-//    gpio_mux_ctl(pin_number,0);
-
-        xinc_gpio_fun_sel(pin_number,fun);
+    xinc_gpio_fun_sel(pin_number,fun);
     xinc_gpio_mux_ctl(pin_number,0);
     
     if(XINC_GPIO_PIN_DIR_INPUT == dir)
     {
         xinc_gpio_pin_dir_set(pin_number,XINC_GPIO_PIN_DIR_INPUT);
-               xinc_gpio_pull_sel(pin_number,pull);
+               
         xinc_gpio_inter_sel(pin_number,inter);
+        xinc_gpio_pull_sel(pin_number,pull);  
  
-//        gpio_fun_inter(pin_number,inter);
-//        gpio_direction_input(pin_number,pull);
         
     }else
     {
         xinc_gpio_pin_dir_set(pin_number,XINC_GPIO_PIN_DIR_OUTPUT);
-       
-        
-      //  gpio_direction_output(pin_number);
+        xinc_gpio_pull_sel(pin_number,pull); 
+        xinc_gpio_inter_sel(pin_number,XINC_GPIO_PIN_INPUT_NOINT);        
        
     }
 
@@ -702,15 +702,14 @@ __STATIC_INLINE void xinc_gpio_pin_dir_set(uint32_t pin_number, xinc_gpio_pin_di
     XINC_GPIO_Type * preg = xinc_gpio_pin_port_decode(&pin_number);
     regVal = preg->PORT_DDR[reg_idx];
     
-    regVal &= ~(0x01 << pin_idx);
     if (direction == XINC_GPIO_PIN_DIR_INPUT)
     {
         
-        regVal |= (0x10000 << pin_idx);
+        regVal = (0x10000 << pin_idx);
     }
     else
     {   
-        regVal |= (0x10001 << pin_idx);
+        regVal = (0x10001 << pin_idx);
     }
     
      preg->PORT_DDR[reg_idx] = regVal;

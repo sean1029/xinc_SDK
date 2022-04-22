@@ -177,7 +177,7 @@ void	Init_gpio(void)
 - ----------------------------------------------------------------------------------------------------*/
 void gpio_mux_ctl(uint8_t num,uint8_t mux)
 {
-    printf("%s,num:%d,mux:%d\r\n",__func__,num,mux);
+  //  printf("%s,num:%d,mux:%d\r\n",__func__,num,mux);
     if(mux>3) return;
     uint32_t temp=0;
     __read_hw_reg32((CPR_CTL_MUXCTL1+(num/16)),temp);
@@ -238,7 +238,7 @@ void gpio_fun_inter(uint8_t num,uint8_t inter)
 ----------------------------------------------------------------------------------------------------*/
 void gpio_fun_sel(uint8_t num,uint8_t sel)
 {
-   printf("%s,num:%d,sel:%d\r\n",__func__,num,sel);
+ //  printf("%s,num:%d,sel:%d\r\n",__func__,num,sel);
    unsigned int temp=0;
    if(sel>19) return;
    switch(num%4)
@@ -310,7 +310,7 @@ void	gpio_direction_output(uint8_t num)
 		__write_hw_reg32((GPIO_PORT_DDR0 + (num>>4)), ((0x10001)<<(num&0x0F)));
 
 }
-
+#include "xinc_gpio.h"
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: gpio_direction_input
 - 函数功能: 设置GPIO管脚方向为输入
@@ -327,6 +327,7 @@ void		gpio_direction_input(uint8_t num, uint8_t pull_up_type)
 		uint32_t* base_reg = 0x0;
         //uint32_t pos = (num&0x0f)<<1;
 
+    
 	//	if(num>=0 && num<=4)
 		if(num<=4)
 		{
@@ -367,42 +368,131 @@ void		gpio_direction_input(uint8_t num, uint8_t pull_up_type)
         __write_hw_reg32(base_reg, val);
 		
 		__write_hw_reg32((GPIO_PORT_DDR0 + (temp_num>>4)), ((0x10000)<<(temp_num&0x0F)));
+        
 		__write_hw_reg32((GPIO_DEBOUNCE0 + (temp_num>>4)), ((0x10001)<<(temp_num&0x0F)));	
 }
 void GPIO_Sleep_Config(void)
 {
    
     //配置上下拉
-	__write_hw_reg32((volatile unsigned *)(0x40002400+0x34),0x55555555); //pectrl1 = 0x55555555
-	__write_hw_reg32((volatile unsigned *)(0x40002400+0x38),0x55555555); //pectrl2 = 0x55555555
+//	__write_hw_reg32((volatile unsigned *)(0x40002400+0x34),0x55555555); //pectrl1 = 0x55555555
+//	__write_hw_reg32((volatile unsigned *)(0x40002400+0x38),0x55555555); //pectrl2 = 0x55555555
+    
+    
 // 	__write_hw_reg32((volatile unsigned *)(0x40002400+0x3c),0xF);        //spi0 flash脚上下拉配置（如果不配置会漏电200多微安）
     
     //关闭所有GPIO中断
-    __write_hw_reg32(GPIO_INTR_CTRL0,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL1,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL2,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL3,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL4,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL5,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL6,0xF0000);
-    __write_hw_reg32(GPIO_INTR_CTRL7,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL0,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL1,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL2,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL3,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL4,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL5,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL6,0xF0000);
+//    __write_hw_reg32(GPIO_INTR_CTRL7,0xF0000);
     //将所有GPIO管脚配置成输入下拉
 	for(int i=0;i<32;i++)
 	{
-		gpio_direction_input(i,1);
+gpio_mux_ctl(i,0);
+           gpio_fun_sel(i,0);
+           gpio_direction_input(i,1);
+        if( i>= 0 && i<= 7)
+        {
+            gpio_mux_ctl(i,0);
+            gpio_fun_sel(i,0);
+            gpio_direction_input(i,1);
+        }
+//        if( i>= 8 && i<= 15)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+        
+        if(i >=16 &&  i<= 23)
+        {
+            gpio_mux_ctl(i,0);
+            gpio_fun_sel(i,0);
+            gpio_direction_input(i,1);
+        }
+        
+//        if( i>= 4 && i<= 4)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+//         if( i>= 6 && i<= 7)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+//        if( i>= 18 && i<= 19)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+//        if( i>= 20 && i<= 21)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+//        
+//        if(i >=8 ||  i<= 15)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+        
+//        if(i ==20 ||  i== 21)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+        
+
+        
+        
+//        if(i >=20 && i<= 21)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+        
+        
+//        if(i >=16 &&  i<= 23)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+        
+//        if(i >=24 &&  i<= 31)
+//        {
+//            gpio_mux_ctl(i,0);
+//            gpio_fun_sel(i,0);
+//            gpio_direction_input(i,1);
+//        }
+
 	}
     //将所有GPIO管脚配置成普通IO口
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC0),0x0);
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC4),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC8),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xCC),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD0),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD4),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD8),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0xDC),0x0);	 
-	//连接控制 mux=0
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0x128),0x0);	  
-	__write_hw_reg32((volatile unsigned *)(0x40000000+0x12C),0x0);	 
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC0),0x0);
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC4),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xC8),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xCC),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD0),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD4),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xD8),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0xDC),0x0);	 
+//	//连接控制 mux=0
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0x128),0x0);	  
+//	__write_hw_reg32((volatile unsigned *)(0x40000000+0x12C),0x0);	 
 }
 
 #endif
@@ -427,7 +517,7 @@ void	GPIO_Handler(void)
        {
          
        }
-     //  printf("interrupt:%#x\n",val);
+       printf("interrupt:%#x\n",val);
 		//	 printf("GPIO_Handler\n"); 
 
 			 xincx_gpio_irq_handler();

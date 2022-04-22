@@ -10,7 +10,6 @@
 #ifndef _XINC66_XXXX_PERIPHERALS_H
 #define _XINC66_XXXX_PERIPHERALS_H
 
-
 /* Clock Peripheral */
 #define CLOCK_PRESENT
 #define CLOCK_COUNT 1

@@ -9,6 +9,7 @@
 #include <xincx.h>
 
 #if XINCX_CHECK(XINCX_KBS_ENABLED)
+#include <mem_manager.h>
 #include <xincx_kbs.h>
 #include <xincx_gpio.h>
 #include "xinc_bitmask.h"
@@ -22,7 +23,7 @@ STATIC_ASSERT(BIT_PER_MTXKEY == 4);
 
 static uint8_t m_mtxkey_states[MTXKEYS*BIT_PER_MTXKEY/8];
 
-static uint8_t m_mtxkey_long_press_time[MTXKEYS];
+
 
 //按键检测过程中检测到mtxkey的状态
 typedef enum {
@@ -65,7 +66,7 @@ static void mtxkey_state_set(uint8_t mtxkey_idx, mtxkey_state_t state)
 
 typedef struct
 {
-    xincx_kbs_mtxkey_cfg_t     mtxkey_cfg[KBS_ROW_PIN_COUNT * KBS_COL_PIN_COUNT];
+    xincx_kbs_mtxkey_cfg_t     *mtxkey_cfg;//[KBS_ROW_PIN_COUNT * KBS_COL_PIN_COUNT];
     
     int16_t                    row_pin_assignments[KBS_ROW_PIN_COUNT];
     int16_t                    col_pin_assignments[KBS_COL_PIN_COUNT];
@@ -81,6 +82,7 @@ typedef struct
     uint16_t                   rprs_intval;//重复按键间隔
     uint8_t                    lprs_intval;//长按按键间隔
     
+    uint16_t *                 long_press_time;//[MTXKEYS];
     uint16_t                   lprs_cal_cnt;
     uint32_t                   g_row_value;
     kbs_state_t                kbs_state;
@@ -275,8 +277,8 @@ static void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
         {
             /* stay in pressed ,detecte long press*/
             
-            m_mtxkey_long_press_time[mtxkey_idx]++;
-            if(m_mtxkey_long_press_time[mtxkey_idx] > m_cb.lprs_cal_cnt)
+            m_cb.long_press_time[mtxkey_idx]++;
+            if(m_cb.long_press_time[mtxkey_idx] > m_cb.lprs_cal_cnt)
             {
                 mtxkey_state_set(mtxkey_idx, MTXKEY_LONG_PRESSED_DETECTED);
                 usr_event(mtxkey_idx, KBS_MTXKEY_LONG_PUSH);
@@ -316,7 +318,7 @@ static void kbs_evt_handle(uint8_t mtxkey_idx, uint8_t value)
         else
         {
             mtxkey_state_set(mtxkey_idx, MTXKEY_IDLE);
-            m_mtxkey_long_press_time[mtxkey_idx] = 0;
+            m_cb.long_press_time[mtxkey_idx] = 0;
             usr_event(mtxkey_idx, KBS_MTXKEY_RELEASE);
          //   printf("evt_handle mtxkey_idx:%d,RELEASE\r\n",mtxkey_idx);
         }
@@ -346,11 +348,25 @@ xincx_err_t  xincx_kbs_init(xincx_kbs_mtxkey_cfg_t const *       p_mtxkeys,
                             (err_code));
         return err_code;
     }
-    
+    printf("xincx_kbs_init m_cb:%p\r\n",&m_cb);
     m_cb.mtxkey_size = mtxkey_size;
     
     mtxkey_count = mtxkey_size;
-    
+    printf("m_cb.mtxkey_size:%d,malloc:%d\r\n",m_cb.mtxkey_size,mtxkey_size * sizeof(xincx_kbs_mtxkey_cfg_t));
+    m_cb.mtxkey_cfg = (xincx_kbs_mtxkey_cfg_t *)xinc_malloc(mtxkey_size * sizeof(xincx_kbs_mtxkey_cfg_t));
+    if (m_cb.mtxkey_cfg == NULL)
+    {
+        err_code = XINCX_ERROR_NO_MEM;
+        return err_code;
+    }
+    printf("m_cb.mtxkey_cfg:%p\r\n",m_cb.mtxkey_cfg);
+    m_cb.long_press_time = (uint16_t *)xinc_malloc(mtxkey_size * sizeof(uint16_t));
+    if (m_cb.long_press_time == NULL)
+    {
+        err_code = XINCX_ERROR_NO_MEM;
+        return err_code;
+    }
+    printf("m_cb.long_press_time:%p\r\n",m_cb.long_press_time);
     uint16_t mtxkey_idx;
     for(uint8_t i = 0; i < KBS_ROW_PIN_COUNT; i++)
     {
@@ -498,6 +514,8 @@ static bool kbs_mtxkey_value_check_funA(void)
             else
             {
                 col_in_reg =  p_reg->MTXKEY_MANUAL_COLIN ;
+                p_reg->MTXKEY_MANUAL_ROWOUT = 0UL;
+                xinc_delay_us(10);
               //  printf("row_idx:%d,col_in_reg:0x%x \r\n",row_idx,col_in_reg);
                 if(col_in_reg != 0)
                 {
@@ -720,7 +738,7 @@ static void kbs_irq_handler(XINC_KBS_Type * p_kbs, kbs_control_block_t * p_cb)
 
 	 reg_kbs_int_prs = reg_kbs_int & KBS_MTXKEY_INT_PRS_INT_Msk;//дݼ
 
-  //   printf("int_prs:0x%x\r\n",reg_kbs_int_prs);
+   //  printf("int_prs:0x%x\r\n",reg_kbs_int_prs);
 	 if(reg_kbs_int_prs)
 	 {
 
@@ -728,7 +746,7 @@ static void kbs_irq_handler(XINC_KBS_Type * p_kbs, kbs_control_block_t * p_cb)
 		 reg_kbs_int_en &= ~(KBS_MTXKEY_INT_PRS_INT_EN_Msk);
          p_reg->MTXKEY_INT_EN = reg_kbs_int_en;
                        
-         has_key_presss = kbs_mtxkey_value_check_funB();
+         has_key_presss = kbs_mtxkey_value_check_funA();
          
          if(has_key_presss == false)
          {

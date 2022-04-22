@@ -56,7 +56,7 @@ static uint8_t                        m_button_count;              /**< Number o
 static uint32_t                       m_detection_delay;           /**< Delay before a button is reported as pushed. */
 APP_TIMER_DEF(m_detection_delay_timer_id);  /**< Polling timer id. */
 
-static uint64_t m_pin_active;
+static uint32_t m_pin_active[GPIO_COUNT];
 
 #define BIT_PER_PIN 4
 #define PINS 32*GPIO_COUNT
@@ -122,6 +122,9 @@ static void usr_event(uint8_t pin, uint8_t type)
 /* State machine processing. */
 void evt_handle(uint8_t pin, uint8_t value)
 {
+    uint8_t port = pin >> 4UL;
+    uint8_t pin_idx = pin & 0x1FUL;
+    
 //	printf("evt_handle pin:%d,value:%d,state:%d\r\n",pin,value,state_get(pin));
     switch(state_get(pin))
     {
@@ -131,7 +134,7 @@ void evt_handle(uint8_t pin, uint8_t value)
             XINC_LOG_DEBUG("Pin %d idle->armed", pin);
             state_set(pin, BTN_PRESS_ARMED);
             CRITICAL_REGION_ENTER();
-            m_pin_active |= 1ULL << pin;
+            m_pin_active[port] |= 1ULL << pin_idx;
             CRITICAL_REGION_EXIT();
 
         }
@@ -141,7 +144,7 @@ void evt_handle(uint8_t pin, uint8_t value)
 					  state_set(pin, BTN_IDLE);
         
             CRITICAL_REGION_ENTER();
-            m_pin_active &= ~(1ULL << pin);
+            m_pin_active[port] &= ~(1ULL << pin_idx);
             CRITICAL_REGION_EXIT();
 				//	printf("pin:%d,value:%d,sta:%d\r\n",pin,value,state_get(pin));
         }
@@ -184,7 +187,7 @@ void evt_handle(uint8_t pin, uint8_t value)
             state_set(pin, BTN_IDLE);
             usr_event(pin, APP_BUTTON_RELEASE);
             CRITICAL_REGION_ENTER();
-            m_pin_active &= ~(1ULL << pin);
+            m_pin_active[port] &= ~(1ULL << pin_idx);
             CRITICAL_REGION_EXIT();
         }
         XINC_LOG_DEBUG("Pin %d release_detected->%s", pin, value ? "pressed" : "idle");
@@ -202,26 +205,47 @@ static void timer_start(void)
     }
 }
 
+static void timer_stop(void)
+{
+		
+    uint32_t err_code = app_timer_stop(m_detection_delay_timer_id);
+    if (err_code != XINC_SUCCESS)
+    {
+        XINC_LOG_WARNING("Failed to start app_timer (err:%d)", err_code);
+    }
+}
+
+
 static void detection_delay_timeout_handler(void * p_context)
 {
 	//	printf("detection_delay_timeout_handler\r\n");
+    bool pin_is_active = false;
     for (int i = 0; i < m_button_count; i++)
     {
         app_button_cfg_t const * p_btn = &mp_buttons[i];
         bool is_set = xinc_drv_gpio_in_is_set(p_btn->pin_no);
         bool is_active = !((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);//!((p_btn->active_state == APP_BUTTON_ACTIVE_HIGH) ^ is_set);
 			
-		//	printf("p_btn->pin_no:%d,is_set:%d,is_active:%d\r\n",p_btn->pin_no,is_set,is_active);
+	//	printf("p_btn->pin_no:%d,is_set:%d,is_active:%d\r\n",p_btn->pin_no,is_set,is_active);
 		//		printf("evt_handle start \r\n");
         evt_handle(p_btn->pin_no, is_active);
     }
-
-    if (m_pin_active)
+  //  printf("m_pin_active:%x\r\n",(m_pin_active[0] & 0XFFFFFFFF));
+    for(uint8_t i = 0;i < GPIO_COUNT;i++)
+    {
+        if(m_pin_active[i])
+        {
+            pin_is_active = true;
+        }
+    
+    }
+    if (pin_is_active)
     {
         timer_start();
     }
     else
     {
+        timer_stop();
         XINC_LOG_DEBUG("No active buttons, stopping timer");
     }
 }
@@ -236,7 +260,16 @@ static void gpiote_event_handler(xinc_drv_gpio_pin_t pin, xinc_gpio_polarity_t a
     /* If event indicates that pin is active and no other pin is active start the timer. All
      * action happens in timeout event.
      */
-    if (is_active && (m_pin_active == 0))
+    bool pin_is_active = false;
+    for(uint8_t i = 0;i < GPIO_COUNT;i++)
+    {
+        if(m_pin_active[i])
+        {
+            pin_is_active = true;
+        }
+    
+    }
+    if (is_active && (pin_is_active == false))
     {
         XINC_LOG_DEBUG("First active button, starting periodic timer");
 			//	printf("First active button, starting periodic timer\r\n");
@@ -269,7 +302,7 @@ uint32_t app_button_init(app_button_cfg_t const *       p_buttons,
     m_detection_delay   = detection_delay;
 
     memset(m_pin_states, 0, sizeof(m_pin_states));
-    m_pin_active = 0;
+    memset(m_pin_active, 0, sizeof(m_pin_active));
 
     while (button_count--)
     {
@@ -321,7 +354,7 @@ uint32_t app_button_disable(void)
      //  xinc_drv_gpio_in_event_disable(mp_buttons[i].pin_no);
     }
     CRITICAL_REGION_ENTER();
-    m_pin_active = 0;
+    memset(m_pin_active, 0, sizeof(m_pin_active));
     CRITICAL_REGION_EXIT();
 
     /* Make sure polling timer is not running. */

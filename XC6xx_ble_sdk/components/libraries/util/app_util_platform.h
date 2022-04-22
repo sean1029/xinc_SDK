@@ -148,14 +148,8 @@ void app_util_critical_region_exit (uint8_t nested);
  *       CRITICAL_REGION_EXIT() for each call to CRITICAL_REGION_ENTER(), and they must be located
  *       in the same scope.
  */
-#ifdef SOFTDEVICE_PRESENT
-#define CRITICAL_REGION_ENTER()                                                             \
-    {                                                                                       \
-        uint8_t __CR_NESTED = 0;                                                            \
-        app_util_critical_region_enter(&__CR_NESTED);
-#else
+
 #define CRITICAL_REGION_ENTER() app_util_critical_region_enter(NULL)
-#endif
 
 /**@brief Macro for leaving a critical region.
  *
@@ -163,13 +157,9 @@ void app_util_critical_region_exit (uint8_t nested);
  *       CRITICAL_REGION_EXIT() for each call to CRITICAL_REGION_ENTER(), and they must be located
  *       in the same scope.
  */
-#ifdef SOFTDEVICE_PRESENT
-#define CRITICAL_REGION_EXIT()                                                              \
-        app_util_critical_region_exit(__CR_NESTED);                                         \
-    }
-#else
+
 #define CRITICAL_REGION_EXIT() app_util_critical_region_exit(0)
-#endif
+
 
 /* Workaround for Keil 4 */
 #ifndef IPSR_ISR_Msk

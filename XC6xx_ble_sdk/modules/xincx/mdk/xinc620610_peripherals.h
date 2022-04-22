@@ -34,7 +34,7 @@
 
 /* GPIO */
 #define GPIO_PRESENT
-#define GPIO_COUNT 2
+#define GPIO_COUNT 1
 
 #define P0_PIN_NUM 32
 #define P1_PIN_NUM 4

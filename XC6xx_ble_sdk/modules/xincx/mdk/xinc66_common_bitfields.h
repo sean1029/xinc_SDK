@@ -31,4 +31,4 @@
 #include "xinc66_XXXX_KBS_bitfields.h"
 /*lint --flb "Leave library region" */
 
-#endif // XINC_BITFIELDS_H__
+#endif // XINC_COMMON_BITFIELDS_H__

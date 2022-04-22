@@ -13,6 +13,7 @@
         "xinc_audio_adc.h": "c",
         "bsp.h": "c",
         "xinc66_common_bitfields.h": "c",
-        "xinc62_common_bitfields.h": "c"
+        "xinc62_common_bitfields.h": "c",
+        "xinc66_xxxx_peripherals.h": "c"
     }
 }

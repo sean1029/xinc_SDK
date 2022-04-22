@@ -51,6 +51,11 @@ __STATIC_INLINE bool pin_in_use(uint32_t pin)
     return (m_cb.pin_assignments[pin] != PIN_NOT_USED);
 }
 
+bool xincx_pin_use_is_set(uint32_t pin)
+{
+    return (m_cb.pin_assignments[pin] != PIN_NOT_USED);
+}
+
 
 __STATIC_INLINE bool pin_in_use_by_gpio_handler(uint32_t pin)
 {
@@ -62,6 +67,7 @@ __STATIC_INLINE void pin_in_use_by_handler_set(uint32_t                  pin,
                                         uint32_t                  handler_id,
                                         xincx_gpio_evt_handler_t handler)
 {
+    printf("pin_in_use_by_handler_set:%d\r\n",pin);
     m_cb.pin_assignments[pin] = handler_id;
     m_cb.handlers[handler_id] = handler;
 }
@@ -177,6 +183,38 @@ xincx_err_t xincx_gpio_init(void)
             pin_in_use_clear(i);
         }
         pin_handler_free(i);
+     
+        if((i == 2 )||( i == 3))
+        {
+          //  xinc_gpio_cfg_default(i);
+        }
+        else if((i == 6 )||( i == 7))
+        {
+           // xinc_gpio_cfg_default(i);
+        }
+        else if((i == 18) ||( i == 19))
+        {
+           // xinc_gpio_cfg_default(i);
+        }
+       
+        else
+        {
+             printf("gpio_cfg_default:%d\r\n ",i);
+         //   xinc_gpio_cfg_default(i);
+            
+            gpio_mux_ctl(i,0);
+           gpio_fun_sel(i,0);
+           gpio_direction_input(i,1);
+            
+//            xinc_gpio_mux_ctl(i,0);
+//           xinc_gpio_fun_sel(i,0);
+//            
+//          //  xinc_gpio_pull_sel(i,1);
+//           gpio_direction_input(i,1);
+          //  xinc_gpio_pin_dir_set(i,XINC_GPIO_PIN_DIR_INPUT);
+//            xinc_gpio_pin_dir_set(i,XINC_GPIO_PIN_DIR_INPUT);
+        }
+        
     }
  
     memset(m_cb.configured_pins, 0, sizeof(m_cb.configured_pins));
@@ -243,6 +281,8 @@ xincx_err_t xincx_gpio_out_init(xincx_gpio_pin_t                pin,
         
         if (err_code == XINCX_SUCCESS)
         {
+            gpio_direction_input(pin,2);
+            xinc_gpio_cfg_output(pin);
             xinc_gpio_cfg_output(pin);
             pin_configured_set(pin);
             if (p_config->init_state == XINC_GPIO_INITIAL_VALUE_HIGH)
@@ -376,6 +416,22 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         if(pin > XINC_GPIO_MAX)
         {
             err_code = XINC_ERROR_INVALID_PARAM;
+        }
+        else if((XINC_GPIO_PIN_SSI0_CLK == fun) && (XINC_GPIO_2 == pin))
+        {
+            	     
+        }
+        else if((XINC_GPIO_PIN_SSI0_SSN == fun) && (XINC_GPIO_3 == pin))
+        {
+            	     
+        }
+        else if((XINC_GPIO_PIN_SSI0_RX == fun) && (XINC_GPIO_6 == pin))
+        {
+            	     
+        }
+        else if((XINC_GPIO_PIN_SSI0_TX == fun) && (XINC_GPIO_7 == pin))
+        {
+            	     
         }
         else if((XINC_GPIO_PIN_PWM2 == fun) && (XINC_GPIO_0 == pin))
         {
