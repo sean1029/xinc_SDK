@@ -1,6 +1,7 @@
 
 #include	"Includes.h"
 #include	"stdio.h"
+#include "bsp_gpio.h"
 #pragma     import(__use_no_semihosting_swi)
 
 #define	__DEBUG_OUT_PORT        0			//- 0:uart0 , 1:uart1  
@@ -53,7 +54,10 @@ void 	retarget_init(void)
 		__write_hw_reg32(UART0_DLL , 0x01);
 		__write_hw_reg32(UART0_DLH , 0x00);                 		
 		__write_hw_reg32(UART0_TCR , 0x03);                		
-		__write_hw_reg32(UART0_FCR , 0x37);                			
+		__write_hw_reg32(UART0_FCR , 0x37);   
+        gpio_direction_input(19,0);
+        gpio_direction_input(18,0);
+        gpio_direction_output(18);
 		
 #endif	
 		printf("\n SYSTEM BUILD TIME: %s %s \n",__DATE__,__TIME__);

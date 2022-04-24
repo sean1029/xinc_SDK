@@ -129,40 +129,19 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 #endif // XINC_PWR_MGMT_CONFIG_FPU_SUPPORT_ENABLED
 
 
-#if XINC_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED
-    #undef  PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
-    #define PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
-
-    #include "xinc_gpio.h"
-    #define PWR_MGMT_DEBUG_PINS_INIT()   pwr_mgmt_debug_pins_init()
-    #define PWR_MGMT_DEBUG_PIN_CLEAR()   xinc_gpio_pin_clear(XINC_PWR_MGMT_SLEEP_DEBUG_PIN)
-    #define PWR_MGMT_DEBUG_PIN_SET()     xinc_gpio_pin_set(XINC_PWR_MGMT_SLEEP_DEBUG_PIN)
-
-    __STATIC_INLINE void pwr_mgmt_debug_pins_init(void)
-    {
-     //   xinc_gpio_pin_clear(XINC_PWR_MGMT_SLEEP_DEBUG_PIN);
-      //  xinc_gpio_cfg_output(XINC_PWR_MGMT_SLEEP_DEBUG_PIN);
-    }
-
-#else
-    #define PWR_MGMT_DEBUG_PIN_CLEAR()
-    #define PWR_MGMT_DEBUG_PIN_SET()
-    #define PWR_MGMT_DEBUG_PINS_INIT()
-#endif
-
-
 #define     RST_READY_TIME          	0x07        //- 
 #define     OSC32_STABLE_TIME       	47//  2ms:47   6ms  180     
 #define     WAIT_BLE_EXIT_LOWPWR_TIME   10 
 #define     PRE_WAKEUP_TIME             (RST_READY_TIME + OSC32_STABLE_TIME + WAIT_BLE_EXIT_LOWPWR_TIME)
 
+#if XINC_MODULE_ENABLED(XINC_BLE_STACK)  
 
 #if XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED
 
     #undef  PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
     #define PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
     
-#include "bsp_timer.h"
+ 
     #define PWR_MGMT_BLE_STACK_MONITOR_INIT()    pwr_mgmt_ble_stack_monitor_init()
     #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()  pwr_mgmt_ble_stack_monitor_update()
 
@@ -178,13 +157,19 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 
     __STATIC_INLINE void pwr_mgmt_ble_stack_monitor_init(void)
     {
+        XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
         m_ble_sleeping      = 0;
         m_ble_timer_last    = 0;
         m_ble_sleep_flag    = 0;
+        
+        p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
+        
+        p_regAO->VDD_ISO_EN     |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
     }
     
     __STATIC_INLINE uint32_t pwr_mgmt_ble_stack_monitor_enter(void)
     {
+        
             remain_timer = ble_lowpower_remaining_clock(0); 
             uint32_t VAL1 = *(((volatile unsigned *)(0x40003000 + 0x0C )));
             if((remain_timer <= PRE_WAKEUP_TIME))                                
@@ -262,13 +247,20 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 
   
     }
-
 #else
     #define PWR_MGMT_BLE_STACK_MONITOR_INIT()
     #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()
     #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER()    0
     #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT()
 #endif // XINC_PWR_MGMT_CONFIG_BLE_STACK_MONITOR_ENABLED
+    
+#else
+    #define PWR_MGMT_BLE_STACK_MONITOR_INIT()
+    #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()
+    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER()    1
+    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT()
+    
+#endif //XINC_BLE_STACKENABLED
     
     
 
@@ -402,9 +394,6 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
     __STATIC_INLINE void pwr_mgmt_sleep_init(void)
     {
         
-      //  ble_system_idle_init();
-        
-     //   return;
         XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
         XINC_CPR_CTL_Type   * p_reg = XINC_CPR;
         
@@ -425,9 +414,6 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
         //  __write_hw_reg32(CPR_SLP_PD_MASK,0x181);  
         p_regAO->SLP_PD_MASK = CPR_AO_SLP_PD_MASK_RAM_SLP_PD_MASK_Msk |  CPR_AO_SLP_PD_MASK_SYS_SLP_PMU_PD_MASK_Msk;	
         
-     
- 
-        
      // __write_hw_reg32(CPR_SLP_SRC_MASK, 0x60006);
         p_reg->SLP_SRC_MASK = 0x60006;
         
@@ -435,9 +421,14 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
         
         p_regAO->VDD_ISO_EN     |=0x10;   
         
-        p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
+                p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
+        
         
         p_regAO->VDD_ISO_EN     |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
+                *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
+        *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
+        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
+
         
 
  
@@ -482,26 +473,6 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 #else
     #define PWR_MGMT_TIMER_CREATE() XINC_SUCCESS
 #endif // PWR_MGMT_TIMER_REQUIRED
-
-    
-ret_code_t xinc_pwr_mgmt_init(void)
-{
-    XINC_LOG_INFO("Init");
-
-    m_shutdown_started = false;
-    xinc_mtx_init(&m_sysoff_mtx);
-    xinc_section_iter_init(&m_handlers_iter, &pwr_mgmt_data);
-
-    PWR_MGMT_SLEEP_INIT();
-    PWR_MGMT_DEBUG_PINS_INIT();
-    PWR_MGMT_STANDBY_TIMEOUT_INIT();
-    PWR_MGMT_CPU_USAGE_MONITOR_INIT();
-    PWR_MGMT_BLE_STACK_MONITOR_INIT();
-
-    return PWR_MGMT_TIMER_CREATE();
-}
-
-
 void PWR_gpio_sleep_config(void)
 {
     bool is_set;
@@ -543,11 +514,31 @@ void PWR_gpio_sleep_config(void)
         
         if(i >=18 &&  i<= 19)
         {
-          //     xinc_gpio_cfg_input(i,io_cfg);
+               xinc_gpio_cfg_input(i,io_cfg);
         }
 
 	}
 }
+    
+ret_code_t xinc_pwr_mgmt_init(void)
+{
+    XINC_LOG_INFO("Init");
+
+    m_shutdown_started = false;
+    xinc_mtx_init(&m_sysoff_mtx);
+    xinc_section_iter_init(&m_handlers_iter, &pwr_mgmt_data);
+    
+    PWR_MGMT_SLEEP_INIT();
+//    PWR_MGMT_DEBUG_PINS_INIT();
+    PWR_MGMT_STANDBY_TIMEOUT_INIT();
+    PWR_MGMT_CPU_USAGE_MONITOR_INIT();
+    PWR_MGMT_BLE_STACK_MONITOR_INIT();
+
+    return PWR_MGMT_TIMER_CREATE();
+}
+
+
+
 
 void xinc_pwr_mgmt_run(void)
 {
@@ -556,19 +547,8 @@ void xinc_pwr_mgmt_run(void)
     PWR_MGMT_SLEEP_LOCK_ACQUIRE();
     PWR_MGMT_CPU_USAGE_MONITOR_SECTION_ENTER();
     ble_sleep = PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER();
-    PWR_MGMT_DEBUG_PIN_SET();
-    
-    
-
-
-//    *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
-//    *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
-//    *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ????RF???
-    
-  //  xinc_delay_ms(5);
-  //  PWR_gpio_sleep_config();
-    
-//ble_system_idle();
+ //   PWR_MGMT_DEBUG_PIN_SET();
+    PWR_gpio_sleep_config();
     if(ble_sleep)
     {
         __NOP();							
@@ -580,7 +560,7 @@ void xinc_pwr_mgmt_run(void)
 		__NOP(); 
     }
 
-    PWR_MGMT_DEBUG_PIN_CLEAR();
+  //  PWR_MGMT_DEBUG_PIN_CLEAR();
     PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT();
     PWR_MGMT_CPU_USAGE_MONITOR_SECTION_EXIT(); 
     PWR_MGMT_SLEEP_LOCK_RELEASE();

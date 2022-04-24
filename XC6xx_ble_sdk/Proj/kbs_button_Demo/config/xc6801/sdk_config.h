@@ -5,7 +5,24 @@
 
 // <<< Use Configuration Wizard in Context Menu >>>\n
 
+// <h> Xinc_BLE 
 
+//==========================================================
+// <e> XINC_BLE_STACK_ENABLED  - ble_stack - enable ble module
+ 
+
+#ifndef XINC_BLE_STACK_ENABLED
+#define XINC_BLE_STACK_ENABLED 0
+#endif
+
+// <q> XINC_BLE_ADVERTISING_ENABLED  - ble_advertising - Advertising module
+
+#ifndef XINC_BLE_ADVERTISING_ENABLED
+#define XINC_BLE_ADVERTISING_ENABLED 1
+#endif
+
+// </e>
+// </h>
 
 // <h> Xinc_Drivers 
 
@@ -1803,7 +1820,7 @@
 // <q> XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED - Enable Ble Stack timeout.
 //==========================================================
 #ifndef XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED
-#define XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED 0
+#define XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED 1
 #endif
 
 

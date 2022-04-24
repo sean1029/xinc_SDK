@@ -37,8 +37,7 @@
 #include "xinc_pwr_mgmt.h"
 #include "xinc_log_ctrl.h"
  #include "xinc_spi_flash.h"
-#include "xinc_drv_power.h"
-#define SDK_WITH_BLE_STACK  1
+#define SDK_WITH_BLE_STACK  XINC_BLE_STACK_ENABLED
 uint8_t flag_show_hci = 0;
 
 #if (SDK_WITH_BLE_STACK)
@@ -580,14 +579,14 @@ int	main(void)
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
     #endif
-  //  spim_flash_init();
-//    
-  //  uint32_t mid;
-  //  spim_flash_Read_MID((uint8_t *)&mid);
-//    
-  //  printf("Read_MID:0x%x\n",mid);
-//    
-  //  spim_flash_Enter_powerdown();
+    spim_flash_init();
+    
+    uint32_t mid;
+    spim_flash_Read_MID((uint8_t *)&mid);
+    
+    printf("Read_MID:0x%x\n",mid);
+    
+    spim_flash_Enter_powerdown();
    // kbs_mtxkey_drv_test();
     kbs_mtxkey_bsp_test();
     
