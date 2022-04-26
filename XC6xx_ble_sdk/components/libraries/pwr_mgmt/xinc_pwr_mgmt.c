@@ -189,7 +189,8 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
    //             *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
    
    
-
+            *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x0f;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
+        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x10;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
 
 //        
 
@@ -494,7 +495,7 @@ ret_code_t xinc_pwr_mgmt_init(void)
     PWR_MGMT_STANDBY_TIMEOUT_INIT();
     PWR_MGMT_CPU_SLEEP_MONITOR_INIT();
     PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT();
-    PWR_gpio_sleep_config();
+ //   PWR_gpio_sleep_config();
     return PWR_MGMT_TIMER_CREATE();
 }
 

@@ -249,8 +249,6 @@ static __INLINE void hw_timer_sigle_set(uint32_t value)
     uint32_t time_ticks;
     time_ticks  = xincx_timer_ms_to_ticks(&hw_timer, value);
     set_timer = time_ticks;
- //   printf("time_ticks:%d\r\n",time_ticks);
-   // delay_ms(10);
     xincx_timer_compare(&hw_timer,time_ticks,TIMERx_TCR_TES_MODE_USER_COUNTER,true);
     m_last_target_ticks = time_ticks;
 
