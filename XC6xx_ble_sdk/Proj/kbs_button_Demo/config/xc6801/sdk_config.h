@@ -202,7 +202,7 @@
 // <8=> 62.5 kHz (62.5 kHz @ 32M clk div) | (62.5Hz @ 32K clk div)
 // <9=> 32KHz
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY
-#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 0
+#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 4
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
@@ -211,7 +211,7 @@
 // <1=> Counter 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_MODE
-#define XINCX_TIMER_DEFAULT_CONFIG_MODE 0
+#define XINCX_TIMER_DEFAULT_CONFIG_MODE 1
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC  - Timer CLK_SRC 
@@ -221,7 +221,7 @@
 // <4=> 32K clk src 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC
-#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 0
+#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -236,7 +236,7 @@
 // <7=> 7 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY
-#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 0
+#define XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY 2
 #endif
 
 // <e> XINCX_TIMER_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -1808,21 +1808,18 @@
 
 // </e>
 
-// <q> XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED  - Enables CPU usage monitor.
- 
+// <e> XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED Enable CPU Sleep.
 
-// <i> Module will trace percentage of CPU usage in one second intervals.
-
-#ifndef XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED
-#define XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED 1
+#ifndef XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+#define XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED 1
 #endif
 
-// <q> XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED - Enable Ble Stack timeout.
+// <q> XINC_PWR_MGMT_CONFIG_BLE_SLEEP_STACK_ENABLED - Enable Ble Stack Sleep.
 //==========================================================
-#ifndef XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED
-#define XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED 1
+#ifndef XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+#define XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED 1
 #endif
-
+// </e>
 
 
 // <e> XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_ENABLED - Enable standby timeout.
@@ -1860,12 +1857,7 @@
 #define XINC_PWR_MGMT_CONFIG_USE_SCHEDULER 1
 #endif
 
-// <o> XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT - The number of priorities for module handlers. 
-// <i> The number of stages of the shutdown process.
 
-#ifndef XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT
-#define XINC_PWR_MGMT_CONFIG_HANDLER_PRIORITY_COUNT 3
-#endif
 
 // </e>
 

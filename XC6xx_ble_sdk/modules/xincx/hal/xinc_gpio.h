@@ -217,10 +217,10 @@ typedef enum
  * configuration.
  */
 typedef enum
-{
-    XINC_GPIO_PIN_NOPULL   = XC_GPIO_Mode_Input_Float, ///<  Pin pull-up resistor disabled.
-    XINC_GPIO_PIN_PULLDOWN = XC_GPIO_Mode_Input_Down, ///<  Pin pull-down resistor enabled.
+{ 
     XINC_GPIO_PIN_PULLUP   = XC_GPIO_Mode_Input_Up,   ///<  Pin pull-up resistor enabled.
+    XINC_GPIO_PIN_PULLDOWN = XC_GPIO_Mode_Input_Down, ///<  Pin pull-down resistor enabled.
+    XINC_GPIO_PIN_NOPULL   = XC_GPIO_Mode_Input_Float, ///<  Pin pull-up resistor disabled.
 } xinc_gpio_pin_pull_t;
 
 
@@ -770,7 +770,7 @@ __STATIC_INLINE void xinc_gpio_fun_sel(uint32_t pin_number,xinc_gpio_pin_fun_sel
 
 __STATIC_INLINE void xinc_gpio_pull_sel(uint32_t pin_number,xinc_gpio_pin_pull_t pull)
 {
-    XINCX_ASSERT(pull <= XINC_GPIO_PIN_PULLUP);
+    XINCX_ASSERT(pull <= XINC_GPIO_PIN_NOPULL);
 
     uint8_t reg_idx;
     uint8_t pin_idx ;

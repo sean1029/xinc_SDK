@@ -676,6 +676,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1479,6 +1484,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
             </File>
+            <File>
+              <FileName>xincx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2232,6 +2242,11 @@
               <FileName>xinc_drv_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\integration\xincx\xinc_drv_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
             </File>
           </Files>
         </Group>

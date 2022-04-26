@@ -428,7 +428,7 @@ CTL_PCLK_GR/8
 
 
 /* Register: CPR_TIMER_CLK_CTL */
-/* Offset: 0x54 -0x64 */
+/* Offset: 0x58 -0x64 */
 /* Description :TIMER_CLK 时 钟 控 制 寄 存 器
 */
 
@@ -450,9 +450,7 @@ CTL_PCLK_GR/8
 
 
 /* Bit 28..30: TIMER_CLKSEL */
-/* Description: 控制 timer0_clk 相对于 32KHz时钟的分频比为 2*(TIMER_CLK1_DIV+ 1)
-0：不复位
-1：复位
+/* Description: 
 */
 #define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos (28UL) // /*!< Position of TIMER_CLKSEL field. */
 #define CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Msk (0x7UL << CPR_TIMER_CLK_CTL_TIMER_CLKSEL_Pos) 

@@ -27,6 +27,10 @@ uint32_t SysTick_get(void)
 		return GulSystickCount;//
 }
  
+void SysTick_set(uint32_t sys_ticks)
+{    
+    GulSystickCount = sys_ticks;//
+}
  
 
 
@@ -50,8 +54,17 @@ void delay_us(u32 nus)
 			told=tnow;
 			if(tcnt>=ticks)break;			//时间超过/等于要延迟的时间,则退出.
 		}  
-	};										    
+	};		
+//    for(int i = 0;i < nus;i++)
+//    {
+//        for(int j = 0; j < 50;j++)
+//        {
+//            __nop();
+//        }
+//    }
 }  
+
+
 
 void delay_ms(u32 nms)
 {	

@@ -31,7 +31,7 @@
 
 #define MAX_TIMER_COUNTER_VAL     0xFFFFFFFF                                  /**< Maximum value of the RTC counter. */
 
-#define TIMER_COMPARE_OFFSET_MIN  8                                           /**< Minimum offset between the current TIMER counter value and the Capture Compare register. */
+#define TIMER_COMPARE_OFFSET_MIN  5                                           /**< Minimum offset between the current TIMER counter value and the Capture Compare register. */
 #define MAX_TIMER_TASKS_DELAY     47                                          /**< Maximum delay until an TIMER task is executed. */
 
 
@@ -102,14 +102,12 @@ typedef struct
 
 static timer_op_queue_t              m_op_queue;                                /**< Timer operations queue. */
 static timer_node_t *                mp_timer_id_head;                          /**< First timer in list of running timers. */
-static uint32_t                      m_ticks_latest;                            /**< Last known timer2 counter value. */
-static uint32_t                      m_sys_ticks; 
-static uint32_t                      m_last_target_ticks; 
+static uint32_t                      m_ticks_latest;                            /**< Last known RTC counter value. */
 static uint32_t                      m_ticks_elapsed[CONTEXT_QUEUE_SIZE_MAX];   /**< Timer internal elapsed ticks queue. */
 static uint8_t                       m_ticks_elapsed_q_read_ind;                /**< Timer internal elapsed ticks queue read index. */
 static uint8_t                       m_ticks_elapsed_q_write_ind;               /**< Timer internal elapsed ticks queue write index. */
-static bool                          m_hw_timer_running;                        /**< Boolean indicating if timer is running. */
-static bool                          m_hw_timer_reset;                       /**< Boolean indicating if TIMER2 counter has been reset due to last timer removed from timer list during the timer list handling. */
+static bool                          m_RtcAOTimer_running;                        /**< Boolean indicating if RtcAoTIMER is running. */
+static bool                          m_RtcAOTimer_reset;                       /**< Boolean indicating if TIMER0 counter has been reset due to last timer removed from timer list during the timer list handling. */
 
 #if APP_TIMER_WITH_PROFILER
 static uint8_t                       m_max_user_op_queue_utilization;           /**< Maximum observed timer user operations queue utilization. */
@@ -119,22 +117,22 @@ static uint8_t                       m_max_user_op_queue_utilization;           
  */
 static void timer_timeouts_check(void);
 	
+#include "xinc_drv_rtc.h"
+const static xincx_rtc_t rtc = XINCX_RTC_INSTANCE(0); /**< Declaring an instance of xinc_drv_rtc for RTC0. */
 
-#include "xincx_timer.h"
-const static xincx_timer_t hw_timer = XINCX_TIMER_INSTANCE(3);
+
 
 /**@brief Function for handling the RTC0 interrupt.
  *
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
 
-
-static void hw_timer_handler(xinc_timer_int_event_t event_type,uint8_t channel ,
-                                            void            * p_context)
-{  
-    m_sys_ticks += *(uint32_t *)p_context;
- //   printf("timer_handler sys_tick:%d\r\n",m_sys_ticks);
-	timer_timeouts_check();  
+static void rtc_AOtime_handler(xinc_drv_rtc_int_type_t int_type)
+{
+    if (int_type == XINCX_RTC_INT_AOTIME)
+    {
+			timer_timeouts_check();
+    }
 }
 
 
@@ -143,66 +141,60 @@ static void hw_timer_handler(xinc_timer_int_event_t event_type,uint8_t channel ,
  * @param[in] VOID
  */
 
-static uint32_t set_timer;
-static void hw_timer_init(void)
+static void rtc_AOtime_init(void)
 {
     uint32_t err_code;
 
-    uint32_t time_ms = 2000; //Time(in miliseconds) between consecutive compare events.
-    uint32_t time_ticks;
-    xincx_timer_config_t timer_cfg =XINCX_TIMER_DEFAULT_CONFIG;
-    
-    timer_cfg.clk_src = XINC_TIMER_CLK_SRC_32K_DIV;
-    timer_cfg.ref_clk = XINC_TIMER_REF_CLK_1MHzOr1K;
-    timer_cfg.mode = XINC_TIMER_MODE_USER_COUNTER;
-    timer_cfg.interrupt_priority = XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY;
-    timer_cfg.p_context = &set_timer;
-    set_timer = 60;
-    printf("set_timer:%x\r\n",set_timer);
-    err_code = xincx_timer_init(&hw_timer, &timer_cfg, hw_timer_handler);
-    printf("xincx_timer_init err_code:%x\r\n",err_code);
-    time_ticks = xincx_timer_ms_to_ticks(&hw_timer, time_ms);
-    printf("time_ticks:%d\r\n",time_ticks);
-    
-    m_sys_ticks = 0;
+    //Initialize RTC instance
+    xincx_rtc_config_t config = XINCX_RTC_DEFAULT_CONFIG;
+    config.type = XINC_RTC_TYPE_AOTIME;
+    err_code = xinc_drv_rtc_init(&rtc, &config, rtc_AOtime_handler); 
+    APP_ERROR_CHECK(err_code);
+    //Power on RTC instance
+    xincx_rtc_enable(&rtc);
 
+    printf("TIMER_TICKS(50):%d\r\n",APP_TIMER_TICKS(2000));
 
 }
-
-
-
 
 
 
 
 /**@brief Function for starting the timer.
  */
-
-static void hw_timer_start(void)
+static void rtc_AOtime_start(void)
 {
-  //  printf("timer_start\r\n");
-    m_hw_timer_running = true;
+    printf("AOtime start\r\n");
+    m_RtcAOTimer_running = true;
 }
-
-
-
 
 
 /**@brief Function for stopping the timer.
  */
-
-static void hw_timer_stop(void)
+static void rtc_AOtime_stop(void)
 {
-  //  printf("timer_stop\r\n");
- //   delay_ms(5);
-    xincx_timer_disable(&hw_timer);
-    
+    printf("AOtime stop\r\n");
+    rtc.p_reg->AO_TIMER_CTL = 0;
+
     m_ticks_latest        = 0;
-    m_hw_timer_running = false;
-    
+
+    m_RtcAOTimer_running = false;
 }
 
-/**@brief Function for computing the difference between two TIME2 counter values.
+
+/**@brief Function for returning the current value of the sys tick counter.
+ *
+ * @return     Current value of the RTC1 counter.
+ */
+extern uint32_t SysTick_get(void);
+static __INLINE uint32_t systick_counter_get(void) //timer counter use systick uint 10ms 
+{
+	return APP_TIMER_TICKS(SysTick_get() * 10) & MAX_TIMER_COUNTER_VAL;
+
+}
+
+
+/**@brief Function for computing the difference between two RTC1 counter values.
  *
  * @return     Number of ticks elapsed from ticks_old to ticks_now.
  */
@@ -212,50 +204,17 @@ static __INLINE uint32_t ticks_diff_get(uint32_t ticks_now, uint32_t ticks_old)
 }
 
 
-/**@brief Function for returning the current value of the sys tick counter.
- *
- * @return     Current value of the RTC1 counter.
- */
-static __INLINE uint32_t timer2_counter_get(void) //timer counter use m_sys_ticks uint 1ms 
-{
-  //  uint32_t cur_timer_ticks = xincx_timer_cnt_get(&hw_timer);
-    uint32_t diff_tick;
-  //  diff_tick = ticks_diff_get(cur_timer_ticks,m_last_target_ticks);
-  //  printf("sys:%d,cur:%x,last:%d,diff_tick:%d\r\n",m_sys_ticks,cur_timer_ticks,m_last_target_ticks,diff_tick);
-   // m_last_target_ticks = cur_timer_ticks;
-	return m_sys_ticks;// + diff_tick;
- 
-}
-
-static __INLINE uint32_t timer2_counter_get1(void) //timer counter use m_sys_ticks uint 1ms 
-{
-   // uint32_t cur_timer_ticks = xincx_timer_cnt_get(&hw_timer);
-
-
-	return timer2_counter_get() ;
- 
-}
-
-
-
 /**@brief Function for setting the RTC1 Capture Compare register 0, and enabling the corresponding
  *        event.
  *
  * @param[in] value   New value of Capture Compare register 0.
  */
-static __INLINE void hw_timer_sigle_set(uint32_t value)
+static __INLINE void rtc_AOtime_sigle_set(uint32_t value)
 {
-  //  printf("hw_timer_sigle_set:%d\r\n",value);
-    uint32_t time_ticks;
-    time_ticks  = xincx_timer_ms_to_ticks(&hw_timer, value);
-    set_timer = time_ticks;
- //   printf("time_ticks:%d\r\n",time_ticks);
-   // delay_ms(10);
-    xincx_timer_compare(&hw_timer,time_ticks,TIMERx_TCR_TES_MODE_USER_COUNTER,true);
-    m_last_target_ticks = time_ticks;
-
+    printf("AOtime set:%d\r\n",value);
+	uint16_t val =  value * 1000 / 31;
+	xinc_drv_rtc_AOtime_set(&rtc,val);
 }
-
 
 
 /**@brief Function for inserting a timer in the timer list.
@@ -350,7 +309,7 @@ static bool timer_list_remove(timer_node_t * p_timer)
         if (mp_timer_id_head == NULL)
         {
             m_ticks_latest        = 0;
-            m_hw_timer_reset          = true;
+            m_RtcAOTimer_reset          = true;
             delay_us(MAX_TIMER_TASKS_DELAY);
         }
     }
@@ -390,7 +349,6 @@ uint8_t list_handler_sched_flag = 0;
 static void timer_list_handler_sched(void)
 {
 		SCB->ICSR = SCB->ICSR | SCB_ICSR_PENDSVSET_Msk;
-  //  timer_list_handler();
 }
 
 void	PendSV_Handler(void)
@@ -434,7 +392,7 @@ static void timeout_handler_exec(timer_node_t * p_timer)
  */
 static void timer_timeouts_check(void)
 {
-//		printf("timer_timeouts_check\n");
+		printf("timer_timeouts_check\n");
     // Handle expired of timer
     if (mp_timer_id_head != NULL)
     {
@@ -447,7 +405,7 @@ static void timer_timeouts_check(void)
         ticks_expired = 0;
 
         // ticks_elapsed is collected here, job will use it.
-        ticks_elapsed = ticks_diff_get(timer2_counter_get(), m_ticks_latest);
+        ticks_elapsed = ticks_diff_get(systick_counter_get(), m_ticks_latest);
 
         // Auto variable containing the head of timers expiring.
         p_timer = mp_timer_id_head;
@@ -664,7 +622,7 @@ static bool list_insertions_handler(timer_node_t * p_restart_list_head)
             p_timer->ticks_periodic_interval = p_user_op->params.start.ticks_periodic_interval;
             p_timer->p_context               = p_user_op->params.start.p_context;
 
-            if (m_hw_timer_reset)
+            if (m_RtcAOTimer_reset)
             {
                 p_timer->ticks_at_start = 0;
             }
@@ -716,29 +674,29 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
     if (mp_timer_id_head != NULL)
     {
         uint32_t ticks_to_expire = mp_timer_id_head->ticks_to_expire;
-        uint32_t pre_counter_val = timer2_counter_get();
+        uint32_t pre_counter_val = systick_counter_get();
 			//	printf("pre_counter_val:%d\r\n",pre_counter_val);
         uint32_t cc              = m_ticks_latest;
 			//  printf("m_ticks_latest:%d\r\n",m_ticks_latest);
         uint32_t ticks_elapsed   = ticks_diff_get(pre_counter_val, cc) + TIMER_COMPARE_OFFSET_MIN;
 			//	printf("cc0:%d,pre:%d\r\n",cc,pre_counter_val);
 			//	printf("m_rtc1_running:%d\r\n",m_rtc1_running);
-        if (!m_hw_timer_running)
+        if (!m_RtcAOTimer_running)
         {
             // No timers were already running, start RTC
-            hw_timer_start();
+            rtc_AOtime_start();
         }
 			//	printf("ticks_elapsed:%d,ticks_to_expire:%d\r\n",ticks_elapsed,ticks_to_expire);
         cc += (ticks_elapsed < ticks_to_expire) ? ticks_to_expire : ticks_elapsed;
         cc &= MAX_TIMER_COUNTER_VAL;
 				
-      //  printf("cc1:%d,pre:%d,diff:%d\r\n",cc,pre_counter_val,cc - pre_counter_val);
-		hw_timer_sigle_set((cc - pre_counter_val));
-      //  hw_timer_sigle_set(APP_TIMER_TICKS(TIMER_COMPARE_OFFSET_MIN));
+        printf("cc1:%d,pre:%d,diff:%d\r\n",cc,pre_counter_val,cc - pre_counter_val);
+		  	rtc_AOtime_sigle_set((cc - pre_counter_val));
+      //  rtc_AOtime_sigle_set(APP_TIMER_TICKS(TIMER_COMPARE_OFFSET_MIN));
         
         
 				
-        uint32_t post_counter_val = timer2_counter_get();
+        uint32_t post_counter_val = systick_counter_get();
 
         if (
             (ticks_diff_get(post_counter_val, pre_counter_val) + TIMER_COMPARE_OFFSET_MIN)
@@ -748,7 +706,7 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
         {
   
            
-            hw_timer_sigle_set(APP_TIMER_TICKS(50));					
+            rtc_AOtime_sigle_set(APP_TIMER_TICKS(10));					
             delay_us(MAX_TIMER_TASKS_DELAY);
             timer_timeouts_check_sched();
         }
@@ -756,8 +714,8 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
     else
     {
 #if (APP_TIMER_KEEPS_RTC_ACTIVE == 0)
-        // No timers are running, stop Timer
-        hw_timer_stop();
+        // No timers are running, stop RTC
+        rtc_AOtime_stop();
 #endif //(APP_TIMER_KEEPS_RTC_ACTIVE == 0)
     }
 }
@@ -820,7 +778,7 @@ static void timer_list_handler(void)
     {
         compare_reg_update(p_timer_id_head_old);
     }
-    m_hw_timer_reset = false;
+    m_RtcAOTimer_reset = false;
 }
 
 
@@ -892,7 +850,7 @@ static uint32_t timer_start_op_schedule(timer_node_t * p_node,
     {
         p_user_op->op_type                              = TIMER_USER_OP_TYPE_START;
         p_user_op->p_node                               = p_node;
-        p_user_op->params.start.ticks_at_start          = timer2_counter_get();
+        p_user_op->params.start.ticks_at_start          = systick_counter_get();
         p_user_op->params.start.ticks_first_interval    = timeout_initial;
         p_user_op->params.start.ticks_periodic_interval = timeout_periodic;
         p_user_op->params.start.p_context               = p_context;
@@ -951,6 +909,8 @@ static uint32_t timer_stop_op_schedule(timer_node_t * p_node,
 
 ret_code_t app_timer_init(void)
 {
+    // Stop RTC to prevent any running timers from expiring (in case of reinitialization)
+    rtc_AOtime_stop();
 
     // Initialize operation queue
     m_op_queue.first           = 0;
@@ -965,9 +925,9 @@ ret_code_t app_timer_init(void)
     m_max_user_op_queue_utilization   = 0;
 #endif
 
-    hw_timer_init();
+    rtc_AOtime_init();
 
-    m_ticks_latest = timer2_counter_get();
+    m_ticks_latest = systick_counter_get();
 		
 
     return XINC_SUCCESS;
@@ -1024,7 +984,6 @@ ret_code_t app_timer_start(app_timer_id_t timer_id, uint32_t timeout_ticks, void
 
     // Schedule timer start operation
     timeout_periodic = (p_node->mode == APP_TIMER_MODE_REPEATED) ? timeout_ticks : 0;
-    
 
     return timer_start_op_schedule(p_node,
                                    timeout_ticks,
@@ -1062,12 +1021,7 @@ ret_code_t app_timer_stop_all(void)
 
 uint32_t app_timer_cnt_get(void)
 {
-    return timer2_counter_get();
-}
-
-uint32_t app_timer_cnt_get1(void)
-{
-    return timer2_counter_get1();
+    return systick_counter_get();
 }
 
 

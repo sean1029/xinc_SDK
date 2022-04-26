@@ -167,7 +167,7 @@
 // <8=> 62.5 kHz (62.5 kHz @ 32M clk div) | (62.5Hz @ 32K clk div)
 // <9=> 32KHz
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY
-#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 4
+#define XINCX_TIMER_DEFAULT_CONFIG_FREQUENCY 6
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_MODE  - Timer mode or operation
@@ -186,7 +186,7 @@
 // <4=> 32K clk src 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC
-#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
+#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 4
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -656,6 +656,40 @@
 #define XINCX_GPIO_CONFIG_NUM_OF_LOW_POWER_EVENTS 1
 #endif
 // </e>
+
+// <e> XINCX_KBS_ENABLED - xincx_kbs - KBS peripheral driver
+//==========================================================
+#ifndef XINCX_KBS_ENABLED
+#define XINCX_KBS_ENABLED 1
+#endif
+
+// <o> XINCX_KBS_CONFIG_PRS_INTVAL - PRS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_PRS_INTVAL
+#define XINCX_KBS_CONFIG_PRS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_RLS_INTVA - RLS_INTVAL(Unit 0.5ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_RLS_INTVAL
+#define XINCX_KBS_CONFIG_RLS_INTVAL 10
+#endif
+
+// <o> XINCX_KBS_CONFIG_DBC_INTVAL - DBC_INTVAL(Unit 1ms)  <1-255> 
+#ifndef XINCX_KBS_CONFIG_DBC_INTVAL
+#define XINCX_KBS_CONFIG_DBC_INTVAL 5
+#endif
+
+// <o> XINCX_KBS_CONFIG_RPRS_INTVAL - RPRS_INTVAL(Unit 1ms)  <1-1023> 
+#ifndef XINCX_KBS_CONFIG_RPRS_INTVAL
+#define XINCX_KBS_CONFIG_RPRS_INTVAL 200
+#endif
+
+// <o> XINCX_KBS_CONFIG_LPRS_INTVAL - LPRS_INTVAL(Unit 1ms)  <1-63> 
+#ifndef XINCX_KBS_CONFIG_LPRS_INTVAL
+#define XINCX_KBS_CONFIG_LPRS_INTVAL 5
+#endif
+
+// </e>
+
 
 // <e> XINCX_RTC_ENABLED - xincx_rtc - RTC peripheral driver
 //==========================================================
@@ -1405,7 +1439,168 @@
 // </h> 
 // </e>  XINC_FSTORAGE_ENABLED - xinc_fstorage - Flash abstraction library
 
+// <e> MEM_MANAGER_ENABLED - mem_manager - Dynamic memory allocator
+//==========================================================
+#ifndef MEM_MANAGER_ENABLED
+#define MEM_MANAGER_ENABLED 1
+#endif
+// <o> MEMORY_MANAGER_SMALL_BLOCK_COUNT - Size of each memory blocks identified as 'small' block.  <0-255> 
 
+
+#ifndef MEMORY_MANAGER_SMALL_BLOCK_COUNT
+#define MEMORY_MANAGER_SMALL_BLOCK_COUNT 2
+#endif
+
+// <o> MEMORY_MANAGER_SMALL_BLOCK_SIZE -  Size of each memory blocks identified as 'small' block. 
+// <i>  Size of each memory blocks identified as 'small' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_SMALL_BLOCK_SIZE
+#define MEMORY_MANAGER_SMALL_BLOCK_SIZE 32
+#endif
+
+// <o> MEMORY_MANAGER_MEDIUM_BLOCK_COUNT - Size of each memory blocks identified as 'medium' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_MEDIUM_BLOCK_COUNT
+#define MEMORY_MANAGER_MEDIUM_BLOCK_COUNT 1
+#endif
+
+// <o> MEMORY_MANAGER_MEDIUM_BLOCK_SIZE -  Size of each memory blocks identified as 'medium' block. 
+// <i>  Size of each memory blocks identified as 'medium' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_MEDIUM_BLOCK_SIZE
+#define MEMORY_MANAGER_MEDIUM_BLOCK_SIZE 256
+#endif
+
+// <o> MEMORY_MANAGER_LARGE_BLOCK_COUNT - Size of each memory blocks identified as 'large' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_LARGE_BLOCK_COUNT
+#define MEMORY_MANAGER_LARGE_BLOCK_COUNT 0
+#endif
+
+// <o> MEMORY_MANAGER_LARGE_BLOCK_SIZE -  Size of each memory blocks identified as 'large' block. 
+// <i>  Size of each memory blocks identified as 'large' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_LARGE_BLOCK_SIZE
+#define MEMORY_MANAGER_LARGE_BLOCK_SIZE 256
+#endif
+
+// <o> MEMORY_MANAGER_XLARGE_BLOCK_COUNT - Size of each memory blocks identified as 'extra large' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_XLARGE_BLOCK_COUNT
+#define MEMORY_MANAGER_XLARGE_BLOCK_COUNT 1
+#endif
+
+// <o> MEMORY_MANAGER_XLARGE_BLOCK_SIZE -  Size of each memory blocks identified as 'extra large' block. 
+// <i>  Size of each memory blocks identified as 'extra large' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_XLARGE_BLOCK_SIZE
+#define MEMORY_MANAGER_XLARGE_BLOCK_SIZE 1320
+#endif
+
+// <o> MEMORY_MANAGER_XXLARGE_BLOCK_COUNT - Size of each memory blocks identified as 'extra extra large' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_XXLARGE_BLOCK_COUNT
+#define MEMORY_MANAGER_XXLARGE_BLOCK_COUNT 0
+#endif
+
+// <o> MEMORY_MANAGER_XXLARGE_BLOCK_SIZE -  Size of each memory blocks identified as 'extra extra large' block. 
+// <i>  Size of each memory blocks identified as 'extra extra large' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_XXLARGE_BLOCK_SIZE
+#define MEMORY_MANAGER_XXLARGE_BLOCK_SIZE 3444
+#endif
+
+// <o> MEMORY_MANAGER_XSMALL_BLOCK_COUNT - Size of each memory blocks identified as 'extra small' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_XSMALL_BLOCK_COUNT
+#define MEMORY_MANAGER_XSMALL_BLOCK_COUNT 0
+#endif
+
+// <o> MEMORY_MANAGER_XSMALL_BLOCK_SIZE -  Size of each memory blocks identified as 'extra small' block. 
+// <i>  Size of each memory blocks identified as 'extra large' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_XSMALL_BLOCK_SIZE
+#define MEMORY_MANAGER_XSMALL_BLOCK_SIZE 64
+#endif
+
+// <o> MEMORY_MANAGER_XXSMALL_BLOCK_COUNT - Size of each memory blocks identified as 'extra extra small' block.  <0-255> 
+
+
+#ifndef MEMORY_MANAGER_XXSMALL_BLOCK_COUNT
+#define MEMORY_MANAGER_XXSMALL_BLOCK_COUNT 0
+#endif
+
+// <o> MEMORY_MANAGER_XXSMALL_BLOCK_SIZE -  Size of each memory blocks identified as 'extra extra small' block. 
+// <i>  Size of each memory blocks identified as 'extra extra small' block. Memory block are recommended to be word-sized.
+
+#ifndef MEMORY_MANAGER_XXSMALL_BLOCK_SIZE
+#define MEMORY_MANAGER_XXSMALL_BLOCK_SIZE 32
+#endif
+
+// <e> MEM_MANAGER_CONFIG_LOG_ENABLED - Enables logging in the module.
+//==========================================================
+#ifndef MEM_MANAGER_CONFIG_LOG_ENABLED
+#define MEM_MANAGER_CONFIG_LOG_ENABLED 0
+#endif
+// <o> MEM_MANAGER_CONFIG_LOG_LEVEL  - Default Severity level
+ 
+// <0=> Off 
+// <1=> Error 
+// <2=> Warning 
+// <3=> Info 
+// <4=> Debug 
+
+#ifndef MEM_MANAGER_CONFIG_LOG_LEVEL
+#define MEM_MANAGER_CONFIG_LOG_LEVEL 3
+#endif
+
+// <o> MEM_MANAGER_CONFIG_INFO_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef MEM_MANAGER_CONFIG_INFO_COLOR
+#define MEM_MANAGER_CONFIG_INFO_COLOR 0
+#endif
+
+// <o> MEM_MANAGER_CONFIG_DEBUG_COLOR  - ANSI escape code prefix.
+ 
+// <0=> Default 
+// <1=> Black 
+// <2=> Red 
+// <3=> Green 
+// <4=> Yellow 
+// <5=> Blue 
+// <6=> Magenta 
+// <7=> Cyan 
+// <8=> White 
+
+#ifndef MEM_MANAGER_CONFIG_DEBUG_COLOR
+#define MEM_MANAGER_CONFIG_DEBUG_COLOR 0
+#endif
+
+// </e>
+
+// <q> MEM_MANAGER_DISABLE_API_PARAM_CHECK  - Disable API parameter checks in the module.
+ 
+
+#ifndef MEM_MANAGER_DISABLE_API_PARAM_CHECK
+#define MEM_MANAGER_DISABLE_API_PARAM_CHECK 0
+#endif
+
+// </e>
 
 // <e> XINC_BALLOC_ENABLED - xinc_balloc - Block allocator module
 //==========================================================

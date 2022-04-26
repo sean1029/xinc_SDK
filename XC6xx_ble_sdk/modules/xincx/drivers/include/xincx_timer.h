@@ -159,6 +159,8 @@ void xincx_timer_compare(xincx_timer_t const * const p_instance,
                         uint32_t                   cc_value,
                         xinc_timer_mode_t                       mode,bool enable);
 
+uint32_t xincx_timer_cnt_get(xincx_timer_t const * const p_instance);
+
 /**
  * @brief Function for converting time in microseconds to timer ticks.
  *

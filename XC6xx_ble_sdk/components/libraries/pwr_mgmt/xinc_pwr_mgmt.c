@@ -128,7 +128,108 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
     #define PWR_MGMT_FPU_SLEEP_PREPARE()
 #endif // XINC_PWR_MGMT_CONFIG_FPU_SUPPORT_ENABLED
 
+#if !XINC_MODULE_ENABLED(XINC_BLE_STACK) 
 
+#if defined XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+#undef XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+#define  XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED 0
+#endif
+#else
+
+#if XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+
+#if defined XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+#undef XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+#define  XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED 1
+#endif
+
+#endif //XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+
+#endif //XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+
+#if XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+    #undef  PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
+    #define PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
+
+    #undef  PWR_MGMT_TIMER_REQUIRED
+    #define PWR_MGMT_TIMER_REQUIRED
+    #include "app_timer.h"
+
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_INIT()    pwr_mgmt_cpu_sleep_monitor_init()
+
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_ENTER(sleep)  pwr_mgmt_cpu_sleep_monitor_enter(sleep)
+         
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_EXIT()   pwr_mgmt_cpu_sleep_monitor_exit()                     \
+  
+    __STATIC_INLINE void pwr_mgmt_cpu_sleep_monitor_init(void)
+    {
+
+        XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
+        XINC_CPR_CTL_Type   * p_reg = XINC_CPR;
+        
+        p_regAO->SYS_TIME = 0x07 << 12 | 47;
+        
+        p_regAO->SLP_CTL = 0x00;    
+
+        p_regAO->SLPCTL_INT_MASK = 0;
+        
+        p_regAO->SLP_PD_MASK = CPR_AO_SLP_PD_MASK_RAM_SLP_PD_MASK_Msk |  CPR_AO_SLP_PD_MASK_SYS_SLP_PMU_PD_MASK_Msk;	
+        
+     // __write_hw_reg32(CPR_SLP_SRC_MASK, 0x60006);
+        p_reg->SLP_SRC_MASK = 0x60006;
+        
+//        p_regAO->VDD_SWITCH_EN  &=0x0F;//ROM 断电
+//        
+//        p_regAO->VDD_ISO_EN     |=0x10;   
+//        
+//        p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
+        
+        
+  //      p_regAO->VDD_ISO_EN     |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
+   //             *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
+   
+   
+
+
+//        
+
+ 
+        SCB->SCR |= SCB_SCR_SEVONPEND_Msk;
+    }
+    
+    __STATIC_INLINE void pwr_mgmt_cpu_sleep_monitor_enter(uint8_t sleep)
+    {
+        if(sleep)
+        {
+#if !XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
+            xinc_delay_us(160);
+#endif            
+            __NOP();
+               
+            __NOP();							
+            __NOP(); 
+            __WFI();							
+            __NOP();							
+            __NOP();							
+            __NOP(); 
+
+        }
+    }
+
+    __STATIC_INLINE void pwr_mgmt_cpu_sleep_monitor_exit(void)
+    {
+     
+ 
+    }
+
+#else
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_INIT()
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_UPDATE()
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_ENTER()
+    #define PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_EXIT()
+#endif // XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+
+    
 #define     RST_READY_TIME          	0x07        //- 
 #define     OSC32_STABLE_TIME       	47//  2ms:47   6ms  180     
 #define     WAIT_BLE_EXIT_LOWPWR_TIME   10 
@@ -136,40 +237,38 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 
 #if XINC_MODULE_ENABLED(XINC_BLE_STACK)  
 
-#if XINC_PWR_MGMT_CONFIG_BLE_STACK_ENABLED
+#if XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED
+#if XINC_PWR_MGMT_CONFIG_BLE_STACK_SLEEP_ENABLED
 
     #undef  PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
     #define PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
     
  
-    #define PWR_MGMT_BLE_STACK_MONITOR_INIT()    pwr_mgmt_ble_stack_monitor_init()
-    #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()  pwr_mgmt_ble_stack_monitor_update()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT()    pwr_mgmt_ble_stack_sleep_monitor_init()
 
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER() pwr_mgmt_ble_stack_monitor_enter()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_ENTER() pwr_mgmt_ble_stack_sleep_monitor_enter()
 
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT()  pwr_mgmt_ble_stack_monitor_exit()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_EXIT()  pwr_mgmt_ble_stack_sleep_monitor_exit()
           
-    static uint32_t m_ble_sleeping;    /**< Number of ticks spent in sleep mode (__WFI()). */
-    static uint32_t m_ble_timer_last;        /**< Number of ticks from the last BLE usage. */
     static uint32_t m_ble_sleep_flag;    /**< Number of ticks spent in sleep mode (__WFI()). */
     static uint32_t remain_timer;
         
 
-    __STATIC_INLINE void pwr_mgmt_ble_stack_monitor_init(void)
+    __STATIC_INLINE void pwr_mgmt_ble_stack_sleep_monitor_init(void)
     {
         XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
-        m_ble_sleeping      = 0;
-        m_ble_timer_last    = 0;
+        
+        *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x0f;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
+        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x10;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
+        
         m_ble_sleep_flag    = 0;
         
-        p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
-        
-        p_regAO->VDD_ISO_EN     |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
     }
     
-    __STATIC_INLINE uint32_t pwr_mgmt_ble_stack_monitor_enter(void)
+    __STATIC_INLINE uint32_t pwr_mgmt_ble_stack_sleep_monitor_enter(void)
     {
-        
+            XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
+         //   printf("stack_monitor_enter\r\n"); 
             remain_timer = ble_lowpower_remaining_clock(0); 
             uint32_t VAL1 = *(((volatile unsigned *)(0x40003000 + 0x0C )));
             if((remain_timer <= PRE_WAKEUP_TIME))                                
@@ -185,7 +284,7 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
                         remain_timer = timer_current_count(0);  
                         if(remain_timer != 0xFFFFFFFF) break;	    
                     } while(1);         
-                 }           
+                }           
                                                 
                 if(remain_timer <= PRE_WAKEUP_TIME) 
                 {           
@@ -195,140 +294,61 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
                 {               
                     m_ble_sleep_flag = 1; 
                 } 
-            } 
-            if(m_ble_sleep_flag == 1)
-            {
-                remain_timer = remain_timer - PRE_WAKEUP_TIME;      
-                Init_Timer(1, remain_timer); 
-                ble_enter_lowpower();
-                
-                        //xc_rf_ldo_off();                                               //close rf_ldo
-        *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
-        *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
-        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
-        //*((volatile unsigned *)(CPR_AO_BASE + 0x20))  =0x2C;  
-     //   *((volatile unsigned *)(CPR_AO_BASE + 0x3C))  =0xF; 
-//        __NOP();							
-//		__NOP();							
-//		__NOP(); 
-//		__WFI();							
-//		__NOP();							
-//		__NOP();							
-//		__NOP();                 
             }
             
-            return m_ble_sleep_flag;
+            if(m_ble_sleep_flag == 1)
+            {
+                remain_timer = remain_timer - PRE_WAKEUP_TIME; 
+
+                Init_Timer(1, remain_timer); 
+                ble_enter_lowpower();
+
+                p_regAO->SLP_PD_MASK = CPR_AO_SLP_PD_MASK_RAM_SLP_PD_MASK_Msk |  CPR_AO_SLP_PD_MASK_SYS_SLP_PMU_PD_MASK_Msk;	    
+
+                //xc_rf_ldo_off();                                               //close rf_ldo
+                *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
+                *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
+                *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
+
+            }
+            
+        return m_ble_sleep_flag;
     
     }
     
-    __STATIC_INLINE void pwr_mgmt_ble_stack_monitor_exit(void)
+    __STATIC_INLINE void pwr_mgmt_ble_stack_sleep_monitor_exit(void)
     {
         if(m_ble_sleep_flag == 1)
-        {
-           //   ble_exit_lowpower(remain_timer);
-            
-                    *((volatile unsigned *)(CPR_AO_BASE + 0x40)) |=0x1;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
-        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) &=0x1E;            //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
-        *((volatile unsigned *)(CPR_AO_BASE + 0x50)) |=0x1;             //open rf digital ˖֯ߪژRF؜ߪژ
-        //xc_rf_ldo_on();      //open rf_ldo    
-
-//                void SysTick_set(uint32_t sys_tick);   
-//                SysTick_set(SysTick_get() + ((remain_timer >> 5) / 10));
+        {           
+            *((volatile unsigned *)(CPR_AO_BASE + 0x40)) |=0x1;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
+            *((volatile unsigned *)(CPR_AO_BASE + 0x44)) &=0x1E;            //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
+            *((volatile unsigned *)(CPR_AO_BASE + 0x50)) |=0x1;             //open rf digital ˖֯ߪژRF؜ߪژ
+            //xc_rf_ldo_on();      //open rf_ldo    
             ble_exit_lowpower(remain_timer);
         }
     
     }
 
-    __STATIC_INLINE void pwr_mgmt_ble_stack_monitor_update(void)
-    {
-        uint32_t delta;
-        uint32_t ticks;
-        uint8_t  cpu_usage;
-
-  
-    }
 #else
-    #define PWR_MGMT_BLE_STACK_MONITOR_INIT()
-    #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER()    0
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_ENTER()    0
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_EXIT()
 #endif // XINC_PWR_MGMT_CONFIG_BLE_STACK_MONITOR_ENABLED
     
 #else
-    #define PWR_MGMT_BLE_STACK_MONITOR_INIT()
-    #define PWR_MGMT_BLE_STACK_MONITOR_UPDATE()
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER()    1
-    #define PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT()
-    
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_ENTER()    0
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_EXIT()
+ 
+#endif // XINC_PWR_MGMT_CONFIG_CPU_SLEEP_MONITOR_ENABLED 
+
+#else
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT()
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_ENTER()    1
+    #define PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_EXIT()
 #endif //XINC_BLE_STACKENABLED
     
     
-
-
-#if XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED
-    #undef  PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
-    #define PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
-
-    #undef  PWR_MGMT_TIMER_REQUIRED
-    #define PWR_MGMT_TIMER_REQUIRED
-    #include "app_timer.h"
-
-    #define PWR_MGMT_CPU_USAGE_MONITOR_INIT()    pwr_mgmt_cpu_usage_monitor_init()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_UPDATE()  pwr_mgmt_cpu_usage_monitor_update()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SUMMARY() XINC_LOG_INFO("Maximum CPU usage: %u%%", \
-                                                              m_max_cpu_usage)
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SECTION_ENTER()  \
-        {                                               \
-            uint32_t sleep_start = app_timer_cnt_get(); \
-           /* printf("sleep_start :%d\r\n", sleep_start);  */    
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SECTION_EXIT()                       \
-            uint32_t sleep_end = app_timer_cnt_get();                       \
-            uint32_t sleep_duration;                                        \
-            sleep_duration = app_timer_cnt_diff_compute(sleep_end,          \
-                                                       sleep_start);        \
-            m_ticks_sleeping += sleep_duration;                             \
-            /*printf("sleep_end :%d,sleep_duration:%d\r\n", sleep_end,sleep_duration); */\
-        }
-
-    static uint32_t m_ticks_sleeping;    /**< Number of ticks spent in sleep mode (__WFE()). */
-    static uint32_t m_ticks_last;        /**< Number of ticks from the last CPU usage computation. */
-    static uint8_t  m_max_cpu_usage;     /**< Maximum observed CPU usage (0 - 100%). */
-
-    __STATIC_INLINE void pwr_mgmt_cpu_usage_monitor_init(void)
-    {
-        m_ticks_sleeping    = 0;
-        m_ticks_last        = 0;
-        m_max_cpu_usage     = 0;
-    }
-
-    __STATIC_INLINE void pwr_mgmt_cpu_usage_monitor_update(void)
-    {
-        uint32_t delta;
-        uint32_t ticks;
-        uint8_t  cpu_usage;
-
-        ticks = app_timer_cnt_get();
-        delta = app_timer_cnt_diff_compute(ticks, m_ticks_last);
-        cpu_usage = 100 * (delta - m_ticks_sleeping) / delta;
-
-        XINC_LOG_INFO("CPU Usage: %u%%", cpu_usage);
-        printf("cpu_usage_monitor_update ticks: %d,delta:%d\r\n", ticks,delta);
-        if (m_max_cpu_usage < cpu_usage)
-        {
-            m_max_cpu_usage = cpu_usage;
-        }
-
-        m_ticks_last        = ticks;
-        m_ticks_sleeping    = 0;
-    }
-
-#else
-    #define PWR_MGMT_CPU_USAGE_MONITOR_INIT()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_UPDATE()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SUMMARY()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SECTION_ENTER()
-    #define PWR_MGMT_CPU_USAGE_MONITOR_SECTION_EXIT()
-#endif // XINC_PWR_MGMT_CONFIG_CPU_USAGE_MONITOR_ENABLED
 
 
 #if XINC_PWR_MGMT_CONFIG_STANDBY_TIMEOUT_ENABLED
@@ -387,56 +407,10 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
 
 
 #ifdef PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
-    #define PWR_MGMT_SLEEP_INIT()           pwr_mgmt_sleep_init()
     #define PWR_MGMT_SLEEP_LOCK_ACQUIRE()   CRITICAL_REGION_ENTER()
     #define PWR_MGMT_SLEEP_LOCK_RELEASE()   CRITICAL_REGION_EXIT()
 
-    __STATIC_INLINE void pwr_mgmt_sleep_init(void)
-    {
-        
-        XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
-        XINC_CPR_CTL_Type   * p_reg = XINC_CPR;
-        
-       // __write_hw_reg32(CPR_SYS_TIME, ((RST_READY_TIME<<12) | OSC32_STABLE_TIME)); 
-        p_regAO->SYS_TIME = 0x07 << 12 | 47;
-        
-
-      
-      
-      //__write_hw_reg32(CPR_SLP_CTL, 0x00);
-        p_regAO->SLP_CTL = 0x00;        
-        
-     // __write_hw_reg32(CPR_SLPCTL_INT_MASK, 0xFFFFFfAF); 
-        p_regAO->SLPCTL_INT_MASK = 0;
-        
-        p_regAO->SLPCTL_INT_MASK &= ~((1 << TIMER1_IRQn) | (1 << KBS_IRQn)  | (1 << GPIO_IRQn) | (1 << RTC_IRQn) );
-
-        //  __write_hw_reg32(CPR_SLP_PD_MASK,0x181);  
-        p_regAO->SLP_PD_MASK = CPR_AO_SLP_PD_MASK_RAM_SLP_PD_MASK_Msk |  CPR_AO_SLP_PD_MASK_SYS_SLP_PMU_PD_MASK_Msk;	
-        
-     // __write_hw_reg32(CPR_SLP_SRC_MASK, 0x60006);
-        p_reg->SLP_SRC_MASK = 0x60006;
-        
-        p_regAO->VDD_SWITCH_EN  &=0x0F;//ROM 断电
-        
-        p_regAO->VDD_ISO_EN     |=0x10;   
-        
-                p_regAO->VDD_SWITCH_EN   &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM??
-        
-        
-        p_regAO->VDD_ISO_EN     |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM????
-                *((volatile unsigned *)(CPR_AO_BASE + 0x50)) &=0xFFFFFFFE;       //close rf digital ˖֯ߪژRF؜ߪژ  
-        *((volatile unsigned *)(CPR_AO_BASE + 0x40)) &=0x1E;             //cpr_ao_vdd_switch_en BT_MODEM׏֧
-        *((volatile unsigned *)(CPR_AO_BASE + 0x44)) |=0x01;             //cpr_ao_vdd_iso_en    BT_MODEM׏֧ٴk
-
-        
-
- 
-      //  SCB->SCR |= SCB_SCR_SEVONPEND_Msk;
-    }
-
 #else
-    #define PWR_MGMT_SLEEP_INIT()
     #define PWR_MGMT_SLEEP_LOCK_ACQUIRE()
     #define PWR_MGMT_SLEEP_LOCK_RELEASE()
 #endif // PWR_MGMT_SLEEP_IN_CRITICAL_SECTION_REQUIRED
@@ -452,9 +426,8 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
      */
     static void xinc_pwr_mgmt_timeout_handler(void * p_context)
     {
-        printf("xinc_pwr_mgmt_timeout_handler\r\n");
-        PWR_MGMT_CPU_USAGE_MONITOR_UPDATE();
-        //PWR_MGMT_AUTO_SHUTDOWN_RETRY();
+       // printf("xinc_pwr_mgmt_timeout_handler\r\n");
+        PWR_MGMT_AUTO_SHUTDOWN_RETRY();
         PWR_MGMT_STANDBY_TIMEOUT_CHECK();
     }
 
@@ -467,8 +440,8 @@ static xinc_section_iter_t   m_handlers_iter;    /**< Shutdown handlers iterator
         {
             return ret_code;
         }
-
-        return 0;//app_timer_start(m_pwr_mgmt_timer, APP_TIMER_TICKS(1000), NULL);
+        printf("pwr_mgmt_timer_create \r\n");
+        return app_timer_start(m_pwr_mgmt_timer, APP_TIMER_TICKS(5000), NULL);
     }
 #else
     #define PWR_MGMT_TIMER_CREATE() XINC_SUCCESS
@@ -486,22 +459,11 @@ void PWR_gpio_sleep_config(void)
        
         if(is_set)
         {
-          //  printf("pin:%d is use:%s\r\n",i,is_set ? "true" : "false");
-//           
-//            gpio_mux_ctl(i,0);
-//            gpio_fun_sel(i,0);
-//            gpio_direction_input(i,1);
-//                             
+                             
         }
-         if(i >=0 &&  i<= 1)
+        if(i >=0 &&  i<= 1)
         {
-//            gpio_mux_ctl(i,0);
-//            gpio_fun_sel(i,0);
-//            gpio_direction_input(i,1);
-         //   xinc_gpio_cfg_input(i,io_cfg);
-            //            gpio_mux_ctl(i,0);
-//            gpio_fun_sel(i,0);
-//            gpio_direction_input(i,1);
+
         }
         if(i >=2 &&  i<= 3)
         {
@@ -514,7 +476,7 @@ void PWR_gpio_sleep_config(void)
         
         if(i >=18 &&  i<= 19)
         {
-               xinc_gpio_cfg_input(i,io_cfg);
+             //  xinc_gpio_cfg_input(i,io_cfg);
         }
 
 	}
@@ -527,13 +489,12 @@ ret_code_t xinc_pwr_mgmt_init(void)
     m_shutdown_started = false;
     xinc_mtx_init(&m_sysoff_mtx);
     xinc_section_iter_init(&m_handlers_iter, &pwr_mgmt_data);
-    
-    PWR_MGMT_SLEEP_INIT();
-//    PWR_MGMT_DEBUG_PINS_INIT();
+    printf("section_iter_init \r\n");
+    printf("SLEEP_INIT \r\n");
     PWR_MGMT_STANDBY_TIMEOUT_INIT();
-    PWR_MGMT_CPU_USAGE_MONITOR_INIT();
-    PWR_MGMT_BLE_STACK_MONITOR_INIT();
-
+    PWR_MGMT_CPU_SLEEP_MONITOR_INIT();
+    PWR_MGMT_BLE_STACK_SLEEP_MONITOR_INIT();
+    PWR_gpio_sleep_config();
     return PWR_MGMT_TIMER_CREATE();
 }
 
@@ -545,24 +506,14 @@ void xinc_pwr_mgmt_run(void)
     uint32_t ble_sleep;
     PWR_MGMT_FPU_SLEEP_PREPARE();
     PWR_MGMT_SLEEP_LOCK_ACQUIRE();
-    PWR_MGMT_CPU_USAGE_MONITOR_SECTION_ENTER();
-    ble_sleep = PWR_MGMT_BLE_STACK_MONITOR_SECTION_ENTER();
- //   PWR_MGMT_DEBUG_PIN_SET();
-    PWR_gpio_sleep_config();
-    if(ble_sleep)
-    {
-        __NOP();							
-		__NOP();							
-		__NOP(); 
-		__WFI();							
-		__NOP();							
-		__NOP();							
-		__NOP(); 
-    }
+    
+    ble_sleep = PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_ENTER();
+    PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_ENTER(ble_sleep);
+  //  PWR_gpio_sleep_config();
 
-  //  PWR_MGMT_DEBUG_PIN_CLEAR();
-    PWR_MGMT_BLE_STACK_MONITOR_SECTION_EXIT();
-    PWR_MGMT_CPU_USAGE_MONITOR_SECTION_EXIT(); 
+    PWR_MGMT_CPU_SLEEP_MONITOR_SECTION_EXIT();
+    PWR_MGMT_BLE_STACK_SLEEP_MONITOR_SECTION_EXIT();
+
     PWR_MGMT_SLEEP_LOCK_RELEASE();
 }
 
@@ -580,6 +531,18 @@ static void shutdown_process(void)
     XINC_LOG_INFO("Shutdown started. Type %d", m_pwr_mgmt_evt);
     printf("Shutdown started. Type %d\r\n", m_pwr_mgmt_evt);
     {
+        XINC_CPR_AO_CTL_Type * p_regAO = XINC_CPR_AO;
+        p_regAO->SLP_CTL = 0x00;  
+        p_regAO->SLP_PD_MASK = 0X00;
+         __NOP();
+               
+        __NOP();							
+        __NOP(); 
+        __WFI();							
+        __NOP();							
+        __NOP();							
+        __NOP(); 
+
         while(1);
     }
     // Executing all callbacks.
@@ -604,7 +567,6 @@ static void shutdown_process(void)
         }
     }
 
-    PWR_MGMT_CPU_USAGE_MONITOR_SUMMARY();
     XINC_LOG_INFO("Shutdown complete.");
     XINC_LOG_FINAL_FLUSH();
 
@@ -616,7 +578,7 @@ static void shutdown_process(void)
     else
     {
         // Enter System OFF.
-        xinc_power_system_off();
+      //  xinc_power_system_off();
     }
 }
 

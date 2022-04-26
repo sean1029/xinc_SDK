@@ -289,6 +289,7 @@ __STATIC_INLINE void xinc_timer_mode_set(XINC_TIMER_Type * p_reg,
 {
     p_reg->TCR = (p_reg->TCR & ~TIMERx_TCR_TMS_Msk) |
                         ((mode << TIMERx_TCR_TMS_Pos) & TIMERx_TCR_TMS_Msk);
+    
 }
 
 __STATIC_INLINE xinc_timer_mode_t xinc_timer_mode_get(XINC_TIMER_Type * p_reg)
@@ -347,12 +348,11 @@ __STATIC_INLINE void xinc_timer_cc_write(XINC_TIMER_Type * p_reg,
                                         uint32_t               cc_value)
 {
     p_reg->TLC = cc_value;
-    printf("%s,p_reg->TLC:%d,ticks=[%d],\n",__FUNCTION__ ,p_reg->TLC,cc_value);
 }
 
 __STATIC_INLINE uint32_t xinc_timer_cc_read(XINC_TIMER_Type * p_reg )
 {
-	return p_reg->TLC;
+	return p_reg->TCV;
 }
 
 
@@ -438,7 +438,7 @@ __STATIC_INLINE uint32_t xinc_timer_ms_to_ticks(uint32_t              time_ms,
     
     if(ticks < TIMERx_MIN_TICKS) ticks = TIMERx_MIN_TICKS;
 
-    printf("%s,frequency:0x%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
+ //   printf("%s,frequency:0x%x,clk_src:%d,time_ms:%d,ticks=[%d],presc=[%d]\n",__FUNCTION__ ,frequency,clk_src,time_ms,ticks ,prescaler);
     XINCX_ASSERT(ticks <= UINT32_MAX);
     return (uint32_t)ticks;
 }

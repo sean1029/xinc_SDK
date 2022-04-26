@@ -37,6 +37,7 @@
 #include "xinc_pwr_mgmt.h"
 #include "xinc_log_ctrl.h"
  #include "xinc_spi_flash.h"
+ #include "xinc_drv_timer.h"
 #define SDK_WITH_BLE_STACK  XINC_BLE_STACK_ENABLED
 uint8_t flag_show_hci = 0;
 
@@ -129,6 +130,8 @@ hci_con_handle_t connection_handle ;
 static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size){
 	
     if (packet_type != HCI_EVENT_PACKET) return;
+    
+   
     switch(hci_event_packet_get_type(packet))
     {
     case BTSTACK_EVENT_STATE:
@@ -137,8 +140,10 @@ static void packet_handler (uint8_t packet_type, uint16_t channel, uint8_t *pack
         break;
         
     case HCI_EVENT_LE_META:
+         printf("HCI_EVENT_LE_META ");
         switch (hci_event_le_meta_get_subevent_code(packet)) 
         {
+            printf("le_meta_get_subevent_code:0x%x\n",hci_event_le_meta_get_subevent_code(packet));
         case HCI_SUBEVENT_LE_CONNECTION_COMPLETE: {
                 connection_handle = hci_subevent_le_connection_complete_get_connection_handle(packet);
                 printf("\n CONNECT RIGHT ! (HANDLE = 0x%x)\n", connection_handle);
@@ -310,7 +315,7 @@ static void power_management_init(void)
 {
     ret_code_t err_code = XINC_SUCCESS;
     err_code = xinc_pwr_mgmt_init();
-    
+    printf("xinc_pwr_mgmt_init err_code:0x%x\r\n",err_code);
         
   //  xinc_drv_power_init(NULL);
     APP_ERROR_CHECK(err_code);
@@ -337,7 +342,48 @@ static void scheduler_init(void)
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
 
+uint32_t timer_evt_cnt = 0;
+const xinc_drv_timer_t TIMER_TEST = XINC_DRV_TIMER_INSTANCE(2);
 
+void timer_TEST_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
+{
+
+    printf("timer,cnt:%d\n",timer_evt_cnt++);
+// printf("timer_TEST_event_handler event_type:[%d],channel:%d,cnt:%d\n",event_type,channel,timer_evt_cnt++);
+    switch (event_type)
+    {
+        case XINC_TIMER_EVENT_TIMEOUT:
+        {				
+         //  bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
+        }break;
+
+		default:
+            //Do nothing.
+            break;
+    }
+}
+
+
+void timer_test()
+{
+    ret_code_t err_code;
+
+    
+    uint32_t time_ms = 5000; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ticks;
+    xinc_drv_timer_config_t timer_TEST_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;
+
+   
+
+    err_code = xinc_drv_timer_init(&TIMER_TEST, &timer_TEST_cfg, timer_TEST_event_handler);
+    printf("drv_timer_init err_code:%x\r\n",err_code);
+     time_ticks = xinc_drv_timer_ms_to_ticks(&TIMER_TEST, time_ms);
+    printf("time_ticks:%d\r\n",time_ticks);
+    
+    
+
+    xinc_drv_timer_compare(&TIMER_TEST, time_ticks, XINC_TIMER_MODE_USER_COUNTER,true);
+}
 
 /**@brief Function for handling bsp events.
  */
@@ -399,7 +445,7 @@ void kbs_mtxkey_bsp_test()
 {
     ret_code_t err_code = 0;
     
-    bsp_board_init(BSP_INIT_LEDS);
+   // bsp_board_init(BSP_INIT_LEDS);
     
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
@@ -421,7 +467,7 @@ void kbs_mtxkey_bsp_test()
     
 
 //    
-//    err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
+   // err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
     err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
     
 
@@ -533,33 +579,90 @@ static void system_run_timer_handler(btstack_timer_source_t * ts){
  //  btstack_run_loop_add_timer(ts);
 
 }
+APP_TIMER_DEF(m_test_tmr);
+
+APP_TIMER_DEF(m_test1_tmr);
+
+APP_TIMER_DEF(m_test2_tmr);
+static void test_timer_handler(void * p_context)
+{
+   printf("test_timer_handler set:%d\n",(uint32_t)p_context);
+}
+
+static void test1_timer_handler(void * p_context)
+{
+   printf("test1_timer_handler set:%d\n",(uint32_t)p_context);
+}
+
+static void test2_timer_handler(void * p_context)
+{
+    printf("test2_timer_handler set:%d\n",(uint32_t)p_context);
+}
+
+
+
+void app_timer_test()
+{
+    uint32_t err_code;
+    err_code = app_timer_create(&m_test_tmr,
+                                        APP_TIMER_MODE_REPEATED,
+                                        test_timer_handler);
+    
+        err_code = app_timer_create(&m_test1_tmr,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        test1_timer_handler);
+    
+        err_code = app_timer_create(&m_test2_tmr,
+                                        APP_TIMER_MODE_SINGLE_SHOT,
+                                        test2_timer_handler);
+    
+    app_timer_start(m_test_tmr, APP_TIMER_TICKS(2000), (uint32_t *)APP_TIMER_TICKS(25));
+    
+  //  app_timer_start(m_test1_tmr, APP_TIMER_TICKS(200), (uint32_t *)APP_TIMER_TICKS(200));
+    
+   // app_timer_start(m_test2_tmr, APP_TIMER_TICKS(600), (uint32_t *)APP_TIMER_TICKS(600));
+
+}
+
 
 int	main(void)
 {
 
     key_init();
     xincx_gpio_init();
+    
+    xinc_mem_init();   
+	
+    scheduler_init();
+    app_timer_init();
+    
+
+     kbs_mtxkey_bsp_test();
     SysTick_Config(32000000/100);
     #if (SDK_WITH_BLE_STACK)
 	set_bd_addr();
     ble_init((void *)&blestack_init);
     #endif
-
+   
           
-    xinc_mem_init();   
-	
-    scheduler_init();
-    app_timer_init();
+    
    
     #if (SDK_WITH_BLE_STACK)
 	btstack_main();
     #endif
+        spim_flash_init();
     
+    uint32_t mid;
+    spim_flash_Read_MID((uint8_t *)&mid);
+    
+    printf("Read_MID:0x%x\n",mid);
+    
+    spim_flash_Enter_powerdown();
 
     #if (SDK_WITH_BLE_STACK)
     // setup advertisements
-    uint16_t adv_int_min = 0x0030;
-    uint16_t adv_int_max = 0x0030;
+    uint16_t adv_int_min = 50;//0x0100;
+    uint16_t adv_int_max = 50;//0x0100;
 
     bd_addr_t null_addr;
     memset(null_addr, 0, 6);
@@ -570,7 +673,7 @@ int	main(void)
     #endif
     
     
-    printf("SLPCTL_INT_MASK:%08x\r\n",XINC_CPR_AO->SLPCTL_INT_MASK);
+//    printf("SLPCTL_INT_MASK:%08x\r\n",XINC_CPR_AO->SLPCTL_INT_MASK);
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
     
@@ -579,24 +682,23 @@ int	main(void)
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
     #endif
-    spim_flash_init();
-    
-    uint32_t mid;
-    spim_flash_Read_MID((uint8_t *)&mid);
-    
-    printf("Read_MID:0x%x\n",mid);
-    
-    spim_flash_Enter_powerdown();
-   // kbs_mtxkey_drv_test();
-    kbs_mtxkey_bsp_test();
+
+//    kbs_mtxkey_drv_test();
+  //  
     
     
   //  xinc_delay_ms(20);
-   // ble_system_idle_init();
    power_management_init();
+   // ble_system_idle_init();
+  
+   printf("power_management_init\r\n");
      uint32_t cnt = 0;
+      uint32_t cnt1 = 0;
+   //  app_timer_test();
+   //  timer_test();
      
-     
+      uint32_t time_cnt_start = 0;
+      uint32_t time_cnt_stop = 0;
     while(1) {
 
        #if (SDK_WITH_BLE_STACK)
@@ -609,26 +711,45 @@ int	main(void)
 	   {	
            if(LastTimeGulSystickCount % 200 == 0)
            {
-               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);
+               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);            
            }           
 
 		   LastTimeGulSystickCount=GulSystickCount;
           
 			 
 	   }
-      
-       if((cnt % 4000 )== 0)
+    //   printf("Systick cnt1:%d\n",cnt1);
+       if((cnt % 2000 )== 0)
        {
           //  bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
-            printf("SystickCount:%d\n",GulSystickCount);
+           cnt1++;
+         //   printf("Systick cnt1:%d\n",cnt1);
+           if(cnt1 == 4)
+           {
+               // timer_test();
+           }
+           
+           if(cnt1 == 50)
+           {
+              //   xinc_drv_timer_disable(&TIMER_TEST);
+           }
+           
+          
+           
+          
+           
        }
+       //printf("SystickCount:%d\n",cnt);
        cnt++;
-       
+  // ble_system_idle1();
        idle_state_handle();
+
+      
 
 
     }
 }
+
 
 
 

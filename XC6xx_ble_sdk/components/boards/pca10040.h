@@ -19,8 +19,8 @@ extern "C" {
 #define LEDS_NUMBER    1
 
 #define LED_START      4
-#define LED_1          5
-#define LED_2          4
+#define LED_1          23
+#define LED_2          22
 #define LED_3          7
 #define LED_4          20
 #define LED_STOP       20
@@ -58,8 +58,8 @@ extern "C" {
 //#define BSP_BUTTON_3   BUTTON_4
 
 #define KBS_ROW_BUTTONS_NUMBER 2
-#define KBS_ROW_BUTTON_1       6
-#define KBS_ROW_BUTTON_2       7
+#define KBS_ROW_BUTTON_1       4
+#define KBS_ROW_BUTTON_2       5
 #define KBS_ROW_BUTTONS_LIST { KBS_ROW_BUTTON_1, KBS_ROW_BUTTON_2}
 
 #define BSP_KBS_ROW_BUTTON_1    KBS_ROW_BUTTON_1       

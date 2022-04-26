@@ -326,6 +326,8 @@ void timer_test()
 
     //Configure TIMER_LED for generating simple light effect - leds on board will invert his state one after the other.
     xinc_drv_timer_config_t timer_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;
+    
+    
     err_code = xinc_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
     APP_ERROR_CHECK(err_code);
 

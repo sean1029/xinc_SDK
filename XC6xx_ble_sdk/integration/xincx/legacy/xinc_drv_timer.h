@@ -61,6 +61,8 @@ typedef xincx_timer_config_t xinc_drv_timer_config_t;
 /** @brief Macro for forwarding the new implementation. */
 #define xinc_drv_timer_compare_int_disable        xincx_timer_compare_int_disable
 
+#define xinc_drv_timer_compare_cnt_get              xincx_timer_cnt_get 
+
 
 /** @} */
 
