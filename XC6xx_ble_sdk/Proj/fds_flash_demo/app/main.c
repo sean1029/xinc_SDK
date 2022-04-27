@@ -434,6 +434,7 @@ int	main(void)
 	btstack_main();
 #else 
     SysTick_Config(32000000/100);
+    SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
 #endif
     key_init();
 #if APP_BLE_FEATURE_ENABLED

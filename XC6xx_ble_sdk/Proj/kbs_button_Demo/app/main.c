@@ -1,22 +1,18 @@
 #include    <stdio.h>
 #include    <string.h>
-#include "btstack_run_loop.h"
 #include	"Includes.h"
-#include    "profile.h"
-#include    "ble.h"
-#include "hids_device.h"
+
+#define APP_BLE_FEATURE_ENABLED  XINCX_CHECK(XINC_BLE_STACK_ENABLED) 
+ 
 #include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
-#include    "bsp_spi_flash.h"
+#include  "bsp_spi_flash.h"
 #include "xinc_gpio.h"
 #include "bsp_uart.h"
 #include "xc_kbs_event.h"
-#include "le_device_db.h"
-
-
 #include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
@@ -36,14 +32,25 @@
 #include "mem_manager.h"
 #include "xinc_pwr_mgmt.h"
 #include "xinc_log_ctrl.h"
- #include "xinc_spi_flash.h"
- #include "xinc_drv_timer.h"
+#include "xinc_spi_flash.h"
+#include "xinc_drv_timer.h"
 
+#if (APP_BLE_FEATURE_ENABLED)
+#include "btstack_run_loop.h"
+#include    "profile.h"
+#include    "ble.h"
+#include "hids_device.h"
+#include "le_device_db.h"
+#endif
+
+
+#if (APP_BLE_FEATURE_ENABLED)
 uint8_t flag_show_hci = 0;
 
 
 void _HWradio_Go_To_Idle_State_Patch(void){
 }
+#endif
 
 extern uint32_t  GulSystickCount;
 uint32_t  LastTimeGulSystickCount=0xFF;
@@ -58,17 +65,20 @@ extern	void	gpio_fun_sel(uint8_t num,uint8_t sel);
 extern	void    gpio_direction_input(uint8_t num, uint8_t pull_up_type);
 extern  void    gpio_fun_inter(uint8_t num,uint8_t inter);
 extern	uint8_t gpio_input_val(uint8_t num);
+
+#if (APP_BLE_FEATURE_ENABLED)
 extern  void ble_system_idle_init(void);
 extern  void    ble_system_idle(void);
 
 extern  int btstack_main(void);
 extern 	void send_media_report(int mediacode1,int mediacode2);
+#endif
 
 static uint32_t min(uint32_t a, uint32_t b){
     return a < b ? a : b;
 }
 
-
+#if (APP_BLE_FEATURE_ENABLED)
 static int g_conn_stat = 0;
 static int app_get_connect_state(void)
 {
@@ -251,13 +261,14 @@ void set_bd_addr()
 }
 
 extern int key_value ;
+#endif
 
 void key_init(void)
 {
 	Init_gpio();
 
 }
-
+#if (APP_BLE_FEATURE_ENABLED)
 enum adv_type{
 	ADV_IND,
 	ADV_DIRECT_IND,
@@ -280,11 +291,11 @@ void send_power_on_adv(void)
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
     gap_advertisements_enable(1);
 }
-
+#endif 
 
 void stack_reset(void)
 {
-
+#if (APP_BLE_FEATURE_ENABLED)
 	bd_addr_t null_addr;   
 	btstack_main();
 
@@ -298,14 +309,15 @@ void stack_reset(void)
 	gap_scan_response_set_data(sizeof(scanresp_data), (uint8_t*) scanresp_data);
 	gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
 	gap_advertisements_enable(1);
-
+#endif
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 extern uint8_t con_flag;
 
 static btstack_timer_source_t sys_run_timer;
 
-
+#endif
 
 
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
@@ -316,48 +328,6 @@ static void scheduler_init(void)
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
 
-uint32_t timer_evt_cnt = 0;
-const xinc_drv_timer_t TIMER_TEST = XINC_DRV_TIMER_INSTANCE(2);
-
-void timer_TEST_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
-{
-
-    printf("timer,cnt:%d\n",timer_evt_cnt++);
-// printf("timer_TEST_event_handler event_type:[%d],channel:%d,cnt:%d\n",event_type,channel,timer_evt_cnt++);
-    switch (event_type)
-    {
-        case XINC_TIMER_EVENT_TIMEOUT:
-        {				
-         //  bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
-        }break;
-
-		default:
-            //Do nothing.
-            break;
-    }
-}
-
-
-void timer_test()
-{
-    ret_code_t err_code;
-
-    
-    uint32_t time_ms = 5000; //Time(in miliseconds) between consecutive compare events.
-    uint32_t time_ticks;
-    xinc_drv_timer_config_t timer_TEST_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;
-
-   
-
-    err_code = xinc_drv_timer_init(&TIMER_TEST, &timer_TEST_cfg, timer_TEST_event_handler);
-    printf("drv_timer_init err_code:%x\r\n",err_code);
-     time_ticks = xinc_drv_timer_ms_to_ticks(&TIMER_TEST, time_ms);
-    printf("time_ticks:%d\r\n",time_ticks);
-    
-    
-
-    xinc_drv_timer_compare(&TIMER_TEST, time_ticks, XINC_TIMER_MODE_USER_COUNTER,true);
-}
 
 /**@brief Function for handling bsp events.
  */
@@ -397,13 +367,13 @@ void bsp_evt_handler(bsp_event_t evt)
         
         case BSP_EVENT_KEY_0:
         {
-            printf("BSP_EVENT_KEY_0 Long push\r\n");
+            printf("BSP_EVENT_KEY_0 \r\n");
         } break;
         
         case BSP_EVENT_KEY_1:
         {
  
-            printf("BSP_EVENT_KEY_1 Long push\r\n");
+            printf("BSP_EVENT_KEY_1\r\n");
         } break;
         
         
@@ -423,27 +393,15 @@ void kbs_mtxkey_bsp_test()
     
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
     err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
-    
-        err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
+
+    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
     err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
-    
+
     err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
     err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
 
-        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
-    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
-       err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
     
-    
-            err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
-    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
-       err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
-    
-
-//    
     err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
-    err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
-    
 
   
     printf("xincx_kbs_init err_code:0x%x\n",err_code);
@@ -568,11 +526,17 @@ int	main(void)
     app_timer_init();
     
 
-
+#if (APP_BLE_FEATURE_ENABLED)
 	set_bd_addr();
     ble_init((void *)&blestack_init);
-      
-   
+    #else
+    SysTick_Config(32000000/100);
+    SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
+#endif
+    
+    kbs_mtxkey_bsp_test();
+    
+#if (APP_BLE_FEATURE_ENABLED)   
 	btstack_main();
 
     // setup advertisements
@@ -586,7 +550,7 @@ int	main(void)
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
     gap_advertisements_enable(1);
     
-     kbs_mtxkey_bsp_test();
+     
 //    printf("SLPCTL_INT_MASK:%08x\r\n",XINC_CPR_AO->SLPCTL_INT_MASK);
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
@@ -594,13 +558,13 @@ int	main(void)
     sys_run_timer.process = &system_run_timer_handler;
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
-
+#endif
 
     while(1) {
 
-
+#if (APP_BLE_FEATURE_ENABLED)
        ble_mainloop();
-   
+#endif   
        app_sched_execute();
 	   
 	   

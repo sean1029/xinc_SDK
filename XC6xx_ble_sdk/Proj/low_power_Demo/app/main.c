@@ -1,22 +1,19 @@
 #include    <stdio.h>
 #include    <string.h>
-#include "btstack_run_loop.h"
 #include	"Includes.h"
-#include    "profile.h"
-#include    "ble.h"
-#include "hids_device.h"
+
+#define APP_BLE_FEATURE_ENABLED  XINCX_CHECK(XINC_BLE_STACK_ENABLED) 
+
 #include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
 #include    "bsp_spi_flash.h"
+
 #include "xinc_gpio.h"
 #include "bsp_uart.h"
 #include "xc_kbs_event.h"
-#include "le_device_db.h"
-
-
 #include "xincx_gpio.h"
 #include "xinc_drv_spi.h"
 #include "AT24C02.h"
@@ -38,10 +35,18 @@
 #include "xinc_log_ctrl.h"
  #include "xinc_spi_flash.h"
  #include "xinc_drv_timer.h"
-#define SDK_WITH_BLE_STACK  XINC_BLE_STACK_ENABLED
+ 
+#if (APP_BLE_FEATURE_ENABLED)
+#include "btstack_run_loop.h"
+#include    "profile.h"
+#include    "ble.h"
+#include "hids_device.h"
+#include "le_device_db.h"
+#endif
+
 uint8_t flag_show_hci = 0;
 
-#if (SDK_WITH_BLE_STACK)
+#if (APP_BLE_FEATURE_ENABLED)
 void _HWradio_Go_To_Idle_State_Patch(void){
 }
 #endif
@@ -60,7 +65,7 @@ extern  void    gpio_fun_inter(uint8_t num,uint8_t inter);
 extern	uint8_t gpio_input_val(uint8_t num);
 extern  void ble_system_idle_init(void);
 extern  void    ble_system_idle(void);
-#if (SDK_WITH_BLE_STACK)
+#if (APP_BLE_FEATURE_ENABLED)
 extern  int btstack_main(void);
 extern 	void send_media_report(int mediacode1,int mediacode2);
 #endif
@@ -69,7 +74,7 @@ static uint32_t min(uint32_t a, uint32_t b){
     return a < b ? a : b;
 }
 
-
+#if (APP_BLE_FEATURE_ENABLED)
 static int g_conn_stat = 0;
 static int app_get_connect_state(void)
 {
@@ -250,6 +255,7 @@ void set_bd_addr()
     bd_addr[4]=0x31;
     bd_addr[5]=0x28;
 }
+#endif
 
 extern int key_value ;
 
@@ -266,7 +272,7 @@ enum adv_type{
 	ADV_NONCONN_IND,
 };
 
-#if (SDK_WITH_BLE_STACK)
+#if (APP_BLE_FEATURE_ENABLED)
 void send_power_on_adv(void)
 {
 	flag_show_hci =1;
@@ -285,12 +291,12 @@ void send_power_on_adv(void)
 
 void stack_reset(void)
 {
-    #if (SDK_WITH_BLE_STACK)
+    #if (APP_BLE_FEATURE_ENABLED)
 	bd_addr_t null_addr;   
 	btstack_main();
-    #endif
+  
 	voice_ring_buffer_init();
-    #if (SDK_WITH_BLE_STACK)
+
 	uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
     
@@ -302,10 +308,11 @@ void stack_reset(void)
     #endif
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 extern uint8_t con_flag;
 
 static btstack_timer_source_t sys_run_timer;
-
+#endif 
 
 
 
@@ -440,37 +447,22 @@ void bsp_evt_handler(bsp_event_t evt)
 }
 
 
-void kbs_mtxkey_bsp_test()
+void bsp_button_wake_up_test()
 {
     ret_code_t err_code = 0;
     
-   // bsp_board_init(BSP_INIT_LEDS);
-    
-    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
-    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
-    
-        err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
-    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
-    
-    err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
-    err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
+    bsp_board_init(BSP_INIT_LEDS);
 
-        err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
+    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
     err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
-       err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
-    
-    
-            err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
-    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
-       err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
-    
+    err_code = bsp_event_to_button_action_assign(0, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
 
-    
-    err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
+    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
+    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
+    err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
+
     err_code = bsp_init(BSP_INIT_BUTTONS,bsp_evt_handler);
     
-
-  
     printf("xincx_kbs_init err_code:0x%x\n",err_code);
     APP_ERROR_CHECK(err_code);
 }
@@ -611,29 +603,31 @@ int	main(void)
     scheduler_init();
     app_timer_init();
     
-
+    spim_flash_init();
+    
+    uint32_t mid;
+    spim_flash_Read_MID((uint8_t *)&mid);
+    
+    printf("Read_MID:0x%x\n",mid);
+    
+    spim_flash_Enter_powerdown();
    
-    SysTick_Config(32000000/100);
-    #if (SDK_WITH_BLE_STACK)
+    #if (APP_BLE_FEATURE_ENABLED)
 	set_bd_addr();
     ble_init((void *)&blestack_init);
+    #else
+    SysTick_Config(32000000/100);
+    SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
     #endif
    
-          
+    bsp_button_wake_up_test();      
     
-    #if (SDK_WITH_BLE_STACK)
+    #if (APP_BLE_FEATURE_ENABLED)
 	btstack_main();
     #endif
-//    spim_flash_init();
-//    
-//    uint32_t mid;
-//    spim_flash_Read_MID((uint8_t *)&mid);
-//    
-//    printf("Read_MID:0x%x\n",mid);
-//    
-//    spim_flash_Enter_powerdown();
 
-    #if (SDK_WITH_BLE_STACK)
+
+    #if (APP_BLE_FEATURE_ENABLED)
     // setup advertisements
     uint16_t adv_int_min = 50;//0x0100;
     uint16_t adv_int_max = 50;//0x0100;
@@ -647,18 +641,12 @@ int	main(void)
     #endif
     
     
-//    printf("SLPCTL_INT_MASK:%08x\r\n",XINC_CPR_AO->SLPCTL_INT_MASK);
-	con_flag = 1;
-	printf("sbc_init_msbc\n");
-    
-    #if (SDK_WITH_BLE_STACK)
+    #if (APP_BLE_FEATURE_ENABLED)
+    con_flag = 1;
     sys_run_timer.process = &system_run_timer_handler;
 	btstack_run_loop_set_timer(&sys_run_timer, 100);
 	btstack_run_loop_add_timer(&sys_run_timer);
     #endif
-
-
-    kbs_mtxkey_bsp_test();
 
 
     power_management_init();
@@ -667,7 +655,7 @@ int	main(void)
 
     while(1) {
 
-       #if (SDK_WITH_BLE_STACK)
+       #if (APP_BLE_FEATURE_ENABLED)
        ble_mainloop();
        #endif
        app_sched_execute();
