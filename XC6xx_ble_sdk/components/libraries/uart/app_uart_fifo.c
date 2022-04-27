@@ -50,8 +50,21 @@ static app_uart_event_handler_t   m_event_handler;            /**< Event handler
 
 #define TRX_BUFF_SIZE   APP_UART_DRIVER_BUFFSIZE
 
-__ALIGN(4) static uint8_t tx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
-__ALIGN(4) static uint8_t rx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
+#ifdef XC60XX_M0
+
+__ALIGN(4) static uint8_t __attribute__((section("DMA_BUFF"))) tx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
+
+__ALIGN(4) static uint8_t __attribute__((section("DMA_BUFF"))) rx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
+//__attribute__((section("DMA_BUFF")))
+#else
+
+__ALIGN(4) static uint8_t  tx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
+__ALIGN(4) static uint8_t  rx_buffer[XINCX_APP_UART_ENABLED_COUNT][TRX_BUFF_SIZE];
+
+#endif
+
+
+
 static uint16_t rx_buffsize = TRX_BUFF_SIZE;
 static bool m_rx_ovf;
 

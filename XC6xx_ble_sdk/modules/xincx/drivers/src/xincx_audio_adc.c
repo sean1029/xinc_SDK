@@ -90,9 +90,9 @@ static void xincx_audio_adc_clk_init(xincx_audio_adc_t const * const  p_instance
     
     uint32_t reg_val = p_cprAO->AUDIO_ADC_CTRL[0];
     
-    reg_val &= ~(CPR_AUDIO_ADC_CTRL0_PDVBIAS_Msk | CPR_AUDIO_ADC_CTRL0_PDSDMR_Msk |
-               CPR_AUDIO_ADC_CTRL0_PDPGAR_Msk  | CPR_AUDIO_ADC_CTRL0_PDMIC_Msk  |
-               CPR_AUDIO_ADC_CTRL0_PDBIAS_Msk) ; //-config electret mic (驻极体 mic)
+    reg_val &= ~(CPR_AO_AUDIO_ADC_CTRL0_PDVBIAS_Msk | CPR_AO_AUDIO_ADC_CTRL0_PDSDMR_Msk |
+               CPR_AO_AUDIO_ADC_CTRL0_PDPGAR_Msk  | CPR_AO_AUDIO_ADC_CTRL0_PDMIC_Msk  |
+               CPR_AO_AUDIO_ADC_CTRL0_PDBIAS_Msk) ; //-config electret mic (驻极体 mic)
     p_cprAO->AUDIO_ADC_CTRL[0] = reg_val;
     
     

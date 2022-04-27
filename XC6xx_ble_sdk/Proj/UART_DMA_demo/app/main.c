@@ -1,16 +1,16 @@
 #include    <stdio.h>
 #include    <string.h>
-#include "btstack_run_loop.h"
 #include	"Includes.h"
-#include    "profile.h"
-#include    "ble.h"
-#include "hids_device.h"
+
+#define APP_BLE_FEATURE_ENABLED  XINCX_CHECK(XINC_BLE_STACK_ENABLED) 
+
+
 #include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
 #include "bsp_timer.h"
 #include "bsp_pwm.h"
-#include    "bsp_spi_flash.h"
+#include  "bsp_spi_flash.h"
 #include "xinc_gpio.h"
 #include "bsp_uart.h"
 
@@ -31,11 +31,23 @@
 #include "xinc_delay.h"
 #include "xinc_spi_flash.h"
 #include "app_uart.h"
+
+#if (APP_BLE_FEATURE_ENABLED)
+#include "btstack_run_loop.h"
+#include    "profile.h"
+#include    "ble.h"
+#include "hids_device.h"
+#include "le_device_db.h"
+#endif
+
+#if (APP_BLE_FEATURE_ENABLED)
 uint8_t flag_show_hci = 0;
 
 
 void _HWradio_Go_To_Idle_State_Patch(void){
 }
+#endif
+
 extern uint32_t  GulSystickCount;
 uint32_t  LastTimeGulSystickCount=0xFF;
 
@@ -48,21 +60,27 @@ extern	void	gpio_fun_sel(uint8_t num,uint8_t sel);
 extern	void    gpio_direction_input(uint8_t num, uint8_t pull_up_type);
 extern  void    gpio_fun_inter(uint8_t num,uint8_t inter);
 extern	uint8_t gpio_input_val(uint8_t num);
+
+#if (APP_BLE_FEATURE_ENABLED)
 extern  void ble_system_idle_init(void);
 extern  void    ble_system_idle(void);
 extern  int btstack_main(void);
 extern 	void send_media_report(int mediacode1,int mediacode2);
+#endif
 
 static uint32_t min(uint32_t a, uint32_t b){
     return a < b ? a : b;
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 static int g_conn_stat = 0;
 static int app_get_connect_state(void)
 {
 	return g_conn_stat;
 }
+#endif
 
+#if (APP_BLE_FEATURE_ENABLED)
 // att_read_callback helpers
 static uint16_t att_read_callback_handle_blob(const uint8_t * blob, uint16_t blob_size, uint16_t offset, uint8_t * buffer, uint16_t buffer_size){
     if (buffer){
@@ -234,13 +252,15 @@ void set_bd_addr()
     bd_addr[5]=0x28;
 }
 extern int key_value ;
+#endif
+
 
 void key_init(void)
 {
 	Init_gpio();
 
 }
-
+#if (APP_BLE_FEATURE_ENABLED)
 enum adv_type{
 	ADV_IND,
 	ADV_DIRECT_IND,
@@ -263,9 +283,11 @@ void send_power_on_adv(void)
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
     gap_advertisements_enable(1);
 }
+#endif
 
 void stack_reset(void)
 {
+    #if (APP_BLE_FEATURE_ENABLED)
 	bd_addr_t null_addr;
 	btstack_main();
 	voice_ring_buffer_init();
@@ -276,15 +298,17 @@ void stack_reset(void)
 	gap_scan_response_set_data(sizeof(scanresp_data), (uint8_t*) scanresp_data);
 	gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
 	gap_advertisements_enable(1);
+    #endif
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 extern uint8_t con_flag;
 
 static btstack_timer_source_t sys_run_timer;
 
 #include "xc_kbs_event.h"
 #include "le_device_db.h"
-
+#endif
 
 
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
@@ -468,18 +492,25 @@ void uart_handler_test(void)
 int	main(void)
 {
 
-
+    key_init();
+    xincx_gpio_init();
+    scheduler_init();
+    app_timer_init();
+#if (APP_BLE_FEATURE_ENABLED)   
 	set_bd_addr();
     printf("ble_init\n");
     ble_init((void *)&blestack_init);
-	 printf("scheduler_init\n");
-    scheduler_init();
-    printf("app_timer_init\n");
-    app_timer_init();
-    xincx_gpio_init();
+    #else
+    SysTick_Config(32000000/100);
+   // SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
+#endif
+    
+    uart_handler_test();
+#if (APP_BLE_FEATURE_ENABLED)   
 	btstack_main();
-    key_init();
+#endif
 
+#if (APP_BLE_FEATURE_ENABLED)
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -492,23 +523,21 @@ int	main(void)
     gap_advertisements_enable(1);
 	//  ble_system_idle_init();
 	con_flag = 1;
-	printf("sbc_init_msbc\n");
-    
-    uart_handler_test();
+#endif
 
     while(1) {
-
+#if (APP_BLE_FEATURE_ENABLED)
        ble_mainloop();
+#endif
        app_sched_execute();
         			
-	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 
 		   LastTimeGulSystickCount=GulSystickCount;
            if(LastTimeGulSystickCount % 500 == 0)
            {
-            //   printf("SystickCount:%d\n",LastTimeGulSystickCount);
+               printf("SystickCount:%d\n",LastTimeGulSystickCount);
             if(rxLen)
             {
                 printf("rx_len:%d,rxDone:%d,rxReady:%d\r\n",rxLen,rxDone,rxReady);

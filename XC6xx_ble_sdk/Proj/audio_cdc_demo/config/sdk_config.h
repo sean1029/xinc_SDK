@@ -12,7 +12,7 @@
  
 
 #ifndef XINC_BLE_STACK_ENABLED
-#define XINC_BLE_STACK_ENABLED 0
+#define XINC_BLE_STACK_ENABLED 1
 #endif
 
 // <q> XINC_BLE_ADVERTISING_ENABLED  - ble_advertising - Advertising module

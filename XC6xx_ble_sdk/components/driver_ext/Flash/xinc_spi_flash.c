@@ -17,9 +17,9 @@
 
 #ifdef XC60XX_M0
 
-__ALIGN(4) uint8_t		__attribute__((at(127*1024+0x10000000))) txbuff[(PACKET_FULL_LEN+4)];
+__ALIGN(4) uint8_t		__attribute__((section("DMA_BUFF"))) txbuff[(PACKET_FULL_LEN+4)];
 
-__ALIGN(4) uint8_t		__attribute__((at(127*1024+0x10000000))) rxbuff[(PACKET_FULL_LEN+4)];
+__ALIGN(4) uint8_t		__attribute__((section("DMA_BUFF"))) rxbuff[(PACKET_FULL_LEN+4)];
 
 #else
 __ALIGN(4) uint8_t		txbuff[(PACKET_FULL_LEN+4)];

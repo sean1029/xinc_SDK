@@ -1,10 +1,9 @@
 #include    <stdio.h>
 #include    <string.h>
-#include "btstack_run_loop.h"
 #include	"Includes.h"
-#include    "profile.h"
-#include    "ble.h"
-#include "hids_device.h"
+
+#define APP_BLE_FEATURE_ENABLED  XINCX_CHECK(XINC_BLE_STACK_ENABLED) 
+
 #include "bsp_gpio.h"
 #include "sbc.h"
 #include "voice_ringbuf.h"
@@ -30,11 +29,23 @@
 #include "bsp.h"
 #include "app_scheduler.h"
 #include "xinc_delay.h"
+
+#if (APP_BLE_FEATURE_ENABLED)
+#include "btstack_run_loop.h"
+
+#include    "profile.h"
+#include    "ble.h"
+#include "hids_device.h"
+
+#endif
+
+#if (APP_BLE_FEATURE_ENABLED)
 uint8_t flag_show_hci = 0;
 
 
 void _HWradio_Go_To_Idle_State_Patch(void){
 }
+#endif
 extern uint32_t  GulSystickCount;
 uint32_t  LastTimeGulSystickCount=0xFF;
 
@@ -47,15 +58,18 @@ extern	void	gpio_fun_sel(uint8_t num,uint8_t sel);
 extern	void    gpio_direction_input(uint8_t num, uint8_t pull_up_type);
 extern  void    gpio_fun_inter(uint8_t num,uint8_t inter);
 extern	uint8_t gpio_input_val(uint8_t num);
+
+#if (APP_BLE_FEATURE_ENABLED)
 extern  void ble_system_idle_init(void);
 extern  void    ble_system_idle(void);
 extern  int btstack_main(void);
 extern 	void send_media_report(int mediacode1,int mediacode2);
-
+#endif
 static uint32_t min(uint32_t a, uint32_t b){
     return a < b ? a : b;
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 static int g_conn_stat = 0;
 static int app_get_connect_state(void)
 {
@@ -232,6 +246,8 @@ void set_bd_addr()
     bd_addr[4]=0x31;
     bd_addr[5]=0x28;
 }
+#endif
+
 extern int key_value ;
 
 void key_init(void)
@@ -239,7 +255,7 @@ void key_init(void)
 	Init_gpio();
 
 }
-
+#if (APP_BLE_FEATURE_ENABLED)
 enum adv_type{
 	ADV_IND,
 	ADV_DIRECT_IND,
@@ -262,9 +278,12 @@ void send_power_on_adv(void)
     gap_scan_response_set_data(scanresp_data_len , (uint8_t*) scanresp_data);
     gap_advertisements_enable(1);
 }
+#endif
+
 
 void stack_reset(void)
 {
+    #if (APP_BLE_FEATURE_ENABLED)
 	bd_addr_t null_addr;
 	btstack_main();
 	voice_ring_buffer_init();
@@ -275,15 +294,17 @@ void stack_reset(void)
 	gap_scan_response_set_data(sizeof(scanresp_data), (uint8_t*) scanresp_data);
 	gap_advertisements_set_params(adv_int_min, adv_int_max, ADV_IND, 0, null_addr, 0x07, 0x00);
 	gap_advertisements_enable(1);
+    #endif
 }
 
+#if (APP_BLE_FEATURE_ENABLED)
 extern uint8_t con_flag;
 
 static btstack_timer_source_t sys_run_timer;
 
 #include "xc_kbs_event.h"
 #include "le_device_db.h"
-
+#endif
 
 
 #define SCHED_MAX_EVENT_DATA_SIZE           APP_TIMER_SCHED_EVENT_DATA_SIZE             //!< Maximum size of the scheduler event data.
@@ -306,13 +327,8 @@ static void scheduler_init(void)
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 #define SAMPLES_IN_BUFFER 32
 
-static xinc_drv_saadc_t m_saadc = XINCX_SAADC_INSTANCE(0);
-
 static xinc_drv_audio_adc_t m_audio_adc = XINC_DRV_AUDIO_ADC_INSTANCE(0);
 
-static xinc_saadc_value_t   m_buffer_pool[2][SAMPLES_IN_BUFFER];
-
-xinc_saadc_value_t adc_value;
 
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
@@ -327,8 +343,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
             {
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-                //启动通道8，芯片内部adc的采样，使用非阻塞方式，在回调函数中得到采样的结果
-                xincx_saadc_sample(&m_saadc,8);  
+
             }else
             {
                 //熄灭LED 指示灯 D1
@@ -345,10 +360,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
             {
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
-                //启动通道8，芯片内部adc的采样，使用阻塞方式,adc_value保存得到的采样结果
-                xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
-                printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
-                adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));		
+	
             }else
             {
                 //熄灭LED 指示灯 D1
@@ -368,19 +380,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
     }
 }
 
-void saadc_callback(xinc_drv_saadc_evt_t const * p_event)
-{
-    printf("%s\n",__func__);
-    uint32_t val;
-    
-    if (p_event->type == XINC_DRV_SAADC_EVT_DONE)
-    {
-        //非阻塞方式得到的结果
-        val = p_event->data.done.adc_value;
-        printf("1.0v,channel=%d,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
-            p_event->data.done.channel, val,((val)*2.47)/(1.0*1024),   ((val)*2.47)/(1.0*1024));		
-    }
-}	
+	
 
 void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event,
                                            void *                    p_context)
@@ -391,7 +391,7 @@ void audio_adc_callback(xinc_drv_audio_adc_evt_t const * p_event,
     
 }
 
-void saadc_test()
+void audio_cdc_test()
 {
     ret_code_t err_code;
 
@@ -408,25 +408,6 @@ void saadc_test()
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
     
-    APP_ERROR_CHECK(err_code);
-
-        
-
-    xinc_saadc_channel_config_t channel_config =  XINC_DRV_SAADC_DEFAULT_CHANNEL_CONFIG_SE;
-
-    //初始化saadc，config 设置为NULL，使用default 配置
-    err_code = xinc_drv_saadc_init(&m_saadc,NULL, saadc_callback);
-        
-    APP_ERROR_CHECK(err_code);
-    // 初始化 8 通道，只有初始化通道后，后面才能使用对应的采样函数
-    err_code = xinc_drv_saadc_channel_init(&m_saadc,8, &channel_config);
-
-    APP_ERROR_CHECK(err_code);
-
-    //设置采样数据的 buffer
-    err_code = xinc_drv_saadc_buffer_convert(&m_saadc,m_buffer_pool[0], SAMPLES_IN_BUFFER);
-
-    APP_ERROR_CHECK(err_code);
     
         //初始化saadc，config 设置为NULL，使用default 配置
     err_code = xinc_drv_audio_adc_init(&m_audio_adc,NULL, audio_adc_callback,NULL);
@@ -439,19 +420,32 @@ void saadc_test()
 
 int	main(void)
 {
+    key_init();
+    xincx_gpio_init();
 
-
-	set_bd_addr();
-    printf("ble_init\n");
-    ble_init((void *)&blestack_init);
-	 printf("scheduler_init\n");
+    printf("scheduler_init\n");
     scheduler_init();
     printf("app_timer_init\n");
     app_timer_init();
-    xincx_gpio_init();
-	btstack_main();
-    key_init();
+    
+    #if (APP_BLE_FEATURE_ENABLED)
+	set_bd_addr();
+    printf("ble_init\n");
+    ble_init((void *)&blestack_init);
+    #else
+    SysTick_Config(32000000/100);
+    SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
+    #endif
+    
+    audio_cdc_test();
 
+
+    #if (APP_BLE_FEATURE_ENABLED)
+	btstack_main();
+    #endif
+
+
+    #if (APP_BLE_FEATURE_ENABLED)
     // setup advertisements
     uint16_t adv_int_min = 0x0030;
     uint16_t adv_int_max = 0x0030;
@@ -465,15 +459,15 @@ int	main(void)
 	//  ble_system_idle_init();
 	con_flag = 1;
 	printf("sbc_init_msbc\n");
-    
-    saadc_test();
+    #endif
+
 
     while(1) {
-
+#if (APP_BLE_FEATURE_ENABLED)
        ble_mainloop();
+#endif
        app_sched_execute();
 			
-	//   ble_system_idle();
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 
