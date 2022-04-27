@@ -1,0 +1,54 @@
+;
+;
+;
+
+
+;LOAD	0x10000000	
+;{
+;	EXE	0x10000000  NOCOMPRESS
+;	{
+;        startup_xinc.o (RESET, +FIRST)
+;		* (+RO)
+;	
+;	}
+;	RW	+0
+;	{
+;		* (+RW,+ZI)
+;	}
+;}
+
+; LOAD_RAM	0x11001000	NOCOMPRESS
+; {
+	
+   
+	
+; }
+
+LR_IROM1	0x11001000	NOCOMPRESS
+{
+	EXE 0x11001000 NOCOMPRESS
+	{
+        startup_xinc_m4.o (RESET, +FIRST)
+		
+		* (+RO)
+	}
+	
+	RW	0x10004000 NOCOMPRESS
+	{
+		* (+RW,+ZI)
+	}
+	
+	;log_constdata +0X0000
+	;{
+	;	* (+RW,+ZI)
+	;}
+
+		
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (4*1024*1024 - 0x1000)) 
+    
+    ScatterAssert( ImageLength(RW) < (96*1024 - 0x4000)) 
+	
+}
+
+ 
+
