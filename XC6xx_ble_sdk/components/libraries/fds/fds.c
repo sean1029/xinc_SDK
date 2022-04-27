@@ -1863,8 +1863,8 @@ ret_code_t fds_init(void)
     
     if((NO_SWAP == init_opts) || (NO_PAGES == init_opts))// flash 数据是无效的，执行一次擦除
     {
-      //  flash_data_erase_init();
-     //   init_opts = pages_init();
+        flash_data_erase_init();
+        init_opts = pages_init();
     }
 		
     printf("pages_init,init_opts :%d\n",init_opts);

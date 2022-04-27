@@ -126,7 +126,7 @@ typedef enum {
          core_cm0.h if your device is a CORTEX-M0 device
          core_cm3.h if your device is a CORTEX-M3 device
          core_cm4.h if your device is a CORTEX-M4 device                                          */
-#include "core_cm0.h"
+#include "core_cm4.h"
 /* ToDo: include your system_<Device>.h file
          replace '<Device>' with your device name                                                 */
 

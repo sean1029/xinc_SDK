@@ -6,7 +6,7 @@ LOAD	0x10000000
 {
 	EXE	0x10000000
 	{
-        startup_xinc.o (RESET, +FIRST)
+        startup_xinc_m4.o (RESET, +FIRST)
 		* (+RO)
 	
 	}

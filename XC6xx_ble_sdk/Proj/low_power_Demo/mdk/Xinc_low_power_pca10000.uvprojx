@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6028 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager;..\..\..\components\libraries\pwr_mgmt;..\..\..\components\libraries\mutex;..\..\..\components\driver_ext\Flash;..\..\..\integration\xincx\legacy</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager;..\..\..\components\libraries\pwr_mgmt;..\..\..\components\libraries\mutex;..\..\..\components\driver_ext\Flash;..\..\..\integration\xincx\legacy;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -384,21 +384,6 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -407,6 +392,21 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_xincM0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc_m0.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1211,21 +1211,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -1234,6 +1219,21 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_xincM0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc_m0.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1951,21 +1951,6 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
               <FileName>nrf_sdkconfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\nrf_sdkconfig.h</FilePath>
@@ -1974,6 +1959,21 @@
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>core_cm0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_xincM0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_xinc_m0.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
             </File>
           </Files>
         </Group>
