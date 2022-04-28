@@ -1,7 +1,6 @@
---cpu Cortex-M0
-".\objects\core_cm0.o"
-".\objects\startup_xinc_m0.o"
-".\objects\system_xincm0.o"
+--cpu=Cortex-M4.fp.sp
+".\objects\system_xinc_m4.o"
+".\objects\startup_xinc_m4.o"
 ".\objects\main.o"
 ".\objects\xc_kbs_event.o"
 ".\objects\at24c02.o"
@@ -53,7 +52,7 @@
 ".\objects\xinc_log_backend_serial.o"
 ".\objects\xinc_log_str_formatter.o"
 ".\objects\xinc_log_frontend.o"
---strict --scatter ".\Linker\cpu.scat"
+--strict --scatter ".\Linker\cpuM4.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Xc6206xx_rtc.map" -o .\Objects\Xc6206xx_rtc.axf

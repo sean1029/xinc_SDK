@@ -52,6 +52,18 @@ typedef struct
  * @param _name Instance name.
  * @param _size Size of the ring buffer (must be a power of 2).
  * */
+#ifdef XC60XX_M0
+#define XINC_RINGBUF_DEF(_name, _size)                                         \
+    STATIC_ASSERT(IS_POWER_OF_TWO(_size));                                    \
+    __ALIGN(4) static uint8_t __attribute__((section("DMA_BUFF"))) CONCAT_2(_name,_buf)[_size];   \
+    static xinc_ringbuf_cb_t CONCAT_2(_name,_cb);                              \
+    static const xinc_ringbuf_t _name = {                                      \
+            .p_buffer = CONCAT_2(_name,_buf),                                 \
+            .bufsize_mask = _size - 1,                                        \
+            .p_cb         = &CONCAT_2(_name,_cb),                             \
+    }
+#else
+
 #define XINC_RINGBUF_DEF(_name, _size)                                         \
     STATIC_ASSERT(IS_POWER_OF_TWO(_size));                                    \
     static uint8_t CONCAT_2(_name,_buf)[_size];                               \
@@ -61,6 +73,9 @@ typedef struct
             .bufsize_mask = _size - 1,                                        \
             .p_cb         = &CONCAT_2(_name,_cb),                             \
     }
+#endif 
+
+
 
 /**
  * @brief Function for initializing a ring buffer instance.

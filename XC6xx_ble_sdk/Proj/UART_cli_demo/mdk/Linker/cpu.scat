@@ -14,8 +14,8 @@ LR_IROM1	0x10000000
 	{
 		* (+RW,+ZI)
 	}
-
-	SHRAM0 0x1001E000 0x2000
+    
+    SHRAM0 0x1001E000 0x2000
 	{
         *(DMA_BUFF)
 	}
@@ -26,7 +26,7 @@ LR_IROM1	0x10000000
 	;}
 
 		
-	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (128*1024 - 0X0000)) 
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) + ImageLength(SHRAM0) < (128*1024 - 0X0000)) 
 	
 }
 
