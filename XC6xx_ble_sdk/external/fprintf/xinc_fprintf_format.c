@@ -607,7 +607,7 @@ void xinc_fprintf_fmt(xinc_fprintf_ctx_t * const p_ctx,
     uint32_t NumDigits;
     uint32_t FormatFlags;
     uint32_t FieldWidth;
-		uint32_t cnt = 0;
+    uint32_t cnt = 0;
 		
     do
     {		
@@ -805,6 +805,8 @@ void xinc_fprintf_fmt(xinc_fprintf_ctx_t * const p_ctx,
     {
         xinc_fprintf_buffer_flush(p_ctx);
     }
+    
+    (void)cnt;
 }
 
 #endif // XINC_MODULE_ENABLED(XINC_FPRINTF)

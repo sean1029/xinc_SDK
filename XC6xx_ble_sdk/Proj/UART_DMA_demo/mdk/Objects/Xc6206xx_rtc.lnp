@@ -1,21 +1,10 @@
---cpu=Cortex-M4.fp.sp
-".\objects\system_xinc_m4.o"
-".\objects\startup_xinc_m4.o"
+--cpu Cortex-M0
+".\objects\core_cm0.o"
+".\objects\startup_xinc_m0.o"
+".\objects\system_xincm0.o"
 ".\objects\main.o"
-".\objects\xc_kbs_event.o"
 ".\objects\at24c02.o"
 ".\objects\xinc_spi_flash.o"
-".\objects\ble_idle.o"
-".\objects\gatt_client.o"
-".\objects\hids_device_skyworth.o"
-".\objects\device_information_service_server.o"
-".\objects\battery_service_server.o"
-".\objects\skyworth_rc_demo.o"
-".\objects\ff10_service_server.o"
-".\objects\voice_ringbuf.o"
-".\objects\rf_driver.o"
-".\objects\patch.o"
-"..\..\..\LIB\Xinc_ble_sdk_md.lib"
 ".\objects\boards.o"
 ".\objects\bsp.o"
 ".\objects\bsp_retarget.o"
@@ -52,7 +41,7 @@
 ".\objects\xinc_log_backend_serial.o"
 ".\objects\xinc_log_str_formatter.o"
 ".\objects\xinc_log_frontend.o"
---strict --scatter ".\Linker\cpuM4.scat"
+--strict --scatter ".\Linker\cpu.scat"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\Xc6206xx_rtc.map" -o .\Objects\Xc6206xx_rtc.axf
