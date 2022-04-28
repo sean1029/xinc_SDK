@@ -104,7 +104,7 @@
 // <7=> 7 
 
 #ifndef XINCX_WDT_CONFIG_IRQ_PRIORITY
-#define XINCX_WDT_CONFIG_IRQ_PRIORITY 0
+#define XINCX_WDT_CONFIG_IRQ_PRIORITY 5
 #endif
 
 // <e> XINCX_WDT_CONFIG_LOG_ENABLED - Enables logging in the module.
