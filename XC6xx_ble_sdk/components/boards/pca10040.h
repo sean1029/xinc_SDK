@@ -40,8 +40,8 @@ extern "C" {
 #define BUTTONS_NUMBER 2
 
 #define BUTTON_START   13
-#define BUTTON_1       1
-#define BUTTON_2       0
+#define BUTTON_1       0
+#define BUTTON_2       1
 #define BUTTON_3       24
 //#define BUTTON_4       16
 #define BUTTON_STOP    16
