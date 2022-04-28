@@ -453,14 +453,14 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,1);
             xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_OUTPUT);
-            xinc_gpio_inter_sel(pin,0);
+            xinc_gpio_inter_sel(pin,XINC_GPIO_PIN_INPUT_NOINT);
         }
         else if(XINC_GPIO_PIN_KBS_MTXKEY_MKI == fun)
         {                       
             xinc_gpio_mux_ctl(pin,1);
             xinc_gpio_pin_dir_set(pin,XINC_GPIO_PIN_DIR_INPUT);
             xinc_gpio_pull_sel(pin,XINC_GPIO_PIN_PULLDOWN);
-            xinc_gpio_inter_sel(pin,0);
+            xinc_gpio_inter_sel(pin,XINC_GPIO_PIN_INPUT_NOINT);
         }
         #if defined (XC66XX_M4)
         else if((XINC_GPIO_PIN_SSI2_CLK == fun) && (XINC_GPIO_14 == pin))

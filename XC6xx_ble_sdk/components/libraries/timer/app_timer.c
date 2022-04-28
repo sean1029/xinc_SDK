@@ -104,7 +104,7 @@ static timer_op_queue_t              m_op_queue;                                
 static timer_node_t *                mp_timer_id_head;                          /**< First timer in list of running timers. */
 static uint32_t                      m_ticks_latest;                            /**< Last known timer2 counter value. */
 static uint32_t                      m_sys_ticks; 
-static uint32_t                      m_last_target_ticks; 
+static uint32_t                      m_set_timer;
 static uint32_t                      m_ticks_elapsed[CONTEXT_QUEUE_SIZE_MAX];   /**< Timer internal elapsed ticks queue. */
 static uint8_t                       m_ticks_elapsed_q_read_ind;                /**< Timer internal elapsed ticks queue read index. */
 static uint8_t                       m_ticks_elapsed_q_write_ind;               /**< Timer internal elapsed ticks queue write index. */
@@ -143,7 +143,7 @@ static void hw_timer_handler(xinc_timer_int_event_t event_type,uint8_t channel ,
  * @param[in] VOID
  */
 
-static uint32_t set_timer;
+
 static void hw_timer_init(void)
 {
     uint32_t err_code;
@@ -156,9 +156,9 @@ static void hw_timer_init(void)
     timer_cfg.ref_clk = XINC_TIMER_REF_CLK_1MHzOr1K;
     timer_cfg.mode = XINC_TIMER_MODE_USER_COUNTER;
     timer_cfg.interrupt_priority = XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY;
-    timer_cfg.p_context = &set_timer;
-    set_timer = 60;
-    printf("set_timer:%x\r\n",set_timer);
+    timer_cfg.p_context = &m_set_timer;
+    m_set_timer = 60;
+    printf("set_timer:%x\r\n",m_set_timer);
     err_code = xincx_timer_init(&hw_timer, &timer_cfg, hw_timer_handler);
     printf("xincx_timer_init err_code:%x\r\n",err_code);
     time_ticks = xincx_timer_ms_to_ticks(&hw_timer, time_ms);
@@ -218,21 +218,8 @@ static __INLINE uint32_t ticks_diff_get(uint32_t ticks_now, uint32_t ticks_old)
  */
 static __INLINE uint32_t timer2_counter_get(void) //timer counter use m_sys_ticks uint 1ms 
 {
-  //  uint32_t cur_timer_ticks = xincx_timer_cnt_get(&hw_timer);
-    uint32_t diff_tick;
-  //  diff_tick = ticks_diff_get(cur_timer_ticks,m_last_target_ticks);
-  //  printf("sys:%d,cur:%x,last:%d,diff_tick:%d\r\n",m_sys_ticks,cur_timer_ticks,m_last_target_ticks,diff_tick);
-   // m_last_target_ticks = cur_timer_ticks;
-	return m_sys_ticks;// + diff_tick;
- 
-}
 
-static __INLINE uint32_t timer2_counter_get1(void) //timer counter use m_sys_ticks uint 1ms 
-{
-   // uint32_t cur_timer_ticks = xincx_timer_cnt_get(&hw_timer);
-
-
-	return timer2_counter_get() ;
+	return m_sys_ticks;
  
 }
 
@@ -248,9 +235,8 @@ static __INLINE void hw_timer_sigle_set(uint32_t value)
   //  printf("hw_timer_sigle_set:%d\r\n",value);
     uint32_t time_ticks;
     time_ticks  = xincx_timer_ms_to_ticks(&hw_timer, value);
-    set_timer = time_ticks;
-    xincx_timer_compare(&hw_timer,time_ticks,TIMERx_TCR_TES_MODE_USER_COUNTER,true);
-    m_last_target_ticks = time_ticks;
+    m_set_timer = time_ticks;
+    xincx_timer_compare(&hw_timer,time_ticks,XINC_TIMER_MODE_USER_COUNTER,true);
 
 }
 
@@ -1063,10 +1049,6 @@ uint32_t app_timer_cnt_get(void)
     return timer2_counter_get();
 }
 
-uint32_t app_timer_cnt_get1(void)
-{
-    return timer2_counter_get1();
-}
 
 
 uint32_t app_timer_cnt_diff_compute(uint32_t   ticks_to,
