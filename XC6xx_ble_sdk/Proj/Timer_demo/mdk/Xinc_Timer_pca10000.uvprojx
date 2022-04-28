@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>ble-fullstack</TargetName>
+      <TargetName>Xinc_M0_Sdk</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>Xc6206xx_rtc</OutputName>
+          <OutputName>Xc6xxx_timer</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -82,8 +82,8 @@
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>1</RunUserProg2>
-            <UserProg1Name>fromelf --bin --output=s.bin !L</UserProg1Name>
-            <UserProg2Name>Xincboot_tool s.bin download.bin</UserProg2Name>
+            <UserProg1Name>fromelf --bin --output=.\Output\s.bin !L</UserProg1Name>
+            <UserProg2Name>.\tools\Xincboot_tool .\Output\s.bin .\Output\download.bin</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6028 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config\xc6801;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4;..\..\..\components\libraries\mem_manager</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -370,7 +370,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\cpu.scat</ScatterFile>
+            <ScatterFile>.\Linker\cpu.scat</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -381,57 +381,37 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>startup</GroupName>
+          <GroupName>sdk_config</GroupName>
           <Files>
-            <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_xinc.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_xinc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
-            </File>
-            <File>
-              <FileName>nrf_sdkconfig.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\nrf_sdkconfig.h</FilePath>
-            </File>
             <File>
               <FileName>sdk_config.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+              <FilePath>..\config\sdk_config.h</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>application</GroupName>
+          <GroupName>startup</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>system_xincM0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\main.c</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
             </File>
             <File>
-              <FileName>xc_kbs_event.c</FileName>
+              <FileName>core_cm0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\xc_kbs_event.c</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
             </File>
             <File>
-              <FileName>AT24C02.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
+              <FileName>startup_xinc_m0.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>ble</GroupName>
+          <GroupName>startup_M4</GroupName>
           <GroupOption>
             <CommonProperty>
               <UseCPPCompiler>0</UseCPPCompiler>
@@ -439,7 +419,7 @@
               <RVCTZI>0</RVCTZI>
               <RVCTOtherData>0</RVCTOtherData>
               <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>2</IncludeInBuild>
+              <IncludeInBuild>0</IncludeInBuild>
               <AlwaysBuild>2</AlwaysBuild>
               <GenerateAssemblyFile>2</GenerateAssemblyFile>
               <AssembleAssemblyFile>2</AssembleAssemblyFile>
@@ -478,7 +458,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\ble\firmware\core\le\include;..\ble\firmware\hal\xinc\sys\include;..\ble\firmware\core\sys\include</IncludePath>
+                  <IncludePath></IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -503,83 +483,29 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>ble_idle.c</FileName>
+              <FileName>system_xinc_m4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\ble_idle.c</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M4\system_xinc_m4.c</FilePath>
             </File>
             <File>
-              <FileName>gatt_client.c</FileName>
+              <FileName>startup_xinc_m4.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M4\startup_xinc_m4.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>application</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\gatt_client.c</FilePath>
+              <FilePath>..\app\main.c</FilePath>
             </File>
             <File>
-              <FileName>hids_device_skyworth.c</FileName>
+              <FileName>AT24C02.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\hids_device_skyworth.c</FilePath>
-            </File>
-            <File>
-              <FileName>device_information_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\device_information_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>battery_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\battery_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>skyworth_RC_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\skyworth_RC_demo.c</FilePath>
-            </File>
-            <File>
-              <FileName>FF10_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\FF10_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>voice_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\voice_ringbuf.c</FilePath>
-            </File>
-            <File>
-              <FileName>rf_driver.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\rf_driver.c</FilePath>
-            </File>
-            <File>
-              <FileName>patch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Ble\patch.c</FilePath>
-            </File>
-            <File>
-              <FileName>Xinc_ble_sdk_lowpowerv1.3.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\LIB\Xinc_ble_sdk_lowpowerv1.3.lib</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds/>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>Xinc_ble_sdk_md.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\LIB\Xinc_ble_sdk_md.lib</FilePath>
+              <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -741,22 +667,23 @@
       </Groups>
     </Target>
     <Target>
-      <TargetName>ble_fullstack_mklib</TargetName>
+      <TargetName>Xinc_M4_Sdk</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <uAC6>8</uAC6>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>ARMCM0</Device>
+          <Device>ARMCM4_FP</Device>
           <Vendor>ARM</Vendor>
           <PackID>ARM.CMSIS.5.7.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M0") CLOCK(12000000) ESEL ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000)</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:ARMCM0$Device\ARM\ARMCM0\Include\ARMCM0.h</RegisterFile>
+          <RegisterFile>$$Device:ARMCM4_FP$Device\ARM\ARMCM4\Include\ARMCM4_FP.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -766,7 +693,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:ARMCM0$Device\ARM\SVD\ARMCM0.svd</SFDFile>
+          <SFDFile></SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -782,12 +709,12 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>Xincble</OutputName>
-          <CreateExecutable>0</CreateExecutable>
-          <CreateLib>1</CreateLib>
+          <OutputName>Xc6xxx_timer</OutputName>
+          <CreateExecutable>1</CreateExecutable>
+          <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
-          <DebugInformation>0</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
+          <DebugInformation>1</DebugInformation>
+          <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -814,9 +741,9 @@
           </BeforeMake>
           <AfterMake>
             <RunUserProg1>1</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name>fromelf -c -s -o ../1.txt !L</UserProg1Name>
-            <UserProg2Name></UserProg2Name>
+            <RunUserProg2>1</RunUserProg2>
+            <UserProg1Name>fromelf --bin --output=.\Output\s.bin !L</UserProg1Name>
+            <UserProg2Name>.\tools\Xincboot_tool .\Output\s.bin .\Output\download.bin</UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
             <nStopA1X>0</nStopA1X>
@@ -843,13 +770,13 @@
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments>  </SimDllArguments>
-          <SimDlgDll>DARMCM1.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pCM0</SimDlgDllArguments>
+          <SimDllArguments>  -MPU</SimDllArguments>
+          <SimDlgDll>DCM.DLL</SimDlgDll>
+          <SimDlgDllArguments>-pCM4</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
-          <TargetDllArguments> </TargetDllArguments>
-          <TargetDlgDll>TARMCM1.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM0</TargetDlgDllArguments>
+          <TargetDllArguments> -MPU</TargetDllArguments>
+          <TargetDlgDll>TCM.DLL</TargetDlgDll>
+          <TargetDlgDllArguments>-pCM4</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -865,13 +792,13 @@
             <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4099</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>Segger\JL2CM3.dll</Flash2>
-          <Flash3>"" ()</Flash3>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -907,7 +834,7 @@
             <AdsLsxf>1</AdsLsxf>
             <RvctClst>0</RvctClst>
             <GenPPlst>0</GenPPlst>
-            <AdsCpuType>"Cortex-M0"</AdsCpuType>
+            <AdsCpuType>"Cortex-M4"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
             <uocRom>0</uocRom>
@@ -916,7 +843,7 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>0</RvdsVP>
+            <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
@@ -1059,7 +986,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
-            <uGnu>0</uGnu>
+            <uGnu>1</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -1070,9 +997,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\bsp\startup;..\bsp;..\ble</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\libraries\mem_manager;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4;..\..\..\components\libraries\mem_manager</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1103,7 +1030,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>..\bsp\startup\cpu.scat</ScatterFile>
+            <ScatterFile>.\Linker\cpuM4.scat</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -1114,6 +1041,16 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>sdk_config</GroupName>
+          <Files>
+            <File>
+              <FileName>sdk_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\config\sdk_config.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>startup</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -1123,7 +1060,7 @@
               <RVCTOtherData>0</RVCTOtherData>
               <ModuleSelection>0</ModuleSelection>
               <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>0</AlwaysBuild>
+              <AlwaysBuild>2</AlwaysBuild>
               <GenerateAssemblyFile>2</GenerateAssemblyFile>
               <AssembleAssemblyFile>2</AssembleAssemblyFile>
               <PublicsOnly>2</PublicsOnly>
@@ -1186,103 +1123,39 @@
           </GroupOption>
           <Files>
             <File>
+              <FileName>system_xincM0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
+            </File>
+            <File>
               <FileName>core_cm0.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\core_cm0.c</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
             </File>
             <File>
-              <FileName>startup_xinc.s</FileName>
+              <FileName>startup_xinc_m0.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\Bsp\startup\startup_xinc.s</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>startup_M4</GroupName>
+          <Files>
             <File>
-              <FileName>system_xinc.c</FileName>
+              <FileName>system_xinc_m4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\startup\system_xinc.c</FilePath>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M4\system_xinc_m4.c</FilePath>
             </File>
             <File>
-              <FileName>nrf_sdkconfig.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\nrf_sdkconfig.h</FilePath>
-            </File>
-            <File>
-              <FileName>sdk_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\config\xc6801\sdk_config.h</FilePath>
+              <FileName>startup_xinc_m4.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M4\startup_xinc_m4.s</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>application</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>0</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <uGnu>2</uGnu>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <ClangAsOpt>0</ClangAsOpt>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
           <Files>
             <File>
               <FileName>main.c</FileName>
@@ -1290,79 +1163,9 @@
               <FilePath>..\app\main.c</FilePath>
             </File>
             <File>
-              <FileName>xc_kbs_event.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\xc_kbs_event.c</FilePath>
-            </File>
-            <File>
               <FileName>AT24C02.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\driver_ext\AT24Cxx\AT24C02.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>ble</GroupName>
-          <Files>
-            <File>
-              <FileName>ble_idle.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\ble_idle.c</FilePath>
-            </File>
-            <File>
-              <FileName>gatt_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\gatt_client.c</FilePath>
-            </File>
-            <File>
-              <FileName>hids_device_skyworth.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\hids_device_skyworth.c</FilePath>
-            </File>
-            <File>
-              <FileName>device_information_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\device_information_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>battery_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\battery_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>skyworth_RC_demo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\skyworth_RC_demo.c</FilePath>
-            </File>
-            <File>
-              <FileName>FF10_service_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\FF10_service_server.c</FilePath>
-            </File>
-            <File>
-              <FileName>voice_ringbuf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\voice_ringbuf.c</FilePath>
-            </File>
-            <File>
-              <FileName>rf_driver.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Bsp\rf_driver.c</FilePath>
-            </File>
-            <File>
-              <FileName>patch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\Ble\patch.c</FilePath>
-            </File>
-            <File>
-              <FileName>Xinc_ble_sdk_lowpowerv1.3.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\LIB\Xinc_ble_sdk_lowpowerv1.3.lib</FilePath>
-            </File>
-            <File>
-              <FileName>Xinc_ble_sdk_md.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>..\..\..\LIB\Xinc_ble_sdk_md.lib</FilePath>
             </File>
           </Files>
         </Group>
