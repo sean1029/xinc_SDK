@@ -176,6 +176,7 @@ static fds_header_status_t header_check(fds_header_t const * p_hdr, fds_header_t
     {
         return FDS_HEADER_DIRTY;
     }
+    (void)hdr_addr;
 
     return FDS_HEADER_VALID;
 }

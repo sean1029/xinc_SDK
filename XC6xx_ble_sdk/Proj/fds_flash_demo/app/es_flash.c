@@ -219,12 +219,15 @@ ret_code_t es_flash_init(void)
     m_factory_reset_done = false;
 
     err_code = fds_register(fds_cb);
- 
+    printf("fds_register err_code:0x%x\r\n",err_code);
 
     err_code = fds_init();
+    while (es_flash_num_pending_ops() > 0)
+    {
+        ; // Busy wait while initialization of FDS module completes
+    }
     
+    printf("fds_init err_code:0x%x\r\n",err_code);
 
-
-
-    return XINC_SUCCESS;
+    return err_code;
 }

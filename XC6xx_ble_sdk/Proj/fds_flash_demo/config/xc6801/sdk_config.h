@@ -2112,7 +2112,7 @@
 // <e> XINC_PWR_MGMT_ENABLED - xinc_pwr_mgmt - Power management module
 //==========================================================
 #ifndef XINC_PWR_MGMT_ENABLED
-#define XINC_PWR_MGMT_ENABLED 1
+#define XINC_PWR_MGMT_ENABLED 0
 #endif
 // <e> XINC_PWR_MGMT_CONFIG_DEBUG_PIN_ENABLED - Enables pin debug in the module.
 
