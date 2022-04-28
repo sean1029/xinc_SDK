@@ -136,12 +136,14 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
 
     //打开pclk_i2c的时钟p_cpr->CTLAPBCLKEN_GRCTL = 0x8000800;
     p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos) |
-                                (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos);
+                                (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
 
     // 复位i2c模块  p_cpr->RSTCTL_SUBRST_SW = 0x400000; p_cpr->RSTCTL_SUBRST_SW = 0x400040;                  
     p_cpr->RSTCTL_SUBRST_SW =   (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Pos) |
                                 (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
     
+    p_cpr->RSTCTL_SUBRST_SW =   (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Pos) |
+                                (CPR_RSTCTL_SUBRST_SW_I2C_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
   
     // p_cpr->I2C_CLK_CTL = 0x110011; //-> i2c_mclk = 16mhz.
     //设置I2C时钟分频系数
