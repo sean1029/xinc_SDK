@@ -190,9 +190,12 @@ int	main(void)
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 
-           if(LastTimeGulSystickCount % 500 == 0)
+           if(LastTimeGulSystickCount % 200 == 0)
            {
-               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);            
+               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);  
+               xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
+                printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
+                adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));	
            } 
            
 		   LastTimeGulSystickCount=GulSystickCount;
