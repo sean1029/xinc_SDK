@@ -121,6 +121,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
             *p_dma_ch_dar_base = set.dst_addr;
             *p_dma_ch_ctl1_base = set.ctl1;
             *p_dma_ch_ctl0_base = set.ctl0;
+			printf("TX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",ch_idx ,p_dma_ch_sar_base,*p_dma_ch_sar_base);
+			printf("TX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",ch_idx , p_dma_ch_dar_base,*p_dma_ch_dar_base);
+			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",ch_idx , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
+			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",ch_idx , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
+
 
         }
         break;
@@ -155,7 +160,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
             *p_dma_ch_ctl1_base = set.ctl1;
             *p_dma_ch_ctl0_base = set.ctl0;
             
-            
+            printf("RX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",set.ch , p_dma_ch_sar_base,*p_dma_ch_sar_base);
+			printf("RX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",set.ch , p_dma_ch_dar_base,*p_dma_ch_dar_base);
+			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",set.ch , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
+			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",set.ch , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
+             
              
         }break;
     }
@@ -278,6 +287,7 @@ xincx_err_t xincx_dmas_ch_ca_get(uint8_t ch,uint32_t *ch_ca)
         case 10: 
         case 11:
         case 12:
+		case 13:	
         {
             ch_idx = ch - 8;
             p_dma_ch_ca_base = (uint32_t*)&p_reg->DMAs_CH8_CA;
@@ -334,9 +344,9 @@ static void irq_dma_handler(XINC_DMAS_Type *        p_dmas,
     uint32_t            int0 = p_dmas->DMAs_INT0;
     uint32_t            dmas_ca;
     
-    dmas_ch  = (int0 & 0x1F0F);
+    dmas_ch  = (int0 & 0x3F0F);
     dmas_ch |= ((int0 >> 16UL) & 0xF);
-    dmas_ch |= (((int0 >> 24UL) & 0x1F) << 8);
+    dmas_ch |= (((int0 >> 24UL) & 0x3F) << 8);
     
     for (i = 0; i < 32; i++)
     {

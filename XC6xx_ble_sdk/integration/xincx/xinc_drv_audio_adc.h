@@ -187,6 +187,13 @@ void xinc_drv_audio_adc_disable(xinc_drv_audio_adc_t const * p_instance)
     xincx_audio_adc_disable(&p_instance->audio_adc);
 }
 
+__STATIC_INLINE
+xincx_err_t xinc_drv_audio_adc_buffer_convert(xinc_drv_audio_adc_t const * const p_instance,xinc_audio_adc_value_t * p_buffer, uint16_t size)
+{
+	return xincx_audio_adc_buffer_convert( &p_instance->audio_adc, p_buffer,  size);
+}
+
+
 bool xinc_drv_audio_adc_is_busy(xinc_drv_audio_adc_t const * p_instance)
 {
     return xincx_audio_adc_is_busy(&p_instance->audio_adc);

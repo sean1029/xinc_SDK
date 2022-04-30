@@ -81,26 +81,22 @@ static void audio_adc_irq_dma_ch_handler(xincx_dmas_ch_evt_t const * p_event,
 static void xincx_audio_adc_clk_init(xincx_audio_adc_t const * const  p_instance,
                          xincx_audio_adc_config_t const * p_config)
 {
-    printf("%s\r\n",__func__);
+    printf("__func__=%s\r\n", __func__);
+	uint32_t reg_val;
+	
     XINC_CDC_Type*  p_reg = p_instance->p_reg;
-    
-    XINC_CPR_CTL_Type*  p_cpr  = p_instance->p_cpr; 
-    
-    XINC_CPR_AO_CTL_Type*  p_cprAO = p_instance->p_cprAO; 
-    
-    uint32_t reg_val = p_cprAO->AUDIO_ADC_CTRL[0];
-    
+    XINC_CPR_CTL_Type*  p_cpr  = p_instance->p_cpr;
+    XINC_CPR_AO_CTL_Type*  p_cprAO = p_instance->p_cprAO;
+
+    reg_val = p_cprAO->AUDIO_ADC_CTRL[0];
     reg_val &= ~(CPR_AO_AUDIO_ADC_CTRL0_PDVBIAS_Msk | CPR_AO_AUDIO_ADC_CTRL0_PDSDMR_Msk |
-               CPR_AO_AUDIO_ADC_CTRL0_PDPGAR_Msk  | CPR_AO_AUDIO_ADC_CTRL0_PDMIC_Msk  |
-               CPR_AO_AUDIO_ADC_CTRL0_PDBIAS_Msk) ; //-config electret mic (פ���� mic)
+                 CPR_AO_AUDIO_ADC_CTRL0_PDPGAR_Msk  | CPR_AO_AUDIO_ADC_CTRL0_PDMIC_Msk  |
+                 CPR_AO_AUDIO_ADC_CTRL0_PDBIAS_Msk) ; //-config electret mic (驻极体 mic) 00028414
     p_cprAO->AUDIO_ADC_CTRL[0] = reg_val;
-    
-    
+
     p_cpr->CTLAPBCLKEN_GRCTL = ( ( CPR_CTLAPBCLKEN_GRCTL_BT_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_BT_PCLK_EN_Pos ) |
-                                 ( 0x01UL << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET ) ); //- bt_pclk 
-    
-  //  *((uint32_t volatile*)0x40002450)|= 0x1;                  //- open rf digital
-    
+                                ( 0x01UL << 26 ) ); //- bt_pclk
+
     p_cprAO->RESERVED03[0] |= 0x1; //- open rf digital
     
      *((volatile unsigned *)(0X4002F000+ 0x068)) |=0xF000;     //- open bbpll 64M 
@@ -130,7 +126,6 @@ static void xincx_audio_adc_clk_init(xincx_audio_adc_t const * const  p_instance
      reg_val |= (CPR_OTHER_CLK_CDC_HCLK_EN_Enable << CPR_OTHER_CLK_CDC_HCLK_EN_Pos);
      p_cpr->M4_NEW_REG1 = reg_val;
      
-    printf("reg_val:%08x\r\n",reg_val);
  
 
 }
@@ -165,24 +160,22 @@ xincx_err_t xincx_audio_adc_init(xincx_audio_adc_t const * const p_instance,
                                             XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
+	p_cb->event_handler = event_handler;
 
-    xincx_audio_adc_clk_init(p_instance,p_config);  
-
-    p_cb->event_handler = event_handler;
-    
     p_cb->p_context = p_context;
-    
+	
+	// dma时钟初始化
+    xincx_audio_adc_clk_init(p_instance, p_config);
+	// dma通道传输结束中断回调函数设置
     xincx_audio_adc_dma_ch_set(p_instance);
 
     p_cb->state                = XINCX_DRV_STATE_INITIALIZED;
     p_cb->adc_state            = XINC_AUDIO_ADC_STATE_IDLE;
 
     //audio adc 采用DMA方式,因此会调用dma 的中断处理函数。
-
-    xincx_audio_adc_config_set(p_instance,p_config);
+    xincx_audio_adc_config_set(p_instance, p_config);
 
     return err_code;
-	
 }
 
 
@@ -199,6 +192,7 @@ void xincx_audio_adc_uninit(xincx_audio_adc_t const * const p_instance)
 
 void xincx_audio_adc_enable(xincx_audio_adc_t const * const p_instance)
 {
+	printf("__func__=%s\r\n", __func__);
     xincx_audio_adc_cb_t * p_cb = &m_cb[p_instance->drv_inst_idx];
     
     XINC_CDC_Type *       p_reg = p_instance->p_reg;
@@ -213,12 +207,16 @@ void xincx_audio_adc_enable(xincx_audio_adc_t const * const p_instance)
     set.src_addr = (uint32_t)&(p_reg->RXFIFO_DATA);
     set.dst_addr = (uint32_t)p_cb->p_buffer;
     set.ctl0 = p_cb->rx_fifo_lvl;
-    set.ctl1 = ((2 << 8)|  2 | 0xfff << 16);
+//    set.ctl1 = ((2 << 8) |  2 | 0xfff << 16);
+	set.ctl1 = (2 << 8) |  2;
     xincx_dmas_ch_param_set(set);
-    
+    xincx_dmas_int_enable(0x20002000);
+
     p_cb->adc_state            = XINC_AUDIO_ADC_STATE_CONVERT;
     p_cb->state = XINCX_DRV_STATE_POWERED_ON;
-    
+	printf("__func__=%s,addr %p,write_val=%08x, ANA_REG0:%08x\r\n", __func__ ,&p_reg->ANA_REG0,0x40 ,p_reg->ANA_REG0);
+	//使能后立刻产生中断
+	xincx_dmas_ch_enable(13);
 }
 
 void xincx_audio_adc_disable(xincx_audio_adc_t const * const p_instance)
@@ -241,7 +239,7 @@ void xincx_audio_adc_disable(xincx_audio_adc_t const * const p_instance)
 /*
 audio_adc_clk)输出的频率=bbpll*(gr/8)*(mul/div)*(1/2);
 audio 一级分频得到 freq1=audio_hclk/(audio ADC mclk primary frequency division)=16M/2=8M
-audio 二级分频得到 freq2=freq1*(mul/div)=8*1/4=2M 
+audio 二级分频得到 freq2=freq1*(mul/div)=8*1/4=2M
 audio 采样率 =freq2/128=2M/128=16K <-->
 (16K的采样率就代表1s采集16K的数据，一个数据占两个自己)
 */
@@ -249,6 +247,7 @@ void xincx_audio_adc_config_set(xincx_audio_adc_t const * const p_instance,
                                    xincx_audio_adc_config_t const * p_config)
 
 {
+	printf("__func__=%s\n", __func__);
     uint32_t reg_val;
     xincx_err_t err_code = XINCX_SUCCESS;
     XINC_CDC_Type*  p_reg = p_instance->p_reg;
@@ -282,11 +281,18 @@ void xincx_audio_adc_config_set(xincx_audio_adc_t const * const p_instance,
     reg_val |=  ((p_config->ch_config.reg0.bits.hpf_en << CDC_CDC_ANA_REG0_REG00_HPF_EN_Pos ) & CDC_CDC_ANA_REG0_REG00_HPF_EN_Msk);
 
     reg_val |=  ((p_config->ch_config.reg0.bits.hpf_bypass << CDC_CDC_ANA_REG0_REG00_HPF_BYPASS_Pos ) & CDC_CDC_ANA_REG0_REG00_HPF_BYPASS_Msk);
-
-    p_reg->ANA_REG0 = reg_val;
+	
+	p_reg->ANA_REG0 |= reg_val ;
+	printf("__func__=%s,addr %p,write_val=%08x, ANA_REG0:%08x\r\n", __func__ ,&p_reg->ANA_REG0,reg_val ,p_reg->ANA_REG0);
+	
+    p_reg->DMA_CONFIG = ((p_config->ch_config.adc_fifo_len << CDC_CDC_DMA_CONFIG_DMA_RXLVL_Pos) & CDC_CDC_DMA_CONFIG_DMA_RXLVL_Msk)
+								| CDC_CDC_DMA_CONFIG_DMA_RX_EN_Msk;
     
-    p_reg->DMA_CONFIG = (p_config->ch_config.adc_fifo_len << CDC_CDC_DMA_CONFIG_DMA_RXLVL_Pos) & CDC_CDC_DMA_CONFIG_DMA_RXLVL_Msk;
-    p_cb->rx_fifo_lvl = p_config->ch_config.adc_fifo_len ;
+	xinc_audio_adc_fifo_clear(p_reg);
+	printf("__func__=%s,FIFO_STATUS:%08x\r\n", __func__, p_reg->FIFO_STATUS);
+	
+	p_cb->rx_fifo_lvl = p_config->ch_config.adc_fifo_len ;
+    printf("__func__=%s,DMA_CONFIG:%08x\r\n", __func__, p_reg->DMA_CONFIG);
 
 }
 
@@ -344,7 +350,7 @@ static void rx_data_event(xincx_audio_adc_cb_t * p_cb,
                           volatile xinc_audio_adc_value_t *  p_data)
 {
     p_cb->adc_state            = XINC_AUDIO_ADC_STATE_IDLE;
-
+    printf("__func__=%s\n", __func__);
     xincx_audio_adc_evt_t evt;
 
     evt.type = XINCX_AUDIO_ADC_EVT_DONE;
@@ -370,13 +376,13 @@ void AUDIAO_ADC_Handler(void)
 static void audio_adc_irq_dma_rx_handler(XINC_CDC_Type *        p_reg,
                              xincx_audio_adc_cb_t * p_cb)
 {
-   
+    printf("__func__=%s\n", __func__);
     uint32_t RD_ADDR;
     uint32_t rx_len;
    
     xincx_dmas_ch_ca_get(p_cb->rx_dma_ch,&RD_ADDR);
     rx_len = RD_ADDR - (uint32_t)p_cb->p_buffer;
-    
+	printf("__func__=%s,rx_len=%d\n", __func__,rx_len);
     rx_data_event(p_cb, rx_len, p_cb->p_buffer);
     
     if(p_cb->adc_state == XINC_AUDIO_ADC_STATE_CONVERT)
@@ -386,15 +392,18 @@ static void audio_adc_irq_dma_rx_handler(XINC_CDC_Type *        p_reg,
         set.src_addr = (uint32_t)&(p_reg->RXFIFO_DATA);
         set.dst_addr = (uint32_t)p_cb->p_buffer;
         set.ctl0 = p_cb->rx_fifo_lvl;
-        set.ctl1 = ((2 << 8)|  2 | 0xfff << 16);
+        //set.ctl1 = ((2 << 8) |  2 | 0xfff << 16);
+		set.ctl1 = ((2 << 8) |  2 );
         xincx_dmas_ch_param_set(set);
     }
-        
+	xincx_dmas_ch_enable(13);
+
 }
 
 static void audio_adc_irq_dma_ch_handler(xincx_dmas_ch_evt_t const * p_event,
                                         void *                 p_context)
 {   
+    printf("__func__=%s\n", __func__);
     xincx_audio_adc_cb_t * p_cb = &m_cb[XINCX_AUDIO_ADC0_INST_IDX];
     if(p_event->dmas_ch == p_cb->rx_dma_ch)
     {
