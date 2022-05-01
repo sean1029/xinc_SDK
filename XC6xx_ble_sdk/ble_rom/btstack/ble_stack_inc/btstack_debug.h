@@ -98,20 +98,20 @@ static inline void __log_unused(const char *format, ...) {
 #endif
 
 /** 
- * @brief Log Security Manager key via //*log_info
+ * @brief Log Security Manager key via //log_info
  * @param key to log
  */
 //*void log_info_key(const char * name, sm_key_t key);
 
 /**
- * @brief Hexdump via //*log_info
+ * @brief Hexdump via //log_info
  * @param data
  * @param size
  */
 //*void log_info_hexdump(const void *data, int size);
 
 /**
- * @brief Hexdump via //*log_debug * @param data
+ * @brief Hexdump via //log_debug * @param data
  * @param size
  */
 void log_debug_hexdump(const void *data, int size);
