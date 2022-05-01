@@ -4,7 +4,7 @@
 ----------------------------------------------------------------------------------------------------*/
 #include 	"Platform.h"
 #include    "test_config.h"
-
+#include "xinc_gpio.h"
 
 #if 1
 IoHandler_callback	IoHandler_Callback = (IoHandler_callback)0;
@@ -310,7 +310,7 @@ void	gpio_direction_output(uint8_t num)
 		__write_hw_reg32((GPIO_PORT_DDR0 + (num>>4)), ((0x10001)<<(num&0x0F)));
 
 }
-#include "xinc_gpio.h"
+
 /* ---------------------------------------------------------------------------------------------------
 - 函数名称: gpio_direction_input
 - 函数功能: 设置GPIO管脚方向为输入
@@ -502,7 +502,7 @@ gpio_mux_ctl(i,0);
 - 摔色訋私: 蠟
 - 源莰蓵菤: 2016-05-26
 ----------------------------------------------------------------------------------------------------*/
-#include "xincx_gpio.h"
+//#include "xincx_gpio.h"
 void	GPIO_Handler(void)
 {
 		uint32_t	val;

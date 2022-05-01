@@ -620,7 +620,7 @@ int	main(void)
     SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
     #endif
    
-    bsp_button_wake_up_test();      
+    bsp_button_wake_up_test();
     
     #if (APP_BLE_FEATURE_ENABLED)
 	btstack_main();

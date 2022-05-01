@@ -1,0 +1,15 @@
+/hc_cmd_disp.h/1.12/Tue Nov 13 13:17:31 2007//
+/hc_const.h/1.81/Fri Sep 28 11:51:46 2012//
+/hc_event_disp.h/1.5/Wed Jul 07 14:21:09 2004//
+/hc_event_gen.h/1.38/Tue May 11 14:33:42 2010//
+/hc_flow_control.h/1.11/Fri May 13 09:05:35 2005//
+/hc_hci_events.h/1.13/Wed Jul 07 14:21:09 2004//
+/hc_inq_page.h/1.11/Wed Jul 07 14:21:10 2004//
+/hc_inquiry.h/1.15/Thu Oct 09 15:32:50 2008//
+/hc_scan.h/1.13/Wed Jul 07 14:21:10 2004//
+/hc_timer.h/1.11/Wed Jul 07 14:21:10 2004//
+/hci_generic.h/1.10/Wed Mar 01 16:00:21 2006//
+/hci_opcode_len.h/1.39/Fri Sep 28 11:51:46 2012//
+/hci_params.h/1.13/Tue Sep 04 17:52:43 2007//
+/hci_params_impl.h/1.21/Tue Sep 04 17:52:43 2007//
+D

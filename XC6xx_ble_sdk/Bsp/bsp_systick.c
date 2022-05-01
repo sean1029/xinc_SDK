@@ -14,6 +14,7 @@
 volatile  unsigned int GulSystickCount=0;
 void	SysTick_Handler(void)
 {
+    ble_tick_handler();
 	GulSystickCount++;//计数一次10ms
 }
 

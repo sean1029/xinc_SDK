@@ -44,13 +44,13 @@ const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(2);
 void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
 {
 
-  // printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+   printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
  
     switch (event_type)
     {
         case XINC_TIMER_EVENT_TIMEOUT:
         {				
-           bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
+           bsp_board_led_invert(bsp_board_pin_to_led_idx(BSP_LED_0));
         }break;
 
 		default:
@@ -76,13 +76,13 @@ void timer_test()
     err_code = xinc_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
     APP_ERROR_CHECK(err_code);
 
-    time_ticks = xinc_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
-    printf("time_ticks = [%d]\n",time_ticks);
+ //   time_ticks = xinc_drv_timer_us_to_ticks(&TIMER_LED, time_ms);
+ //   printf("time_ticks = [%d]\n",time_ticks);
     time_ticks = xinc_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
     printf("time_ticks = [%d]\n",time_ticks);
 
 
-    xinc_drv_timer_compare(&TIMER_LED, time_ticks,XINC_TIMER_MODE_USER_COUNTER ,true);// XINC_TIMER_MODE_AUTO_TIMER
+    xinc_drv_timer_compare(&TIMER_LED, time_ticks,XINC_TIMER_MODE_USER_COUNTER ,true);//  // XINC_TIMER_MODE_USER_COUNTER //XINC_TIMER_MODE_AUTO_TIMER
 
     
 }

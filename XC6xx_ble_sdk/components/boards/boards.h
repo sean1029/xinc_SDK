@@ -18,6 +18,8 @@
   #include "pca10000.h"
 #elif defined(BOARD_PCA10040)
   #include "pca10040.h"
+#elif defined(BOARD_PCA10060)
+  #include "pca10060.h"
 #elif defined(BOARD_CUSTOM)
   #include "custom_board.h"
 #else

@@ -1,4 +1,4 @@
-
+#include "xinc.h"
 #include	"Includes.h"
 #include	"stdio.h"
 #include "bsp_gpio.h"
@@ -6,6 +6,7 @@
 
 #define	__DEBUG_OUT_PORT        0			//- 0:uart0 , 1:uart1  
 
+int  	sendchar(int c)	;
 void 	retarget_init(void)
 {  
 #if	(__DEBUG_OUT_PORT == 1)
@@ -60,7 +61,15 @@ void 	retarget_init(void)
         gpio_direction_output(18);
 		
 #endif	
-		printf("\n SYSTEM BUILD TIME: %s %s \n",__DATE__,__TIME__);
+        
+        char *str = "\n SYSTEM BUILD TIME\n";
+        for(int i = 0 ; i < 20;i++)
+        {
+            sendchar(str[i]);
+        }
+        
+	//	while(1);
+         //   printf("\n SYSTEM BUILD TIME: %s %s \n",__DATE__,__TIME__);
 
 }
 
@@ -89,8 +98,9 @@ int  	sendchar(int c)
 }
 
 struct __FILE { int handle; /* Add whatever you need here */ };
-FILE __stdout;
 
+FILE __stdout;
+#if  defined (XC60XX_M0)
 
 int fputc(int ch, FILE *f) {
   return (sendchar(ch));
@@ -110,4 +120,30 @@ void _ttywrch(int ch) {
 void _sys_exit(int return_code) {
 label:  goto label;  /* endless loop */
 }
+#endif 
+
+
+#if 0
+
+void xinc_trace_u16_print(uint16_t value, uint8_t index, uint16_t level)
+{
+
+}
+
+void xinc_trace_u32_print(uint32_t value, uint8_t index) //, uint16_t level
+{
+
+}
+#else
+void xinc_trace_u16_print(uint16_t value, uint8_t index, uint16_t level)
+{
+
+}
+
+void xinc_trace_u32_print(uint32_t value, uint8_t index) //, uint16_t level
+{
+   
+}
+
+#endif
 

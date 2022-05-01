@@ -1,112 +1,126 @@
-#include 	"Platform.h"
-#include  "bsp_register_macro.h"
-#include "bsp_timer.h"
- 
-#if 0
-/* ---------------------------------------------------------------------------------------------------
-- 函数名称: xc_timer_init
-- 函数功能: 定时器初始化
-- 函数形参：定时器号，定时多少us
-- 创建日期: 2019-04-22
-- 创 建 人：陈俊伟
+
+#include    "bsp_timer.h"
+#include "xinc.h"
+/* Device selection for device includes. */
+#if  defined (XC60XX_M0)
+    #include    "xinc_m0.h"
+#elif defined (XC66XX_M4)
+    #include    "xinc_m4.h"
+#else
+    #error "Device must be defined. See xinc.h."
+#endif /* */
+
+
+#define     	__write_hw_reg32(reg,val)  ((*reg) = (val))
+#define     	__read_hw_reg32(reg, val)  ((val) = (*reg))
+
+#define		    CPR_BASE                0x40000000
+#define		    TIMER_BASE              0x40003000
+/*----------------------------------------------------------------------------------------------------
+	INCLUDE HEADE FILES
 ----------------------------------------------------------------------------------------------------*/
-void xc_timer_init1(timer_ch_t timer_ch,uint32_t us)
-{
-	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x80008); //TIMER_PCLK 时钟使能
-	__write_hw_reg32(CPR_TIMER_CLK_CTL(timer_ch),0x0F);//TIMERx_CLK 时钟控制寄存器 mclk_in(32MHz)/2*(0x0F + 0x1)
-	__write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//不屏蔽定时器中断，不使能定时器timer_num，
-	__write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//设置定时器工作在自运行计数模式
-	//	__write_hw_reg32(TIMERx_TCR(timer_ch),0x2);//设置定时器工作在用户定义计数模式
-	__write_hw_reg32(TIMERx_TLC(timer_ch),us);//载入计数器计数初值(32bits),该值应大于等于 0x4
-    __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
-	NVIC_EnableIRQ((IRQn_Type)(TIMER0_IRQn+timer_ch));
-}
+#define         CPR_CTLAPBCLKEN_GRCTL   ((volatile unsigned *)(CPR_BASE + 0x070))
+#define         CPR_LP_CTL              ((volatile unsigned *)(CPR_BASE + 0x118))
+//- TIMER
+#define     	CPR_TIMER_CLK_CTL(a)	((volatile unsigned *)(CPR_BASE + 0x58 + (a * 0x04)))
+#define     	TIMERx_TLC(a)     		((volatile unsigned *)(TIMER_BASE + 0x00 + (a * 0x14)))
+#define     	TIMERx_TCV(a)     		((volatile unsigned *)(TIMER_BASE + 0x04 + (a * 0x14)))
+#define     	TIMERx_TCR(a)     		((volatile unsigned *)(TIMER_BASE + 0x08 + (a * 0x14)))
+#define     	TIMERx_TIC(a)     		((volatile unsigned *)(TIMER_BASE + 0x0C + (a * 0x14)))
+#define     	TIMERx_TIS(a)      		((volatile unsigned *)(TIMER_BASE + 0x10 + (a * 0x14)))
 
-void xc_timer_init(timer_ch_t timer_ch,uint32_t us)
-{
-	uint32_t clk =0;
-	clk = 0xf << 0;
-	clk |= 0xf << 8;
-	clk |= 0x01 << 28;
-	__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL,0x80008); //TIMER_PCLK 时钟使能
-	__write_hw_reg32(CPR_TIMER_CLK_CTL(timer_ch),clk);//TIMERx_CLK 时钟控制寄存器 mclk_in(32MHz)/2*(0x0F + 0x1)
-	__write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//不屏蔽定时器中断，不使能定时器timer_num，
-	__write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//设置定时器工作在自运行计数模式
-	//	__write_hw_reg32(TIMERx_TCR(timer_ch),0x2);//设置定时器工作在用户定义计数模式
-	__write_hw_reg32(TIMERx_TLC(timer_ch),us);//载入计数器计数初值(32bits),该值应大于等于 0x4
-    __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
-	NVIC_EnableIRQ((IRQn_Type)(TIMER0_IRQn+timer_ch));
-}
+    
+extern tHandler_callback   tHandler_Callback[4] ;
 
-void xc_timer_start(timer_ch_t timer_ch,uint32_t us)
-{
-	//printf("xc_timer_start:%d \r\n",us);
-	 __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
-	__write_hw_reg32(TIMERx_TLC(timer_ch),us);
-   __write_hw_reg32(TIMERx_TCR(timer_ch),0x1);//使能定时器timer_num
-}
-void xc_timer_restart(timer_ch_t timer_ch,uint32_t us)
-{
-	 __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
-	__write_hw_reg32(TIMERx_TLC(timer_ch),us);
-   __write_hw_reg32(TIMERx_TCR(timer_ch),0x1);//使能定时器timer_num
-}
-
-uint32_t  xc_timer_cnt_get(timer_ch_t timer_ch)
-{
-	uint32_t cur_val;
-   __read_hw_reg32(TIMERx_TCV(timer_ch),cur_val);//
-	return cur_val;
-}
-
-void xc_timer_stop(timer_ch_t timer_ch)
-{	
-	//printf("xc_timer_stop \r\n");
-   __write_hw_reg32(TIMERx_TCR(timer_ch),0x0);//使能定时器timer_num
-
-}
 /* ---------------------------------------------------------------------------------------------------
-- 函数名称: TIMER2_Handler
-- 函数功能: 定时器2服务函数
-- 函数形参：无
-- 创建日期: 2019-04-22
-- 创 建 人：陈俊伟
+- ��������: Init_Timer
+- ��������: TIMER��ʼ��
+- �������: 0/1/2/3, �����ֵ(Tick����, ��λ: ����, ���ֵΪ 131071 ms)
 ----------------------------------------------------------------------------------------------------*/
+extern	void	Init_Timer(uint32_t ch, uint32_t msTick)
+{
+		uint32_t	val;
+    	
+		__write_hw_reg32(CPR_CTLAPBCLKEN_GRCTL , 0x80008);		
+		__write_hw_reg32(CPR_TIMER_CLK_CTL(ch) , 0x40000000);	//- TIMERѡ32Khz��Ϊʱ��Դ
+	
+		__read_hw_reg32(CPR_LP_CTL , val);
+		val |= (1<<2);
+		__write_hw_reg32(CPR_LP_CTL , val);						//- ˯��ʱ32Khz�л�
+	
+		__read_hw_reg32(TIMERx_TIC(ch) , val);								
+		__write_hw_reg32(TIMERx_TCR(ch) , 0x00);
+		//val = (msTick * 32000)/1000;
+		val = msTick;
+        __write_hw_reg32(TIMERx_TLC(ch) , val);
+		__write_hw_reg32(TIMERx_TCR(ch) , 0x03);
+
+		val = TIMER0_IRQn + ch;
+		NVIC_EnableIRQ((IRQn_Type)val);							//- ʹ���ж�
+}
 
 
-//void TIMER2_Handler(void)
+///* ---------------------------------------------------------------------------------------------------
+//- ��������: Timer_Register_Callback
+//- ��������: ΪTIMERע���жϴ�������
+//----------------------------------------------------------------------------------------------------*/
+//extern	void	Timer_Register_Callback(tHandler_callback callback, uint32_t ch)
 //{
-//	uint32_t val=0;
-//	__read_hw_reg32(TIMER2_TIC , val);
-//	//需要处理的定时器任务
-//	printf("TIMER2_Handler\n");
-//	
+//        tHandler_Callback[ch] = callback;
 //}
+
+
 /* ---------------------------------------------------------------------------------------------------
-- 函数名称: TIMER3_Handler
-- 函数功能: 定时器3服务函数
-- 函数形参：无
-- 创建日期: 2019-04-22
-- 创 建 人：陈俊伟
+- ��������: TIMER0_Handler
+- ��������: TIMER0�жϴ�������
 ----------------------------------------------------------------------------------------------------*/
-void TIMER3_Handler(void)
+extern	void	TIMER0_Handler(void)
 {
-	uint32_t val=0;
-	__read_hw_reg32(TIMER3_TIC , val);
-	GPIO_OUTPUT_LOW(4);
-	GPIO_OUTPUT_HIGH(4);
-	GPIO_OUTPUT_LOW(4);
+		uint32_t	val;
+		__read_hw_reg32(TIMERx_TIC(0) , val);					
+
+        if(tHandler_Callback[0] != (tHandler_callback)0)
+            tHandler_Callback[0](0);
+}
+
+/* ---------------------------------------------------------------------------------------------------
+- ��������: Timer_Disable
+- �������: 0/1/2/3
+- ��������: �ر�Timer�������ж�
+----------------------------------------------------------------------------------------------------*/
+extern	void	Timer_disable(uint32_t ch)
+{
+    uint32_t    val;
+    
+    __write_hw_reg32(TIMERx_TCR(ch) , 0x00);                    
+    
+	val = TIMER0_IRQn + ch;
+	NVIC_DisableIRQ((IRQn_Type)val);							   
+}
+
+void	TIMER1_Handler(void)
+{
+		uint32_t	val;
+		__read_hw_reg32(TIMERx_TIC(1) , val);					//- ����ж�
+    
+        if(tHandler_Callback[1] != (tHandler_callback)0)
+            tHandler_Callback[1](1);
+}
+
+uint32_t	timer_current_count(uint32_t ch)
+{
+	uint32_t	val;
+	__read_hw_reg32(TIMERx_TCR(ch) , val);
+	if((val & 0x01) == 0) return 0; 
 	
-	GPIO_OUTPUT_LOW(4);
-	GPIO_OUTPUT_HIGH(4);
-	GPIO_OUTPUT_LOW(4);
-	
-	GPIO_OUTPUT_LOW(4);
-	GPIO_OUTPUT_HIGH(4);
-	GPIO_OUTPUT_LOW(4);
-	
-	//需要处理的定时器任务
-	printf("TIMER3_Handler\n");
+	__read_hw_reg32(TIMERx_TCV(ch) , val);
+    uint8_t count=0;
+    while(val>0x1FFFF)//4096ms
+    {    
+       if((count++)>50) return 5*32;//5ms           
+       __read_hw_reg32(TIMERx_TCV(ch) , val);
+       
+    }
+	return val;
 	
 }
-#endif

@@ -1,0 +1,25 @@
+
+LR_IROM1	0x10000000	NOCOMPRESS
+{
+	EXE 0x10000000 NOCOMPRESS
+	{
+        startup_xinc_m4.o (RESET, +FIRST)
+	}
+
+    
+    RW  0x10003400 FIXED  ; 0x10005000  NOCOMPRESS;FIXED
+    {
+        * (+RO)
+ 
+          * (+RW,+ZI)
+    }
+    
+
+		
+	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (96*1024 - 0X0000)) 
+	
+}
+
+
+ 
+
