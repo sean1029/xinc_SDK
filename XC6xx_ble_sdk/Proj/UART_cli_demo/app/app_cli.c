@@ -36,6 +36,11 @@ static void cmd_led(xinc_cli_t const * p_cli, size_t argc, char **argv)
 static void xinc_cli_cmd_led_off(xinc_cli_t const * p_cli, size_t argc, char **argv)
 {
     uint8_t idx;
+//    xinc_cli_print(p_cli, "argc:%d",argc);
+//    for(int i = 0;i < argc;i++)
+//    {
+//        xinc_cli_print(p_cli, "%s",argv[i]);
+//    }
     if (argc == 1 )
     {
         bsp_board_leds_off();
@@ -43,10 +48,11 @@ static void xinc_cli_cmd_led_off(xinc_cli_t const * p_cli, size_t argc, char **a
     }
     else if (argc <= 5)
     {
-        for(int i = 1; i <= argc;i++)
+        for(int i = 1; i < argc;i++)
         {
             idx = strtol(argv[i],NULL,10);
             bsp_board_led_off(idx);
+            xinc_cli_print(p_cli, "led off:%d",idx);
         }
         
     }
@@ -70,7 +76,7 @@ static void xinc_cli_cmd_led_on(xinc_cli_t const * p_cli, size_t argc, char **ar
     }
      else if (argc <= 5)
     {
-        for(int i = 1; i <= argc;i++)
+        for(int i = 1; i < argc;i++)
         {
             idx = strtol(argv[i],NULL,10);
             bsp_board_led_on(idx);

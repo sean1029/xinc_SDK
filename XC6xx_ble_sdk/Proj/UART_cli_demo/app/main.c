@@ -43,9 +43,9 @@ static void scheduler_init(void)
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
 
+#define APP_UART_USE_INST_IDX   XINCX_APP_UART1_INST_IDX
 
-
-XINC_CLI_UART_DEF(cli_uart, 1, 64, 64);
+XINC_CLI_UART_DEF(cli_uart, 2, 64, 64);
 XINC_CLI_DEF(m_cli_uart, "cli:~$ ", &cli_uart.transport, '\r', 4);
 
 void uart_cli_test(void)
@@ -58,8 +58,8 @@ void uart_cli_test(void)
     bsp_board_init(BSP_INIT_LEDS);
     
     xinc_drv_uart_config_t uart_config;
-    uart_config.pseltxd = CLI_TX_PIN_NUMBER;
-    uart_config.pselrxd = CLI_RX_PIN_NUMBER;
+    uart_config.pseltxd = CLI2_TX_PIN_NUMBER;
+    uart_config.pselrxd = CLI2_RX_PIN_NUMBER;
     uart_config.parity = XINC_UART_PARITY_EXCLUDED;
     uart_config.data_bits = XINC_UART_DATA_8_BITS;
     uart_config.stop_bits = XINC_UART_STOP_1_BITS;

@@ -94,9 +94,11 @@ extern "C" {
 #define APP_UART2_RX_PIN_NUMBER  31
 	
 
-#define CLI_RX_PIN_NUMBER  2
-#define CLI_TX_PIN_NUMBER  3
+#define CLI_RX_PIN_NUMBER  3
+#define CLI_TX_PIN_NUMBER  2
 
+#define CLI2_RX_PIN_NUMBER  31
+#define CLI2_TX_PIN_NUMBER  32
 
 #define SPIM0_SCK_PIN   29  // SPI clock GPIO pin number.
 #define SPIM0_MOSI_PIN  25  // SPI Master Out Slave In GPIO pin number.
