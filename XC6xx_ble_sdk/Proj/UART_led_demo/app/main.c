@@ -47,6 +47,7 @@ static void scheduler_init(void)
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
 
+#define APP_UART_USE_INST_IDX   XINCX_APP_UART1_INST_IDX
 
 void uart_event_handle(app_uart_evt_t * p_event)
 {
@@ -87,7 +88,7 @@ void uart_led_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
-        .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
+        .uart_inst_idx = APP_UART_USE_INST_IDX,
         .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
         .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
@@ -144,17 +145,19 @@ void uart_led_test(void)
                         bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
                         RxCnt = 0;
                     break;
-                    
-                    case 0:
-                        bsp_board_leds_off(); //熄灭所有 LED 指示灯
-                        RxCnt = 0;
-                    break;
-                    
+   #if defined (BOARD_PCA10060)              
                     case 3:
-                        bsp_board_leds_on(); //点亮所有 LED 指示灯
+                        bsp_board_leds_off(); //熄灭所有 LED 指示灯
+                        bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
                         RxCnt = 0;
                     break;
                     
+                    case 4:
+                        bsp_board_leds_off();
+                        bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+                        RxCnt = 0;
+                    break;
+    #endif             
                     default:
                         bsp_board_leds_off();
                         RxCnt = 0;
@@ -192,7 +195,7 @@ int	main(void)
     while(1) {
 
        app_sched_execute();
-        if(app_uart_get(XINCX_APP_UART1_INST_IDX,&cr) == XINC_SUCCESS)
+        if(app_uart_get(APP_UART_USE_INST_IDX,&cr) == XINC_SUCCESS)
         {
             uart_data_proess(cr);
             
