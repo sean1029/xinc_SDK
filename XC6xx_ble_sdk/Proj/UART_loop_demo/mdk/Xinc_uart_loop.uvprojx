@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>SBC_ENC_INCLUDED XC6028 BOARD_PCA10040</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\driver_ext\Flash;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4;..\..\..\components\libraries\mem_manager</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\driver_ext\Flash;..\..\..\components\libraries\mem_manager;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,6 +394,11 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
+              <FileName>core_cm0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
+            </File>
+            <File>
               <FileName>system_xincM0.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
@@ -402,11 +407,6 @@
               <FileName>startup_xinc_m0.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
-            </File>
-            <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -628,14 +628,14 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
             <File>
-              <FileName>xincx_kbs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
-            </File>
-            <File>
               <FileName>xincx_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1052,9 +1052,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10040</Define>
+              <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10060</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\driver_ext\Flash;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4;..\..\..\components\libraries\mem_manager</IncludePath>
+              <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\components\driver_ext\Flash;..\..\..\components\libraries\mem_manager;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M0;..\..\..\modules\xincx\mdk\startup\M4</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1178,6 +1178,11 @@
           </GroupOption>
           <Files>
             <File>
+              <FileName>core_cm0.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
+            </File>
+            <File>
               <FileName>system_xincM0.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\mdk\startup\M0\system_xincM0.c</FilePath>
@@ -1186,11 +1191,6 @@
               <FileName>startup_xinc_m0.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\..\..\modules\xincx\mdk\startup\M0\startup_xinc_m0.s</FilePath>
-            </File>
-            <File>
-              <FileName>core_cm0.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\mdk\startup\M0\core_cm0.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1343,14 +1343,14 @@
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_dmas.c</FilePath>
             </File>
             <File>
-              <FileName>xincx_kbs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
-            </File>
-            <File>
               <FileName>xincx_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\modules\xincx\drivers\src\xincx_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>xincx_kbs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\modules\xincx\drivers\src\xincx_kbs.c</FilePath>
             </File>
           </Files>
         </Group>

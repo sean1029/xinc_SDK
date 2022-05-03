@@ -18,9 +18,9 @@
 #include "xinc_delay.h"
 
 
-//#define  BLINK_LED_TEST_1
+#define  BLINK_LED_TEST_1
 //#define  BLINK_LED_TEST_2
-#define  BLINK_LED_TEST_3
+//#define  BLINK_LED_TEST_3
 //#define  BLINK_LED_TEST_4
 //#define  BLINK_LED_TEST_5
 
@@ -65,10 +65,10 @@ void blink_LEDs_test1(void)
 
 void blink_LEDs_test2(void)
 {
-   //配置用于驱动 LED 指示灯 D1 的管脚，即配置 P0.4 为输出
+   //配置用于驱动 LED 指示灯 D1 的管脚，即配置 P0.29 为输出
    xinc_gpio_cfg_output(LED_1);
 
-   //LED 指示灯 D1 初始状态设置为熄灭，即引脚 P0.4 为输出高电平
+   //LED 指示灯 D1 初始状态设置为熄灭，即引脚 P0.29 为输出高电平
    xinc_gpio_pin_set(LED_1);
 
     
@@ -87,7 +87,7 @@ void blink_LEDs_test2(void)
         
 #else
         //以下是用 xinc_gpio_pin_toggle 函数实现驱动 led 闪烁
-        //翻转引脚 P0.4 的输出状态，即翻转指示灯 D1 的状态
+        //翻转引脚 P0.29 的输出状态，即翻转指示灯 D1 的状态
         xinc_gpio_pin_toggle(LED_1);
         //软件延时 200ms
         xinc_delay_ms(200);
@@ -101,7 +101,7 @@ void blink_LEDs_test3(void)
 {
     uint8_t i;
 
-    //配置用于驱动 LED 指示灯 D1 D2 D3 D4 的引脚脚，即配置 P0.13~P0.16 为输出
+    //配置用于驱动 LED 指示灯 D1 D2 D3 D4 的引脚脚，即配置 为输出
     xinc_gpio_range_cfg_output(LED_START, LED_STOP);
     //4个 LED 初始状态设置为熄灭，即 P0.13~P0.16 输出高电平
     xinc_gpio_pin_set(LED_1);

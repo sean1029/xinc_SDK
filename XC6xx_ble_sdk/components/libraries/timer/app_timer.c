@@ -123,7 +123,7 @@ static void timer_timeouts_check(void);
 #include "xincx_timer.h"
 const static xincx_timer_t hw_timer = XINCX_TIMER_INSTANCE(3);
 
-/**@brief Function for handling the RTC0 interrupt.
+/**@brief Function for handling the TIMER3 interrupt.
  *
  * @details Checks for timeouts, and executes timeout handlers for expired timers.
  */
@@ -138,7 +138,7 @@ static void hw_timer_handler(xinc_timer_int_event_t event_type,uint8_t channel ,
 }
 
 
-/**@brief Function for initializing the RTC_AOTIME .
+/**@brief Function for initializing the TIMER.
  *
  * @param[in] VOID
  */
@@ -180,7 +180,7 @@ static void hw_timer_init(void)
 
 static void hw_timer_start(void)
 {
-  //  printf("timer_start\r\n");
+//    printf("timer_start\r\n");
     m_hw_timer_running = true;
 }
 
@@ -202,7 +202,7 @@ static void hw_timer_stop(void)
     
 }
 
-/**@brief Function for computing the difference between two TIME2 counter values.
+/**@brief Function for computing the difference between two TIME3 counter values.
  *
  * @return     Number of ticks elapsed from ticks_old to ticks_now.
  */
@@ -214,7 +214,7 @@ static __INLINE uint32_t ticks_diff_get(uint32_t ticks_now, uint32_t ticks_old)
 
 /**@brief Function for returning the current value of the sys tick counter.
  *
- * @return     Current value of the RTC1 counter.
+ * @return     Current value of the TIMER3 counter.
  */
 static __INLINE uint32_t timer2_counter_get(void) //timer counter use m_sys_ticks uint 1ms 
 {
@@ -225,10 +225,10 @@ static __INLINE uint32_t timer2_counter_get(void) //timer counter use m_sys_tick
 
 
 
-/**@brief Function for setting the RTC1 Capture Compare register 0, and enabling the corresponding
+/**@brief Function for setting the TIMER3 Capture Compare register 0, and enabling the corresponding
  *        event.
  *
- * @param[in] value   New value of Capture Compare register 0.
+ * @param[in] value   New value of  register 0.
  */
 static __INLINE void hw_timer_sigle_set(uint32_t value)
 {
@@ -236,7 +236,7 @@ static __INLINE void hw_timer_sigle_set(uint32_t value)
     uint32_t time_ticks;
     time_ticks  = xincx_timer_ms_to_ticks(&hw_timer, value);
     m_set_timer = time_ticks;
-    xincx_timer_compare(&hw_timer,time_ticks,XINC_TIMER_MODE_USER_COUNTER,true);
+    xincx_timer_compare(&hw_timer,time_ticks,XINC_TIMER_MODE_AUTO_TIMER,true);
 
 }
 
@@ -356,7 +356,7 @@ static bool timer_list_remove(timer_node_t * p_timer)
 }
 
 
-/**@brief Function for scheduling a check for timeouts by generating a RTC1 interrupt.
+/**@brief Function for scheduling a check for timeouts by generating a TIMER3 interrupt.
  */
 static void timer_timeouts_check_sched(void)
 {
@@ -369,18 +369,20 @@ static void timer_timeouts_check_sched(void)
 /**@brief Function for scheduling a timer list update by generating a SWI interrupt.
  */
 static void timer_list_handler(void);
-
 uint8_t list_handler_sched_flag = 0;
 static void timer_list_handler_sched(void)
 {
-		SCB->ICSR = SCB->ICSR | SCB_ICSR_PENDSVSET_Msk;
+	SCB->ICSR = SCB->ICSR | SCB_ICSR_PENDSVSET_Msk;
   //  timer_list_handler();
+   //  printf("timer_list_handler_sched\n");
+
 }
 
 void	PendSV_Handler(void)
 {
-//	list_handler_sched_flag++;
+	//list_handler_sched_flag++;
 	timer_list_handler();
+  //  printf("PendSV_Handler\n");
 
 }
 
@@ -752,10 +754,16 @@ static void compare_reg_update(timer_node_t * p_timer_id_head_old)
 
  void extern_timer_list_handler(void)
  {
-		timer_list_handler();
+     if(list_handler_sched_flag >0)
+     {
+        timer_list_handler();
+        list_handler_sched_flag--;
+     }
+		
  }
 static void timer_list_handler(void)
 {
+ //   printf("timer_list_handler\r\n");
     timer_node_t * p_restart_list_head = NULL;
 
     uint32_t       ticks_elapsed;

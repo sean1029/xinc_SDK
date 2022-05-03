@@ -48,7 +48,6 @@ void gpio_buttun_test1()
     while(true)
     {
         //检测按键 S1 是否按下
-        
         if(xinc_gpio_pin_read(BUTTON_1) == 0)
         {
             //点亮 LED 指示灯 D1
@@ -57,7 +56,7 @@ void gpio_buttun_test1()
             //熄灭 LED 指示灯 D1
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
         }
-     
+        
         if(xinc_gpio_pin_read(BUTTON_2) == 0)
         {
             //点亮 LED 指示灯 D2
@@ -66,7 +65,27 @@ void gpio_buttun_test1()
             //熄灭 LED 指示灯 D2
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
         }
+#if defined (BOARD_PCA10060)
+        if(xinc_gpio_pin_read(BUTTON_3) == 0)
+        {
+            //点亮 LED 指示灯 D2
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            while(xinc_gpio_pin_read(BUTTON_3) == 0);//等待按键释放
+            //熄灭 LED 指示灯 D2
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+        }
+        
+        if(xinc_gpio_pin_read(BUTTON_4) == 0)
+        {
+            //点亮 LED 指示灯 D2
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+            while(xinc_gpio_pin_read(BUTTON_4) == 0);//等待按键释放
+            //熄灭 LED 指示灯 D2
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        }
+#endif
     }
+
 }
 #endif // GPIO_BUTTON_TEST_1
 
@@ -78,7 +97,11 @@ void gpio_buttun_test1()
  * @param[in] button_action The button action (press/release).
  */
 #define S1BUTTON_BUTTON_PIN            BSP_BUTTON_0   
-#define S2BUTTON_BUTTON_PIN            BSP_BUTTON_1   
+#define S2BUTTON_BUTTON_PIN            BSP_BUTTON_1 
+#if defined (BOARD_PCA10060)
+#define S3BUTTON_BUTTON_PIN            BSP_BUTTON_2   
+#define S4BUTTON_BUTTON_PIN            BSP_BUTTON_3
+#endif
 
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 
@@ -123,6 +146,42 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 
         
         }break;
+        
+        #if defined (BOARD_PCA10060)
+        case S3BUTTON_BUTTON_PIN:
+        {
+             //检测按键 S3 是否按下
+            if(button_action == APP_BUTTON_PUSH)
+            {
+                //点亮 LED 指示灯 D3
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            }    
+            else//S2 按键释放
+            {
+                //熄灭 LED 指示灯 D3
+                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            }     
+        }break;
+        
+        case S4BUTTON_BUTTON_PIN:
+        {
+             //检测按键 S3 是否按下
+            if(button_action == APP_BUTTON_PUSH)
+            {
+                //点亮 LED 指示灯 D4
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+            }    
+            else//S2 按键释放
+            {
+                //熄灭 LED 指示灯 D4
+                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+            }
+
+        
+        }break;
+        
+        
+        #endif 
           
        
             
@@ -142,6 +201,10 @@ void gpio_buttun_test2()
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
         {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        #if defined (BOARD_PCA10060)
+        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
+        {S4BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        #endif
     };
 
     bsp_board_init(BSP_INIT_LEDS);
@@ -185,6 +248,33 @@ void bsp_evt_handler(bsp_event_t evt)
             //熄灭 LED 指示灯 D2
             bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
         } break;
+        
+        #if defined (BOARD_PCA10060)
+        case BSP_EVENT_LED3_ON:
+        {
+            //点亮 LED 指示灯 D3
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+        } break;
+        // 按键S2 注册的释放事件的回调
+        case BSP_EVENT_LED3_OFF:
+        {
+            //熄灭 LED 指示灯 D3
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+        } break;
+        
+        case BSP_EVENT_LED4_ON:
+        {
+            //点亮 LED 指示灯 D4
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        // 按键S2 注册的释放事件的回调
+        case BSP_EVENT_LED4_OFF:
+        {
+            //熄灭 LED 指示灯 D4
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        #endif
            
 
         default:
@@ -203,6 +293,16 @@ void gpio_buttun_test3()
     //注册按键S2 释放时候的事件
     err_code = bsp_event_to_button_action_assign(1, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF));
 
+    //注册按键S3 按下时候的事件
+    err_code = bsp_event_to_button_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED3_ON ));
+    //注册按键S3 释放时候的事件
+    err_code = bsp_event_to_button_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED3_OFF));
+    
+        //注册按键S4 按下时候的事件
+    err_code = bsp_event_to_button_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED4_ON ));
+    //注册按键S4 释放时候的事件
+    err_code = bsp_event_to_button_action_assign(3, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED4_OFF));
+    
     err_code = bsp_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS,bsp_evt_handler);
 
     APP_ERROR_CHECK(err_code);

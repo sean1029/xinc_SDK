@@ -100,14 +100,165 @@ void bsp_evt_handler(bsp_event_t evt)
         case BSP_EVENT_KEY_0:
         {
             printf("BSP_EVENT_KEY_0 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
         } break;
         
         case BSP_EVENT_KEY_1:
         {
- 
-            printf("BSP_EVENT_KEY_1\r\n");
+
+            printf("BSP_EVENT_KEY_1\r\n");         
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        case BSP_EVENT_KEY_2:
+        {
+            printf("BSP_EVENT_KEY_2 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
         } break;
         
+        case BSP_EVENT_KEY_3:
+        {
+ 
+            printf("BSP_EVENT_KEY_3\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        #if defined (BOARD_PCA10060)
+           case BSP_EVENT_KEY_4:
+        {
+            printf("BSP_EVENT_KEY_4 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_5:
+        {
+ 
+            printf("BSP_EVENT_KEY_5\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        case BSP_EVENT_KEY_6:
+        {
+            printf("BSP_EVENT_KEY_6 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_7:
+        {
+ 
+            printf("BSP_EVENT_KEY_7\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_8:
+        {
+            printf("BSP_EVENT_KEY_8 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_9:
+        {
+ 
+            printf("BSP_EVENT_KEY_9\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_10:
+        {
+            printf("BSP_EVENT_KEY_10 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_11:
+        {
+ 
+            printf("BSP_EVENT_KEY_11\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+         case BSP_EVENT_KEY_12:
+        {
+            printf("BSP_EVENT_KEY_12 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_13:
+        {
+ 
+            printf("BSP_EVENT_KEY_13\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_14:
+        {
+            printf("BSP_EVENT_KEY_14 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+        case BSP_EVENT_KEY_15:
+        {
+ 
+            printf("BSP_EVENT_KEY_15\r\n");
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        case BSP_EVENT_KEY_16:
+        {
+            printf("BSP_EVENT_KEY_16 \r\n");
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_3));
+            bsp_board_led_off(bsp_board_pin_to_led_idx(LED_4));
+        } break;
+        
+   
+    
+        #endif
         
            
 
@@ -115,7 +266,25 @@ void bsp_evt_handler(bsp_event_t evt)
             break; // No implementation needed
     }
 }
-
+/*********mtxkey_idx 2 key_num**********************
+mtxkey_idx  key_num
+    0           1
+    1           5
+    2           2
+    3           6
+    4           9
+    5           16
+    6           10
+    7           15
+    8           3
+    9           7
+    10          11
+    11          14
+    12          4
+    13          8
+    14          12
+    15          13
+****************************/
 
 void kbs_mtxkey_bsp_test()
 {
@@ -123,15 +292,32 @@ void kbs_mtxkey_bsp_test()
     
     bsp_board_init(BSP_INIT_LEDS);
     
-    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED1_ON ));
-    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED1_OFF ));
-
-    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_LED2_ON ));
-    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_RELEASE, (bsp_event_t)(BSP_EVENT_LED2_OFF ));
-
-    err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
-    err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
-
+    err_code = bsp_event_to_mtxkey_action_assign(0, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_1 ));
+    err_code = bsp_event_to_mtxkey_action_assign(1, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_5 ));
+    err_code = bsp_event_to_mtxkey_action_assign(2, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_2 ));
+    err_code = bsp_event_to_mtxkey_action_assign(3, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_6 ));
+    
+  #if defined (BOARD_PCA10060)
+    
+    err_code = bsp_event_to_mtxkey_action_assign(4, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_9 ));
+    err_code = bsp_event_to_mtxkey_action_assign(5, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_16 ));
+    err_code = bsp_event_to_mtxkey_action_assign(6, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_10 ));
+    err_code = bsp_event_to_mtxkey_action_assign(7, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_15 ));
+    
+    
+    err_code = bsp_event_to_mtxkey_action_assign(8, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_3 ));
+    err_code = bsp_event_to_mtxkey_action_assign(9, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_7 ));
+    err_code = bsp_event_to_mtxkey_action_assign(10, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_11 ));
+    err_code = bsp_event_to_mtxkey_action_assign(11, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_14 ));
+    
+    err_code = bsp_event_to_mtxkey_action_assign(12, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_4 ));
+    err_code = bsp_event_to_mtxkey_action_assign(13, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_8 ));
+    err_code = bsp_event_to_mtxkey_action_assign(14, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_12 ));
+    err_code = bsp_event_to_mtxkey_action_assign(15, BSP_BUTTON_ACTION_PUSH, (bsp_event_t)(BSP_EVENT_KEY_13 ));
+    
+    err_code = bsp_event_to_mtxkey_action_assign(15, BSP_BUTTON_ACTION_LONG_PUSH, (bsp_event_t)(BSP_EVENT_KEY_0 ));
+    
+  #endif
     
     err_code = bsp_init(BSP_INIT_MTXKEY,bsp_evt_handler);
 
@@ -143,20 +329,61 @@ void kbs_mtxkey_bsp_test()
 
 
 static void mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action);
+/*********mtxkey_idx 2 key_num**********************
+mtxkey_idx  key_num
+    0           1
+    1           5
+    2           2
+    3           6
+    4           9
+    5           16
+    6           10
+    7           15
+    8           3
+    9           7
+    10          11
+    11          14
+    12          4
+    13          8
+    14          12
+    15          13
+****************************/
 static xincx_kbs_mtxkey_cfg_t mtxkeys[] =
 {
-  [2] = {12,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, mtxkey_event_handler},//BUTTON_PULLDOWN
-  [1] = {10,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, mtxkey_event_handler},
-  [3] = {11,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  [0] = {1,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, mtxkey_event_handler},
+  [1] = {5,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  [2] = {2,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, mtxkey_event_handler},//BUTTON_PULLDOWN
+  [3] = {6,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  
+  #if defined (BOARD_PCA10060)
+  
+  [4] = {9,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_3, mtxkey_event_handler},
+  [5] = {16,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_4, mtxkey_event_handler},
+  [6] = {10,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_3, mtxkey_event_handler},
+  [7] = {15,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_4, mtxkey_event_handler},
+  
+  [8] = {3,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_1, mtxkey_event_handler},
+  [9] = {7,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  [10] = {11,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_3, mtxkey_event_handler},
+  [11] = {14,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_4, mtxkey_event_handler},
+  
+  [12] = {4,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_1, mtxkey_event_handler},
+  [13] = {8,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  [14] = {12,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_3, mtxkey_event_handler},
+  [15] = {13,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_4, mtxkey_event_handler},
+  
+  
+  #endif
 
   
-  [0] = {13,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, mtxkey_event_handler},
+  
 
 };
             
 static void mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action)
 {
 
+    printf("mtxkey_idx:%d,key_val:%d,row_pin:%d,col_pin:%d,action:%d\r\n",mtxkey_idx,key_val,row_pin,col_pin,button_action);
     switch (button_action)
     {
         case KBS_MTXKEY_PUSH:
@@ -220,7 +447,7 @@ int	main(void)
     
     SysTick_Config(32000000/100);
 
-
+   // kbs_mtxkey_drv_test();
     kbs_mtxkey_bsp_test();
     
 
@@ -232,7 +459,7 @@ int	main(void)
 	   {	
            if(LastTimeGulSystickCount % 200 == 0)
            {
-               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);            
+             //  printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);            
            }           
 
 		   LastTimeGulSystickCount=GulSystickCount;

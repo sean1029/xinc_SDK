@@ -202,9 +202,9 @@ xincx_err_t xincx_gpio_init(void)
              printf("gpio_cfg_default:%d\r\n ",i);
          //   xinc_gpio_cfg_default(i);
             
-            gpio_mux_ctl(i,0);
-           gpio_fun_sel(i,0);
-           gpio_direction_input(i,1);
+          //  gpio_mux_ctl(i,0);
+         //  gpio_fun_sel(i,0);
+          // gpio_direction_input(i,1);
             
 //            xinc_gpio_mux_ctl(i,0);
 //           xinc_gpio_fun_sel(i,0);
@@ -584,9 +584,10 @@ void xincx_gpio_irq_handler(void)
         {
             if (mask & status[0])
             {
-                //	printf("xincx_gpio_irq_handler:%x,i:%d\n",status,i);
+                	
                 xincx_gpio_evt_handler_t handler =
                 pin_handler_get((uint32_t)pin_handler_id_get(i));
+              //  printf("xincx_gpio_irq_handler:%x,i:%d,handler:%p\n",status[0],i,handler);
                 if (handler)
                 {
                     handler(i, XINC_GPIO_POLARITY_LOTOHI);

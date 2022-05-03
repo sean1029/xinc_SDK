@@ -4,7 +4,7 @@
 ----------------------------------------------------------------------------------------------------*/
 #include 	"Platform.h"
 #include    "test_config.h"
-#include "xinc_gpio.h"
+#include "xincx_gpio.h"
 
 #if 1
 IoHandler_callback	IoHandler_Callback = (IoHandler_callback)0;

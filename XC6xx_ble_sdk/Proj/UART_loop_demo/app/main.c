@@ -91,7 +91,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
     static uint16_t index = 0;
     uint32_t ret_val;
     uint32_t err_code;
-
+    printf("uart_event_handle:%d\r\n",p_event->evt_type);
     switch (p_event->evt_type)
     {
        
@@ -112,6 +112,9 @@ void uart_event_handle(app_uart_evt_t * p_event)
 }
 #define UART_TX_BUF_SIZE        64                                     /**< UART TX buffer size. */
 #define UART_RX_BUF_SIZE        64                                     /**< UART RX buffer size. */
+
+#define APP_UART_USE_INST_IDX   XINCX_APP_UART2_INST_IDX
+
 void uart_loop_test(void)
 {
 
@@ -120,9 +123,9 @@ void uart_loop_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
-        .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
-        .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
-        .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
+        .uart_inst_idx = APP_UART_USE_INST_IDX,
+        .rx_pin_no    = APP_UART2_RX_PIN_NUMBER,//定义 uart 接收引脚
+        .tx_pin_no    = APP_UART2_TX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
         .use_parity   = false,//禁止奇偶检验
         .data_bits = 3,
@@ -168,10 +171,10 @@ int	main(void)
 
        uint8_t cr;
         //查询是否接收到数据
-        if (app_uart_get(XINCX_APP_UART1_INST_IDX,&cr) == XINC_SUCCESS)
+        if (app_uart_get(APP_UART_USE_INST_IDX,&cr) == XINC_SUCCESS)
         {
             //将接收的数据原样发回
-            app_uart_put(XINCX_APP_UART1_INST_IDX,cr);
+            app_uart_put(APP_UART_USE_INST_IDX,cr);
 
         }
         			

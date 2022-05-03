@@ -249,6 +249,8 @@ static void interrupts_enable(xincx_uart_t const * p_instance,
     #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_UART2_ENABLED)
     if(p_instance->id == 2UL)
     {
+        XINCX_IRQ_PRIORITY_SET((IRQn_Type)(UART2_IRQn),
+        interrupt_priority);
         XINCX_IRQ_ENABLE((IRQn_Type)(UART2_IRQn));
     }
     #endif
@@ -344,6 +346,9 @@ static void xincx_uart_clk_init(xincx_uart_t const * const  p_instance,
     if(p_instance->id == 2UL)
     {
         p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Pos)|
+                                (CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
+        
+        p_cpr->RSTCTL_SUBRST_SW =   ((CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Pos)|
                                 (CPR_RSTCTL_SUBRST_SW_UART2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET));
         
         p_cpr->UART2_CLK_GRCTL  = (((8UL << CPR_UART_CLK_GRCTL_UART2_CLK_GR_Pos) | CPR_UART_CLK_GRCTL_UART2_CLK_GR_WE)   |
@@ -542,6 +547,7 @@ static void rx_byte(XINC_UART_Type * p_uart, uart_control_block_t * p_cb)
         return;
     }
     p_cb->p_rx_buffer[p_cb->rx_counter] = xinc_uart_rxd_get(p_uart);
+  //  printf("rx:%c\r\n",p_cb->p_rx_buffer[p_cb->rx_counter]);
     p_cb->rx_counter++;
 }
 
@@ -682,6 +688,7 @@ static void rx_ready_event(uart_control_block_t * p_cb,
                           size_t                 bytes,
                           uint8_t *              p_data)
 {
+    printf("rx_ready_event:%p\r\n",p_cb->handler);
     xincx_uart_event_t event;
 
     event.type             = XINCX_UART_EVT_RX_READY;
@@ -695,6 +702,7 @@ static void rx_done_event(uart_control_block_t * p_cb,
                           size_t                 bytes,
                           uint8_t *              p_data)
 {
+    printf("rx_done_event:%p\r\n",p_cb->handler);
     xincx_uart_event_t event;
 
     event.type             = XINCX_UART_EVT_RX_DONE;

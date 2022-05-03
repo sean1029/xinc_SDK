@@ -22,7 +22,7 @@ static void uart_evt_handler(xincx_uart_event_t const * p_event,
                              void *                    p_context)
 {
     uint32_t inst_idx = (uint32_t)p_context;;
- //   printf("uart_evt_handler inst_idx:%d\r\n",inst_idx);
+//   printf("uart_evt_handler inst_idx:%d\r\n",inst_idx);
     xinc_drv_uart_event_t event =
     {
         .type = (xinc_drv_uart_evt_type_t)p_event->type,

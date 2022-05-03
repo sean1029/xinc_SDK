@@ -4,17 +4,17 @@ LR_IROM1	0x10000000
 	EXE 0x10000000
 	{
         startup_xinc_m4.o (RESET, +FIRST)
-		
+		* (+RW,+ZI)
 		* (+RO)
 	}
 	
-	RW	+0X0000
-	{
-		* (+RW,+ZI)
-	}
+	;RW	+0X1000
+	;{
+	;	* (+RW,+ZI)
+	;}
    
 		
-	ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (96*1024 - 0X0000)) 
+	;ScatterAssert( ImageLength(EXE) + ImageLength(RW) < (96*1024 - 0X0000)) 
 	
 }
 

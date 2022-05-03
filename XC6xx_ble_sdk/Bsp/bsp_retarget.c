@@ -1,6 +1,7 @@
 #include "xinc.h"
+#include <xincx.h>
 #include	"Includes.h"
-#include	"stdio.h"
+#include	<stdio.h>
 #include "bsp_gpio.h"
 #pragma     import(__use_no_semihosting_swi)
 
@@ -62,11 +63,11 @@ void 	retarget_init(void)
 		
 #endif	
         
-        char *str = "\n SYSTEM BUILD TIME\n";
-        for(int i = 0 ; i < 20;i++)
-        {
-            sendchar(str[i]);
-        }
+//        char *str = "\n SYSTEM BUILD TIME\n";
+//        for(int i = 0 ; i < 20;i++)
+//        {
+//            sendchar(str[i]);
+//        }
         
 	//	while(1);
          //   printf("\n SYSTEM BUILD TIME: %s %s \n",__DATE__,__TIME__);
@@ -75,6 +76,7 @@ void 	retarget_init(void)
 
 int  	sendchar(int c)				
 {
+   // return (1);	
 		unsigned	int	status;
 #if	(__DEBUG_OUT_PORT == 1)	
 		for(; ;)
@@ -99,9 +101,30 @@ int  	sendchar(int c)
 
 struct __FILE { int handle; /* Add whatever you need here */ };
 
+#if !XINCX_CHECK(XINC_BLE_STACK_ENABLED)
 FILE __stdout;
-#if  defined (XC60XX_M0)
+int fputc(int ch, FILE *f) {
+  return (sendchar(ch));
+}
 
+
+int ferror(FILE *f) {
+  /* Your implementation of ferror */
+  return EOF;
+}
+
+
+void _ttywrch(int ch) {
+  sendchar(ch);
+}
+
+void _sys_exit(int return_code) {
+label:  goto label;  /* endless loop */
+}
+#else
+
+#if  defined (XC60XX_M0)
+FILE __stdout;
 int fputc(int ch, FILE *f) {
   return (sendchar(ch));
 }
@@ -121,6 +144,11 @@ void _sys_exit(int return_code) {
 label:  goto label;  /* endless loop */
 }
 #endif 
+
+#endif
+
+
+
 
 
 #if 0

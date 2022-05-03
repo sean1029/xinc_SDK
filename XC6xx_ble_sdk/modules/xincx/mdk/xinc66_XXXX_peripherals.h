@@ -112,7 +112,7 @@
 
 /* Universal Asynchronous Receiver-Transmitter */
 #define UART_PRESENT
-#define UART_COUNT 2
+#define UART_COUNT 3
 
 /* Universal Asynchronous Receiver-Transmitter with DMA */
 #define UARTE_PRESENT

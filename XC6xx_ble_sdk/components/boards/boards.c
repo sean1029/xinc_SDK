@@ -126,16 +126,29 @@ bool bsp_board_button_state_get(uint32_t button_idx)
     return (pin_set == (BUTTONS_ACTIVE_STATE ? true : false));
 }
 
-static void bsp_board_buttons_init(void)
+static xincx_err_t bsp_board_buttons_init(void)
 {
+    xincx_err_t err_code = XINCX_SUCCESS;
+    if (!xinc_drv_gpio_is_init())
+    {
+        err_code = xinc_drv_gpio_init();
+        if(err_code != XINCX_SUCCESS)
+        {
+            return err_code;
+        }
+    }
     uint32_t i;
-    xinc_gpio_pin_input_cfg_t cfg;
-    cfg.pin_pulll = BUTTON_PULL;
-    cfg.input_int = XINC_GPIO_PIN_INPUT_NOINT;
+    xincx_gpio_in_config_t config;
+    config.input_config.pin_pulll = XINC_GPIO_PIN_PULLUP;
+    config.input_config.input_int = XINC_GPIO_PIN_INPUT_NOINT;
     for (i = 0; i < BUTTONS_NUMBER; ++i)
     {
-        xinc_gpio_cfg_input(m_board_btn_list[i], cfg);
+       // xinc_gpio_cfg_input(m_board_btn_list[i], cfg);
+        
+        err_code =  xincx_gpio_in_init(m_board_btn_list[i],&config,NULL);
+
     }
+    return err_code;
 }
 
 uint32_t bsp_board_pin_to_button_idx(uint32_t pin_number)

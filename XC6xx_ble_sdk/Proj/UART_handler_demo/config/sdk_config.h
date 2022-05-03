@@ -226,7 +226,7 @@
 // <4=> 32K clk src 
 
 #ifndef XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC
-#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 0
+#define XINCX_TIMER_DEFAULT_CONFIG_CLK_SRC 1
 #endif
 
 // <o> XINCX_TIMER_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -1371,7 +1371,7 @@
 
 // <q> XINCX_UART2_ENABLED - Enable UART2 instance 
 #ifndef XINCX_UART2_ENABLED
-#define XINCX_UART2_ENABLED 0
+#define XINCX_UART2_ENABLED 1
 #endif
 
 // <o> XINCX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
@@ -1440,6 +1440,21 @@
 
 #ifndef XINCX_UART_DEFAULT_CONFIG_BAUDRATE
 #define XINCX_UART_DEFAULT_CONFIG_BAUDRATE 75507473
+#endif
+
+// <o> XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
+ 
+// <0=> 0 (highest) 
+// <1=> 1 
+// <2=> 2 
+// <3=> 3 
+// <4=> 4 
+// <5=> 5 
+// <6=> 6 
+// <7=> 7 
+
+#ifndef XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY
+#define XINCX_UART_DEFAULT_CONFIG_IRQ_PRIORITY 6
 #endif
 
 // <e> XINCX_UART_CONFIG_LOG_ENABLED - Enables logging in the module.
@@ -1727,7 +1742,7 @@
 // <q> APP_UART_DRIVER_INSTANCE2  - Enable APP UART2 instance
 
 #ifndef APP_UART_DRIVER_INSTANCE2
-#define APP_UART_DRIVER_INSTANCE2 0
+#define APP_UART_DRIVER_INSTANCE2 1
 #endif
 
 // <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes

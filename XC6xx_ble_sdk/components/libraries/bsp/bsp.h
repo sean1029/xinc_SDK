@@ -127,7 +127,7 @@ typedef enum
     BSP_EVENT_WAKEUP,                       /**< The device should wake up from sleep mode. */
     BSP_EVENT_SYSOFF,                       /**< The device should enter system off mode (without wakeup). */
     BSP_EVENT_DFU,                          /**< The device should enter DFU mode. */
-    BSP_EVENT_KEY_0,                        /**< Default event of the push action of BSP_BUTTON_0 (only if this button is present). */
+    BSP_EVENT_KEY_0,                        /**< Default event of the push action of BSP_BUTTON_0 (only if this button is present). */   
     BSP_EVENT_KEY_1,                        /**< Default event of the push action of BSP_BUTTON_1 (only if this button is present). */
     BSP_EVENT_KEY_2,                        /**< Default event of the push action of BSP_BUTTON_2 (only if this button is present). */
     BSP_EVENT_KEY_3,                        /**< Default event of the push action of BSP_BUTTON_3 (only if this button is present). */
@@ -135,11 +135,24 @@ typedef enum
     BSP_EVENT_KEY_5,                        /**< Default event of the push action of BSP_BUTTON_5 (only if this button is present). */
     BSP_EVENT_KEY_6,                        /**< Default event of the push action of BSP_BUTTON_6 (only if this button is present). */
     BSP_EVENT_KEY_7,                        /**< Default event of the push action of BSP_BUTTON_7 (only if this button is present). */
+    BSP_EVENT_KEY_8,                        /**< Default event of the push action of BSP_BUTTON_8 (only if this button is present). */
+    BSP_EVENT_KEY_9,                        /**< Default event of the push action of BSP_BUTTON_9 (only if this button is present). */
+    BSP_EVENT_KEY_10,                        /**< Default event of the push action of BSP_BUTTON_10 (only if this button is present). */
+    BSP_EVENT_KEY_11,                        /**< Default event of the push action of BSP_BUTTON_11 (only if this button is present). */
+    BSP_EVENT_KEY_12,                        /**< Default event of the push action of BSP_BUTTON_12 (only if this button is present). */
+    BSP_EVENT_KEY_13,                        /**< Default event of the push action of BSP_BUTTON_13 (only if this button is present). */
+    BSP_EVENT_KEY_14,                        /**< Default event of the push action of BSP_BUTTON_14 (only if this button is present). */
+    BSP_EVENT_KEY_15,                        /**< Default event of the push action of BSP_BUTTON_15 (only if this button is present). */
+    BSP_EVENT_KEY_16,                        /**< Default event of the push action of BSP_BUTTON_16 (only if this button is present). */
     BSP_EVENT_LED1_ON,
     BSP_EVENT_LED1_OFF,
     BSP_EVENT_LED2_ON,
     BSP_EVENT_LED2_OFF,
-    BSP_EVENT_KEY_LAST = BSP_EVENT_KEY_7,
+    BSP_EVENT_LED3_ON,
+    BSP_EVENT_LED3_OFF,
+    BSP_EVENT_LED4_ON,
+    BSP_EVENT_LED4_OFF,
+    BSP_EVENT_KEY_LAST = BSP_EVENT_LED4_OFF,
 } bsp_event_t;
 
 

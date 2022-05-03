@@ -1,5 +1,6 @@
 
 #include "xinc.h"
+#include <xincx.h>
 #if defined(XC60XX_M0)
   #include    "xinc_m0.h"
 #elif defined (XC66XX_M4)
@@ -10,11 +11,17 @@
 
 #include "bsp_gpio.h"
 #define u32 uint32_t
+#if XINCX_CHECK(XINC_BLE_STACK_ENABLED)
 extern  void ble_tick_handler(void);
+#endif
 volatile  unsigned int GulSystickCount=0;
+
 void	SysTick_Handler(void)
 {
+#if XINCX_CHECK(XINC_BLE_STACK_ENABLED)
     ble_tick_handler();
+#endif
+
 	GulSystickCount++;//计数一次10ms
 }
 

@@ -43,6 +43,7 @@ static void scheduler_init(void)
  uint8_t rxd[500];
  uint16_t rxLen = 0;
 
+#define APP_UART_USE_INST_IDX   XINCX_APP_UART2_INST_IDX
 
 void uart_event_handle(app_uart_evt_t * p_event)
 {
@@ -52,29 +53,38 @@ void uart_event_handle(app_uart_evt_t * p_event)
     uint32_t ret_val;
     uint32_t err_code;
     uint8_t  req_len = 255;
-
+//    printf("uart_event_handle p_event->evt_type:%d \r\n",p_event->evt_type);
     switch (p_event->evt_type)
     {
        
         case APP_UART_DATA_READY:
           //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));  
             req_len = 255;
-            err_code = app_uart_gets(XINCX_APP_UART1_INST_IDX,&rxd[rxLen],&req_len);
+            err_code = app_uart_gets(APP_UART_USE_INST_IDX,&rxd[rxLen],&req_len);
             rxLen+= req_len;
            
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
          //   printf("%c \r\n",data_array[0]);	
+            if(rxLen)
+            {
+                printf("READY rx_len:%d\r\n",rxLen);
+                for(int i = 0;i < rxLen;i++)
+                {
+                    printf("rx_byte:%c\r\n",rxd[i]);
+                }
+                rxLen = 0; 
+            }
             break;
         
         case APP_UART_DATA_DONE:
           //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));
             req_len = 255;
-            err_code = app_uart_gets(XINCX_APP_UART1_INST_IDX,&rxd[rxLen],&req_len);
+            err_code = app_uart_gets(APP_UART_USE_INST_IDX,&rxd[rxLen],&req_len);
             rxLen+=req_len;
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
             if(rxLen)
             {
-                printf("rx_len:%d\r\n",rxLen);
+                printf("DONE rx_len:%d\r\n",rxLen);
                 for(int i = 0;i < rxLen;i++)
                 {
                     printf("rx_byte:%c\r\n",rxd[i]);
@@ -95,10 +105,10 @@ void uart_event_handle(app_uart_evt_t * p_event)
             break;
         
         case APP_UART_DATA:
-            app_uart_get(XINCX_APP_UART1_INST_IDX,&data_array[0]);
+            app_uart_get(APP_UART_USE_INST_IDX,&data_array[0]);
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
            
-            app_uart_put(XINCX_APP_UART1_INST_IDX,data_array[0]);
+            app_uart_put(APP_UART_USE_INST_IDX,data_array[0]);
          break;
         case APP_UART_FIFO_ERROR:
             
@@ -112,7 +122,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
 #define UART_TX_BUF_SIZE        64                                     /**< UART TX buffer size. */
 #define UART_RX_BUF_SIZE        64                                     /**< UART RX buffer size. */
 #define S1BUTTON_BUTTON_PIN            BSP_BUTTON_0   
-
+#define S2BUTTON_BUTTON_PIN            BSP_BUTTON_1  
 
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 
@@ -120,6 +130,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 {
     ret_code_t err_code;
     static uint8_t buff[26];
+//    printf("button_event_handler pin_no:%d,button_action:%d\r\n",pin_no,button_action);
     switch (pin_no)
     {
         case S1BUTTON_BUTTON_PIN:
@@ -137,16 +148,41 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 for(int j = 0 ; j < 2;j++)
                 {
                     //通过串口发送数据
-                    app_uart_puts(XINCX_APP_UART1_INST_IDX,buff,26);
+                    app_uart_puts(APP_UART_USE_INST_IDX,buff,26);
                    
                 }
-                          
+             //       app_uart_puts(APP_UART_USE_INST_IDX,buff,1); 
+//app_uart_put(APP_UART_USE_INST_IDX,'a');                
             }
             
         }break;
         
+        case S2BUTTON_BUTTON_PIN:
+        {
+            bsp_board_led_invert(bsp_board_pin_to_led_idx(BSP_LED_2));
+        }break;
+        
         default:break;
         
+    }
+}
+const xinc_drv_timer_t TIMER_LED = XINC_DRV_TIMER_INSTANCE(2);
+
+void timer_led_event_handler(xinc_timer_int_event_t event_type,uint8_t channel, void* p_context)
+{
+
+  // printf("timer_led_event_handler event_type:[%d],channel:%d\n",event_type,channel);
+ 
+    switch (event_type)
+    {
+        case XINC_TIMER_EVENT_TIMEOUT:
+        {				
+           bsp_board_led_invert(bsp_board_pin_to_led_idx(BSP_LED_0));
+        }break;
+
+		default:
+            //Do nothing.
+            break;
     }
 }
 void uart_handler_test(void)
@@ -160,6 +196,7 @@ void uart_handler_test(void)
     static app_button_cfg_t buttons[] =
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
+        {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
 
     };
     
@@ -167,9 +204,9 @@ void uart_handler_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
-        .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
-        .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
-        .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
+        .uart_inst_idx = APP_UART_USE_INST_IDX,
+        .tx_pin_no    = APP_UART2_TX_PIN_NUMBER,//定义 uart 发送引脚x
+        .rx_pin_no    = APP_UART2_RX_PIN_NUMBER,//定义 uart 接收引脚
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
         .use_parity   = false,//禁止奇偶检验
         .data_bits = 3,
@@ -187,13 +224,34 @@ void uart_handler_test(void)
     err_code = app_button_init(buttons, ARRAY_SIZE(buttons),
                                BUTTON_DETECTION_DELAY);
     rxLen =0;
+    
+    printf("uart_event_handle:%p \r\n",uart_event_handle);
         //初始化串口，注册串口事件回调函数
     APP_UART_FIFO_INIT(&comm_params,
                         UART_RX_BUF_SIZE,
                         UART_TX_BUF_SIZE,
                         uart_event_handle,
-                        APP_IRQ_PRIORITY_LOWEST,
+                        2/*APP_IRQ_PRIORITY_LOWEST*/,
                         err_code);
+    
+      uint32_t time_ms = 500; //Time(in miliseconds) between consecutive compare events.
+    uint32_t time_ticks;
+    
+       //Configure TIMER_LED for generating simple light effect - leds on board will invert his state one after the other.
+    xinc_drv_timer_config_t timer_cfg = XINC_DRV_TIMER_DEFAULT_CONFIG;
+    
+    
+    
+        err_code = xinc_drv_timer_init(&TIMER_LED, &timer_cfg, timer_led_event_handler);
+    APP_ERROR_CHECK(err_code);
+
+    time_ticks = xinc_drv_timer_ms_to_ticks(&TIMER_LED, time_ms);
+    printf("time_ticks = [%d]\n",time_ticks);
+
+
+    xinc_drv_timer_compare(&TIMER_LED, time_ticks,XINC_TIMER_MODE_USER_COUNTER ,true);//  // XINC_TIMER_MODE_USER_COUNTER //XINC_TIMER_MODE_AUTO_TIMER
+
+    
 }
 
 
@@ -211,11 +269,14 @@ int	main(void)
     SysTick_Config(32000000/100);
   //  SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
     uart_handler_test();
+    
+    xinc_delay_ms(100);
 
     while(1) {
 
 
        app_sched_execute();
+         
         			
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
@@ -223,8 +284,8 @@ int	main(void)
 		   LastTimeGulSystickCount=GulSystickCount;
            if(LastTimeGulSystickCount % 500 == 0)
            {
-               printf("SystickCount:%d\n",LastTimeGulSystickCount);
-               
+               printf("SystickCount:%d\n",LastTimeGulSystickCount);              
+              
            }
 			 
 	   }

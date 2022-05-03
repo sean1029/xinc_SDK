@@ -206,7 +206,7 @@ static void irq_handler(XINC_TIMER_Type        * p_reg,
                         timer_control_block_t * p_cb,
                         uint8_t                 channel)
 {
-   //  printf("Tim_irq_handler：%d\r\n",channel);
+//    printf("Tim_irq_handler:%d\r\n",channel);
 
     {
         xinc_timer_int_event_t event = XINC_TIMER_EVENT_TIMEOUT;

@@ -258,6 +258,8 @@ typedef enum
     XINC_GPIO_PIN_SSI1_TX = XC_SSI1_TX, //
     XINC_GPIO_PIN_PWM0_INV = XC_PWM0_INV, //
     XINC_GPIO_PIN_PWM1_INV = XC_PWM1_INV, // 
+    
+    
     XINC_GPIO_PIN_FUN_SEL_MAX,
     //////////////////////////////////////////////////////
 
@@ -733,6 +735,7 @@ __STATIC_INLINE void xinc_gpio_mux_ctl(uint32_t  pin_number,uint8_t mux)//o
 #elif defined (XC66XX_M4)
 
     XINC_CPR_CTL_Type * preg = xinc_gpio_pin_cpr_decode(&pin_number);
+    printf("reg_idx:%d,pin_idx:%d\r\n",reg_idx,pin_idx);
     if(reg_idx < 2)
     {
         regVal = preg->CTL_MUXCTL1_2[reg_idx];

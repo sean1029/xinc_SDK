@@ -41,10 +41,10 @@ enum {
     XINCX_APP_UART2_INST_IDX ,
 #endif
 #endif
-    XINCX_APP_UART_ENABLED_COUNT
+    XINCX_APP_UART_ENABLED_COUNT = 6,
 };
 #endif
-
+//
 
 #define  UART_PIN_DISCONNECTED 0xFFFFFFFF /**< Value indicating that no pin is connected to this UART register. */
 

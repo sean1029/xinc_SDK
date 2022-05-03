@@ -623,18 +623,37 @@ static void bsp_mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t
 
 static xincx_kbs_mtxkey_cfg_t mtxkeys[] =
 {
-  [2] = {12,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},//BUTTON_PULLDOWN
-  [1] = {10,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},
-  [3] = {11,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
 
+  [0] = {1,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},
+  [1] = {5,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+  [2] = {2,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},//BUTTON_PULLDOWN
+  [3] = {6,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
   
-  [0] = {13,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+  #if defined (BOARD_PCA10060)
+  
+  [4] = {9,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_3, bsp_mtxkey_event_handler},
+  [5] = {16,KBS_ROW_BUTTON_1, KBS_COL_BUTTON_4, bsp_mtxkey_event_handler},
+  [6] = {10,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_3, bsp_mtxkey_event_handler},
+  [7] = {15,KBS_ROW_BUTTON_2, KBS_COL_BUTTON_4, bsp_mtxkey_event_handler},
+  
+  [8] = {3,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},
+  [9] = {7,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+  [10] = {11,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_3, bsp_mtxkey_event_handler},
+  [11] = {14,KBS_ROW_BUTTON_3, KBS_COL_BUTTON_4, bsp_mtxkey_event_handler},
+  
+  [12] = {4,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_1, bsp_mtxkey_event_handler},
+  [13] = {8,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_2, bsp_mtxkey_event_handler},
+  [14] = {12,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_3, bsp_mtxkey_event_handler},
+  [15] = {13,KBS_ROW_BUTTON_4, KBS_COL_BUTTON_4, bsp_mtxkey_event_handler},
+  
+  
+  #endif
 
 };
             
 static void bsp_mtxkey_event_handler(int16_t mtxkey_idx,uint16_t key_val,uint8_t row_pin,uint8_t col_pin,uint8_t button_action)
 {
-  //  printf("%s\n,mtxkey_idx:%d,key_val:%d,row_pin:%d,col_pin:%d,button_action:%d\r\n",__func__,mtxkey_idx,key_val,row_pin,col_pin,button_action);
+ //   printf("%s\n,mtxkey_idx:%d,key_val:%d,row_pin:%d,col_pin:%d,button_action:%d\r\n",__func__,mtxkey_idx,key_val,row_pin,col_pin,button_action);
 
     bsp_event_t        event  = BSP_EVENT_NOTHING;
     switch (button_action)
