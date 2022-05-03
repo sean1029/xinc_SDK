@@ -38,6 +38,11 @@ static void scheduler_init(void)
 {
     APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
 }
+
+
+#define APP_UART_USE_INST_IDX   XINCX_APP_UART1_INST_IDX
+
+
  uint8_t rxd[500];
  uint16_t rxLen = 0;
  uint16_t rxReady = 0;
@@ -57,7 +62,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
         case APP_UART_DATA_READY:
           //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));  
             req_len = 255;
-            err_code = app_uart_gets(XINCX_APP_UART1_INST_IDX,&rxd[rxLen],&req_len);
+            err_code = app_uart_gets(APP_UART_USE_INST_IDX,&rxd[rxLen],&req_len);
             rxLen+= req_len;
             rxReady++;
            
@@ -68,7 +73,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
         case APP_UART_DATA_DONE:
           //  UNUSED_VARIABLE(app_uart_get(&data_array[0]));
             req_len = 255;
-            err_code = app_uart_gets(XINCX_APP_UART1_INST_IDX,&rxd[rxLen],&req_len);
+            err_code = app_uart_gets(APP_UART_USE_INST_IDX,&rxd[rxLen],&req_len);
             rxLen+=req_len;
             rxDone++;
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
@@ -86,10 +91,10 @@ void uart_event_handle(app_uart_evt_t * p_event)
             break;
         
         case APP_UART_DATA:
-            app_uart_get(XINCX_APP_UART1_INST_IDX,&data_array[0]);
+            app_uart_get(APP_UART_USE_INST_IDX,&data_array[0]);
             bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_1));
            
-            app_uart_put(XINCX_APP_UART1_INST_IDX,data_array[0]);
+            app_uart_put(APP_UART_USE_INST_IDX,data_array[0]);
          break;
         case APP_UART_FIFO_ERROR:
             
@@ -135,7 +140,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 for(int j = 0 ; j < 2;j++)
                 {
                     //通过串口发送数据
-                    app_uart_puts(XINCX_APP_UART1_INST_IDX,buff,30);
+                    app_uart_puts(APP_UART_USE_INST_IDX,buff,30);
                    
                 }
                 
@@ -167,7 +172,7 @@ void uart_handler_test(void)
     //定义串口通讯参数配置结构体并初始化
     app_uart_comm_params_t const comm_params =
     {
-        .uart_inst_idx = XINCX_APP_UART1_INST_IDX,
+        .uart_inst_idx = APP_UART_USE_INST_IDX,
         .rx_pin_no    = APP_UART_RX_PIN_NUMBER,//定义 uart 接收引脚
         .tx_pin_no    = APP_UART_TX_PIN_NUMBER,//定义 uart 发送引脚x
         .flow_control = APP_UART_FLOW_CONTROL_DISABLED,//关闭 uart 硬件流控
@@ -209,7 +214,7 @@ int	main(void)
     app_timer_init();
 
     SysTick_Config(32000000/100);
-    SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
+  //  SysTick->CTRL  &= ~SysTick_CTRL_TICKINT_Msk;
 
     
     uart_handler_test();

@@ -121,10 +121,10 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
             *p_dma_ch_dar_base = set.dst_addr;
             *p_dma_ch_ctl1_base = set.ctl1;
             *p_dma_ch_ctl0_base = set.ctl0;
-			printf("TX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",ch_idx ,p_dma_ch_sar_base,*p_dma_ch_sar_base);
-			printf("TX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",ch_idx , p_dma_ch_dar_base,*p_dma_ch_dar_base);
-			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",ch_idx , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
-			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",ch_idx , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
+//			printf("TX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",ch_idx ,p_dma_ch_sar_base,*p_dma_ch_sar_base);
+//			printf("TX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",ch_idx , p_dma_ch_dar_base,*p_dma_ch_dar_base);
+//			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",ch_idx , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
+//			printf("TX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",ch_idx , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
 
 
         }
@@ -160,11 +160,11 @@ xincx_err_t xincx_dmas_ch_param_set(xincx_dmas_ch_set_t set)
             *p_dma_ch_ctl1_base = set.ctl1;
             *p_dma_ch_ctl0_base = set.ctl0;
             
-            printf("RX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",set.ch , p_dma_ch_sar_base,*p_dma_ch_sar_base);
-			printf("RX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",set.ch , p_dma_ch_dar_base,*p_dma_ch_dar_base);
-			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",set.ch , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
-			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",set.ch , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
-             
+//            printf("RX Channel=%d, addr:%p,DMAS_CHx_SAR:%08x\r\n",set.ch , p_dma_ch_sar_base,*p_dma_ch_sar_base);
+//			printf("RX Channel=%d, addr:%p,DMAS_CHx_DAR:%08x\r\n",set.ch , p_dma_ch_dar_base,*p_dma_ch_dar_base);
+//			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL0:%08x\r\n",set.ch , p_dma_ch_ctl0_base,*p_dma_ch_ctl0_base);
+//			printf("RX Channel=%d, addr:%p,DMAS_CHx_CTL1:%08x\r\n",set.ch , p_dma_ch_ctl1_base ,*p_dma_ch_ctl1_base);
+//             
              
         }break;
     }

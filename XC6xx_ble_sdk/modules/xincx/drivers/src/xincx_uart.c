@@ -688,7 +688,7 @@ static void rx_ready_event(uart_control_block_t * p_cb,
                           size_t                 bytes,
                           uint8_t *              p_data)
 {
-    printf("rx_ready_event:%p\r\n",p_cb->handler);
+//    printf("rx_ready_event:%p\r\n",p_cb->handler);
     xincx_uart_event_t event;
 
     event.type             = XINCX_UART_EVT_RX_READY;
@@ -702,7 +702,7 @@ static void rx_done_event(uart_control_block_t * p_cb,
                           size_t                 bytes,
                           uint8_t *              p_data)
 {
-    printf("rx_done_event:%p\r\n",p_cb->handler);
+//    printf("rx_done_event:%p\r\n",p_cb->handler);
     xincx_uart_event_t event;
 
     event.type             = XINCX_UART_EVT_RX_DONE;

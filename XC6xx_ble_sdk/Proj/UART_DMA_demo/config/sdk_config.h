@@ -1354,7 +1354,7 @@
 // <e> XINCX_UART_ENABLED - xincx_uart - UART peripheral driver
 //==========================================================
 #ifndef XINCX_UART_ENABLED
-#define XINCX_UART_ENABLED 0
+#define XINCX_UART_ENABLED 1
 #endif
 
 
@@ -1371,7 +1371,7 @@
 
 // <q> XINCX_UART2_ENABLED - Enable UART2 instance 
 #ifndef XINCX_UART2_ENABLED
-#define XINCX_UART2_ENABLED 0
+#define XINCX_UART2_ENABLED 1
 #endif
 
 // <o> XINCX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
@@ -1727,7 +1727,7 @@
 // <q> APP_UART_DRIVER_INSTANCE2  - Enable APP UART2 instance
 
 #ifndef APP_UART_DRIVER_INSTANCE2
-#define APP_UART_DRIVER_INSTANCE2 0
+#define APP_UART_DRIVER_INSTANCE2 1
 #endif
 
 // <o> APP_UART_DRIVER_BUFFSIZE  - UART BUFFSIZE <1-255>Bytes

@@ -275,8 +275,12 @@ __STATIC_INLINE uint32_t xincx_event_to_bitpos(uint32_t event);
 
 __STATIC_INLINE bool xincx_is_in_ram(void const * p_object)
 {
- //   return ((((uint32_t)p_object) & 0xE0000000u) == 0x20000000u);
-	return ((((uint32_t)p_object) > 0x10010000));
+    #if defined (XC60XX_M0)
+    return ((((uint32_t)p_object) > 0x10010000));
+    #elif defined (XC66XX_M4)
+    return 1;
+    #endif //
+	
 }
 
 __STATIC_INLINE bool xincx_is_word_aligned(void const * p_object)
