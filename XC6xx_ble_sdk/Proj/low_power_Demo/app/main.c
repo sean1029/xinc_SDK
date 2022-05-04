@@ -606,7 +606,7 @@ int	main(void)
     spim_flash_init();
     
     uint32_t mid;
-    spim_flash_Read_MID((uint8_t *)&mid);
+    spim_flash_Read_RDID((uint8_t *)&mid);
     
     printf("Read_MID:0x%x\n",mid);
     

@@ -41,7 +41,7 @@
 
 void spim_flash_Read_128bitsID(uint8_t *buff);
 
-void spim_flash_Read_MID(uint8_t *buff);
+void spim_flash_Read_RDID(uint8_t *buff);
 
 void spim_flash_Release_powerdown(void);
 

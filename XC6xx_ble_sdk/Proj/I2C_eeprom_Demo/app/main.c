@@ -73,8 +73,11 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 }
                 
                 
-                AT24Cxx_write_page(1,txbuff,AT24Cxx_PAGESIZE);
-                printf("write one page data at addr :0x%x\r\n",addr);
+             //   AT24Cxx_write_page(1,txbuff,AT24Cxx_PAGESIZE);
+                AT24Cxx_write_buf(0,txbuff,AT24Cxx_PAGESIZE);
+//                printf("write one page data at addr :0x%x\r\n",addr);
+//                printf("write one page data at addr :0x%x\r\n",addr);
+//                printf("write one page data at addr :0x%x\r\n",addr);
                 AT24Cxx_read_buf(0x00,rxbuff,AT24Cxx_PAGESIZE);
                 printf("read page data at addr:0x%x,data \r\n",addr);
                 
@@ -149,6 +152,7 @@ static void buttons_init(void)
 static void buton_config(void)
 {
     buttons_init();
+    bsp_board_init(BSP_INIT_LEDS);
    
 }
 static void AT24C02_init(void)

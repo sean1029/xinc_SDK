@@ -204,7 +204,7 @@ xincx_err_t xincx_i2c_init(xincx_i2c_t const *        p_instance,
 		
     if (p_cb->handler)
     {
-
+        XINCX_IRQ_ENABLE(I2C_IRQn);
     }
 
     p_cb->state = XINCX_DRV_STATE_INITIALIZED;
@@ -317,6 +317,7 @@ static bool i2c_receive_byte(XINC_I2C_Type         * p_i2c,
 	//	hw_timeout = HW_TIMEOUT;
     uint16_t data_cmd =  (I2C_DATA_CMD_CMD_Read << I2C_DATA_CMD_CMD_Pos) & I2C_DATA_CMD_CMD_Msk;
 
+ //   printf("curr_length:%d, transferred:%d,transForRx:%d\r\n ",p_cb->curr_length,p_cb->bytes_transferred,p_cb->bytes_transForRx);
     if(p_cb->bytes_transForRx)
     {
         if((p_i2c->i2c_STATUS & XINC_I2C_STATUS_MASK_RFNE) == XINC_I2C_STATUS_MASK_RFNE)//检测RX_FIFO不空
@@ -371,13 +372,16 @@ static bool i2c_receive_byte(XINC_I2C_Type         * p_i2c,
             return false;
         }
         else if ((p_cb->bytes_transferred == p_cb->curr_length - 1) && (!I2C_FLAG_SUSPEND(p_cb->flags)))
-        {											
+        {		
+          //  printf("i2c_STATUS:%x\r\n",p_i2c->i2c_STATUS);
             if((p_i2c->i2c_STATUS & XINC_I2C_STATUS_MASK_TFNF) != XINC_I2C_STATUS_MASK_TFNF)
             {
                 return true;
             }
+            
             data_cmd |= I2C_DATA_CMD_STOP_Msk;
             xinc_i2c_txd_set(p_i2c, data_cmd);
+            p_cb->bytes_transForRx++;
             if((p_i2c->i2c_STATUS & XINC_I2C_STATUS_MASK_RFNE) != XINC_I2C_STATUS_MASK_RFNE)
             {
                 return true;
@@ -473,9 +477,21 @@ static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
     {
         p_cb->int_mask = XINC_I2C_INT_EN_MASK_TX_EMPTY;
 
-        xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
-        XINCX_IRQ_ENABLE(I2C_IRQn);
         xinc_i2c_enable(p_i2c);
+        while(((p_i2c->i2c_STATUS & XINC_I2C_STATUS_MASK_ACTIVITY) != XINC_I2C_STATUS_MASK_ACTIVITY) && (hw_timeout > 0))
+        {
+               hw_timeout --;
+        }
+        if (hw_timeout > 0)
+        {
+            xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
+            XINCX_IRQ_ENABLE(I2C_IRQn);
+        }else
+        {
+            xinc_i2c_disable(p_i2c);
+            XINCX_IRQ_DISABLE(I2C_IRQn);
+            ret_code = XINCX_ERROR_TIMEOUT;
+        }
 			
     }
     else
@@ -504,7 +520,6 @@ static xincx_err_t i2c_tx_start_transfer(XINC_I2C_Type        * p_i2c,
         if (hw_timeout <= 0)
         {
             xinc_i2c_disable(p_i2c);
-            xinc_i2c_enable(p_i2c);
             ret_code = XINCX_ERROR_INTERNAL;
         }
     }
@@ -525,8 +540,6 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
 
     xinc_i2c_disable(p_i2c);
 
-   
-
     if (p_cb->prev_suspend != I2C_SUSPEND_RX)
     {
 
@@ -535,10 +548,25 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
     if (p_cb->handler)
     {
         p_cb->int_mask = XINC_I2C_INT_EN_MASK_RX_FULL|XINC_I2C_INT_EN_MASK_TX_EMPTY;
-
-        xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
-        XINCX_IRQ_ENABLE(I2C_IRQn);
+        
         xinc_i2c_enable(p_i2c);
+  
+        while(((p_i2c->i2c_STATUS & XINC_I2C_STATUS_MASK_ACTIVITY) != XINC_I2C_STATUS_MASK_ACTIVITY) && (hw_timeout > 0))
+        {
+               hw_timeout --;
+        }
+        if (hw_timeout > 0)
+        {
+            printf("hw_timeout:%d\r\n",hw_timeout);
+            xinc_i2c_int_enable(p_i2c,p_cb->int_mask);
+            XINCX_IRQ_ENABLE(I2C_IRQn);
+        }else
+        {
+            xinc_i2c_disable(p_i2c);
+            XINCX_IRQ_DISABLE(I2C_IRQn);
+            ret_code = XINCX_ERROR_TIMEOUT;
+        }
+        
     }
     else
     {
@@ -564,10 +592,10 @@ static xincx_err_t i2c_rx_start_transfer(XINC_I2C_Type        * p_i2c,
         {
            
             xinc_i2c_disable(p_i2c);
-            xinc_i2c_enable(p_i2c);
             ret_code = XINCX_ERROR_INTERNAL;
         }
     }
+    printf("rx_start_transfer ret_code:%x\r\n",ret_code);
     return ret_code;
 }
 

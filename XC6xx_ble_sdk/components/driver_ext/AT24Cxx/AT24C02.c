@@ -33,7 +33,7 @@ static const xinc_drv_i2c_t m_i2c = XINC_DRV_I2C_INSTANCE(I2C_INSTACE_ID);
 
 
 
-
+#define AT24Cxx_DELAY1MS           xinc_delay_ms(1)
 #define AT24Cxx_DELAY           xinc_delay_ms(10)
 
 static volatile bool m_xfer_done = false;
@@ -301,7 +301,8 @@ ret_code_t AT24Cxx_read_buf(uint16_t ReadAddr,uint8_t  *p_buf,uint16_t size)
     {
         __nop();
     }
-
+  //  AT24Cxx_DELAY1MS;
+    
 
     //I2C 标志设置位false
     m_xfer_done = false;

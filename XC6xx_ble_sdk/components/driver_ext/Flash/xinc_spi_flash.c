@@ -27,7 +27,7 @@ __ALIGN(4) uint8_t		txbuff[(PACKET_FULL_LEN+4)];
 __ALIGN(4) uint8_t		rxbuff[(PACKET_FULL_LEN+4)];// ((aligned(4)))
 
 #endif 
-static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(2);  /**< SPI instance. */
+static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(1);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
 static void spi_handler(xinc_drv_spi_evt_t const* p_event,
                         void *                    p_context)
