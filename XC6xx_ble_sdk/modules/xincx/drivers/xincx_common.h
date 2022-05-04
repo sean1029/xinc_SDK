@@ -278,7 +278,7 @@ __STATIC_INLINE bool xincx_is_in_ram(void const * p_object)
     #if defined (XC60XX_M0)
     return ((((uint32_t)p_object) > 0x10010000));
     #elif defined (XC66XX_M4)
-    return 1;
+    return true;
     #endif //
 	
 }

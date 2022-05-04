@@ -230,26 +230,26 @@ __STATIC_INLINE void xinc_spim_configure(XINC_SPIM_Type *      p_reg,
 
     switch (spi_mode)
     {
-        case XINC_SPIM_MODE_0:
+        case XINC_SPIM_MODE_2:
         {
             config |=   (SSI_SSI_CTRL0_SCPOL_ActiveHigh << SSI_SSI_CTRL0_SCPOL_Pos) |
                         (SSI_SSI_CTRL0_SCPHA_Trailing    << SSI_SSI_CTRL0_SCPHA_Pos);
         }break;        
         
-        case XINC_SPIM_MODE_1:
+        case XINC_SPIM_MODE_3:
         {
             config |=   (SSI_SSI_CTRL0_SCPOL_ActiveHigh << SSI_SSI_CTRL0_SCPOL_Pos) |
                         (SSI_SSI_CTRL0_SCPHA_Leading    << SSI_SSI_CTRL0_SCPHA_Pos); 
         }break;              
         
-        case XINC_SPIM_MODE_2:
+        case XINC_SPIM_MODE_0:
         {
 
             config |=   (SSI_SSI_CTRL0_SCPOL_ActiveLow << SSI_SSI_CTRL0_SCPOL_Pos) |
                         (SSI_SSI_CTRL0_SCPHA_Leading    << SSI_SSI_CTRL0_SCPHA_Pos); 
         }break;
 
-        case XINC_SPIM_MODE_3:
+        case XINC_SPIM_MODE_1:
         {
             config |=   (SSI_SSI_CTRL0_SCPOL_ActiveLow << SSI_SSI_CTRL0_SCPOL_Pos) |
                         (SSI_SSI_CTRL0_SCPHA_Trailing    << SSI_SSI_CTRL0_SCPHA_Pos); 

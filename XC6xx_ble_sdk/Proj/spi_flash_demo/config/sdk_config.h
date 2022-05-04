@@ -884,7 +884,7 @@
  
 
 #ifndef XINCX_SPIM2_ENABLED
-#define XINCX_SPIM2_ENABLED 0
+#define XINCX_SPIM2_ENABLED 1
 #endif
 
 // <o> XINCX_SPIM_MISO_PULL_CFG  - MISO pin pull configuration.

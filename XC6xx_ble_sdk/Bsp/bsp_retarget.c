@@ -76,7 +76,7 @@ void 	retarget_init(void)
 
 int  	sendchar(int c)				
 {
-   // return (1);	
+ //   return (1);	
 		unsigned	int	status;
 #if	(__DEBUG_OUT_PORT == 1)	
 		for(; ;)

@@ -55,7 +55,7 @@ static void scheduler_init(void)
 #define BUTTON_DETECTION_DELAY          APP_TIMER_TICKS(10) 
 #define SAMPLES_IN_BUFFER 32
 
-#define TEST_FLASH_ADDR   (132* 1024) 
+#define TEST_FLASH_ADDR   (1* 1024) 
 static	uint8_t w_buf[20];
 static	uint8_t r_buf[20];
 static void button_event_handler(uint8_t pin_no, uint8_t button_action)
@@ -64,26 +64,27 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
 
     switch (pin_no)
     {
-//        case S3BUTTON_BUTTON_PIN:
-//        {
-//             //检测按键 S1 是否按下
-//            if(button_action == APP_BUTTON_PUSH)
-//            {
-//                //擦除 falsh sector
-//                printf("sector_erase addr:0x%x\r\n",TEST_FLASH_ADDR);
-//                //点亮 LED 指示灯 D1
-//                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
-//                
-//             //   spim_flash_sector_erase(TEST_FLASH_ADDR);
-// 
-//            }else
-//            {
-//                //熄灭LED 指示灯 D1
-//                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
-//            }            
+        case S3BUTTON_BUTTON_PIN:
+        {
+             //检测按键 S1 是否按下
+            if(button_action == APP_BUTTON_PUSH)
+            {
+                //擦除 falsh sector
+                printf("sector_erase addr:0x%x\r\n",TEST_FLASH_ADDR);
+                //点亮 LED 指示灯 D1
+                bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+                
+              //  spim_flash_sector_erase(TEST_FLASH_ADDR);
+                spim_flash_chip_erase();
+ 
+            }else
+            {
+                //熄灭LED 指示灯 D1
+                bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+            }            
 
-//            
-//        }break;
+            
+        }break;
           
         case S2BUTTON_BUTTON_PIN:
         {
@@ -162,7 +163,7 @@ void spi_flash_test()
     {
         {S1BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},//BUTTON_PULLDOWN
         {S2BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
-     //   {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
+        {S3BUTTON_BUTTON_PIN, false, BUTTON_PULL, button_event_handler},
     };
     //初始化 LED,用来指示按键按下状态
     bsp_board_init(BSP_INIT_LEDS);
@@ -207,9 +208,9 @@ int	main(void)
        if(LastTimeGulSystickCount!=GulSystickCount)//10msִ��һ��
 	   {		   
 
-           if(LastTimeGulSystickCount % 200 == 0)
+           if(LastTimeGulSystickCount % 500 == 0)
            {
-               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);            
+               printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/500);            
            } 
 		   LastTimeGulSystickCount=GulSystickCount;
 			 

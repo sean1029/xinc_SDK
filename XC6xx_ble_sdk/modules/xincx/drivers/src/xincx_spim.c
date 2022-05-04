@@ -58,8 +58,9 @@
 #endif
 
 #define SPIM_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len)  \
-    (SPIM0_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len) || \
-     SPIM1_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len))
+    (SPIM0_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len)|| \
+     SPIM1_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len)|| \
+     SPIM2_LENGTH_VALIDATE(drv_inst_idx, rx_len, tx_len) )
 
 
 
@@ -152,6 +153,9 @@ static void xincx_spim_clk_init(xincx_spim_t const * const  p_instance,
     {
         p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Enable << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos)|
                                        (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
+        
+        p_instance->p_cpr->RSTCTL_SUBRST_SW = (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Disable << CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Pos)|
+                                       (CPR_RSTCTL_SUBRST_SW_SSI2_RSTN_Msk << CPR_RSTCTL_SUBRST_SW_MASK_OFFSET);
  
         p_instance->p_cpr->SSI1_MCLK_CTL = ((0UL << CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_Pos) | CPR_SSI_MCLK_CTL_SSI2_MCLK_DIV_WE) | 
                                              ((CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Enable << CPR_SSI_MCLK_CTL_SSI2_MCLK_EN_Pos) |
@@ -202,6 +206,11 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
 
     uint32_t mosi_pin;
     uint32_t miso_pin;
+    
+    printf("miso_pin:%d\n",p_config->miso_pin); 
+    printf("mosi_pin:%d\n",p_config->mosi_pin); 
+    printf("sck_pin:%d\n",p_config->sck_pin);
+    printf("ss_pin:%d\n",p_config->ss_pin);	
 
     // Configure pins used by the peripheral:
     // - SCK - output with initial value corresponding with the SPI mode used:
@@ -229,7 +238,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
             if(p_instance->id == 2UL)
             {
-                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D0);
+                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D1);
             }
             #endif
            
@@ -264,7 +273,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
             if(p_instance->id == 2UL)
             {
-                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_D1);
+                err_code = xinc_gpio_secfun_config(miso_pin,XINC_GPIO_PIN_SSI2_D0);
             }
             #endif
             if(err_code != XINCX_SUCCESS)
@@ -300,7 +309,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
             if(p_instance->id == 2UL)
             {
-                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_SSN);
+                err_code = xinc_gpio_secfun_config(p_config->ss_pin,XINC_GPIO_PIN_SSI2_SSN);
             }
             #endif
             if(err_code != XINCX_SUCCESS)
@@ -326,7 +335,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
             #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
             if(p_instance->id == 2UL)
             {
-                err_code = xinc_gpio_secfun_config(mosi_pin,XINC_GPIO_PIN_SSI2_CLK);
+                err_code = xinc_gpio_secfun_config(p_config->sck_pin,XINC_GPIO_PIN_SSI2_CLK);
             }
             #endif
             
@@ -415,7 +424,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     else if(ch == 2)
     {
         p_cb->rx_dma_ch = DMAS_CH_RCV_SSI2;
-        p_cb->tx_dma_ch = DMAS_CH_RCV_SSI2;
+        p_cb->tx_dma_ch = DMAS_CH_SEND_SSI2;
     }	
     #endif
 		
@@ -447,6 +456,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
     if (p_cb->handler)
     {
         xinc_spim_int_enable(p_spim,XINC_SPIM_INT_TXEIE_MASK);
+       // xinc_spim_int_enable(p_spim,0xFF);
         #if (defined (XC60XX_M0) || defined (XC66XX_M4)) && (XINCX_CHECK(XINCX_SPIM0_ENABLED) || XINCX_CHECK(XINCX_SPIM1_ENABLED))
         if((ch == 0 )||( ch == 1))
         {
@@ -457,6 +467,7 @@ xincx_err_t xincx_spim_init(xincx_spim_t  const * const p_instance,
         if(ch == 2)
         {
             XINCX_IRQ_ENABLE((IRQn_Type)(SSI2_IRQn));
+            printf("IRQ_ENABLE:%d\n",SSI2_IRQn); 
         }	
         #endif
 
@@ -635,6 +646,7 @@ static xincx_err_t spim_xfer(XINC_SPIM_Type               * p_spim,
         xinc_spim_enable(p_spim);
 			
     }
+    
     err_code = XINCX_SUCCESS;
     XINCX_LOG_INFO("Function: %s, error code: %s.", __func__, XINCX_LOG_ERROR_STRING_GET(err_code));
     return err_code;
@@ -702,7 +714,7 @@ void xincx_spim_abort(xincx_spim_t const * p_instance)
 }
 
 
-
+#include "bsp.h"
 static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
 {
 	uint32_t intSta;
@@ -711,11 +723,19 @@ static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
     intSta = p_spim->IS;
     rowIntSta = p_spim->RIS;
     state = p_spim->STS;
-    
+//    bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+//    bsp_board_led_off(bsp_board_pin_to_led_idx(LED_1));
+//    bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
+//    printf("intSta:0x%x\r\n",intSta);
+//    printf("rowIntSta:0x%x\r\n",rowIntSta);
+//    printf("state:0x%x\r\n",state);
+//    
     uint32_t mask = (0x01 << p_cb->rx_dma_ch) | (0x01 << p_cb->tx_dma_ch);
     
     if(intSta && (state & 0x4))
 	{
+        rowIntSta = xincx_dmas_int_raw_stat_get();
+     //   printf("dma rowIntSta:0x%x\r\n",rowIntSta);
         do{
            // __read_hw_reg32(DMAS_INT_RAW , iWK);
             rowIntSta = xincx_dmas_int_raw_stat_get();
@@ -729,6 +749,9 @@ static void irq_handler(XINC_SPIM_Type * p_spim, spim_control_block_t * p_cb)
         XINCX_ASSERT(p_cb->handler);
         XINCX_LOG_DEBUG("Event: XINC_SPIM_EVENT_END.");
         xinc_spim_disable(p_spim);
+//            bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
+//    bsp_board_led_off(bsp_board_pin_to_led_idx(LED_2));
+//    bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
         finish_transfer(p_cb);
     
     }
@@ -759,6 +782,18 @@ void SPI1_Handler()
 
 #endif
 
+
+#if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+void xincx_spim_2_irq_handler(void)
+{
+    irq_handler(XINC_SPIM2, &m_cb[XINCX_SPIM2_INST_IDX]);
+}
+void SPI2_Handler()
+{
+    xincx_spim_2_irq_handler();
+}
+
+#endif
 
 
 

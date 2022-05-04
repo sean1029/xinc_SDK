@@ -471,11 +471,11 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,2);
         }
-         else if((XINC_GPIO_PIN_SSI2_D0 == fun) && (XINC_GPIO_16 == pin))
+         else if((XINC_GPIO_PIN_SSI2_D1 == fun) && (XINC_GPIO_16 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,2);
         }
-        else if((XINC_GPIO_PIN_SSI2_D1 == fun) && (XINC_GPIO_17 == pin))
+        else if((XINC_GPIO_PIN_SSI2_D0 == fun) && (XINC_GPIO_17 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,2);
         }
@@ -550,7 +550,8 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         else
         {
             err_code = XINCX_ERROR_INVALID_PARAM;
-            printf("xinc_gpio_secfun_config ERROR_INVALID_PARAM:%x\r\n",err_code);
+            
+            printf("xinc_gpio_secfun_config pin:%d,fun:%d,errcode:%x\r\n",pin,fun,err_code);
         }
 	
     }

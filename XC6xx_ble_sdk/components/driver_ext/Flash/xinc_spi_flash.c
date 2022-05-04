@@ -27,7 +27,7 @@ __ALIGN(4) uint8_t		txbuff[(PACKET_FULL_LEN+4)];
 __ALIGN(4) uint8_t		rxbuff[(PACKET_FULL_LEN+4)];// ((aligned(4)))
 
 #endif 
-static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(0);  /**< SPI instance. */
+static const xinc_drv_spi_t m_spi = XINC_DRV_SPI_INSTANCE(2);  /**< SPI instance. */
 static volatile bool spi_xfer_done;
 static void spi_handler(xinc_drv_spi_evt_t const* p_event,
                         void *                    p_context)
@@ -52,7 +52,7 @@ static void spi_handler(xinc_drv_spi_evt_t const* p_event,
 #define		CMD_RELEASE_PWRDWN	    0xAB
 #define		CMD_PWRDWN	            0xB9
 #define		CMD_ID                  0x4B 
-#define		CMD_MID                  0x9F 
+#define		CMD_RDID                  0x9F 
 #define		PACKET_FULL_LEN			(FLASH_PAGE_SIZE )
 void spim_flash_Read_128bitsID(uint8_t *buff)
 {
@@ -68,16 +68,18 @@ void spim_flash_Read_128bitsID(uint8_t *buff)
     memcpy(buff,&rxbuff[5],16);
 }
 
-void spim_flash_Read_MID(uint8_t *buff)
+void spim_flash_Read_RDID(uint8_t *buff)
 {
 
     memset(txbuff,0,4);
-    txbuff[0] = CMD_MID; 
+    txbuff[0] = CMD_RDID; 
     spi_xfer_done = false;									
     xinc_drv_spi_transfer(&m_spi,txbuff,4,rxbuff,4);
+    uint32_t dma_reg;
     while (!spi_xfer_done)
     {
         __WFE();
+
     }
     memcpy(buff,&rxbuff[1],3);
 }
@@ -247,6 +249,10 @@ void spim_flash_chip_erase(void)
     while (!spi_xfer_done)
     {
         __WFE();
+    }
+    while(spim_read_flash_status() & 0x01)
+    {
+        __nop();
     }	
 }
 
@@ -362,9 +368,13 @@ void spim_flash_init(void)
                                             .mosi_pin     = SPIM1_MOSI_PIN,
                                             .miso_pin     = SPIM1_MISO_PIN,
                                             .ss_pin       = SPIM1_SS_PIN,
+                                            #if defined (XC66XX_M4) && XINCX_CHECK(XINCX_SPIM2_ENABLED)
+                                            .d2_pin       = XINCX_SPIM_PIN_NOT_USED,
+                                            .d3_pin       = XINCX_SPIM_PIN_NOT_USED,
+                                            #endif
                                             .irq_priority = 0,
                                             .orc          = 0xFF,
-                                            .frequency    = (xinc_drv_spi_frequency_t) XINC_SPIM_FREQ_16M,
+                                            .frequency    = (xinc_drv_spi_frequency_t) SSI_FREQUENCY_FREQUENCY_M1,
                                             .mode         = XINC_DRV_SPI_MODE_0,
                                             .bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,
                                     };
@@ -374,7 +384,19 @@ void spim_flash_init(void)
     APP_ERROR_CHECK(err_code);                                    
     printf("xinc_drv_spi_init:err_code:0x%x\r\n",err_code);
                                     
+    uint32_t mid;
 
+    spim_flash_Read_RDID((uint8_t*)&mid);
+    printf("flash mid :0x%x\r\n",mid);
+           
+//    uint8_t id[16];                                    
+//    spim_flash_Read_128bitsID(id);
+//    printf("flash id :");
+//    for(int i = 0;i < 16;i++)
+//    {
+//        printf("%02x ",id[i]);
+//    }printf("\r\n");                           
+                                    
    // spim_flash_sector_erase(1024* 128);
    //  spim_flash_sector_erase(1024* 132);
 
