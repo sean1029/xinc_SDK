@@ -11,7 +11,6 @@
 #define XINCX_GPIO_H__
 
 #if 1
-//#define  GPIOTE_CH_NUM 8 //xinc52840_peripherals.h
 #include <xincx.h>
 #include <hal/xinc_gpio.h>
 #ifdef __cplusplus

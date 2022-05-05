@@ -46,6 +46,21 @@ typedef enum
 } xinc_saadc_refvol_t;
 
 
+/** @brief Resolution of the analog-to-digital converter. */
+typedef enum
+{	
+	XINC_SAADC_CHANNEL_0 = 0,
+	XINC_SAADC_CHANNEL_1 = 1,
+	XINC_SAADC_CHANNEL_2 = 2,
+	XINC_SAADC_CHANNEL_3 = 3,
+	XINC_SAADC_CHANNEL_4 = 4,
+    XINC_SAADC_CHANNEL_5 = 5,
+    XINC_SAADC_CHANNEL_6 = 6,
+    XINC_SAADC_CHANNEL_7 = 7,
+    XINC_SAADC_CHANNEL_8 = 8,
+} xinc_saadc_channel_t;
+
+
 
 
 #define XINC_SAADC_GPADC_MAIN_CTL_ALL_CLOSE     SAADC_GPADC_MAIN_CTL_ALL_CLOSE

@@ -119,10 +119,10 @@ typedef union xincx_rtc_match_config
     uint32_t    value;
     struct time
     {
-        uint32_t  sec:6;                    /**< second. */
-        uint32_t  hour:6;                  /**< hour. */
-        uint32_t  min:5;                   /**< minute. */
-        uint32_t  week:7;                  /**< week. */
+        uint32_t  sec:6;                     /**< second. */
+        uint32_t  min:6;                     /**< minute. */
+        uint32_t  hour:5;                    /**< hour. */
+        uint32_t  week:7;                    /**< week. */
     }times;
 
 } xincx_rtc_match_config_t;

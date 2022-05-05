@@ -580,7 +580,7 @@ typedef struct {                                /*!< (@ 0x40002400) CPR AO Struc
 
     __IOM  uint32_t RF_AON_REG;   /*!< (@ 0x00000030) */
     __IOM uint32_t  PE_CTRLx[2];  /*!< (@ 0x00000034) CPR AO  GPIO PE Ctrl1..2 */
-    __IM  uint32_t  PU_CTRLx[1];
+    __IM  uint32_t  PU_CTRLx[1]; /*!< (@ 0x0000003C) CPR AO  GPIO PU Ctrl1 */
 
     __IM  uint32_t  RESERVED05[4]; /*!< (@ 0x00000040) */
 

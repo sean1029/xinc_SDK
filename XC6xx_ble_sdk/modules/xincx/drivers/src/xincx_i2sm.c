@@ -85,6 +85,7 @@ static void xincx_i2sm_dma_irq_ch_handler(xincx_dmas_ch_evt_t const * p_event,
 static void xincx_i2sm_clk_init(xincx_i2sm_t const *        p_instance,
                          xincx_i2sm_config_t const * p_config)
 {
+	printf("__func__=%s\n",__func__);
     XINC_CPR_CTL_Type * p_cpr = (XINC_CPR_CTL_Type *)p_instance->p_cpr;
     
     XINC_I2S_Type * p_i2sm = p_instance->p_i2sm;    
@@ -102,58 +103,65 @@ static void xincx_i2sm_clk_init(xincx_i2sm_t const *        p_instance,
 
     
     p_cpr->CTLAPBCLKEN_GRCTL =  (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Enable << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos) |
-                               (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Pos);
+                               (CPR_CTLAPBCLKEN_GRCTL_I2C_PCLK_EN_Msk << CPR_CTLAPBCLKEN_GRCTL_MASK_OFFSET);
 
     //打开I2S pclk and mclk   
     reg_val = p_cpr->I2S_CLK_CTL;
     reg_val |= (CPR_I2S_CLK_CTL_I2S_MCLK_EN_Enable << CPR_I2S_CLK_CTL_I2S_MCLK_EN_Pos) | (CPR_I2S_CLK_CTL_I2S_PCLK_EN_Enable << CPR_I2S_CLK_CTL_I2S_PCLK_EN_Pos);
     p_cpr->I2S_CLK_CTL = reg_val;
-    
+    printf("__func__=%s,I2S_CLK_CTL addr=0x%p, val=%08x\n",__func__, &p_cpr->I2S_CLK_CTL,p_cpr->I2S_CLK_CTL);   
+	
+	xinc_i2sm_disable(p_i2sm);
+	
     reg_val = p_i2sm->CLOCK_GEN;
-    
     if (p_config->mode == XINC_I2SM_MODE_MASTER)
     {
+		printf("__func__=%s,mode = XINC_I2SM_MODE_MASTER\n",__func__);
         reg_val |= I2S_I2S_CLOCK_GEN_MASTEREN_Msk; 
     }
     else
     {
+		printf("__func__=%s,mode = NO XINC_I2SM_MODE_MASTER\n",__func__);
         reg_val &= ~I2S_I2S_CLOCK_GEN_MASTEREN_Msk;
     }
     
     if(p_config->format == XINC_I2SM_FORMAT_I2S)
-    {
+    {		
+		printf("__func__=%s,mode = XINC_I2SM_FORMAT_I2S\n",__func__);
         reg_val &= ~I2S_I2S_CLOCK_GEN_WS_FORMAT_Msk;
         reg_val |= (I2S_I2S_CLOCK_GEN_WS_FORMA_Standard << I2S_I2S_CLOCK_GEN_WS_FORMAT_Pos); 
         
         reg_val &= ~I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Msk;
         reg_val |= (I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_0L_1R << I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Pos);
         
-        reg_val |= (I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_2_SCLK_cycle << I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos);
+        reg_val |= (I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Enable << I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Pos);
+		
+		reg_val |= (I2S_I2S_CLOCK_GEN_MASTEREN_Enable << I2S_I2S_CLOCK_GEN_MASTEREN_Pos);
+		
+		
     }
     else
     {
-    
+		printf("__func__=%s,mode = NO XINC_I2SM_FORMAT_I2S\n",__func__);
     
     }
     p_i2sm->CLOCK_GEN = reg_val ;
-    
-    reg_val = p_i2sm->CONFIG;
-    
-    reg_val &= ~I2S_I2S_CONFIG_SLOT_WIDTH_Msk;
-    reg_val |= p_config->sample_width;
-    
+    printf("__func__=%s,CLOCK_GEN addr=0x%p, val=%08x\n",__func__, &p_i2sm->CLOCK_GEN,p_i2sm->CLOCK_GEN);
+//   	__write_hw_reg32(I2S0_CONFIG ,val|0x133030);//enable i2s channel tx rx  
 
-    p_i2sm->CONFIG = reg_val;
+	reg_val = p_i2sm->CONFIG;    
+	reg_val |= (I2S_I2S_CONFIG_SLOT_WIDTH_16bits << I2S_I2S_CONFIG_SLOT_WIDTH_Pos); 	
+	reg_val |= (I2S_I2S_CONFIG_SLOT_RESOLUTION_16bits << I2S_I2S_CONFIG_SLOT_RESOLUTION_Pos);
+	reg_val |= (I2S_I2S_CONFIG_I2S_CHEN_Enable << I2S_I2S_CONFIG_I2S_CHEN_Pos);
+	reg_val |= (I2S_I2S_CONFIG_I2S_CHTXRX_Tx << I2S_I2S_CONFIG_I2S_CHTXRX_Pos );
+	reg_val |= 0x133030;
+	p_i2sm->CONFIG = reg_val;
+	printf("__func__=%s,CONFIG addr=0x%p,write val=%08x, read val=%08x\n",__func__, &p_i2sm->CONFIG,reg_val,p_i2sm->CONFIG);
+	
     printf("p_config->alignment:%d\r\n",p_config->alignment);
-    printf("p_config->format:%d\r\n",p_config->format);
-    
+    printf("p_config->format:%d\r\n",p_config->format);    
     printf("p_config->sample_width:%d\r\n",p_config->sample_width);
     printf("p_config->ratio:%d\r\n",p_config->ratio);
-  
-
-   
-
-
 }
 
 static xincx_err_t configure_pins(xincx_i2sm_t const *        p_instance,
@@ -379,11 +387,11 @@ void xinc_i2sm_tx_buffer_set(xincx_i2sm_t const *        p_instance,uint16_t    
     set.src_addr = (uint32_t)p_buffer;
     set.dst_addr = (uint32_t)&(p_instance->p_i2sm->TXFIFO_DATA);
     set.ctl0 = size;
-    set.ctl1 = ((2 << 8) |  (0xfff << 16));
+//    set.ctl1 = ((2 << 8) |  (0xfff << 16));
+	set.ctl1 = (2 << 8)| 1 ;
     xincx_dmas_ch_param_set(set);
     xincx_dmas_int_enable((0x01 << p_cb->tx_dma_ch) | (0x01 << (p_cb->tx_dma_ch + 16)));
-    
-     xincx_dmas_ch_enable(p_cb->rx_dma_ch);
+    xincx_dmas_ch_enable(p_cb->rx_dma_ch);
 }
 
 
@@ -403,14 +411,16 @@ void xincx_i2sm_transfer_set(xincx_i2sm_t const *        p_instance ,
         p_i2sm->DMA_CONFIG |= (0x8UL << I2S_I2S_DMA_CONFIG_DMA_RXLVL_Pos); 
         p_i2sm->DMA_CONFIG |= (I2S_I2S_DMA_CONFIG_DMA_RX_EN_Enable << I2S_I2S_DMA_CONFIG_DMA_RX_EN_Pos);
         xinc_i2sm_rx_buffer_set(p_instance,size,p_buffer_rx);
+		//printf("__func__=%s,rx DMA_CONFIG addr=0x%p, val=%04x\n",__func__, &(p_i2sm->DMA_CONFIG), p_i2sm->DMA_CONFIG);
     }
-    
+   
     if(p_buffer_tx != NULL)      
     {
         p_i2sm->DMA_CONFIG &= ~I2S_I2S_DMA_CONFIG_DMA_TXLVL_Msk;
         p_i2sm->DMA_CONFIG |= (0x8UL << I2S_I2S_DMA_CONFIG_DMA_TXLVL_Pos);
-        p_i2sm->DMA_CONFIG |= (I2S_I2S_DMA_CONFIG_DMA_RX_EN_Enable << I2S_I2S_DMA_CONFIG_DMA_RX_EN_Pos);
+        p_i2sm->DMA_CONFIG |= (I2S_I2S_DMA_CONFIG_DMA_TX_EN_Enable << I2S_I2S_DMA_CONFIG_DMA_TX_EN_Pos);
         xinc_i2sm_tx_buffer_set(p_instance,size,p_buffer_tx);
+		//printf("__func__=%s,tx DMA_CONFIG addr=0x%p, val=%04x\n",__func__, &(p_i2sm->DMA_CONFIG), p_i2sm->DMA_CONFIG);
     }
 }
 
@@ -419,6 +429,7 @@ xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
                           uint16_t                   buffer_size,
                           uint8_t                    flags)
 {
+	printf("__func__=%s\n",__func__);
     i2sm_control_block_t * p_cb  = &m_cb[p_instance->drv_inst_idx];
     
     XINC_I2S_Type * p_i2sm = p_instance->p_i2sm;
@@ -445,12 +456,14 @@ xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
                          XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-
+#if defined(XC66XX_M0)
     if (((p_initial_buffers->p_rx_buffer != NULL)
          && !xincx_is_in_ram(p_initial_buffers->p_rx_buffer))
         ||
         ((p_initial_buffers->p_tx_buffer != NULL)
          && !xincx_is_in_ram(p_initial_buffers->p_tx_buffer)))
+#elif defined(XC66XX_M4)
+	if ((p_initial_buffers->p_rx_buffer == NULL)  || (p_initial_buffers->p_tx_buffer == NULL)) 
     {
         err_code = XINCX_ERROR_INVALID_ADDR;
         XINCX_LOG_WARNING("Function: %s, error code: %s.",
@@ -458,7 +471,7 @@ xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
                          XINCX_LOG_ERROR_STRING_GET(err_code));
         return err_code;
     }
-
+#endif
     p_cb->use_rx         = (p_initial_buffers->p_rx_buffer != NULL);
     p_cb->use_tx         = (p_initial_buffers->p_tx_buffer != NULL);
     p_cb->rx_ready       = false;
@@ -484,7 +497,7 @@ xincx_err_t xincx_i2sm_start(xincx_i2sm_t const *        p_instance,
 
     p_cb->state = XINCX_DRV_STATE_POWERED_ON;
 
-
+	
     xinc_i2sm_int_enable(p_i2sm, (p_cb->use_rx ? XINC_I2SM_INT_RXPTRUPD_MASK : 0) |
                                 (p_cb->use_tx ? XINC_I2SM_INT_TXPTRUPD_MASK : 0) |
                                 XINC_I2SM_INT_STOPPED_MASK);
@@ -573,7 +586,7 @@ void xincx_i2sm_stop(xincx_i2sm_t const *        p_instance)
 
 static void i2s_irq_handler(XINC_I2S_Type * p_i2sm, i2sm_control_block_t * p_cb)
 {
-    
+    printf("__func__=%s\n",__func__);
     if (p_cb->event & XINC_I2SM_EVENT_TXPTRUPD)
     {
         p_cb->event &= ~XINC_I2SM_EVENT_TXPTRUPD;
@@ -610,6 +623,7 @@ static void i2s_irq_handler(XINC_I2S_Type * p_i2sm, i2sm_control_block_t * p_cb)
 
         p_cb->state = XINCX_DRV_STATE_INITIALIZED;
         XINCX_LOG_INFO("Stopped.");
+		printf("__func__=%s, Stopped\n",__func__);
     }
     else
     {

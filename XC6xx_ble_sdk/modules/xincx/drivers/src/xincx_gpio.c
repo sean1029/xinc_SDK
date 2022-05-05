@@ -524,15 +524,15 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {                       
             xinc_gpio_mux_ctl(pin,2);	
         }
-        else if((XINC_GPIO_PIN_I2S_WS == fun) && (XINC_GPIO_30 == pin))
+         else if((XINC_GPIO_PIN_I2S_WS == fun) && (XINC_GPIO_31 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,2);	
         }
-        else if((XINC_GPIO_PIN_I2S_DIN == fun) && (XINC_GPIO_30 == pin))
+        else if((XINC_GPIO_PIN_I2S_DIN == fun) && (XINC_GPIO_32 == pin))
         {                       
             xinc_gpio_mux_ctl(pin,2);	
         }
-        else if((XINC_GPIO_PIN_I2S_DOUT == fun) && (XINC_GPIO_30 == pin))
+        else if((XINC_GPIO_PIN_I2S_DOUT == fun) && (XINC_GPIO_33 == pin || (XINC_GPIO_10 == pin)))
         {                       
             xinc_gpio_mux_ctl(pin,2);	
         }
@@ -542,7 +542,7 @@ ret_code_t xinc_gpio_secfun_config(uint32_t pin,xinc_gpio_pin_fun_sel_t fun)
         {
             xinc_gpio_mux_ctl(pin,1);
             xinc_gpio_fun_sel(pin,fun);       
-        }else if((pin < XINC_GPIO_MAX) && (fun < XINC_GPIO_PIN_PWM1_INV))
+        }else if((pin < XINC_GPIO_MAX) && (fun <= XINC_GPIO_PIN_PWM1_INV))
         {
             xinc_gpio_mux_ctl(pin,0);
             xinc_gpio_fun_sel(pin,fun);

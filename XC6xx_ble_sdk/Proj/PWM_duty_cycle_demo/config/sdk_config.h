@@ -83,13 +83,13 @@
 #define XINCX_WDT_CONFIG_RELOAD_VALUE 10
 #endif
 
-// <o> XINCX_WDT_CONFIG_NO_IRQ  - Remove WDT IRQ handling from WDT driver
+// <o> XINCX_WDT_CONFIG_MODE  -  WDT  run work mode from WDT driver
  
-// <0=> Include WDT IRQ handling 
-// <1=> Remove WDT IRQ handling 
+// <0=> WDT_CR_RMOD_Mode0
+// <1=> WDT_CR_RMOD_Mode1
 
-#ifndef XINCX_WDT_CONFIG_NO_IRQ
-#define XINCX_WDT_CONFIG_NO_IRQ 0
+#ifndef XINCX_WDT_CONFIG_MODE
+#define XINCX_WDT_CONFIG_MODE 1
 #endif
 
 // <o> XINCX_WDT_CONFIG_IRQ_PRIORITY  - Interrupt priority

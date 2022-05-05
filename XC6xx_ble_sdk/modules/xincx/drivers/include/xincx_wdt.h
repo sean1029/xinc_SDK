@@ -44,6 +44,8 @@ enum {
 };
 #endif
 
+/**@brief Struct for WDT initialization. */
+
 /** @brief Macro for creating a UART driver instance. */
 #define XINCX_WDT_INSTANCE(Id)                                     \
 {                                                                   \
@@ -54,20 +56,17 @@ enum {
 }
 
 
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__XINCX_DOXYGEN__)
+
 /** @brief WDT instance interrupt priority configuration. */
-    #define XINCX_WDT_IRQ_CONFIG .interrupt_priority = XINCX_WDT_CONFIG_IRQ_PRIORITY
-#else
-    #define XINCX_WDT_IRQ_CONFIG
-#endif
+#define XINCX_WDT_IRQ_CONFIG .interrupt_priority = XINCX_WDT_CONFIG_IRQ_PRIORITY
+
 
 /**@brief Struct for WDT initialization. */
 typedef struct
 {
-    uint32_t               reload_value;       /**< WDT reload value in ms. */
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ) || defined(__XINCX_DOXYGEN__)
+    uint32_t               reload_value;       /**< WDT reload value in ticks. */
     uint8_t                interrupt_priority; /**< WDT interrupt priority */
-#endif
+    xinc_wdt_mode_t        mode;               /**< WDT work mode  */
 } xincx_wdt_config_t;
 
 /** @brief WDT event handler function type. */
@@ -78,6 +77,7 @@ typedef void (*xincx_wdt_event_handler_t)(void);
 #define XINCX_WDT_DEAFULT_CONFIG                                               \
 {                                                                         \
     .reload_value       = XINCX_WDT_CONFIG_RELOAD_VALUE,                   \
+    .mode               = XINCX_WDT_CONFIG_MODE,                           \
     XINCX_WDT_IRQ_CONFIG                                                   \
 }
 /**

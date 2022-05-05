@@ -343,11 +343,16 @@ static void irq_dma_handler(XINC_DMAS_Type *        p_dmas,
     uint32_t            mask  = (uint32_t)0x01;
     uint32_t            int0 = p_dmas->DMAs_INT0;
     uint32_t            dmas_ca;
-    
+
+#if defined (XC60XX_M0)  
     dmas_ch  = (int0 & 0x3F0F);
     dmas_ch |= ((int0 >> 16UL) & 0xF);
     dmas_ch |= (((int0 >> 24UL) & 0x3F) << 8);
-    
+#elif defined (XC66XX_M4)
+    dmas_ch  = (int0 & 0xFF3F);
+    dmas_ch |= ((int0 >> 16UL) & 0x3F);
+    dmas_ch |= (((int0 >> 24UL) & 0xFF) << 8);
+#endif    
     printf("dma int0:%x\r\n",int0);
     
     for (i = 0; i < 32; i++)

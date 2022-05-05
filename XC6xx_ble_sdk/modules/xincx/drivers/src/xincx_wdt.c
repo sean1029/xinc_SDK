@@ -40,14 +40,17 @@ static xincx_drv_state_t   g_state = XINCX_DRV_STATE_UNINITIALIZED;
 //static xinc_wdt_mode_t m_mode = XINC_WDT_MODE_RUN_0;
 
 
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
+#if (XINCX_WDT_CONFIG_MODE == WDT_CR_RMOD_Mode1)
 /**@brief WDT event handler. */
 //static xincx_wdt_event_handler_t m_wdt_event_handler = NULL;
 
 static void irq_handler(XINC_WDT_Type * p_reg, wdt_control_block_t * p_cb)
 {
     uint32_t stat = p_reg->STAT;
-    uint32_t icr = p_reg->ICR;
+    if(p_cb->mode == XINC_WDT_MODE_RUN_0)
+    {
+        uint32_t icr = p_reg->ICR;
+    }   
     if(((stat & WDT_STAT_STAT_Msk )) >> WDT_STAT_STAT_Pos == WDT_STAT_STAT_Generated)
     {
         if(p_cb->handler)
@@ -129,23 +132,30 @@ xincx_err_t xincx_wdt_init(xincx_wdt_t  const * const p_instance,xincx_wdt_confi
         g_state = XINCX_DRV_STATE_INITIALIZED;
     }
 
+    p_cb->mode = p_config->mode;
 
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
-    XINCX_ASSERT(wdt_event_handler != NULL);
-    p_cb->handler = wdt_event_handler;
-#else
-    XINCX_ASSERT(wdt_event_handler == NULL);
-    (void)wdt_event_handler;
-    p_cb->handler = NULL;
-#endif
+    if (p_cb->mode == WDT_CR_RMOD_Mode1)
+    {
+        XINCX_ASSERT(wdt_event_handler != NULL);
+        p_cb->handler = wdt_event_handler;
+    }
+    else
+    {
+        XINCX_ASSERT(wdt_event_handler == NULL);
+        (void)wdt_event_handler;
+        p_cb->handler = NULL;
+    }
+
     
 
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
-    XINCX_IRQ_PRIORITY_SET((IRQn_Type)(WDT_IRQn + p_instance->id), p_config->interrupt_priority);
-    XINCX_IRQ_ENABLE((IRQn_Type)(WDT_IRQn + p_instance->id));
-    p_cb->mode = XINC_WDT_MODE_RUN_1;
-#endif
+    if(p_cb->mode == XINC_WDT_MODE_RUN_1)
+    {
+        XINCX_IRQ_PRIORITY_SET((IRQn_Type)(WDT_IRQn + p_instance->id), p_config->interrupt_priority);
+        XINCX_IRQ_ENABLE((IRQn_Type)(WDT_IRQn + p_instance->id));
+    }
+
     xinc_wdt_mode_set(p_reg,p_cb->mode);
+    printf("wdt_mode_set:%d\r\n",p_cb->mode);
     xinc_wdt_reload_value_set(p_reg,(uint32_t) p_config->reload_value);
     
     p_cb->state = XINCX_DRV_STATE_INITIALIZED;
@@ -164,11 +174,9 @@ void xincx_wdt_enable(xincx_wdt_t  const * const p_instance)
 	uint8_t val = (WDT_CR_RPL_4pclk << WDT_CR_RPL_Pos) | WDT_CR_WDT_EN_Msk;
 		
     XINCX_ASSERT(p_cb->state == XINCX_DRV_STATE_INITIALIZED);
-#if !XINCX_CHECK(XINCX_WDT_CONFIG_NO_IRQ)
+
     xinc_wdt_enable(p_reg,val);
-	#else
-    xinc_wdt_enable(p_reg,val);
-#endif
+
     p_cb->state = XINCX_DRV_STATE_POWERED_ON;
     XINCX_LOG_INFO("Enabled.");
 }

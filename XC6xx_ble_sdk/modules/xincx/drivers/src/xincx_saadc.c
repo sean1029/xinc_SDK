@@ -7,11 +7,8 @@
  *
  */
 #include <xincx.h>
-#include "bsp_gpio.h"
 #if XINCX_CHECK(XINCX_SAADC_ENABLED)
 #include <xincx_saadc.h>
-#include "bsp_register_macro.h"
-#include "bsp_clk.h"
 //#define XINCX_LOG_MODULE SAADC
 #include <xincx_log.h>
 
@@ -55,7 +52,7 @@ typedef struct
     uint16_t                      secondary_buffer_size;         ///< Size of the secondary buffer.
     uint16_t                      buffer_size_left;              ///< When low power mode is active indicates how many samples left to convert on current buffer.
     xincx_drv_state_t              state;                         ///< Driver initialization state.
-    uint8_t                       active_channels;               ///< Number of enabled SAADC channels.
+    xinc_saadc_channel_t          active_channels;               ///< Number of enabled SAADC channels.
     uint8_t                       channel_state[XINC_SAADC_CHANNEL_COUNT];                  ///< Indicates if channel is active.
     bool                          conversions_end;               ///
     xinc_saadc_channel_config_t   channel_config[XINC_SAADC_CHANNEL_COUNT];
@@ -262,7 +259,7 @@ void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,
 }
 
 xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
-                                    uint8_t channel,
+                                    xinc_saadc_channel_t channel,
                                    xinc_saadc_channel_config_t const * const p_config)
 {
     xincx_err_t err_code = XINCX_SUCCESS;
@@ -323,7 +320,7 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
 }
 
 
-xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value)
+xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,xinc_saadc_channel_t channel, xinc_saadc_value_t * p_value)
 {
 
     xincx_err_t err_code = XINCX_SUCCESS;
@@ -482,7 +479,7 @@ xincx_err_t xincx_saadc_buffer_convert(xincx_saadc_t const * const p_instance,xi
 }
 
 
-xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel)
+xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,xinc_saadc_channel_t channel)
 {
     xincx_err_t err_code = XINCX_SUCCESS;
     static uint32_t reg;

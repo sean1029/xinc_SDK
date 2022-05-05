@@ -12,7 +12,6 @@
 
 #include <xincx.h>
 #include "xinc_bitmask.h"
-//#include "XC620610.h"
 #include "bsp_gpio.h"
 #ifdef __cplusplus
 extern "C" {
@@ -45,47 +44,7 @@ extern "C" {
 
 /** @brief Macro for mapping port and pin numbers to values understandable for xinc_gpio functions. */
 #define XINC_GPIO_PIN_MAP(port, pin) (((port) << 5) | ((pin) & 0x1F))
-#if (GPIO_COUNT == 1) || (GPIO_COUNT == 2)
-//#define XINC_GPIO_0				    XINC_GPIO_PIN_MAP(0, 0)
-//#define XINC_GPIO_1				    XINC_GPIO_PIN_MAP(0, 1)
-//#define XINC_GPIO_2				    XINC_GPIO_PIN_MAP(0, 2)
-//#define XINC_GPIO_3				    XINC_GPIO_PIN_MAP(0, 3)
-//#define XINC_GPIO_4				    XINC_GPIO_PIN_MAP(0, 4)
-//#define XINC_GPIO_5				    XINC_GPIO_PIN_MAP(0, 5)
-//#define XINC_GPIO_6				    XINC_GPIO_PIN_MAP(0, 6)
-//#define XINC_GPIO_7				    XINC_GPIO_PIN_MAP(0, 7)
-//#define XINC_GPIO_8				    XINC_GPIO_PIN_MAP(0, 8)
-//#define XINC_GPIO_9				    XINC_GPIO_PIN_MAP(0, 9)
-//#define XINC_GPIO_10				XINC_GPIO_PIN_MAP(0, 10)
-//#define XINC_GPIO_11				XINC_GPIO_PIN_MAP(0, 11)
-//#define XINC_GPIO_12				XINC_GPIO_PIN_MAP(0, 12)
-//#define XINC_GPIO_13				XINC_GPIO_PIN_MAP(0, 13)
-//#define XINC_GPIO_14				XINC_GPIO_PIN_MAP(0, 14)
-//#define XINC_GPIO_15				XINC_GPIO_PIN_MAP(0, 15)
-//#define XINC_GPIO_16				XINC_GPIO_PIN_MAP(0, 16)
-//#define XINC_GPIO_17				XINC_GPIO_PIN_MAP(0, 17)
-//#define XINC_GPIO_18				XINC_GPIO_PIN_MAP(0, 18)
-//#define XINC_GPIO_19				XINC_GPIO_PIN_MAP(0, 19)
-//#define XINC_GPIO_20				XINC_GPIO_PIN_MAP(0, 20)
-//#define XINC_GPIO_21				XINC_GPIO_PIN_MAP(0, 21)
-//#define XINC_GPIO_22				XINC_GPIO_PIN_MAP(0, 22)
-//#define XINC_GPIO_23				XINC_GPIO_PIN_MAP(0, 23)
-//#define XINC_GPIO_24				XINC_GPIO_PIN_MAP(0, 24)
-//#define XINC_GPIO_25				XINC_GPIO_PIN_MAP(0, 25)
-//#define XINC_GPIO_26				XINC_GPIO_PIN_MAP(0, 26)
-//#define XINC_GPIO_27				XINC_GPIO_PIN_MAP(0, 27)
-//#define XINC_GPIO_28				XINC_GPIO_PIN_MAP(0, 28)
-//#define XINC_GPIO_29				XINC_GPIO_PIN_MAP(0, 29)
-//#define XINC_GPIO_30				XINC_GPIO_PIN_MAP(0, 30)
-//#define XINC_GPIO_31				XINC_GPIO_PIN_MAP(0, 31)
-#endif
 
-#if (GPIO_COUNT == 2)
-//#define XINC_GPIO_32				XINC_GPIO_PIN_MAP(0, 32)
-//#define XINC_GPIO_33				XINC_GPIO_PIN_MAP(0, 33)
-//#define XINC_GPIO_34				XINC_GPIO_PIN_MAP(0, 34)
-//#define XINC_GPIO_35				XINC_GPIO_PIN_MAP(0, 35)
-#endif
 
 enum{
 #if (GPIO_COUNT == 1) || (GPIO_COUNT == 2)

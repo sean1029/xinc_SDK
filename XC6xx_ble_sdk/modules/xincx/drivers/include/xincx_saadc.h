@@ -105,10 +105,10 @@ typedef enum
 /** @brief SAADC driver done event data. */
 typedef struct
 {
-    xinc_saadc_value_t * p_buffer; ///< Pointer to buffer with converted samples.
-    uint16_t          size;     ///< Number of samples in the buffer.
-    int16_t           adc_value;     ///< Number of samples in the buffer.
-    uint8_t           channel;    ///< Channel on which the limit was detected.
+    xinc_saadc_value_t             * p_buffer; ///< Pointer to buffer with converted samples.
+    uint16_t                       size;     ///< Number of samples in the buffer.
+    int16_t                        adc_value;     ///< Number of samples in the buffer.
+    xinc_saadc_channel_t           channel;    ///< Channel on which the limit was detected.
 } xincx_saadc_done_evt_t;
 
 
@@ -168,7 +168,7 @@ void xincx_saadc_config_set(xincx_saadc_t const * const p_instance,
  * @retval XINCX_ERROR_NO_MEM        The specified channel was already allocated.
  */
 xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
-                                    uint8_t     channel,
+                                    xinc_saadc_channel_t     channel,
                                    xinc_saadc_channel_config_t const * const p_config);
 
 /**
@@ -179,7 +179,7 @@ xincx_err_t xincx_saadc_channel_init(xincx_saadc_t const * const p_instance,
  * @retval XINCX_SUCCESS    Uninitialization was successful.
  * @retval XINCX_ERROR_BUSY The SAADC is busy.
  */
-xincx_err_t xincx_saadc_channel_uninit(xincx_saadc_t const * const p_instance,uint8_t channel);
+xincx_err_t xincx_saadc_channel_uninit(xincx_saadc_t const * const p_instance,xinc_saadc_channel_t channel);
 
 /**
  * @brief Function for starting the SAADC sampling.
@@ -187,7 +187,7 @@ xincx_err_t xincx_saadc_channel_uninit(xincx_saadc_t const * const p_instance,ui
  * @retval XINCX_SUCCESS             The SAADC sampling was triggered.
  * @retval XINCX_ERROR_INVALID_STATE The SAADC is in idle state.
  */
-xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t channel);
+xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,xinc_saadc_channel_t channel);
 
 /**
  * @brief Blocking function for executing a single SAADC conversion.
@@ -203,7 +203,7 @@ xincx_err_t xincx_saadc_sample(xincx_saadc_t const * const p_instance,uint8_t ch
  * @retval XINCX_SUCCESS    The conversion was successful.
  * @retval XINCX_ERROR_BUSY The SAADC driver is busy.
  */
-xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,uint8_t channel, xinc_saadc_value_t * p_value);
+xincx_err_t xincx_saadc_sample_convert(xincx_saadc_t const * const p_instance,xinc_saadc_channel_t channel, xinc_saadc_value_t * p_value);
 
 /**
  * @brief Function for issuing conversion of data to the buffer.

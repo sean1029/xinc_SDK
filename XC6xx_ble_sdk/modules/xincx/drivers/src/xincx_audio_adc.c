@@ -100,8 +100,10 @@ static void xincx_audio_adc_clk_init(xincx_audio_adc_t const * const  p_instance
     p_cprAO->RESERVED03[0] |= 0x1; //- open rf digital
     
      *((volatile unsigned *)(0X4002F000+ 0x068)) |=0xF000;     //- open bbpll 64M 
-     
-     
+    *((volatile unsigned *)(0X4002F000+ 0x06C)) |=0x02; 
+    reg_val=*((volatile unsigned *)(0X4002F000+ 0x068));
+    *((volatile unsigned *)(0X4002F000+ 0x068))=(reg_val&(~0x3F))|0x04;
+
      //reset audio adc
      p_cpr->M4_NEW_REG1 &= ~CPR_OTHER_CLK_CDC_RSTN_REG_Msk;
      xinc_delay_ms(2);

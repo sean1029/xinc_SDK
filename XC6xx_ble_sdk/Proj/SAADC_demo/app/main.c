@@ -70,7 +70,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D1
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_1));
                 //启动通道8，芯片内部adc的采样，使用非阻塞方式，在回调函数中得到采样的结果
-                xincx_saadc_sample(&m_saadc,8);  
+                xincx_saadc_sample(&m_saadc,XINC_SAADC_CHANNEL_8);  
             }else
             {
                 //熄灭LED 指示灯 D1
@@ -88,7 +88,7 @@ static void button_event_handler(uint8_t pin_no, uint8_t button_action)
                 //点亮 LED 指示灯 D2
                 bsp_board_led_on(bsp_board_pin_to_led_idx(LED_2));
                 //启动通道8，芯片内部adc的采样，使用阻塞方式,adc_value保存得到的采样结果
-                xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
+                xincx_saadc_sample_convert(&m_saadc,XINC_SAADC_CHANNEL_8,&adc_value);
                 printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
                 adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));		
             }else
@@ -152,7 +152,7 @@ void saadc_test()
         
     APP_ERROR_CHECK(err_code);
     // 初始化 8 通道，只有初始化通道后，后面才能使用对应的采样函数
-    err_code = xinc_drv_saadc_channel_init(&m_saadc,8, &channel_config);
+    err_code = xinc_drv_saadc_channel_init(&m_saadc,XINC_SAADC_CHANNEL_8, &channel_config);
 
     APP_ERROR_CHECK(err_code);
 
@@ -193,7 +193,7 @@ int	main(void)
            if(LastTimeGulSystickCount % 200 == 0)
            {
                printf("LastTimeGulSystickCount:%d\n",LastTimeGulSystickCount/200);  
-               xincx_saadc_sample_convert(&m_saadc,8,&adc_value);
+               xincx_saadc_sample_convert(&m_saadc,XINC_SAADC_CHANNEL_8,&adc_value);
                 printf("sample_convert,value=[%d], before cali Voltage:%f V, after cali Voltage:%f V \r\n",\
                 adc_value,((adc_value)*2.47)/(1.0*1024),   ((adc_value)*2.47)/(1.0*1024));	
            } 

@@ -130,17 +130,17 @@
  * 1: enable
  * 0: diasble
 */
-#define I2S_I2S_CLOCK_GEN_MCLKEN_Pos (0UL) // /*!< Position of MCLKEN field. */
-#define I2S_I2S_CLOCK_GEN_MCLKEN_Msk (0x1UL << I2S_I2S_CONFIG_MCLKEN_Pos)  
-#define I2S_I2S_CLOCK_GEN_MCLKEN_Enable (1UL) /*!<  * 1: enable */
-#define I2S_I2S_CLOCK_GEN_MCLKEN_Disable (0UL) /*!<* 0: diasble  */
+//#define I2S_I2S_CLOCK_GEN_MCLKEN_Pos (0UL) // /*!< Position of MCLKEN field. */
+//#define I2S_I2S_CLOCK_GEN_MCLKEN_Msk (0x1UL << I2S_I2S_CONFIG_MCLKEN_Pos)  
+//#define I2S_I2S_CLOCK_GEN_MCLKEN_Enable (1UL) /*!<  * 1: enable */
+//#define I2S_I2S_CLOCK_GEN_MCLKEN_Disable (0UL) /*!<* 0: diasble  */
 
 /* Bit 1 : MASTEREN */
 /* Description: 
 * 0: SCLK and WS as output
 * 1: SCLK and WS as input
 */
-#define I2S_I2S_CLOCK_GEN_MASTEREN_Pos (1UL) // /*!< Position of MASTEREN field. */
+#define I2S_I2S_CLOCK_GEN_MASTEREN_Pos (0UL) // /*!< Position of MASTEREN field. */
 #define I2S_I2S_CLOCK_GEN_MASTEREN_Msk (0x1UL << I2S_I2S_CLOCK_GEN_MASTEREN_Pos)  
 #define I2S_I2S_CLOCK_GEN_MASTEREN_Enable (1UL) /*!<  * 1: SCLK and WS as input */
 #define I2S_I2S_CLOCK_GEN_MASTEREN_Disable (0UL) /*!<* 0: SCLK and WS as output  */
@@ -151,10 +151,10 @@ SCLK polarity
 0: drive data at negative edge and sample data at posedge edge
 1: drive data at posedge edge and sample data at negative edge
 */
-#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Pos (3UL) // /*!< Position of SCLK_POLARITY field. */
+#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Pos (1UL) // /*!< Position of SCLK_POLARITY field. */
 #define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Msk (0x1UL << I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Pos)  
-#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Posedgge (0UL) /*!<  * 0: drive data at negative edge and sample data at posedge edge */
-#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Negative (1UL) /*!<*1: drive data at posedge edge and sample data at negative edge */
+#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Posedgge (0UL) /*!<*0: drive data at negative edge and sample data at posedge edge */
+#define I2S_I2S_CLOCK_GEN_SCLK_POLARITY_Negedgge (1UL) /*!<*1: drive data at posedge edge and sample data at negative edge */
 
 /* Bit 4..11 : SCLKDIV */
 /* Description: 
@@ -164,8 +164,8 @@ x: 2*x divided from MCLKI2S Channel Enable
 0: Disable Channel
 1: Enable Channel
 */
-#define I2S_I2S_CLOCK_GEN_SCLKDIV_Pos (4UL) // /*!< Position of SCLKDIV field. */
-#define I2S_I2S_CLOCK_GEN_SCLKDIV_Msk (0xFFUL << I2S_I2S_CLOCK_GEN_SCLKDIV_Pos)  
+//#define I2S_I2S_CLOCK_GEN_SCLKDIV_Pos (4UL) // /*!< Position of SCLKDIV field. */
+//#define I2S_I2S_CLOCK_GEN_SCLKDIV_Msk (0xFFUL << I2S_I2S_CLOCK_GEN_SCLKDIV_Pos)  
 
 /* Bit 12..13 : WS_FORMAT */
 /* Description: 
@@ -178,7 +178,7 @@ For I2S WS signal mode:
 1: Left-justified
 0: Standard I2S Mode
 */
-#define I2S_I2S_CLOCK_GEN_WS_FORMAT_Pos (12UL) // /*!< Position of WS_FORMAT field. */
+#define I2S_I2S_CLOCK_GEN_WS_FORMAT_Pos (2UL) // /*!< Position of WS_FORMAT field. */
 #define I2S_I2S_CLOCK_GEN_WS_FORMAT_Msk (0x3UL << I2S_I2S_CLOCK_GEN_WS_FORMAT_Pos)  
 #define I2S_I2S_CLOCK_GEN_WS_FORMA_Standard (0UL)
 #define I2S_I2S_CLOCK_GEN_WS_FORMA_Left_justified (1UL)
@@ -193,13 +193,13 @@ For I2S mode
 0: WS aligned to SCLK negedge edge
 1: WS aligned to SCLK posedge
 */
-#define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Pos (14UL) // /*!< Position of WS_FORMAT field. */
+#define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Pos (4UL) // /*!< Position of WS_FORMAT field. */
 #define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Msk (0x1UL << I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Pos)  
 #define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_0L_1R (0UL)
 #define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_1L_0R (1UL)
 #define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Posedge (1UL)
 #define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Negedge (0UL)
-#define I2S_I2S_CLOCK_GEN_WS_POLARITY_I2S_Posedge (1UL)
+
 
 /* Bit 15 : WS_WIDTH_I2S */
 /* Description: 
@@ -207,10 +207,22 @@ WS signal width:
 0: 1 SCLK cycle
 1: 2 SCLK cycle
 */
-#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos (15UL) // /*!< Position of WS_FORMAT field. */
-#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Msk (0x3UL << I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos)  
-#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_1_SCLK_cycle (0UL)
-#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_2_SCLK_cycle (1UL)
+//#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos (15UL) // /*!< Position of WS_FORMAT field. */
+//#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Msk (0x3UL << I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_Pos)  
+//#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_1_SCLK_cycle (0UL)
+//#define I2S_I2S_CLOCK_GEN_WS_WIDTH_I2S_2_SCLK_cycle (1UL)
+
+/* Bit 8 : SCLK_ENABLE */
+/* Description: 
+Enable final SCLK:
+1: Enable SCLK
+0: Disable SCLK 
+*/
+#define I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Pos (8UL) // /*!< Position of MASTEREN field. */
+#define I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Msk (0x1UL << I2S_I2S_CLOCK_GEN_MASTEREN_Pos)  
+#define I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Enable (1UL)  /*!<*1: Enable SCLK */
+#define I2S_I2S_CLOCK_GEN_SCLK_ENABLE_Disable (0UL) /*!<*0: Disable SCLK*/
+
 
 
 /* Register: I2S_RXFIFO_DATA */

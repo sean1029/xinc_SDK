@@ -61,10 +61,8 @@ static xinc_drv_wdt_t m_wdt0 =  XINC_DRV_WDT_INSTANCE(0);
  */
 void wdt_event_handler(void)//NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
 {
-    //bsp_board_leds_off();
-   
-    xincx_wdt_feed(&m_wdt0);
-  //  printf("wdt_event_handler\n");
+   // xincx_wdt_feed(&m_wdt0);
+    printf("wdt_event_handler\n");
     bsp_board_led_invert(bsp_board_pin_to_led_idx(LED_2));    
 
 }
