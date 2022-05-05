@@ -10,13 +10,13 @@
       <TargetName>Xinc_M4_Sdk</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>ARMCM4_FP</Device>
           <Vendor>ARM</Vendor>
-          <PackID>ARM.CMSIS.5.6.0</PackID>
+          <PackID>ARM.CMSIS.5.7.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00020000) IROM(0x00000000,0x00040000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ESEL ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -132,7 +132,7 @@
             <UseTargetDll>1</UseTargetDll>
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
+            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
@@ -185,6 +185,7 @@
             <uocXRam>0</uocXRam>
             <RvdsVP>2</RvdsVP>
             <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -336,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10040</Define>
+              <Define>SBC_ENC_INCLUDED XC6658 BOARD_PCA10060</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\Ble\Hid_ble;..\..\..\Bsp;..\..\..\Bsp\sm;..\..\..\Bsp\startup;..\..\..\Include;..\Include;..\..\..\LIB;..\..\..\external\sbc;..\..\..\components\libraries\fds;..\..\..\modules\xincx\hal;..\..\..\modules\xincx;..\..\..\modules\xincx\mdk;..\..\..\modules\xincx\drivers\include;..\..\..\components\libraries\timer;..\..\..\integration\xincx\legacy;..\..\..\components\libraries\util;..\..\..\integration\xincx;..\..\..\components\libraries\button;..\..\..\components\libraries\bsp;..\..\..\components\boards;..\..\..\components\libraries\scheduler;..\..\..\components\libraries\cli;..\..\..\components\libraries\cli\uart;..\..\..\components\libraries\experimental_section_vars;..\..\..\components\libraries\memobj;..\..\..\external\fprintf;..\..\..\components\libraries\queue;..\..\..\components\libraries\balloc;..\..\..\components\libraries\atomic;..\..\..\components\libraries\ringbuf;..\..\..\components\libraries\log;..\..\..\components\libraries\uart;..\..\..\components\libraries\fifo;..\..\..\Bsp\I2C;..\..\..\components\libraries\log\src;..\..\..\components\libraries\log\;..\..\..\components\libraries\strerror;..\..\..\components\header;..\..\..\components\libraries\atomic_fifo;..\..\..\components\libraries\fstorage;..\config;..\..\..\components\driver_ext\AT24Cxx;..\..\..\components\libraries\delay;..\..\..\modules\xincx\mdk\startup;..\..\..\modules\xincx\mdk\startup\M4;..\..\..\components\libraries\mem_manager</IncludePath>
             </VariousControls>
@@ -351,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -603,5 +604,20 @@
     <components/>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>&lt;Project Info&gt;</LayName>
+        <LayDesc></LayDesc>
+        <LayUrl></LayUrl>
+        <LayKeys></LayKeys>
+        <LayCat></LayCat>
+        <LayLic></LayLic>
+        <LayTarg>0</LayTarg>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>
