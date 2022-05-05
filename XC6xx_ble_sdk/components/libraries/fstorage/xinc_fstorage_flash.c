@@ -20,10 +20,10 @@ void assert_xinc_callback(uint16_t line_num, const uint8_t * p_file_name)
 
 static xinc_fstorage_info_t m_flash_info =
 {
-	 .erase_unit = 256,
-#if defined(XC_620610)
+	// .erase_unit = 256,
+#if defined(XC60XX_M0)
     .erase_unit = 1024,
-#elif defined(XC_XXXX)
+#elif defined(XC66XX_M4)
     .erase_unit = 4096,
 #endif
     .program_unit = 4,
@@ -147,6 +147,31 @@ static ret_code_t erase(xinc_fstorage_t const * p_fs,
     return XINC_SUCCESS;
 }
 
+static ret_code_t space_init(xinc_fstorage_t const * p_fs,
+                        uint32_t               page_addr,
+                        uint32_t               len,
+                        void                 * p_param)
+{
+    uint32_t progress = 0;
+	//	printf("flash %s\n",__func__);
+    if (xinc_atomic_flag_set_fetch(&m_flash_operation_ongoing))
+    {
+        return XINC_ERROR_BUSY;
+    }
+
+    while (progress != len)
+    {
+        xinc_flash_page_erase(page_addr + (progress * m_flash_info.erase_unit));
+        progress++;
+    }
+
+    /* Clear the flag before sending the event, to allow API calls in the event context. */
+    (void) xinc_atomic_flag_clear(&m_flash_operation_ongoing);
+
+
+    return XINC_SUCCESS;
+}
+
 static uint8_t const * rmap(xinc_fstorage_t const * p_fs, uint32_t addr)
 {
     UNUSED_PARAMETER(p_fs);
@@ -181,6 +206,7 @@ xinc_fstorage_api_t xinc_fstorage_flash =
     .read    = read,
     .write   = write,
     .erase   = erase,
+    .space_init   = space_init,
     .rmap    = rmap,
     .wmap    = wmap,
     .is_busy = is_busy

@@ -26,7 +26,8 @@ static inline void wait_for_flash_ready(void)
 void xinc_flash_page_erase(uint32_t address)
 {
   // Erase the page
-    spim_flash_page_erase(address);
+ //   spim_flash_page_erase(address);
+    spim_flash_sector_erase(address);
     wait_for_flash_ready();
 }
 

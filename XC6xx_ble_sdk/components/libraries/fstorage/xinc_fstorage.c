@@ -133,6 +133,25 @@ ret_code_t xinc_fstorage_erase(xinc_fstorage_t const * p_fs,
     return (p_fs->p_api)->erase(p_fs, page_addr, len, p_context);
 }
 
+ret_code_t xinc_fstorage_space_init(xinc_fstorage_t const * p_fs,
+                              uint32_t               page_addr,
+                              uint32_t               len,
+                              void                 * p_context)
+{
+    XINC_FSTORAGE_PARAM_CHECK(p_fs,        XINC_ERROR_NULL);
+    XINC_FSTORAGE_PARAM_CHECK(p_fs->p_api, XINC_ERROR_INVALID_STATE);
+    XINC_FSTORAGE_PARAM_CHECK(len,         XINC_ERROR_INVALID_LENGTH);
+
+    /* Address must be aligned to a page boundary. */
+    XINC_FSTORAGE_PARAM_CHECK(addr_is_page_aligned(p_fs, page_addr), XINC_ERROR_INVALID_ADDR);
+
+    XINC_FSTORAGE_PARAM_CHECK(
+        addr_is_within_bounds(p_fs, page_addr, (len * p_fs->p_flash_info->erase_unit)),
+        XINC_ERROR_INVALID_ADDR
+    );
+
+    return (p_fs->p_api)->space_init(p_fs, page_addr, len, p_context);
+}
 
 
 uint8_t const * xinc_fstorage_rmap(xinc_fstorage_t const * p_fs, uint32_t addr)

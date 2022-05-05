@@ -52,7 +52,7 @@ extern "C" {
 #if defined(XINC51)
     #define FDS_PHY_PAGE_SIZE   (256)
 #else
-    #define FDS_PHY_PAGE_SIZE   (256)//(1024)
+    #define FDS_PHY_PAGE_SIZE   (1024)//(1024)
 #endif
 
 // The number of physical pages to be used. This value is configured indirectly.

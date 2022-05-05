@@ -184,7 +184,8 @@ static fds_header_status_t header_check(fds_header_t const * p_hdr, fds_header_t
 
 static bool address_is_valid(uint32_t const * const p_addr)
 {
-    return ((p_addr != NULL) &&
+    //flash start addr can set 0
+    return (/*(p_addr != NULL) &&*/
             (p_addr >= (uint32_t*)m_fs.start_addr) &&
             (p_addr <= (uint32_t*)m_fs.end_addr)   &&
             (is_word_aligned(p_addr)));
@@ -204,8 +205,7 @@ static fds_page_type_t page_identify(uint32_t const * const p_page_addr)
 //	printf("page_tag_word[FDS_PAGE_TAG_WORD_1]:0x%x\r\n",page_tag_word[FDS_PAGE_TAG_WORD_1]);
 //    
     
-    if ( (p_page_addr == NULL)    // Should never happen.
-        || (page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
+    if ( /*(p_page_addr == NULL) */ (page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
     {
     
         return FDS_PAGE_UNDEFINED;
@@ -240,8 +240,9 @@ static bool page_can_tag(uint32_t const * const p_page_addr)
     
     uint32_t page_tag_word[FDS_PAGE_TAG_SIZE];
 
+     
     xinc_fstorage_read(&m_fs,(uint32_t)p_page_addr,(uint8_t *)&page_tag_word, sizeof(page_tag_word));
-
+  //  printf("fstorage_read:0x%x,data:%x\r\n",(uint32_t)p_page_addr,page_tag_word[0]);
     if ((page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_ERASED_WORD) &&
         (page_tag_word[FDS_PAGE_TAG_WORD_0] != FDS_PAGE_TAG_MAGIC))
     {
@@ -257,6 +258,7 @@ static bool page_can_tag(uint32_t const * const p_page_addr)
         
         if (page_tag_word[0] != FDS_ERASED_WORD)
         {
+         //   printf("fstorage_read:0x%x,data:%x\r\n",page_addr,page_tag_word[0]);
             return false;
         }
     }
@@ -653,15 +655,15 @@ static void records_stat(uint16_t   page,
                 *p_dirty_records  += 1;
                 *p_freeable_words += FDS_HEADER_SIZE + p_header->length_words;
                 p_header = header_jump(p_header,&header);
-             xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
-  
+                xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+
                 break;
 
             case FDS_HEADER_VALID:
                 *p_valid_records += 1;
                 p_header = header_jump(p_header,&header);
-               xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
-  
+                xinc_fstorage_read(&m_fs,(uint32_t)p_header,(uint8_t *)&header, sizeof(fds_header_t));
+
                 break;
 
             case FDS_HEADER_CORRUPT:
@@ -734,12 +736,12 @@ static fds_init_opts_t pages_init(void)
 		
         uint32_t        const * const p_page_addr = (uint32_t*)m_fs.start_addr + (i * FDS_PAGE_SIZE);
         fds_page_type_t const         page_type   = page_identify(p_page_addr);
-        printf("m_fs.page_addr :0x%p\r\n",p_page_addr);
+      //  printf("m_fs.page_addr :0x%p\r\n",p_page_addr);
         switch (page_type)
         {
             case FDS_PAGE_UNDEFINED:
             {
-            //    printf("FDS_PAGE_UNDEFINED\r\n");
+               // printf("FDS_PAGE_UNDEFINED\r\n");
                 if (page_can_tag(p_page_addr))
                 {
                     if (m_swap_page.p_addr != NULL)
@@ -754,6 +756,7 @@ static fds_init_opts_t pages_init(void)
                         // current swap is going to be promoted to complete a GC instance.
                         m_gc.cur_page = page;
                         page++;
+                    //    printf("can_tag FDS_PAGE_ERASED\r\n");
                     }
                     else
                     {
@@ -792,7 +795,7 @@ static fds_init_opts_t pages_init(void)
 
             case FDS_PAGE_SWAP:
             {
-             //   printf("FDS_PAGE_SWAP swap_set_but_not_found:%d\r\n",swap_set_but_not_found);
+                printf("FDS_PAGE_SWAP swap_set_but_not_found:%d\r\n",swap_set_but_not_found);
                 if (swap_set_but_not_found)
                 {
                     m_pages[page].page_type    = FDS_PAGE_ERASED;
@@ -819,12 +822,12 @@ static fds_init_opts_t pages_init(void)
                 break;
         }
     }
-
+    printf("total_pages_available:%d, ret:0x%x\r\n",total_pages_available,ret);
     if (total_pages_available < 2)
     {
         ret &= NO_PAGES;
     }
-
+    printf("pages_init:0x%x\r\n",ret);
     return (fds_init_opts_t)ret;
 }
 
@@ -1124,11 +1127,11 @@ static ret_code_t gc_record_copy(void)
             break;
         }
     }
-    return  (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_INTERNAL;
+  //  return  (ret == XINC_SUCCESS) ? XINC_SUCCESS : FDS_ERR_INTERNAL;
 
-//    return xinc_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
-//                              record_len * sizeof(uint32_t),
-//                              NULL);
+    return xinc_fstorage_write(&m_fs, (uint32_t)p_dest, m_gc.p_record_src,
+                              record_len * sizeof(uint32_t),
+                              NULL);
 }
 
 
@@ -1773,7 +1776,7 @@ ret_code_t fds_register(fds_cb_t cb)
 static uint32_t flash_end_addr(void)
 {
 
-    return 0;
+    return m_fs.end_addr;
 }
 
 
@@ -1781,8 +1784,8 @@ static void flash_bounds_set(void)
 {
     uint32_t flash_size  = (FDS_PHY_PAGES * FDS_PHY_PAGE_SIZE * sizeof(uint32_t));
     
-    m_fs.start_addr =  128 * 1024; //m_fs.end_addr - flash_size;
-    m_fs.end_addr   = m_fs.start_addr + flash_size;//flash_end_addr();
+    m_fs.start_addr =  FDS_PHY_PAGE_START_ADDR; //m_fs.end_addr - flash_size;
+    m_fs.end_addr   = m_fs.start_addr + flash_size;
     
     printf("flash_bounds_set size:%d,start_addr:0x%x,end_addr:0x%x\r\n",flash_size,m_fs.start_addr,m_fs.end_addr);
     
@@ -1807,7 +1810,7 @@ static ret_code_t flash_data_erase_init(void)
     #if   (FDS_BACKEND == XINC_FSTORAGE_FMC)
         return xinc_fstorage_init(&m_fs, m_fs.start_addr, m_fs.end_addr - m_fs.start_addr)/m_fs.p_flash_info->erase_unit, NULL);
     #elif (FDS_BACKEND == XINC_FSTORAGE_FLASH)
-        return xinc_fstorage_erase(&m_fs, m_fs.start_addr, (m_fs.end_addr - m_fs.start_addr)/m_fs.p_flash_info->erase_unit , NULL);
+        return xinc_fstorage_space_init(&m_fs, m_fs.start_addr, (m_fs.end_addr - m_fs.start_addr)/m_fs.p_flash_info->erase_unit , NULL);
     #else
         #error Invalid FDS_BACKEND.
     #endif
@@ -1874,7 +1877,8 @@ ret_code_t fds_init(void)
     {
         case NO_PAGES:
         case NO_SWAP:
-            
+            m_flags.initialized  = false;
+            m_flags.initializing = false;
             return FDS_ERR_NO_PAGES;
 
         case ALREADY_INSTALLED:

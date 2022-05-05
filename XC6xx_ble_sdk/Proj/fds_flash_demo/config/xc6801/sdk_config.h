@@ -1745,6 +1745,14 @@
 #define FDS_ENABLED 1
 #endif
 
+// <h> fds storage addr - phy start addr settings
+
+// <o> The addr of a page must be aligned flash erase unit.<0-0x8000>
+
+#ifndef FDS_PHY_PAGE_START_ADDR 
+#define FDS_PHY_PAGE_START_ADDR 1024*4
+#endif
+ //</h>
 
 // <h> Pages - Virtual page settings
 
@@ -1769,7 +1777,7 @@
 // <2048=> 2048 
 
 #ifndef FDS_VIRTUAL_PAGE_SIZE
-#define FDS_VIRTUAL_PAGE_SIZE 512
+#define FDS_VIRTUAL_PAGE_SIZE 1024
 #endif
 
 // <o> FDS_VIRTUAL_PAGES_RESERVED - The number of virtual flash pages that are used by other modules. 

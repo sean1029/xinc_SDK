@@ -42,7 +42,7 @@ static void fds_cb(fds_evt_t const * const p_evt)
 {
     ret_code_t err_code;
 
-    printf("fds test fds_cb evt:%d,result:%d\r\n",p_evt->id,p_evt->result);
+    printf("fds test fds_cb evt:%d,result:0x%x\r\n",p_evt->id,p_evt->result);
     switch (p_evt->id)
     {
         case FDS_EVT_INIT:

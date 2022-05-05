@@ -191,6 +191,7 @@ void spim_flash_page_erase(uint32_t	eraseAddr)
 }
 void spim_flash_sector_erase(uint32_t sectorAddr)
 {
+    printf("spim_flash_sector_erase:0x%x\r\n",sectorAddr);
     spim_flash_write_enable();
     while(spim_read_flash_status() & 0x01)
     {
@@ -374,7 +375,7 @@ void spim_flash_init(void)
                                             #endif
                                             .irq_priority = 0,
                                             .orc          = 0xFF,
-                                            .frequency    = (xinc_drv_spi_frequency_t) SSI_FREQUENCY_FREQUENCY_M1,
+                                            .frequency    = (xinc_drv_spi_frequency_t) SSI_FREQUENCY_FREQUENCY_M8,
                                             .mode         = XINC_DRV_SPI_MODE_0,
                                             .bit_order    = XINC_DRV_SPI_BIT_ORDER_MSB_FIRST,
                                     };

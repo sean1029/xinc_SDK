@@ -105,10 +105,17 @@ extern "C" {
 #define SPIM0_MISO_PIN  6  // SPI Master In Slave Out GPIO pin number.
 #define SPIM0_SS_PIN    3  // SPI Slave Select GPIO pin number.
 
-#define SPIM1_SCK_PIN   14   // SPI clock GPIO pin number.
-#define SPIM1_MOSI_PIN  16   // SPI Master Out Slave In GPIO pin number.
-#define SPIM1_MISO_PIN  17   // SPI Master In Slave Out GPIO pin number.
-#define SPIM1_SS_PIN    15   // SPI Slave Select GPIO pin number.
+
+#define SPIM1_SCK_PIN   0
+#define SPIM1_MOSI_PIN  2
+#define SPIM1_MISO_PIN  3
+#define SPIM1_SS_PIN    1
+
+
+#define SPIM2_SCK_PIN   14   // SPI clock GPIO pin number.
+#define SPIM2_MOSI_PIN  16   // SPI Master Out Slave In GPIO pin number.
+#define SPIM2_MISO_PIN  17   // SPI Master In Slave Out GPIO pin number.
+#define SPIM2_SS_PIN    15   // SPI Slave Select GPIO pin number.
 
 
 

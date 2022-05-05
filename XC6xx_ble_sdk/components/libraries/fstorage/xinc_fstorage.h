@@ -148,6 +148,8 @@ typedef struct xinc_fstorage_api_s
     ret_code_t (*write)(xinc_fstorage_t const * p_fs, uint32_t dest, void const * p_src, uint32_t len, void * p_param);
     /**@brief Erase flash pages. */
     ret_code_t (*erase)(xinc_fstorage_t const * p_fs, uint32_t addr, uint32_t len, void * p_param);
+    /**@brief Erase fds flash space. */
+    ret_code_t (*space_init)(xinc_fstorage_t const * p_fs, uint32_t addr, uint32_t len, void * p_param);   
     /**@brief Map a device address to a readable address within the MCU address space. */
     uint8_t const * (*rmap)(xinc_fstorage_t const * p_fs, uint32_t addr);
     /**@brief Map a device address to a writable address within the MCU address space. */
@@ -263,6 +265,33 @@ ret_code_t xinc_fstorage_write(xinc_fstorage_t const * p_fs,
  *                                      indicates that the internal queue of operations is full.
  */
 ret_code_t xinc_fstorage_erase(xinc_fstorage_t const * p_fs,
+                              uint32_t               page_addr,
+                              uint32_t               len,
+                              void                 * p_param);
+
+
+
+/**@brief   Function for erasing fds flash space.
+ *
+ * @details This function erases @p len pages starting from the page at address @p page_addr.
+ *          The erase operation must be initiated on a page boundary.
+ *
+ * @param[in]   p_fs        The fstorage instance.
+ * @param[in]   page_addr   Address of the page to erase.
+ * @param[in]   len         Number of pages to erase.
+ * @param[in]   p_param     User-defined parameter passed to the event handler (may be NULL).
+ *
+ * @retval  XINC_SUCCESS                 If the operation was accepted.
+ * @retval  XINC_ERROR_NULL              If @p p_fs is NULL.
+ * @retval  XINC_ERROR_INVALID_STATE     If the module is not initialized.
+ * @retval  XINC_ERROR_INVALID_LENGTH    If @p len is zero.
+ * @retval  XINC_ERROR_INVALID_ADDR      If the address @p page_addr is outside the flash memory
+ *                                      boundaries specified in @p p_fs, or if it is unaligned.
+ * @retval  XINC_ERROR_NO_MEM            If no memory is available to accept the operation.
+ *                                      When using the @ref xinc_fstorage_sd, this error
+ *                                      indicates that the internal queue of operations is full.
+ */
+ret_code_t xinc_fstorage_space_init(xinc_fstorage_t const * p_fs,
                               uint32_t               page_addr,
                               uint32_t               len,
                               void                 * p_param);
